@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1033771165213-uqi6s75jthbs3mg7jatmftf55k2vjiqd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1033771165213-uqi6s75jthbs3mg7jatmftf55k2vjiqd</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCBO92hF_rT6FCQ3RI10xX2OxbDOiKU4v4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1033771165213</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.JerryH.FransiSRentalHouseProject</string>
+	<key>PROJECT_ID</key>
+	<string>francisrentalhouseproject</string>
+	<key>STORAGE_BUCKET</key>
+	<string>francisrentalhouseproject.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1033771165213:ios:19bb8e4af4cecab6a048f4</string>
+</dict>
+</plist>
