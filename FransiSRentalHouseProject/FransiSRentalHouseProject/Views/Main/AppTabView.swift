@@ -66,6 +66,9 @@ struct AppTabView: View {
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
+//        .onAppear {
+//            fetchFirestore.excuteInBackground()
+//        }
     }
 }
 

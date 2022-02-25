@@ -12,8 +12,14 @@ struct RenterProfileView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
     
-    @State private var show = false
+    let firebaseSg = FirebaseStorageManager()
     
+    let fetchFirestore = FetchFirestore()
+    
+    @State private var show = false
+    @State private var image = UIImage()
+    @State private var showSheet = false
+    @State private var isSummitImage = false
     
     var body: some View {
         NavigationView {
@@ -70,11 +76,23 @@ struct RenterProfileView: View {
                                             .fill(.white)
                                             .frame(width: 130, height: 130)
                                             .clipped()
-                                        Image("tempProfilePic")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 120, height: 120)
-                                            .clipShape(Circle())
+                                        Button {
+                                            showSheet.toggle()
+                                        } label: {
+                                            if isSummitImage == false {
+                                                Image(systemName: "person.fill")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(width: 120, height: 120)
+                                                    .clipShape(Circle())
+                                            } else if isSummitImage == true {
+                                                Image(uiImage: self.image)
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(width: 120, height: 120)
+                                                    .clipShape(Circle())
+                                            }
+                                        }
                                     }
                                     Text("Lorem")
                                         .foregroundColor(.white)
@@ -203,6 +221,14 @@ struct RenterProfileView: View {
                     withAnimation {
                         self.show = false
                     }
+                }
+                .sheet(isPresented: $showSheet, onDismiss: {
+                    firebaseSg.uploadImage(uidPath: fetchFirestore.getUID(), image: image)
+                    if !image.isSymbolImage {
+                        isSummitImage = true
+                    }
+                }) {
+                    ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
                 }
             }
             .navigationTitle("")

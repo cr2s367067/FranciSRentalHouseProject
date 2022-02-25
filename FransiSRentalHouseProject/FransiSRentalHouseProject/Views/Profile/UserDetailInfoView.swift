@@ -14,6 +14,8 @@ struct UserDetailInfoView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     
+     let persistenceDM = PersistenceController()
+    
     @State var id = ""
     @State var firstName = ""
     @State var lastName = ""
@@ -29,6 +31,7 @@ struct UserDetailInfoView: View {
     @State var isFemale = false
     @State var showAlert = false
     @State var inforFormatterCorrect = false
+    @State private var isSummit = false
     
     var body: some View {
         ZStack {
@@ -115,14 +118,19 @@ struct UserDetailInfoView: View {
                         Spacer()
                         HStack {
                             Spacer()
-                                .frame(width: 240)
-                                .padding(.top)
+                                .frame(width: 220)
+//                                .padding(.top)
+                            Image(systemName: "checkmark.circle")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(isSummit ? Color.green : Color.clear)
                             Button {
                                 if !id.isEmpty, !firstName.isEmpty, !lastName.isEmpty, !gender.isEmpty, !mobileNumber.isEmpty, !address.isEmpty, !town.isEmpty, !city.isEmpty, !zip.isEmpty, !country.isEmpty == true {
                                     do {
                                         try appViewModel.userInfoFormatterChecker(id: id, firstName: firstName, lastName: lastName, gender: gender, mobileNumber: mobileNumber)
-                                        fetchFirestore.updateUserInformation(uidPath: fetchFirestore.getUID(), id: id, firstName: firstName, lastName: lastName, PhoneNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: appViewModel.userType)
-                                        debugPrint(UserDataModel(id: id, firstName: firstName, lastName: lastName, phoneNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: appViewModel.userType))
+                                        fetchFirestore.uploadUserInformation(uidPath: fetchFirestore.getUID(), id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: persistenceDM.getUsertype())
+                                        debugPrint(UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: appViewModel.userType))
+                                        isSummit = true
                                     } catch {
                                         self.errorHandler.handle(error: error)
                                     }

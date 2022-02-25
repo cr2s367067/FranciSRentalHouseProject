@@ -35,6 +35,19 @@ class PersistenceController: ObservableObject {
         }
     }
     
+    func updateUserType(userType: String) {
+        let userStatus = UserStatusProperty(context: container.viewContext)
+        
+        userStatus.userType = userType
+        
+        do {
+            try container.viewContext.save()
+            print("save success")
+        } catch {
+            print("Fail to save user type: \(error)")
+        }
+    }
+    
     func getUsertype() -> String {
         var tempStringHolder = ""
         let fetchRequest: NSFetchRequest<UserStatusProperty> = UserStatusProperty.fetchRequest()

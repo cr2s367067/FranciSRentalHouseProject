@@ -127,7 +127,7 @@ class LocalData: ObservableObject {
     }
     
     func addFetchedData(id: String, firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String) {
-        userDataHolder.append(UserDataModel(id: id, firstName: firstName, lastName: lastName, phoneNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType))
+        userDataHolder.append(UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType))
     }
     
     func compute(source: [SummaryItemHolder]) -> Int {
@@ -199,7 +199,7 @@ struct UserDataModel: Codable {
     var id: String
     var firstName: String
     var lastName: String
-    var phoneNumber: String
+    var mobileNumber: String
     var dob: Date
     var address: String
     var town: String
@@ -213,7 +213,7 @@ struct UserDataModel: Codable {
         case id
         case firstName
         case lastName
-        case phoneNumber
+        case mobileNumber
         case dob
         case address
         case town

@@ -137,7 +137,7 @@ struct SignUpView: View {
                             if appViewModel.isRenter == false {
                                 appViewModel.isRenter = true
                                 appViewModel.userType = "Renter"
-                                debugPrint(UserDataModel(id: "", firstName: "", lastName: "", phoneNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
+                                debugPrint(UserDataModel(id: "", firstName: "", lastName: "", mobileNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
                             }
 //                            appViewModel.isRenter.toggle()
                         } label: {
@@ -159,8 +159,8 @@ struct SignUpView: View {
                     Button {
                         do {
                             try appViewModel.passwordCheckAndSignUp(email: emailAddress, password: userPassword, confirmPassword: recheckPassword)
-                            fetchFirestore.uploadUserInformation(uidPath: fetchFirestore.getUID(), id: "None", firstName: "None", lastName: "None", PhoneNumber: "None", dob: Date(), address: "None", town: "None", city: "None", zip: "None", country: "None", gender: "None", userType: appViewModel.userType)
-//                            print(appViewModel.tempUserType)
+                            
+                            print(appViewModel.tempUserType)
                             persistenceDM.saveUserType(userType: appViewModel.userType)
                         } catch {
                             self.errorHandler.handle(error: error)

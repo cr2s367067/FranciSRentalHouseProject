@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022A84F327C7288C0063FF05 /* ImagePicker.swift */; };
 		0249D40927C6351F0085F4A5 /* FransiSRentalHouseProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D40827C6351F0085F4A5 /* FransiSRentalHouseProjectApp.swift */; };
 		0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D40A27C6351F0085F4A5 /* ContentView.swift */; };
 		0249D40D27C635220085F4A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0249D40C27C635220085F4A5 /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		022A84F327C7288C0063FF05 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		0249D40527C6351F0085F4A5 /* FransiSRentalHouseProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FransiSRentalHouseProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0249D40827C6351F0085F4A5 /* FransiSRentalHouseProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FransiSRentalHouseProjectApp.swift; sourceTree = "<group>"; };
 		0249D40A27C6351F0085F4A5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			children = (
 				0249D43127C638C00085F4A5 /* AppViewModel.swift */,
 				0249D43327C638DF0085F4A5 /* ErrorHandler.swift */,
+				022A84F327C7288C0063FF05 /* ImagePicker.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				0249D42827C6376E0085F4A5 /* UserCoreDataModel.xcdatamodeld in Sources */,
 				0249D43E27C639900085F4A5 /* SignUpView.swift in Sources */,
 				0249D45327C63AF80085F4A5 /* ContectView.swift in Sources */,
+				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
 				0249D43A27C639720085F4A5 /* AppTabView.swift in Sources */,
 				0249D42E27C637DA0085F4A5 /* PersistenceController.swift in Sources */,
 				0249D46D27C63CCC0085F4A5 /* SearchListItemView.swift in Sources */,
