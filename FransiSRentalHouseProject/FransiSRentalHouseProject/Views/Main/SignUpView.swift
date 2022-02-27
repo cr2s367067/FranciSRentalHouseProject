@@ -14,11 +14,8 @@ struct SignUpView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var fetchFirestore: FetchFirestore
     
-    let persistenceDM = PersistenceController()
+//    let persistenceDM = PersistenceController()
     
-    @State var emailAddress = ""
-    @State var userPassword = ""
-    @State var recheckPassword = ""
     
     
     
@@ -53,8 +50,8 @@ struct SignUpView: View {
                 VStack {
                     VStack(alignment: .leading) {
                         HStack {
-                            TextField("", text: $emailAddress)
-                                .placeholer(when: emailAddress.isEmpty) {
+                            TextField("", text: $appViewModel.emailAddress)
+                                .placeholer(when: appViewModel.emailAddress.isEmpty) {
                                     Text("E-mail")
                                         .foregroundColor(.white.opacity(0.8))
                                 }
@@ -70,8 +67,8 @@ struct SignUpView: View {
                     }
                     VStack {
                         HStack {
-                            SecureField("", text: $userPassword)
-                                .placeholer(when: userPassword.isEmpty) {
+                            SecureField("", text: $appViewModel.userPassword)
+                                .placeholer(when: appViewModel.userPassword.isEmpty) {
                                     Text("Password")
                                         .foregroundColor(.white.opacity(0.8))
                                 }
@@ -88,8 +85,8 @@ struct SignUpView: View {
                     VStack {
                         HStack {
                             //Re-check the password
-                            SecureField("", text: $recheckPassword)
-                                .placeholer(when: recheckPassword.isEmpty) {
+                            SecureField("", text: $appViewModel.recheckPassword)
+                                .placeholer(when: appViewModel.recheckPassword.isEmpty) {
                                     Text("Confirm")
                                         .foregroundColor(.white.opacity(0.8))
                                 }
@@ -139,7 +136,7 @@ struct SignUpView: View {
                                 appViewModel.userType = "Renter"
                                 debugPrint(UserDataModel(id: "", firstName: "", lastName: "", mobileNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
                             }
-//                            appViewModel.isRenter.toggle()
+                            //                            appViewModel.isRenter.toggle()
                         } label: {
                             HStack {
                                 Text("I'm Renter")
@@ -158,10 +155,12 @@ struct SignUpView: View {
                 VStack {
                     Button {
                         do {
-                            try appViewModel.passwordCheckAndSignUp(email: emailAddress, password: userPassword, confirmPassword: recheckPassword)
-                            
-                            print(appViewModel.tempUserType)
-                            persistenceDM.saveUserType(userType: appViewModel.userType)
+                            try appViewModel.passwordCheckAndSignUp(email: appViewModel.emailAddress, password: appViewModel.userPassword, confirmPassword: appViewModel.recheckPassword)
+                            appViewModel.userDetailForSignUp = true
+                            print(appViewModel.userType)
+                            //                            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1.0) {
+                            //                                persistenceDM.saveUserType(userType: appViewModel.userType, userUID: fetchFirestore.getUID())
+                            //                            }
                         } catch {
                             self.errorHandler.handle(error: error)
                         }
@@ -174,7 +173,6 @@ struct SignUpView: View {
                             .frame(width: 223, height: 34)
                             .background(Color("buttonBlue"))
                             .cornerRadius(5)
-                        
                     }
                     Spacer()
                         .frame(height: 180)
@@ -194,7 +192,17 @@ struct SignUpView: View {
                 }
                 .padding(.top, 25)
                 Spacer()
+                    .frame(height: 35)
             }
+        }
+        .fullScreenCover(isPresented: $appViewModel.userDetailForSignUp) {
+            DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 1.0) {
+                fetchFirestore.uploadUserInformation(uidPath: fetchFirestore.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType)
+            }
+            
+//            fetchFirestore.fetchUploadData(uidPath: fetchFirestore.getUID())
+        } content: {
+            UserDetailInfoView()
         }
     }
 }

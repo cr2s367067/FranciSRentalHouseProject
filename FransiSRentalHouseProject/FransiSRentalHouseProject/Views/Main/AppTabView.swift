@@ -12,7 +12,7 @@ struct AppTabView: View {
     
     @EnvironmentObject var fetchFirestore: FetchFirestore
     @EnvironmentObject var appViewModel: AppViewModel
-    let persistenceDM = PersistenceController()
+//    let persistenceDM = PersistenceController()
     
     init() {
         UITabBar.appearance().isHidden = true
@@ -29,12 +29,12 @@ struct AppTabView: View {
                 TabView(selection: $appViewModel.tagSelect) {
                     RenterMainView()
                         .tag("TapHomeButton")
-                    if persistenceDM.getUsertype() == "Renter" || fetchFirestore.getUserType(input: fetchFirestore.fetchData) == "Renter" {
+                    if fetchFirestore.getUserType(input: fetchFirestore.fetchData) == "Renter" || appViewModel.userType == "Renter" {
                         PrePurchaseView(dataModel: RoomsDataModel(roomImage: "", roomName: "", roomDescribtion: "", roomPrice: 0, ranking: 0, isSelected: false))
                             .tag("TapPaymentButton")
                         RenterProfileView()
                             .tag("TapProfileButton")
-                    } else if persistenceDM.getUsertype() == "Provider" || fetchFirestore.getUserType(input: fetchFirestore.fetchData) == "Provider" {
+                    } else if fetchFirestore.getUserType(input: fetchFirestore.fetchData) == "Provider" || appViewModel.userType == "Provider" {
                         ProviderRoomSummitView()
                             .tag("TapPaymentButton")
                         ProviderProfileView()
@@ -66,9 +66,9 @@ struct AppTabView: View {
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
-//        .onAppear {
-//            fetchFirestore.excuteInBackground()
-//        }
+        .onAppear {
+            fetchFirestore.fetchUploadData(uidPath: fetchFirestore.getUID())
+        }
     }
 }
 
@@ -79,3 +79,6 @@ struct AppTabView_Previews: PreviewProvider {
     }
 }
 
+
+
+//(persistenceDM.getUserUID() == fetchFirestore.getUID() && persistenceDM.getUserUID() == "Renter") ||

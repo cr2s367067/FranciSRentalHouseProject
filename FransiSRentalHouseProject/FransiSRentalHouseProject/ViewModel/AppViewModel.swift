@@ -33,6 +33,23 @@ class AppViewModel: ObservableObject {
     @Published var isPresent = false
     @Published var userType = ""
     @Published var tempUserType = ""
+    @Published var userDetailForSignUp = false
+    @Published var emailAddress = ""
+    @Published var userPassword = ""
+    @Published var recheckPassword = ""
+    
+    @Published var id = ""
+    @Published var firstName = ""
+    @Published var lastName = ""
+    @Published var mobileNumber = ""
+    @Published var dob = Date()
+    @Published var address = ""
+    @Published var town = ""
+    @Published var city = ""
+    @Published var zipCode = ""
+    @Published var country = ""
+    @Published var gender = ""
+    
     
     let selectArray = ["TapHomeButton", "TapPaymentButton", "TapProfileButton", "TapSearchButton", "FixButton"]
     
@@ -192,7 +209,7 @@ class AppViewModel: ObservableObject {
         } else if password != confirmPassword {
             throw SignUpError.passwordAndConfirmIsNotMatch
         }
-        signUp(email: email, password: password)
+        //signUp(email: email, password: password)
     }
     
     
@@ -500,15 +517,25 @@ struct InfoUnit: View {
 }
 
 
-//extension DispatchQueue {
-//    static func background(delay: Double = 0.0, background: (()->Void)? = nil, completion: (()->Void)? = nil) {
-//        DispatchQueue.global(qos: .background).async {
-//            background?()
-//            if let completion = completion {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
-//                    completion()
-//                })
-//            }
-//        }
-//    }
-//}
+extension DispatchQueue {
+    static func background(delay: Double = 0.0, background: (()->Void)? = nil, completion: (()->Void)? = nil) {
+        DispatchQueue.global(qos: .background).async {
+            background?()
+            if let completion = completion {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+                    completion()
+                })
+            }
+        }
+    }
+    static func userInitial(delay: Double = 0.0, main: (()->Void)? = nil, completion: (()->Void)? = nil) {
+        DispatchQueue.main.async {
+            main?()
+            if let completion = completion {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+                    completion()
+                })
+            }
+        }
+    }
+}

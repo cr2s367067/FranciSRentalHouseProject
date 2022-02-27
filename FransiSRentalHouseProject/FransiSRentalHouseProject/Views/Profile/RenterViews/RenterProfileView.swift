@@ -11,10 +11,10 @@ struct RenterProfileView: View {
     
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var fetchFirestore: FetchFirestore
     
     let firebaseSg = FirebaseStorageManager()
-    
-    let fetchFirestore = FetchFirestore()
+//    let persistenceDM = PersistenceController()
     
     @State private var show = false
     @State private var image = UIImage()
@@ -78,27 +78,32 @@ struct RenterProfileView: View {
                                             .clipped()
                                         Button {
                                             showSheet.toggle()
+//                                            print("user type from firestore: \(fetchFirestore.getUserType(input: fetchFirestore.fetchData))")
+//                                            print("user type from core data:\(persistenceDM.getUsertype())")
+                                            
                                         } label: {
                                             if isSummitImage == false {
                                                 Image(systemName: "person.fill")
                                                     .resizable()
-                                                    .aspectRatio(contentMode: .fill)
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .foregroundColor(Color.gray.opacity(0.8))
                                                     .frame(width: 120, height: 120)
                                                     .clipShape(Circle())
+                                                    .scaledToFit()
                                             } else if isSummitImage == true {
                                                 Image(uiImage: self.image)
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fill)
                                                     .frame(width: 120, height: 120)
                                                     .clipShape(Circle())
+                                                    .scaledToFit()
                                             }
                                         }
                                     }
-                                    Text("Lorem")
+                                    Text("\(fetchFirestore.userLastName)")
                                         .foregroundColor(.white)
                                         .font(.system(size: 30, weight: .heavy))
                                         .padding(.leading, 20)
-                                    
                                 }
                                 .padding()
                                 VStack {

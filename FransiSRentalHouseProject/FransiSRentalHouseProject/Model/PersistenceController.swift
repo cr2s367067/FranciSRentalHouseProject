@@ -5,6 +5,8 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
+
+/*
 import Foundation
 import CoreData
 
@@ -12,6 +14,8 @@ class PersistenceController: ObservableObject {
     
     let container: NSPersistentContainer
     let appViewModel = AppViewModel()
+    let fetchFirestore = FetchFirestore()
+    
     
     init() {
         container = NSPersistentContainer(name: "UserCoreDataModel")
@@ -22,10 +26,11 @@ class PersistenceController: ObservableObject {
         }
     }
     
-    func saveUserType(userType: String) {
+    func saveUserType(userType: String, userUID: String) {
         let userStatus = UserStatusProperty(context: container.viewContext)
         
         userStatus.userType = userType
+        userStatus.userUID = userUID
         
         do {
             try container.viewContext.save()
@@ -52,7 +57,7 @@ class PersistenceController: ObservableObject {
         var tempStringHolder = ""
         let fetchRequest: NSFetchRequest<UserStatusProperty> = UserStatusProperty.fetchRequest()
         do {
-            tempStringHolder = try container.viewContext.fetch(fetchRequest).map({$0.userType ?? ""}).first ?? ""
+            tempStringHolder = try container.viewContext.fetch(fetchRequest).map({$0.userType ?? ""}).first!
 //            appViewModel.tempUserType = tempStringHolder
         } catch {
             print("Fail to fetch data from core data")
@@ -60,4 +65,37 @@ class PersistenceController: ObservableObject {
         return tempStringHolder
     }
     
+    func getUserUID() -> String {
+        var tempUIDHolder = ""
+        let fetchRequest: NSFetchRequest<UserStatusProperty> = UserStatusProperty.fetchRequest()
+        do {
+            tempUIDHolder = try container.viewContext.fetch(fetchRequest).map({
+                $0.userUID ?? ""
+            }).first!
+        } catch {
+            print("Fail to fetch data from core data")
+        }
+        return tempUIDHolder
+    }
+    
+    
+//    func persistenceRenter() {
+//        let fetchRequest: NSFetchRequest<UserStatusProperty> = UserStatusProperty.fetchRequest()
+//        var tempUIDHolder = ""
+//        var tempUserType = ""
+//        do {
+//            let fetchCoreData = try container.viewContext.fetch(fetchRequest)
+//            for userEmail in fetchCoreData {
+//                tempUIDHolder = userEmail.userEmail ?? ""
+//            }
+//            for userType in fetchCoreData {
+//
+//            }
+//        } catch {
+//            print("fail to fetch data")
+//        }
+//
+//    }
+    
 }
+*/

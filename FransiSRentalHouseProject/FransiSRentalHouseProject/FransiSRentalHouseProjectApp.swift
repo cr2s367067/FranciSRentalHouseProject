@@ -12,7 +12,7 @@ import Firebase
 struct FransiSRentalHouseProjectApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var persistenceController = PersistenceController()
+//    @StateObject private var persistenceController = PersistenceController()
     
     var body: some Scene {
         WindowGroup {
@@ -24,7 +24,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(fetchFireStore)
                 .environmentObject(localData)
                 .withErrorHandling()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

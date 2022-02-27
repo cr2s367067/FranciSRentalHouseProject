@@ -14,19 +14,19 @@ struct UserDetailInfoView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     
-     let persistenceDM = PersistenceController()
+//    let persistenceDM = PersistenceController()
     
-    @State var id = ""
-    @State var firstName = ""
-    @State var lastName = ""
-    @State var mobileNumber = ""
-    @State var dob = Date()
-    @State var address = ""
-    @State var town = ""
-    @State var city = ""
-    @State var zip = ""
-    @State var country = ""
-    @State var gender = ""
+//    @State var id = ""
+//    @State var firstName = ""
+//    @State var lastName = ""
+//    @State var mobileNumber = ""
+//    @State var dob = Date()
+//    @State var address = ""
+//    @State var town = ""
+//    @State var city = ""
+//    @State var zip = ""
+//    @State var country = ""
+//    @State var gender = ""
     @State var isMale = false
     @State var isFemale = false
     @State var showAlert = false
@@ -44,9 +44,9 @@ struct UserDetailInfoView: View {
                         TitleAndDivider(title: "User Detail Information")
                         VStack(alignment: .leading, spacing: 10) {
                             Group {
-                                InfoUnit(title: "ID", bindingString: $id)
-                                InfoUnit(title: "First Name", bindingString: $firstName)
-                                InfoUnit(title: "Last Name", bindingString: $lastName)
+                                InfoUnit(title: "ID", bindingString: $appViewModel.id)
+                                InfoUnit(title: "First Name", bindingString: $appViewModel.firstName)
+                                InfoUnit(title: "Last Name", bindingString: $appViewModel.lastName)
                                 Text("Gender")
                                     .foregroundColor(.white)
                                     .font(.system(size: 14, weight: .semibold))
@@ -55,8 +55,8 @@ struct UserDetailInfoView: View {
                                     Button {
                                         isMale.toggle()
                                         if isMale == true {
-                                            gender = "Male"
-                                            debugPrint(gender)
+                                            appViewModel.gender = "Male"
+                                            debugPrint(appViewModel.gender)
                                         }
                                         if isFemale == true {
                                             isFemale = false
@@ -79,8 +79,8 @@ struct UserDetailInfoView: View {
                                     Button {
                                         isFemale.toggle()
                                         if isFemale == true {
-                                            gender = "Female"
-                                            debugPrint(gender)
+                                            appViewModel.gender = "Female"
+                                            debugPrint(appViewModel.gender)
                                         }
                                         if isMale == true {
                                             isMale = false
@@ -100,17 +100,17 @@ struct UserDetailInfoView: View {
                                 }
                             }
                             Group {
-                                InfoUnit(title: "Mobile Number", bindingString: $mobileNumber)
+                                InfoUnit(title: "Mobile Number", bindingString: $appViewModel.mobileNumber)
                                     .keyboardType(.decimalPad)
-                                DatePicker("Date of Birth", selection: $dob, in: ...Date(), displayedComponents: .date)
+                                DatePicker("Date of Birth", selection: $appViewModel.dob, in: ...Date(), displayedComponents: .date)
                                     .background(Color("fieldGray"))
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                 //InfoUnit(title: "Date of Birth", bindingString: $dob)
-                                InfoUnit(title: "Address", bindingString: $address)
-                                InfoUnit(title: "Town", bindingString: $town) //: Picker
-                                InfoUnit(title: "City", bindingString: $city) //: Picker
-                                InfoUnit(title: "Zip", bindingString: $zip)
-                                InfoUnit(title: "Country", bindingString: $country) //: Picker
+                                InfoUnit(title: "Address", bindingString: $appViewModel.address)
+                                InfoUnit(title: "Town", bindingString: $appViewModel.town) //: Picker
+                                InfoUnit(title: "City", bindingString: $appViewModel.city) //: Picker
+                                InfoUnit(title: "Zip", bindingString: $appViewModel.zipCode)
+                                InfoUnit(title: "Country", bindingString: $appViewModel.country) //: Picker
                             }
                         }
                         .padding(.leading)
@@ -119,18 +119,24 @@ struct UserDetailInfoView: View {
                         HStack {
                             Spacer()
                                 .frame(width: 220)
-//                                .padding(.top)
+                            //                                .padding(.top)
                             Image(systemName: "checkmark.circle")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .foregroundColor(isSummit ? Color.green : Color.clear)
                             Button {
-                                if !id.isEmpty, !firstName.isEmpty, !lastName.isEmpty, !gender.isEmpty, !mobileNumber.isEmpty, !address.isEmpty, !town.isEmpty, !city.isEmpty, !zip.isEmpty, !country.isEmpty == true {
+                                if !appViewModel.id.isEmpty, !appViewModel.firstName.isEmpty, !appViewModel.lastName.isEmpty, !appViewModel.gender.isEmpty, !appViewModel.mobileNumber.isEmpty, !appViewModel.address.isEmpty, !appViewModel.town.isEmpty, !appViewModel.city.isEmpty, !appViewModel.zipCode.isEmpty, !appViewModel.country.isEmpty == true {
                                     do {
-                                        try appViewModel.userInfoFormatterChecker(id: id, firstName: firstName, lastName: lastName, gender: gender, mobileNumber: mobileNumber)
-                                        fetchFirestore.uploadUserInformation(uidPath: fetchFirestore.getUID(), id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: persistenceDM.getUsertype())
-                                        debugPrint(UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: appViewModel.userType))
+                                        try appViewModel.userInfoFormatterChecker(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, gender: appViewModel.gender, mobileNumber: appViewModel.mobileNumber)
+                                        debugPrint(UserDataModel(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType))
                                         isSummit = true
+                                        DispatchQueue.background(delay: 1.0) {
+                                            appViewModel.signUp(email: appViewModel.emailAddress, password: appViewModel.userPassword)
+                                        } completion: {
+                                                if appViewModel.userDetailForSignUp == true {
+                                                    appViewModel.userDetailForSignUp = false
+                                                }
+                                        }
                                     } catch {
                                         self.errorHandler.handle(error: error)
                                     }

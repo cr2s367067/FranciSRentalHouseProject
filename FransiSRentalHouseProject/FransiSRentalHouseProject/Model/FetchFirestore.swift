@@ -14,7 +14,6 @@ import SwiftUI
 class FetchFirestore: ObservableObject {
     
     let localData = LocalData()
-//    let persistenceDM = PersistenceController()
     
     let auth = Auth.auth()
     var ref: DocumentReference? = nil
@@ -23,10 +22,12 @@ class FetchFirestore: ObservableObject {
     //    @Published var fireBaseUID = ""
     
     @Published var fetchData: [UserDataModel] = []
+    @Published var userLastName = ""
     
     init() {
         //        fireBaseUID = getUID()
-        fetchData(uidPath: getUID())
+        //        fetchData(uidPath: getUID())
+        //        self.fetchData.removeAll()
     }
     
     func getUID() -> String {
@@ -43,7 +44,7 @@ class FetchFirestore: ObservableObject {
         }
     }
     
-    func summitUserInformation(uidPath: String, id: String , firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String) {
+    func updateUserInformation(uidPath: String, id: String , firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String) {
         db.collection("users").document(uidPath).updateData([
             "id" : id,
             "firstName" : firstName,
@@ -65,34 +66,36 @@ class FetchFirestore: ObservableObject {
         
         
     }
-    /*
-     func fetchUploadData(uidPath: String) {
-     let userRef = db.collection("users").document(uidPath)
-     userRef.getDocument { (document, error) in
-     let result = Result {
-     try document?.data(as: UserDataModel.self)
-     }
-     switch result {
-     case .success(let userInfo):
-     if let _userInfo = userInfo {
-     if self.localData.userDataHolder.isEmpty {
-     self.localData.userDataHolder.append(_userInfo)
-     } else {
-     self.localData.userDataHolder.removeAll()
-     self.localData.userDataHolder.append(_userInfo)
-     }
-     debugPrint(self.localData.userDataHolder)
-     } else {
-     debugPrint("Document does not exist")
-     }
-     case .failure(let error):
-     debugPrint("Error: \(error)")
-     }
-     }
-     }
-     */
     
-    func fetchData(uidPath: String) {
+    func fetchUploadData(uidPath: String) {
+        let userRef = db.collection("users").document(uidPath)
+        userRef.getDocument { (document, error) in
+            let result = Result {
+                try document?.data(as: UserDataModel.self)
+            }
+            switch result {
+            case .success(let userInfo):
+                if let _userInfo = userInfo {
+                    DispatchQueue.userInitial(delay: 1.0) {
+                        if !self.fetchData.isEmpty {
+                            self.fetchData.removeAll()
+                            self.fetchData.append(UserDataModel(id: _userInfo.id, firstName: _userInfo.firstName, lastName: _userInfo.lastName, mobileNumber: _userInfo.mobileNumber, dob: _userInfo.dob, address: _userInfo.address, town: _userInfo.town, city: _userInfo.city, zip: _userInfo.zip, country: _userInfo.country, gender: _userInfo.gender, userType: _userInfo.userType))
+                        } else {
+                            self.fetchData.append(UserDataModel(id: _userInfo.id, firstName: _userInfo.firstName, lastName: _userInfo.lastName, mobileNumber: _userInfo.mobileNumber, dob: _userInfo.dob, address: _userInfo.address, town: _userInfo.town, city: _userInfo.city, zip: _userInfo.zip, country: _userInfo.country, gender: _userInfo.gender, userType: _userInfo.userType))
+                        }
+                    } completion: {
+                        self.userLastName = self.getUserLastName(lastName: self.fetchData)
+                    }
+                } else {
+                    debugPrint("Document does not exist")
+                }
+            case .failure(let error):
+                debugPrint("Error: \(error)")
+            }
+        }
+    }
+    
+    func fetchListeningData(uidPath: String) {
         let userRef = db.collection("users").document(uidPath)
         userRef.addSnapshotListener { querySnapshot, error in
             guard let document = querySnapshot else {
@@ -129,20 +132,16 @@ class FetchFirestore: ObservableObject {
     
     func getUserType(input: [UserDataModel]) -> String {
         var tempHolder = ""
-        for data in input {
-            tempHolder = data.userType
-        }
+        tempHolder = input.map({$0.userType}).first?.description ?? ""
         return tempHolder
     }
     
-//    func excuteInBackground() {
-//        DispatchQueue.background(delay: 0.5) {
-//            self.fetchData(uidPath: self.getUID())
-//        } completion: {
-//            self.persistenceDM.updateUserType(userType: self.getUserType(input: self.fetchData))
-//        }
-//
-//    }
+    
+    private func getUserLastName(lastName: [UserDataModel]) -> String{
+        var tempLastNameHolder = ""
+        tempLastNameHolder = lastName.map({$0.lastName}).first?.description ?? ""
+        return tempLastNameHolder
+    }
     
 }
 

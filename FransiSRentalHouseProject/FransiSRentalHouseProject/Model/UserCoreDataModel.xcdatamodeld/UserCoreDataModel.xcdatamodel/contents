@@ -2,8 +2,12 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="UserStatusProperty" representedClassName="UserStatusProperty" syncable="YES" codeGenerationType="class">
         <attribute name="userType" attributeType="String" defaultValueString=""/>
+        <attribute name="userUID" attributeType="String" defaultValueString=""/>
+        <fetchIndex name="byPropertyIndex">
+            <fetchIndexElement property="userUID" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <elements>
-        <element name="UserStatusProperty" positionX="-63" positionY="-18" width="128" height="44"/>
+        <element name="UserStatusProperty" positionX="-63" positionY="-18" width="128" height="73"/>
     </elements>
 </model>
