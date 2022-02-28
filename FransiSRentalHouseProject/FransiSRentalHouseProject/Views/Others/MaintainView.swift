@@ -15,8 +15,9 @@ struct MaintainView: View {
     @State var appointment = Date()
     @State var showAlert = false
     
+    let firebaseStorageDM = FirebaseStorageManager()
     let fetchFirestore = FetchFirestore()
-//    let persistenceDM = PersistenceController()
+    //    let persistenceDM = PersistenceController()
     
     var body: some View {
         ZStack {
@@ -74,16 +75,14 @@ struct MaintainView: View {
                     HStack {
                         Spacer()
                         Button {
-//                            if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-//                                localData.addTask(taskname: describtion, appointmentDate: appointment)
-//                                showAlert.toggle()
-//                            } else {
-//                                showAlert.toggle()
-//                            }
-//                            debugPrint(localData.maintainTaskHolder)
-//                            debugPrint(fetchFirestore.fetchData)
-                            print("\(fetchFirestore.fetchData)")
-//                            print("firebase uid: \(fetchFirestore.getUID())")
+                            if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
+                                localData.addTask(taskname: describtion, appointmentDate: appointment)
+                                showAlert.toggle()
+                            } else {
+                                showAlert.toggle()
+                            }
+                            debugPrint(localData.maintainTaskHolder)
+                            debugPrint(fetchFirestore.fetchData)
                         } label: {
                             Text("Summit it!")
                                 .foregroundColor(.white)

@@ -19,10 +19,12 @@ struct FransiSRentalHouseProjectApp: App {
             let appViewModel = AppViewModel()
             let fetchFireStore = FetchFirestore()
             let localData = LocalData()
+            let firebaseSg = FirebaseStorageManager()
             ContentView()
                 .environmentObject(appViewModel)
                 .environmentObject(fetchFireStore)
                 .environmentObject(localData)
+                .environmentObject(firebaseSg)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

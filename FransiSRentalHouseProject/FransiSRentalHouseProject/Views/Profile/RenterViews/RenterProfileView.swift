@@ -6,20 +6,23 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct RenterProfileView: View {
     
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var fetchFirestore: FetchFirestore
+    @EnvironmentObject var firebaseStorageDM: FirebaseStorageManager
     
-    let firebaseSg = FirebaseStorageManager()
-//    let persistenceDM = PersistenceController()
+    //    let firebaseStorageDM = FirebaseStorageManager()
+    //    let persistenceDM = PersistenceController()
     
     @State private var show = false
     @State private var image = UIImage()
     @State private var showSheet = false
-    @State private var isSummitImage = false
+    //    @State var isSummitImage = false
+    
     
     var body: some View {
         NavigationView {
@@ -78,25 +81,34 @@ struct RenterProfileView: View {
                                             .clipped()
                                         Button {
                                             showSheet.toggle()
-//                                            print("user type from firestore: \(fetchFirestore.getUserType(input: fetchFirestore.fetchData))")
-//                                            print("user type from core data:\(persistenceDM.getUsertype())")
+                                            //                                            print("user type from firestore: \(fetchFirestore.getUserType(input: fetchFirestore.fetchData))")
+                                            //                                            print("user type from core data:\(persistenceDM.getUsertype())")
                                             
                                         } label: {
-                                            if isSummitImage == false {
+                                            if firebaseStorageDM.isSummitImage == false {
                                                 Image(systemName: "person.fill")
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
-                                                    .foregroundColor(Color.gray.opacity(0.8))
+                                                    .foregroundColor(Color.gray.opacity(0.6))
                                                     .frame(width: 120, height: 120)
                                                     .clipShape(Circle())
                                                     .scaledToFit()
-                                            } else if isSummitImage == true {
-                                                Image(uiImage: self.image)
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fill)
-                                                    .frame(width: 120, height: 120)
-                                                    .clipShape(Circle())
-                                                    .scaledToFit()
+                                            } else if firebaseStorageDM.isSummitImage == true {
+                                                if fetchFirestore.auth.currentUser != nil {
+                                                    WebImage(url: URL(string: firebaseStorageDM.representedImageURL))
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fill)
+                                                        .frame(width: 120, height: 120)
+                                                        .clipShape(Circle())
+                                                        .scaledToFit()
+                                                } else {
+                                                    Image(uiImage: self.image)
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fill)
+                                                        .frame(width: 120, height: 120)
+                                                        .clipShape(Circle())
+                                                        .scaledToFit()
+                                                }
                                             }
                                         }
                                     }
@@ -228,9 +240,8 @@ struct RenterProfileView: View {
                     }
                 }
                 .sheet(isPresented: $showSheet, onDismiss: {
-                    firebaseSg.uploadImage(uidPath: fetchFirestore.getUID(), image: image)
                     if !image.isSymbolImage {
-                        isSummitImage = true
+                        firebaseStorageDM.uploadImage(uidPath: fetchFirestore.getUID(), image: image)
                     }
                 }) {
                     ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
@@ -239,6 +250,9 @@ struct RenterProfileView: View {
             .navigationTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
+            .onAppear {
+                firebaseStorageDM.representedImageURL = firebaseStorageDM.representStorageImage(uidPath: fetchFirestore.getUID())
+            }
         }
     }
 }
