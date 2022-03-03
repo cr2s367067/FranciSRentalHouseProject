@@ -122,9 +122,9 @@ class LocalData: ObservableObject {
         summaryItemHolder.append(SummaryItemHolder(itemName: itemName, itemPrice: itemPrice))
     }
     
-    func addTask(taskname: String, appointmentDate: Date) {
-        maintainTaskHolder.append(MaintainTaskHolder(taskName: taskname, appointmentDate: appointmentDate))
-    }
+//    func addTask(taskname: String, appointmentDate: Date) {
+//        maintainTaskHolder.append(MaintainTaskHolder(taskName: taskname, appointmentDate: appointmentDate))
+//    }
     
     func addFetchedData(id: String, firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String) {
         userDataHolder.append(UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType))
@@ -142,8 +142,10 @@ class LocalData: ObservableObject {
     
 }
 
+
+
 struct MaintainTaskHolder: Identifiable, Codable {
-    var id = UUID()
+    var id = UUID().uuidString
     var taskName: String
     var appointmentDate: Date
     
@@ -154,10 +156,40 @@ struct MaintainTaskHolder: Identifiable, Codable {
     }
 }
 
-struct SummaryItemHolder: Identifiable {
+struct SummaryItemHolder: Identifiable, Codable {
     var id = UUID()
     var itemName: String
     var itemPrice: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case itemName
+        case itemPrice
+    }
+}
+
+struct RoomInfoDataModel: Codable {
+    var id: String
+    var holderName: String
+    var mobileNumber: String
+    var roomAddress: String
+    var town: String
+    var city: String
+    var zipCode: String
+    var emailAddress: String
+    var roomArea: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case holderName
+        case mobileNumber
+        case roomAddress
+        case town
+        case city
+        case zipCode
+        case emailAddress
+        case roomArea
+    }
 }
 
 struct RoomsDataModel: Identifiable, Codable {

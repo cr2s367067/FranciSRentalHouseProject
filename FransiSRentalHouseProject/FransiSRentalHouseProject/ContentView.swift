@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var fetchFirestore: FetchFirestore
     
     init() {
         UITabBar.appearance().isHidden = true
@@ -24,6 +25,9 @@ struct ContentView: View {
         }
         .onAppear {
             appViewModel.signIn = appViewModel.isSignedIn
+            if fetchFirestore.auth.currentUser != nil {
+                fetchFirestore.fetchUploadData(uidPath: fetchFirestore.getUID())
+            }
         }
     }
     

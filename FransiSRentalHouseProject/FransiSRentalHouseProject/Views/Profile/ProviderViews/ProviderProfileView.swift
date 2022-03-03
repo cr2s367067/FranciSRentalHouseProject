@@ -8,7 +8,14 @@
 import SwiftUI
 
 struct ProviderProfileView: View {
+    
+    @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var firebaseStorageDM: FirebaseStorageManager
+    @EnvironmentObject var fetchFirestore: FetchFirestore
+    
     @State private var show = false
+    
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -28,9 +35,9 @@ struct ProviderProfileView: View {
                                     self.show.toggle()
                                 }
                             } label: {
-                                Image(systemName: "gear")
+                                Image(systemName: "line.3.horizontal.circle")
                                     .resizable()
-                                    .frame(width: 30, height: 30)
+                                    .frame(width: 25, height: 25)
                             }
                             Spacer()
                         }
@@ -51,10 +58,12 @@ struct ProviderProfileView: View {
                         }
                         .padding(.trailing)
                         .frame(width: 378)
+                        
                         Rectangle()
                             .fill(Color("fieldGray"))
                             .frame(width: 378, height: 304)
                             .cornerRadius(10)
+                        
                         TitleAndDivider(title: "Detail")
                         VStack {
                             OwnerProfileDetailUnit()

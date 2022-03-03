@@ -19,6 +19,11 @@ struct MaintainView: View {
     let fetchFirestore = FetchFirestore()
     //    let persistenceDM = PersistenceController()
     
+    private func reset() {
+        describtion = "Please describe what stuff needs to fix."
+        appointment = Date()
+    }
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -76,11 +81,14 @@ struct MaintainView: View {
                         Spacer()
                         Button {
                             if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-                                localData.addTask(taskname: describtion, appointmentDate: appointment)
+//                                localData.addTask(taskname: describtion, appointmentDate: appointment)
+                                fetchFirestore.uploadMaintainInfo(uidPath: fetchFirestore.getUID(), taskName: describtion, appointmentDate: appointment)
                                 showAlert.toggle()
                             } else {
                                 showAlert.toggle()
+                                reset()
                             }
+                            print("\(showAlert)")
                             debugPrint(localData.maintainTaskHolder)
                             debugPrint(fetchFirestore.fetchData)
                         } label: {
@@ -96,6 +104,7 @@ struct MaintainView: View {
                                             describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("Okay!") : Text("Got it.")
                                           ))
                                 }
+                                
                         }
                         
                     }

@@ -61,6 +61,20 @@ class AppViewModel: ObservableObject {
     //        return persistenceDM.getUsertype()
     //    }
     
+    func userDetailViewReset() {
+        id = ""
+        firstName = ""
+        lastName = ""
+        mobileNumber = ""
+        dob = Date()
+        address = ""
+        town = ""
+        city = ""
+        zipCode = ""
+        country = ""
+        gender = ""
+    }
+    
     
     func userInfoFormatterChecker(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) throws {
         if id.count > 10 || id.count < 10 {
@@ -283,6 +297,12 @@ class AppViewModel: ObservableObject {
             self.signIn = false
             if self.isSkipIt == true {
                 self.isSkipIt = false
+            }
+            if self.signIn == true {
+                self.signIn = false
+            }
+            if self.signUp == true {
+                self.signUp = false
             }
         }
     }

@@ -14,10 +14,17 @@ struct SignUpView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var fetchFirestore: FetchFirestore
     
-//    let persistenceDM = PersistenceController()
+    //    let persistenceDM = PersistenceController()
     
-    
-    
+    private func reset() {
+        appViewModel.emailAddress = ""
+        appViewModel.userPassword = ""
+        appViewModel.recheckPassword = ""
+        appViewModel.isRenter = false
+        appViewModel.isProvider = false
+        appViewModel.isAgree = false
+        UINavigationBar.appearance().backgroundColor = UIColor(Color.clear)
+    }
     
     var body: some View {
         ZStack {
@@ -195,12 +202,13 @@ struct SignUpView: View {
                     .frame(height: 35)
             }
         }
+        .onAppear(perform: {
+            reset()
+        })
         .fullScreenCover(isPresented: $appViewModel.userDetailForSignUp) {
-            DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 1.0) {
-                fetchFirestore.uploadUserInformation(uidPath: fetchFirestore.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType)
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1.5) {
+                fetchFirestore.createUserInfomation(uidPath: fetchFirestore.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType)
             }
-            
-//            fetchFirestore.fetchUploadData(uidPath: fetchFirestore.getUID())
         } content: {
             UserDetailInfoView()
         }

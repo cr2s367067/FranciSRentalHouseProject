@@ -23,7 +23,6 @@ struct RenterProfileView: View {
     @State private var showSheet = false
     //    @State var isSummitImage = false
     
-    
     var body: some View {
         NavigationView {
             ZStack {
@@ -53,7 +52,7 @@ struct RenterProfileView: View {
                                     self.show.toggle()
                                 }
                             } label: {
-                                Image(systemName: "gear")
+                                Image(systemName: "line.3.horizontal.circle")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
@@ -81,8 +80,7 @@ struct RenterProfileView: View {
                                             .clipped()
                                         Button {
                                             showSheet.toggle()
-                                            //                                            print("user type from firestore: \(fetchFirestore.getUserType(input: fetchFirestore.fetchData))")
-                                            //                                            print("user type from core data:\(persistenceDM.getUsertype())")
+                                            //                                            print("\(fetchFirestore.fetchMaintainInfo)")
                                             
                                         } label: {
                                             if firebaseStorageDM.isSummitImage == false {
@@ -101,14 +99,15 @@ struct RenterProfileView: View {
                                                         .frame(width: 120, height: 120)
                                                         .clipShape(Circle())
                                                         .scaledToFit()
-                                                } else {
-                                                    Image(uiImage: self.image)
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fill)
-                                                        .frame(width: 120, height: 120)
-                                                        .clipShape(Circle())
-                                                        .scaledToFit()
                                                 }
+//                                                else {
+//                                                    Image(uiImage: self.image)
+//                                                        .resizable()
+//                                                        .aspectRatio(contentMode: .fill)
+//                                                        .frame(width: 120, height: 120)
+//                                                        .clipShape(Circle())
+//                                                        .scaledToFit()
+//                                                }
                                             }
                                         }
                                     }
@@ -202,16 +201,16 @@ struct RenterProfileView: View {
                                                     Text("Maintain List: ")
                                                         .font(.system(size: 20, weight: .heavy))
                                                     Spacer()
-                                                        .frame(width: 220)
-                                                    NavigationLink {
-                                                        MaintainDetailView()
-                                                    } label: {
-                                                        Image(systemName: "chevron.forward")
-                                                    }
+                                                        .frame(width: 225)
+//                                                    NavigationLink {
+//                                                        MaintainDetailView()
+//                                                    } label: {
+//                                                        Image(systemName: "chevron.forward")
+//                                                    }
                                                 }
                                                 VStack {
                                                     ScrollView(.vertical, showsIndicators: false) {
-                                                        ForEach(localData.maintainTaskHolder) { task in
+                                                        ForEach(fetchFirestore.fetchMaintainInfo) { task in
                                                             ProfileSessionUnit(mainTainTask: task.taskName)
                                                         }
                                                     }
@@ -251,6 +250,9 @@ struct RenterProfileView: View {
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
             .onAppear {
+                if fetchFirestore.fetchMaintainInfo.isEmpty {
+                    fetchFirestore.fetchMaintainInfo(uidPath: fetchFirestore.getUID())
+                }
                 firebaseStorageDM.representedImageURL = firebaseStorageDM.representStorageImage(uidPath: fetchFirestore.getUID())
             }
         }

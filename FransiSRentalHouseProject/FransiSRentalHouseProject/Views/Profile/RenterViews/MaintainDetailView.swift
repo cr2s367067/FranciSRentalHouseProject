@@ -12,6 +12,8 @@ struct MaintainDetailView: View {
     
     @EnvironmentObject var localData: LocalData
     
+    let fetchFirestore = FetchFirestore()
+    
     var maintainTask = "Lorem ipsum dolor sit amet1."
     
     var body: some View {
@@ -34,7 +36,7 @@ struct MaintainDetailView: View {
                         }
                         VStack {
                             ScrollView(.vertical, showsIndicators: false) {
-                                ForEach(localData.maintainTaskHolder) { task in
+                                ForEach(fetchFirestore.fetchMaintainInfo) { task in
                                     ProfileSessionUnit(mainTainTask: task.taskName)
                                 }
                             }

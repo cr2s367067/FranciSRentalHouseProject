@@ -33,6 +33,13 @@ struct UserDetailInfoView: View {
     @State var inforFormatterCorrect = false
     @State private var isSummit = false
     
+    
+    private func reset() {
+        appViewModel.userDetailViewReset()
+        isMale = false
+        isFemale = false
+    }
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -129,8 +136,8 @@ struct UserDetailInfoView: View {
                                     do {
                                         try appViewModel.userInfoFormatterChecker(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, gender: appViewModel.gender, mobileNumber: appViewModel.mobileNumber)
                                         debugPrint(UserDataModel(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType))
-                                        isSummit = true
-                                        DispatchQueue.background(delay: 1.0) {
+//                                        isSummit = true
+                                        DispatchQueue.background(delay: 0.0) {
                                             appViewModel.signUp(email: appViewModel.emailAddress, password: appViewModel.userPassword)
                                         } completion: {
                                                 if appViewModel.userDetailForSignUp == true {
@@ -160,6 +167,9 @@ struct UserDetailInfoView: View {
                 }
             }
         }
+        .onAppear(perform: {
+            reset()
+        })
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
     }
