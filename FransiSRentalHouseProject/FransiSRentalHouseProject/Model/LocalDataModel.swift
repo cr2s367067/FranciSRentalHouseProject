@@ -7,11 +7,13 @@
 
 import Foundation
 import SwiftUI
+import FirebaseFirestoreSwift
 
 class LocalData: ObservableObject {
     
     
-    @Published var tempCart: [RoomsDataModel] = []
+    
+    //    @Published var tempCart: [RoomsDataModel] = []
     
     @Published var sumPrice = 0
     
@@ -21,110 +23,20 @@ class LocalData: ObservableObject {
     
     @Published var userDataHolder: [UserDataModel] = []
     
+    @Published var localRoomsHolder: RoomInfoDataModel = .empty
     
-    @Published var roomDataSets = [
-        RoomsDataModel(
-            roomImage: "room3",
-            roomName: "room3",
-            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
-            roomPrice: 9000,
-            ranking: 3,
-            isSelected: false
-        ),
-        RoomsDataModel(
-            roomImage: "room4",
-            roomName: "room4",
-            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
-            roomPrice: 8000,
-            ranking: 5,
-            isSelected: false
-            
-        ),
-        RoomsDataModel(
-            roomImage: "room5",
-            roomName: "room5",
-            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
-            roomPrice: 7000,
-            ranking: 2,
-            isSelected: false
-        ),
-        RoomsDataModel(
-            roomImage: "room6",
-            roomName: "room6",
-            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
-            roomPrice: 9000,
-            ranking: 3,
-            isSelected: false
-        ),
-        RoomsDataModel(
-            roomImage: "room7",
-            roomName: "room7",
-            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
-            roomPrice: 8000,
-            ranking: 4,
-            isSelected: false
-        ),
-        RoomsDataModel(
-            roomImage: "room8",
-            roomName: "room8",
-            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
-            roomPrice: 8000,
-            ranking: 2,
-            isSelected: false
-        )
-    ]
-    @Published var furnitureDataSets = [
-        FurnitureDataModel(
-            furnitureImage: "furpic1",
-            furnitureName: "furpic1",
-            furniturePrice: 100
-        ),
-        FurnitureDataModel(
-            furnitureImage: "furpic2",
-            furnitureName: "furpic2",
-            furniturePrice: 200
-        ),
-        FurnitureDataModel(
-            furnitureImage: "furpic3",
-            furnitureName: "furpic3",
-            furniturePrice: 300
-        ),
-        FurnitureDataModel(
-            furnitureImage: "furpic4",
-            furnitureName: "furpic4",
-            furniturePrice: 400
-        ),
-        FurnitureDataModel(
-            furnitureImage: "furpic5",
-            furnitureName: "furpic5",
-            furniturePrice: 500
-        ),
-        FurnitureDataModel(
-            furnitureImage: "furpic6",
-            furnitureName: "furpic6",
-            furniturePrice: 600
-        ),
-        FurnitureDataModel(
-            furnitureImage: "furpic7",
-            furnitureName: "furpic7",
-            furniturePrice: 700
-        ),
-        FurnitureDataModel(
-            furnitureImage: "furpic8",
-            furnitureName: "furpic8",
-            furniturePrice: 800
-        )
-    ]
-    
-   
     
     func addItem(itemName: String, itemPrice: Int) {
         summaryItemHolder.append(SummaryItemHolder(itemName: itemName, itemPrice: itemPrice))
     }
     
-//    func addTask(taskname: String, appointmentDate: Date) {
-//        maintainTaskHolder.append(MaintainTaskHolder(taskName: taskname, appointmentDate: appointmentDate))
-//    }
+    //    func addTask(taskname: String, appointmentDate: Date) {
+    //        maintainTaskHolder.append(MaintainTaskHolder(taskName: taskname, appointmentDate: appointmentDate))
+    //    }
+    
+    func addRoomDataToArray(holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, emailAddress: String, roomArea: String, rentalPrice: String) {
+        localRoomsHolder = RoomInfoDataModel(holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, emailAddress: emailAddress, roomArea: roomArea, rentalPrice: Int(rentalPrice) ?? 0, roomImage: nil)
+    }
     
     func addFetchedData(id: String, firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String) {
         userDataHolder.append(UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType))
@@ -144,115 +56,109 @@ class LocalData: ObservableObject {
 
 
 
-struct MaintainTaskHolder: Identifiable, Codable {
-    var id = UUID().uuidString
-    var taskName: String
-    var appointmentDate: Date
-    
-    enum Codingkeys: String, CodingKey {
-        case id
-        case taskName
-        case appointmentDate
-    }
-}
 
-struct SummaryItemHolder: Identifiable, Codable {
-    var id = UUID()
-    var itemName: String
-    var itemPrice: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case itemName
-        case itemPrice
-    }
-}
 
-struct RoomInfoDataModel: Codable {
-    var id: String
-    var holderName: String
-    var mobileNumber: String
-    var roomAddress: String
-    var town: String
-    var city: String
-    var zipCode: String
-    var emailAddress: String
-    var roomArea: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case holderName
-        case mobileNumber
-        case roomAddress
-        case town
-        case city
-        case zipCode
-        case emailAddress
-        case roomArea
-    }
-}
 
-struct RoomsDataModel: Identifiable, Codable {
-    var id = UUID()
-    var roomImage: String
-    var roomName: String
-    var roomDescribtion: String
-    var roomPrice: Int
-    var ranking: Int
-    var isSelected: Bool
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case roomImage
-        case roomName
-        case roomDescribtion
-        case roomPrice
-        case ranking
-        case isSelected
-    }
-    
-}
 
-struct FurnitureDataModel: Identifiable, Codable {
-    var id = UUID()
-    var furnitureImage: String
-    var furnitureName: String
-    var furniturePrice: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case furnitureImage
-        case furnitureName
-        case furniturePrice
-    }
-}
 
-struct UserDataModel: Codable {
-    var id: String
-    var firstName: String
-    var lastName: String
-    var mobileNumber: String
-    var dob: Date
-    var address: String
-    var town: String
-    var city: String
-    var zip: String
-    var country: String
-    var gender: String
-    var userType: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case firstName
-        case lastName
-        case mobileNumber
-        case dob
-        case address
-        case town
-        case city
-        case zip
-        case country
-        case gender
-        case userType
-    }
-}
+
+
+
+
+
+
+//    @Published var roomDataSets = [
+//        RoomsDataModel(
+//            roomImage: "room3",
+//            roomName: "room3",
+//            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
+//            roomPrice: 9000,
+//            ranking: 3,
+//            isSelected: false
+//        ),
+//        RoomsDataModel(
+//            roomImage: "room4",
+//            roomName: "room4",
+//            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
+//            roomPrice: 8000,
+//            ranking: 5,
+//            isSelected: false
+//
+//        ),
+//        RoomsDataModel(
+//            roomImage: "room5",
+//            roomName: "room5",
+//            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
+//            roomPrice: 7000,
+//            ranking: 2,
+//            isSelected: false
+//        ),
+//        RoomsDataModel(
+//            roomImage: "room6",
+//            roomName: "room6",
+//            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
+//            roomPrice: 9000,
+//            ranking: 3,
+//            isSelected: false
+//        ),
+//        RoomsDataModel(
+//            roomImage: "room7",
+//            roomName: "room7",
+//            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
+//            roomPrice: 8000,
+//            ranking: 4,
+//            isSelected: false
+//        ),
+//        RoomsDataModel(
+//            roomImage: "room8",
+//            roomName: "room8",
+//            roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.",
+//            roomPrice: 8000,
+//            ranking: 2,
+//            isSelected: false
+//        )
+//    ]
+
+
+//    @Published var furnitureDataSets = [
+//        FurnitureDataModel(
+//            furnitureImage: "furpic1",
+//            furnitureName: "furpic1",
+//            furniturePrice: 100
+//        ),
+//        FurnitureDataModel(
+//            furnitureImage: "furpic2",
+//            furnitureName: "furpic2",
+//            furniturePrice: 200
+//        ),
+//        FurnitureDataModel(
+//            furnitureImage: "furpic3",
+//            furnitureName: "furpic3",
+//            furniturePrice: 300
+//        ),
+//        FurnitureDataModel(
+//            furnitureImage: "furpic4",
+//            furnitureName: "furpic4",
+//            furniturePrice: 400
+//        ),
+//        FurnitureDataModel(
+//            furnitureImage: "furpic5",
+//            furnitureName: "furpic5",
+//            furniturePrice: 500
+//        ),
+//        FurnitureDataModel(
+//            furnitureImage: "furpic6",
+//            furnitureName: "furpic6",
+//            furniturePrice: 600
+//        ),
+//        FurnitureDataModel(
+//            furnitureImage: "furpic7",
+//            furnitureName: "furpic7",
+//            furniturePrice: 700
+//        ),
+//        FurnitureDataModel(
+//            furnitureImage: "furpic8",
+//            furnitureName: "furpic8",
+//            furniturePrice: 800
+//        )
+//    ]

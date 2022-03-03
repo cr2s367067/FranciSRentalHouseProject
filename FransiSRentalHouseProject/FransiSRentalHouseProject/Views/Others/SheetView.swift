@@ -30,9 +30,9 @@ struct SheetView: View {
                 .padding()
                 HStack {
                     Button {
-                        if localData.tempCart.isEmpty {
-                            
-                        }
+//                        if localData.tempCart.isEmpty {
+//
+//                        }
                     } label: {
                         Text("Next")
                             .foregroundColor(.white)

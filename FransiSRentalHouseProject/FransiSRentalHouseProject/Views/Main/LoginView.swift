@@ -9,9 +9,8 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @EnvironmentObject var appViewModel: AppViewModel
-    
-    let fetchFirestore = FetchFirestore()
+//    @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     
     @State private var emailAddress = ""
     @State private var userPassword = ""
@@ -55,7 +54,8 @@ struct LoginView: View {
                             .padding()
                         Spacer()
                         Button {
-                            appViewModel.signWithAnonymous()
+                            firebaseAuth.signWithAnonymous()
+//                            FirebaseManager.shared.firebaseAuth.signWithAnonymous()
                         } label: {
                             Text(">>> Skip")
                                 .foregroundColor(.white)
@@ -101,12 +101,13 @@ struct LoginView: View {
                         Spacer()
                         Button {
                             //: Request reset password
-                            appViewModel.resetPassword(email: emailAddress)
+                            firebaseAuth.resetPassword(email: emailAddress)
+//                            FirebaseManager.shared.firebaseAuth.resetPassword(email: emailAddress)
                         } label: {
                             Text("Forget Password?")
                                 .foregroundColor(.white)
-                                .alert(isPresented: $appViewModel.showAlert) {
-                                    Alert(title: Text(appViewModel.alertTitle), message: Text(appViewModel.alertMessage), dismissButton: .default(Text(appViewModel.alertButton)))
+                                .alert(isPresented: $firebaseAuth.showAlert) {
+                                    Alert(title: Text(firebaseAuth.alertTitle), message: Text(firebaseAuth.alertMessage), dismissButton: .default(Text(firebaseAuth.alertButton)))
                                 }
                         }
                     }
@@ -115,7 +116,7 @@ struct LoginView: View {
                     .padding(.bottom, 25)
                     VStack {
                         Button {
-                            appViewModel.signIn(email: emailAddress, password: userPassword )
+                            firebaseAuth.signIn(email: emailAddress, password: userPassword )
                         } label: {
                             Text("Sign In")
                                 .font(.system(size: 15, weight: .regular))
@@ -125,8 +126,8 @@ struct LoginView: View {
                                 .frame(width: 223, height: 34)
                                 .background(Color("buttonBlue"))
                                 .cornerRadius(5)
-                                .alert(isPresented: $appViewModel.showAlert) {
-                                    Alert(title: Text(appViewModel.alertTitle), message: Text(appViewModel.alertMessage), dismissButton: .default(Text(appViewModel.alertButton))
+                                .alert(isPresented: $firebaseAuth.showAlert) {
+                                    Alert(title: Text(firebaseAuth.alertTitle), message: Text(firebaseAuth.alertMessage), dismissButton: .default(Text(firebaseAuth.alertButton))
                                     )
                                 }
                         }

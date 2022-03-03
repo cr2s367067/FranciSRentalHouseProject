@@ -12,8 +12,11 @@ struct RenterProfileView: View {
     
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
-    @EnvironmentObject var fetchFirestore: FetchFirestore
-    @EnvironmentObject var firebaseStorageDM: FirebaseStorageManager
+    @EnvironmentObject var storageForUserProfile: StorageForUserProfile
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
+    
     
     //    let firebaseStorageDM = FirebaseStorageManager()
     //    let persistenceDM = PersistenceController()
@@ -83,7 +86,7 @@ struct RenterProfileView: View {
                                             //                                            print("\(fetchFirestore.fetchMaintainInfo)")
                                             
                                         } label: {
-                                            if firebaseStorageDM.isSummitImage == false {
+                                            if storageForUserProfile.isSummitImage == false {
                                                 Image(systemName: "person.fill")
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
@@ -91,9 +94,9 @@ struct RenterProfileView: View {
                                                     .frame(width: 120, height: 120)
                                                     .clipShape(Circle())
                                                     .scaledToFit()
-                                            } else if firebaseStorageDM.isSummitImage == true {
-                                                if fetchFirestore.auth.currentUser != nil {
-                                                    WebImage(url: URL(string: firebaseStorageDM.representedImageURL))
+                                            } else if storageForUserProfile.isSummitImage == true {
+                                                if firebaseAuth.auth.currentUser != nil {
+                                                    WebImage(url: URL(string: storageForUserProfile.representedProfileImageURL))
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fill)
                                                         .frame(width: 120, height: 120)
@@ -111,7 +114,7 @@ struct RenterProfileView: View {
                                             }
                                         }
                                     }
-                                    Text("\(fetchFirestore.userLastName)")
+                                    Text("\(firestoreToFetchUserinfo.userLastName)")
                                         .foregroundColor(.white)
                                         .font(.system(size: 30, weight: .heavy))
                                         .padding(.leading, 20)
@@ -210,7 +213,7 @@ struct RenterProfileView: View {
                                                 }
                                                 VStack {
                                                     ScrollView(.vertical, showsIndicators: false) {
-                                                        ForEach(fetchFirestore.fetchMaintainInfo) { task in
+                                                        ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
                                                             ProfileSessionUnit(mainTainTask: task.taskName)
                                                         }
                                                     }
@@ -240,7 +243,7 @@ struct RenterProfileView: View {
                 }
                 .sheet(isPresented: $showSheet, onDismiss: {
                     if !image.isSymbolImage {
-                        firebaseStorageDM.uploadImage(uidPath: fetchFirestore.getUID(), image: image)
+                        storageForUserProfile.uploadImage(uidPath: firebaseAuth.getUID(), image: image)
                     }
                 }) {
                     ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
@@ -250,10 +253,10 @@ struct RenterProfileView: View {
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
             .onAppear {
-                if fetchFirestore.fetchMaintainInfo.isEmpty {
-                    fetchFirestore.fetchMaintainInfo(uidPath: fetchFirestore.getUID())
+                if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
+                    firestoreToFetchMaintainTasks.fetchMaintainInfo(uidPath: firebaseAuth.getUID())
                 }
-                firebaseStorageDM.representedImageURL = firebaseStorageDM.representStorageImage(uidPath: fetchFirestore.getUID())
+                storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImage(uidPath: firebaseAuth.getUID())
             }
         }
     }

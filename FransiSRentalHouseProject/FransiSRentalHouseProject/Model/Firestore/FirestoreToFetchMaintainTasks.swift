@@ -14,7 +14,7 @@ import FirebaseAuth
 
 class FirestoreToFetchMaintainTasks: ObservableObject {
     
-    let fetchFirestore = FetchFirestore()
+    
     
     let db = Firestore.firestore()
     

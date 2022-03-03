@@ -12,7 +12,8 @@ struct SignUpView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
-    @EnvironmentObject var fetchFirestore: FetchFirestore
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
     //    let persistenceDM = PersistenceController()
     
@@ -207,7 +208,7 @@ struct SignUpView: View {
         })
         .fullScreenCover(isPresented: $appViewModel.userDetailForSignUp) {
             DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1.5) {
-                fetchFirestore.createUserInfomation(uidPath: fetchFirestore.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType)
+                firestoreToFetchUserinfo.createUserInfomation(uidPath: firebaseAuth.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, emailAddress: appViewModel.emailAddress, providerType: appViewModel.providerType, RLNumber: appViewModel.rentalManagerLicenseNumber)
             }
         } content: {
             UserDetailInfoView()

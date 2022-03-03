@@ -10,8 +10,8 @@ import SwiftUI
 struct ProviderProfileView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
-    @EnvironmentObject var firebaseStorageDM: FirebaseStorageManager
-    @EnvironmentObject var fetchFirestore: FetchFirestore
+    
+    
     
     @State private var show = false
     

@@ -15,20 +15,18 @@ class AppViewModel: ObservableObject {
     
     @EnvironmentObject var localData: LocalData
     
-    let fetchFirestore = FetchFirestore()
-    let auth = Auth.auth()
+//    let fetchFirestore = FetchFirestore()
+//    let auth = Auth.auth()
     
-    @Published var signIn = false
-    @Published var signUp = false
-    @Published var isSkipIt = false
+    
     @Published var isProvider = false
     @Published var isRenter = false
     @Published var isAgree = false
     @Published var checked = false
     @Published var showAlert = false
-    @Published var alertMessage = ""
-    @Published var alertTitle = ""
-    @Published var alertButton = ""
+    
+    
+    
     @Published var tagSelect = "TapHomeButton"
     @Published var isPresent = false
     @Published var userType = ""
@@ -38,6 +36,8 @@ class AppViewModel: ObservableObject {
     @Published var userPassword = ""
     @Published var recheckPassword = ""
     
+    
+    //:~ Sign up view fields
     @Published var id = ""
     @Published var firstName = ""
     @Published var lastName = ""
@@ -47,15 +47,15 @@ class AppViewModel: ObservableObject {
     @Published var town = ""
     @Published var city = ""
     @Published var zipCode = ""
-    @Published var country = ""
+    @Published var country = "Taiwan"
     @Published var gender = ""
+    @Published var providerType = ""
+    @Published var rentalManagerLicenseNumber = ""
     
     
     let selectArray = ["TapHomeButton", "TapPaymentButton", "TapProfileButton", "TapSearchButton", "FixButton"]
     
-    var isSignedIn: Bool {
-        return auth.currentUser != nil
-    }
+    
     
     //    var signInUserType: String {
     //        return persistenceDM.getUsertype()
@@ -73,6 +73,8 @@ class AppViewModel: ObservableObject {
         zipCode = ""
         country = ""
         gender = ""
+        rentalManagerLicenseNumber = ""
+        emailAddress = ""
     }
     
     
@@ -227,106 +229,9 @@ class AppViewModel: ObservableObject {
     }
     
     
-    func signIn(email: String, password: String) {
-        auth.signIn(withEmail: email, password: password) { [weak self] result, error in
-            guard result != nil, error == nil else {
-                self?.alertTitle = "Error"
-                self?.alertButton = "Ok"
-                if let x = error {
-                    let err = x as NSError
-                    switch err.code {
-                    case AuthErrorCode.wrongPassword.rawValue:
-                        self?.showAlert = true
-                        self?.alertMessage = err.localizedDescription
-                    case AuthErrorCode.invalidEmail.rawValue:
-                        self?.showAlert = true
-                        self?.alertMessage = err.localizedDescription
-                    case AuthErrorCode.userNotFound.rawValue:
-                        self?.showAlert = true
-                        self?.alertMessage = err.localizedDescription
-                    default:
-                        self?.showAlert = true
-                        self?.alertMessage = err.localizedDescription
-                    }
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                self?.signIn = true
-                
-            }
-        }
-    }
-    
-    func signUp(email: String, password: String) {
-        auth.createUser(withEmail: email, password: password) { [weak self] result, error in
-            guard result != nil, error == nil else {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self?.signUp = true
-            }
-        }
-    }
     
     
-    func signWithAnonymous() {
-        auth.signInAnonymously { [weak self] result, error in
-            guard result != nil, error == nil else {
-                return
-            }
-            //            guard let user = result?.user else {
-            //                return
-            //            }
-            //            let isAnonymous = user.isAnonymous
-            //            let uid = user.uid
-            DispatchQueue.main.async {
-                self?.isSkipIt = true
-            }
-        }
-    }
     
-    func signOut() {
-        do {
-            try auth.signOut()
-        } catch let error as NSError {
-            print(error.description)
-        }
-        DispatchQueue.main.async {
-            self.signIn = false
-            if self.isSkipIt == true {
-                self.isSkipIt = false
-            }
-            if self.signIn == true {
-                self.signIn = false
-            }
-            if self.signUp == true {
-                self.signUp = false
-            }
-        }
-    }
-    
-    func resetPassword(email: String) {
-        auth.sendPasswordReset(withEmail: email) { [self] error in
-            guard error == nil else {
-                self.alertTitle = "Error"
-                self.alertButton = "Ok"
-                if let x = error {
-                    let err = x as NSError
-                    switch err.code {
-                    case AuthErrorCode.invalidMessagePayload.rawValue:
-                        self.showAlert = true
-                        self.alertMessage = err.localizedDescription
-                    default:
-                        self.showAlert = true
-                        self.alertMessage = err.localizedDescription
-                    }
-                }
-                return
-            }
-        }
-    }
     
     func getSafeAreaTop() -> CGFloat {
         let keyWindow = UIApplication.shared.connectedScenes
@@ -353,9 +258,7 @@ class AppViewModel: ObservableObject {
         UINavigationBar.appearance().barTintColor = UIColor(named: "backgroundBrown")
         UINavigationBar.appearance().backgroundColor = UIColor(named: "backgroundBrown")
     }
-    
-    
-    
+
 }
 
 

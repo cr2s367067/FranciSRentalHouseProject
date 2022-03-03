@@ -10,7 +10,7 @@ import SwiftUI
 struct MenuView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
-    @EnvironmentObject var fetchFirestore: FetchFirestore
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     
     var body: some View {
         ZStack {
@@ -59,7 +59,8 @@ struct MenuView: View {
                 
                 Spacer()
                 Button {
-                    appViewModel.signOut()
+                    firebaseAuth.signOut()
+//                    FirebaseManager.shared.firebaseAuth.signOut()
                 } label: {
                     Text("Sign Out")
                         .foregroundColor(.white)

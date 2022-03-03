@@ -10,8 +10,8 @@ import SwiftUI
 struct RenterMainView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
-    @EnvironmentObject var fetchFirestore: FetchFirestore
     @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     
     var gridItemLayout = [
         GridItem(.fixed(170)),
@@ -41,32 +41,33 @@ struct RenterMainView: View {
                             //: New publish scrill view
                             ScrollView(.horizontal, showsIndicators: false) {
                                 LazyHGrid(rows: gridItemLayout, spacing: 50) {
-                                    ForEach(localData.roomDataSets) { result in
+                                    ForEach(firestoreToFetchRoomsData.fetchRoomInfo) { result in
                                         Button {
-                                            if localData.tempCart.isEmpty {
-                                                localData.tempCart.append(result)
-                                                //                                                localData.sumupPriceArray.append(result.roomPrice)
-                                                localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
-                                            } else {
-                                                localData.tempCart.removeAll()
-                                                //                                                localData.sumupPriceArray.removeAll()
-                                                localData.summaryItemHolder.removeAll()
-                                                if localData.tempCart.isEmpty {
-                                                    localData.tempCart.append(result)
-                                                    //                                                    localData.sumupPriceArray.append(result.roomPrice)
-                                                    localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
-                                                }
-                                            }
+//                                            if localData.tempCart.isEmpty {
+//                                                localData.tempCart.append(result)
+//                                                //                                                localData.sumupPriceArray.append(result.roomPrice)
+//                                                localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
+//                                            } else {
+//                                                localData.tempCart.removeAll()
+//                                                //                                                localData.sumupPriceArray.removeAll()
+//                                                localData.summaryItemHolder.removeAll()
+//                                                if localData.tempCart.isEmpty {
+//                                                    localData.tempCart.append(result)
+//                                                    //                                                    localData.sumupPriceArray.append(result.roomPrice)
+//                                                    localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
+//                                                }
+//                                            }
                                             if appViewModel.isPresent == false {
                                                 appViewModel.isPresent = true
                                             }
                                             localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
                                         } label: {
-                                            GridView(objectImage: result.roomImage, objectName: result.roomName, objectPrice: result.roomPrice)
-                                                .frame(height: 160)
-                                                .alert(isPresented: $appViewModel.isPresent) {
-                                                    Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                                                }
+//                                            GridView(objectName: (result.city + result.town), objectPrice: result.rentalPrice, imgUID: result.id)
+//                                            GridView(objectImage: result.roomImage, objectName: result.roomName, objectPrice: result.roomPrice)
+//                                                .frame(height: 160)
+//                                                .alert(isPresented: $appViewModel.isPresent) {
+//                                                    Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+//                                                }
                                         }
                                     }
                                 }
@@ -81,34 +82,34 @@ struct RenterMainView: View {
                             //: New publish scrill view
                             ScrollView(.horizontal, showsIndicators: false) {
                                 LazyHGrid(rows: gridItemLayout, spacing: 50) {
-                                    ForEach(localData.roomDataSets) { result in
-                                        Button {
-                                            if localData.tempCart.isEmpty {
-                                                localData.tempCart.append(result)
-                                                //                                                localData.sumupPriceArray.append(result.roomPrice)
-                                                localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
-                                            } else {
-                                                localData.tempCart.removeAll()
-                                                //                                                localData.sumupPriceArray.removeAll()
-                                                localData.summaryItemHolder.removeAll()
-                                                if localData.tempCart.isEmpty {
-                                                    localData.tempCart.append(result)
-                                                    //                                                    localData.sumupPriceArray.append(result.roomPrice)
-                                                    localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
-                                                }
-                                            }
-                                            if appViewModel.isPresent == false {
-                                                appViewModel.isPresent = true
-                                            }
-                                            localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-                                        }  label: {
-                                            GridView(objectImage: result.roomImage, objectName: result.roomName, objectPrice: result.roomPrice)
-                                                .frame(height: 160)
-                                                .alert(isPresented: $appViewModel.isPresent) {
-                                                    Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                                                }
-                                        }
-                                    }
+//                                    ForEach(localData.roomDataSets) { result in
+//                                        Button {
+//                                            if localData.tempCart.isEmpty {
+//                                                localData.tempCart.append(result)
+//                                                //                                                localData.sumupPriceArray.append(result.roomPrice)
+//                                                localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
+//                                            } else {
+//                                                localData.tempCart.removeAll()
+//                                                //                                                localData.sumupPriceArray.removeAll()
+//                                                localData.summaryItemHolder.removeAll()
+//                                                if localData.tempCart.isEmpty {
+//                                                    localData.tempCart.append(result)
+//                                                    //                                                    localData.sumupPriceArray.append(result.roomPrice)
+//                                                    localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
+//                                                }
+//                                            }
+//                                            if appViewModel.isPresent == false {
+//                                                appViewModel.isPresent = true
+//                                            }
+//                                            localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+//                                        }  label: {
+//                                            GridView(objectImage: result.roomImage, objectName: result.roomName, objectPrice: result.roomPrice)
+//                                                .frame(height: 160)
+//                                                .alert(isPresented: $appViewModel.isPresent) {
+//                                                    Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+//                                                }
+//                                        }
+//                                    }
                                 }
                             }
                             .frame(height: 310)
@@ -118,6 +119,9 @@ struct RenterMainView: View {
                     }
                 }
             }
+            .onAppear(perform: {
+//                fetchFirestore.fetchRoomsData.listeningRoomInfo(uidPath: fetchFirestore.getUID())
+            })
             .navigationTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
@@ -133,3 +137,35 @@ struct RenterMainView: View {
     
     
     
+
+
+/*
+ ForEach(localData.roomDataSets) { result in
+     Button {
+         if localData.tempCart.isEmpty {
+             localData.tempCart.append(result)
+             //                                                localData.sumupPriceArray.append(result.roomPrice)
+             localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
+         } else {
+             localData.tempCart.removeAll()
+             //                                                localData.sumupPriceArray.removeAll()
+             localData.summaryItemHolder.removeAll()
+             if localData.tempCart.isEmpty {
+                 localData.tempCart.append(result)
+                 //                                                    localData.sumupPriceArray.append(result.roomPrice)
+                 localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
+             }
+         }
+         if appViewModel.isPresent == false {
+             appViewModel.isPresent = true
+         }
+         localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+     } label: {
+         GridView(objectImage: result.roomImage, objectName: result.roomName, objectPrice: result.roomPrice)
+             .frame(height: 160)
+             .alert(isPresented: $appViewModel.isPresent) {
+                 Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+             }
+     }
+ }
+*/

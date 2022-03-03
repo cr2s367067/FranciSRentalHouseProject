@@ -10,8 +10,10 @@ import WebKit
 
 struct AppTabView: View {
     
-    @EnvironmentObject var fetchFirestore: FetchFirestore
+//    @EnvironmentObject var fetchFirestore: FetchFirestore
     @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
 //    let persistenceDM = PersistenceController()
     
     init() {
@@ -29,12 +31,14 @@ struct AppTabView: View {
                 TabView(selection: $appViewModel.tagSelect) {
                     RenterMainView()
                         .tag("TapHomeButton")
-                    if fetchFirestore.getUserType(input: fetchFirestore.fetchData) == "Renter" || appViewModel.userType == "Renter" {
-                        PrePurchaseView(dataModel: RoomsDataModel(roomImage: "", roomName: "", roomDescribtion: "", roomPrice: 0, ranking: 0, isSelected: false))
+                    if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" || appViewModel.userType == "Renter" {
+                        PrePurchaseView(
+//                            dataModel: RoomsDataModel(roomImage: "", roomName: "", roomDescribtion: "", roomPrice: 0, ranking: 0, isSelected: false)
+                        )
                             .tag("TapPaymentButton")
                         RenterProfileView()
                             .tag("TapProfileButton")
-                    } else if fetchFirestore.getUserType(input: fetchFirestore.fetchData) == "Provider" || appViewModel.userType == "Provider" {
+                    } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
                         ProviderRoomSummitView()
                             .tag("TapPaymentButton")
                         ProviderProfileView()
@@ -67,7 +71,7 @@ struct AppTabView: View {
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .onAppear {
-            fetchFirestore.fetchUploadData(uidPath: fetchFirestore.getUID())
+            firestoreToFetchUserinfo.fetchUploadedUserData(uidPath: firebaseAuth.getUID())
         }
     }
 }

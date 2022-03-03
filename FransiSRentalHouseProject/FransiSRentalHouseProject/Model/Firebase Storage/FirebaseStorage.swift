@@ -10,10 +10,15 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 
-class FirebaseStorage: ObservableObject {
+class FirebaseStorageInGeneral: ObservableObject {
     
-    let storageUserProfile = StorageForUserProfile()
-    let storageRoomsImage = StorageForRoomsImage()
+    let storageUserProfile: StorageForUserProfile
+    let storageRoomsImage: StorageForRoomsImage
+    
+    init() {
+        self.storageUserProfile = StorageForUserProfile()
+        self.storageRoomsImage = StorageForRoomsImage()
+    }
     
     @Published var imageUIDHolder = ""
         

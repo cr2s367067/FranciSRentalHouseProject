@@ -10,13 +10,14 @@ import SwiftUI
 struct MaintainView: View {
     
     @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    
+    let firebaseAuth = FirebaseAuth()
     
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
     @State var showAlert = false
     
-    let firebaseStorageDM = FirebaseStorageManager()
-    let fetchFirestore = FetchFirestore()
     //    let persistenceDM = PersistenceController()
     
     private func reset() {
@@ -80,17 +81,19 @@ struct MaintainView: View {
                     HStack {
                         Spacer()
                         Button {
-                            if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-//                                localData.addTask(taskname: describtion, appointmentDate: appointment)
-                                fetchFirestore.uploadMaintainInfo(uidPath: fetchFirestore.getUID(), taskName: describtion, appointmentDate: appointment)
-                                showAlert.toggle()
-                            } else {
-                                showAlert.toggle()
-                                reset()
-                            }
-                            print("\(showAlert)")
-                            debugPrint(localData.maintainTaskHolder)
-                            debugPrint(fetchFirestore.fetchData)
+//                            if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
+//                                fetchFirestore.uploadMaintainInfo(uidPath: fetchFirestore.getUID(), taskName: describtion, appointmentDate: appointment)
+//                                showAlert.toggle()
+//                            } else {
+//                                showAlert.toggle()
+//                                reset()
+//                            }
+//                            print("\(showAlert)")
+//                            debugPrint(localData.maintainTaskHolder)
+//                            debugPrint(fetchFirestore.fetchData)
+//                            print("\(localData.localRoomsHolder)")
+//                            firestoreToFetchRoomsData.summitRoomInfo(inputRoomData: localData.localRoomsHolder, uidPath: firebaseAuth.getUID())
+                            print("\(firestoreToFetchUserinfo.fetchedUserData)")
                         } label: {
                             Text("Summit it!")
                                 .foregroundColor(.white)

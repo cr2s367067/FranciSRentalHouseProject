@@ -13,18 +13,28 @@ struct FransiSRentalHouseProjectApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 //    @StateObject private var persistenceController = PersistenceController()
+    @StateObject var firebaseStorageInGeneral = FirebaseStorageInGeneral()
+    @StateObject var storageForUserProfile = StorageForUserProfile()
+    @StateObject var storageForRoomsImage = StorageForRoomsImage()
+    @StateObject var firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
+    @StateObject var firestoreToFetchMaintainTasks = FirestoreToFetchMaintainTasks()
+    @StateObject var firestoreToFetchRoomsData = FirestoreToFetchRoomsData()
+    @StateObject var firebaseAuth = FirebaseAuth()
+    @StateObject var localData = LocalData()
+    @StateObject var appViewModel = AppViewModel()
     
     var body: some Scene {
         WindowGroup {
-            let appViewModel = AppViewModel()
-            let fetchFireStore = FetchFirestore()
-            let localData = LocalData()
-            let firebaseSg = FirebaseStorageManager()
             ContentView()
-                .environmentObject(appViewModel)
-                .environmentObject(fetchFireStore)
+                .environmentObject(firebaseStorageInGeneral)
+                .environmentObject(storageForUserProfile)
+                .environmentObject(storageForRoomsImage)
+                .environmentObject(firestoreToFetchUserinfo)
+                .environmentObject(firestoreToFetchMaintainTasks)
+                .environmentObject(firestoreToFetchRoomsData)
+                .environmentObject(firebaseAuth)
                 .environmentObject(localData)
-                .environmentObject(firebaseSg)
+                .environmentObject(appViewModel)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

@@ -9,10 +9,11 @@ import SwiftUI
 
 struct UserDetailInfoView: View {
     
-    @EnvironmentObject var fetchFirestore: FetchFirestore
+//    @EnvironmentObject var fetchFirestore: FetchFirestore
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     
 //    let persistenceDM = PersistenceController()
     
@@ -32,13 +33,15 @@ struct UserDetailInfoView: View {
     @State var showAlert = false
     @State var inforFormatterCorrect = false
     @State private var isSummit = false
-    
+    @State private var selection = "House Owner"
     
     private func reset() {
         appViewModel.userDetailViewReset()
         isMale = false
         isFemale = false
     }
+    
+    var providerType = ["House Owner", "Rental Manager"]
     
     var body: some View {
         ZStack {
@@ -50,10 +53,23 @@ struct UserDetailInfoView: View {
                     VStack {
                         TitleAndDivider(title: "User Detail Information")
                         VStack(alignment: .leading, spacing: 10) {
+                            if appViewModel.isProvider == true {
+                                Picker("Hi, would you tell us who you are?", selection: $selection) {
+                                    ForEach(providerType, id: \.self) {
+                                        Text($0)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                            }
                             Group {
                                 InfoUnit(title: "ID", bindingString: $appViewModel.id)
                                 InfoUnit(title: "First Name", bindingString: $appViewModel.firstName)
                                 InfoUnit(title: "Last Name", bindingString: $appViewModel.lastName)
+                                if selection == "Rental Manager" {
+                                    InfoUnit(title: "Rental Manager License Number", bindingString: $appViewModel.rentalManagerLicenseNumber)
+                                    InfoUnit(title: "Email Address", bindingString: $appViewModel.emailAddress)
+                                }
+                                
                                 Text("Gender")
                                     .foregroundColor(.white)
                                     .font(.system(size: 14, weight: .semibold))
@@ -135,10 +151,18 @@ struct UserDetailInfoView: View {
                                 if !appViewModel.id.isEmpty, !appViewModel.firstName.isEmpty, !appViewModel.lastName.isEmpty, !appViewModel.gender.isEmpty, !appViewModel.mobileNumber.isEmpty, !appViewModel.address.isEmpty, !appViewModel.town.isEmpty, !appViewModel.city.isEmpty, !appViewModel.zipCode.isEmpty, !appViewModel.country.isEmpty == true {
                                     do {
                                         try appViewModel.userInfoFormatterChecker(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, gender: appViewModel.gender, mobileNumber: appViewModel.mobileNumber)
-                                        debugPrint(UserDataModel(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType))
+                                        if appViewModel.isProvider == true {
+                                            if selection == "Rental Manager" {
+                                                appViewModel.providerType = "Rental Manager"
+                                            } else {
+                                                appViewModel.providerType = "House Owner"
+                                            }
+                                        }
+                                        debugPrint(UserDataModel(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, providerType: appViewModel.providerType, rentalManagerLicenseNumber: appViewModel.rentalManagerLicenseNumber, rentalManagerEmailAddress: appViewModel.emailAddress))
+                                        
 //                                        isSummit = true
                                         DispatchQueue.background(delay: 0.0) {
-                                            appViewModel.signUp(email: appViewModel.emailAddress, password: appViewModel.userPassword)
+                                            firebaseAuth.signUp(email: appViewModel.emailAddress, password: appViewModel.userPassword)
                                         } completion: {
                                                 if appViewModel.userDetailForSignUp == true {
                                                     appViewModel.userDetailForSignUp = false
