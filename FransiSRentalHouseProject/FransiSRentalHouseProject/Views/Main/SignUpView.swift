@@ -17,6 +17,8 @@ struct SignUpView: View {
     
     //    let persistenceDM = PersistenceController()
     
+    @State private var tosSheetShow = false
+    
     private func reset() {
         appViewModel.emailAddress = ""
         appViewModel.userPassword = ""
@@ -192,9 +194,18 @@ struct SignUpView: View {
                                 .foregroundColor(appViewModel.isAgree ? .green : .white)
                                 .padding(.trailing, 5)
                         }
-                        Text("I agree to the FranciS Terms of Service and \nPrivacy Police")
-                            .foregroundColor(.white)
-                            .font(.system(size: 14, weight: .medium))
+                        Group {
+                            Text("I agree to the FranciS")
+                                .foregroundColor(.white)
+                            Text("Terms of Service and Privacy Police")
+                                .foregroundColor(Color.blue)
+                            Text(".")
+                                .foregroundColor(.white)
+                        }
+                        .font(.system(size: 12, weight: .medium))
+                        .onTapGesture {
+                            tosSheetShow.toggle()
+                        }
                     }
                     
                 }
@@ -203,6 +214,9 @@ struct SignUpView: View {
                     .frame(height: 35)
             }
         }
+        .sheet(isPresented: $tosSheetShow, content: {
+            TermOfServiceView()
+        })
         .onAppear(perform: {
             reset()
         })

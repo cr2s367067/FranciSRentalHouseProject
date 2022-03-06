@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContectView: View {
+struct ContactView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
     
@@ -73,6 +73,6 @@ struct ContectView: View {
 
 struct ContectView_Previews: PreviewProvider {
     static var previews: some View {
-        ContectView()
+        ContactView()
     }
 }

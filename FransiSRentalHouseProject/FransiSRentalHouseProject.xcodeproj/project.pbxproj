@@ -55,6 +55,7 @@
 		0259C26827D0955400DFDE18 /* ContractForProviderDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26727D0955400DFDE18 /* ContractForProviderDataModel.swift */; };
 		0259C26A27D095C500DFDE18 /* ContractForRentalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26927D095C500DFDE18 /* ContractForRentalManager.swift */; };
 		0259C26C27D095D500DFDE18 /* ContractForRenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26B27D095D500DFDE18 /* ContractForRenter.swift */; };
+		02B7C43E27D0ECA000DC100E /* TermOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B7C43D27D0ECA000DC100E /* TermOfServiceView.swift */; };
 		02CB58E427CDAD2C0035EE20 /* SummaryItemDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58E327CDAD2C0035EE20 /* SummaryItemDataModel.swift */; };
 		02CB58E727CDAD960035EE20 /* MaintainTaskDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58E627CDAD960035EE20 /* MaintainTaskDataModel.swift */; };
 		02CB58E927CDADBC0035EE20 /* RoomsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58E827CDADBC0035EE20 /* RoomsDataModel.swift */; };
@@ -111,6 +112,7 @@
 		0259C26727D0955400DFDE18 /* ContractForProviderDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractForProviderDataModel.swift; sourceTree = "<group>"; };
 		0259C26927D095C500DFDE18 /* ContractForRentalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractForRentalManager.swift; sourceTree = "<group>"; };
 		0259C26B27D095D500DFDE18 /* ContractForRenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractForRenter.swift; sourceTree = "<group>"; };
+		02B7C43D27D0ECA000DC100E /* TermOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermOfServiceView.swift; sourceTree = "<group>"; };
 		02CB58E327CDAD2C0035EE20 /* SummaryItemDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryItemDataModel.swift; sourceTree = "<group>"; };
 		02CB58E627CDAD960035EE20 /* MaintainTaskDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintainTaskDataModel.swift; sourceTree = "<group>"; };
 		02CB58E827CDADBC0035EE20 /* RoomsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDataModel.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				0259C26427CF45D800DFDE18 /* Provider */,
+				02B7C43D27D0ECA000DC100E /* TermOfServiceView.swift */,
 			);
 			path = ContractView;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				0249D44B27C63A850085F4A5 /* PaymentSummaryView.swift in Sources */,
 				0249D45527C63B0B0085F4A5 /* UserDetailInfoView.swift in Sources */,
 				0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */,
+				02B7C43E27D0ECA000DC100E /* TermOfServiceView.swift in Sources */,
 				0249D44D27C63A930085F4A5 /* PurchaseView.swift in Sources */,
 				0249D45F27C63B8B0085F4A5 /* PaymentDetailSessionUnit.swift in Sources */,
 				0249D46527C63C040085F4A5 /* ProviderRoomSummitView.swift in Sources */,
