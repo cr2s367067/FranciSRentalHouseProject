@@ -24,9 +24,7 @@ class AppViewModel: ObservableObject {
     @Published var isAgree = false
     @Published var checked = false
     @Published var showAlert = false
-    
-    
-    
+
     @Published var tagSelect = "TapHomeButton"
     @Published var isPresent = false
     @Published var userType = ""
@@ -52,6 +50,81 @@ class AppViewModel: ObservableObject {
     @Published var providerType = ""
     @Published var rentalManagerLicenseNumber = ""
     
+    //:~Provider summit fields (RentalManager)
+    @Published var holderName = ""
+    @Published var holderMobileNumber = ""
+    @Published var holderEmailAddress = ""
+    @Published var roomAddress = ""
+    @Published var roomTown = ""
+    @Published var roomCity = ""
+    @Published var roomZipCode = ""
+    @Published var roomArea = ""
+    @Published var roomRentalPrice = ""
+    
+    //:~Provider summit fields (HouseOwner)
+    @Published var specificBuildingNumber = "" //專有部分建號
+    @Published var specificBuildingRightRange = "" //專有部分權利範圍
+    @Published var specificBuildingArea = "" //專有部分面積共計
+    
+    @Published var mainBuildArea = "" //主建物面積__層__平方公尺
+    @Published var mainBuildingPurpose = "" //主建物用途
+    
+    @Published var subBuildingPurpose = "" //附屬建物用途
+    @Published var subBuildingArea = "" //附屬建物面積__平方公尺
+    
+    @Published var publicBuildingNumber = "" //共有部分建號
+    @Published var publicBuildingRightRange = "" //共有部分權利範圍
+    @Published var publicBuildingArea = "" //共有部分持分面積__平方公尺
+    
+    @Published var hasParkinglotYes = false //車位-有
+    @Published var hasParkinglotNo = false //車位-無
+    @Published var parkinglotAmount = "" //汽機車車位數量
+    
+    @Published var isSettingTheRightForThirdPersonYes = false //設定他項權利-有
+    @Published var isSettingTheRightForThirdPersonNo = false //設定他項權利-無
+    
+    @Published var SettingTheRightForThirdPersonForWhatKind = "" //權利種類
+    @Published var isBlockByBankYes = false //查封登記-有
+    @Published var isBlockByBankNo = false //查封登記-無
+    
+    @Published var provideForAll = false //租賃住宅全部
+    @Published var provideForPart = false //租賃住宅部分
+    @Published var provideFloor = "" //租賃住宅第__層
+    @Published var provideRooms = "" //租賃住宅房間__間
+    @Published var provideRoomNumber = "" //租賃住宅第__室
+    @Published var provideRoomArea = "" //租賃住宅面積__平方公尺
+    
+    @Published var isVehicle = false //汽車停車位
+    @Published var isMorto = false //機車停車位
+    @Published var isBoth = false //汽車機車皆有
+    @Published var parkingUGFloor = "" //地上(下)第__層
+    @Published var parkingStyleN = false //平面式停車位
+    @Published var parkingStyleM = false //機械式停車位
+    @Published var parkingNumber = "" //編號第__號
+    @Published var forAllday = false //使用時間全日
+    @Published var forMorning = false //使用時間日間
+    @Published var forNight = false //使用時間夜間
+    
+    @Published var havingSubFacilityYes = false //租賃附屬設備-有
+    @Published var havingSubFacilityNo = false //租賃附屬設備-無
+    
+    //:~ paragraph 2
+    @Published var providingTimeRangeStart = "" //委託管理期間自
+    @Published var providingTimeRangeEnd = "" //委託管理期間至
+    
+    //:~ paragraph3
+    @Published var paybyCash = false //報酬約定及給付-現金繳付
+    @Published var paybyTransmission = false //報酬約定及給付-轉帳繳付
+    @Published var bankName = "" //金融機構
+    @Published var bankOwnerName = "" //戶名
+    @Published var bankAccount = "" //帳號
+    
+    //:~ paragraph12
+    @Published var contractSendbyEmail = false //履行本契約之通知-電子郵件信箱
+    @Published var contractSendbyTextingMessage = false //履行本契約之通知-手機簡訊
+    @Published var contractSendbyMessageSoftware = false //履行本契約之通知-即時通訊軟體
+    
+    
     
     let selectArray = ["TapHomeButton", "TapPaymentButton", "TapProfileButton", "TapSearchButton", "FixButton"]
     
@@ -74,7 +147,6 @@ class AppViewModel: ObservableObject {
         country = ""
         gender = ""
         rentalManagerLicenseNumber = ""
-        emailAddress = ""
     }
     
     

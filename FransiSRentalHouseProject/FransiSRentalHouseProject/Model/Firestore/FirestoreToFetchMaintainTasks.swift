@@ -20,8 +20,8 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
     
     @Published var fetchMaintainInfo: [MaintainTaskHolder] = []
     
-    func fetchListeningMaintainInfo(uidPath: String) {
-        let userRef = db.collection("MaintainTask").document(uidPath)
+    func fetchListeningMaintainInfo(uidPath: String, roomUID: String = "") {
+        let userRef = db.collection("MaintainTask").document(roomUID)
         userRef.addSnapshotListener { querySnapshot, error in
             guard let document = querySnapshot else {
                 print("Error fetching document: \(error!)")
@@ -45,13 +45,13 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
         }
     }
     
-    func uploadMaintainInfo(uidPath: String, taskName: String, appointmentDate: Date) {
-        let maintainInfo = MaintainTaskHolder(taskName: taskName, appointmentDate: appointmentDate)
-        let maintainRef = db.collection("MaintainTask").document(uidPath)
+    func uploadMaintainInfo(uidPath: String, taskName: String, appointmentDate: Date, isFixed: Bool? = false, roomUID: String = "") {
+        let maintainInfo = MaintainTaskHolder(taskName: taskName, appointmentDate: appointmentDate, isFixed: isFixed)
+        let maintainRef = db.collection("MaintainTask").document(roomUID).collection(uidPath)
         do {
-            try maintainRef.setData(from: maintainInfo)
+           _ = try maintainRef.addDocument(from: maintainInfo.self)
         } catch {
-            print("Fail to upload data")
+            print("Fail to upload task")
         }
     }
     

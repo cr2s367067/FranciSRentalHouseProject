@@ -25,11 +25,16 @@ class FirestoreToFetchRoomsData: ObservableObject {
         listeningRoomInfo(uidPath: firebaseAuth.getUID())
     }
     
+    func roomIdGenerator() -> String {
+        let roomId = UUID().uuidString
+        return roomId
+    }
     
-    func summitRoomInfo(inputRoomData: RoomInfoDataModel, uidPath: String) {
+    func summitRoomInfo(inputRoomData: RoomInfoDataModel, uidPath: String, roomUID: String = "") {
         let roomRef = db.collection("Rooms").document(uidPath).collection(uidPath)
         
         roomRef.addDocument(data: [
+            "roomUID" : roomUID,
             "holderName" : inputRoomData.holderName,
             "mobileNumber" : inputRoomData.mobileNumber,
             "roomAddress" : inputRoomData.roomAddress,

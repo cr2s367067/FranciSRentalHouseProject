@@ -62,6 +62,7 @@ struct RenterMainView: View {
                                             }
                                             localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
                                         } label: {
+                                            
 //                                            GridView(objectName: (result.city + result.town), objectPrice: result.rentalPrice, imgUID: result.id)
 //                                            GridView(objectImage: result.roomImage, objectName: result.roomName, objectPrice: result.roomPrice)
 //                                                .frame(height: 160)

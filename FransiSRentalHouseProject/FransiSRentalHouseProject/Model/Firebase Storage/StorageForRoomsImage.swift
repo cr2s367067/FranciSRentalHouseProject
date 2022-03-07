@@ -37,6 +37,7 @@ class StorageForRoomsImage: ObservableObject {
         }
     }
     
+    
     func representStorageRoomImage(uidPath: String, imgUID: String) -> some View {
         var urlHolder = ""
         let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(imgUID).jpg")

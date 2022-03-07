@@ -1,5 +1,5 @@
 //
-//  ContectView.swift
+//  ContactView.swift
 //  FransiSRentalHouseProject
 //
 //  Created by JerryHuang on 2/23/22.
@@ -10,6 +10,9 @@ import SwiftUI
 struct ContactView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var firestoreForContactInfo: FirestoreForContactInfo
+//    let firestoreForContactInfo = FirestoreForContactInfo()
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     
     @State var connectDes = ""
     
@@ -39,7 +42,7 @@ struct ContactView: View {
                     .padding(.leading)
                     VStack(alignment: .leading) {
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("Contect Us")
+                            Text("Contact Us")
                                 .foregroundColor(.white)
                                 .font(.system(size: 24, weight: .heavy))
                             TextEditor(text: $connectDes)
@@ -52,7 +55,9 @@ struct ContactView: View {
                     HStack {
                         Spacer()
                         Button {
-                            
+                            if !connectDes.isEmpty {
+                                firestoreForContactInfo.summitContactInfo(question: connectDes, uidPath: firebaseAuth.getUID())
+                            }
                         } label: {
                             Text("Send it!")
                                 .foregroundColor(.white)

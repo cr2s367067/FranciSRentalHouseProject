@@ -7,15 +7,21 @@
 
 import Foundation
 import SwiftUI
+import FirebaseFirestoreSwift
 
 struct MaintainTaskHolder: Identifiable, Codable {
-    var id = UUID().uuidString
+    @DocumentID var id: String?
     var taskName: String
     var appointmentDate: Date
+    var isFixed: Bool?
     
-    enum Codingkeys: String, CodingKey {
-        case id
-        case taskName
-        case appointmentDate
-    }
+//    enum Codingkeys: String, CodingKey {
+//        case id
+//        case taskName
+//        case appointmentDate
+//    }
+}
+
+extension MaintainTaskHolder {
+   static let empty = MaintainTaskHolder(taskName: "", appointmentDate: Date(), isFixed: false)
 }

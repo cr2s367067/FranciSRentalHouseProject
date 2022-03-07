@@ -22,6 +22,7 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var firebaseAuth = FirebaseAuth()
     @StateObject var localData = LocalData()
     @StateObject var appViewModel = AppViewModel()
+    @StateObject var firestoreForContactInfo = FirestoreForContactInfo()
     
     var body: some Scene {
         WindowGroup {
@@ -35,6 +36,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(firebaseAuth)
                 .environmentObject(localData)
                 .environmentObject(appViewModel)
+                .environmentObject(firestoreForContactInfo)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

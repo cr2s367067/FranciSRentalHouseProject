@@ -71,7 +71,8 @@ struct AppTabView: View {
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .onAppear {
-            firestoreToFetchUserinfo.fetchUploadedUserData(uidPath: firebaseAuth.getUID())
+//            firestoreToFetchUserinfo.fetchUploadedUserData(uidPath: firebaseAuth.getUID())
+            firestoreToFetchUserinfo.fetchUploadUserData()
         }
     }
 }

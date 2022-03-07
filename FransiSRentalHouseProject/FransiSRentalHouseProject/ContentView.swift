@@ -27,7 +27,8 @@ struct ContentView: View {
         .onAppear {
             firebaseAuth.signIn = firebaseAuth.isSignedIn
             if firebaseAuth.auth.currentUser != nil {
-                firestoreToFetchUserinfo.fetchUploadedUserData(uidPath: firebaseAuth.getUID())
+//                firestoreToFetchUserinfo.fetchUploadedUserData(uidPath: firebaseAuth.getUID())
+                firestoreToFetchUserinfo.fetchUploadUserData()
             }
         }
     }

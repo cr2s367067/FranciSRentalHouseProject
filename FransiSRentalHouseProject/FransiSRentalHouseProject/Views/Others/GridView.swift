@@ -33,7 +33,6 @@ struct GridView: View {
 //                    .frame(width: 75, height: 85)
 //                    .cornerRadius(5)
 //                    .padding(.leading, 30)
-                
 //                storageRoomsImage.representStorageRoomImage(uidPath: firebaseAuth.getUID(), imgUID: imgUID)
                 
                 HStack {

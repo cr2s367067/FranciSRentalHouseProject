@@ -18,6 +18,7 @@ struct SignUpView: View {
     //    let persistenceDM = PersistenceController()
     
     @State private var tosSheetShow = false
+    @State private var ppSheetShow = false
     
     private func reset() {
         appViewModel.emailAddress = ""
@@ -168,6 +169,8 @@ struct SignUpView: View {
                             try appViewModel.passwordCheckAndSignUp(email: appViewModel.emailAddress, password: appViewModel.userPassword, confirmPassword: appViewModel.recheckPassword)
                             appViewModel.userDetailForSignUp = true
                             print(appViewModel.userType)
+                            print(appViewModel.emailAddress)
+                            
                             //                            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1.0) {
                             //                                persistenceDM.saveUserType(userType: appViewModel.userType, userUID: fetchFirestore.getUID())
                             //                            }
@@ -197,17 +200,23 @@ struct SignUpView: View {
                         Group {
                             Text("I agree to the FranciS")
                                 .foregroundColor(.white)
-                            Text("Terms of Service and Privacy Police")
+                            Text("Terms of Service")
                                 .foregroundColor(Color.blue)
+                                .onTapGesture {
+                                    tosSheetShow.toggle()
+                                }
+                            Text("and")
+                                .foregroundColor(.white)
+                            Text("Privacy Policy")
+                                .foregroundColor(Color.blue)
+                                .onTapGesture {
+                                    ppSheetShow.toggle()
+                                }
                             Text(".")
                                 .foregroundColor(.white)
                         }
                         .font(.system(size: 12, weight: .medium))
-                        .onTapGesture {
-                            tosSheetShow.toggle()
-                        }
                     }
-                    
                 }
                 .padding(.top, 25)
                 Spacer()
@@ -216,6 +225,9 @@ struct SignUpView: View {
         }
         .sheet(isPresented: $tosSheetShow, content: {
             TermOfServiceView()
+        })
+        .sheet(isPresented: $ppSheetShow, content: {
+            PrivatePolicyView()
         })
         .onAppear(perform: {
             reset()

@@ -24,20 +24,15 @@ struct UserDataModel: Identifiable, Codable {
     var userType: String
     var providerType: String?
     var rentalManagerLicenseNumber: String?
-    var rentalManagerEmailAddress: String?
-    
-//    enum CodingKeys: String, CodingKey {
-//        case id
-//        case firstName
-//        case lastName
-//        case mobileNumber
-//        case dob
-//        case address
-//        case town
-//        case city
-//        case zip
-//        case country
-//        case gender
-//        case userType
-//    }
+    var emailAddress: String?
+    var rentingRoomUID: String?
+    var pastRentalFee: RentalFee?
+}
+
+struct RentalFee: Codable {
+    var pastRentalFee: Int?
+}
+
+extension UserDataModel {
+    static let empty = UserDataModel(id: "", firstName: "", lastName: "", mobileNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: "", providerType: "", rentalManagerLicenseNumber: "", emailAddress: "", rentingRoomUID: "", pastRentalFee: nil)
 }

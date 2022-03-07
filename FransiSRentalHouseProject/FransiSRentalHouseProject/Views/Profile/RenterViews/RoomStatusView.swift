@@ -22,7 +22,7 @@ struct RoomStatusView: View {
                     Rectangle()
                         .fill(Color("sessionBackground"))
                         .cornerRadius(4)
-                        .frame(width: 378, height: 250)
+                        .frame(width: 378, height: 325)
                     HStack {
                         VStack {
                             HStack {
@@ -40,7 +40,7 @@ struct RoomStatusView: View {
                                 .padding(.leading, 10)
                             }
                             Spacer()
-                                .frame(height: 250)
+                                .frame(height: 300)
                         }
                         Spacer()
                             .frame(width: 140)
@@ -83,6 +83,21 @@ struct RoomStatusView: View {
                                 
                             } label: {
                                 Text("Yes")
+                                    .frame(width: 108, height: 35)
+                                    .background(Color("fieldGray"))
+                                    .cornerRadius(10)
+                            }
+                            .padding(.leading, 1)
+                        }
+                        HStack(spacing: 1) {
+                            Text("Contract: ")
+                                .foregroundColor(.white)
+                            Spacer()
+                                .frame(width: 150)
+                            Button {
+                                
+                            } label: {
+                                Text("show")
                                     .frame(width: 108, height: 35)
                                     .background(Color("fieldGray"))
                                     .cornerRadius(10)

@@ -41,7 +41,7 @@ struct UserDetailInfoView: View {
         isFemale = false
     }
     
-    var providerType = ["House Owner", "Rental Manager"]
+    private var providerType = ["House Owner", "Rental Manager"]
     
     var body: some View {
         ZStack {
@@ -67,7 +67,15 @@ struct UserDetailInfoView: View {
                                 InfoUnit(title: "Last Name", bindingString: $appViewModel.lastName)
                                 if selection == "Rental Manager" {
                                     InfoUnit(title: "Rental Manager License Number", bindingString: $appViewModel.rentalManagerLicenseNumber)
-                                    InfoUnit(title: "Email Address", bindingString: $appViewModel.emailAddress)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("Email Address")
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 14, weight: .semibold))
+                                        Text(appViewModel.emailAddress)
+                                            .frame(width: 200, height: 30)
+                                            .background(Color("fieldGray"))
+                                            .cornerRadius(5)
+                                    }
                                 }
                                 
                                 Text("Gender")
@@ -158,8 +166,8 @@ struct UserDetailInfoView: View {
                                                 appViewModel.providerType = "House Owner"
                                             }
                                         }
-                                        debugPrint(UserDataModel(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, providerType: appViewModel.providerType, rentalManagerLicenseNumber: appViewModel.rentalManagerLicenseNumber, rentalManagerEmailAddress: appViewModel.emailAddress))
-                                        
+                                        debugPrint(UserDataModel(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, providerType: appViewModel.providerType, rentalManagerLicenseNumber: appViewModel.rentalManagerLicenseNumber, emailAddress: appViewModel.emailAddress))
+
 //                                        isSummit = true
                                         DispatchQueue.background(delay: 0.0) {
                                             firebaseAuth.signUp(email: appViewModel.emailAddress, password: appViewModel.userPassword)
@@ -174,7 +182,6 @@ struct UserDetailInfoView: View {
                                 } else {
                                     showAlert = true
                                 }
-                                //                                debugPrint(fetchFirestore.getUserType(input: fetchFirestore.fetchData))
                             } label: {
                                 Text("Summit")
                                     .alert(isPresented: $showAlert) {

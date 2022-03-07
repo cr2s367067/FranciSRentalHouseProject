@@ -42,7 +42,7 @@ struct MenuView: View {
                     }
                     NavigationLink {
                         withAnimation {
-                            ContectView()
+                            ContactView()
                         }
                     } label: {
                         HStack {
