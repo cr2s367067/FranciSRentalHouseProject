@@ -23,7 +23,7 @@ struct RoomInfoDataModel: Identifiable, Codable {
     var town: String
     var city: String
     var zipCode: String
-    var emailAddress: String
+//    var emailAddress: String
     var roomArea: String
     var rentalPrice: Int
     var roomImage: RoomImageCovers?
@@ -120,7 +120,7 @@ extension RoomInfoDataModel {
                                          town: "",
                                          city: "",
                                          zipCode: "",
-                                         emailAddress: "",
+//                                         emailAddress: "",
                                          roomArea: "",
                                          rentalPrice: 0,
                                          roomImage: nil,

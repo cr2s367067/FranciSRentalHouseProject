@@ -11,23 +11,18 @@ struct ProviderRoomSummitView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
-    @EnvironmentObject var firebaseStorageInGeneral: FirebaseStorageInGeneral
+    //    @EnvironmentObject var firebaseStorageInGeneral: FirebaseStorageInGeneral
     @EnvironmentObject var storageForRoomsImage: StorageForRoomsImage
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var errorHandler: ErrorHandler
     
-    //    @State var holderName = ""
-    //    @State var holderMobileNumber = ""
-    //    @State var holderEmailAddress = ""
-    //    @State var roomAddress = ""
-    //    @State var town = ""
-    //    @State var city = ""
-    //    @State var zipCode = ""
-    //    @State var roomArea = ""
-    //    @State var rentalPrice = ""
     @State private var holderTosAgree = false
     @State var image = UIImage()
     @State private var showSheet = false
+    @State private var tosSheetShow = false
+    @State private var isSummitRoomPic = false
     
     var body: some View {
         NavigationView {
@@ -51,6 +46,13 @@ struct ProviderRoomSummitView: View {
                                     .resizable()
                                     .frame(width: 25, height: 25)
                                     .foregroundColor(Color.gray)
+                                if isSummitRoomPic == true {
+                                    Image(uiImage: self.image)
+                                        .resizable()
+                                        .frame(width: 378, height: 304)
+                                        .cornerRadius(10)
+                                        .scaledToFit()
+                                }
                             }
                         }
                         StepsTitle(stepsName: "Step2: Please provide the necessary information")
@@ -63,7 +65,6 @@ struct ProviderRoomSummitView: View {
                                 InfoUnit(title: "City", bindingString: $appViewModel.roomCity)
                                 InfoUnit(title: "Zip Code", bindingString: $appViewModel.roomZipCode)
                             }
-                            InfoUnit(title: "Email Address", bindingString: $appViewModel.holderEmailAddress)
                             InfoUnit(title: "Room Area", bindingString: $appViewModel.roomArea)
                             InfoUnit(title: "Rental Price", bindingString: $appViewModel.roomRentalPrice)
                             
@@ -83,7 +84,6 @@ struct ProviderRoomSummitView: View {
                                 Group {
                                     HStack(spacing: 3) {
                                         Text("車位")
-                                            .foregroundColor(Color.white)
                                         Button {
                                             if appViewModel.hasParkinglotNo == true {
                                                 appViewModel.hasParkinglotNo = false
@@ -97,7 +97,6 @@ struct ProviderRoomSummitView: View {
                                                     .foregroundColor(appViewModel.hasParkinglotYes ? .green : .white)
                                                     .padding(.trailing, 5)
                                                 Text("有")
-                                                    .foregroundColor(Color.white)
                                             }
                                         }
                                         Button {
@@ -116,6 +115,7 @@ struct ProviderRoomSummitView: View {
                                                     .foregroundColor(Color.white)
                                             }
                                         }
+                                        Spacer()
                                     }
                                     InfoUnit(title: "汽車/機車車位數量", bindingString: $appViewModel.parkinglotAmount)
                                     Group {
@@ -154,6 +154,7 @@ struct ProviderRoomSummitView: View {
                                                         .foregroundColor(Color.white)
                                                 }
                                             }
+                                            Spacer()
                                         }
                                     }
                                     InfoUnit(title: "權利種類:", bindingString: $appViewModel.SettingTheRightForThirdPersonForWhatKind)
@@ -193,13 +194,16 @@ struct ProviderRoomSummitView: View {
                                                         .foregroundColor(Color.white)
                                                 }
                                             }
+                                            Spacer()
                                         }
                                     }
                                 }
+                                .modifier(textFormateForProviderSummitView())
                                 Group {
                                     HStack(spacing: 3) {
                                         Text("租賃住宅管理範圍")
                                             .foregroundColor(Color.white)
+                                            .font(.system(size: 14, weight: .semibold))
                                         Button {
                                             if appViewModel.provideForPart == true {
                                                 appViewModel.provideForPart = false
@@ -232,12 +236,14 @@ struct ProviderRoomSummitView: View {
                                                     .foregroundColor(Color.white)
                                             }
                                         }
+                                        Spacer()
                                     }
                                     InfoUnit(title: "租賃住宅第幾層", bindingString: $appViewModel.provideFloor)
-                                    InfoUnit(title: "租賃住宅房間__間", bindingString: $appViewModel.provideRooms)
-                                    InfoUnit(title: "租賃住宅第__室", bindingString: $appViewModel.provideRoomNumber)
-                                    InfoUnit(title: "租賃住宅面積__平方公尺", bindingString: $appViewModel.provideRoomArea)
+                                    InfoUnit(title: "租賃住宅房間數", bindingString: $appViewModel.provideRooms)
+                                    InfoUnit(title: "租賃住宅第幾室", bindingString: $appViewModel.provideRoomNumber)
+                                    InfoUnit(title: "租賃住宅面積幾平方公尺", bindingString: $appViewModel.provideRoomArea)
                                 }
+                                .modifier(textFormateForProviderSummitView())
                                 
                                 if appViewModel.hasParkinglotYes == true && appViewModel.hasParkinglotNo == false {
                                     Group {
@@ -295,6 +301,7 @@ struct ProviderRoomSummitView: View {
                                                         .foregroundColor(Color.white)
                                                 }
                                             }
+                                            Spacer()
                                         }
                                         InfoUnit(title: "地上(下)第幾層", bindingString: $appViewModel.parkingUGFloor)
                                         HStack(spacing: 3) {
@@ -332,6 +339,7 @@ struct ProviderRoomSummitView: View {
                                                         .foregroundColor(Color.white)
                                                 }
                                             }
+                                            Spacer()
                                         }
                                         InfoUnit(title: "編號第幾號", bindingString: $appViewModel.parkingNumber)
                                         HStack(spacing: 3) {
@@ -388,8 +396,10 @@ struct ProviderRoomSummitView: View {
                                                         .foregroundColor(Color.white)
                                                 }
                                             }
+                                            Spacer()
                                         }
                                     }
+                                    .modifier(textFormateForProviderSummitView())
                                 }
                                 
                                 Group {
@@ -428,10 +438,12 @@ struct ProviderRoomSummitView: View {
                                                     .foregroundColor(Color.white)
                                             }
                                         }
+                                        Spacer()
                                     }
                                     InfoUnit(title: "委託管理期間自", bindingString: $appViewModel.providingTimeRangeStart)
                                     InfoUnit(title: "委託管理期間至", bindingString: $appViewModel.providingTimeRangeEnd)
                                 }
+                                .modifier(textFormateForProviderSummitView())
                                 Group {
                                     HStack(spacing: 3) {
                                         Text("報酬給付方式")
@@ -468,15 +480,20 @@ struct ProviderRoomSummitView: View {
                                                     .foregroundColor(Color.white)
                                             }
                                         }
+                                        Spacer()
                                     }
                                     InfoUnit(title: "金融機構", bindingString: $appViewModel.bankName)
                                     InfoUnit(title: "戶名", bindingString: $appViewModel.bankOwnerName)
                                     InfoUnit(title: "帳號", bindingString: $appViewModel.bankAccount)
                                 }
+                                .modifier(textFormateForProviderSummitView())
                                 Group {
-                                    HStack(spacing: 3) {
+                                    HStack {
                                         Text("履行本契約之通知")
                                             .foregroundColor(Color.white)
+                                        Spacer()
+                                    }
+                                    HStack(spacing: 3) {
                                         Button {
                                             if appViewModel.contractSendbyTextingMessage == true || appViewModel.contractSendbyMessageSoftware == true {
                                                 appViewModel.contractSendbyTextingMessage = false
@@ -528,8 +545,10 @@ struct ProviderRoomSummitView: View {
                                                     .foregroundColor(Color.white)
                                             }
                                         }
+                                        Spacer()
                                     }
                                 }
+                                .modifier(textFormateForProviderSummitView())
                             }
                             
                         }
@@ -541,47 +560,71 @@ struct ProviderRoomSummitView: View {
                             HStack {
                                 Button {
                                     holderTosAgree.toggle()
+                                    print(holderTosAgree)
                                 } label: {
                                     Image(systemName: holderTosAgree ? "checkmark.square.fill" : "checkmark.square")
                                         .foregroundColor(holderTosAgree ? .green : .white)
                                         .padding(.trailing, 5)
                                 }
-                                Text("I have read and agree the terms of Service.")
+                                Text("I have read and agree the")
                                     .foregroundColor(.white)
                                     .font(.system(size: 14, weight: .medium))
+                                Text("terms of Service.")
+                                    .foregroundColor(.blue)
+                                    .font(.system(size: 14, weight: .medium))
+                                    .onTapGesture {
+                                        tosSheetShow.toggle()
+                                    }
                             }
                             Spacer()
                         }
                         HStack {
                             Spacer()
-                            NavigationLink {
-                                if firestoreToFetchUserinfo.evaluateProviderType() == "House Owner" {
+                            if firestoreToFetchUserinfo.evaluateProviderType() == "House Owner"{
+                                NavigationLink {
                                     ProviderSummittedRoomContractView()
-                                } else if firestoreToFetchUserinfo.evaluateProviderType() == "Rental Manager" {
-                                    TermOfServiceForRentalManager()
+                                } label: {
+                                    Text("Next")
+                                        .foregroundColor(.white)
+                                        .frame(width: 108, height: 35)
+                                        .background(Color("buttonBlue"))
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
                                 }
-                            } label: {
-                                Text("Next")
-                                    .foregroundColor(.white)
-                                    .frame(width: 108, height: 35)
-                                    .background(Color("buttonBlue"))
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                            } else if firestoreToFetchUserinfo.evaluateProviderType() == "Rental Manager" {
+                                Button {
+//                                    do {
+//                                        try appViewModel.providerSummitChecker(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, tosAgreement: holderTosAgree, isSummitRoomImage: isSummitRoomPic, roomUID: firestoreToFetchRoomsData.roomID)
+//                                        storageForRoomsImage.uploadRoomImage(uidPath: firebaseAuth.getUID(), image: image, roomID: firestoreToFetchRoomsData.roomID)
+//                                        firestoreToFetchRoomsData.summitRoomInfo(inputRoomData: localData.localRoomsHolder, uidPath: firebaseAuth.getUID())
+//                                    } catch {
+//                                        self.errorHandler.handle(error: error)
+//                                    }
+                                    print(storageForRoomsImage.representedRoomImageURL)
+                                } label: {
+                                    Text("Summit")
+                                        .foregroundColor(.white)
+                                        .frame(width: 108, height: 35)
+                                        .background(Color("buttonBlue"))
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                }
                             }
                         }
-                        .padding(.trailing)
+                        .padding([.trailing, .top])
                         .frame(width: 400)
                     }
                 }
             }
             .navigationBarHidden(true)
             .onAppear(perform: {
-                firebaseStorageInGeneral.imageUIDHolder = firebaseStorageInGeneral.imgUIDGenerator()
+                //                firebaseStorageInGeneral.imageUIDHolder = firebaseStorageInGeneral.imgUIDGenerator()
+                firestoreToFetchRoomsData.roomID = firestoreToFetchRoomsData.roomIdGenerator()
+            })
+            .sheet(isPresented: $tosSheetShow, content: {
+                TermOfServiceForRentalManager()
             })
             .sheet(isPresented: $showSheet) {
-                if !image.isSymbolImage {
-                    storageForRoomsImage.uploadRoomImage(uidPath: firebaseAuth.getUID(), image: image)
-                    
-                }
+                isSummitRoomPic = true
+                storageForRoomsImage.uploadRoomImage(uidPath: firebaseAuth.getUID(), image: image, roomID: firestoreToFetchRoomsData.roomID)
             } content: {
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
             }
@@ -597,7 +640,7 @@ struct StepsTitle: View {
                 .foregroundColor(.white)
             Spacer()
         }
-        .padding(.leading)
+        .padding([.top, .leading])
     }
 }
 

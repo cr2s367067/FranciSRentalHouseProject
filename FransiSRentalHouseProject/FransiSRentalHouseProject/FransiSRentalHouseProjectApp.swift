@@ -13,7 +13,7 @@ struct FransiSRentalHouseProjectApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 //    @StateObject private var persistenceController = PersistenceController()
-    @StateObject var firebaseStorageInGeneral = FirebaseStorageInGeneral()
+//    @StateObject var firebaseStorageInGeneral = FirebaseStorageInGeneral()
     @StateObject var storageForUserProfile = StorageForUserProfile()
     @StateObject var storageForRoomsImage = StorageForRoomsImage()
     @StateObject var firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
@@ -27,7 +27,7 @@ struct FransiSRentalHouseProjectApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(firebaseStorageInGeneral)
+//                .environmentObject(firebaseStorageInGeneral)
                 .environmentObject(storageForUserProfile)
                 .environmentObject(storageForRoomsImage)
                 .environmentObject(firestoreToFetchUserinfo)

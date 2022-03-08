@@ -21,27 +21,30 @@ class FirestoreToFetchRoomsData: ObservableObject {
     
     @Published var fetchRoomInfo = [RoomInfoDataModel]()
     
+    @Published var roomID = ""
+    
     func listenRoomsData() {
         listeningRoomInfo(uidPath: firebaseAuth.getUID())
     }
     
     func roomIdGenerator() -> String {
         let roomId = UUID().uuidString
-        return roomId
+        roomID = roomId
+        return roomID
     }
     
-    func summitRoomInfo(inputRoomData: RoomInfoDataModel, uidPath: String, roomUID: String = "") {
+    func summitRoomInfo(inputRoomData: RoomInfoDataModel, uidPath: String) {
         let roomRef = db.collection("Rooms").document(uidPath).collection(uidPath)
         
         roomRef.addDocument(data: [
-            "roomUID" : roomUID,
+            "roomUID" : inputRoomData.roomUID ?? "",
             "holderName" : inputRoomData.holderName,
             "mobileNumber" : inputRoomData.mobileNumber,
             "roomAddress" : inputRoomData.roomAddress,
             "town" : inputRoomData.town,
             "city" : inputRoomData.city,
             "zipCode" : inputRoomData.zipCode,
-            "emailAddress" : inputRoomData.emailAddress,
+//            "emailAddress" : inputRoomData.emailAddress,
             "roomArea" : inputRoomData.roomArea,
             "rentalPrice" : inputRoomData.rentalPrice,
             "roomImage" : inputRoomData.roomImage ?? ""
@@ -68,7 +71,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
                 let town = data["town"] as? String ?? ""
                 let city = data["city"] as? String ?? ""
                 let zipCode = data["zipCode"] as? String ?? ""
-                let emailAddress = data["emailAddress"] as? String ?? ""
+//                let emailAddress = data["emailAddress"] as? String ?? ""
                 let roomArea = data["roomArea"] as? String ?? ""
                 let rentalPrice = data["rentalPrice"] as? Int ?? 0
                 return RoomInfoDataModel(holderName: holderName,
@@ -77,7 +80,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
                                          town: town,
                                          city: city,
                                          zipCode: zipCode,
-                                         emailAddress: emailAddress,
+//                                         emailAddress: emailAddress,
                                          roomArea: roomArea,
                                          rentalPrice: rentalPrice)
             }

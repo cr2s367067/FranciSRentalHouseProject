@@ -53,7 +53,6 @@ class AppViewModel: ObservableObject {
     //:~Provider summit fields (RentalManager)
     @Published var holderName = ""
     @Published var holderMobileNumber = ""
-    @Published var holderEmailAddress = ""
     @Published var roomAddress = ""
     @Published var roomTown = ""
     @Published var roomCity = ""
@@ -98,7 +97,7 @@ class AppViewModel: ObservableObject {
     @Published var isMorto = false //機車停車位
     @Published var isBoth = false //汽車機車皆有
     @Published var parkingUGFloor = "" //地上(下)第__層
-    @Published var parkingStyleN = false //平面式停車位
+    @Published var parkingStyleN = false //平面式停車位ㄩ
     @Published var parkingStyleM = false //機械式停車位
     @Published var parkingNumber = "" //編號第__號
     @Published var forAllday = false //使用時間全日
@@ -149,6 +148,43 @@ class AppViewModel: ObservableObject {
         rentalManagerLicenseNumber = ""
     }
     
+    func providerSummitChecker(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String) throws {
+        if holderName.isEmpty && holderMobileNumber.isEmpty && roomAddress.isEmpty && roomTown.isEmpty && roomCity.isEmpty && roomZipCode.isEmpty && roomArea.isEmpty && roomRentalPrice.isEmpty && tosAgreement == false && isSummitRoomImage == false {
+            throw ProviderSummitError.blankError
+        }
+        if holderName.isEmpty {
+            throw ProviderSummitError.holderNameError
+        }
+        if holderMobileNumber.count != 10 {
+            throw ProviderSummitError.holderMobileNumberFormateError
+        }
+        if roomAddress.isEmpty {
+            throw ProviderSummitError.roomAddressError
+        }
+        if roomTown.isEmpty {
+            throw ProviderSummitError.roomTownError
+        }
+        if roomCity.isEmpty {
+            throw ProviderSummitError.roomCityError
+        }
+        if roomZipCode.isEmpty {
+            throw ProviderSummitError.roomZipCodeError
+        }
+        if roomArea.isEmpty {
+            throw ProviderSummitError.roomAreaError
+        }
+        if roomRentalPrice.isEmpty {
+            throw ProviderSummitError.roomRentalPriceError
+        }
+        if tosAgreement == false {
+            throw ProviderSummitError.tosAgreementError
+        }
+        if isSummitRoomImage == false {
+            throw ProviderSummitError.roomImageError
+        }
+        
+        localData.addRoomDataToArray(roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice)
+    }
     
     func userInfoFormatterChecker(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) throws {
         if id.count > 10 || id.count < 10 {
@@ -334,7 +370,7 @@ class AppViewModel: ObservableObject {
 }
 
 
-//struct customSearchTextField
+
 struct customTextField: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -346,8 +382,13 @@ struct customTextField: ViewModifier {
     }
 }
 
-
-
+struct textFormateForProviderSummitView: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .foregroundStyle(Color.white)
+            .font(.system(size: 14, weight: .semibold))
+    }
+}
 
 extension View {
     func placeholer<Content: View>(when showText: Bool, alignment: Alignment = .leading, @ViewBuilder placeholder: () -> Content) -> some View {
@@ -501,9 +542,9 @@ struct InfoUnit: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title)
-                .foregroundColor(.white)
-                .font(.system(size: 14, weight: .semibold))
+                .modifier(textFormateForProviderSummitView())
             TextField("", text: $bindingString)
+                .foregroundStyle(Color.black)
                 .frame(height: 30)
                 .background(Color("fieldGray"))
                 .cornerRadius(5)

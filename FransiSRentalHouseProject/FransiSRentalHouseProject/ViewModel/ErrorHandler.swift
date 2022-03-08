@@ -66,6 +66,47 @@ enum UserInformationError: LocalizedError {
     }
 }
 
+enum ProviderSummitError: LocalizedError {
+    case holderNameError
+    case holderMobileNumberFormateError
+    case roomAddressError
+    case roomTownError
+    case roomCityError
+    case roomZipCodeError
+    case roomRentalPriceError
+    case roomAreaError
+    case blankError
+    case tosAgreementError
+    case roomImageError
+    
+    var errorDescription: String? {
+        switch self {
+        case .holderNameError:
+            return NSLocalizedString("Holder Name shouldn't be empty.", comment: "")
+        case .holderMobileNumberFormateError:
+            return NSLocalizedString("Mobile Number's formate is not correct.", comment: "")
+        case .roomAddressError:
+            return NSLocalizedString("Room address shouldn't be empty.", comment: "")
+        case .roomTownError:
+            return NSLocalizedString("Town Name shouldn't be empty.", comment: "")
+        case .roomZipCodeError:
+            return NSLocalizedString("Zip Code shouldn't be empty.", comment: "")
+        case .roomRentalPriceError:
+            return NSLocalizedString("Rental fee shouldn't be empty.", comment: "")
+        case .blankError:
+            return NSLocalizedString("Please fill out the blank.", comment: "")
+        case .roomCityError:
+            return NSLocalizedString("Town Name shouldn't be empty.", comment: "")
+        case .roomAreaError:
+            return NSLocalizedString("Please fill in room area.", comment: "")
+        case .tosAgreementError:
+            return NSLocalizedString("Please read term of service.", comment: "")
+        case .roomImageError:
+            return NSLocalizedString("Please provide the room image.", comment: "")
+        }
+    }
+}
+
 struct ErrorAlert: Identifiable {
     var id = UUID()
     var message: String
