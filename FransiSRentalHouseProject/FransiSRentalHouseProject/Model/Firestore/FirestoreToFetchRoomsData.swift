@@ -13,8 +13,9 @@ import FirebaseFirestoreSwift
 
 class FirestoreToFetchRoomsData: ObservableObject {
     
+    @EnvironmentObject var localData: LocalData
     
-    let localData = LocalData()
+//    let localData = LocalData()
     let firebaseAuth = FirebaseAuth()
     
     let db = Firestore.firestore()
@@ -47,7 +48,29 @@ class FirestoreToFetchRoomsData: ObservableObject {
 //            "emailAddress" : inputRoomData.emailAddress,
             "roomArea" : inputRoomData.roomArea,
             "rentalPrice" : inputRoomData.rentalPrice,
-            "roomImage" : inputRoomData.roomImage ?? ""
+            "roomImage" : inputRoomData.roomImage!
+        ], completion: { error in
+            if let _error = error {
+                print("Fail to summit room information: \(_error)")
+            }
+        })
+    }
+    
+    func summitRoomInfo2(uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, roomImageURL: String) {
+        let roomRef = db.collection("Rooms").document(uidPath).collection(uidPath)
+        
+        roomRef.addDocument(data: [
+            "roomUID" : roomUID,
+            "holderName" : holderName,
+            "mobileNumber" : mobileNumber,
+            "roomAddress" : roomAddress,
+            "town" : town,
+            "city" : city,
+            "zipCode" : zipCode,
+//            "emailAddress" : inputRoomData.emailAddress,
+            "roomArea" : roomArea,
+            "rentalPrice" : rentalPrice,
+            "roomImage" : roomImageURL
         ], completion: { error in
             if let _error = error {
                 print("Fail to summit room information: \(_error)")

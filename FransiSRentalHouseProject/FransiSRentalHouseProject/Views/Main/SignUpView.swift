@@ -145,7 +145,6 @@ struct SignUpView: View {
                             if appViewModel.isRenter == false {
                                 appViewModel.isRenter = true
                                 appViewModel.userType = "Renter"
-                                debugPrint(UserDataModel(id: "", firstName: "", lastName: "", mobileNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
                             }
                             //                            appViewModel.isRenter.toggle()
                         } label: {

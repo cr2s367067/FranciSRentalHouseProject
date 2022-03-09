@@ -23,6 +23,29 @@ struct ProviderRoomSummitView: View {
     @State private var showSheet = false
     @State private var tosSheetShow = false
     @State private var isSummitRoomPic = false
+    @State private var showSummitAlert = false
+    
+    
+    func dataUpload(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, roomID: String, roomImageURL: String) {
+        if !storageForRoomsImage.representedRoomImageURL.isEmpty {
+            firestoreToFetchRoomsData.summitRoomInfo2(uidPath: firebaseAuth.getUID(), roomUID: roomID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, roomImageURL: roomImageURL)
+        }
+    }
+    
+    private func resetView() {
+        appViewModel.holderName = ""
+        appViewModel.holderMobileNumber = ""
+        appViewModel.roomAddress = ""
+        appViewModel.roomTown = ""
+        appViewModel.roomCity = ""
+        appViewModel.roomArea = ""
+        appViewModel.roomRentalPrice = ""
+        appViewModel.roomZipCode = ""
+        firestoreToFetchRoomsData.roomID = firestoreToFetchRoomsData.roomIdGenerator()
+        storageForRoomsImage.imageUUID = storageForRoomsImage.imagUUIDGenerator()
+        isSummitRoomPic = false
+        holderTosAgree = false
+    }
     
     var body: some View {
         NavigationView {
@@ -560,7 +583,6 @@ struct ProviderRoomSummitView: View {
                             HStack {
                                 Button {
                                     holderTosAgree.toggle()
-                                    print(holderTosAgree)
                                 } label: {
                                     Image(systemName: holderTosAgree ? "checkmark.square.fill" : "checkmark.square")
                                         .foregroundColor(holderTosAgree ? .green : .white)
@@ -592,20 +614,34 @@ struct ProviderRoomSummitView: View {
                                 }
                             } else if firestoreToFetchUserinfo.evaluateProviderType() == "Rental Manager" {
                                 Button {
-//                                    do {
-//                                        try appViewModel.providerSummitChecker(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, tosAgreement: holderTosAgree, isSummitRoomImage: isSummitRoomPic, roomUID: firestoreToFetchRoomsData.roomID)
-//                                        storageForRoomsImage.uploadRoomImage(uidPath: firebaseAuth.getUID(), image: image, roomID: firestoreToFetchRoomsData.roomID)
-//                                        firestoreToFetchRoomsData.summitRoomInfo(inputRoomData: localData.localRoomsHolder, uidPath: firebaseAuth.getUID())
-//                                    } catch {
-//                                        self.errorHandler.handle(error: error)
-//                                    }
-                                    print(storageForRoomsImage.representedRoomImageURL)
+                                    do {
+                                        try appViewModel.providerSummitChecker(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, tosAgreement: holderTosAgree, isSummitRoomImage: isSummitRoomPic, roomUID: firestoreToFetchRoomsData.roomID)
+                                        dataUpload(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, roomID: firestoreToFetchRoomsData.roomID, roomImageURL: storageForRoomsImage.representedRoomImageURL)
+                                        showSummitAlert = true
+                                    } catch {
+                                        self.errorHandler.handle(error: error)
+                                    }
                                 } label: {
                                     Text("Summit")
                                         .foregroundColor(.white)
                                         .frame(width: 108, height: 35)
                                         .background(Color("buttonBlue"))
                                         .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        .alert("Success", isPresented: $showSummitAlert, actions: {
+                                            Button {
+                                                resetView()
+                                                showSummitAlert = false
+                                            } label: {
+                                                Text("Okay")
+                                                    .foregroundColor(.white)
+                                                    .frame(width: 108, height: 35)
+                                                    .background(Color("buttonBlue"))
+                                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                            }
+                                        }, message: {
+                                            let message = "Successfuly upload room's information to database, let's try the other if need."
+                                            Text(message)
+                                        })
                                 }
                             }
                         }
@@ -613,18 +649,19 @@ struct ProviderRoomSummitView: View {
                         .frame(width: 400)
                     }
                 }
+                
             }
             .navigationBarHidden(true)
             .onAppear(perform: {
-                //                firebaseStorageInGeneral.imageUIDHolder = firebaseStorageInGeneral.imgUIDGenerator()
                 firestoreToFetchRoomsData.roomID = firestoreToFetchRoomsData.roomIdGenerator()
+                storageForRoomsImage.imageUUID = storageForRoomsImage.imagUUIDGenerator()
             })
             .sheet(isPresented: $tosSheetShow, content: {
                 TermOfServiceForRentalManager()
             })
             .sheet(isPresented: $showSheet) {
+                storageForRoomsImage.uploadRoomImage(uidPath: firebaseAuth.getUID(), image: image, roomID: firestoreToFetchRoomsData.roomID, imageUID: storageForRoomsImage.imageUUID)
                 isSummitRoomPic = true
-                storageForRoomsImage.uploadRoomImage(uidPath: firebaseAuth.getUID(), image: image, roomID: firestoreToFetchRoomsData.roomID)
             } content: {
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
             }
@@ -644,20 +681,18 @@ struct StepsTitle: View {
     }
 }
 
+struct BlurView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        let view = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
+        return view
+    }
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+        
+    }
+}
+
 struct ProviderRoomSummitView_Previews: PreviewProvider {
     static var previews: some View {
         ProviderRoomSummitView()
     }
 }
-
-
-//Button {
-//    localData.addRoomDataToArray(holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, emailAddress: holderEmailAddress, roomArea: roomArea, rentalPrice: rentalPrice)
-//    print("\(localData.localRoomsHolder)")
-//} label: {
-//    Text("Next")
-//        .foregroundColor(.white)
-//        .frame(width: 108, height: 35)
-//        .background(Color("buttonBlue"))
-//        .clipShape(RoundedRectangle(cornerRadius: 5))
-//}

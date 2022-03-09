@@ -11,15 +11,24 @@ import SDWebImageSwiftUI
 
 class StorageForRoomsImage: ObservableObject {
     
+    let localData = LocalData()
+    
     @Published var isSummitRoomImage = false
     @Published var representedRoomImageURL = ""
+    @Published var imageUUID = ""
     
     let roomImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "roomImage")
     
-    func uploadRoomImage(uidPath: String, image: UIImage, roomID: String) {
-        let imageUUID = UUID().uuidString
+    func imagUUIDGenerator() -> String {
+        let _imageUUID = UUID().uuidString
+        imageUUID = _imageUUID
+        return imageUUID
+    }
+    
+    func uploadRoomImage(uidPath: String, image: UIImage, roomID: String, imageUID: String) {
+//        let imageUUID = UUID().uuidString
         guard let roomImageData = image.jpegData(compressionQuality: 0.5) else { return }
-        let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(roomID)/\(imageUUID).jpg")
+        let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(roomID)/\(imageUID).jpg")
         roomImageRef.putData(roomImageData, metadata: nil) { metaData, error in
             if let _error = error {
                 print("Fail to push room image to storage: \(_error)")
@@ -32,11 +41,12 @@ class StorageForRoomsImage: ObservableObject {
                         return
                     }
                     self.representedRoomImageURL = _url.absoluteString
-                    print("Success to upload: \(_url.absoluteString)")
+                    
                 }
             }
         }
     }
+    
     
     
     func representStorageRoomImage(uidPath: String, imgUID: String) -> some View {

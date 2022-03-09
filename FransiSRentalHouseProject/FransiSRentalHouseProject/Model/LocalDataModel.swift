@@ -34,8 +34,14 @@ class LocalData: ObservableObject {
     //        maintainTaskHolder.append(MaintainTaskHolder(taskName: taskname, appointmentDate: appointmentDate))
     //    }
     
-    func addRoomDataToArray(roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String) {
-        localRoomsHolder = RoomInfoDataModel(roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: Int(rentalPrice) ?? 0, roomImage: nil)
+    func addRoomDataToArray(roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, roomImageURL: String) {
+        guard
+            let _roomImageURL = URL(string: roomImageURL)
+        else {
+            return
+        }
+        let roomImageCovers = RoomImageCovers(roomImagURL: _roomImageURL)
+        localRoomsHolder = RoomInfoDataModel(roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: Int(rentalPrice) ?? 0, roomImage: roomImageCovers)
     }
     
     func addFetchedData(id: String, firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String) {
