@@ -11,11 +11,12 @@ import FirebaseFirestoreSwift
 
 
 struct RoomImageCovers: Codable {
-    var roomImagURL: URL
+    var roomImagURL: String
 }
 
 struct RoomInfoDataModel: Identifiable, Codable {
-    @DocumentID var id: String?
+    @DocumentID var docID: String?
+    var id = UUID().uuidString
     var roomUID: String?
     var holderName: String
     var mobileNumber: String
@@ -25,8 +26,10 @@ struct RoomInfoDataModel: Identifiable, Codable {
     var zipCode: String
 //    var emailAddress: String
     var roomArea: String
-    var rentalPrice: Int
-    var roomImage: RoomImageCovers?
+    var rentalPrice: String
+    var someoneDeadInRoom: String
+    var waterLeakingProblem: String
+    var roomImage: String?
     
     //: At below these fields are for house owner
     //:~ Paragrah1
@@ -122,7 +125,9 @@ extension RoomInfoDataModel {
                                          zipCode: "",
 //                                         emailAddress: "",
                                          roomArea: "",
-                                         rentalPrice: 0,
+                                         rentalPrice: "",
+                                         someoneDeadInRoom: "",
+                                         waterLeakingProblem: "",
                                          roomImage: nil,
                                          specificBuildingNumber: "",
                                          specificBuildingRightRange: "",

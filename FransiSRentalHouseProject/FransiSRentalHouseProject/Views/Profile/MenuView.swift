@@ -11,6 +11,7 @@ struct MenuView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
     var body: some View {
         ZStack {
@@ -27,19 +28,34 @@ struct MenuView: View {
                 Spacer()
                     .frame(height: 20)
                 VStack(spacing: 30) {
-                    NavigationLink {
-                        withAnimation {
-                            UserDetailInfoView()
-                                
+                    if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" || appViewModel.userType == "Renter" {
+                        NavigationLink {
+                            withAnimation {
+                                UserDetailInfoView()
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: "person.crop.circle")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                Text("User Profile")
+                            }
                         }
-                    } label: {
-                        HStack {
-                            Image(systemName: "person.crop.circle")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                            Text("User Profile")
+                    } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
+                        NavigationLink {
+                            withAnimation {
+                                ContractCollectionView()
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: "folder")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                Text("Contracts")
+                            }
                         }
                     }
+                    
                     NavigationLink {
                         withAnimation {
                             ContactView()

@@ -11,6 +11,8 @@ struct PrePurchaseView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    
     @State var roomImage = "room3"
     @State var roomPrice = "9000"
     @State var ranking = 4
@@ -35,23 +37,21 @@ struct PrePurchaseView: View {
                 VStack {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
-//                            if !localData.tempCart.isEmpty {
-//                                ForEach(localData.tempCart) { data in
-//                                    SearchListItemView(
-//                                        roomImage: data.roomImage,
-//                                        roomName: data.roomName,
-//                                        roomPrice: data.roomPrice,
-//                                        roomDescribtion: data.roomDescribtion,
-//                                        ranking: data.ranking
-//                                    )
-//                                }
-//                                .onAppear {
-//                                    isRedacted = false
-//                                }
-//                            } else {
-//                                SearchListItemView(roomImage: "room3", roomName: "room3", roomPrice: 0, roomDescribtion: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.", ranking: 3)
-//                                    .redacted(reason: isRedacted ? .placeholder : .init())
-//                            }
+                            if !localData.tempCart.isEmpty {
+                                ForEach(localData.tempCart) { data in
+                                    SearchListItemView(roomImage: data.roomImage ?? "",
+                                                       roomAddress: data.roomAddress,
+                                                       roomTown: data.town,
+                                                       roomCity: data.city,
+                                                       roomPrice: Int(data.rentalPrice) ?? 0)
+                                }
+                                .onAppear {
+                                    isRedacted = false
+                                }
+                            } else {
+                                SearchListItemView(roomAddress: "placehold", roomTown: "placehold", roomCity: "placehold")
+                                    .redacted(reason: isRedacted ? .placeholder : .init())
+                            }
                             TitleAndDivider(title: "Furnitures")
                             HStack(alignment: .center) {
                                 Spacer()

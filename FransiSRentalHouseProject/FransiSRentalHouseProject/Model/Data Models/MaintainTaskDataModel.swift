@@ -10,7 +10,8 @@ import SwiftUI
 import FirebaseFirestoreSwift
 
 struct MaintainTaskHolder: Identifiable, Codable {
-    @DocumentID var id: String?
+    @DocumentID var docID: String?
+    var id = UUID().uuidString
     var taskName: String
     var appointmentDate: Date
     var isFixed: Bool?

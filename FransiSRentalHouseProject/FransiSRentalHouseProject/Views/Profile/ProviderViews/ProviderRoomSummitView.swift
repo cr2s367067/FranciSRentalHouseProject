@@ -26,9 +26,9 @@ struct ProviderRoomSummitView: View {
     @State private var showSummitAlert = false
     
     
-    func dataUpload(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, roomID: String, roomImageURL: String) {
+    func dataUpload(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, roomID: String, someoneDeadInRoom: String, waterLeakingProblem: String , roomImageURL: String) {
         if !storageForRoomsImage.representedRoomImageURL.isEmpty {
-            firestoreToFetchRoomsData.summitRoomInfo2(uidPath: firebaseAuth.getUID(), roomUID: roomID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, roomImageURL: roomImageURL)
+            firestoreToFetchRoomsData.summitRoomInfo(uidPath: firebaseAuth.getUID(), roomUID: roomID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL)
         }
     }
     
@@ -45,6 +45,12 @@ struct ProviderRoomSummitView: View {
         storageForRoomsImage.imageUUID = storageForRoomsImage.imagUUIDGenerator()
         isSummitRoomPic = false
         holderTosAgree = false
+        appViewModel.doesSomeDeadinRoomYes = false
+        appViewModel.doesSomeDeadinRoomNo = false
+        appViewModel.hasWaterLeakingNo = false
+        appViewModel.hasWaterLeakingYes = false
+        appViewModel.someoneDeadinRoom = ""
+        appViewModel.waterLeakingProblem = ""
     }
     
     var body: some View {
@@ -90,6 +96,88 @@ struct ProviderRoomSummitView: View {
                             }
                             InfoUnit(title: "Room Area", bindingString: $appViewModel.roomArea)
                             InfoUnit(title: "Rental Price", bindingString: $appViewModel.roomRentalPrice)
+                            Group {
+                                HStack {
+                                    Text("Does someone dead in this room before?")
+                                    Spacer()
+                                }
+                                HStack {
+                                    Button {
+                                        if appViewModel.doesSomeDeadinRoomNo == true {
+                                            appViewModel.doesSomeDeadinRoomNo = false
+                                        }
+                                        if appViewModel.doesSomeDeadinRoomYes == false {
+                                            appViewModel.doesSomeDeadinRoomYes = true
+                                            appViewModel.someoneDeadinRoom = "Yes"
+                                        }
+                                    } label: {
+                                        Image(systemName: appViewModel.doesSomeDeadinRoomYes ? "checkmark.square.fill" : "checkmark.square")
+                                            .foregroundColor(appViewModel.doesSomeDeadinRoomYes ? .green : .white)
+                                            .padding(.trailing, 5)
+                                        Text("Yes")
+                                            .foregroundColor(Color.white)
+                                    }
+                                    Button {
+                                        if appViewModel.doesSomeDeadinRoomYes == true {
+                                            appViewModel.doesSomeDeadinRoomYes = false
+                                        }
+                                        if appViewModel.doesSomeDeadinRoomNo == false {
+                                            appViewModel.doesSomeDeadinRoomNo = true
+                                            appViewModel.someoneDeadinRoom = "No"
+                                        }
+                                    } label: {
+                                        Image(systemName: appViewModel.doesSomeDeadinRoomNo ? "checkmark.square.fill" : "checkmark.square")
+                                            .foregroundColor(appViewModel.doesSomeDeadinRoomNo ? .green : .white)
+                                            .padding(.trailing, 5)
+                                        Text("No")
+                                            .foregroundColor(Color.white)
+                                    }
+                                    Spacer()
+                                }
+                            }
+                            .modifier(textFormateForProviderSummitView())
+                            
+                            Group {
+                                HStack {
+                                    Text("Does the room has water leak problem?")
+                                    Spacer()
+                                }
+                                HStack {
+                                    Button {
+                                        if appViewModel.hasWaterLeakingNo == true {
+                                            appViewModel.hasWaterLeakingNo = false
+                                        }
+                                        if appViewModel.hasWaterLeakingYes == false {
+                                            appViewModel.hasWaterLeakingYes = true
+                                            appViewModel.waterLeakingProblem = "Yes"
+                                        }
+                                    } label: {
+                                        Image(systemName: appViewModel.hasWaterLeakingYes ? "checkmark.square.fill" : "checkmark.square")
+                                            .foregroundColor(appViewModel.hasWaterLeakingYes ? .green : .white)
+                                            .padding(.trailing, 5)
+                                        Text("Yes")
+                                            .foregroundColor(Color.white)
+                                    }
+                                    Button {
+                                        if appViewModel.hasWaterLeakingYes == true {
+                                            appViewModel.hasWaterLeakingYes = false
+                                        }
+                                        if appViewModel.hasWaterLeakingNo == false {
+                                            appViewModel.hasWaterLeakingNo = true
+                                            appViewModel.waterLeakingProblem = "No"
+                                        }
+                                    } label: {
+                                        Image(systemName: appViewModel.hasWaterLeakingNo ? "checkmark.square.fill" : "checkmark.square")
+                                            .foregroundColor(appViewModel.hasWaterLeakingNo ? .green : .white)
+                                            .padding(.trailing, 5)
+                                        Text("No")
+                                            .foregroundColor(Color.white)
+                                    }
+                                    Spacer()
+                                }
+                            }
+                            .modifier(textFormateForProviderSummitView())
+                            
                             
                             if firestoreToFetchUserinfo.evaluateProviderType() == "House Owner" {
                                 Group {
@@ -616,7 +704,7 @@ struct ProviderRoomSummitView: View {
                                 Button {
                                     do {
                                         try appViewModel.providerSummitChecker(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, tosAgreement: holderTosAgree, isSummitRoomImage: isSummitRoomPic, roomUID: firestoreToFetchRoomsData.roomID)
-                                        dataUpload(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, roomID: firestoreToFetchRoomsData.roomID, roomImageURL: storageForRoomsImage.representedRoomImageURL)
+                                        dataUpload(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, roomID: firestoreToFetchRoomsData.roomID, someoneDeadInRoom: appViewModel.someoneDeadinRoom, waterLeakingProblem: appViewModel.waterLeakingProblem, roomImageURL: storageForRoomsImage.representedRoomImageURL)
                                         showSummitAlert = true
                                     } catch {
                                         self.errorHandler.handle(error: error)

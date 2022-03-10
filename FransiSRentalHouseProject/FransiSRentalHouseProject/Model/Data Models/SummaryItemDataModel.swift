@@ -10,13 +10,15 @@ import SwiftUI
 
 
 struct SummaryItemHolder: Identifiable, Codable {
-    var id = UUID()
-    var itemName: String
+    var id = UUID().uuidString
+    var roomAddress: String
+    var roomTown: String
+    var roomCity: String
     var itemPrice: Int
     
-    enum CodingKeys: String, CodingKey {
-        case id
-        case itemName
-        case itemPrice
-    }
+//    enum CodingKeys: String, CodingKey {
+//        case id
+//        case itemName
+//        case itemPrice
+//    }
 }

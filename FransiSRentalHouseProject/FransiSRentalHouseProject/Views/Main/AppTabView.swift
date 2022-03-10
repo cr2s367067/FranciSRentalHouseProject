@@ -10,11 +10,12 @@ import WebKit
 
 struct AppTabView: View {
     
-//    @EnvironmentObject var fetchFirestore: FetchFirestore
+
     @EnvironmentObject var appViewModel: AppViewModel
-    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-//    let persistenceDM = PersistenceController()
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+
     
     init() {
         UITabBar.appearance().isHidden = true
@@ -46,8 +47,13 @@ struct AppTabView: View {
                     }
                     SearchView()
                         .tag("TapSearchButton")
-                    MaintainView()
-                        .tag("FixButton")
+                    if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
+                        MaintainWaitingView()
+                            .tag("FixButton")
+                    } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" || appViewModel.userType == "Renter" {
+                        MaintainView()
+                            .tag("FixButton")
+                    }
                 }
                 
                 //: Tab bar
@@ -71,8 +77,9 @@ struct AppTabView: View {
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .onAppear {
-//            firestoreToFetchUserinfo.fetchUploadedUserData(uidPath: firebaseAuth.getUID())
             firestoreToFetchUserinfo.fetchUploadUserData()
+            firestoreToFetchRoomsData.listeningRoomInfo(uidPath: firebaseAuth.getUID())
+            firestoreToFetchRoomsData.listeningRoomInfoForPublic()
         }
     }
 }

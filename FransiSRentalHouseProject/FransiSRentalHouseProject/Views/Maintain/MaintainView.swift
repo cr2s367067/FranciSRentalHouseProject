@@ -12,7 +12,11 @@ struct MaintainView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     
-    let firebaseAuth = FirebaseAuth()
+    //:temp
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    
+//    let firebaseAuth = FirebaseAuth()
     
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
@@ -81,13 +85,14 @@ struct MaintainView: View {
                     HStack {
                         Spacer()
                         Button {
-                            if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-                                firestoreToFetchMaintainTasks.uploadMaintainInfo(uidPath: firebaseAuth.getUID(), taskName: describtion, appointmentDate: appointment)
-                                showAlert.toggle()
-                            } else {
-                                showAlert.toggle()
-                                reset()
-                            }
+//                            if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
+//                                firestoreToFetchMaintainTasks.uploadMaintainInfo(uidPath: firebaseAuth.getUID(), taskName: describtion, appointmentDate: appointment)
+//                                showAlert.toggle()
+//                            } else {
+//                                showAlert.toggle()
+//                                reset()
+//                            }
+                            print("\(firestoreToFetchRoomsData.fetchRoomInfoFormPublic)")
                         } label: {
                             Text("Summit it!")
                                 .foregroundColor(.white)

@@ -15,8 +15,8 @@ class AppViewModel: ObservableObject {
     
     @EnvironmentObject var localData: LocalData
     
-//    let fetchFirestore = FetchFirestore()
-//    let auth = Auth.auth()
+    //    let fetchFirestore = FetchFirestore()
+    //    let auth = Auth.auth()
     
     
     @Published var isProvider = false
@@ -24,7 +24,7 @@ class AppViewModel: ObservableObject {
     @Published var isAgree = false
     @Published var checked = false
     @Published var showAlert = false
-
+    
     @Published var tagSelect = "TapHomeButton"
     @Published var isPresent = false
     @Published var userType = ""
@@ -59,6 +59,12 @@ class AppViewModel: ObservableObject {
     @Published var roomZipCode = ""
     @Published var roomArea = ""
     @Published var roomRentalPrice = ""
+    @Published var doesSomeDeadinRoomYes = false
+    @Published var doesSomeDeadinRoomNo = false
+    @Published var someoneDeadinRoom = ""
+    @Published var hasWaterLeakingYes = false
+    @Published var hasWaterLeakingNo = false
+    @Published var waterLeakingProblem = ""
     
     //:~Provider summit fields (HouseOwner)
     @Published var specificBuildingNumber = "" //專有部分建號
@@ -183,7 +189,7 @@ class AppViewModel: ObservableObject {
             throw ProviderSummitError.roomImageError
         }
         
-//        localData.addRoomDataToArray(roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice)
+        //        localData.addRoomDataToArray(roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice)
     }
     
     func userInfoFormatterChecker(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) throws {
@@ -366,7 +372,7 @@ class AppViewModel: ObservableObject {
         UINavigationBar.appearance().barTintColor = UIColor(named: "backgroundBrown")
         UINavigationBar.appearance().backgroundColor = UIColor(named: "backgroundBrown")
     }
-
+    
 }
 
 
@@ -445,8 +451,10 @@ struct TitleAndDivider: View {
     
     @State var title: String = ""
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    
     var body: some View {
-        VStack(spacing: 1) {
+        VStack(alignment: .leading, spacing: 1) {
             HStack {
                 Text(title)
                     .font(.system(size: 24, weight: .heavy))
@@ -457,12 +465,10 @@ struct TitleAndDivider: View {
                 VStack {
                     Divider()
                         .background(Color.white)
-                        .frame(width: 400, height: 10)
-                        .offset(x: -10)
                 }
             }
         }
-        .padding(.leading)
+        .frame(width: uiScreenWidth - 25)
     }
 }
 
@@ -479,14 +485,14 @@ struct SummaryItems: View {
                 ForEach(localData.summaryItemHolder) { data in
                     HStack {
                         Button {
-                            localData.summaryItemHolder.removeAll(where: {$0.itemName == data.itemName})
+                            localData.summaryItemHolder.removeAll(where: {$0.id == data.id})
                             localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
                         } label: {
                             Image(systemName: "xmark.circle")
                                 .resizable()
                                 .frame(width: 22, height: 22)
                         }
-                        Text(data.itemName)
+                        Text(data.roomAddress)
                         Spacer()
                         Text("$\(data.itemPrice)")
                     }

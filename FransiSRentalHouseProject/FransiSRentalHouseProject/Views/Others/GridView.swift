@@ -10,45 +10,50 @@ import SDWebImageSwiftUI
 
 struct GridView: View {
     
-//    @EnvironmentObject var fetchFirestore: FetchFirestore
     let storageForRoomsImage = StorageForRoomsImage()
     let firebaseAuth = FirebaseAuth()
     
     
-//    var objectImage: String = "room3"
-    var objectName: String = ""
-//    var objectLocation: String = "Taipei"
-    var objectPrice: Int = 0
+    var imageURL: String
+    var roomTown: String
+    var roomCity: String
+    var objectPrice: Int
     
-    var imgUID = ""
+    func cityAndTown() -> String {
+        var tempHolder = ""
+        tempHolder = cityAndTown(roomCity: roomCity, roomTown: roomTown)
+        return tempHolder
+    }
+    
+    private func cityAndTown(roomCity: String, roomTown: String) -> String {
+        return roomCity + roomTown
+    }
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color("fieldGray"))
-                .frame(width: 120, height: 160)
+                .frame(width: 150, height: 160)
             VStack {
-//                Image(objectImage)
-//                    .resizable()
-//                    .frame(width: 75, height: 85)
-//                    .cornerRadius(5)
-//                    .padding(.leading, 30)
-//                storageRoomsImage.representStorageRoomImage(uidPath: firebaseAuth.getUID(), imgUID: imgUID)
-                
+                WebImage(url: URL(string: imageURL))
+                    .resizable()
+                    .frame(width: 105, height: 85)
+                    .cornerRadius(5)
+                    .padding(.horizontal)
                 HStack {
                     VStack {
-                        Text(objectName)
+                        Text(cityAndTown())
                         Text("$\(objectPrice)")
                     }
                     .foregroundColor(.black)
                     .font(.system(size: 16, weight: .regular))
-                    .multilineTextAlignment(.center)
+                    .multilineTextAlignment(.leading)
                     .padding(.leading, 5)
                     Image(systemName: "plus.circle")
                         .resizable()
                         .foregroundColor(Color.black)
                         .frame(width: 20, height: 20)
-                        .padding(.leading, 25)
+                        .padding(.leading, 10)
                 }
             }
         }

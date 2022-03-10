@@ -10,7 +10,8 @@ import SwiftUI
 import FirebaseFirestoreSwift
 
 struct ContactDataModel: Identifiable, Codable {
-    @DocumentID var id: String?
+    @DocumentID var docID: String?
+    var id = UUID().uuidString
     var connectDescription: String?
 }
 

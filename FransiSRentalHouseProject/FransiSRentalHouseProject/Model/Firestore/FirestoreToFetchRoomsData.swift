@@ -15,12 +15,15 @@ class FirestoreToFetchRoomsData: ObservableObject {
     
     @EnvironmentObject var localData: LocalData
     
-//    let localData = LocalData()
+    //    let localData = LocalData()
     let firebaseAuth = FirebaseAuth()
     
     let db = Firestore.firestore()
     
-    @Published var fetchRoomInfo = [RoomInfoDataModel]()
+    @Published var fetchRoomInfoFormOwner = [RoomInfoDataModel]()
+    @Published var fetchRoomInfoFormPublic = [RoomInfoDataModel]()
+    
+    @Published var testingHolder = [RoomInfoDataModel]()
     
     @Published var roomID = ""
     
@@ -34,32 +37,13 @@ class FirestoreToFetchRoomsData: ObservableObject {
         return roomID
     }
     
-    func summitRoomInfo(inputRoomData: RoomInfoDataModel, uidPath: String) {
-        let roomRef = db.collection("Rooms").document(uidPath).collection(uidPath)
-        
-        roomRef.addDocument(data: [
-            "roomUID" : inputRoomData.roomUID ?? "",
-            "holderName" : inputRoomData.holderName,
-            "mobileNumber" : inputRoomData.mobileNumber,
-            "roomAddress" : inputRoomData.roomAddress,
-            "town" : inputRoomData.town,
-            "city" : inputRoomData.city,
-            "zipCode" : inputRoomData.zipCode,
-//            "emailAddress" : inputRoomData.emailAddress,
-            "roomArea" : inputRoomData.roomArea,
-            "rentalPrice" : inputRoomData.rentalPrice,
-            "roomImage" : inputRoomData.roomImage!
-        ], completion: { error in
-            if let _error = error {
-                print("Fail to summit room information: \(_error)")
-            }
-        })
-    }
     
-    func summitRoomInfo2(uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, roomImageURL: String) {
-        let roomRef = db.collection("Rooms").document(uidPath).collection(uidPath)
+    
+    func summitRoomInfo(uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String) {
+        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
+        let roomPublicRef = db.collection("RoomsForPublic")
         
-        roomRef.addDocument(data: [
+        roomOwerRef.addDocument(data: [
             "roomUID" : roomUID,
             "holderName" : holderName,
             "mobileNumber" : mobileNumber,
@@ -67,26 +51,48 @@ class FirestoreToFetchRoomsData: ObservableObject {
             "town" : town,
             "city" : city,
             "zipCode" : zipCode,
-//            "emailAddress" : inputRoomData.emailAddress,
             "roomArea" : roomArea,
             "rentalPrice" : rentalPrice,
+            "someoneDeadInRoom" : someoneDeadInRoom,
+            "waterLeakingProblem" : waterLeakingProblem,
             "roomImage" : roomImageURL
         ], completion: { error in
             if let _error = error {
                 print("Fail to summit room information: \(_error)")
             }
         })
+        
+        roomPublicRef.addDocument(data: [
+            "roomUID" : roomUID,
+            "holderName" : holderName,
+            "mobileNumber" : mobileNumber,
+            "roomAddress" : roomAddress,
+            "town" : town,
+            "city" : city,
+            "zipCode" : zipCode,
+            "roomArea" : roomArea,
+            "rentalPrice" : rentalPrice,
+            "someoneDeadInRoom" : someoneDeadInRoom,
+            "waterLeakingProblem" : waterLeakingProblem,
+            "roomImage" : roomImageURL
+        ]) { error in
+            if let _error = error {
+                print("Fail to summit romm in public: \(_error)")
+            }
+        }
     }
     
-    private func listeningRoomInfo(uidPath: String) {
-        let roomRef = db.collection("Rooms").document(uidPath).collection(uidPath)
-        roomRef.addSnapshotListener { [weak self] (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No document found")
+
+    
+    func listeningRoomInfoForPublic() {
+        let roomPublicRef = db.collection("RoomsForPublic")
+        roomPublicRef.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot?.documents else {
+                print("Error fetch document: \(error!)")
                 return
             }
             
-            self?.fetchRoomInfo = documents.map { queryDocumentSnapshot in
+            self.fetchRoomInfoFormPublic = document.map { queryDocumentSnapshot -> RoomInfoDataModel in
                 let data = queryDocumentSnapshot.data()
                 let holderName = data["holderName"] as? String ?? ""
                 let mobileNumber = data["mobileNumber"] as? String ?? ""
@@ -94,18 +100,41 @@ class FirestoreToFetchRoomsData: ObservableObject {
                 let town = data["town"] as? String ?? ""
                 let city = data["city"] as? String ?? ""
                 let zipCode = data["zipCode"] as? String ?? ""
-//                let emailAddress = data["emailAddress"] as? String ?? ""
                 let roomArea = data["roomArea"] as? String ?? ""
-                let rentalPrice = data["rentalPrice"] as? Int ?? 0
-                return RoomInfoDataModel(holderName: holderName,
-                                         mobileNumber: mobileNumber,
-                                         roomAddress: roomAddress,
-                                         town: town,
-                                         city: city,
-                                         zipCode: zipCode,
-//                                         emailAddress: emailAddress,
-                                         roomArea: roomArea,
-                                         rentalPrice: rentalPrice)
+                let rentalPrice = data["rentalPrice"] as? String ?? ""
+                let someoneDeadInRoom = data["someoneDeadInRoom"] as? String ?? ""
+                let waterLeakingProblem = data["waterLeakingProblem"] as? String ?? ""
+                let roomUID = data["roomUID"] as? String ?? ""
+                let roomImage = data["roomImage"] as? String ?? ""
+                return RoomInfoDataModel(roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage)
+                
+            }
+        }
+    }
+    
+    func listeningRoomInfo(uidPath: String) {
+        let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
+        roomOwnerRef.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot?.documents else {
+                print("Error fetch document: \(error!)")
+                return
+            }
+            self.fetchRoomInfoFormOwner = document.map { queryDocumentSnapshot -> RoomInfoDataModel in
+                let data = queryDocumentSnapshot.data()
+                let holderName = data["holderName"] as? String ?? ""
+                let mobileNumber = data["mobileNumber"] as? String ?? ""
+                let roomAddress = data["roomAddress"] as? String ?? ""
+                let town = data["town"] as? String ?? ""
+                let city = data["city"] as? String ?? ""
+                let zipCode = data["zipCode"] as? String ?? ""
+                let roomArea = data["roomArea"] as? String ?? ""
+                let rentalPrice = data["rentalPrice"] as? String ?? ""
+                let someoneDeadInRoom = data["someoneDeadInRoom"] as? String ?? ""
+                let waterLeakingProblem = data["waterLeakingProblem"] as? String ?? ""
+                let roomUID = data["roomUID"] as? String ?? ""
+                let roomImage = data["roomImage"] as? String ?? ""
+                return RoomInfoDataModel(roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage)
+                
             }
         }
     }
@@ -149,3 +178,65 @@ class FirestoreToFetchRoomsData: ObservableObject {
 //                                         rentalPrice: rentalPrice)
 //            }
 //        }
+
+
+//func summitRoomInfo(inputRoomData: RoomInfoDataModel, uidPath: String) {
+//    let roomRef = db.collection("Rooms").document(uidPath).collection(uidPath)
+//
+//    roomRef.addDocument(data: [
+//        "roomUID" : inputRoomData.roomUID ?? "",
+//        "holderName" : inputRoomData.holderName,
+//        "mobileNumber" : inputRoomData.mobileNumber,
+//        "roomAddress" : inputRoomData.roomAddress,
+//        "town" : inputRoomData.town,
+//        "city" : inputRoomData.city,
+//        "zipCode" : inputRoomData.zipCode,
+////            "emailAddress" : inputRoomData.emailAddress,
+//        "roomArea" : inputRoomData.roomArea,
+//        "rentalPrice" : inputRoomData.rentalPrice,
+//        "roomImage" : inputRoomData.roomImage!
+//    ], completion: { error in
+//        if let _error = error {
+//            print("Fail to summit room information: \(_error)")
+//        }
+//    })
+//}
+
+
+//    private func listeningRoomInfo(uidPath: String) {
+//        let roomRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
+//        roomRef.addSnapshotListener { [weak self] (querySnapshot, error) in
+//            guard let documents = querySnapshot?.documents else {
+//                print("No document found")
+//                return
+//            }
+//
+//            self?.fetchRoomInfoFormOwner = documents.map { queryDocumentSnapshot -> RoomInfoDataModel in
+//                let data = queryDocumentSnapshot.data()
+//                let holderName = data["holderName"] as? String ?? ""
+//                let mobileNumber = data["mobileNumber"] as? String ?? ""
+//                let roomAddress = data["roomAddress"] as? String ?? ""
+//                let town = data["town"] as? String ?? ""
+//                let city = data["city"] as? String ?? ""
+//                let zipCode = data["zipCode"] as? String ?? ""
+//                //                let emailAddress = data["emailAddress"] as? String ?? ""
+//                let roomArea = data["roomArea"] as? String ?? ""
+//                let rentalPrice = data["rentalPrice"] as? Int ?? 0
+//                let someoneDeadInRoom = data["someoneDeadInRoom"] as? String ?? ""
+//                let waterLeakingProblem = data["waterLeakingProblem"] as? String ?? ""
+//                let roomUID = data["roomUID"] as? String ?? ""
+//                let roomImage = data["roomImage"] as? String ?? ""
+//                return RoomInfoDataModel(id: .init(), roomUID: roomUID, holderName: holderName,
+//                                         mobileNumber: mobileNumber,
+//                                         roomAddress: roomAddress,
+//                                         town: town,
+//                                         city: city,
+//                                         zipCode: zipCode,
+//                                         roomArea: roomArea,
+//                                         rentalPrice: rentalPrice,
+//                                         someoneDeadInRoom: someoneDeadInRoom,
+//                                         waterLeakingProblem: waterLeakingProblem,
+//                                         roomImage: roomImage)
+//            }
+//        }
+//    }

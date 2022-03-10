@@ -11,6 +11,7 @@ struct SearchView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     
     @State private var tagSelect = "TapSearchButton"
     @State private var searchName = ""
@@ -47,38 +48,36 @@ struct SearchView: View {
                 VStack {
                     ScrollView(.vertical, showsIndicators: false) {
                         //ForEach to catch the data from firebase
-//                        ForEach(localData.roomDataSets.filter({
-//                            searchName.isEmpty ? true : $0.roomName.contains(searchName)
-//                        })) { result in
-//                            Button {
-//                                if localData.tempCart.isEmpty {
-//                                    localData.tempCart.append(result)
-//                                    localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
-//                                } else {
-//                                    localData.tempCart.removeAll()
-//                                    localData.summaryItemHolder.removeAll()
-//                                    if localData.tempCart.isEmpty {
-//                                        localData.tempCart.append(result)
-//                                        localData.addItem(itemName: result.roomName, itemPrice: result.roomPrice)
-//                                    }
-//                                }
-//                                if appViewModel.isPresent == false {
-//                                    appViewModel.isPresent = true
-//                                }
-//                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-//                            } label: {
-//                                SearchListItemView(
-//                                    roomImage: result.roomImage,
-//                                    roomName: result.roomName,
-//                                    roomPrice: result.roomPrice,
-//                                    roomDescribtion: result.roomDescribtion,
-//                                    ranking: result.ranking
-//                                )
-//                                    .alert(isPresented: $appViewModel.isPresent) {
-//                                        Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-//                                    }
-//                            }
-//                        }
+                        ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic.filter({
+                            searchName.isEmpty ? true : $0.town.contains(searchName)
+                        })) { result in
+                            Button {
+                                if localData.tempCart.isEmpty {
+                                    localData.tempCart.append(result)
+                                    localData.addItem(roomAddress: result.roomAddress, roomTown: result.town, roomCity: result.city, itemPrice: Int(result.rentalPrice) ?? 0)
+                                } else {
+                                    localData.tempCart.removeAll()
+                                    localData.summaryItemHolder.removeAll()
+                                    if localData.tempCart.isEmpty {
+                                        localData.tempCart.append(result)
+                                        localData.addItem(roomAddress: result.roomAddress, roomTown: result.town, roomCity: result.city, itemPrice: Int(result.rentalPrice) ?? 0)
+                                    }
+                                }
+                                if appViewModel.isPresent == false {
+                                    appViewModel.isPresent = true
+                                }
+                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                            } label: {
+                                SearchListItemView(roomImage: result.roomImage ?? "",
+                                                   roomAddress: result.roomAddress,
+                                                   roomTown: result.town,
+                                                   roomCity: result.city,
+                                                   roomPrice: Int(result.rentalPrice) ?? 0)
+                                    .alert(isPresented: $appViewModel.isPresent) {
+                                        Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+                                    }
+                            }
+                        }
                     }
                     //.frame(height: 600)
                 }

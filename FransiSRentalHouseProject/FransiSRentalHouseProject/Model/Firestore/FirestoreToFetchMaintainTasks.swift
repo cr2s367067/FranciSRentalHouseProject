@@ -47,7 +47,7 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
     
     func uploadMaintainInfo(uidPath: String, taskName: String, appointmentDate: Date, isFixed: Bool? = false, roomUID: String = "") {
         let maintainInfo = MaintainTaskHolder(taskName: taskName, appointmentDate: appointmentDate, isFixed: isFixed)
-        let maintainRef = db.collection("MaintainTask").document(roomUID).collection(uidPath)
+        let maintainRef = db.collection("MaintainTask").document(uidPath).collection(roomUID)
         do {
            _ = try maintainRef.addDocument(from: maintainInfo.self)
         } catch {
