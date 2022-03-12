@@ -9,6 +9,10 @@ import SwiftUI
 
 struct PurchaseView: View {
     
+    @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    
     var brandArray = ["apple-pay", "google-pay", "mastercard", "visa"]
     
     @State var cardName = ""
@@ -180,6 +184,9 @@ struct PurchaseView: View {
                 
                 Button {
                     //: pass data to the next view
+                    localData.summaryItemHolder.forEach { result in
+                        firestoreToFetchUserinfo.updateUserInformation(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice), roomZipCode: result.roomZipCode ?? "")
+                    }
                     print("test")
                 } label: {
                     Text("Pay")

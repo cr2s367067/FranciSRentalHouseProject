@@ -25,14 +25,25 @@ struct UserDataModel: Identifiable, Codable {
     var providerType: String?
     var rentalManagerLicenseNumber: String?
     var emailAddress: String?
-    var rentingRoomUID: String?
+    var rentedRoomInfo: RentedRoomInfo?
+}
+
+struct RentedRoomInfo: Codable {
+    var roomUID: String?
+    var roomAddress: String?
+    var roomTown: String?
+    var roomCity: String?
+    var roomPrice: String?
+    var roomZipCode: String?
+    var roomImageCover: String?
     var pastRentalFee: RentalFee?
 }
 
 struct RentalFee: Codable {
-    var pastRentalFee: Int?
+    var paymentDate : Date?
+    var pastRentalFee: String?
 }
 
 extension UserDataModel {
-    static let empty = UserDataModel(id: "", firstName: "", lastName: "", mobileNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: "", providerType: "", rentalManagerLicenseNumber: "", emailAddress: "", rentingRoomUID: "", pastRentalFee: nil)
+    static let empty = UserDataModel(id: "", firstName: "", lastName: "", mobileNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: "", providerType: "", rentalManagerLicenseNumber: "", emailAddress: "", rentedRoomInfo: nil)
 }

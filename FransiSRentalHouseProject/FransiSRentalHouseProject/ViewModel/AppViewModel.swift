@@ -135,10 +135,6 @@ class AppViewModel: ObservableObject {
     
     
     
-    //    var signInUserType: String {
-    //        return persistenceDM.getUsertype()
-    //    }
-    
     func userDetailViewReset() {
         id = ""
         firstName = ""
@@ -580,4 +576,9 @@ extension DispatchQueue {
             }
         }
     }
+}
+
+
+extension AppViewModel {
+    
 }

@@ -15,7 +15,9 @@ struct SummaryItemHolder: Identifiable, Codable {
     var roomTown: String
     var roomCity: String
     var itemPrice: Int
-    
+    var roomUID: String?
+    var roomImage: String?
+    var roomZipCode: String?
 //    enum CodingKeys: String, CodingKey {
 //        case id
 //        case itemName

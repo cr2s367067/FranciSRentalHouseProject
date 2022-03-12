@@ -73,6 +73,7 @@
 		02CB58F327CDB3950035EE20 /* FirestoreToFetchRoomsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58F227CDB3950035EE20 /* FirestoreToFetchRoomsData.swift */; };
 		02CB58F727CDB5230035EE20 /* StorageForUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58F627CDB5230035EE20 /* StorageForUserProfile.swift */; };
 		02CB58F927CDB53D0035EE20 /* StorageForRoomsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */; };
+		02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D684BE27D9EFF000061B99 /* RenterContractView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -137,6 +138,7 @@
 		02CB58F227CDB3950035EE20 /* FirestoreToFetchRoomsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreToFetchRoomsData.swift; sourceTree = "<group>"; };
 		02CB58F627CDB5230035EE20 /* StorageForUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForUserProfile.swift; sourceTree = "<group>"; };
 		02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForRoomsImage.swift; sourceTree = "<group>"; };
+		02D684BE27D9EFF000061B99 /* RenterContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +323,7 @@
 		0259C26327CF45CF00DFDE18 /* ContractView */ = {
 			isa = PBXGroup;
 			children = (
+				02D684BD27D9EFDE00061B99 /* Renter */,
 				0259C26427CF45D800DFDE18 /* Provider */,
 				02B7C43D27D0ECA000DC100E /* TermOfServiceView.swift */,
 				0292835A27D37FDA00DEF068 /* TermOfServiceForRentalManager.swift */,
@@ -397,6 +400,14 @@
 				02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */,
 			);
 			path = "Firebase Storage";
+			sourceTree = "<group>";
+		};
+		02D684BD27D9EFDE00061B99 /* Renter */ = {
+			isa = PBXGroup;
+			children = (
+				02D684BE27D9EFF000061B99 /* RenterContractView.swift */,
+			);
+			path = Renter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -514,6 +525,7 @@
 				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
 				0249D43A27C639720085F4A5 /* AppTabView.swift in Sources */,
 				0249D42E27C637DA0085F4A5 /* PersistenceController.swift in Sources */,
+				02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */,
 				0292835D27D3824900DEF068 /* PrivatePolicyView.swift in Sources */,
 				0249D46D27C63CCC0085F4A5 /* SearchListItemView.swift in Sources */,
 				0249D42C27C637CC0085F4A5 /* LocalDataModel.swift in Sources */,

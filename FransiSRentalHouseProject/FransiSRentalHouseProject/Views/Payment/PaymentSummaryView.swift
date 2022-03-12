@@ -83,7 +83,7 @@ struct PaymentSummaryView: View {
                     if tosAgree == true && autoPayAgree == true {
                         NavigationLink {
                             //: pass data to the next view
-                            PurchaseView()
+                            RenterContractView()
                         } label: {
                             Text("Confirm")
                                 .foregroundColor(.white)

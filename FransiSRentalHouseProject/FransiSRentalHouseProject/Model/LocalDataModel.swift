@@ -24,8 +24,13 @@ class LocalData: ObservableObject {
     @Published var localRoomsHolder: RoomInfoDataModel = .empty
     
     
-    func addItem(roomAddress: String, roomTown: String, roomCity: String, itemPrice: Int) {
-        summaryItemHolder.append(SummaryItemHolder(roomAddress: roomAddress, roomTown: roomTown, roomCity: roomCity, itemPrice: itemPrice))
+    func addItem(roomAddress: String, roomTown: String, roomCity: String, itemPrice: Int, roomUID: String, roomImage: String, roomZipCode: String) {
+        summaryItemHolder.append(SummaryItemHolder(roomAddress: roomAddress,
+                                                   roomTown: roomTown,
+                                                   roomCity: roomCity,
+                                                   itemPrice: itemPrice,
+                                                   roomUID: roomUID,
+                                                   roomImage: roomImage, roomZipCode: roomZipCode))
     }
     
     

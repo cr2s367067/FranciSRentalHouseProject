@@ -25,7 +25,9 @@ class FirestoreToFetchUserinfo: ObservableObject {
     }
     
     func createUserInfomation(uidPath: String, id: String , firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String = "House Owner", RLNumber: String? = "") {
-        let userInfo = UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType, providerType: providerType, rentalManagerLicenseNumber: RLNumber, emailAddress: emailAddress)
+        let rentalFee = RentalFee(paymentDate: Date(), pastRentalFee: "")
+        let rentedRoomInfo = RentedRoomInfo(roomUID: "", roomAddress: "", roomTown: "", roomCity: "", roomPrice: "", roomImageCover: "", pastRentalFee: rentalFee)
+        let userInfo = UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType, providerType: providerType, rentalManagerLicenseNumber: RLNumber, emailAddress: emailAddress, rentedRoomInfo: rentedRoomInfo)
         do {
             try db.collection("users").document(uidPath).setData(from: userInfo)
         } catch {
@@ -33,17 +35,6 @@ class FirestoreToFetchUserinfo: ObservableObject {
         }
     }
     
-    func updateUserInformation(uidPath: String, roomID: String = "") {
-        db.collection("users").document(uidPath).updateData([
-            "rentingRoomUID" : roomID
-        ], completion: { error in
-            if let _error = error {
-                print("error to update: \(_error)")
-            } else {
-                print("Update success")
-            }
-        })
-    }
     
     private func fetchUploadedUserData(uidPath: String) {
         let userRef = db.collection("users").document(uidPath)
@@ -57,9 +48,9 @@ class FirestoreToFetchUserinfo: ObservableObject {
                     DispatchQueue.userInitial(delay: 1.0) {
                         if !self.fetchedUserData.isEmpty {
                             self.fetchedUserData.removeAll()
-                            self.fetchedUserData.append(UserDataModel(id: _userInfo.id, firstName: _userInfo.firstName, lastName: _userInfo.lastName, mobileNumber: _userInfo.mobileNumber, dob: _userInfo.dob, address: _userInfo.address, town: _userInfo.town, city: _userInfo.city, zip: _userInfo.zip, country: _userInfo.country, gender: _userInfo.gender, userType: _userInfo.userType, providerType: _userInfo.providerType, rentalManagerLicenseNumber: _userInfo.rentalManagerLicenseNumber, emailAddress: _userInfo.emailAddress, rentingRoomUID: _userInfo.rentingRoomUID))
+                            self.fetchedUserData.append(UserDataModel(id: _userInfo.id, firstName: _userInfo.firstName, lastName: _userInfo.lastName, mobileNumber: _userInfo.mobileNumber, dob: _userInfo.dob, address: _userInfo.address, town: _userInfo.town, city: _userInfo.city, zip: _userInfo.zip, country: _userInfo.country, gender: _userInfo.gender, userType: _userInfo.userType, providerType: _userInfo.providerType, rentalManagerLicenseNumber: _userInfo.rentalManagerLicenseNumber, emailAddress: _userInfo.emailAddress, rentedRoomInfo: _userInfo.rentedRoomInfo))
                         } else {
-                            self.fetchedUserData.append(UserDataModel(id: _userInfo.id, firstName: _userInfo.firstName, lastName: _userInfo.lastName, mobileNumber: _userInfo.mobileNumber, dob: _userInfo.dob, address: _userInfo.address, town: _userInfo.town, city: _userInfo.city, zip: _userInfo.zip, country: _userInfo.country, gender: _userInfo.gender, userType: _userInfo.userType, providerType: _userInfo.providerType, rentalManagerLicenseNumber: _userInfo.rentalManagerLicenseNumber, emailAddress: _userInfo.emailAddress, rentingRoomUID: _userInfo.rentingRoomUID))
+                            self.fetchedUserData.append(UserDataModel(id: _userInfo.id, firstName: _userInfo.firstName, lastName: _userInfo.lastName, mobileNumber: _userInfo.mobileNumber, dob: _userInfo.dob, address: _userInfo.address, town: _userInfo.town, city: _userInfo.city, zip: _userInfo.zip, country: _userInfo.country, gender: _userInfo.gender, userType: _userInfo.userType, providerType: _userInfo.providerType, rentalManagerLicenseNumber: _userInfo.rentalManagerLicenseNumber, emailAddress: _userInfo.emailAddress, rentedRoomInfo: _userInfo.rentedRoomInfo))
                         }
                     } completion: {
                         self.userLastName = self.getUserLastName(lastName: self.fetchedUserData)
@@ -167,6 +158,33 @@ class FirestoreToFetchUserinfo: ObservableObject {
     
     
 }
+
+
+extension FirestoreToFetchUserinfo {
+    
+    func updateUserInformation(uidPath: String, roomID: String = "", roomImage: String, roomAddress: String, roomTown: String, roomCity: String, roomPrice: String, roomZipCode: String) {
+        let userRef = db.collection("users").document(uidPath)
+//        let pastRentalFee = RentalFee(paymentDate: Date(), pastRentalFee: roomPrice)
+
+        userRef.updateData([
+            "rentedRoomInfo.roomUID" : roomID,
+            "rentedRoomInfo.roomAddress" : roomAddress,
+            "rentedRoomInfo.roomTown" : roomTown,
+            "rentedRoomInfo.roomCity" : roomCity,
+            "rentedRoomInfo.roomPrice" : roomPrice,
+            "rentedRoomInfo.roomZipCode" : roomZipCode,
+            "rentedRoomInfo.roomImageCover" : roomImage
+        ], completion: { error in
+            if let _error = error {
+                print("error to update: \(_error)")
+            } else {
+                print("Update success")
+            }
+        })
+    }
+}
+
+
 
 
 

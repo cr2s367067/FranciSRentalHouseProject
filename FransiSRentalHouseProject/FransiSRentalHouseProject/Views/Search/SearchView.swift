@@ -54,13 +54,23 @@ struct SearchView: View {
                             Button {
                                 if localData.tempCart.isEmpty {
                                     localData.tempCart.append(result)
-                                    localData.addItem(roomAddress: result.roomAddress, roomTown: result.town, roomCity: result.city, itemPrice: Int(result.rentalPrice) ?? 0)
+                                    localData.addItem(roomAddress: result.roomAddress,
+                                                      roomTown: result.town,
+                                                      roomCity: result.city,
+                                                      itemPrice: Int(result.rentalPrice) ?? 0,
+                                                      roomUID: result.roomUID ?? "",
+                                                      roomImage: result.roomImage ?? "", roomZipCode: result.zipCode )
                                 } else {
                                     localData.tempCart.removeAll()
                                     localData.summaryItemHolder.removeAll()
                                     if localData.tempCart.isEmpty {
                                         localData.tempCart.append(result)
-                                        localData.addItem(roomAddress: result.roomAddress, roomTown: result.town, roomCity: result.city, itemPrice: Int(result.rentalPrice) ?? 0)
+                                        localData.addItem(roomAddress: result.roomAddress,
+                                                          roomTown: result.town,
+                                                          roomCity: result.city,
+                                                          itemPrice: Int(result.rentalPrice) ?? 0,
+                                                          roomUID: result.roomUID ?? "",
+                                                          roomImage: result.roomImage ?? "", roomZipCode: result.zipCode )
                                     }
                                 }
                                 if appViewModel.isPresent == false {

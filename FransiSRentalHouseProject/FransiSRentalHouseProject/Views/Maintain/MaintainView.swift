@@ -13,10 +13,10 @@ struct MaintainView: View {
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     
     //:temp
-    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     
-//    let firebaseAuth = FirebaseAuth()
+    //    let firebaseAuth = FirebaseAuth()
     
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
@@ -92,7 +92,7 @@ struct MaintainView: View {
 //                                showAlert.toggle()
 //                                reset()
 //                            }
-                            print("\(firestoreToFetchRoomsData.fetchRoomInfoFormPublic)")
+                            print("\(localData.summaryItemHolder)")
                         } label: {
                             Text("Summit it!")
                                 .foregroundColor(.white)
@@ -106,7 +106,7 @@ struct MaintainView: View {
                                             describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("Okay!") : Text("Got it.")
                                           ))
                                 }
-                                
+                            
                         }
                         
                     }
