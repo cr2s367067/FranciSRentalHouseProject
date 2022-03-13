@@ -9,14 +9,15 @@ import SwiftUI
 
 struct MaintainView: View {
     
+    @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
     //:temp
-    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
-    @EnvironmentObject var firebaseAuth: FirebaseAuth
+        @EnvironmentObject var firebaseAuth: FirebaseAuth
     
-    //    let firebaseAuth = FirebaseAuth()
+//    let firebaseAuth = FirebaseAuth()
     
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
@@ -27,6 +28,21 @@ struct MaintainView: View {
     private func reset() {
         describtion = "Please describe what stuff needs to fix."
         appointment = Date()
+    }
+    
+    private func checkRoomStatus(completion: (()->Void)? = nil) {
+        do {
+            try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
+            completion?()
+        } catch {
+            self.errorHandler.handle(error: error)
+        }
+    }
+    
+    private func checkFillOut(completion: (()->Void)? = nil) {
+        if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
+            completion?()
+        }
     }
     
     var body: some View {
@@ -85,34 +101,39 @@ struct MaintainView: View {
                     HStack {
                         Spacer()
                         Button {
-//                            if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-//                                firestoreToFetchMaintainTasks.uploadMaintainInfo(uidPath: firebaseAuth.getUID(), taskName: describtion, appointmentDate: appointment)
-//                                showAlert.toggle()
-//                            } else {
-//                                showAlert.toggle()
-//                                reset()
-//                            }
-                            print("\(localData.summaryItemHolder)")
+                            checkRoomStatus {
+                                if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
+                                    firestoreToFetchMaintainTasks.uploadMaintainInfo(uidPath: firebaseAuth.getUID(), taskName: describtion, appointmentDate: appointment, roomUID: firestoreToFetchUserinfo.getRoomUID())
+                                    showAlert.toggle()
+                                } else {
+                                    showAlert.toggle()
+
+                                }
+                            }
                         } label: {
                             Text("Summit it!")
                                 .foregroundColor(.white)
                                 .frame(width: 108, height: 35)
                                 .background(Color("buttonBlue"))
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
-                                .alert(isPresented: $showAlert) {
-                                    Alert(title: Text("Notice"),
-                                          message: describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("It's added in our schedule, We will fix it as fast as possible.") : Text("Please fill the blank. Thanks"),
-                                          dismissButton: .default(
-                                            describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("Okay!") : Text("Got it.")
-                                          ))
-                                }
-                            
+                                .alert("Notice", isPresented: $showAlert, actions: {
+                                    Button {
+                                        reset()
+                                    } label: {
+                                        Text(describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? "Okay!" : "Got it.")
+                                    }
+                                }, message: {
+                                    describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("It's added in our schedule, We will fix it as fast as possible.") : Text("Please fill the blank. Thanks")
+                                })
                         }
                         
                     }
                     .padding(.trailing)
                     .padding(.top, 5)
                 }
+            }
+            .onAppear {
+                firestoreToFetchUserinfo.appendFetchedDataInLocalRentedRoomInfo()
             }
         }
         .navigationTitle("")

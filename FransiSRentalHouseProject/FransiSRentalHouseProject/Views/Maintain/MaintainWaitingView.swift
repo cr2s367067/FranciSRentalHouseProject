@@ -118,7 +118,7 @@ struct MaintainWaitingReusableUnit: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
                             if showDetail {
-                                MaintainTaskWaitingListUnit(taskName: task.taskName, appointmentTime: task.appointmentDate)
+                                MaintainTaskWaitingListUnit(taskName: task.description, appointmentTime: task.appointmentDate)
                             }
                         }
                     }

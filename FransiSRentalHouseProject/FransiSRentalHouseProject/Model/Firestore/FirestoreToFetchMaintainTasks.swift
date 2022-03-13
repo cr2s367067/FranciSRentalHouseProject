@@ -40,13 +40,13 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
                 let id = data["id"] as? String ?? ""
                 let taskName = data["taskName"] as? String ?? ""
                 let appointmentDate = data["appointmentDate"] as? Date ?? Date()
-                return MaintainTaskHolder(id: id, taskName: taskName, appointmentDate: appointmentDate)
+                return MaintainTaskHolder(id: id, description: taskName, appointmentDate: appointmentDate)
             }
         }
     }
     
     func uploadMaintainInfo(uidPath: String, taskName: String, appointmentDate: Date, isFixed: Bool? = false, roomUID: String = "") {
-        let maintainInfo = MaintainTaskHolder(taskName: taskName, appointmentDate: appointmentDate, isFixed: isFixed)
+        let maintainInfo = MaintainTaskHolder(description: taskName, appointmentDate: appointmentDate, isFixed: isFixed)
         let maintainRef = db.collection("MaintainTask").document(uidPath).collection(roomUID)
         do {
            _ = try maintainRef.addDocument(from: maintainInfo.self)
@@ -64,7 +64,7 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
             switch result {
             case .success(let success):
                 if let _userMaintainInfo = success {
-                    self.fetchMaintainInfo.append(MaintainTaskHolder(taskName: _userMaintainInfo.taskName, appointmentDate: _userMaintainInfo.appointmentDate))
+                    self.fetchMaintainInfo.append(MaintainTaskHolder(description: _userMaintainInfo.description, appointmentDate: _userMaintainInfo.appointmentDate))
                 }
             case .failure(let error):
                 print("Error to fetch maintain information: \(error)")

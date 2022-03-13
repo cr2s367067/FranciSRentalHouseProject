@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 struct MaintainTaskHolder: Identifiable, Codable {
     @DocumentID var docID: String?
     var id = UUID().uuidString
-    var taskName: String
+    var description: String
     var appointmentDate: Date
     var isFixed: Bool?
     
@@ -24,5 +24,5 @@ struct MaintainTaskHolder: Identifiable, Codable {
 }
 
 extension MaintainTaskHolder {
-   static let empty = MaintainTaskHolder(taskName: "", appointmentDate: Date(), isFixed: false)
+   static let empty = MaintainTaskHolder(description: "", appointmentDate: Date(), isFixed: false)
 }

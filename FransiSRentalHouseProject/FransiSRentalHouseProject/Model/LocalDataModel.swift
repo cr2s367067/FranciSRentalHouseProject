@@ -11,16 +11,17 @@ import FirebaseFirestoreSwift
 
 class LocalData: ObservableObject {
     
+    //: Payment Holder
     @Published var sumPrice = 0
-    
     @Published var tempCart = [RoomInfoDataModel]()
-    
     @Published var summaryItemHolder: [SummaryItemHolder] = []
     
+    //: User Data
+    @Published var userDataHolder: [UserDataModel] = []
+    //: Maintain Task
     @Published var maintainTaskHolder: [MaintainTaskHolder] = []
     
-    @Published var userDataHolder: [UserDataModel] = []
-    
+    //: Room Information
     @Published var localRoomsHolder: RoomInfoDataModel = .empty
     
     

@@ -214,7 +214,7 @@ struct RenterProfileView: View {
                                                 VStack {
                                                     ScrollView(.vertical, showsIndicators: false) {
                                                         ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
-                                                            ProfileSessionUnit(mainTainTask: task.taskName)
+                                                            ProfileSessionUnit(mainTainTask: task.description)
                                                         }
                                                     }
                                                 }

@@ -47,6 +47,7 @@ enum UserInformationError: LocalizedError {
     case mobileNumberFormateError
     case dobFormateError
     case blankError
+    case userRentalError
 
     var errorDescription: String? {
         switch self {
@@ -62,6 +63,8 @@ enum UserInformationError: LocalizedError {
             return NSLocalizedString("Please enter valid date of birth", comment: "")
         case .blankError:
             return NSLocalizedString("Please fill out the blank", comment: "")
+        case .userRentalError:
+            return NSLocalizedString("You haven't rent any room.", comment: "")
         }
     }
 }
@@ -106,6 +109,7 @@ enum ProviderSummitError: LocalizedError {
         }
     }
 }
+
 
 struct ErrorAlert: Identifiable {
     var id = UUID()

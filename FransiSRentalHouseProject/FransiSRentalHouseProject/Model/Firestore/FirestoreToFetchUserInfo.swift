@@ -18,6 +18,7 @@ class FirestoreToFetchUserinfo: ObservableObject {
     let db = Firestore.firestore()
     
     @Published var fetchedUserData: [UserDataModel] = []
+    @Published var userRentedRoomInfo = [RentedRoomInfo]()
     @Published var userLastName = ""
     
     func fetchUploadUserData() {
@@ -48,9 +49,38 @@ class FirestoreToFetchUserinfo: ObservableObject {
                     DispatchQueue.userInitial(delay: 1.0) {
                         if !self.fetchedUserData.isEmpty {
                             self.fetchedUserData.removeAll()
-                            self.fetchedUserData.append(UserDataModel(id: _userInfo.id, firstName: _userInfo.firstName, lastName: _userInfo.lastName, mobileNumber: _userInfo.mobileNumber, dob: _userInfo.dob, address: _userInfo.address, town: _userInfo.town, city: _userInfo.city, zip: _userInfo.zip, country: _userInfo.country, gender: _userInfo.gender, userType: _userInfo.userType, providerType: _userInfo.providerType, rentalManagerLicenseNumber: _userInfo.rentalManagerLicenseNumber, emailAddress: _userInfo.emailAddress, rentedRoomInfo: _userInfo.rentedRoomInfo))
+                            self.fetchedUserData.append(UserDataModel(id: _userInfo.id, firstName: _userInfo.firstName,
+                                                                      lastName: _userInfo.lastName,
+                                                                      mobileNumber: _userInfo.mobileNumber,
+                                                                      dob: _userInfo.dob,
+                                                                      address: _userInfo.address,
+                                                                      town: _userInfo.town,
+                                                                      city: _userInfo.city,
+                                                                      zip: _userInfo.zip,
+                                                                      country: _userInfo.country,
+                                                                      gender: _userInfo.gender,
+                                                                      userType: _userInfo.userType,
+                                                                      providerType: _userInfo.providerType,
+                                                                      rentalManagerLicenseNumber: _userInfo.rentalManagerLicenseNumber,
+                                                                      emailAddress: _userInfo.emailAddress,
+                                                                      rentedRoomInfo: _userInfo.rentedRoomInfo))
                         } else {
-                            self.fetchedUserData.append(UserDataModel(id: _userInfo.id, firstName: _userInfo.firstName, lastName: _userInfo.lastName, mobileNumber: _userInfo.mobileNumber, dob: _userInfo.dob, address: _userInfo.address, town: _userInfo.town, city: _userInfo.city, zip: _userInfo.zip, country: _userInfo.country, gender: _userInfo.gender, userType: _userInfo.userType, providerType: _userInfo.providerType, rentalManagerLicenseNumber: _userInfo.rentalManagerLicenseNumber, emailAddress: _userInfo.emailAddress, rentedRoomInfo: _userInfo.rentedRoomInfo))
+                            self.fetchedUserData.append(UserDataModel(id: _userInfo.id,
+                                                                      firstName: _userInfo.firstName,
+                                                                      lastName: _userInfo.lastName,
+                                                                      mobileNumber: _userInfo.mobileNumber,
+                                                                      dob: _userInfo.dob,
+                                                                      address: _userInfo.address,
+                                                                      town: _userInfo.town,
+                                                                      city: _userInfo.city,
+                                                                      zip: _userInfo.zip,
+                                                                      country: _userInfo.country,
+                                                                      gender: _userInfo.gender,
+                                                                      userType: _userInfo.userType,
+                                                                      providerType: _userInfo.providerType,
+                                                                      rentalManagerLicenseNumber: _userInfo.rentalManagerLicenseNumber,
+                                                                      emailAddress: _userInfo.emailAddress,
+                                                                      rentedRoomInfo: _userInfo.rentedRoomInfo))
                         }
                     } completion: {
                         self.userLastName = self.getUserLastName(lastName: self.fetchedUserData)
@@ -159,13 +189,10 @@ class FirestoreToFetchUserinfo: ObservableObject {
     
 }
 
-
+//: Update user data - roomInfo
 extension FirestoreToFetchUserinfo {
-    
     func updateUserInformation(uidPath: String, roomID: String = "", roomImage: String, roomAddress: String, roomTown: String, roomCity: String, roomPrice: String, roomZipCode: String) {
         let userRef = db.collection("users").document(uidPath)
-//        let pastRentalFee = RentalFee(paymentDate: Date(), pastRentalFee: roomPrice)
-
         userRef.updateData([
             "rentedRoomInfo.roomUID" : roomID,
             "rentedRoomInfo.roomAddress" : roomAddress,
@@ -184,6 +211,53 @@ extension FirestoreToFetchUserinfo {
     }
 }
 
+extension FirestoreToFetchUserinfo {
+    func appendFetchedDataInLocalRentedRoomInfo() {
+        if userRentedRoomInfo.isEmpty {
+            appendFetchedDataInLocalRentedRoomInfo(input: fetchedUserData)
+        } else {
+            userRentedRoomInfo.removeAll()
+            appendFetchedDataInLocalRentedRoomInfo(input: fetchedUserData)
+        }
+    }
+    private func appendFetchedDataInLocalRentedRoomInfo(input: [UserDataModel]) {
+        input.forEach { parent in
+            parent.rentedRoomInfo.map { child in
+                let roomUID = child.roomUID ?? ""
+                let roomAddress = child.roomAddress ?? ""
+                let roomTown = child.roomTown ?? ""
+                let roomCity = child.roomCity ?? ""
+                let roomPrice = child.roomPrice ?? ""
+                let roomZipCode = child.roomZipCode ?? ""
+                let roomImageCover = child.roomImageCover ?? ""
+                self.userRentedRoomInfo.append(RentedRoomInfo(roomUID: roomUID,
+                                                         roomAddress: roomAddress,
+                                                         roomTown: roomTown,
+                                                         roomCity: roomCity,
+                                                         roomPrice: roomPrice,
+                                                         roomZipCode: roomZipCode,
+                                                         roomImageCover: roomImageCover
+                                                        ))
+            }
+        }
+    }
+    func getRoomUID() -> String {
+        var holderRoomUID = ""
+            holderRoomUID = getRoomUID(input: userRentedRoomInfo)
+        return holderRoomUID
+    }
+    func getRoomUID(input: [RentedRoomInfo]) -> String {
+        var rentedRoomUID = ""
+        rentedRoomUID = input.map({$0.roomUID}).first??.description ?? ""
+        return rentedRoomUID
+    }
+    
+    func checkRoosStatus(roomUID: String) throws {
+        guard !roomUID.isEmpty else {
+            throw UserInformationError.userRentalError
+        }
+    }
+}
 
 
 
