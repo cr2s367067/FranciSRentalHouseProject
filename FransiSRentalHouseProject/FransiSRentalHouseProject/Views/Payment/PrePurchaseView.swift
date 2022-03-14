@@ -9,15 +9,18 @@ import SwiftUI
 
 struct PrePurchaseView: View {
     
+    @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
     @State var roomImage = "room3"
     @State var roomPrice = "9000"
     @State var ranking = 4
     @State var totalPrice = "9000"
     
+    @State private var isRented = false
     @State private var isRedacted = true
 //    let dataModel: RoomsDataModel
     
@@ -27,6 +30,15 @@ struct PrePurchaseView: View {
         GridItem(.fixed(170)),
         GridItem(.fixed(170))
     ]
+    
+    private func checkRoomStatus(completion: (()->Void)? = nil) {
+        do {
+            try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
+            completion?()
+        } catch {
+            self.errorHandler.handle(error: error)
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -79,16 +91,18 @@ struct PrePurchaseView: View {
                             }
                             Spacer()
                                 .frame(width: 50)
+                            
                             NavigationLink {
                                 PaymentSummaryView()
                             } label: {
                                 Text("Check Out")
+                                    .foregroundColor(.white)
+                                    .frame(width: 108, height: 35)
+                                    .background(Color("buttonBlue"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .padding(.trailing)
                             }
-                            .foregroundColor(.white)
-                            .frame(width: 108, height: 35)
-                            .background(Color("buttonBlue"))
-                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                            .padding(.trailing)
+                            
                         }
                         .frame(width: 400, height: 50)
                         .foregroundColor(.white)

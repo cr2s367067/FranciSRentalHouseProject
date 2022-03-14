@@ -27,8 +27,6 @@ struct ProviderProfileView: View {
                     }
                     .edgesIgnoringSafeArea([.top, .bottom])
                     VStack {
-                        //                        Spacer()
-                        //                            .frame(height: 75)
                         HStack {
                             Button {
                                 withAnimation {
@@ -43,7 +41,6 @@ struct ProviderProfileView: View {
                         }
                         .foregroundColor(.white)
                         .padding(.leading)
-                        //                        .padding(.top)
                         TitleAndDivider(title: "My Profile")
                         HStack(spacing: 20) {
                             Spacer()

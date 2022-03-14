@@ -577,8 +577,3 @@ extension DispatchQueue {
         }
     }
 }
-
-
-extension AppViewModel {
-    
-}

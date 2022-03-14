@@ -110,6 +110,17 @@ enum ProviderSummitError: LocalizedError {
     }
 }
 
+enum ContractError: LocalizedError {
+    case agreemnetError
+    
+    var errorDescription: String? {
+        switch self {
+        case .agreemnetError:
+            return NSLocalizedString("Please, read and agree the contract.", comment: "")
+        }
+    }
+}
+
 
 struct ErrorAlert: Identifiable {
     var id = UUID()

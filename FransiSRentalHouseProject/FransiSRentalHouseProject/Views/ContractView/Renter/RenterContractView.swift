@@ -10,9 +10,24 @@ import SwiftUI
 struct RenterContractView: View {
     //    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var appViewModel: AppViewModel
-    
+    @EnvironmentObject var errorHandler: ErrorHandler
     //    @State var userName = "some name"
     @State var isAgree = false
+    
+    
+//    private func agreementChecker() {
+//        do {
+//            try agreementCheckerThrows()
+//        } catch {
+//            print("")
+//        }
+//    }
+    
+    private func agreementCheckerThows() throws {
+        guard isAgree == true else {
+            throw ContractError.agreemnetError
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -787,6 +802,7 @@ struct RenterContractView: View {
                             .padding(.horizontal)
                         }
                         
+                        
                         HStack(alignment: .center, spacing: 5) {
                             Button {
                                 isAgree.toggle()
@@ -800,18 +816,35 @@ struct RenterContractView: View {
                                 .font(.system(size: 12))
                         }
                         .padding(.top, 10)
-                        
-                        NavigationLink {
-                            PurchaseView()
-                        } label: {
-                            Text("Summit")
-                                .foregroundColor(.white)
-                                .frame(width: 108, height: 35)
-                                .background(Color("buttonBlue"))
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                        if isAgree == false {
+                            Button {
+                                do {
+                                    try agreementCheckerThows()
+                                } catch {
+                                    self.errorHandler.handle(error: error)
+                                }
+                            } label: {
+                                Text("Summit")
+                                    .foregroundColor(.white)
+                                    .frame(width: 108, height: 35)
+                                    .background(Color("buttonBlue"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                            }
+                            .padding(.top, 10)
+                            .padding(.horizontal)
+                        } else if isAgree == true {
+                            NavigationLink {
+                                PurchaseView()
+                            } label: {
+                                Text("Summit")
+                                    .foregroundColor(.white)
+                                    .frame(width: 108, height: 35)
+                                    .background(Color("buttonBlue"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                            }
+                            .padding(.top, 10)
+                            .padding(.horizontal)
                         }
-                        .padding(.top, 10)
-                        .padding(.horizontal)
                     }
                 }
             }

@@ -56,13 +56,28 @@ struct MenuView: View {
                         }
                     }
                     
+                    
+                    
+                    NavigationLink {
+                        withAnimation {
+                            MessageView()
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "message")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                            Text("Messages")
+                        }
+                    }
+                    
                     NavigationLink {
                         withAnimation {
                             ContactView()
                         }
                     } label: {
                         HStack {
-                            Image(systemName: "message")
+                            Image(systemName: "questionmark.circle")
                                 .resizable()
                                 .frame(width: 24, height: 24)
                             Text("Contect Us")
@@ -70,13 +85,11 @@ struct MenuView: View {
                     }
                 }
                 .foregroundColor(.white)
-                
                 .padding(.top)
                 
                 Spacer()
                 Button {
                     firebaseAuth.signOut()
-//                    FirebaseManager.shared.firebaseAuth.signOut()
                 } label: {
                     Text("Sign Out")
                         .foregroundColor(.white)

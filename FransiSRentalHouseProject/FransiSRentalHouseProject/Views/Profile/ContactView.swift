@@ -11,7 +11,6 @@ struct ContactView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreForContactInfo: FirestoreForContactInfo
-//    let firestoreForContactInfo = FirestoreForContactInfo()
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     
     @State var connectDes = ""

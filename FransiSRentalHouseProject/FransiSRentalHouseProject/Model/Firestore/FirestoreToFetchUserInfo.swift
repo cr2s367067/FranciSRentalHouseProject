@@ -259,6 +259,10 @@ extension FirestoreToFetchUserinfo {
     }
 }
 
+extension FirestoreToFetchUserinfo {
+    
+}
+
 
 
 

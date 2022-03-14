@@ -15,6 +15,7 @@ struct SearchView: View {
     
     @State private var tagSelect = "TapSearchButton"
     @State private var searchName = ""
+    @State private var isPressentSheetData: RoomInfoDataModel? = nil
     
     var body: some View {
         
@@ -52,41 +53,24 @@ struct SearchView: View {
                             searchName.isEmpty ? true : $0.town.contains(searchName)
                         })) { result in
                             Button {
-                                if localData.tempCart.isEmpty {
-                                    localData.tempCart.append(result)
-                                    localData.addItem(roomAddress: result.roomAddress,
-                                                      roomTown: result.town,
-                                                      roomCity: result.city,
-                                                      itemPrice: Int(result.rentalPrice) ?? 0,
-                                                      roomUID: result.roomUID ?? "",
-                                                      roomImage: result.roomImage ?? "", roomZipCode: result.zipCode )
-                                } else {
-                                    localData.tempCart.removeAll()
-                                    localData.summaryItemHolder.removeAll()
-                                    if localData.tempCart.isEmpty {
-                                        localData.tempCart.append(result)
-                                        localData.addItem(roomAddress: result.roomAddress,
-                                                          roomTown: result.town,
-                                                          roomCity: result.city,
-                                                          itemPrice: Int(result.rentalPrice) ?? 0,
-                                                          roomUID: result.roomUID ?? "",
-                                                          roomImage: result.roomImage ?? "", roomZipCode: result.zipCode )
-                                    }
-                                }
-                                if appViewModel.isPresent == false {
-                                    appViewModel.isPresent = true
-                                }
-                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                                isPressentSheetData = result
                             } label: {
                                 SearchListItemView(roomImage: result.roomImage ?? "",
                                                    roomAddress: result.roomAddress,
                                                    roomTown: result.town,
                                                    roomCity: result.city,
                                                    roomPrice: Int(result.rentalPrice) ?? 0)
-                                    .alert(isPresented: $appViewModel.isPresent) {
-                                        Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
                                     }
-                            }
+                        }
+                        .sheet(item: $isPressentSheetData) { result in
+                            RoomDetailSheetView(roomImage: result.roomImage ?? "",
+                                                roomAddress: result.roomAddress,
+                                                roomTown: result.town,
+                                                roomCity: result.city,
+                                                roomPrice: Int(result.rentalPrice) ?? 0,
+                                                roomUID: result.roomUID ?? "",
+                                                roomZipCode: result.zipCode,
+                                                result: result)
                         }
                     }
                     //.frame(height: 600)

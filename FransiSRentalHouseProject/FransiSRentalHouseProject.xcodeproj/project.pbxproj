@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0226660F27DE2A1D0051940B /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0226660E27DE2A1D0051940B /* MessageView.swift */; };
 		022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022A84F327C7288C0063FF05 /* ImagePicker.swift */; };
 		0231424327CA09EA008BDF83 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0231424227CA09EA008BDF83 /* SDWebImageSwiftUI */; };
+		024172AB27DE1342002BF2F2 /* RoomDetailSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024172AA27DE1342002BF2F2 /* RoomDetailSheetView.swift */; };
 		02450AE627D2AC7000370683 /* ContactDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02450AE527D2AC7000370683 /* ContactDataModel.swift */; };
 		02450AE827D2AD7100370683 /* FirestoreForContactInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02450AE727D2AD7100370683 /* FirestoreForContactInfo.swift */; };
 		0249D40927C6351F0085F4A5 /* FransiSRentalHouseProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D40827C6351F0085F4A5 /* FransiSRentalHouseProjectApp.swift */; };
@@ -77,7 +79,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0226660E27DE2A1D0051940B /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		022A84F327C7288C0063FF05 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		024172AA27DE1342002BF2F2 /* RoomDetailSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailSheetView.swift; sourceTree = "<group>"; };
 		02450AE527D2AC7000370683 /* ContactDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDataModel.swift; sourceTree = "<group>"; };
 		02450AE727D2AD7100370683 /* FirestoreForContactInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForContactInfo.swift; sourceTree = "<group>"; };
 		0249D40527C6351F0085F4A5 /* FransiSRentalHouseProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FransiSRentalHouseProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +162,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0226660D27DE2A0C0051940B /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				0226660E27DE2A1D0051940B /* MessageView.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
 		0249D3FC27C6351F0085F4A5 = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +236,7 @@
 		0249D42527C637490085F4A5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0226660D27DE2A0C0051940B /* Message */,
 				0263079E27D83C3F000E3CFD /* Maintain */,
 				0259C26327CF45CF00DFDE18 /* ContractView */,
 				0249D44127C639AC0085F4A5 /* Others */,
@@ -240,6 +253,7 @@
 			children = (
 				0249D46A27C63CBD0085F4A5 /* SearchView.swift */,
 				0249D46C27C63CCC0085F4A5 /* SearchListItemView.swift */,
+				024172AA27DE1342002BF2F2 /* RoomDetailSheetView.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -517,6 +531,7 @@
 				02CB58EF27CDB1470035EE20 /* FirestoreToFetchUserInfo.swift in Sources */,
 				0249D43227C638C00085F4A5 /* AppViewModel.swift in Sources */,
 				0249D45127C63AEA0085F4A5 /* MenuView.swift in Sources */,
+				0226660F27DE2A1D0051940B /* MessageView.swift in Sources */,
 				0249D42827C6376E0085F4A5 /* UserCoreDataModel.xcdatamodeld in Sources */,
 				02450AE827D2AD7100370683 /* FirestoreForContactInfo.swift in Sources */,
 				0249D43E27C639900085F4A5 /* SignUpView.swift in Sources */,
@@ -525,6 +540,7 @@
 				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
 				0249D43A27C639720085F4A5 /* AppTabView.swift in Sources */,
 				0249D42E27C637DA0085F4A5 /* PersistenceController.swift in Sources */,
+				024172AB27DE1342002BF2F2 /* RoomDetailSheetView.swift in Sources */,
 				02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */,
 				0292835D27D3824900DEF068 /* PrivatePolicyView.swift in Sources */,
 				0249D46D27C63CCC0085F4A5 /* SearchListItemView.swift in Sources */,
