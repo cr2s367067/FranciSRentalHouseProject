@@ -32,20 +32,26 @@ struct RoomDetailSheetView: View {
                                    roomTown: roomTown,
                                    roomCity: roomCity,
                                    roomPrice: roomPrice)
-                Group {
-                    Text("Description")
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("Description")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                        Spacer()
+                    }
                     Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu eleifend ante consectetur nullam diam porttitor urna. Ipsum ultrices sit diam massa nisl turpis elementum. Pharetra vehicula maecenas mauris nullam libero. Egestas cras ipsum, nunc, eget orci, tincidunt pellentesque fusce. Risus curabitur ipsum, fames arcu semper sagittis. Malesuada volutpat et massa urna, tortor. ")
+                        .foregroundColor(.white)
+                        .font(.system(size: 15, weight: .regular))
                 }
-                .foregroundColor(.white)
-                .font(.system(size: 15, weight: .regular))
+                .padding()
                 Spacer()
                 HStack {
                     Button {
                         
                     } label: {
-                        Text("Contact with provider.")
+                        Text("Contact provider.")
                             .foregroundColor(.white)
-                            .frame(width: 125, height: 35)
+                            .frame(width: 175, height: 35)
                             .background(Color("buttonBlue"))
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .padding(.trailing)

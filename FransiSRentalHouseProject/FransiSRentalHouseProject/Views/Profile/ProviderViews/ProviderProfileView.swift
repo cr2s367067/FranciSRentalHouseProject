@@ -11,88 +11,76 @@ struct ProviderProfileView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
     
+    @Binding var show: Bool
     
-    
-    @State private var show = false
-    
+    init(show: Binding<Bool>) {
+        self._show = show
+    }
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                MenuView()
-                ZStack {
-                    Group {
-                        Rectangle()
-                            .fill(Color("backgroundBrown"))
+        ZStack {
+            VStack {
+                HStack {
+                    Button {
+                        withAnimation {
+                            self.show.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "line.3.horizontal.circle")
+                            .resizable()
+                            .frame(width: 25, height: 25)
                     }
-                    .edgesIgnoringSafeArea([.top, .bottom])
-                    VStack {
-                        HStack {
-                            Button {
-                                withAnimation {
-                                    self.show.toggle()
-                                }
-                            } label: {
-                                Image(systemName: "line.3.horizontal.circle")
-                                    .resizable()
-                                    .frame(width: 25, height: 25)
-                            }
-                            Spacer()
-                        }
-                        .foregroundColor(.white)
-                        .padding(.leading)
-                        TitleAndDivider(title: "My Profile")
-                        HStack(spacing: 20) {
-                            Spacer()
-                            Image(systemName: "chart.bar.xaxis")
-                                .resizable()
-                                .foregroundColor(.white)
-                                .frame(width: 25, height: 25)
-                            Image(systemName: "chart.xyaxis.line")
-                                .resizable()
-                                .foregroundColor(.white)
-                                .frame(width: 25, height: 25)
-                        }
-                        .padding(.trailing)
-                        .frame(width: 378)
-                        
-                        Rectangle()
-                            .fill(Color("fieldGray"))
-                            .frame(width: 378, height: 304)
-                            .cornerRadius(10)
-                        
-                        TitleAndDivider(title: "Detail")
-                        VStack {
-                            OwnerProfileDetailUnit()
-                            OwnerProfileDetailUnit()
-                            OwnerProfileDetailUnit()
-                        }
-                        AppDivider()
-                        HStack {
-                            Text("Total Earning")
-                            Spacer()
-                            Text("$27,000")
-                        }
-                        .foregroundColor(.white)
-                        .frame(width: 350)
-                        .padding()
-                    }
+                    Spacer()
                 }
-                .frame(height: UIScreen.main.bounds.height)
-                .cornerRadius(self.show ? 30 : 0)
-                .scaleEffect(self.show ? 0.5: 1)
-                .offset(x: self.show ? UIScreen.main.bounds.width / 3 : 0
-                        , y: self.show ? 15 : 0)
-                .onTapGesture {
-                    withAnimation {
-                        self.show = false
-                    }
+                .foregroundColor(.white)
+                .padding(.leading)
+                .padding(.top)
+                TitleAndDivider(title: "My Profile")
+                HStack(spacing: 20) {
+                    Spacer()
+                    Image(systemName: "chart.bar.xaxis")
+                        .resizable()
+                        .foregroundColor(.white)
+                        .frame(width: 25, height: 25)
+                    Image(systemName: "chart.xyaxis.line")
+                        .resizable()
+                        .foregroundColor(.white)
+                        .frame(width: 25, height: 25)
                 }
+                .padding(.trailing)
+                Rectangle()
+                    .fill(Color("fieldGray"))
+                    .frame(width: 378, height: 304)
+                    .cornerRadius(10)
+                
+                TitleAndDivider(title: "Detail")
+                VStack {
+                    OwnerProfileDetailUnit()
+                    OwnerProfileDetailUnit()
+                    OwnerProfileDetailUnit()
+                }
+                AppDivider()
+                HStack {
+                    Text("Total Earning")
+                    Spacer()
+                    Text("$27,000")
+                }
+                .foregroundColor(.white)
+                .frame(width: 350)
+                .padding()
+                Spacer()
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
         }
+        .background(alignment: .center, content: {
+            Group {
+                Rectangle()
+                    .fill(Color("backgroundBrown"))
+            }
+            .edgesIgnoringSafeArea([.top, .bottom])
+        })
+        .navigationTitle("")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -109,8 +97,8 @@ struct OwnerProfileDetailUnit: View {
     }
 }
 
-struct ProviderProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProviderProfileView()
-    }
-}
+//struct ProviderProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProviderProfileView()
+//    }
+//}

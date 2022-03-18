@@ -42,7 +42,7 @@
 		0249D45127C63AEA0085F4A5 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D45027C63AEA0085F4A5 /* MenuView.swift */; };
 		0249D45327C63AF80085F4A5 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D45227C63AF80085F4A5 /* ContactView.swift */; };
 		0249D45527C63B0B0085F4A5 /* UserDetailInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D45427C63B0B0085F4A5 /* UserDetailInfoView.swift */; };
-		0249D45727C63B460085F4A5 /* RenterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D45627C63B460085F4A5 /* RenterProfileView.swift */; };
+		0249D45727C63B460085F4A5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D45627C63B460085F4A5 /* ProfileView.swift */; };
 		0249D45927C63B570085F4A5 /* ProfileSessionUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D45827C63B570085F4A5 /* ProfileSessionUnit.swift */; };
 		0249D45B27C63B660085F4A5 /* MaintainDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D45A27C63B660085F4A5 /* MaintainDetailView.swift */; };
 		0249D45D27C63B720085F4A5 /* PaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D45C27C63B720085F4A5 /* PaymentDetailView.swift */; };
@@ -54,6 +54,7 @@
 		0249D46927C63C2A0085F4A5 /* ProviderLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D46827C63C2A0085F4A5 /* ProviderLineChartView.swift */; };
 		0249D46B27C63CBD0085F4A5 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D46A27C63CBD0085F4A5 /* SearchView.swift */; };
 		0249D46D27C63CCC0085F4A5 /* SearchListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249D46C27C63CCC0085F4A5 /* SearchListItemView.swift */; };
+		024CF42127DF178600D65B2F /* RenterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024CF42027DF178600D65B2F /* RenterProfileView.swift */; };
 		0259C26227CDF41E00DFDE18 /* FirebaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26127CDF41E00DFDE18 /* FirebaseAuth.swift */; };
 		0259C26627CF460800DFDE18 /* ProviderSummittedRoomContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26527CF460800DFDE18 /* ProviderSummittedRoomContractView.swift */; };
 		0259C26827D0955400DFDE18 /* ContractForProviderDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26727D0955400DFDE18 /* ContractForProviderDataModel.swift */; };
@@ -109,7 +110,7 @@
 		0249D45027C63AEA0085F4A5 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		0249D45227C63AF80085F4A5 /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		0249D45427C63B0B0085F4A5 /* UserDetailInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailInfoView.swift; sourceTree = "<group>"; };
-		0249D45627C63B460085F4A5 /* RenterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterProfileView.swift; sourceTree = "<group>"; };
+		0249D45627C63B460085F4A5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		0249D45827C63B570085F4A5 /* ProfileSessionUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSessionUnit.swift; sourceTree = "<group>"; };
 		0249D45A27C63B660085F4A5 /* MaintainDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintainDetailView.swift; sourceTree = "<group>"; };
 		0249D45C27C63B720085F4A5 /* PaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailView.swift; sourceTree = "<group>"; };
@@ -121,6 +122,7 @@
 		0249D46827C63C2A0085F4A5 /* ProviderLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderLineChartView.swift; sourceTree = "<group>"; };
 		0249D46A27C63CBD0085F4A5 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0249D46C27C63CCC0085F4A5 /* SearchListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListItemView.swift; sourceTree = "<group>"; };
+		024CF42027DF178600D65B2F /* RenterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterProfileView.swift; sourceTree = "<group>"; };
 		0259C26127CDF41E00DFDE18 /* FirebaseAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuth.swift; sourceTree = "<group>"; };
 		0259C26527CF460800DFDE18 /* ProviderSummittedRoomContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderSummittedRoomContractView.swift; sourceTree = "<group>"; };
 		0259C26727D0955400DFDE18 /* ContractForProviderDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractForProviderDataModel.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				0249D45027C63AEA0085F4A5 /* MenuView.swift */,
 				0249D45227C63AF80085F4A5 /* ContactView.swift */,
 				0249D45427C63B0B0085F4A5 /* UserDetailInfoView.swift */,
+				0249D45627C63B460085F4A5 /* ProfileView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -305,12 +308,12 @@
 		0249D44E27C63AC60085F4A5 /* RenterViews */ = {
 			isa = PBXGroup;
 			children = (
-				0249D45627C63B460085F4A5 /* RenterProfileView.swift */,
 				0249D45827C63B570085F4A5 /* ProfileSessionUnit.swift */,
 				0249D45A27C63B660085F4A5 /* MaintainDetailView.swift */,
 				0249D45C27C63B720085F4A5 /* PaymentDetailView.swift */,
 				0249D45E27C63B8B0085F4A5 /* PaymentDetailSessionUnit.swift */,
 				0249D46027C63B960085F4A5 /* RoomStatusView.swift */,
+				024CF42027DF178600D65B2F /* RenterProfileView.swift */,
 			);
 			path = RenterViews;
 			sourceTree = "<group>";
@@ -526,7 +529,7 @@
 				0249D46B27C63CBD0085F4A5 /* SearchView.swift in Sources */,
 				02CB58E927CDADBC0035EE20 /* RoomsDataModel.swift in Sources */,
 				0259C26827D0955400DFDE18 /* ContractForProviderDataModel.swift in Sources */,
-				0249D45727C63B460085F4A5 /* RenterProfileView.swift in Sources */,
+				0249D45727C63B460085F4A5 /* ProfileView.swift in Sources */,
 				02CB58F727CDB5230035EE20 /* StorageForUserProfile.swift in Sources */,
 				02CB58EF27CDB1470035EE20 /* FirestoreToFetchUserInfo.swift in Sources */,
 				0249D43227C638C00085F4A5 /* AppViewModel.swift in Sources */,
@@ -550,6 +553,7 @@
 				0249D44727C639E40085F4A5 /* MaintainView.swift in Sources */,
 				0249D46927C63C2A0085F4A5 /* ProviderLineChartView.swift in Sources */,
 				0249D43427C638DF0085F4A5 /* ErrorHandler.swift in Sources */,
+				024CF42127DF178600D65B2F /* RenterProfileView.swift in Sources */,
 				02CB58F127CDB31D0035EE20 /* FirestoreToFetchMaintainTasks.swift in Sources */,
 				0259C26C27D095D500DFDE18 /* ContractForRenter.swift in Sources */,
 				0249D43C27C6397F0085F4A5 /* LoginView.swift in Sources */,

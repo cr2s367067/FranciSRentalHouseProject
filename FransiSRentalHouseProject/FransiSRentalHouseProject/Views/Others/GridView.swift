@@ -31,27 +31,31 @@ struct GridView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color("fieldGray"))
-                .frame(width: 150, height: 160)
+            WebImage(url: URL(string: imageURL))
+                .resizable()
+                .frame(width: 160, height: 100)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
             VStack {
-                WebImage(url: URL(string: imageURL))
-                    .resizable()
-                    .frame(width: 105, height: 85)
-                    .cornerRadius(5)
-                    .padding(.horizontal)
+                Spacer()
+                    .frame(height: 140)
                 HStack {
-                    VStack {
-                        Text(cityAndTown())
-                        Text("$\(objectPrice)")
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text(cityAndTown())
+                            Spacer()
+                        }
+                        HStack {
+                            Text("$\(objectPrice)")
+                            Spacer()
+                        }
                     }
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .font(.system(size: 16, weight: .regular))
                     .multilineTextAlignment(.leading)
                     .padding(.leading, 5)
                     Image(systemName: "plus.circle")
                         .resizable()
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Color.white)
                         .frame(width: 20, height: 20)
                         .padding(.leading, 10)
                 }

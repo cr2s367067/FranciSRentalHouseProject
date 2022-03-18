@@ -37,14 +37,13 @@ struct AppTabView: View {
 //                            dataModel: RoomsDataModel(roomImage: "", roomName: "", roomDescribtion: "", roomPrice: 0, ranking: 0, isSelected: false)
                         )
                             .tag("TapPaymentButton")
-                        RenterProfileView()
-                            .tag("TapProfileButton")
+                        
                     } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
                         ProviderRoomSummitView()
                             .tag("TapPaymentButton")
-                        ProviderProfileView()
-                            .tag("TapProfileButton")
                     }
+                    ProfileView()
+                        .tag("TapProfileButton")
                     SearchView()
                         .tag("TapSearchButton")
                     if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
