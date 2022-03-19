@@ -16,6 +16,7 @@ class StorageForUserProfile: ObservableObject {
     
     let profileImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "profileImage")
     
+    // MARK: remove after testing
     func uploadImage(uidPath: String, image: UIImage) {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         let imagesRef = profileImageStorageAddress.child("\(uidPath).jpg")
@@ -26,6 +27,7 @@ class StorageForUserProfile: ObservableObject {
         }
     }
     
+    // MARK: remove after testing
     func deleteImagebyUID(uidPath: String) {
         let storageRef = profileImageStorageAddress.child("\(uidPath).jpg")
         storageRef.delete { error in
@@ -37,6 +39,7 @@ class StorageForUserProfile: ObservableObject {
         }
     }
     
+    // MARK: remove after testing
     func representStorageImage(uidPath: String) -> String {
         let pathRef = profileImageStorageAddress.child("\(uidPath).jpg")
         pathRef.downloadURL { url, error in
@@ -51,4 +54,25 @@ class StorageForUserProfile: ObservableObject {
         return representedProfileImageURL
     }
     
+}
+
+extension StorageForUserProfile {
+    func uploadImageAsync(uidPath: String, image: UIImage) async throws {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+        let imagesRef = profileImageStorageAddress.child("\(uidPath).jpg")
+        _ = try await imagesRef.putDataAsync(imageData)
+    }
+    
+    func deleteImagebyUIDAsync(uidPath: String) async throws {
+        let storageRef = profileImageStorageAddress.child("\(uidPath).jpg")
+        try await storageRef.delete()
+    }
+    
+    func representStorageImageAsync(uidPath: String) async throws -> String {
+        let pathRef = profileImageStorageAddress.child("\(uidPath).jpg")
+        let url = try await pathRef.downloadURL()
+        self.representedProfileImageURL = url.absoluteString
+        self.isSummitImage = true
+        return representedProfileImageURL
+    }
 }

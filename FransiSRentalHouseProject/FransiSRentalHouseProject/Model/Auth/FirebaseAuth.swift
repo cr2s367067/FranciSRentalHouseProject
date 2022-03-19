@@ -33,6 +33,7 @@ class FirebaseAuth: ObservableObject {
         return uid ?? "Could not fetch UID."
     }
     
+    // MARK: remove after testing
     func signUp(email: String, password: String) {
         auth.createUser(withEmail: email, password: password) { [weak self] result, error in
             guard result != nil, error == nil else {
@@ -45,6 +46,7 @@ class FirebaseAuth: ObservableObject {
         }
     }
     
+    // MARK: remove after testing
     func signIn(email: String, password: String) {
         auth.signIn(withEmail: email, password: password) { [weak self] result, error in
             guard result != nil, error == nil else {
@@ -76,6 +78,7 @@ class FirebaseAuth: ObservableObject {
         }
     }
     
+    // MARK: remove after testing
     func signWithAnonymous() {
         auth.signInAnonymously { [weak self] result, error in
             guard result != nil, error == nil else {
@@ -92,6 +95,7 @@ class FirebaseAuth: ObservableObject {
         }
     }
     
+    // MARK: remove after testing
     func signOut() {
         do {
             try auth.signOut()
@@ -112,6 +116,7 @@ class FirebaseAuth: ObservableObject {
         }
     }
     
+    // MARK: remove after testing
     func resetPassword(email: String) {
         auth.sendPasswordReset(withEmail: email) { [self] error in
             guard error == nil else {
@@ -131,6 +136,51 @@ class FirebaseAuth: ObservableObject {
                 return
             }
         }
+    }
+    
+}
+
+
+extension FirebaseAuth {
+    func signUpAsync(email: String, password: String) async throws {
+        try await auth.createUser(withEmail: email, password: password)
+        DispatchQueue.main.async {
+            self.signUp = true
+        }
+    }
+    
+    func signInAsync(email: String, password: String) async throws {
+        try await auth.signIn(withEmail: email, password: password)
+        DispatchQueue.main.async {
+            self.signIn = true
+        }
+    }
+    
+    func signWithAnonymousAsync() async throws {
+        try await auth.signInAnonymously()
+        DispatchQueue.main.async {
+            self.isSkipIt = true
+        }
+    }
+    
+    func signOutAsync() throws {
+        try auth.signOut()
+        DispatchQueue.main.async {
+            self.signIn = false
+            if self.isSkipIt == true {
+                self.isSkipIt = false
+            }
+            if self.signIn == true {
+                self.signIn = false
+            }
+            if self.signUp == true {
+                self.signUp = false
+            }
+        }
+    }
+    
+    func resetPasswordAsync(email: String) async throws {
+        try await auth.sendPasswordReset(withEmail: email)
     }
     
 }

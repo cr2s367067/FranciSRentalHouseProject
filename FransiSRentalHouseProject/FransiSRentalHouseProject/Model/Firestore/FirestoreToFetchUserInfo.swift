@@ -21,10 +21,12 @@ class FirestoreToFetchUserinfo: ObservableObject {
     @Published var userRentedRoomInfo = [RentedRoomInfo]()
     @Published var userLastName = ""
     
+    // MARK: remove after testing
     func fetchUploadUserData() {
         fetchUploadedUserData(uidPath: firebaseAuth.getUID())
     }
     
+    // MARK: remove after testing
     func createUserInfomation(uidPath: String, id: String , firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String = "House Owner", RLNumber: String? = "") {
         let rentalFee = RentalFee(paymentDate: Date(), pastRentalFee: "")
         let rentedRoomInfo = RentedRoomInfo(roomUID: "", roomAddress: "", roomTown: "", roomCity: "", roomPrice: "", roomImageCover: "", pastRentalFee: rentalFee)
@@ -36,7 +38,7 @@ class FirestoreToFetchUserinfo: ObservableObject {
         }
     }
     
-    
+    // MARK: remove after testing
     private func fetchUploadedUserData(uidPath: String) {
         let userRef = db.collection("users").document(uidPath)
         userRef.getDocument { (document, error) in
@@ -191,6 +193,7 @@ class FirestoreToFetchUserinfo: ObservableObject {
 
 //: Update user data - roomInfo
 extension FirestoreToFetchUserinfo {
+    // MARK: remove after testing
     func updateUserInformation(uidPath: String, roomID: String = "", roomImage: String, roomAddress: String, roomTown: String, roomCity: String, roomPrice: String, roomZipCode: String) {
         let userRef = db.collection("users").document(uidPath)
         userRef.updateData([
@@ -260,6 +263,107 @@ extension FirestoreToFetchUserinfo {
 }
 
 extension FirestoreToFetchUserinfo {
+    func createUserInfomationAsync(uidPath: String, id: String , firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String = "House Owner", RLNumber: String? = "") async throws {
+        let rentalFee = RentalFee(paymentDate: Date(),
+                                  pastRentalFee: "")
+        let rentedRoomInfo = RentedRoomInfo(roomUID: "",
+                                            roomAddress: "",
+                                            roomTown: "",
+                                            roomCity: "",
+                                            roomPrice: "",
+                                            roomImageCover: "",
+                                            pastRentalFee: rentalFee)
+        _ = UserDataModel(id: id,
+                                     firstName: firstName,
+                                     lastName: lastName,
+                                     mobileNumber: mobileNumber,
+                                     dob: dob,
+                                     address: address,
+                                     town: town,
+                                     city: city,
+                                     zip: zip,
+                                     country: country,
+                                     gender: gender,
+                                     userType: userType,
+                                     providerType: providerType,
+                                     rentalManagerLicenseNumber: RLNumber,
+                                     emailAddress: emailAddress,
+                                     rentedRoomInfo: rentedRoomInfo)
+        let userRef = db.collection("users").document(uidPath)
+        try await userRef.setData([
+            "id": id,
+            "firstName": firstName,
+            "lastName": lastName,
+            "mobileNumber": mobileNumber,
+            "dob": dob,
+            "address": address,
+            "town": town,
+            "city": city,
+            "zip": zip,
+            "country": country,
+            "gender": gender,
+            "userType": userType,
+            "providerType": providerType,
+            "rentalManagerLicenseNumber": RLNumber ?? "",
+            "emailAddress": emailAddress ?? "",
+            "rentedRoomInfo": [
+                "roomUID": "",
+                "roomAddress": "",
+                "roomTown": "",
+                "roomCity": "",
+                "roomPrice": "",
+                "roomImageCover": "",
+                "pastRentalFee": [
+                    "paymentDate": Date(),
+                    "pastRentalFee": ""
+                ]
+            ]
+        ])
+    }
+    
+    private func fetchUploadedUserDataAsync(uidPath: String) async throws {
+        let userRef = db.collection("users").document(uidPath)
+        let userData = try await userRef.getDocument()
+        guard let data = userData.data() else { return }
+        let id = data["id"] as? String ?? ""
+        let firstName = data["firstName"] as? String ?? ""
+        let lastName = data[""] as? String ?? ""
+        let mobileNumber = data["mobileNumber"] as? String ?? ""
+        let dob = data["dob"] as? Date ?? Date()
+        let address = data["address"] as? String ?? ""
+        let town = data["town"] as? String ?? ""
+        let city = data["city"] as? String ?? ""
+        let zip = data["zip"] as? String ?? ""
+        let country = data["country"] as? String ?? ""
+        let gender = data["gender"] as? String ?? ""
+        let userType = data["userType"] as? String ?? ""
+        let providerType = data["providerType"] as? String ?? ""
+        let rentalManagerLicenseNumber = data["rentalManagerLicenseNumber"] as? String ?? ""
+        let emailAddress = data["emailAddress"] as? String ?? ""
+        let rentedRoomInfo = data["rentedRoomInfo"] as? RentedRoomInfo
+        let userDataSet = UserDataModel(id: id,
+                                        firstName: firstName,
+                                        lastName: lastName,
+                                        mobileNumber: mobileNumber,
+                                        dob: dob,
+                                        address: address,
+                                        town: town,
+                                        city: city,
+                                        zip: zip,
+                                        country: country,
+                                        gender: gender,
+                                        userType: userType,
+                                        providerType: providerType,
+                                        rentalManagerLicenseNumber: rentalManagerLicenseNumber,
+                                        emailAddress: emailAddress,
+                                        rentedRoomInfo: rentedRoomInfo)
+        if !self.fetchedUserData.isEmpty {
+            self.fetchedUserData.removeAll()
+            self.fetchedUserData.append(userDataSet)
+        } else {
+            self.fetchedUserData.append(userDataSet)
+        }
+    }
     
 }
 

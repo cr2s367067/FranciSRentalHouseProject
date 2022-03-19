@@ -25,6 +25,7 @@ class StorageForRoomsImage: ObservableObject {
         return imageUUID
     }
     
+    // MARK: remove after testing
     func uploadRoomImage(uidPath: String, image: UIImage, roomID: String, imageUID: String) {
 //        let imageUUID = UUID().uuidString
         guard let roomImageData = image.jpegData(compressionQuality: 0.5) else { return }
@@ -47,20 +48,28 @@ class StorageForRoomsImage: ObservableObject {
         }
     }
     
-    
-    
-    func representStorageRoomImage(uidPath: String, imgUID: String) -> some View {
-        var urlHolder = ""
-        let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(imgUID).jpg")
-        roomImageRef.downloadURL { url, error in
-            if let _error = error {
-                print("Fail to download: \(_error)")
-            } else {
-                guard let _url = url else { return }
-                urlHolder = _url.absoluteString
-            }
-        }
-        return WebImage(url: URL(string: urlHolder))
-    }
+//    func representStorageRoomImage(uidPath: String, imgUID: String) -> some View {
+//        var urlHolder = ""
+//        let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(imgUID).jpg")
+//        roomImageRef.downloadURL { url, error in
+//            if let _error = error {
+//                print("Fail to download: \(_error)")
+//            } else {
+//                guard let _url = url else { return }
+//                urlHolder = _url.absoluteString
+//            }
+//        }
+//        return WebImage(url: URL(string: urlHolder))
+//    }
 
+}
+
+extension StorageForRoomsImage {
+    func uploadRoomImageAsync(uidPath: String, image: UIImage, roomID: String, imageUID: String) async throws {
+        guard let roomImageData = image.jpegData(compressionQuality: 0.5) else { return }
+        let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(roomID)/\(imageUID).jpg")
+        _ = try await roomImageRef.putDataAsync(roomImageData)
+        let url = try await roomImageRef.downloadURL()
+        self.representedRoomImageURL = url.absoluteString
+    }
 }
