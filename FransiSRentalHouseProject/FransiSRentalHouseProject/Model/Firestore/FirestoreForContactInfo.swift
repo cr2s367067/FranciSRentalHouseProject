@@ -14,6 +14,8 @@ import FirebaseAuth
 class FirestoreForContactInfo: ObservableObject {
     let db = Firestore.firestore()
     
+    
+    // MARK: remove after testing
     func summitContactInfo(question description: String = "", uidPath: String) {
         let contactDM = ContactDataModel(connectDescription: description)
         let contactRef = db.collection(uidPath)

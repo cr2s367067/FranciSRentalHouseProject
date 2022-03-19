@@ -45,6 +45,7 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
         }
     }
     
+    // MARK: remove after testing
     func uploadMaintainInfo(uidPath: String, taskName: String, appointmentDate: Date, isFixed: Bool? = false, roomUID: String = "") {
         let maintainInfo = MaintainTaskHolder(description: taskName, appointmentDate: appointmentDate, isFixed: isFixed)
         let maintainRef = db.collection("MaintainTask").document(uidPath).collection(roomUID)
@@ -55,6 +56,7 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
         }
     }
     
+    // MARK: remove after testing
     func fetchMaintainInfo(uidPath: String) {
         let userRef = db.collection("MaintainTask").document(uidPath)
         userRef.getDocument { (document, error) in
@@ -71,4 +73,28 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
             }
         }
     }
+}
+
+extension FirestoreToFetchMaintainTasks {
+    func uploadMaintainInfoAsync(uidPath: String, taskName: String, appointmentDate: Date, isFixed: Bool? = false, roomUID: String = "") async throws {
+        _ = MaintainTaskHolder(description: taskName, appointmentDate: appointmentDate, isFixed: isFixed)
+        let maintainRef = db.collection("MaintainTask").document(uidPath).collection(roomUID)
+        _ = try await maintainRef.addDocument(data: [
+            "description": taskName,
+            "appointmentDate": appointmentDate,
+            "isFixed": isFixed ?? false
+        ])
+    }
+    
+    func fetchMaintainInfoAsync(uidPath: String) async throws {
+        let userRef = db.collection("MaintainTask").document(uidPath)
+        let maintainData = try await userRef.getDocument()
+        guard let data = maintainData.data() else { return }
+        let description = data["description"] as? String ?? ""
+        let appointmentDate = data["appointmentDate"] as? Date ?? Date()
+        let isFixed = data["isFixed"] as? Bool ?? false
+        let maintainDataSet = MaintainTaskHolder(description: description, appointmentDate: appointmentDate, isFixed: isFixed)
+        self.fetchMaintainInfo.append(maintainDataSet)
+    }
+    
 }
