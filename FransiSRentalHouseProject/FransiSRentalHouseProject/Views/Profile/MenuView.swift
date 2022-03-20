@@ -64,7 +64,12 @@ struct MenuView: View {
                     .frame(height: UIScreen.main.bounds.height / 2)
                 HStack {
                     Button {
-                        firebaseAuth.signOut()
+                        do {
+                            try firebaseAuth.signOutAsync()
+                        } catch {
+                            print("unknown error")
+                        }
+                        
                     } label: {
                         Text("Sign Out")
                             .foregroundColor(.white)

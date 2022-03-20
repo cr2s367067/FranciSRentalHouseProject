@@ -642,7 +642,7 @@ extension AppViewModel {
         }
     }
     
-    func userInfoFormatterCheckerAsync(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) async throws {
+    func userInfoFormatterCheckerAsync(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) throws {
         guard id.count == 10 else {
             throw UserInformationError.idFormateError
         }

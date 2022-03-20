@@ -14,6 +14,7 @@ struct UserDetailInfoView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
 //    let persistenceDM = PersistenceController()
     
@@ -156,30 +157,27 @@ struct UserDetailInfoView: View {
                                 .frame(width: 20, height: 20)
                                 .foregroundColor(isSummit ? Color.green : Color.clear)
                             Button {
-                                if !appViewModel.id.isEmpty, !appViewModel.firstName.isEmpty, !appViewModel.lastName.isEmpty, !appViewModel.gender.isEmpty, !appViewModel.mobileNumber.isEmpty, !appViewModel.address.isEmpty, !appViewModel.town.isEmpty, !appViewModel.city.isEmpty, !appViewModel.zipCode.isEmpty, !appViewModel.country.isEmpty == true {
-                                    do {
-                                        try appViewModel.userInfoFormatterChecker(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, gender: appViewModel.gender, mobileNumber: appViewModel.mobileNumber)
-                                        if appViewModel.isProvider == true {
-                                            if selection == "Rental Manager" {
-                                                appViewModel.providerType = "Rental Manager"
-                                            } else {
-                                                appViewModel.providerType = "House Owner"
-                                            }
-                                        }
-
-//                                        isSummit = true
-                                        DispatchQueue.background(delay: 0.0) {
-                                            firebaseAuth.signUp(email: appViewModel.emailAddress, password: appViewModel.userPassword)
-                                        } completion: {
-                                                if appViewModel.userDetailForSignUp == true {
-                                                    appViewModel.userDetailForSignUp = false
+                                Task {
+                                    if !appViewModel.id.isEmpty, !appViewModel.firstName.isEmpty, !appViewModel.lastName.isEmpty, !appViewModel.gender.isEmpty, !appViewModel.mobileNumber.isEmpty, !appViewModel.address.isEmpty, !appViewModel.town.isEmpty, !appViewModel.city.isEmpty, !appViewModel.zipCode.isEmpty, !appViewModel.country.isEmpty == true {
+                                        do {
+                                            try appViewModel.userInfoFormatterCheckerAsync(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, gender: appViewModel.gender, mobileNumber: appViewModel.mobileNumber)
+                                            
+                                            // MARK: move it to sign up view
+                                            if appViewModel.isProvider == true {
+                                                if selection == "Rental Manager" {
+                                                    appViewModel.providerType = "Rental Manager"
+                                                } else {
+                                                    appViewModel.providerType = "House Owner"
                                                 }
+                                            }
+                                            // isSummit = true
+                                            try await firestoreToFetchUserinfo.createUserInfomationAsync(uidPath: firebaseAuth.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, emailAddress: appViewModel.emailAddress, providerType: appViewModel.providerType, RLNumber: appViewModel.rentalManagerLicenseNumber)
+                                        } catch {
+                                            self.errorHandler.handle(error: error)
                                         }
-                                    } catch {
-                                        self.errorHandler.handle(error: error)
+                                    } else {
+                                        showAlert = true
                                     }
-                                } else {
-                                    showAlert = true
                                 }
                             } label: {
                                 Text("Summit")

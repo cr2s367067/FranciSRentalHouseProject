@@ -9,7 +9,8 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct RenterProfileView: View {
-    
+
+    @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var storageForUserProfile: StorageForUserProfile
@@ -225,8 +226,14 @@ struct RenterProfileView: View {
             .edgesIgnoringSafeArea([.top, .bottom])
         })
         .sheet(isPresented: $showSheet, onDismiss: {
-            if !image.isSymbolImage {
-                storageForUserProfile.uploadImage(uidPath: firebaseAuth.getUID(), image: image)
+            Task {
+                do {
+                    if !image.isSymbolImage {
+                        try await storageForUserProfile.uploadImageAsync(uidPath: firebaseAuth.getUID(), image: image)
+                    }
+                } catch {
+                    self.errorHandler.handle(error: error)
+                }
             }
         }) {
             ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
@@ -234,11 +241,15 @@ struct RenterProfileView: View {
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
-        .onAppear {
-            if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
-                firestoreToFetchMaintainTasks.fetchMaintainInfo(uidPath: firebaseAuth.getUID())
+        .task({
+            do {
+                if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
+                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID())
+                }
+                try await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
+            } catch {
+                self.errorHandler.handle(error: error)
             }
-            storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImage(uidPath: firebaseAuth.getUID())
-        }
+        })
     }
 }

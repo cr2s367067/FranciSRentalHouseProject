@@ -30,10 +30,13 @@ struct MaintainView: View {
         appointment = Date()
     }
     
-    private func checkRoomStatus(completion: (()->Void)? = nil) {
+    private func checkRoomStatus() async throws {
         do {
             try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
-            completion?()
+            if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
+                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firebaseAuth.getUID(), taskName: describtion, appointmentDate: appointment, roomUID: firestoreToFetchUserinfo.getRoomUID())
+                showAlert.toggle()
+            }
         } catch {
             self.errorHandler.handle(error: error)
         }
@@ -101,14 +104,8 @@ struct MaintainView: View {
                     HStack {
                         Spacer()
                         Button {
-                            checkRoomStatus {
-                                if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-                                    firestoreToFetchMaintainTasks.uploadMaintainInfo(uidPath: firebaseAuth.getUID(), taskName: describtion, appointmentDate: appointment, roomUID: firestoreToFetchUserinfo.getRoomUID())
-                                    showAlert.toggle()
-                                } else {
-                                    showAlert.toggle()
-
-                                }
+                            Task {                            
+                                try await checkRoomStatus()
                             }
                         } label: {
                             Text("Summit it!")
