@@ -12,9 +12,9 @@ import FirebaseFirestoreSwift
 struct ContactDataModel: Identifiable, Codable {
     @DocumentID var docID: String?
     var id = UUID().uuidString
-    var connectDescription: String?
+    var contactDescription: String?
 }
 
 extension ContactDataModel {
-    static let empty = ContactDataModel(connectDescription: "")
+    static let empty = ContactDataModel(contactDescription: "")
 }

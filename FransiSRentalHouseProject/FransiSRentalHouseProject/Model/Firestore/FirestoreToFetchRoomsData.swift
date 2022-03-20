@@ -39,48 +39,48 @@ class FirestoreToFetchRoomsData: ObservableObject {
     
     
     // MARK: remove after testing
-    func summitRoomInfo(uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String) {
-        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
-        let roomPublicRef = db.collection("RoomsForPublic")
-        
-        roomOwerRef.addDocument(data: [
-            "roomUID" : roomUID,
-            "holderName" : holderName,
-            "mobileNumber" : mobileNumber,
-            "roomAddress" : roomAddress,
-            "town" : town,
-            "city" : city,
-            "zipCode" : zipCode,
-            "roomArea" : roomArea,
-            "rentalPrice" : rentalPrice,
-            "someoneDeadInRoom" : someoneDeadInRoom,
-            "waterLeakingProblem" : waterLeakingProblem,
-            "roomImage" : roomImageURL
-        ], completion: { error in
-            if let _error = error {
-                print("Fail to summit room information: \(_error)")
-            }
-        })
-        
-        roomPublicRef.addDocument(data: [
-            "roomUID" : roomUID,
-            "holderName" : holderName,
-            "mobileNumber" : mobileNumber,
-            "roomAddress" : roomAddress,
-            "town" : town,
-            "city" : city,
-            "zipCode" : zipCode,
-            "roomArea" : roomArea,
-            "rentalPrice" : rentalPrice,
-            "someoneDeadInRoom" : someoneDeadInRoom,
-            "waterLeakingProblem" : waterLeakingProblem,
-            "roomImage" : roomImageURL
-        ]) { error in
-            if let _error = error {
-                print("Fail to summit romm in public: \(_error)")
-            }
-        }
-    }
+//    func summitRoomInfo(uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String) {
+//        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
+//        let roomPublicRef = db.collection("RoomsForPublic")
+//
+//        roomOwerRef.addDocument(data: [
+//            "roomUID" : roomUID,
+//            "holderName" : holderName,
+//            "mobileNumber" : mobileNumber,
+//            "roomAddress" : roomAddress,
+//            "town" : town,
+//            "city" : city,
+//            "zipCode" : zipCode,
+//            "roomArea" : roomArea,
+//            "rentalPrice" : rentalPrice,
+//            "someoneDeadInRoom" : someoneDeadInRoom,
+//            "waterLeakingProblem" : waterLeakingProblem,
+//            "roomImage" : roomImageURL
+//        ], completion: { error in
+//            if let _error = error {
+//                print("Fail to summit room information: \(_error)")
+//            }
+//        })
+//
+//        roomPublicRef.addDocument(data: [
+//            "roomUID" : roomUID,
+//            "holderName" : holderName,
+//            "mobileNumber" : mobileNumber,
+//            "roomAddress" : roomAddress,
+//            "town" : town,
+//            "city" : city,
+//            "zipCode" : zipCode,
+//            "roomArea" : roomArea,
+//            "rentalPrice" : rentalPrice,
+//            "someoneDeadInRoom" : someoneDeadInRoom,
+//            "waterLeakingProblem" : waterLeakingProblem,
+//            "roomImage" : roomImageURL
+//        ]) { error in
+//            if let _error = error {
+//                print("Fail to summit romm in public: \(_error)")
+//            }
+//        }
+//    }
     
 
     

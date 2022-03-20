@@ -10,7 +10,7 @@ import WebKit
 
 struct AppTabView: View {
     
-
+    @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
@@ -75,8 +75,14 @@ struct AppTabView: View {
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
+        .task({
+            do {
+                try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+        })
         .onAppear {
-            firestoreToFetchUserinfo.fetchUploadUserData()
             firestoreToFetchRoomsData.listeningRoomInfo(uidPath: firebaseAuth.getUID())
             firestoreToFetchRoomsData.listeningRoomInfoForPublic()
         }

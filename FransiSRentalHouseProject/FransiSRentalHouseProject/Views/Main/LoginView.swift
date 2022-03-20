@@ -11,6 +11,7 @@ struct LoginView: View {
     
 //    @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var errorHandler: ErrorHandler
     
     @State private var emailAddress = ""
     @State private var userPassword = ""
@@ -54,8 +55,13 @@ struct LoginView: View {
                             .padding()
                         Spacer()
                         Button {
-                            firebaseAuth.signWithAnonymous()
-//                            FirebaseManager.shared.firebaseAuth.signWithAnonymous()
+                            Task {
+                                do {
+                                    try await firebaseAuth.signWithAnonymousAsync()
+                                } catch {
+                                    self.errorHandler.handle(error: error)
+                                }
+                            }
                         } label: {
                             Text(">>> Skip")
                                 .foregroundColor(.white)
@@ -101,8 +107,13 @@ struct LoginView: View {
                         Spacer()
                         Button {
                             //: Request reset password
-                            firebaseAuth.resetPassword(email: emailAddress)
-//                            FirebaseManager.shared.firebaseAuth.resetPassword(email: emailAddress)
+                            Task {
+                                do {
+                                    try await firebaseAuth.resetPasswordAsync(email: emailAddress)
+                                } catch {
+                                    self.errorHandler.handle(error: error)
+                                }
+                            }
                         } label: {
                             Text("Forget Password?")
                                 .foregroundColor(.white)
@@ -116,7 +127,13 @@ struct LoginView: View {
                     .padding(.bottom, 25)
                     VStack {
                         Button {
-                            firebaseAuth.signIn(email: emailAddress, password: userPassword )
+                            Task {
+                                do {
+                                    try await firebaseAuth.signInAsync(email: emailAddress, password: userPassword)
+                                } catch {
+                                    self.errorHandler.handle(error: error)
+                                }
+                            }
                         } label: {
                             Text("Sign In")
                                 .font(.system(size: 15, weight: .regular))

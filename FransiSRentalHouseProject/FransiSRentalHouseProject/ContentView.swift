@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
@@ -24,12 +25,18 @@ struct ContentView: View {
                 LoginView()
             }
         }
+        .task({
+            if firebaseAuth.auth.currentUser != nil {
+                do {
+                    try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
+                } catch {
+                    self.errorHandler.handle(error: error)
+                }
+            }
+        })
         .onAppear {
             firebaseAuth.signIn = firebaseAuth.isSignedIn
-            if firebaseAuth.auth.currentUser != nil {
-//                firestoreToFetchUserinfo.fetchUploadedUserData(uidPath: firebaseAuth.getUID())
-                firestoreToFetchUserinfo.fetchUploadUserData()
-            }
+           
         }
     }
     

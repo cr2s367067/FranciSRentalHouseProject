@@ -16,13 +16,22 @@ class FirestoreForContactInfo: ObservableObject {
     
     
     // MARK: remove after testing
-    func summitContactInfo(question description: String = "", uidPath: String) {
-        let contactDM = ContactDataModel(connectDescription: description)
+//    func summitContactInfo(question description: String = "", uidPath: String) {
+//        let contactDM = ContactDataModel(contactDescription: description)
+//        let contactRef = db.collection(uidPath)
+//        do {
+//           _ = try contactRef.addDocument(from: contactDM)
+//        } catch {
+//            print("Fail to upload contact information.")
+//        }
+//    }
+    
+    func summitContactInfoAsync(question description: String = "", uidPath: String) async throws {
+        _ = ContactDataModel(contactDescription: description)
         let contactRef = db.collection(uidPath)
-        do {
-           _ = try contactRef.addDocument(from: contactDM)
-        } catch {
-            print("Fail to upload contact information.")
-        }
+        _ = try await contactRef.addDocument(data: [
+            "contactDescription" : description
+        ])
     }
 }
+

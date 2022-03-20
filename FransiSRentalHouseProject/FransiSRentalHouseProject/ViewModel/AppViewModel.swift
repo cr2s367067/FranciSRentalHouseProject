@@ -150,57 +150,59 @@ class AppViewModel: ObservableObject {
         rentalManagerLicenseNumber = ""
     }
     
-    func providerSummitChecker(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String) throws {
-        if holderName.isEmpty && holderMobileNumber.isEmpty && roomAddress.isEmpty && roomTown.isEmpty && roomCity.isEmpty && roomZipCode.isEmpty && roomArea.isEmpty && roomRentalPrice.isEmpty && tosAgreement == false && isSummitRoomImage == false {
-            throw ProviderSummitError.blankError
-        }
-        if holderName.isEmpty {
-            throw ProviderSummitError.holderNameError
-        }
-        if holderMobileNumber.count != 10 {
-            throw ProviderSummitError.holderMobileNumberFormateError
-        }
-        if roomAddress.isEmpty {
-            throw ProviderSummitError.roomAddressError
-        }
-        if roomTown.isEmpty {
-            throw ProviderSummitError.roomTownError
-        }
-        if roomCity.isEmpty {
-            throw ProviderSummitError.roomCityError
-        }
-        if roomZipCode.isEmpty {
-            throw ProviderSummitError.roomZipCodeError
-        }
-        if roomArea.isEmpty {
-            throw ProviderSummitError.roomAreaError
-        }
-        if roomRentalPrice.isEmpty {
-            throw ProviderSummitError.roomRentalPriceError
-        }
-        if tosAgreement == false {
-            throw ProviderSummitError.tosAgreementError
-        }
-        if isSummitRoomImage == false {
-            throw ProviderSummitError.roomImageError
-        }
-        
-        //        localData.addRoomDataToArray(roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice)
-    }
+    // MARK: remove after testing
+//    func providerSummitChecker(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String) throws {
+//        if holderName.isEmpty && holderMobileNumber.isEmpty && roomAddress.isEmpty && roomTown.isEmpty && roomCity.isEmpty && roomZipCode.isEmpty && roomArea.isEmpty && roomRentalPrice.isEmpty && tosAgreement == false && isSummitRoomImage == false {
+//            throw ProviderSummitError.blankError
+//        }
+//        if holderName.isEmpty {
+//            throw ProviderSummitError.holderNameError
+//        }
+//        if holderMobileNumber.count != 10 {
+//            throw ProviderSummitError.holderMobileNumberFormateError
+//        }
+//        if roomAddress.isEmpty {
+//            throw ProviderSummitError.roomAddressError
+//        }
+//        if roomTown.isEmpty {
+//            throw ProviderSummitError.roomTownError
+//        }
+//        if roomCity.isEmpty {
+//            throw ProviderSummitError.roomCityError
+//        }
+//        if roomZipCode.isEmpty {
+//            throw ProviderSummitError.roomZipCodeError
+//        }
+//        if roomArea.isEmpty {
+//            throw ProviderSummitError.roomAreaError
+//        }
+//        if roomRentalPrice.isEmpty {
+//            throw ProviderSummitError.roomRentalPriceError
+//        }
+//        if tosAgreement == false {
+//            throw ProviderSummitError.tosAgreementError
+//        }
+//        if isSummitRoomImage == false {
+//            throw ProviderSummitError.roomImageError
+//        }
+//
+//        //        localData.addRoomDataToArray(roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice)
+//    }
     
-    func userInfoFormatterChecker(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) throws {
-        if id.count > 10 || id.count < 10 {
-            throw UserInformationError.idFormateError
-        } else if mobileNumber.count > 10 || mobileNumber.count < 10 {
-            throw UserInformationError.mobileNumberFormateError
-        } else if gender.isEmpty {
-            throw UserInformationError.genderIsNotSelected
-        } else if formatterChecker(id: id) == false {
-            throw UserInformationError.idFormateError
-        } else if id.count == 10 && idChecker(id: id) == false {
-            throw UserInformationError.invalidID
-        }
-    }
+    // MARK: remove after testing
+//    func userInfoFormatterChecker(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) throws {
+//        if id.count > 10 || id.count < 10 {
+//            throw UserInformationError.idFormateError
+//        } else if mobileNumber.count > 10 || mobileNumber.count < 10 {
+//            throw UserInformationError.mobileNumberFormateError
+//        } else if gender.isEmpty {
+//            throw UserInformationError.genderIsNotSelected
+//        } else if formatterChecker(id: id) == false {
+//            throw UserInformationError.idFormateError
+//        } else if id.count == 10 && idChecker(id: id) == false {
+//            throw UserInformationError.invalidID
+//        }
+//    }
     
     private func convertString(input: String) -> String {
         let tempHolder = input
@@ -319,24 +321,25 @@ class AppViewModel: ObservableObject {
         return isCorrect
     }
     
-    func passwordCheckAndSignUp(email: String, password: String, confirmPassword: String) throws {
-        if email.isEmpty {
-            throw SignUpError.emailIsEmpty
-        } else if password.isEmpty {
-            throw SignUpError.passwordIsEmpty
-        } else if confirmPassword.isEmpty {
-            throw SignUpError.confirmPasswordIsEmpty
-        } else if password.count < 6 {
-            throw SignUpError.passwordIstooShort
-        } else if isProvider != true, isRenter != true {
-            throw SignUpError.missingUserType
-        } else if isAgree != true {
-            throw SignUpError.termofServiceIsNotAgree
-        } else if password != confirmPassword {
-            throw SignUpError.passwordAndConfirmIsNotMatch
-        }
-        //signUp(email: email, password: password)
-    }
+    // MARK: remove after testing
+//    func passwordCheckAndSignUp(email: String, password: String, confirmPassword: String) throws {
+//        if email.isEmpty {
+//            throw SignUpError.emailIsEmpty
+//        } else if password.isEmpty {
+//            throw SignUpError.passwordIsEmpty
+//        } else if confirmPassword.isEmpty {
+//            throw SignUpError.confirmPasswordIsEmpty
+//        } else if password.count < 6 {
+//            throw SignUpError.passwordIstooShort
+//        } else if isProvider != true, isRenter != true {
+//            throw SignUpError.missingUserType
+//        } else if isAgree != true {
+//            throw SignUpError.termofServiceIsNotAgree
+//        } else if password != confirmPassword {
+//            throw SignUpError.passwordAndConfirmIsNotMatch
+//        }
+//        //signUp(email: email, password: password)
+//    }
     
     
     
@@ -574,6 +577,86 @@ extension DispatchQueue {
                     completion()
                 })
             }
+        }
+    }
+}
+
+extension AppViewModel {
+    func providerSummitCheckerAsync(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String) async throws {
+        guard !holderName.isEmpty && !holderMobileNumber.isEmpty && !roomAddress.isEmpty && !roomTown.isEmpty && !roomCity.isEmpty && !roomZipCode.isEmpty && !roomArea.isEmpty && !roomRentalPrice.isEmpty && tosAgreement == true && isSummitRoomImage == true else {
+            throw ProviderSummitError.blankError
+        }
+         guard !holderName.isEmpty else {
+            throw ProviderSummitError.holderNameError
+        }
+         guard holderMobileNumber.count == 10 else {
+            throw ProviderSummitError.holderMobileNumberFormateError
+        }
+         guard !roomAddress.isEmpty else {
+            throw ProviderSummitError.roomAddressError
+        }
+         guard !roomTown.isEmpty else {
+            throw ProviderSummitError.roomTownError
+        }
+         guard !roomCity.isEmpty else {
+            throw ProviderSummitError.roomCityError
+        }
+         guard !roomZipCode.isEmpty else {
+            throw ProviderSummitError.roomZipCodeError
+        }
+         guard !roomArea.isEmpty else {
+            throw ProviderSummitError.roomAreaError
+        }
+        guard !roomRentalPrice.isEmpty else {
+            throw ProviderSummitError.roomRentalPriceError
+        }
+        guard tosAgreement == true else {
+            throw ProviderSummitError.tosAgreementError
+        }
+         guard isSummitRoomImage == true else {
+            throw ProviderSummitError.roomImageError
+        }
+    }
+    
+    func passwordCheckAndSignUpAsync(email: String, password: String, confirmPassword: String) async throws {
+        guard !email.isEmpty else {
+            throw SignUpError.emailIsEmpty
+        }
+        guard !password.isEmpty else {
+            throw SignUpError.passwordIsEmpty
+        }
+        guard !confirmPassword.isEmpty else {
+            throw SignUpError.confirmPasswordIsEmpty
+        }
+        guard password.count > 6 else {
+            throw SignUpError.passwordIstooShort
+        }
+        guard isProvider == true, isRenter == true else {
+            throw SignUpError.missingUserType
+        }
+        guard isAgree == true else {
+            throw SignUpError.termofServiceIsNotAgree
+        }
+        guard password == confirmPassword else {
+            throw SignUpError.passwordAndConfirmIsNotMatch
+        }
+    }
+    
+    func userInfoFormatterCheckerAsync(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) async throws {
+        guard id.count == 10 else {
+            throw UserInformationError.idFormateError
+        }
+        guard mobileNumber.count == 10 else {
+            throw UserInformationError.mobileNumberFormateError
+        }
+        guard !gender.isEmpty else {
+            throw UserInformationError.genderIsNotSelected
+        }
+        guard formatterChecker(id: id) == true else {
+            throw UserInformationError.idFormateError
+        }
+        guard id.count == 10 && idChecker(id: id) == true else {
+            throw UserInformationError.invalidID
         }
     }
 }

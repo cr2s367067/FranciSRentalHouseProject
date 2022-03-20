@@ -17,42 +17,42 @@ class StorageForUserProfile: ObservableObject {
     let profileImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "profileImage")
     
     // MARK: remove after testing
-    func uploadImage(uidPath: String, image: UIImage) {
-        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
-        let imagesRef = profileImageStorageAddress.child("\(uidPath).jpg")
-        imagesRef.putData(imageData, metadata: nil) { metadata, error in
-            if let _error = error {
-                print("Fail to push image to storage: \(_error)")
-            }
-        }
-    }
+//    func uploadImage(uidPath: String, image: UIImage) {
+//        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+//        let imagesRef = profileImageStorageAddress.child("\(uidPath).jpg")
+//        imagesRef.putData(imageData, metadata: nil) { metadata, error in
+//            if let _error = error {
+//                print("Fail to push image to storage: \(_error)")
+//            }
+//        }
+//    }
     
     // MARK: remove after testing
-    func deleteImagebyUID(uidPath: String) {
-        let storageRef = profileImageStorageAddress.child("\(uidPath).jpg")
-        storageRef.delete { error in
-            if let _error = error {
-                print("fail to delete: \(_error)")
-            } else {
-                print("Deleted successfully")
-            }
-        }
-    }
+//    func deleteImagebyUID(uidPath: String) {
+//        let storageRef = profileImageStorageAddress.child("\(uidPath).jpg")
+//        storageRef.delete { error in
+//            if let _error = error {
+//                print("fail to delete: \(_error)")
+//            } else {
+//                print("Deleted successfully")
+//            }
+//        }
+//    }
     
     // MARK: remove after testing
-    func representStorageImage(uidPath: String) -> String {
-        let pathRef = profileImageStorageAddress.child("\(uidPath).jpg")
-        pathRef.downloadURL { url, error in
-            if let _error = error {
-                print("Fail to download: \(_error)")
-            } else {
-                guard let _url = url else { return }
-                self.representedProfileImageURL = _url.absoluteString
-                self.isSummitImage = true
-            }
-        }
-        return representedProfileImageURL
-    }
+//    func representStorageImage(uidPath: String) -> String {
+//        let pathRef = profileImageStorageAddress.child("\(uidPath).jpg")
+//        pathRef.downloadURL { url, error in
+//            if let _error = error {
+//                print("Fail to download: \(_error)")
+//            } else {
+//                guard let _url = url else { return }
+//                self.representedProfileImageURL = _url.absoluteString
+//                self.isSummitImage = true
+//            }
+//        }
+//        return representedProfileImageURL
+//    }
     
 }
 

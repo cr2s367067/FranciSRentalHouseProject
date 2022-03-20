@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContactView: View {
     
+    @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreForContactInfo: FirestoreForContactInfo
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -54,8 +55,14 @@ struct ContactView: View {
                     HStack {
                         Spacer()
                         Button {
-                            if !connectDes.isEmpty {
-                                firestoreForContactInfo.summitContactInfo(question: connectDes, uidPath: firebaseAuth.getUID())
+                            Task {   
+                                do {
+                                    if !connectDes.isEmpty {
+                                        try await firestoreForContactInfo.summitContactInfoAsync(question: connectDes, uidPath: firebaseAuth.getUID())
+                                    }
+                                } catch {
+                                    self.errorHandler.handle(error: error)
+                                }
                             }
                         } label: {
                             Text("Send it!")

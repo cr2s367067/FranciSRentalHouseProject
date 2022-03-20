@@ -164,17 +164,13 @@ struct SignUpView: View {
                 }
                 VStack {
                     Button {
-                        do {
-                            try appViewModel.passwordCheckAndSignUp(email: appViewModel.emailAddress, password: appViewModel.userPassword, confirmPassword: appViewModel.recheckPassword)
-                            appViewModel.userDetailForSignUp = true
-                            print(appViewModel.userType)
-                            print(appViewModel.emailAddress)
-                            
-                            //                            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1.0) {
-                            //                                persistenceDM.saveUserType(userType: appViewModel.userType, userUID: fetchFirestore.getUID())
-                            //                            }
-                        } catch {
-                            self.errorHandler.handle(error: error)
+                        Task {
+                            do {
+                                try await appViewModel.passwordCheckAndSignUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword, confirmPassword: appViewModel.recheckPassword)
+                                try await firebaseAuth.signUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword)
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
                         }
                     } label: {
                         Text("Sign Up")
@@ -231,13 +227,13 @@ struct SignUpView: View {
         .onAppear(perform: {
             reset()
         })
-        .fullScreenCover(isPresented: $appViewModel.userDetailForSignUp) {
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1.5) {
-                firestoreToFetchUserinfo.createUserInfomation(uidPath: firebaseAuth.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, emailAddress: appViewModel.emailAddress, providerType: appViewModel.providerType, RLNumber: appViewModel.rentalManagerLicenseNumber)
-            }
-        } content: {
-            UserDetailInfoView()
-        }
+//        .fullScreenCover(isPresented: $appViewModel.userDetailForSignUp) {
+//            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1.5) {
+//                firestoreToFetchUserinfo.createUserInfomation(uidPath: firebaseAuth.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, emailAddress: appViewModel.emailAddress, providerType: appViewModel.providerType, RLNumber: appViewModel.rentalManagerLicenseNumber)
+//            }
+//        } content: {
+//            UserDetailInfoView()
+//        }
     }
 }
 

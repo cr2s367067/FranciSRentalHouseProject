@@ -26,11 +26,20 @@ struct ProviderRoomSummitView: View {
     @State private var showSummitAlert = false
     
     
-    func dataUpload(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, roomID: String, someoneDeadInRoom: String, waterLeakingProblem: String , roomImageURL: String) {
-        if !storageForRoomsImage.representedRoomImageURL.isEmpty {
-            firestoreToFetchRoomsData.summitRoomInfo(uidPath: firebaseAuth.getUID(), roomUID: roomID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL)
+    private func roomSummit(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String) async throws {
+        try await appViewModel.providerSummitCheckerAsync(holderName: holderName, holderMobileNumber: holderMobileNumber, roomAddress: roomAddress, roomTown: roomTown, roomCity: roomCity, roomZipCode: roomZipCode, roomArea: roomArea, roomRentalPrice: roomRentalPrice, tosAgreement: tosAgreement, isSummitRoomImage: isSummitRoomImage, roomUID: roomUID)
+        guard !storageForRoomsImage.representedRoomImageURL.isEmpty else {
+            throw StorageUploadError.imageURLfetchingError
         }
+        try await firestoreToFetchRoomsData.summitRoomInfoAsync(uidPath: firebaseAuth.getUID(), roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL)
+        showSummitAlert = true
     }
+    
+//    func dataUpload(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, roomID: String, someoneDeadInRoom: String, waterLeakingProblem: String , roomImageURL: String) {
+//        if !storageForRoomsImage.representedRoomImageURL.isEmpty {
+//            firestoreToFetchRoomsData.summitRoomInfo(uidPath: firebaseAuth.getUID(), roomUID: roomID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL)
+//        }
+//    }
     
     private func resetView() {
         appViewModel.holderName = ""
@@ -702,12 +711,13 @@ struct ProviderRoomSummitView: View {
                                 }
                             } else if firestoreToFetchUserinfo.evaluateProviderType() == "Rental Manager" {
                                 Button {
-                                    do {
-                                        try appViewModel.providerSummitChecker(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, tosAgreement: holderTosAgree, isSummitRoomImage: isSummitRoomPic, roomUID: firestoreToFetchRoomsData.roomID)
-                                        dataUpload(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, roomID: firestoreToFetchRoomsData.roomID, someoneDeadInRoom: appViewModel.someoneDeadinRoom, waterLeakingProblem: appViewModel.waterLeakingProblem, roomImageURL: storageForRoomsImage.representedRoomImageURL)
-                                        showSummitAlert = true
-                                    } catch {
-                                        self.errorHandler.handle(error: error)
+                                    Task {
+                                        do {
+                                            try await roomSummit(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, tosAgreement: holderTosAgree, isSummitRoomImage: isSummitRoomPic, roomUID: firestoreToFetchRoomsData.roomID, someoneDeadInRoom: appViewModel.someoneDeadinRoom, waterLeakingProblem: appViewModel.waterLeakingProblem, roomImageURL: storageForRoomsImage.representedRoomImageURL)
+                                            showSummitAlert = true
+                                        } catch {
+                                            self.errorHandler.handle(error: error)
+                                        }
                                     }
                                 } label: {
                                     Text("Summit")
@@ -748,8 +758,12 @@ struct ProviderRoomSummitView: View {
                 TermOfServiceForRentalManager()
             })
             .sheet(isPresented: $showSheet) {
-                storageForRoomsImage.uploadRoomImage(uidPath: firebaseAuth.getUID(), image: image, roomID: firestoreToFetchRoomsData.roomID, imageUID: storageForRoomsImage.imageUUID)
-                isSummitRoomPic = true
+                Task {
+                    try await storageForRoomsImage.uploadRoomImageAsync(uidPath: firebaseAuth.getUID(), image: image, roomID: firestoreToFetchRoomsData.roomID, imageUID: storageForRoomsImage.imageUUID)
+                    DispatchQueue.main.async {                    
+                        isSummitRoomPic = true
+                    }
+                }
             } content: {
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
             }

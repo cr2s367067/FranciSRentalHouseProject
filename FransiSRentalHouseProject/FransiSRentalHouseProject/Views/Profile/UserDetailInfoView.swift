@@ -166,7 +166,6 @@ struct UserDetailInfoView: View {
                                                 appViewModel.providerType = "House Owner"
                                             }
                                         }
-                                        debugPrint(UserDataModel(id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, providerType: appViewModel.providerType, rentalManagerLicenseNumber: appViewModel.rentalManagerLicenseNumber, emailAddress: appViewModel.emailAddress))
 
 //                                        isSummit = true
                                         DispatchQueue.background(delay: 0.0) {

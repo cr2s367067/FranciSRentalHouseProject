@@ -121,6 +121,17 @@ enum ContractError: LocalizedError {
     }
 }
 
+enum StorageUploadError: LocalizedError {
+    case imageURLfetchingError
+    
+    var errorDescription: String? {
+        switch self {
+        case .imageURLfetchingError:
+            return NSLocalizedString("Cannot fetch the image path, please try again", comment: "")
+        }
+    }
+}
+
 
 struct ErrorAlert: Identifiable {
     var id = UUID()

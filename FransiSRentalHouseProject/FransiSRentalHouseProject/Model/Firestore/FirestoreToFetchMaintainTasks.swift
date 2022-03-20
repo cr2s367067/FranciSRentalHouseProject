@@ -46,33 +46,33 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
     }
     
     // MARK: remove after testing
-    func uploadMaintainInfo(uidPath: String, taskName: String, appointmentDate: Date, isFixed: Bool? = false, roomUID: String = "") {
-        let maintainInfo = MaintainTaskHolder(description: taskName, appointmentDate: appointmentDate, isFixed: isFixed)
-        let maintainRef = db.collection("MaintainTask").document(uidPath).collection(roomUID)
-        do {
-           _ = try maintainRef.addDocument(from: maintainInfo.self)
-        } catch {
-            print("Fail to upload task")
-        }
-    }
+//    func uploadMaintainInfo(uidPath: String, taskName: String, appointmentDate: Date, isFixed: Bool? = false, roomUID: String = "") {
+//        let maintainInfo = MaintainTaskHolder(description: taskName, appointmentDate: appointmentDate, isFixed: isFixed)
+//        let maintainRef = db.collection("MaintainTask").document(uidPath).collection(roomUID)
+//        do {
+//           _ = try maintainRef.addDocument(from: maintainInfo.self)
+//        } catch {
+//            print("Fail to upload task")
+//        }
+//    }
     
     // MARK: remove after testing
-    func fetchMaintainInfo(uidPath: String) {
-        let userRef = db.collection("MaintainTask").document(uidPath)
-        userRef.getDocument { (document, error) in
-            let result = Result {
-                try document?.data(as: MaintainTaskHolder.self)
-            }
-            switch result {
-            case .success(let success):
-                if let _userMaintainInfo = success {
-                    self.fetchMaintainInfo.append(MaintainTaskHolder(description: _userMaintainInfo.description, appointmentDate: _userMaintainInfo.appointmentDate))
-                }
-            case .failure(let error):
-                print("Error to fetch maintain information: \(error)")
-            }
-        }
-    }
+//    func fetchMaintainInfo(uidPath: String) {
+//        let userRef = db.collection("MaintainTask").document(uidPath)
+//        userRef.getDocument { (document, error) in
+//            let result = Result {
+//                try document?.data(as: MaintainTaskHolder.self)
+//            }
+//            switch result {
+//            case .success(let success):
+//                if let _userMaintainInfo = success {
+//                    self.fetchMaintainInfo.append(MaintainTaskHolder(description: _userMaintainInfo.description, appointmentDate: _userMaintainInfo.appointmentDate))
+//                }
+//            case .failure(let error):
+//                print("Error to fetch maintain information: \(error)")
+//            }
+//        }
+//    }
 }
 
 extension FirestoreToFetchMaintainTasks {
