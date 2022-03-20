@@ -168,6 +168,7 @@ struct SignUpView: View {
                             do {
                                 try await appViewModel.passwordCheckAndSignUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword, confirmPassword: appViewModel.recheckPassword)
                                 try await firebaseAuth.signUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword)
+                                try await firestoreToFetchUserinfo.createUserInfomationAsync(uidPath: firebaseAuth.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, emailAddress: appViewModel.emailAddress, providerType: appViewModel.providerType, RLNumber: appViewModel.rentalManagerLicenseNumber)
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }

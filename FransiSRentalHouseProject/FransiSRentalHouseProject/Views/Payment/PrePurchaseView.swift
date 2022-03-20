@@ -111,6 +111,11 @@ struct PrePurchaseView: View {
                     }
                 }
             }
+            .overlay(content: {
+                if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                    UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+                }
+            })
             .onAppear(perform: {
                 appViewModel.updateNavigationBarColor()
             })

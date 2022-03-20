@@ -13,6 +13,7 @@ struct MaintainView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var appViewModel: AppViewModel
     
     //:temp
         @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -104,9 +105,11 @@ struct MaintainView: View {
                     HStack {
                         Spacer()
                         Button {
-                            Task {                            
-                                try await checkRoomStatus()
-                            }
+//                            Task {
+//                                try await checkRoomStatus()
+//                            }
+                            
+                            print(firestoreToFetchUserinfo.fetchedUserData)
                         } label: {
                             Text("Summit it!")
                                 .foregroundColor(.white)
@@ -133,6 +136,11 @@ struct MaintainView: View {
                 firestoreToFetchUserinfo.appendFetchedDataInLocalRentedRoomInfo()
             }
         }
+        .overlay(content: {
+            if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+            }
+        })
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)

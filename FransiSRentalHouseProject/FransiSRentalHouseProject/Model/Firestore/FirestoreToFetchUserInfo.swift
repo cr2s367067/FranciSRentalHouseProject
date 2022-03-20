@@ -263,6 +263,51 @@ extension FirestoreToFetchUserinfo {
 }
 
 extension FirestoreToFetchUserinfo {
+    
+    func updateUserInfomationAsync(uidPath: String, id: String , firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String = "House Owner", RLNumber: String? = "") async throws {
+        let rentalFee = RentalFee(paymentDate: Date(),
+                                  pastRentalFee: "")
+        let rentedRoomInfo = RentedRoomInfo(roomUID: "",
+                                            roomAddress: "",
+                                            roomTown: "",
+                                            roomCity: "",
+                                            roomPrice: "",
+                                            roomImageCover: "",
+                                            pastRentalFee: rentalFee)
+        _ = UserDataModel(id: id,
+                                     firstName: firstName,
+                                     lastName: lastName,
+                                     mobileNumber: mobileNumber,
+                                     dob: dob,
+                                     address: address,
+                                     town: town,
+                                     city: city,
+                                     zip: zip,
+                                     country: country,
+                                     gender: gender,
+                                     userType: userType,
+                                     providerType: providerType,
+                                     rentalManagerLicenseNumber: RLNumber,
+                                     emailAddress: emailAddress,
+                                     rentedRoomInfo: rentedRoomInfo)
+        let userRef = db.collection("users").document(uidPath)
+        try await userRef.updateData([
+            "id": id,
+            "firstName": firstName,
+            "lastName": lastName,
+            "mobileNumber": mobileNumber,
+            "dob": dob,
+            "address": address,
+            "town": town,
+            "city": city,
+            "zip": zip,
+            "country": country,
+            "gender": gender,
+            "providerType": providerType,
+            "rentalManagerLicenseNumber": (RLNumber ?? "") ?? ""
+        ])
+    }
+    
     func createUserInfomationAsync(uidPath: String, id: String , firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String = "House Owner", RLNumber: String? = "") async throws {
         let rentalFee = RentalFee(paymentDate: Date(),
                                   pastRentalFee: "")
@@ -321,7 +366,15 @@ extension FirestoreToFetchUserinfo {
         ])
     }
     
+    func reloadUserData() async throws {
+        try await fetchUploadUserDataAsync()
+    }
+    
     func fetchUploadUserDataAsync() async throws {
+        guard fetchedUserData.isEmpty else {
+            fetchedUserData.removeAll()
+            return
+        }
         try await fetchUploadedUserDataAsync(uidPath: firebaseAuth.getUID())
         DispatchQueue.main.async {
             self.userLastName = self.getUserLastName(lastName: self.fetchedUserData)
@@ -335,7 +388,7 @@ extension FirestoreToFetchUserinfo {
         guard let data = userData.data() else { return }
         let id = data["id"] as? String ?? ""
         let firstName = data["firstName"] as? String ?? ""
-        let lastName = data[""] as? String ?? ""
+        let lastName = data["lastName"] as? String ?? ""
         let mobileNumber = data["mobileNumber"] as? String ?? ""
         let dob = data["dob"] as? Date ?? Date()
         let address = data["address"] as? String ?? ""
@@ -365,11 +418,13 @@ extension FirestoreToFetchUserinfo {
                                         rentalManagerLicenseNumber: rentalManagerLicenseNumber,
                                         emailAddress: emailAddress,
                                         rentedRoomInfo: rentedRoomInfo)
-        if !self.fetchedUserData.isEmpty {
-            self.fetchedUserData.removeAll()
-            self.fetchedUserData.append(userDataSet)
-        } else {
-            self.fetchedUserData.append(userDataSet)
+        DispatchQueue.main.async {        
+            if !self.fetchedUserData.isEmpty {
+                self.fetchedUserData.removeAll()
+                self.fetchedUserData.append(userDataSet)
+            } else {
+                self.fetchedUserData.append(userDataSet)
+            }
         }
     }
     

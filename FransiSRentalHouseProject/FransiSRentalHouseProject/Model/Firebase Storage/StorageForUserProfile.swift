@@ -61,6 +61,9 @@ extension StorageForUserProfile {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         let imagesRef = profileImageStorageAddress.child("\(uidPath).jpg")
         _ = try await imagesRef.putDataAsync(imageData)
+        DispatchQueue.main.async {
+            self.isSummitImage = true
+        }
     }
     
     func deleteImagebyUIDAsync(uidPath: String) async throws {

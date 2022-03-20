@@ -84,14 +84,6 @@ struct RenterProfileView: View {
                                                 .clipShape(Circle())
                                                 .scaledToFit()
                                         }
-                                        //                                                else {
-                                        //                                                    Image(uiImage: self.image)
-                                        //                                                        .resizable()
-                                        //                                                        .aspectRatio(contentMode: .fill)
-                                        //                                                        .frame(width: 120, height: 120)
-                                        //                                                        .clipShape(Circle())
-                                        //                                                        .scaledToFit()
-                                        //                                                }
                                     }
                                 }
                             }
@@ -243,10 +235,13 @@ struct RenterProfileView: View {
         .navigationBarBackButtonHidden(true)
         .task({
             do {
+                
                 if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
                     try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID())
                 }
-                try await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
+                if storageForUserProfile.isSummitImage == true {
+                    try await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
+                }
             } catch {
                 self.errorHandler.handle(error: error)
             }

@@ -76,6 +76,7 @@
 		02CB58F727CDB5230035EE20 /* StorageForUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58F627CDB5230035EE20 /* StorageForUserProfile.swift */; };
 		02CB58F927CDB53D0035EE20 /* StorageForRoomsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */; };
 		02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D684BE27D9EFF000061B99 /* RenterContractView.swift */; };
+		0E0CB2D127E763130096A5CE /* UnregisterCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */; };
 		0E8AF46D27E600E10044CAAD /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0E8AF46C27E600E10044CAAD /* SDWebImageSwiftUI */; };
 /* End PBXBuildFile section */
 
@@ -145,6 +146,7 @@
 		02CB58F627CDB5230035EE20 /* StorageForUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForUserProfile.swift; sourceTree = "<group>"; };
 		02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForRoomsImage.swift; sourceTree = "<group>"; };
 		02D684BE27D9EFF000061B99 /* RenterContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractView.swift; sourceTree = "<group>"; };
+		0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnregisterCoverView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +303,7 @@
 				0263079B27D7380D000E3CFD /* AlertViews */,
 				0249D44227C639BE0085F4A5 /* SheetView.swift */,
 				0249D44427C639CA0085F4A5 /* GridView.swift */,
+				0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				0249D45527C63B0B0085F4A5 /* UserDetailInfoView.swift in Sources */,
 				0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */,
 				02B7C43E27D0ECA000DC100E /* TermOfServiceView.swift in Sources */,
+				0E0CB2D127E763130096A5CE /* UnregisterCoverView.swift in Sources */,
 				0249D44D27C63A930085F4A5 /* PurchaseView.swift in Sources */,
 				0249D45F27C63B8B0085F4A5 /* PaymentDetailSessionUnit.swift in Sources */,
 				0249D46527C63C040085F4A5 /* ProviderRoomSummitView.swift in Sources */,

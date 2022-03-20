@@ -18,6 +18,7 @@ class AppViewModel: ObservableObject {
     //    let fetchFirestore = FetchFirestore()
     //    let auth = Auth.auth()
     
+    @Published var isShowUserDetailView = false
     
     @Published var isProvider = false
     @Published var isRenter = false
@@ -38,7 +39,7 @@ class AppViewModel: ObservableObject {
     //:~ Sign up view fields
     @Published var id = ""
     @Published var firstName = ""
-    @Published var lastName = ""
+    @Published var lastName = "Unknown"
     @Published var mobileNumber = ""
     @Published var dob = Date()
     @Published var address = ""
@@ -628,10 +629,10 @@ extension AppViewModel {
         guard !confirmPassword.isEmpty else {
             throw SignUpError.confirmPasswordIsEmpty
         }
-        guard password.count > 6 else {
+        guard password.count >= 6 else {
             throw SignUpError.passwordIstooShort
         }
-        guard isProvider == true, isRenter == true else {
+        guard isProvider == true || isRenter == true else {
             throw SignUpError.missingUserType
         }
         guard isAgree == true else {
