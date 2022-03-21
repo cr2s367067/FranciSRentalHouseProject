@@ -17,8 +17,8 @@ class FirestoreToFetchUserinfo: ObservableObject {
     let firebaseAuth = FirebaseAuth()
     let db = Firestore.firestore()
     
-    @Published var fetchedUserData: [UserDataModel] = []
-    @Published var userRentedRoomInfo = [RentedRoomInfo]()
+    @Published var fetchedUserData: UserDataModel = .empty
+    @Published var userRentedRoomInfo: RentedRoomInfo = .empty
     @Published var userLastName = ""
     
     // MARK: remove after testing
@@ -96,15 +96,15 @@ class FirestoreToFetchUserinfo: ObservableObject {
 //        }
 //    }
     
-    private func getUserLastName(lastName: [UserDataModel]) -> String{
+    private func getUserLastName(lastName: UserDataModel) -> String{
         var tempLastNameHolder = ""
-        tempLastNameHolder = lastName.map({$0.lastName}).first?.description ?? ""
+        tempLastNameHolder = lastName.lastName 
         return tempLastNameHolder
     }
     
-    func getUserType(input: [UserDataModel]) -> String {
+    func getUserType(input: UserDataModel) -> String {
         var tempHolder = ""
-        tempHolder = input.map({$0.userType}).first?.description ?? ""
+        tempHolder = input.userType 
         return tempHolder
     }
     
@@ -114,9 +114,9 @@ class FirestoreToFetchUserinfo: ObservableObject {
         return tempHoler
     }
     
-    private func evaluateProviderType(input: [UserDataModel]) -> String {
+    private func evaluateProviderType(input: UserDataModel) -> String {
         var tempHolder = ""
-        tempHolder = input.map({$0.providerType}).first??.description ?? ""
+        tempHolder = input.providerType ?? ""
         return tempHolder
     }
     
@@ -126,11 +126,11 @@ class FirestoreToFetchUserinfo: ObservableObject {
         return userName
     }
     
-    private func presentUserName(input: [UserDataModel]) -> String {
+    private func presentUserName(input: UserDataModel) -> String {
         var tempFirstName = ""
         var tempLastName = ""
-        tempFirstName = input.map({$0.firstName}).first?.description ?? ""
-        tempLastName = input.map({$0.lastName}).first?.description ?? ""
+        tempFirstName = input.firstName
+        tempLastName = input.lastName
         return tempFirstName + tempLastName
     }
     
@@ -140,9 +140,9 @@ class FirestoreToFetchUserinfo: ObservableObject {
         return userId
     }
     
-    private func presentUserId(input: [UserDataModel]) -> String {
+    private func presentUserId(input: UserDataModel) -> String {
         var tempIdholder = ""
-        tempIdholder = input.map({$0.id}).first?.description ?? ""
+        tempIdholder = input.id
         return tempIdholder
     }
     
@@ -152,15 +152,15 @@ class FirestoreToFetchUserinfo: ObservableObject {
         return tempAddressHolder
     }
     
-    private func presentAddress(input: [UserDataModel]) -> String {
+    private func presentAddress(input: UserDataModel) -> String {
         var tempAddressHolder = ""
         var tempTownHolder = ""
         var tempCityHolder = ""
         var tempZipCodeHolder = ""
-        tempAddressHolder = input.map({$0.address}).first?.description ?? ""
-        tempTownHolder = input.map({$0.town}).first?.description ?? ""
-        tempCityHolder = input.map({$0.city}).first?.description ?? ""
-        tempZipCodeHolder = input.map({$0.zip}).first?.description ?? ""
+        tempAddressHolder = input.address
+        tempTownHolder = input.town
+        tempCityHolder = input.city
+        tempZipCodeHolder = input.zip
         return tempZipCodeHolder + tempCityHolder + tempTownHolder + tempAddressHolder
     }
     
@@ -170,9 +170,9 @@ class FirestoreToFetchUserinfo: ObservableObject {
         return tempMobileNumberHolder
     }
     
-    private func presentMobileNumber(input: [UserDataModel]) -> String {
+    private func presentMobileNumber(input: UserDataModel) -> String {
         var tempMobileNumberHolder = ""
-        tempMobileNumberHolder = input.map({$0.mobileNumber}).first?.description ?? ""
+        tempMobileNumberHolder = input.mobileNumber
         return tempMobileNumberHolder
     }
     
@@ -182,9 +182,9 @@ class FirestoreToFetchUserinfo: ObservableObject {
         return tempEmailAddress
     }
     
-    private func presentEmailAddress(input: [UserDataModel]) -> String {
+    private func presentEmailAddress(input: UserDataModel) -> String {
         var tempEmailAddress = ""
-        tempEmailAddress = input.map({$0.emailAddress}).first??.description ?? ""
+        tempEmailAddress = input.emailAddress ?? ""
         return tempEmailAddress
     }
     
@@ -216,42 +216,35 @@ extension FirestoreToFetchUserinfo {
 
 extension FirestoreToFetchUserinfo {
     func appendFetchedDataInLocalRentedRoomInfo() {
-        if userRentedRoomInfo.isEmpty {
-            appendFetchedDataInLocalRentedRoomInfo(input: fetchedUserData)
-        } else {
-            userRentedRoomInfo.removeAll()
-            appendFetchedDataInLocalRentedRoomInfo(input: fetchedUserData)
-        }
+        userRentedRoomInfo = dataInLocalRentedRoomInfo(input: fetchedUserData)
     }
-    private func appendFetchedDataInLocalRentedRoomInfo(input: [UserDataModel]) {
-        input.forEach { parent in
-            parent.rentedRoomInfo.map { child in
-                let roomUID = child.roomUID ?? ""
-                let roomAddress = child.roomAddress ?? ""
-                let roomTown = child.roomTown ?? ""
-                let roomCity = child.roomCity ?? ""
-                let roomPrice = child.roomPrice ?? ""
-                let roomZipCode = child.roomZipCode ?? ""
-                let roomImageCover = child.roomImageCover ?? ""
-                self.userRentedRoomInfo.append(RentedRoomInfo(roomUID: roomUID,
-                                                         roomAddress: roomAddress,
-                                                         roomTown: roomTown,
-                                                         roomCity: roomCity,
-                                                         roomPrice: roomPrice,
-                                                         roomZipCode: roomZipCode,
-                                                         roomImageCover: roomImageCover
-                                                        ))
-            }
-        }
+    private func dataInLocalRentedRoomInfo(input: UserDataModel) -> RentedRoomInfo {
+        let roomUID = input.rentedRoomInfo?.roomUID ?? ""
+        let roomAddress = input.rentedRoomInfo?.roomAddress ?? ""
+        let roomTown = input.rentedRoomInfo?.roomTown ?? ""
+        let roomCity = input.rentedRoomInfo?.roomCity ?? ""
+        let roomPrice = input.rentedRoomInfo?.roomPrice ?? ""
+        let roomZipCode = input.rentedRoomInfo?.roomZipCode ?? ""
+        let roomImageCover = input.rentedRoomInfo?.roomImageCover ?? ""
+        self.userRentedRoomInfo = RentedRoomInfo(roomUID: roomUID,
+                                                roomAddress: roomAddress,
+                                                roomTown: roomTown,
+                                                roomCity: roomCity,
+                                                roomPrice: roomPrice,
+                                                roomZipCode: roomZipCode,
+                                                roomImageCover: roomImageCover
+                                               )
+        return userRentedRoomInfo
     }
+    
     func getRoomUID() -> String {
         var holderRoomUID = ""
             holderRoomUID = getRoomUID(input: userRentedRoomInfo)
         return holderRoomUID
     }
-    func getRoomUID(input: [RentedRoomInfo]) -> String {
+    func getRoomUID(input: RentedRoomInfo) -> String {
         var rentedRoomUID = ""
-        rentedRoomUID = input.map({$0.roomUID}).first??.description ?? ""
+        rentedRoomUID = input.roomUID ?? ""
         return rentedRoomUID
     }
     
@@ -368,109 +361,91 @@ extension FirestoreToFetchUserinfo {
         try await fetchUploadUserDataAsync()
     }
     
+    @MainActor
     func fetchUploadUserDataAsync() async throws {
-        guard fetchedUserData.isEmpty else {
-            fetchedUserData.removeAll()
-            return
-        }
-        try await fetchUploadedUserDataAsync(uidPath: firebaseAuth.getUID())
-        DispatchQueue.main.async {
-            self.userLastName = self.getUserLastName(lastName: self.fetchedUserData)
-        }
-        
+        fetchedUserData = try await fetchUploadedUserDataAsync(uidPath: firebaseAuth.getUID())
+        self.userLastName = self.getUserLastName(lastName: self.fetchedUserData)
     }
     
-    private func fetchUploadedUserDataAsync(uidPath: String) async throws {
+    private func fetchUploadedUserDataAsync(uidPath: String) async throws -> UserDataModel {
         let userRef = db.collection("users").document(uidPath)
-        let userData = try await userRef.getDocument()
-        guard let data = userData.data() else { return }
-        let id = data["id"] as? String ?? ""
-        let firstName = data["firstName"] as? String ?? ""
-        let lastName = data["lastName"] as? String ?? ""
-        let mobileNumber = data["mobileNumber"] as? String ?? ""
-        let dob = data["dob"] as? Date ?? Date()
-        let address = data["address"] as? String ?? ""
-        let town = data["town"] as? String ?? ""
-        let city = data["city"] as? String ?? ""
-        let zip = data["zip"] as? String ?? ""
-        let country = data["country"] as? String ?? ""
-        let gender = data["gender"] as? String ?? ""
-        let userType = data["userType"] as? String ?? ""
-        let providerType = data["providerType"] as? String ?? ""
-        let rentalManagerLicenseNumber = data["rentalManagerLicenseNumber"] as? String ?? ""
-        let emailAddress = data["emailAddress"] as? String ?? ""
-        let rentedRoomInfo = data["rentedRoomInfo"] as? RentedRoomInfo
-        let userDataSet = UserDataModel(id: id,
-                                        firstName: firstName,
-                                        lastName: lastName,
-                                        mobileNumber: mobileNumber,
-                                        dob: dob,
-                                        address: address,
-                                        town: town,
-                                        city: city,
-                                        zip: zip,
-                                        country: country,
-                                        gender: gender,
-                                        userType: userType,
-                                        providerType: providerType,
-                                        rentalManagerLicenseNumber: rentalManagerLicenseNumber,
-                                        emailAddress: emailAddress,
-                                        rentedRoomInfo: rentedRoomInfo)
-        DispatchQueue.main.async {        
-            if !self.fetchedUserData.isEmpty {
-                self.fetchedUserData.removeAll()
-                self.fetchedUserData.append(userDataSet)
-            } else {
-                self.fetchedUserData.append(userDataSet)
-            }
-        }
+        let userData = try await userRef.getDocument(as: UserDataModel.self)
+        self.fetchedUserData = userData
+        return fetchedUserData
+    }
+    
+    func updateUserInformationAsync(uidPath: String, roomID: String = "", roomImage: String, roomAddress: String, roomTown: String, roomCity: String, roomPrice: String, roomZipCode: String) async throws {
+        let userRef = db.collection("users").document(uidPath)
+        try await userRef.updateData([
+            "rentedRoomInfo.roomUID" : roomID,
+            "rentedRoomInfo.roomAddress" : roomAddress,
+            "rentedRoomInfo.roomTown" : roomTown,
+            "rentedRoomInfo.roomCity" : roomCity,
+            "rentedRoomInfo.roomPrice" : roomPrice,
+            "rentedRoomInfo.roomZipCode" : roomZipCode,
+            "rentedRoomInfo.roomImageCover" : roomImage
+        ])
+//        userRef.updateData([
+//            "rentedRoomInfo.roomUID" : roomID,
+//            "rentedRoomInfo.roomAddress" : roomAddress,
+//            "rentedRoomInfo.roomTown" : roomTown,
+//            "rentedRoomInfo.roomCity" : roomCity,
+//            "rentedRoomInfo.roomPrice" : roomPrice,
+//            "rentedRoomInfo.roomZipCode" : roomZipCode,
+//            "rentedRoomInfo.roomImageCover" : roomImage
+//        ], completion: { error in
+//            if let _error = error {
+//                print("error to update: \(_error)")
+//            } else {
+//                print("Update success")
+//            }
+//        })
     }
     
 }
 
 
-
-
-//func fetchListeningData(uidPath: String) {
-//    let userRef = db.collection("users").document(uidPath)
-//    userRef.addSnapshotListener { querySnapshot, error in
-//        guard let document = querySnapshot else {
-//            print("Error fetching document: \(error!)")
-//            return
-//        }
-//        guard let data = document.data() else {
-//            print("Document data was empty")
-//            return
-//        }
-//        guard self.fetchData.isEmpty else {
-//            self.fetchData.removeAll()
-//            return
-//        }
-//        self.fetchData = data.map { (dataSnapShot) -> UserDataModel in
-//
-//            let id = data["id"] as? String ?? ""
-//            let firstName = data["firstName"] as? String ?? ""
-//            let lastName = data["lastname"] as? String ?? ""
-//            let mobileNumber = data["mobileNumber"] as? String ?? ""
-//            let dob = data["dob"] as? Date ?? Date()
-//            let address = data["address"] as? String ?? ""
-//            let town = data["town"] as? String ?? ""
-//            let city = data["city"] as? String ?? ""
-//            let zip = data["zip"] as? String ?? ""
-//            let country = data["country"] as? String ?? ""
-//            let gender = data["gender"] as? String ?? ""
-//            let userType = data["userType"] as? String ?? ""
-//
-//            return UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType)
-//        }
+//extension FirestoreToFetchUserinfo {
+//    func testFun() async throws {
+//        testUserData = try await fetchUploadedUserDataAsyncTest(uidPath: firebaseAuth.getUID())
 //    }
-//}
-
-
-//func nestConverting(input dataSet: [MaintainTaskHolder]) {
-//    for parentData in dataSet {
-//        for childData in parentData.maintainTasks {
-//            fetchMaintainInfo.append(MaintainTasks(taskName: childData.taskName, appointmentDate: childData.appointmentDate))
-//        }
+//    private func fetchUploadedUserDataAsyncTest(uidPath: String) async throws -> UserDataModel {
+//        let userRef = db.collection("users").document(uidPath)
+//        let userData = try await userRef.getDocument(as: UserDataModel.self)
+//        let id = userData.id
+//        let firstName = userData.firstName
+//        let lastName = userData.lastName
+//        let mobileNumber = userData.mobileNumber
+//        let dob = userData.dob
+//        let address = userData.address
+//        let town = userData.town
+//        let city = userData.city
+//        let zip = userData.zip
+//        let country = userData.country
+//        let gender = userData.gender
+//        let userType = userData.userType
+//        let providerType = userData.providerType
+//        let rentalManagerLicenseNumber = userData.rentalManagerLicenseNumber
+//        let emailAddress = userData.emailAddress
+//        let rentedRoomInfo = userData.rentedRoomInfo
+////        self.testUserData = userData
+////        return testUserData
+//
+//        return UserDataModel(id: id,
+//                             firstName: firstName,
+//                             lastName: lastName,
+//                             mobileNumber: mobileNumber,
+//                             dob: dob,
+//                             address: address,
+//                             town: town,
+//                             city: city,
+//                             zip: zip,
+//                             country: country,
+//                             gender: gender,
+//                             userType: userType,
+//                             providerType: providerType,
+//                             rentalManagerLicenseNumber: rentalManagerLicenseNumber,
+//                             emailAddress: emailAddress,
+//                             rentedRoomInfo: rentedRoomInfo)
 //    }
 //}

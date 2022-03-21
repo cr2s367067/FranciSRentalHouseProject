@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
-
-import SwiftUI
+import SDWebImageSwiftUI
 
 struct RoomStatusView: View {
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    
+    var roomImageURL: String {
+        firestoreToFetchUserinfo.userRentedRoomInfo.roomImageCover ?? ""
+    }
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -26,7 +31,7 @@ struct RoomStatusView: View {
                     HStack {
                         VStack {
                             HStack {
-                                Image("room3")
+                                WebImage(url: URL(string: roomImageURL))
                                     .resizable()
                                     .frame(width: 100, height: 100)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -80,7 +85,7 @@ struct RoomStatusView: View {
                             Spacer()
                                 .frame(width: 175)
                             Button {
-                                
+                                print(firestoreToFetchUserinfo.userRentedRoomInfo)
                             } label: {
                                 Text("Yes")
                                     .frame(width: 108, height: 35)
@@ -110,6 +115,16 @@ struct RoomStatusView: View {
                 Spacer()
                     .frame(height: 450)
             }
+        }
+//        .task {
+//            do {
+//             try await firestoreToFetchUserinfo.testFun()
+//            } catch {
+//                print("some error")
+//            }
+//        }
+        .onAppear {
+            firestoreToFetchUserinfo.appendFetchedDataInLocalRentedRoomInfo()
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)

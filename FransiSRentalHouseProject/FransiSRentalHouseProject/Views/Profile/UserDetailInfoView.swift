@@ -150,12 +150,15 @@ struct UserDetailInfoView: View {
                         Spacer()
                         HStack {
                             Spacer()
-                                .frame(width: 220)
-                            //                                .padding(.top)
-                            Image(systemName: "checkmark.circle")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(isSummit ? Color.green : Color.clear)
+                            Group {
+                                Image(systemName: "checkmark.circle")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(isSummit ? Color.green : Color.clear)
+                                Text("Success")
+                                    .foregroundColor(isSummit ? Color.green : Color.clear)
+                                    .font(.system(size: 12, weight: .thin))
+                            }
                             Button {
                                 Task {
                                     if !appViewModel.id.isEmpty, !appViewModel.firstName.isEmpty, !appViewModel.lastName.isEmpty, !appViewModel.gender.isEmpty, !appViewModel.mobileNumber.isEmpty, !appViewModel.address.isEmpty, !appViewModel.town.isEmpty, !appViewModel.city.isEmpty, !appViewModel.zipCode.isEmpty, !appViewModel.country.isEmpty == true {
@@ -166,15 +169,7 @@ struct UserDetailInfoView: View {
                                                                                            gender: appViewModel.gender,
                                                                                            mobileNumber: appViewModel.mobileNumber)
                                             
-                                            // MARK: move it to sign up view
-                                            if appViewModel.isProvider == true {
-                                                if selection == "Rental Manager" {
-                                                    appViewModel.providerType = "Rental Manager"
-                                                } else {
-                                                    appViewModel.providerType = "House Owner"
-                                                }
-                                            }
-                                            // isSummit = true
+                                            
                                             try await firestoreToFetchUserinfo.updateUserInfomationAsync(uidPath: firebaseAuth.getUID(),
                                                                                                          id: appViewModel.id,
                                                                                                          firstName: appViewModel.firstName,
@@ -191,7 +186,8 @@ struct UserDetailInfoView: View {
                                                                                                          emailAddress: appViewModel.emailAddress,
                                                                                                          providerType: appViewModel.providerType,
                                                                                                          RLNumber: appViewModel.rentalManagerLicenseNumber)
-                                            try await firestoreToFetchUserinfo.reloadUserData()
+                                            isSummit = true
+//                                            try await firestoreToFetchUserinfo.reloadUserData()
                                             appViewModel.isShowUserDetailView = false
                                         } catch {
                                             self.errorHandler.handle(error: error)
@@ -217,6 +213,7 @@ struct UserDetailInfoView: View {
             }
         }
         .onAppear(perform: {
+            appViewModel.updateNavigationBarColor()
             reset()
         })
         .navigationTitle("")

@@ -70,6 +70,8 @@ extension StorageForRoomsImage {
         let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(roomID)/\(imageUID).jpg")
         _ = try await roomImageRef.putDataAsync(roomImageData)
         let url = try await roomImageRef.downloadURL()
-        self.representedRoomImageURL = url.absoluteString
+        DispatchQueue.main.async {        
+            self.representedRoomImageURL = url.absoluteString
+        }
     }
 }

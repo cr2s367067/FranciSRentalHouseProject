@@ -185,7 +185,9 @@ struct PurchaseView: View {
                 Button {
                     //: pass data to the next view
                     localData.summaryItemHolder.forEach { result in
-                        firestoreToFetchUserinfo.updateUserInformation(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice), roomZipCode: result.roomZipCode ?? "")
+                        Task {
+                            try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice), roomZipCode: result.roomZipCode ?? "")
+                        }
                     }
                     print("test")
                 } label: {

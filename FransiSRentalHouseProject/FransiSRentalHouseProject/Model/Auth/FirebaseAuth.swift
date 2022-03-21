@@ -166,7 +166,6 @@ extension FirebaseAuth {
     func signOutAsync() throws {
         try auth.signOut()
         DispatchQueue.main.async {
-            self.signIn = false
             if self.isSkipIt == true {
                 self.isSkipIt = false
             }

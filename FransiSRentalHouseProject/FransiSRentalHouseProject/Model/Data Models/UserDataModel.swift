@@ -47,3 +47,7 @@ struct RentalFee: Codable {
 extension UserDataModel {
     static let empty = UserDataModel(id: "", firstName: "", lastName: "", mobileNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: "", providerType: "", rentalManagerLicenseNumber: "", emailAddress: "", rentedRoomInfo: nil)
 }
+
+extension RentedRoomInfo {
+    static let empty = RentedRoomInfo(roomUID: "", roomAddress: "", roomTown: "", roomCity: "", roomPrice: "", roomZipCode: "", roomImageCover: "", pastRentalFee: nil)
+}
