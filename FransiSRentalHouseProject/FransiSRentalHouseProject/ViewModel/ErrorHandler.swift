@@ -17,6 +17,9 @@ enum SignUpError: LocalizedError {
     case missingUserType
     case passwordAndConfirmIsNotMatch
     case creationError
+    case providerTypeError
+    case licenseEnterError
+    case licenseNumberLengthError
     
     var errorDescription: String?  {
         switch self {
@@ -36,6 +39,12 @@ enum SignUpError: LocalizedError {
             return NSLocalizedString("Please check the confirm password", comment: "")
         case .creationError:
             return NSLocalizedString("The account could not create", comment: "")
+        case .providerTypeError:
+            return NSLocalizedString("Please select house owner/Rental Manager", comment: "")
+        case .licenseEnterError:
+            return NSLocalizedString("Please fill out the license number", comment: "")
+        case .licenseNumberLengthError:
+            return NSLocalizedString("Please recheck license number", comment: "")
         }
     }
 }
@@ -48,6 +57,7 @@ enum UserInformationError: LocalizedError {
     case dobFormateError
     case blankError
     case userRentalError
+    case purchaseError
 
     var errorDescription: String? {
         switch self {
@@ -65,6 +75,8 @@ enum UserInformationError: LocalizedError {
             return NSLocalizedString("Please fill out the blank", comment: "")
         case .userRentalError:
             return NSLocalizedString("You haven't rent any room.", comment: "")
+        case .purchaseError:
+            return NSLocalizedString("Hi, You haven't select any product.", comment: "")
         }
     }
 }

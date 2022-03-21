@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MaintainWaitingView: View {
     
-    
+    @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     
     @State private var showDetail = false
@@ -31,6 +32,11 @@ struct MaintainWaitingView: View {
                 }
             }
         }
+        .overlay(content: {
+            if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+            }
+        })
     }
 }
 

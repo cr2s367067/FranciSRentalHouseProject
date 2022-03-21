@@ -43,6 +43,13 @@ struct MenuView: View {
                         } label: {
                             SideBarButton(buttonName: "Contracts", systemImageName: "folder")
                         }
+                        NavigationLink {
+                            withAnimation {
+                                UserDetailInfoView()
+                            }
+                        } label: {
+                            SideBarButton(buttonName: "User Profile", systemImageName: "person.crop.circle")
+                        }
                     }
                     NavigationLink {
                         withAnimation {

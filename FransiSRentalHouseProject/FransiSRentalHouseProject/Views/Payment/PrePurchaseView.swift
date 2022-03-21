@@ -40,6 +40,12 @@ struct PrePurchaseView: View {
         }
     }
     
+    private func itemSelectChecker() throws {
+        guard !localData.tempCart.isEmpty || !localData.summaryItemHolder.isEmpty else {
+            throw UserInformationError.purchaseError
+        }
+    }
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -92,15 +98,32 @@ struct PrePurchaseView: View {
                             Spacer()
                                 .frame(width: 50)
                             
-                            NavigationLink {
-                                PaymentSummaryView()
-                            } label: {
-                                Text("Check Out")
-                                    .foregroundColor(.white)
-                                    .frame(width: 108, height: 35)
-                                    .background(Color("buttonBlue"))
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                    .padding(.trailing)
+                            if localData.tempCart.isEmpty || localData.summaryItemHolder.isEmpty {
+                                Button {
+                                    do {
+                                        try itemSelectChecker()
+                                    } catch {
+                                        self.errorHandler.handle(error: error)
+                                    }
+                                } label: {
+                                    Text("Check Out")
+                                        .foregroundColor(.white)
+                                        .frame(width: 108, height: 35)
+                                        .background(Color("buttonBlue"))
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        .padding(.trailing)
+                                }
+                            } else {
+                                NavigationLink {
+                                    PaymentSummaryView()
+                                } label: {
+                                    Text("Check Out")
+                                        .foregroundColor(.white)
+                                        .frame(width: 108, height: 35)
+                                        .background(Color("buttonBlue"))
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        .padding(.trailing)
+                                }
                             }
                             
                         }

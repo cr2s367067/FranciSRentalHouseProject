@@ -74,8 +74,10 @@ extension StorageForUserProfile {
     func representStorageImageAsync(uidPath: String) async throws -> String {
         let pathRef = profileImageStorageAddress.child("\(uidPath).jpg")
         let url = try await pathRef.downloadURL()
-        self.representedProfileImageURL = url.absoluteString
-        self.isSummitImage = true
+        DispatchQueue.main.async {        
+            self.representedProfileImageURL = url.absoluteString
+            self.isSummitImage = true
+        }
         return representedProfileImageURL
     }
 }

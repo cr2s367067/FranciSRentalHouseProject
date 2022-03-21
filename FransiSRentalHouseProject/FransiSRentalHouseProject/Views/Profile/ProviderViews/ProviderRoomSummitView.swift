@@ -750,6 +750,11 @@ struct ProviderRoomSummitView: View {
                 
             }
             .navigationBarHidden(true)
+            .overlay(content: {
+                if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                    UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+                }
+            })
             .onAppear(perform: {
                 firestoreToFetchRoomsData.roomID = firestoreToFetchRoomsData.roomIdGenerator()
                 storageForRoomsImage.imageUUID = storageForRoomsImage.imagUUIDGenerator()

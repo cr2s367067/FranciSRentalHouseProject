@@ -46,8 +46,9 @@ struct SignUpView: View {
             }
             .edgesIgnoringSafeArea([.top, .bottom])
             VStack {
+                
                 Spacer()
-                    .frame(height: 100)
+                    .frame(height: 90)
                 HStack {
                     Text("Sign In")
                         .font(.system(size: 24))
@@ -161,6 +162,62 @@ struct SignUpView: View {
                         }
                     }
                     .padding(.top, 10)
+                    
+                    if appViewModel.isProvider == true {
+                        HStack {
+                            Button {
+                                if appViewModel.isRentalM == true {
+                                    appViewModel.isRentalM = false
+                                }
+                                if appViewModel.isHoseOwner == false {
+                                    appViewModel.isHoseOwner = true
+                                    appViewModel.providerType = "House Owner"
+                                }
+                            } label: {
+                                HStack {
+                                    Text("House Owner")
+                                        .foregroundColor(appViewModel.isHoseOwner ? .white : .gray)
+                                    Image(systemName: appViewModel.isHoseOwner ? "checkmark.circle.fill" : "checkmark.circle")
+                                        .foregroundColor(appViewModel.isHoseOwner ? .green : .gray)
+                                        .padding(.leading, 10)
+                                    
+                                }
+                                .frame(width: 160, height: 34)
+                                .background(Color("fieldGray").opacity(0.07))
+                                .cornerRadius(5)
+                            }
+                            Spacer()
+                                .frame(width: 45)
+                            Button {
+                                if appViewModel.isHoseOwner == true {
+                                    appViewModel.isHoseOwner = false
+                                    
+                                }
+                                if appViewModel.isRentalM == false {
+                                    appViewModel.isRentalM = true
+                                    appViewModel.providerType = "Rental Manager"
+                                }
+                                //                            appViewModel.isRenter.toggle()
+                            } label: {
+                                HStack {
+                                    Text("Rental Manager")
+                                        .foregroundColor(appViewModel.isRentalM ? .white : .gray)
+                                    Image(systemName: appViewModel.isRentalM ? "checkmark.circle.fill" : "checkmark.circle")
+                                        .foregroundColor(appViewModel.isRentalM ? .green : .gray)
+                                        .padding(.leading, 10)
+                                }
+                                .frame(width: 160, height: 34)
+                                .background(Color("fieldGray").opacity(0.07))
+                                .cornerRadius(5)
+                            }
+                        }
+                        .padding(.top, 10)
+                    }
+                    if appViewModel.isRentalM == true && appViewModel.isProvider == true {
+                        InfoUnit(title: "License Number", bindingString: $appViewModel.rentalManagerLicenseNumber)
+                            .keyboardType(.numberPad)
+                            .padding(.top, 10)
+                    }
                 }
                 VStack {
                     Button {
@@ -184,7 +241,7 @@ struct SignUpView: View {
                             .cornerRadius(5)
                     }
                     Spacer()
-                        .frame(height: 180)
+                        .frame(height: 80)
                     HStack {
                         Button {
                             appViewModel.isAgree.toggle()
@@ -217,6 +274,7 @@ struct SignUpView: View {
                 .padding(.top, 25)
                 Spacer()
                     .frame(height: 35)
+                
             }
         }
         .sheet(isPresented: $tosSheetShow, content: {

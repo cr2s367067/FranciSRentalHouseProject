@@ -21,6 +21,8 @@ class AppViewModel: ObservableObject {
     @Published var isShowUserDetailView = false
     
     @Published var isProvider = false
+    @Published var isHoseOwner = false
+    @Published var isRentalM = false
     @Published var isRenter = false
     @Published var isAgree = false
     @Published var checked = false
@@ -392,7 +394,7 @@ struct textFormateForProviderSummitView: ViewModifier {
     func body(content: Content) -> some View {
         content
             .foregroundStyle(Color.white)
-            .font(.system(size: 14, weight: .semibold))
+            .font(.system(size: 13, weight: .regular))
     }
 }
 
@@ -545,16 +547,28 @@ struct InfoUnit: View {
     @State var title: String
     @Binding var bindingString: String
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(title)
-                .modifier(textFormateForProviderSummitView())
+            HStack {
+                Text(title)
+                    .modifier(textFormateForProviderSummitView())
+                Spacer()
+            }
             TextField("", text: $bindingString)
-                .foregroundStyle(Color.black)
+                .foregroundStyle(Color.white)
                 .frame(height: 30)
-                .background(Color("fieldGray"))
+                .background(Color.clear)
                 .cornerRadius(5)
         }
+        .padding()
+        .frame(width: uiScreenWidth - 30)
+        .background(alignment: .center, content: {
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.gray, lineWidth: 1)
+        })
     }
 }
 
@@ -635,11 +649,24 @@ extension AppViewModel {
         guard isProvider == true || isRenter == true else {
             throw SignUpError.missingUserType
         }
-        guard isAgree == true else {
-            throw SignUpError.termofServiceIsNotAgree
-        }
         guard password == confirmPassword else {
             throw SignUpError.passwordAndConfirmIsNotMatch
+        }
+        if isProvider == true {
+            guard isHoseOwner == true || isRentalM == true else {
+                throw SignUpError.providerTypeError
+            }
+            if isRentalM == true {
+                guard !rentalManagerLicenseNumber.isEmpty else {
+                    throw SignUpError.licenseEnterError
+                }
+                guard rentalManagerLicenseNumber.count == 9 else {
+                    throw SignUpError.licenseNumberLengthError
+                }
+            }
+        }
+        guard isAgree == true else {
+            throw SignUpError.termofServiceIsNotAgree
         }
     }
     

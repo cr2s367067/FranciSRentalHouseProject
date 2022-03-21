@@ -302,9 +302,7 @@ extension FirestoreToFetchUserinfo {
             "city": city,
             "zip": zip,
             "country": country,
-            "gender": gender,
-            "providerType": providerType,
-            "rentalManagerLicenseNumber": (RLNumber ?? "") ?? ""
+            "gender": gender
         ])
     }
     

@@ -16,9 +16,9 @@ struct MaintainView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     
     //:temp
-        @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     
-//    let firebaseAuth = FirebaseAuth()
+    //    let firebaseAuth = FirebaseAuth()
     
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
@@ -43,11 +43,11 @@ struct MaintainView: View {
         }
     }
     
-    private func checkFillOut(completion: (()->Void)? = nil) {
-        if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-            completion?()
-        }
-    }
+    //    private func checkFillOut(completion: (()->Void)? = nil) {
+    //        if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
+    //            completion?()
+    //        }
+    //    }
     
     var body: some View {
         ZStack {
@@ -105,11 +105,9 @@ struct MaintainView: View {
                     HStack {
                         Spacer()
                         Button {
-//                            Task {
-//                                try await checkRoomStatus()
-//                            }
-                            
-                            print(firestoreToFetchUserinfo.fetchedUserData)
+                            Task {
+                                try await checkRoomStatus()
+                            }
                         } label: {
                             Text("Summit it!")
                                 .foregroundColor(.white)
