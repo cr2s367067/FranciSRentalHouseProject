@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PurchaseView: View {
     
+    @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -19,6 +21,15 @@ struct PurchaseView: View {
     @State var cardNumber = ""
     @State var expDate = ""
     @State var secCode = ""
+    
+    private func reset() {
+        localData.tempCart.removeAll()
+        appViewModel.isRedacted = false
+        appViewModel.rentalPolicyisAgree = false
+        localData.summaryItemHolder.removeAll()
+        appViewModel.paymentSummaryTosAgree = false
+        appViewModel.paymentSummaryAutoPayAgree = false
+    }
     
     var body: some View {
         ZStack {
@@ -186,9 +197,14 @@ struct PurchaseView: View {
                     //: pass data to the next view
                     localData.summaryItemHolder.forEach { result in
                         Task {
-                            try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice), roomZipCode: result.roomZipCode ?? "")
+                            try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID)
+                            try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.docID)
+                            try await firestoreToFetchUserinfo.reloadUserDataTest()
+                            try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providerUID, docID: result.docID, renterID: firebaseAuth.getUID())
+                            reset()
                         }
                     }
+                    
                     print("test")
                 } label: {
                     Text("Pay")

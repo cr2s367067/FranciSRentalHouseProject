@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseFirestoreSwift
 
 struct ProviderRoomSummitView: View {
     
@@ -27,11 +28,12 @@ struct ProviderRoomSummitView: View {
     
     
     private func roomSummit(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String) async throws {
+        let docID = UUID().uuidString
         try await appViewModel.providerSummitCheckerAsync(holderName: holderName, holderMobileNumber: holderMobileNumber, roomAddress: roomAddress, roomTown: roomTown, roomCity: roomCity, roomZipCode: roomZipCode, roomArea: roomArea, roomRentalPrice: roomRentalPrice, tosAgreement: tosAgreement, isSummitRoomImage: isSummitRoomImage, roomUID: roomUID)
         guard !storageForRoomsImage.representedRoomImageURL.isEmpty else {
             throw StorageUploadError.imageURLfetchingError
         }
-        try await firestoreToFetchRoomsData.summitRoomInfoAsync(uidPath: firebaseAuth.getUID(), roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL)
+        try await firestoreToFetchRoomsData.summitRoomInfoAsync(docID: docID, uidPath: firebaseAuth.getUID(), roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL)
         showSummitAlert = true
     }
     
@@ -715,6 +717,9 @@ struct ProviderRoomSummitView: View {
                                         do {
                                             try await roomSummit(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, tosAgreement: holderTosAgree, isSummitRoomImage: isSummitRoomPic, roomUID: firestoreToFetchRoomsData.roomID, someoneDeadInRoom: appViewModel.someoneDeadinRoom, waterLeakingProblem: appViewModel.waterLeakingProblem, roomImageURL: storageForRoomsImage.representedRoomImageURL)
                                             showSummitAlert = true
+                                            
+                                            // MARK: Temp func remove after testing
+//                                            try await firestoreToFetchRoomsData.deleteRentedRoom()
                                         } catch {
                                             self.errorHandler.handle(error: error)
                                         }

@@ -24,12 +24,14 @@ struct RoomInfoDataModel: Identifiable, Codable {
     var town: String
     var city: String
     var zipCode: String
-//    var emailAddress: String
     var roomArea: String
     var rentalPrice: String
     var someoneDeadInRoom: String
     var waterLeakingProblem: String
     var roomImage: String?
+    var isRented: Bool?
+    var rentedBy: String?
+    var providedBy: String
     
     //: At below these fields are for house owner
     //:~ Paragrah1
@@ -123,12 +125,14 @@ extension RoomInfoDataModel {
                                          town: "",
                                          city: "",
                                          zipCode: "",
-//                                         emailAddress: "",
                                          roomArea: "",
                                          rentalPrice: "",
                                          someoneDeadInRoom: "",
                                          waterLeakingProblem: "",
                                          roomImage: nil,
+                                         isRented: false,
+                                         rentedBy: "",
+                                         providedBy: "",
                                          specificBuildingNumber: "",
                                          specificBuildingRightRange: "",
                                          specificBuildingArea: "",

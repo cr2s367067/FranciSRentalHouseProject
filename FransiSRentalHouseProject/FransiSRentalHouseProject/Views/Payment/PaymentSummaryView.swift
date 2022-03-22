@@ -9,11 +9,10 @@ import SwiftUI
 
 struct PaymentSummaryView: View {
     
-    //    @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     
-    @State var tosAgree = false
-    @State var autoPayAgree = false
+    
     @State var showErrorAlert = false
     
     var body: some View {
@@ -57,10 +56,10 @@ struct PaymentSummaryView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
                             Button {
-                                tosAgree.toggle()
+                                appViewModel.paymentSummaryTosAgree.toggle()
                             } label: {
-                                Image(systemName: tosAgree ? "checkmark.square.fill" : "checkmark.square")
-                                    .foregroundColor(tosAgree ? .green : .white)
+                                Image(systemName: appViewModel.paymentSummaryTosAgree ? "checkmark.square.fill" : "checkmark.square")
+                                    .foregroundColor(appViewModel.paymentSummaryTosAgree ? .green : .white)
                                     .padding(.trailing, 5)
                             }
                             Text("I have read and agree the terms of Service.")
@@ -69,10 +68,10 @@ struct PaymentSummaryView: View {
                         }
                         HStack {
                             Button {
-                                autoPayAgree.toggle()
+                                appViewModel.paymentSummaryAutoPayAgree.toggle()
                             } label: {
-                                Image(systemName: autoPayAgree ? "checkmark.square.fill" : "checkmark.square")
-                                    .foregroundColor(autoPayAgree ? .green : .white)
+                                Image(systemName: appViewModel.paymentSummaryAutoPayAgree ? "checkmark.square.fill" : "checkmark.square")
+                                    .foregroundColor(appViewModel.paymentSummaryAutoPayAgree ? .green : .white)
                                     .padding(.trailing, 5)
                             }
                             Text("The rent payment will automatically pay\n monthly until the expired day.")
@@ -80,7 +79,7 @@ struct PaymentSummaryView: View {
                                 .font(.system(size: 14, weight: .medium))
                         }
                     }
-                    if tosAgree == true && autoPayAgree == true {
+                    if appViewModel.paymentSummaryTosAgree == true && appViewModel.paymentSummaryAutoPayAgree == true {
                         NavigationLink {
                             //: pass data to the next view
                             RenterContractView()

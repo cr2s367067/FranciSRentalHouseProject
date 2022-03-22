@@ -17,7 +17,7 @@ class LocalData: ObservableObject {
     @Published var summaryItemHolder: [SummaryItemHolder] = []
     
     //: User Data
-    @Published var userDataHolder: [UserDataModel] = []
+//    @Published var userDataHolder: [UserDataModel] = []
     //: Maintain Task
     @Published var maintainTaskHolder: [MaintainTaskHolder] = []
     
@@ -25,19 +25,22 @@ class LocalData: ObservableObject {
     @Published var localRoomsHolder: RoomInfoDataModel = .empty
     
     
-    func addItem(roomAddress: String, roomTown: String, roomCity: String, itemPrice: Int, roomUID: String, roomImage: String, roomZipCode: String) {
+    func addItem(roomAddress: String, roomTown: String, roomCity: String, itemPrice: Int, roomUID: String, roomImage: String, roomZipCode: String, docID: String, providerUID: String) {
         summaryItemHolder.append(SummaryItemHolder(roomAddress: roomAddress,
                                                    roomTown: roomTown,
                                                    roomCity: roomCity,
                                                    itemPrice: itemPrice,
                                                    roomUID: roomUID,
-                                                   roomImage: roomImage, roomZipCode: roomZipCode))
+                                                   roomImage: roomImage,
+                                                   roomZipCode: roomZipCode,
+                                                   docID: docID,
+                                                   providerUID: providerUID))
     }
     
     
-    func addFetchedData(id: String, firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String) {
-        userDataHolder.append(UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType))
-    }
+//    func addFetchedData(id: String, firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, providerType: String = "") {
+//        userDataHolder.append(UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType, providerType: providerType))
+//    }
     
     func compute(source: [SummaryItemHolder]) -> Int {
         var newElemet = 0

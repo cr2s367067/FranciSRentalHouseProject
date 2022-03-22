@@ -21,7 +21,7 @@ struct PrePurchaseView: View {
     @State var totalPrice = "9000"
     
     @State private var isRented = false
-    @State private var isRedacted = true
+//    @State private var isRedacted = true
 //    let dataModel: RoomsDataModel
     
     var tempFurData = ["furpic1", "furpic2", "furpic3", "furpic4", "furpic5", "furpic6", "furpic7", "furpic8"]
@@ -31,14 +31,14 @@ struct PrePurchaseView: View {
         GridItem(.fixed(170))
     ]
     
-    private func checkRoomStatus(completion: (()->Void)? = nil) {
-        do {
-            try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
-            completion?()
-        } catch {
-            self.errorHandler.handle(error: error)
-        }
-    }
+//    private func checkRoomStatus(completion: (()->Void)? = nil) {
+//        do {
+//            try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
+//            completion?()
+//        } catch {
+//            self.errorHandler.handle(error: error)
+//        }
+//    }
     
     private func itemSelectChecker() throws {
         guard !localData.tempCart.isEmpty || !localData.summaryItemHolder.isEmpty else {
@@ -64,11 +64,11 @@ struct PrePurchaseView: View {
                                                        roomPrice: Int(data.rentalPrice) ?? 0)
                                 }
                                 .onAppear {
-                                    isRedacted = false
+                                    appViewModel.isRedacted = false
                                 }
                             } else {
                                 SearchListItemView(roomAddress: "placehold", roomTown: "placehold", roomCity: "placehold")
-                                    .redacted(reason: isRedacted ? .placeholder : .init())
+                                    .redacted(reason: appViewModel.isRedacted ? .placeholder : .init())
                             }
                             TitleAndDivider(title: "Furnitures")
                             HStack(alignment: .center) {

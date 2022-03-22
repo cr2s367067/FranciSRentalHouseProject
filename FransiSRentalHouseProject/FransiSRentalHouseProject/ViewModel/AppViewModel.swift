@@ -18,6 +18,13 @@ class AppViewModel: ObservableObject {
     //    let fetchFirestore = FetchFirestore()
     //    let auth = Auth.auth()
     
+    @Published var paymentSummaryTosAgree = false
+    @Published var paymentSummaryAutoPayAgree = false
+    
+    @Published var rentalPolicyisAgree = false
+    
+    @Published var isRedacted = true
+    
     @Published var isShowUserDetailView = false
     
     @Published var isProvider = false
@@ -477,6 +484,7 @@ struct TitleAndDivider: View {
 struct SummaryItems: View {
     
     @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var appViewModel: AppViewModel
     
     var checkOutItem = "No Data"
     var checkOutPrice = "0"
@@ -489,6 +497,7 @@ struct SummaryItems: View {
                         Button {
                             localData.summaryItemHolder.removeAll(where: {$0.id == data.id})
                             localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                            appViewModel.isRedacted = true
                         } label: {
                             Image(systemName: "xmark.circle")
                                 .resizable()

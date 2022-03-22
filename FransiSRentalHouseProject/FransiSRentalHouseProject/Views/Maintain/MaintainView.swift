@@ -34,6 +34,7 @@ struct MaintainView: View {
     private func checkRoomStatus(describtion: String, appointmentDate: Date) async throws {
         do {
             try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
+            try firestoreToFetchUserinfo.checkMaintainFilled(description: describtion, appointmentDate: appointmentDate)
             if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
                 try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firebaseAuth.getUID(), taskName: describtion, appointmentDate: appointment, roomUID: firestoreToFetchUserinfo.getRoomUID())
                 showAlert.toggle()
@@ -108,7 +109,6 @@ struct MaintainView: View {
                             Task {
                                 try await checkRoomStatus(describtion: describtion, appointmentDate: appointment)
                             }
-//                            print(firestoreToFetchUserinfo.userRentedRoomInfo)
                         } label: {
                             Text("Summit it!")
                                 .foregroundColor(.white)
@@ -133,7 +133,7 @@ struct MaintainView: View {
             }
         }
         .onAppear {
-            firestoreToFetchUserinfo.appendFetchedDataInLocalRentedRoomInfo()
+            firestoreToFetchUserinfo.userRentedRoomInfo()
         }
         .overlay(content: {
             if firestoreToFetchUserinfo.presentUserId().isEmpty {

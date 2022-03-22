@@ -19,6 +19,8 @@ struct RoomDetailSheetView: View {
     var roomPrice: Int
     var roomUID: String
     var roomZipCode: String
+    var docID: String
+    var providedBy: String
     var result: RoomInfoDataModel
     
     var body: some View {
@@ -65,7 +67,8 @@ struct RoomDetailSheetView: View {
                                               itemPrice: Int(roomPrice) ,
                                               roomUID: roomUID ,
                                               roomImage: roomImage ,
-                                              roomZipCode: roomZipCode )
+                                              roomZipCode: roomZipCode,
+                                              docID: docID, providerUID: providedBy)
                         } else {
                             localData.tempCart.removeAll()
                             localData.summaryItemHolder.removeAll()
@@ -77,7 +80,8 @@ struct RoomDetailSheetView: View {
                                                   itemPrice: Int(roomPrice) ,
                                                   roomUID: roomUID ,
                                                   roomImage: roomImage ,
-                                                  roomZipCode: roomZipCode )
+                                                  roomZipCode: roomZipCode,
+                                                  docID: docID, providerUID: providedBy)
                             }
                         }
                         if appViewModel.isPresent == false {

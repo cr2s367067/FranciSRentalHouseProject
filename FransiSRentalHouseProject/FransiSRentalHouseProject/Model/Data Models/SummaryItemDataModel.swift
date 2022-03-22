@@ -18,6 +18,8 @@ struct SummaryItemHolder: Identifiable, Codable {
     var roomUID: String?
     var roomImage: String?
     var roomZipCode: String?
+    var docID: String
+    var providerUID: String
 //    enum CodingKeys: String, CodingKey {
 //        case id
 //        case itemName

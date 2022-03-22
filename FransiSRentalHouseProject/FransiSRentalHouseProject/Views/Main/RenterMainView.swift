@@ -50,7 +50,10 @@ struct RenterMainView: View {
                                                                   roomCity: result.city,
                                                                   itemPrice: Int(result.rentalPrice) ?? 0,
                                                                   roomUID: result.roomUID ?? "",
-                                                                  roomImage: result.roomImage ?? "", roomZipCode: result.zipCode )
+                                                                  roomImage: result.roomImage ?? "",
+                                                                  roomZipCode: result.zipCode,
+                                                                  docID: result.docID ?? "",
+                                                                  providerUID: result.providedBy)
                                             } else {
                                                 localData.tempCart.removeAll()
                                                 localData.summaryItemHolder.removeAll()
@@ -61,7 +64,9 @@ struct RenterMainView: View {
                                                                       roomCity: result.city,
                                                                       itemPrice: Int(result.rentalPrice) ?? 0,
                                                                       roomUID: result.roomUID ?? "",
-                                                                      roomImage: result.roomImage ?? "", roomZipCode: result.zipCode )
+                                                                      roomImage: result.roomImage ?? "",
+                                                                      roomZipCode: result.zipCode,
+                                                                      docID: result.docID ?? "", providerUID: result.providedBy )
                                                 }
                                             }
                                             if appViewModel.isPresent == false {
@@ -73,10 +78,11 @@ struct RenterMainView: View {
                                                      roomTown: result.town,
                                                      roomCity: result.city,
                                                      objectPrice: Int(result.rentalPrice) ?? 0)
-                                                .frame(height: 160)
-                                                .alert(isPresented: $appViewModel.isPresent) {
-                                                    Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                                                }
+                                            .frame(height: 160)
+                                            .alert(isPresented: $appViewModel.isPresent) {
+                                                Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+                                            }
+                                            
                                         }
                                     }
                                 }
@@ -100,7 +106,10 @@ struct RenterMainView: View {
                                                                   roomCity: result.city,
                                                                   itemPrice: Int(result.rentalPrice) ?? 0,
                                                                   roomUID: result.roomUID ?? "",
-                                                                  roomImage: result.roomImage ?? "", roomZipCode: result.zipCode )
+                                                                  roomImage: result.roomImage ?? "",
+                                                                  roomZipCode: result.zipCode,
+                                                                  docID: result.docID ?? "",
+                                                                  providerUID: result.providedBy)
                                             } else {
                                                 localData.tempCart.removeAll()
                                                 localData.summaryItemHolder.removeAll()
@@ -111,7 +120,9 @@ struct RenterMainView: View {
                                                                       roomCity: result.city,
                                                                       itemPrice: Int(result.rentalPrice) ?? 0,
                                                                       roomUID: result.roomUID ?? "",
-                                                                      roomImage: result.roomImage ?? "", roomZipCode: result.zipCode )
+                                                                      roomImage: result.roomImage ?? "",
+                                                                      roomZipCode: result.zipCode,
+                                                                      docID: result.docID ?? "", providerUID: result.providedBy )
                                                 }
                                             }
                                             if appViewModel.isPresent == false {

@@ -70,7 +70,8 @@ struct SearchView: View {
                                                 roomPrice: Int(result.rentalPrice) ?? 0,
                                                 roomUID: result.roomUID ?? "",
                                                 roomZipCode: result.zipCode,
-                                                result: result)
+                                                docID: result.docID ?? "",
+                                                providedBy: result.providedBy, result: result)
                         }
                     }
                     //.frame(height: 600)

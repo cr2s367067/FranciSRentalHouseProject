@@ -12,7 +12,7 @@ struct RenterContractView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     //    @State var userName = "some name"
-    @State var isAgree = false
+    
     
     
 //    private func agreementChecker() {
@@ -24,7 +24,7 @@ struct RenterContractView: View {
 //    }
     
     private func agreementCheckerThows() throws {
-        guard isAgree == true else {
+        guard appViewModel.rentalPolicyisAgree == true else {
             throw ContractError.agreemnetError
         }
     }
@@ -805,9 +805,9 @@ struct RenterContractView: View {
                         
                         HStack(alignment: .center, spacing: 5) {
                             Button {
-                                isAgree.toggle()
+                                appViewModel.rentalPolicyisAgree.toggle()
                             } label: {
-                                Image(systemName: isAgree ? "checkmark.square.fill" : "checkmark.square")
+                                Image(systemName: appViewModel.rentalPolicyisAgree ? "checkmark.square.fill" : "checkmark.square")
                                     .resizable()
                                     .frame(width: 15, height: 15)
                                     .foregroundColor(Color.green)
@@ -816,7 +816,7 @@ struct RenterContractView: View {
                                 .font(.system(size: 12))
                         }
                         .padding(.top, 10)
-                        if isAgree == false {
+                        if appViewModel.rentalPolicyisAgree == false {
                             Button {
                                 do {
                                     try agreementCheckerThows()
@@ -832,7 +832,7 @@ struct RenterContractView: View {
                             }
                             .padding(.top, 10)
                             .padding(.horizontal)
-                        } else if isAgree == true {
+                        } else if appViewModel.rentalPolicyisAgree == true {
                             NavigationLink {
                                 PurchaseView()
                             } label: {

@@ -144,6 +144,16 @@ enum StorageUploadError: LocalizedError {
     }
 }
 
+enum MaintainError: LocalizedError {
+    case maintianFillingError
+    
+    var errorDescription: String? {
+        switch self {
+        case .maintianFillingError:
+            return NSLocalizedString("Please fill out the maintain infomation, thanks", comment: "")
+        }
+    }
+}
 
 struct ErrorAlert: Identifiable {
     var id = UUID()

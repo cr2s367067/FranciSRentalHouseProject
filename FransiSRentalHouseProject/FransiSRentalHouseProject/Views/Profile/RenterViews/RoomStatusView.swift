@@ -12,8 +12,29 @@ struct RoomStatusView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
     var roomImageURL: String {
-        firestoreToFetchUserinfo.userRentedRoomInfo.roomImageCover ?? ""
+        firestoreToFetchUserinfo.rentingRoomInfo.roomImageCover ?? ""
     }
+    
+    var rentalPrice: String {
+        firestoreToFetchUserinfo.rentingRoomInfo.roomPrice ?? ""
+    }
+    
+    var roomAddress: String {
+        firestoreToFetchUserinfo.rentingRoomInfo.roomAddress ?? ""
+    }
+    
+    var roomCityAndTown: String {
+        let city = firestoreToFetchUserinfo.rentingRoomInfo.roomCity ?? ""
+        let town = firestoreToFetchUserinfo.rentingRoomInfo.roomTown ?? ""
+        return city + town
+    }
+    
+    var roomZipCode: String {
+        firestoreToFetchUserinfo.rentingRoomInfo.roomZipCode ?? ""
+    }
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeigth = UIScreen.main.bounds.height
     
     var body: some View {
         ZStack {
@@ -21,13 +42,7 @@ struct RoomStatusView: View {
                 .fill(Color("backgroundBrown"))
                 .ignoresSafeArea(.all)
             VStack {
-                Spacer()
-                    .frame(height: 120)
-                ZStack {
-                    Rectangle()
-                        .fill(Color("sessionBackground"))
-                        .cornerRadius(4)
-                        .frame(width: 378, height: 325)
+                VStack {
                     HStack {
                         VStack {
                             HStack {
@@ -35,28 +50,26 @@ struct RoomStatusView: View {
                                     .resizable()
                                     .frame(width: 100, height: 100)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                                VStack {
-                                    Spacer()
-                                        .frame(height: 75)
-                                    Text("Lorem")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 25, weight: .medium))
+                                VStack(alignment: .leading, spacing: 3) {
+                                    Text(roomZipCode)
+                                    Text(roomCityAndTown)
+                                    Text(roomAddress)
                                 }
+                                .foregroundColor(.white)
+                                .font(.system(size: 18, weight: .medium))
                                 .padding(.leading, 10)
                             }
                             Spacer()
-                                .frame(height: 300)
                         }
                         Spacer()
-                            .frame(width: 140)
                     }
-                    VStack(alignment: .leading, spacing: 20) {
+                    Spacer()
+                    VStack(alignment: .center, spacing: 10) {
                         HStack(spacing: 1) {
                             Text("Monthly Rental Price: ")
                                 .foregroundColor(.white)
                             Spacer()
-                                .frame(width: 90)
-                            Text("$9000")
+                            Text("$\(rentalPrice)")
                                 .foregroundColor(.white)
                                 .padding(.leading, 1)
                         }
@@ -64,7 +77,6 @@ struct RoomStatusView: View {
                             Text("Expired Date: ")
                                 .foregroundColor(.white)
                             Spacer()
-                                .frame(width: 150)
                             Text("1/15/2023")
                                 .foregroundColor(.white)
                                 .padding(.leading, 1)
@@ -74,7 +86,6 @@ struct RoomStatusView: View {
                             Text("Addition Furniture:  ")
                                 .foregroundColor(.white)
                             Spacer()
-                                .frame(width: 106)
                             Text("Yes")
                                 .foregroundColor(.white)
                                 .padding(.leading, 1)
@@ -83,9 +94,8 @@ struct RoomStatusView: View {
                             Text("Renew: ")
                                 .foregroundColor(.white)
                             Spacer()
-                                .frame(width: 175)
                             Button {
-                                print(firestoreToFetchUserinfo.userRentedRoomInfo)
+                                
                             } label: {
                                 Text("Yes")
                                     .frame(width: 108, height: 35)
@@ -98,7 +108,6 @@ struct RoomStatusView: View {
                             Text("Contract: ")
                                 .foregroundColor(.white)
                             Spacer()
-                                .frame(width: 150)
                             Button {
                                 
                             } label: {
@@ -110,21 +119,18 @@ struct RoomStatusView: View {
                             .padding(.leading, 1)
                         }
                     }
-                    .padding(.top, 30)
+                }
+                .padding()
+                .frame(width: uiScreenWidth - 40, height: uiScreenHeigth / 3)
+                .background(alignment: .top) {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color("sessionBackground"))
                 }
                 Spacer()
-                    .frame(height: 450)
             }
         }
-//        .task {
-//            do {
-//             try await firestoreToFetchUserinfo.testFun()
-//            } catch {
-//                print("some error")
-//            }
-//        }
         .onAppear {
-            firestoreToFetchUserinfo.appendFetchedDataInLocalRentedRoomInfo()
+            firestoreToFetchUserinfo.userRentedRoomInfo()
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
