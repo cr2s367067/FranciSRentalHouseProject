@@ -56,9 +56,6 @@
 		024CF42127DF178600D65B2F /* RenterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024CF42027DF178600D65B2F /* RenterProfileView.swift */; };
 		0259C26227CDF41E00DFDE18 /* FirebaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26127CDF41E00DFDE18 /* FirebaseAuth.swift */; };
 		0259C26627CF460800DFDE18 /* ProviderSummittedRoomContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26527CF460800DFDE18 /* ProviderSummittedRoomContractView.swift */; };
-		0259C26827D0955400DFDE18 /* ContractForProviderDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26727D0955400DFDE18 /* ContractForProviderDataModel.swift */; };
-		0259C26A27D095C500DFDE18 /* ContractForRentalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26927D095C500DFDE18 /* ContractForRentalManager.swift */; };
-		0259C26C27D095D500DFDE18 /* ContractForRenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C26B27D095D500DFDE18 /* ContractForRenter.swift */; };
 		0263079D27D7382A000E3CFD /* SummitAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263079C27D7382A000E3CFD /* SummitAlertView.swift */; };
 		026307A027D83C7B000E3CFD /* MaintainWaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263079F27D83C7B000E3CFD /* MaintainWaitingView.swift */; };
 		02677E0627D8638900AA7049 /* ContractCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02677E0527D8638900AA7049 /* ContractCollectionView.swift */; };
@@ -78,6 +75,9 @@
 		02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D684BE27D9EFF000061B99 /* RenterContractView.swift */; };
 		0E0CB2D127E763130096A5CE /* UnregisterCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */; };
 		0E8AF46D27E600E10044CAAD /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0E8AF46C27E600E10044CAAD /* SDWebImageSwiftUI */; };
+		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
+		0E8F3ED827E9C104008F0310 /* RoomLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocation.swift */; };
+		0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,9 +126,6 @@
 		024CF42027DF178600D65B2F /* RenterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterProfileView.swift; sourceTree = "<group>"; };
 		0259C26127CDF41E00DFDE18 /* FirebaseAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuth.swift; sourceTree = "<group>"; };
 		0259C26527CF460800DFDE18 /* ProviderSummittedRoomContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderSummittedRoomContractView.swift; sourceTree = "<group>"; };
-		0259C26727D0955400DFDE18 /* ContractForProviderDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractForProviderDataModel.swift; sourceTree = "<group>"; };
-		0259C26927D095C500DFDE18 /* ContractForRentalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractForRentalManager.swift; sourceTree = "<group>"; };
-		0259C26B27D095D500DFDE18 /* ContractForRenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractForRenter.swift; sourceTree = "<group>"; };
 		0263079C27D7382A000E3CFD /* SummitAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummitAlertView.swift; sourceTree = "<group>"; };
 		0263079F27D83C7B000E3CFD /* MaintainWaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintainWaitingView.swift; sourceTree = "<group>"; };
 		02677E0527D8638900AA7049 /* ContractCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCollectionView.swift; sourceTree = "<group>"; };
@@ -147,6 +144,9 @@
 		02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForRoomsImage.swift; sourceTree = "<group>"; };
 		02D684BE27D9EFF000061B99 /* RenterContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractView.swift; sourceTree = "<group>"; };
 		0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnregisterCoverView.swift; sourceTree = "<group>"; };
+		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
+		0E8F3ED727E9C104008F0310 /* RoomLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocation.swift; sourceTree = "<group>"; };
+		0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsLocationViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +233,7 @@
 				0249D43127C638C00085F4A5 /* AppViewModel.swift */,
 				0249D43327C638DF0085F4A5 /* ErrorHandler.swift */,
 				022A84F327C7288C0063FF05 /* ImagePicker.swift */,
+				0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -300,6 +301,7 @@
 		0249D44127C639AC0085F4A5 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				0E8F3ED427E9BC66008F0310 /* MapView */,
 				0263079B27D7380D000E3CFD /* AlertViews */,
 				0249D44227C639BE0085F4A5 /* SheetView.swift */,
 				0249D44427C639CA0085F4A5 /* GridView.swift */,
@@ -393,10 +395,8 @@
 				02CB58E827CDADBC0035EE20 /* RoomsDataModel.swift */,
 				02CB58EA27CDAE520035EE20 /* FurnitureDataModel.swift */,
 				02CB58EC27CDAE730035EE20 /* UserDataModel.swift */,
-				0259C26727D0955400DFDE18 /* ContractForProviderDataModel.swift */,
-				0259C26927D095C500DFDE18 /* ContractForRentalManager.swift */,
-				0259C26B27D095D500DFDE18 /* ContractForRenter.swift */,
 				02450AE527D2AC7000370683 /* ContactDataModel.swift */,
+				0E8F3ED727E9C104008F0310 /* RoomLocation.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -428,6 +428,14 @@
 				02D684BE27D9EFF000061B99 /* RenterContractView.swift */,
 			);
 			path = Renter;
+			sourceTree = "<group>";
+		};
+		0E8F3ED427E9BC66008F0310 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */,
+			);
+			path = MapView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -517,10 +525,12 @@
 				02CB58E727CDAD960035EE20 /* MaintainTaskDataModel.swift in Sources */,
 				0249D44B27C63A850085F4A5 /* PaymentSummaryView.swift in Sources */,
 				0249D45527C63B0B0085F4A5 /* UserDetailInfoView.swift in Sources */,
+				0E8F3ED827E9C104008F0310 /* RoomLocation.swift in Sources */,
 				0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */,
 				02B7C43E27D0ECA000DC100E /* TermOfServiceView.swift in Sources */,
 				0E0CB2D127E763130096A5CE /* UnregisterCoverView.swift in Sources */,
 				0249D44D27C63A930085F4A5 /* PurchaseView.swift in Sources */,
+				0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */,
 				0249D45F27C63B8B0085F4A5 /* PaymentDetailSessionUnit.swift in Sources */,
 				0249D46527C63C040085F4A5 /* ProviderRoomSummitView.swift in Sources */,
 				0249D46727C63C190085F4A5 /* ProviderBarChartView.swift in Sources */,
@@ -532,7 +542,6 @@
 				0259C26227CDF41E00DFDE18 /* FirebaseAuth.swift in Sources */,
 				0249D46B27C63CBD0085F4A5 /* SearchView.swift in Sources */,
 				02CB58E927CDADBC0035EE20 /* RoomsDataModel.swift in Sources */,
-				0259C26827D0955400DFDE18 /* ContractForProviderDataModel.swift in Sources */,
 				0249D45727C63B460085F4A5 /* ProfileView.swift in Sources */,
 				02CB58F727CDB5230035EE20 /* StorageForUserProfile.swift in Sources */,
 				02CB58EF27CDB1470035EE20 /* FirestoreToFetchUserInfo.swift in Sources */,
@@ -554,12 +563,12 @@
 				0249D42C27C637CC0085F4A5 /* LocalDataModel.swift in Sources */,
 				0249D44327C639BE0085F4A5 /* SheetView.swift in Sources */,
 				0249D46327C63BF50085F4A5 /* ProviderProfileView.swift in Sources */,
+				0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */,
 				0249D44727C639E40085F4A5 /* MaintainView.swift in Sources */,
 				0249D46927C63C2A0085F4A5 /* ProviderLineChartView.swift in Sources */,
 				0249D43427C638DF0085F4A5 /* ErrorHandler.swift in Sources */,
 				024CF42127DF178600D65B2F /* RenterProfileView.swift in Sources */,
 				02CB58F127CDB31D0035EE20 /* FirestoreToFetchMaintainTasks.swift in Sources */,
-				0259C26C27D095D500DFDE18 /* ContractForRenter.swift in Sources */,
 				0249D43C27C6397F0085F4A5 /* LoginView.swift in Sources */,
 				02450AE627D2AC7000370683 /* ContactDataModel.swift in Sources */,
 				0249D45D27C63B720085F4A5 /* PaymentDetailView.swift in Sources */,
@@ -574,7 +583,6 @@
 				0249D40927C6351F0085F4A5 /* FransiSRentalHouseProjectApp.swift in Sources */,
 				02CB58F327CDB3950035EE20 /* FirestoreToFetchRoomsData.swift in Sources */,
 				0249D44927C63A760085F4A5 /* PrePurchaseView.swift in Sources */,
-				0259C26A27D095C500DFDE18 /* ContractForRentalManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

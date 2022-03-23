@@ -24,44 +24,6 @@ class StorageForRoomsImage: ObservableObject {
         imageUUID = _imageUUID
         return imageUUID
     }
-    
-    // MARK: remove after testing
-//    func uploadRoomImage(uidPath: String, image: UIImage, roomID: String, imageUID: String) {
-////        let imageUUID = UUID().uuidString
-//        guard let roomImageData = image.jpegData(compressionQuality: 0.5) else { return }
-//        let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(roomID)/\(imageUID).jpg")
-//        roomImageRef.putData(roomImageData, metadata: nil) { metaData, error in
-//            if let _error = error {
-//                print("Fail to push room image to storage: \(_error)")
-//            }
-//            roomImageRef.downloadURL { url, error in
-//                if let _error = error {
-//                    print("Fail to download: \(_error)")
-//                } else {
-//                    guard let _url = url else {
-//                        return
-//                    }
-//                    self.representedRoomImageURL = _url.absoluteString
-//                    
-//                }
-//            }
-//        }
-//    }
-    
-//    func representStorageRoomImage(uidPath: String, imgUID: String) -> some View {
-//        var urlHolder = ""
-//        let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(imgUID).jpg")
-//        roomImageRef.downloadURL { url, error in
-//            if let _error = error {
-//                print("Fail to download: \(_error)")
-//            } else {
-//                guard let _url = url else { return }
-//                urlHolder = _url.absoluteString
-//            }
-//        }
-//        return WebImage(url: URL(string: urlHolder))
-//    }
-
 }
 
 extension StorageForRoomsImage {

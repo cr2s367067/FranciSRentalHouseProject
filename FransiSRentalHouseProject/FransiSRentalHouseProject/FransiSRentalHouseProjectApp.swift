@@ -23,6 +23,7 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var localData = LocalData()
     @StateObject var appViewModel = AppViewModel()
     @StateObject var firestoreForContactInfo = FirestoreForContactInfo()
+    @StateObject var roomsLocationDataModel = RoomsLocationDataModel()
     
     var body: some Scene {
         WindowGroup {
@@ -37,6 +38,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(localData)
                 .environmentObject(appViewModel)
                 .environmentObject(firestoreForContactInfo)
+                .environmentObject(roomsLocationDataModel)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

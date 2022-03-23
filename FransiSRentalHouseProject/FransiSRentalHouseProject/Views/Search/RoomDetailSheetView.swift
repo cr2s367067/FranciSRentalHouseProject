@@ -23,84 +23,93 @@ struct RoomDetailSheetView: View {
     var providedBy: String
     var result: RoomInfoDataModel
     
+    private func fullAddress() -> String {
+        return roomZipCode + roomCity + roomTown + roomAddress
+    }
+    
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(Color("backgroundBrown"))
-                .edgesIgnoringSafeArea([.bottom, .top])
-            VStack {
-                SearchListItemView(roomImage: roomImage,
-                                   roomAddress: roomAddress,
-                                   roomTown: roomTown,
-                                   roomCity: roomCity,
-                                   roomPrice: roomPrice)
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text("Description")
-                            .foregroundColor(.white)
-                            .font(.headline)
+        NavigationView {
+            ZStack {
+                Rectangle()
+                    .fill(Color("backgroundBrown"))
+                    .edgesIgnoringSafeArea([.bottom, .top])
+                VStack(alignment: .center) {
+                    SheetPullBar()
+                        .padding(.top, 5)
+                        .padding(.bottom, 2)
+                    RoomLocateMapView(address: fullAddress())
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Description")
+                                    .foregroundColor(.white)
+                                    .font(.headline)
+                                Spacer()
+                            }
+                            Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu eleifend ante consectetur nullam diam porttitor urna. Ipsum ultrices sit diam massa nisl turpis elementum. Pharetra vehicula maecenas mauris nullam libero. Egestas cras ipsum, nunc, eget orci, tincidunt pellentesque fusce. Risus curabitur ipsum, fames arcu semper sagittis. Malesuada volutpat et massa urna, tortor. ")
+                                .foregroundColor(.white)
+                                .font(.system(size: 15, weight: .regular))
+                        }
+                        .padding()
                         Spacer()
-                    }
-                    Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu eleifend ante consectetur nullam diam porttitor urna. Ipsum ultrices sit diam massa nisl turpis elementum. Pharetra vehicula maecenas mauris nullam libero. Egestas cras ipsum, nunc, eget orci, tincidunt pellentesque fusce. Risus curabitur ipsum, fames arcu semper sagittis. Malesuada volutpat et massa urna, tortor. ")
-                        .foregroundColor(.white)
-                        .font(.system(size: 15, weight: .regular))
-                }
-                .padding()
-                Spacer()
-                HStack {
-                    Button {
-                        
-                    } label: {
-                        Text("Contact provider.")
-                            .foregroundColor(.white)
-                            .frame(width: 175, height: 35)
-                            .background(Color("buttonBlue"))
-                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                            .padding(.trailing)
-                    }
-                    Button {
-                        if localData.tempCart.isEmpty {
-                            localData.tempCart.append(result)
-                            localData.addItem(roomAddress: roomAddress,
-                                              roomTown: roomTown,
-                                              roomCity: roomCity,
-                                              itemPrice: Int(roomPrice) ,
-                                              roomUID: roomUID ,
-                                              roomImage: roomImage ,
-                                              roomZipCode: roomZipCode,
-                                              docID: docID, providerUID: providedBy)
-                        } else {
-                            localData.tempCart.removeAll()
-                            localData.summaryItemHolder.removeAll()
-                            if localData.tempCart.isEmpty {
-                                localData.tempCart.append(result)
-                                localData.addItem(roomAddress: roomAddress,
-                                                  roomTown: roomTown,
-                                                  roomCity: roomCity,
-                                                  itemPrice: Int(roomPrice) ,
-                                                  roomUID: roomUID ,
-                                                  roomImage: roomImage ,
-                                                  roomZipCode: roomZipCode,
-                                                  docID: docID, providerUID: providedBy)
+                        HStack {
+                            NavigationLink {
+                                MessageView()
+                            } label: {
+                                Text("Contact provider.")
+                                    .foregroundColor(.white)
+                                    .frame(width: 175, height: 35)
+                                    .background(Color("buttonBlue"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .padding(.trailing)
+                            }
+                            Button {
+                                if localData.tempCart.isEmpty {
+                                    localData.tempCart.append(result)
+                                    localData.addItem(roomAddress: roomAddress,
+                                                      roomTown: roomTown,
+                                                      roomCity: roomCity,
+                                                      itemPrice: Int(roomPrice) ,
+                                                      roomUID: roomUID ,
+                                                      roomImage: roomImage ,
+                                                      roomZipCode: roomZipCode,
+                                                      docID: docID, providerUID: providedBy)
+                                } else {
+                                    localData.tempCart.removeAll()
+                                    localData.summaryItemHolder.removeAll()
+                                    if localData.tempCart.isEmpty {
+                                        localData.tempCart.append(result)
+                                        localData.addItem(roomAddress: roomAddress,
+                                                          roomTown: roomTown,
+                                                          roomCity: roomCity,
+                                                          itemPrice: Int(roomPrice) ,
+                                                          roomUID: roomUID ,
+                                                          roomImage: roomImage ,
+                                                          roomZipCode: roomZipCode,
+                                                          docID: docID, providerUID: providedBy)
+                                    }
+                                }
+                                if appViewModel.isPresent == false {
+                                    appViewModel.isPresent = true
+                                }
+                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                            } label: {
+                                Text("I want this!")
+                                    .foregroundColor(.white)
+                                    .frame(width: 120, height: 35)
+                                    .background(Color("buttonBlue"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .padding(.trailing)
+                                    .alert(isPresented: $appViewModel.isPresent) {
+                                        Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+                                    }
                             }
                         }
-                        if appViewModel.isPresent == false {
-                            appViewModel.isPresent = true
-                        }
-                        localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-                    } label: {
-                        Text("I want this!")
-                            .foregroundColor(.white)
-                            .frame(width: 120, height: 35)
-                            .background(Color("buttonBlue"))
-                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                            .padding(.trailing)
-                            .alert(isPresented: $appViewModel.isPresent) {
-                                Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                            }
                     }
                 }
             }
+            .navigationTitle("")
+            .navigationBarHidden(true)
         }
     }
 }
