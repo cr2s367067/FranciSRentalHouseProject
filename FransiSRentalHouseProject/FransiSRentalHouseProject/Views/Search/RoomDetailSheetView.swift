@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RoomDetailSheetView: View {
     
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     
@@ -21,6 +22,7 @@ struct RoomDetailSheetView: View {
     var roomZipCode: String
     var docID: String
     var providedBy: String
+    var providedName: String
     var result: RoomInfoDataModel
     
     private func fullAddress() -> String {
@@ -53,15 +55,17 @@ struct RoomDetailSheetView: View {
                         .padding()
                         Spacer()
                         HStack {
-                            NavigationLink {
-                                MessageView()
-                            } label: {
-                                Text("Contact provider.")
-                                    .foregroundColor(.white)
-                                    .frame(width: 175, height: 35)
-                                    .background(Color("buttonBlue"))
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                    .padding(.trailing)
+                            if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" {                            
+                                NavigationLink {
+                                    MessageView(providerName: providedName, providerUID: providedBy, roomUID: roomUID, chatID: roomUID)
+                                } label: {
+                                    Text("Contact provider.")
+                                        .foregroundColor(.white)
+                                        .frame(width: 175, height: 35)
+                                        .background(Color("buttonBlue"))
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        .padding(.trailing)
+                                }
                             }
                             Button {
                                 if localData.tempCart.isEmpty {

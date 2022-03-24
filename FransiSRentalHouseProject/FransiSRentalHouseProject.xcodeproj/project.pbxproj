@@ -74,6 +74,10 @@
 		02CB58F927CDB53D0035EE20 /* StorageForRoomsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */; };
 		02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D684BE27D9EFF000061B99 /* RenterContractView.swift */; };
 		0E0CB2D127E763130096A5CE /* UnregisterCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */; };
+		0E2EDD3827EAF307008FEF58 /* TextingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */; };
+		0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */; };
+		0E2EDD3C27EAF394008FEF58 /* FirestoreForTextingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */; };
+		0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */; };
 		0E8AF46D27E600E10044CAAD /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0E8AF46C27E600E10044CAAD /* SDWebImageSwiftUI */; };
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
 		0E8F3ED827E9C104008F0310 /* RoomLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocation.swift */; };
@@ -144,6 +148,10 @@
 		02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForRoomsImage.swift; sourceTree = "<group>"; };
 		02D684BE27D9EFF000061B99 /* RenterContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractView.swift; sourceTree = "<group>"; };
 		0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnregisterCoverView.swift; sourceTree = "<group>"; };
+		0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingViewModel.swift; sourceTree = "<group>"; };
+		0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingDataModel.swift; sourceTree = "<group>"; };
+		0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForTextingMessage.swift; sourceTree = "<group>"; };
+		0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMainView.swift; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
 		0E8F3ED727E9C104008F0310 /* RoomLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocation.swift; sourceTree = "<group>"; };
 		0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsLocationViewModel.swift; sourceTree = "<group>"; };
@@ -170,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				0226660E27DE2A1D0051940B /* MessageView.swift */,
+				0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -234,6 +243,7 @@
 				0249D43327C638DF0085F4A5 /* ErrorHandler.swift */,
 				022A84F327C7288C0063FF05 /* ImagePicker.swift */,
 				0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */,
+				0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -397,6 +407,7 @@
 				02CB58EC27CDAE730035EE20 /* UserDataModel.swift */,
 				02450AE527D2AC7000370683 /* ContactDataModel.swift */,
 				0E8F3ED727E9C104008F0310 /* RoomLocation.swift */,
+				0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -408,6 +419,7 @@
 				02CB58F027CDB31D0035EE20 /* FirestoreToFetchMaintainTasks.swift */,
 				02CB58F227CDB3950035EE20 /* FirestoreToFetchRoomsData.swift */,
 				02450AE727D2AD7100370683 /* FirestoreForContactInfo.swift */,
+				0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
@@ -524,6 +536,7 @@
 				0249D45927C63B570085F4A5 /* ProfileSessionUnit.swift in Sources */,
 				02CB58E727CDAD960035EE20 /* MaintainTaskDataModel.swift in Sources */,
 				0249D44B27C63A850085F4A5 /* PaymentSummaryView.swift in Sources */,
+				0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */,
 				0249D45527C63B0B0085F4A5 /* UserDetailInfoView.swift in Sources */,
 				0E8F3ED827E9C104008F0310 /* RoomLocation.swift in Sources */,
 				0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */,
@@ -571,10 +584,12 @@
 				02CB58F127CDB31D0035EE20 /* FirestoreToFetchMaintainTasks.swift in Sources */,
 				0249D43C27C6397F0085F4A5 /* LoginView.swift in Sources */,
 				02450AE627D2AC7000370683 /* ContactDataModel.swift in Sources */,
+				0E2EDD3C27EAF394008FEF58 /* FirestoreForTextingMessage.swift in Sources */,
 				0249D45D27C63B720085F4A5 /* PaymentDetailView.swift in Sources */,
 				02CB58ED27CDAE730035EE20 /* UserDataModel.swift in Sources */,
 				0259C26627CF460800DFDE18 /* ProviderSummittedRoomContractView.swift in Sources */,
 				02CB58E427CDAD2C0035EE20 /* SummaryItemDataModel.swift in Sources */,
+				0E2EDD3827EAF307008FEF58 /* TextingViewModel.swift in Sources */,
 				0249D44027C6399D0085F4A5 /* RenterMainView.swift in Sources */,
 				0263079D27D7382A000E3CFD /* SummitAlertView.swift in Sources */,
 				0249D46127C63B960085F4A5 /* RoomStatusView.swift in Sources */,
@@ -583,6 +598,7 @@
 				0249D40927C6351F0085F4A5 /* FransiSRentalHouseProjectApp.swift in Sources */,
 				02CB58F327CDB3950035EE20 /* FirestoreToFetchRoomsData.swift in Sources */,
 				0249D44927C63A760085F4A5 /* PrePurchaseView.swift in Sources */,
+				0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

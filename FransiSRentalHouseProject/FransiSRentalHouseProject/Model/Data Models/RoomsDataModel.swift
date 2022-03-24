@@ -32,6 +32,7 @@ struct RoomInfoDataModel: Identifiable, Codable {
     var isRented: Bool?
     var rentedBy: String?
     var providedBy: String
+    var providerDisplayName: String
     
     //: At below these fields are for house owner
     //:~ Paragrah1
@@ -133,6 +134,7 @@ extension RoomInfoDataModel {
                                          isRented: false,
                                          rentedBy: "",
                                          providedBy: "",
+                                         providerDisplayName: "",
                                          specificBuildingNumber: "",
                                          specificBuildingRightRange: "",
                                          specificBuildingArea: "",

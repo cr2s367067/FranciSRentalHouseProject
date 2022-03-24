@@ -71,7 +71,9 @@ struct SearchView: View {
                                                 roomUID: result.roomUID ?? "",
                                                 roomZipCode: result.zipCode,
                                                 docID: result.docID ?? "",
-                                                providedBy: result.providedBy, result: result)
+                                                providedBy: result.providedBy,
+                                                providedName: result.providerDisplayName ,
+                                                result: result)
                         }
                     }
                     //.frame(height: 600)

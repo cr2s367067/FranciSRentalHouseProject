@@ -48,7 +48,8 @@ class AppViewModel: ObservableObject {
     //:~ Sign up view fields
     @Published var id = ""
     @Published var firstName = ""
-    @Published var lastName = "Unknown"
+    @Published var lastName = ""
+    @Published var displayName = "Unknown"
     @Published var mobileNumber = ""
     @Published var dob = Date()
     @Published var address = ""

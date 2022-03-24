@@ -62,7 +62,8 @@ class FirestoreToFetchRoomsData: ObservableObject {
                 let roomUID = data["roomUID"] as? String ?? ""
                 let roomImage = data["roomImage"] as? String ?? ""
                 let providedBy = data["providedBy"] as? String ?? ""
-                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage, providedBy: providedBy)
+                let providerDisplayName = data["providerDisplayName"] as? String ?? ""
+                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage, providedBy: providedBy, providerDisplayName: providerDisplayName)
                 
             }
         }
@@ -93,7 +94,8 @@ class FirestoreToFetchRoomsData: ObservableObject {
                 let isRented = data["isRented"] as? Bool ?? false
                 let rentedBy = data["rentedBy"] as? String ?? ""
                 let providedBy = data["providedBy"] as? String ?? ""
-                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage,isRented: isRented,rentedBy: rentedBy, providedBy: providedBy)
+                let providerDisplayName = data["providerDisplayName"] as? String ?? ""
+                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage,isRented: isRented,rentedBy: rentedBy, providedBy: providedBy, providerDisplayName: providerDisplayName)
                 
             }
         }
@@ -102,7 +104,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
 }
 
 extension FirestoreToFetchRoomsData {
-    func summitRoomInfoAsync(docID: String, uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, isRented: Bool = false, rentedBy: String = "") async throws {
+    func summitRoomInfoAsync(docID: String, uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, isRented: Bool = false, rentedBy: String = "", providerDisplayName: String) async throws {
         let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
         let roomPublicRef = db.collection("RoomsForPublic").document(docID)
         _ = try await roomOwerRef.setData([
@@ -120,7 +122,8 @@ extension FirestoreToFetchRoomsData {
             "roomImage" : roomImageURL,
             "isRented" : isRented,
             "rentedBy" : rentedBy,
-            "providedBy": uidPath
+            "providedBy": uidPath,
+            "providerDisplayName" : providerDisplayName
         ])
         _ = try await roomPublicRef.setData([
             "roomUID" : roomUID,
@@ -135,7 +138,8 @@ extension FirestoreToFetchRoomsData {
             "someoneDeadInRoom" : someoneDeadInRoom,
             "waterLeakingProblem" : waterLeakingProblem,
             "roomImage" : roomImageURL,
-            "providedBy": uidPath
+            "providedBy": uidPath,
+            "providerDisplayName" : providerDisplayName
         ])
     }
 }

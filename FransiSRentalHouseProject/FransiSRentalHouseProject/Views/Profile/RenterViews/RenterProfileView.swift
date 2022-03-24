@@ -87,7 +87,7 @@ struct RenterProfileView: View {
                                     }
                                 }
                             }
-                            Text("\(firestoreToFetchUserinfo.userLastName)")
+                            Text("\(firestoreToFetchUserinfo.fetchedUserData.displayName)")
                                 .foregroundColor(.white)
                                 .font(.system(size: 30, weight: .heavy))
                                 .padding(.leading, 20)
@@ -207,12 +207,12 @@ struct RenterProfileView: View {
         }
         .background(alignment: .center, content: {
             Group {
-                Image("room")
+                Image("backgroundImage")
                     .resizable()
                     .blur(radius: 10)
                     .clipped()
                 Rectangle()
-                    .fill(.gray)
+                    .fill(.black.opacity(0.5))
                     .blendMode(.multiply)
             }
             .edgesIgnoringSafeArea([.top, .bottom])
@@ -238,7 +238,7 @@ struct RenterProfileView: View {
                 if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
                     try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID())
                 }
-                try await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
+                try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)
             }

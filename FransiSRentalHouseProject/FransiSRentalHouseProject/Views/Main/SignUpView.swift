@@ -33,7 +33,7 @@ struct SignUpView: View {
     var body: some View {
         ZStack {
             Group {
-                Image("room")
+                Image("backgroundImage")
                     .resizable()
                     .blur(radius: 10)
                     .aspectRatio(contentMode: .fill)
@@ -41,7 +41,7 @@ struct SignUpView: View {
                     .offset(x: -40)
                     .clipped()
                 Rectangle()
-                    .fill(.gray)
+                    .fill(.black.opacity(0.5))
                     .blendMode(.multiply)
             }
             .edgesIgnoringSafeArea([.top, .bottom])
@@ -223,9 +223,27 @@ struct SignUpView: View {
                     Button {
                         Task {
                             do {
-                                try await appViewModel.passwordCheckAndSignUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword, confirmPassword: appViewModel.recheckPassword)
+                                try await appViewModel.passwordCheckAndSignUpAsync(email: appViewModel.emailAddress,
+                                                                                   password: appViewModel.userPassword,
+                                                                                   confirmPassword: appViewModel.recheckPassword)
                                 try await firebaseAuth.signUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword)
-                                try await firestoreToFetchUserinfo.createUserInfomationAsync(uidPath: firebaseAuth.getUID(), id: appViewModel.id, firstName: appViewModel.firstName, lastName: appViewModel.lastName, mobileNumber: appViewModel.mobileNumber, dob: appViewModel.dob, address: appViewModel.address, town: appViewModel.town, city: appViewModel.city, zip: appViewModel.zipCode, country: appViewModel.country, gender: appViewModel.gender, userType: appViewModel.userType, emailAddress: appViewModel.emailAddress, providerType: appViewModel.providerType, RLNumber: appViewModel.rentalManagerLicenseNumber)
+                                try await firestoreToFetchUserinfo.createUserInfomationAsync(uidPath: firebaseAuth.getUID(),
+                                                                                             id: appViewModel.id,
+                                                                                             firstName: appViewModel.firstName,
+                                                                                             lastName: appViewModel.lastName,
+                                                                                             displayName: appViewModel.displayName,
+                                                                                             mobileNumber: appViewModel.mobileNumber,
+                                                                                             dob: appViewModel.dob,
+                                                                                             address: appViewModel.address,
+                                                                                             town: appViewModel.town,
+                                                                                             city: appViewModel.city,
+                                                                                             zip: appViewModel.zipCode,
+                                                                                             country: appViewModel.country,
+                                                                                             gender: appViewModel.gender,
+                                                                                             userType: appViewModel.userType,
+                                                                                             emailAddress: appViewModel.emailAddress,
+                                                                                             providerType: appViewModel.providerType,
+                                                                                             RLNumber: appViewModel.rentalManagerLicenseNumber)
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }

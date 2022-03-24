@@ -22,7 +22,7 @@ struct LoginView: View {
             ZStack {
                 Group {
                     //: Background Image
-                    Image("room")
+                    Image("backgroundImage")
                         .resizable()
                         .blur(radius: 10)
                         .aspectRatio(contentMode: .fill)
@@ -30,7 +30,7 @@ struct LoginView: View {
                         .offset(x: -40)
                         .clipped()
                     Rectangle()
-                        .fill(.gray)
+                        .fill(.black.opacity(0.5))
                         .blendMode(.multiply)
                 }
                 .ignoresSafeArea(.all)

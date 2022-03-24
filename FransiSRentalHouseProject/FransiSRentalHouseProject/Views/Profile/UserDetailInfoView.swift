@@ -66,6 +66,7 @@ struct UserDetailInfoView: View {
                                 InfoUnit(title: "ID", bindingString: $appViewModel.id)
                                 InfoUnit(title: "First Name", bindingString: $appViewModel.firstName)
                                 InfoUnit(title: "Last Name", bindingString: $appViewModel.lastName)
+                                InfoUnit(title: "Display Name", bindingString: $appViewModel.displayName)
 //                                if selection == "Rental Manager" {
 //                                    InfoUnit(title: "Rental Manager License Number", bindingString: $appViewModel.rentalManagerLicenseNumber)
 //                                    VStack(alignment: .leading, spacing: 2) {
@@ -185,9 +186,10 @@ struct UserDetailInfoView: View {
                                                                                                          userType: appViewModel.userType,
                                                                                                          emailAddress: appViewModel.emailAddress,
                                                                                                          providerType: appViewModel.providerType,
-                                                                                                         RLNumber: appViewModel.rentalManagerLicenseNumber)
+                                                                                                         RLNumber: appViewModel.rentalManagerLicenseNumber,
+                                                                                                         displayName: appViewModel.displayName)
                                             isSummit = true
-//                                            try await firestoreToFetchUserinfo.reloadUserData()
+                                            try await firestoreToFetchUserinfo.reloadUserData()
                                             appViewModel.isShowUserDetailView = false
                                         } catch {
                                             self.errorHandler.handle(error: error)

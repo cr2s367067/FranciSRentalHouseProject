@@ -53,7 +53,7 @@ struct MenuView: View {
                     }
                     NavigationLink {
                         withAnimation {
-                            MessageView()
+                            MessageMainView()
                         }
                     } label: {
                         SideBarButton(buttonName: "Messages", systemImageName: "message")
