@@ -146,6 +146,8 @@ struct MessageView: View {
                 _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
                 if firestoreForTextingMessage.chatManager.isEmpty {
                     try await initChatRoom(providerUID: providerUID, providerName: providerName)
+                } else {
+                    // MARK: Create the function to identity the provider is exist or not, if it's exist skip if not initChatRoom
                 }
                 _ = try await firestoreForTextingMessage.fetchChatUserInfo(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
                 await firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: firestoreForTextingMessage.chatUserData.chatRoomUID)
