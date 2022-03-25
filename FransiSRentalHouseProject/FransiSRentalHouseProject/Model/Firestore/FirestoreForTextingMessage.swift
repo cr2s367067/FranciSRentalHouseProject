@@ -9,73 +9,140 @@ import Foundation
 import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import simd
 
 class FirestoreForTextingMessage: ObservableObject {
     
-    @Published var textContainer = [MessageTextingDataModel]()
-//    @Published var textContainer = [TextingDataModel]()
-    
     let firebaseAuth = FirebaseAuth()
     let db = Firestore.firestore()
-    // Method for renter to send message to firestore
-//    func sendingTextMessageRenter(senderUID: String, receiveUID: String, receiveDisplayName: String, senderDisplayName: String, textContain: String, timestamp: Data = Data()) async throws {
-//        let senderRef = db.collection("ChatMessage").document(senderUID).collection(senderUID)
-////        let receiveRef = db.collection("ChatMessage").document(receiveUID).collection(receiveUID)
-//
-//        _ = try await senderRef.addDocument(data: [
-//            "senderID" : senderUID,
-//            "senderDisplayName" : senderDisplayName,
-//            "receiveID" : receiveUID,
-//            "receiveDisplayName" : receiveDisplayName,
-//            "textContain" : textContain,
-//            "sendingTimestamp" : timestamp
-//        ])
-//    }
     
-    //Create conversation - renter side
-    func creatAndSendTextingSessionS(senderUID: String, receiveUID: String, receiveDisplayName: String, senderDisplayName: String, textContain: String, timestamp: Date = Date()) async throws {
-        let senderRef = db.collection("ChatMessage").document("chat1").collection(senderUID)
-        let receiveRef = db.collection("ChatMessage").document("chat1").collection(receiveUID)
-        
-        //For renter to receive
-        _ = try await senderRef.addDocument(data: [
-            "senderID" : senderUID,
-            "senderDisplayName" : senderDisplayName,
-            "receiveID" : receiveUID,
-            "receiveDisplayName" : receiveDisplayName,
-            "textContain" : textContain,
-            "sendingTimestamp" : timestamp
-        ])
-        
-        //For provider to receive
-        _ = try await receiveRef.addDocument(data: [
-            "senderID" : senderUID,
-            "senderDisplayName" : senderDisplayName,
-            "receiveID" : receiveUID,
-            "receiveDisplayName" : receiveDisplayName,
-            "textContain" : textContain,
-            "sendingTimestamp" : timestamp
+    @Published var senderUIDPath: ChatUserUIDDataModel = .empty
+    @Published var chatManager = [ChatCenterDataModel]()
+    @Published var chatUserData: ChatUserInfoDataModel = .empty
+    @Published var messagesContainer = [MessageContainDataModel]()
+    @Published var contactMember = [ContactUserDataModel]()
+    
+    
+    func createAndStoreContactUser(uidPath: String) async throws {
+        let id = UUID().uuidString
+        let contactUserSetRef = db.collection("ChatUsserUIDSet").document(uidPath)
+        _ = try await contactUserSetRef.setData([
+            "chatDocId" : id
         ])
     }
     
+    func storeSenderUserInfo(uidPath: String, userDocID: String, displayName: String, displayProfileImage: String? = "", chatRoomUID: String) async throws {
+        let chatUserInfoRef = db.collection("ChatUserInfo").document(userDocID)
+        _ = try await chatUserInfoRef.setData([
+            "senderMailUidPath" : uidPath,
+            "senderDisplayName" : displayName,
+            "senderProfileImage" : displayProfileImage ?? "",
+            "chatRoomUID" : chatRoomUID
+        ])
+    }
     
-    func listeningTexingMessage(uidPath: String) async throws -> MessageTextingDataModel {
-        let messageRef = db.collection("ChatMessage").document(uidPath).collection(uidPath).order(by: "sendingTimestamp", descending: false)
-        return try await withCheckedThrowingContinuation({ (continuation: CheckedContinuation<MessageTextingDataModel, Error>) in
-            messageRef.addSnapshotListener { querySnapshot, error in
-                guard let document = querySnapshot?.documents else { return }
-                self.textContainer = document.map { queryDocumentSnapshot -> MessageTextingDataModel in
-                    let data = queryDocumentSnapshot.data()
-                    let docID = queryDocumentSnapshot.documentID
-                    let providerID = data["providerID"] as? String ?? ""
-                    let providerDisplayName = data["providerDisplayName"] as? String ?? ""
-                    let senderID = data["senderID"] as? String ?? ""
-                    let senderDisplayName = data["senderDisplayName"] as? String ?? ""
-                    let textContain = data["textContain"] as? String ?? ""
-                    let sendingTimestamp = data["sendingTimestamp"] as? Timestamp
-                    return MessageTextingDataModel(docID: docID, receiveID: providerID, receiveDisplayName: providerDisplayName, senderUID: senderID, senderDisplayName: senderDisplayName, textContain: textContain, sendingTimestamp: sendingTimestamp)
-                }
+    func storeContactUserInfo(contactPersonDocID: String, contactPersonUidPath: String , senderUserDocID: String, contactWithdisplayName: String, contactPersondisplayProfileImage: String? = "", chatRoomUID: String) async throws {
+        let contacterUserInfoRef = db.collection("ChatUserInfo").document(senderUserDocID).collection("ContactWith").document(contactPersonDocID)
+        _ = try await contacterUserInfoRef.setData([
+            "contacterMailUidPath" : contactPersonUidPath,
+            "contacterPlayName" : contactWithdisplayName,
+            "contacterProfileImage" : contactPersondisplayProfileImage ?? "",
+            "chatRoomUID" : chatRoomUID
+        ])
+    }
+    
+    func createChatRoom(contact1docID: String, contact2docID: String, chatRoomUID: String) async throws {
+        let chatCenterRef = db.collection("ChatCenter").document(chatRoomUID)
+        _ = try await chatCenterRef.setData([
+            "contact1docID" : contact1docID,
+            "contact2docID" : contact2docID,
+        ])
+    }
+    
+    func sendingMessage(text: String, sendingImage: String?, senderProfileImage: String, senderDocID: String, sendingTimestamp: Date = Date(), chatRoomUID: String) async throws {
+        let messageContainRef = db.collection("ChatCenter").document(chatRoomUID).collection("MessageContain").document()
+        _ = try await messageContainRef.setData([
+            "sendingImage" : sendingImage ?? "",
+            "senderDocID" : senderDocID,
+            "text" : text,
+            "sendingTimestamp" : sendingTimestamp
+        ])
+    }
+    
+    func listenChatCenterMessageContain(chatRoomUID: String) async {
+        let chatCenterContainMessagesRef = db.collection("ChatCenter").document(chatRoomUID).collection("MessageContain").order(by: "sendingTimestamp", descending: false)
+        chatCenterContainMessagesRef.addSnapshotListener { querySnapshot, error in
+            guard let document = querySnapshot?.documents else {
+                print("No documents found")
+                return
             }
-        })
+            self.messagesContainer = document.compactMap { queryDocumentSnapshot in
+                let result = Result {
+                    try queryDocumentSnapshot.data(as: MessageContainDataModel.self)
+                }
+                switch result {
+                case .success(let data):
+                    return data
+                case .failure(let error):
+                    print("some error eccure: \(error)")
+                }
+                return nil
+            }
+        }
+    }
+    
+    @MainActor
+    func fetchChatingMember(userDocID: String) async throws {
+        let contactPersonRef = db.collection("ChatUserInfo").document(userDocID).collection("ContactWith")
+        let document = try await contactPersonRef.getDocuments().documents
+        self.contactMember = document.compactMap { queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: ContactUserDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print("some error: \(error)")
+            }
+            return nil
+        }
+    }
+    
+    
+    @MainActor
+    func fetchChatUserInfo(userDocID: String) async throws -> ChatUserInfoDataModel {
+        let chatUserInfoRef = db.collection("ChatUserInfo").document(userDocID)
+        let data = try await chatUserInfoRef.getDocument(as: ChatUserInfoDataModel.self)
+        self.chatUserData = data
+        return chatUserData
+    }
+    
+    @MainActor
+    func fetchStoredUserData(uidPath: String) async throws -> ChatUserUIDDataModel {
+        let contactUserSetRef = db.collection("ChatUsserUIDSet").document(uidPath)
+        let data = try await contactUserSetRef.getDocument(as: ChatUserUIDDataModel.self)
+        self.senderUIDPath = data
+        return senderUIDPath
+    }
+}
+
+extension FirestoreForTextingMessage {
+    @MainActor
+    func fetchChatCenter() async throws {
+        let chatCenterRef = db.collection("ChatCenter")
+        let document = try await chatCenterRef.getDocuments().documents
+        self.chatManager = document.compactMap { queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: ChatCenterDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print("some error: \(error)")
+            }
+            return nil
+        }
     }
 }

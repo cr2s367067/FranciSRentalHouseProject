@@ -9,20 +9,48 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-//struct TextingDataModel: Identifiable, Codable {
-//    @DocumentID var docID: String?
-//    var id = UUID()
-//    var textContain: String
-//    @ServerTimestamp var sendingTimestamp: Timestamp?
-//}
 
-struct MessageTextingDataModel:Identifiable, Codable {
-    @DocumentID var docID: String?
-    var id = UUID()
-    var receiveID: String
-    var receiveDisplayName: String
-    var senderUID: String
+
+struct ChatUserUIDDataModel: Codable {
+    let chatDocId: String
+}
+extension ChatUserUIDDataModel {
+    static let empty = ChatUserUIDDataModel(chatDocId: "")
+}
+
+struct ChatUserInfoDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var senderMailUidPath: String
     var senderDisplayName: String
-    var textContain: String
+    var senderProfileImage: String
+    var chatRoomUID: String
+}
+
+extension ChatUserInfoDataModel {
+    static let empty = ChatUserInfoDataModel(senderMailUidPath: "", senderDisplayName: "", senderProfileImage: "", chatRoomUID: "")
+}
+
+struct ContactUserDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var contacterMailUidPath: String
+    var contacterPlayName: String
+    var contacterProfileImage: String
+    var chatRoomUID: String
+}
+
+
+
+struct ChatCenterDataModel: Identifiable, Codable {
+    var id: String?
+    var contact1docID: String
+    var contact2docID: String
+}
+
+struct MessageContainDataModel:Identifiable, Codable {
+    @DocumentID var id: String?
+    var sendingImage: String?
+    var senderProfileImage: String?
+    var senderDocID: String
+    var text: String
     @ServerTimestamp var sendingTimestamp: Timestamp?
 }

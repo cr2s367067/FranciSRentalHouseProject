@@ -63,7 +63,8 @@ class FirestoreToFetchRoomsData: ObservableObject {
                 let roomImage = data["roomImage"] as? String ?? ""
                 let providedBy = data["providedBy"] as? String ?? ""
                 let providerDisplayName = data["providerDisplayName"] as? String ?? ""
-                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage, providedBy: providedBy, providerDisplayName: providerDisplayName)
+                let providerChatDocId = data["providerChatDocId"] as? String ?? ""
+                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage, providedBy: providedBy, providerDisplayName: providerDisplayName, providerChatDocId: providerChatDocId)
                 
             }
         }
@@ -95,7 +96,8 @@ class FirestoreToFetchRoomsData: ObservableObject {
                 let rentedBy = data["rentedBy"] as? String ?? ""
                 let providedBy = data["providedBy"] as? String ?? ""
                 let providerDisplayName = data["providerDisplayName"] as? String ?? ""
-                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage,isRented: isRented,rentedBy: rentedBy, providedBy: providedBy, providerDisplayName: providerDisplayName)
+                let providerChatDocId = data["providerChatDocId"] as? String ?? ""
+                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage,isRented: isRented,rentedBy: rentedBy, providedBy: providedBy, providerDisplayName: providerDisplayName, providerChatDocId: providerChatDocId)
                 
             }
         }
@@ -104,7 +106,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
 }
 
 extension FirestoreToFetchRoomsData {
-    func summitRoomInfoAsync(docID: String, uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, isRented: Bool = false, rentedBy: String = "", providerDisplayName: String) async throws {
+    func summitRoomInfoAsync(docID: String, uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, isRented: Bool = false, rentedBy: String = "", providerDisplayName: String, providerChatDocId: String) async throws {
         let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
         let roomPublicRef = db.collection("RoomsForPublic").document(docID)
         _ = try await roomOwerRef.setData([
@@ -123,7 +125,8 @@ extension FirestoreToFetchRoomsData {
             "isRented" : isRented,
             "rentedBy" : rentedBy,
             "providedBy": uidPath,
-            "providerDisplayName" : providerDisplayName
+            "providerDisplayName" : providerDisplayName,
+            "providerChatDocId" : providerChatDocId
         ])
         _ = try await roomPublicRef.setData([
             "roomUID" : roomUID,
@@ -139,7 +142,8 @@ extension FirestoreToFetchRoomsData {
             "waterLeakingProblem" : waterLeakingProblem,
             "roomImage" : roomImageURL,
             "providedBy": uidPath,
-            "providerDisplayName" : providerDisplayName
+            "providerDisplayName" : providerDisplayName,
+            "providerChatDocId" : providerChatDocId
         ])
     }
 }

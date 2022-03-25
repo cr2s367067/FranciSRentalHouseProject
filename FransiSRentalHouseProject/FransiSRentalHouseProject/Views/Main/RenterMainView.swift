@@ -73,6 +73,7 @@ struct RenterMainView: View {
                                                 appViewModel.isPresent = true
                                             }
                                             localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+
                                         } label: {
                                             GridView(imageURL: result.roomImage ?? "",
                                                      roomTown: result.town,

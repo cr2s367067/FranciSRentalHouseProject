@@ -15,6 +15,7 @@ struct MessageMainView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var textingViewModel: TextingViewModel
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     
     var body: some View {
         ZStack {
@@ -35,13 +36,14 @@ struct MessageMainView: View {
                     Spacer()
                 }
                 VStack(spacing: 10) {
-                    NavigationLink {
-//                        withAnimation(.easeInOut) {
-//                            MessageView()
+//                    ForEach(firestoreForTextingMessage.chatCenter) { message in
+//                        NavigationLink {
+//                            withAnimation(.easeInOut) {
+//                            }
+//                        } label: {
+//                            MessageUserSession()
 //                        }
-                    } label: {
-                        MessageUserSession()
-                    }
+//                    }
                 }
                 Spacer()
             }

@@ -73,7 +73,7 @@ struct SearchView: View {
                                                 docID: result.docID ?? "",
                                                 providedBy: result.providedBy,
                                                 providedName: result.providerDisplayName ,
-                                                result: result)
+                                                result: result, chatDocID: result.providerChatDocId)
                         }
                     }
                     //.frame(height: 600)

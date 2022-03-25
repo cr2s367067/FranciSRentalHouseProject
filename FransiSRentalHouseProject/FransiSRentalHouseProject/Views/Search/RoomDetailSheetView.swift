@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RoomDetailSheetView: View {
     
+    @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
@@ -24,6 +25,8 @@ struct RoomDetailSheetView: View {
     var providedBy: String
     var providedName: String
     var result: RoomInfoDataModel
+    var chatDocID: String
+    
     
     private func fullAddress() -> String {
         return roomZipCode + roomCity + roomTown + roomAddress
@@ -55,9 +58,9 @@ struct RoomDetailSheetView: View {
                         .padding()
                         Spacer()
                         HStack {
-                            if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" {                            
+                            if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" {
                                 NavigationLink {
-                                    MessageView(providerName: providedName, providerUID: providedBy, roomUID: roomUID, chatID: roomUID)
+                                    MessageView(providerName: providedName, providerUID: providedBy, chatDocID: chatDocID)
                                 } label: {
                                     Text("Contact provider.")
                                         .foregroundColor(.white)

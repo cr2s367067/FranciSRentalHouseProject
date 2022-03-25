@@ -15,19 +15,45 @@ struct MessageView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var textingViewModel: TextingViewModel
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
-    
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     let providerName: String
     let providerUID: String
-    let roomUID: String
-    let chatID: String
+    let chatDocID: String
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-//    private func getChatID() async -> String {
-//        var chatID = ""
-//        chatID = firestoreForTextingMessage.textGroup.map({$0.chatID}).description
-//        return chatID
+//    init() {
+//        if providerUID !=  {
+//
+//        }
 //    }
+    
+    //Figure out init at where!!
+    func initChatRoom(providerUID: String, providerName: String) async throws {
+        let chatRoomUID = UUID().uuidString
+        _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+        try await firestoreForTextingMessage.createChatRoom(contact1docID: firestoreForTextingMessage.senderUIDPath.chatDocId, contact2docID: chatDocID, chatRoomUID: chatRoomUID)
+        
+        if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" {
+            try await fromSide(chatRoomUID: chatRoomUID, providerUID: providerUID, providerName: providerName)
+            try await toSide(chatRoomUID: chatRoomUID, providerUID: providerUID, providerName: providerName)
+        }
+    }
+    
+    private func fromSide(chatRoomUID: String, providerUID: String, providerName: String) async throws {
+        try await firestoreForTextingMessage.storeSenderUserInfo(uidPath: firebaseAuth.getUID(), userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, displayName: firestoreToFetchUserinfo.fetchedUserData.displayName, displayProfileImage: "", chatRoomUID: chatRoomUID)
+        try await firestoreForTextingMessage.storeContactUserInfo(contactPersonDocID: chatDocID, contactPersonUidPath: providerUID, senderUserDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactWithdisplayName: providerName, contactPersondisplayProfileImage: "", chatRoomUID: chatRoomUID)
+    }
+    
+    private func toSide(chatRoomUID: String, providerUID: String, providerName: String) async throws {
+        try await firestoreForTextingMessage.storeSenderUserInfo(uidPath: providerUID, userDocID: chatDocID, displayName: providerName, displayProfileImage: "", chatRoomUID: chatRoomUID)
+        try await firestoreForTextingMessage.storeContactUserInfo(contactPersonDocID:  firestoreForTextingMessage.senderUIDPath.chatDocId,
+                                                                  contactPersonUidPath: firebaseAuth.getUID(),
+                                                                  senderUserDocID: chatDocID,
+                                                                  contactWithdisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName,
+                                                                  contactPersondisplayProfileImage: "", chatRoomUID: chatRoomUID)
+    }
     
     var body: some View {
         ZStack {
@@ -35,27 +61,46 @@ struct MessageView: View {
                 .fill(Color("backgroundBrown"))
                 .edgesIgnoringSafeArea([.top, .bottom])
             VStack(alignment: .center) {
+                HStack {
+                    Button {
+                        print(firestoreForTextingMessage.chatManager)
+                    } label: {
+                        Text("test")
+                    }
+                    Button {
+                        Task {
+                            do {
+                                _ = try await firestoreForTextingMessage.fetchChatCenter()
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
+                        }
+//                        firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: firestoreForTextingMessage.chatUserData.chatRoomUID)
+                    } label: {
+                         Text("get")
+                    }
+                }
                 ScrollView(.vertical, showsIndicators: false) {
                     ScrollViewReader { item in
                         VStack {
-                            ForEach(firestoreForTextingMessage.textContainer) { textMessage in
-                                if textMessage.senderUID == firebaseAuth.getUID() {
-                                    TextingViewForSender(text: textMessage.textContain)
+                            ForEach(firestoreForTextingMessage.messagesContainer) { textMessage in
+                                if textMessage.senderDocID == firestoreForTextingMessage.senderUIDPath.chatDocId {
+                                    TextingViewForSender(text: textMessage.text)
                                         .id(textMessage.id)
                                 } else {
-                                    TextingViewForReceiver(text: textMessage.textContain)
+                                    TextingViewForReceiver(text: textMessage.text)
                                         .id(textMessage.id)
                                 }
                             }
                         }
                         .onAppear {
                             withAnimation(.spring()) {
-                                item.scrollTo(firestoreForTextingMessage.textContainer.last?.id, anchor: .bottom)
+                                item.scrollTo(firestoreForTextingMessage.messagesContainer.last?.id, anchor: .bottom)
                             }
                         }
-                        .onChange(of: firestoreForTextingMessage.textContainer.count) { _ in
+                        .onChange(of: firestoreForTextingMessage.messagesContainer.count) { _ in
                             withAnimation(.spring()) {
-                                item.scrollTo(firestoreForTextingMessage.textContainer.last?.id, anchor: .bottom)
+                                item.scrollTo(firestoreForTextingMessage.messagesContainer.last?.id, anchor: .bottom)
                             }
 
                         }
@@ -68,8 +113,11 @@ struct MessageView: View {
                     Button {
                         Task {
                             do {
-                                try await firestoreForTextingMessage.creatAndSendTextingSessionS(senderUID: firebaseAuth.getUID(), receiveUID: providerUID, receiveDisplayName: providerName, senderDisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName, textContain: textingViewModel.text)
-//                                try await firestoreForTextingMessage.sendingTextMessageRenter(senderUID: firebaseAuth.getUID(), receiveUID: providerUID, receiveDisplayName: providerName, senderDisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName, textContain: textingViewModel.text)
+                                try await firestoreForTextingMessage.sendingMessage(text: textingViewModel.text,
+                                                                                    sendingImage: "",
+                                                                                    senderProfileImage: "",
+                                                                                    senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
+                                                                                    chatRoomUID: firestoreForTextingMessage.chatUserData.chatRoomUID)
                                 textingViewModel.text = ""
                             } catch {
                                 self.errorHandler.handle(error: error)
@@ -94,7 +142,14 @@ struct MessageView: View {
         }
         .task {
             do {
-                _ = try await firestoreForTextingMessage.listeningTexingMessage(uidPath: firebaseAuth.getUID())
+                try await firestoreForTextingMessage.fetchChatCenter()
+                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+                if firestoreForTextingMessage.chatManager.isEmpty {
+                    try await initChatRoom(providerUID: providerUID, providerName: providerName)
+                }
+                _ = try await firestoreForTextingMessage.fetchChatUserInfo(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
+                await firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: firestoreForTextingMessage.chatUserData.chatRoomUID)
+                try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
             } catch {
                 self.errorHandler.handle(error: error)
             }

@@ -8,7 +8,7 @@
 import Foundation
 
 class TextingViewModel: ObservableObject {
-    
+
     @Published var text = ""
     
 }

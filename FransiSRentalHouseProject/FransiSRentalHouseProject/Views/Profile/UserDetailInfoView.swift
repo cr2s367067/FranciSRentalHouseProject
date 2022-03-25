@@ -15,6 +15,7 @@ struct UserDetailInfoView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     
 //    let persistenceDM = PersistenceController()
     
@@ -188,6 +189,7 @@ struct UserDetailInfoView: View {
                                                                                                          providerType: appViewModel.providerType,
                                                                                                          RLNumber: appViewModel.rentalManagerLicenseNumber,
                                                                                                          displayName: appViewModel.displayName)
+                                            try await firestoreForTextingMessage.createAndStoreContactUser(uidPath: firebaseAuth.getUID())
                                             isSummit = true
                                             try await firestoreToFetchUserinfo.reloadUserData()
                                             appViewModel.isShowUserDetailView = false
