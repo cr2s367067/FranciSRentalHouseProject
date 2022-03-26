@@ -235,9 +235,9 @@ struct RenterProfileView: View {
         .navigationBarBackButtonHidden(true)
         .task({
             do {
-                if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
-                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID())
-                }
+//                if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
+//                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), roomUID: "")
+//                }
                 try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)

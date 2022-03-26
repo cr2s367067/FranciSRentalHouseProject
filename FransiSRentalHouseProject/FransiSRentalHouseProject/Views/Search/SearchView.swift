@@ -68,7 +68,7 @@ struct SearchView: View {
                                                 roomTown: result.town,
                                                 roomCity: result.city,
                                                 roomPrice: Int(result.rentalPrice) ?? 0,
-                                                roomUID: result.roomUID ?? "",
+                                                roomUID: result.roomUID ,
                                                 roomZipCode: result.zipCode,
                                                 docID: result.docID ?? "",
                                                 providedBy: result.providedBy,

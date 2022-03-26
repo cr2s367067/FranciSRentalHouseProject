@@ -10,10 +10,12 @@ import SDWebImageSwiftUI
 
 struct MaintainWaitingView: View {
     
+    @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     
     @State private var showDetail = false
     
@@ -26,10 +28,34 @@ struct MaintainWaitingView: View {
             VStack {
                 TitleAndDivider(title: "Maintian List")
                 Spacer()
+//                HStack {
+//                    Button {
+//                        print(firestoreToFetchMaintainTasks.fetchMaintainInfo)
+//                    } label: {
+//                        Text("result")
+//                    }
+//                    Button {
+//                        firestoreToFetchRoomsData.fetchRoomInfoFormOwner.forEach({ room in
+//                            print("rent by: \(room.rentedBy ?? "")")
+//                            print("roomUID: \(room.roomUID)")
+////                            Task {
+////                                do {
+////                                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: room.rentedBy ?? "", roomUID: room.roomUID ?? "")
+////                                } catch {
+////                                    self.errorHandler.handle(error: error)
+////                                }
+////                            }
+//                        })
+//                    } label: {
+//                        Text("get")
+//                    }
+//                }
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { data in
-                        MaintainWaitingReusableUnit(showDetail: self.$showDetail, roomAddress: data.roomAddress, roomTown: data.town, roomCity: data.city, roomZipCode: data.zipCode, roomUID: data.roomUID ?? "", roomImage: data.roomImage ?? "", uidPath: firebaseAuth.getUID())
-                            .padding(.top)
+                        if data.isRented == true {
+                            MaintainWaitingReusableUnit(showDetail: self.$showDetail, roomAddress: data.roomAddress, roomTown: data.town, roomCity: data.city, roomZipCode: data.zipCode, roomUID: data.roomUID, roomImage: data.roomImage ?? "", uidPath: data.rentedBy ?? "")
+                                .padding(.top)
+                        }
                     }
                 }
             }
@@ -72,10 +98,8 @@ struct MaintainWaitingReusableUnit: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color("fieldGray"))
-                .frame(width: uiScreenWidth - 20, height: showDetail ? uiScreenHeight - 300 : uiScreenHeight - 785)
+        VStack {
+            Spacer()
             VStack {
                 VStack {
                     HStack {
@@ -105,7 +129,7 @@ struct MaintainWaitingReusableUnit: View {
                         .padding(.top, 3)
                         HStack {
                             Text("Waiting Task: ")
-                            Text("5")
+                            Text("\(firestoreToFetchMaintainTasks.fetchMaintainInfo.count)")
                             Spacer()
                         }
                         .padding(.leading)
@@ -114,11 +138,9 @@ struct MaintainWaitingReusableUnit: View {
                         Spacer()
                             .frame(width: uiScreenWidth - 50)
                         Button {
-                            
-                                withAnimation {
-                                    showDetail.toggle()
-                                }
-                            
+                            withAnimation {
+                                showDetail.toggle()
+                            }
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .resizable()
@@ -142,10 +164,19 @@ struct MaintainWaitingReusableUnit: View {
                 }
                 
             }
-            .frame(width: uiScreenWidth - 20, height: showDetail ? uiScreenHeight - 200 : uiScreenHeight - 670)
+            .padding()
+            .frame(width: uiScreenWidth - 20, height: showDetail ? ((uiScreenHeight / 2 - 190) + (firestoreToFetchMaintainTasks.fetchMaintainInfo.count * 70)) : uiScreenHeight / 4 - 50  )
+            .background(alignment: .center, content: {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color("fieldGray"))
+            })
         }
-        .onAppear {
-            firestoreToFetchMaintainTasks.fetchListeningMaintainInfo(uidPath: uidPath, roomUID: roomUID)
+        .task {
+            do {
+                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: uidPath, roomUID: roomUID)
+            } catch {
+                print("error")
+            }
         }
     }
 }
@@ -176,8 +207,8 @@ struct MaintainTaskWaitingListUnit: View {
 }
 
 
-struct MaitainWaitingView_Previews: PreviewProvider {
-    static var previews: some View {
-        MaintainWaitingView()
-    }
-}
+//struct MaitainWaitingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MaintainWaitingView()
+//    }
+//}
