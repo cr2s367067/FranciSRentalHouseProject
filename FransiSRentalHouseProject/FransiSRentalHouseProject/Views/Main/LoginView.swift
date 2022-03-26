@@ -78,6 +78,7 @@ struct LoginView: View {
                             Image(systemName: "person.fill")
                                 .padding(.leading)
                             TextField("", text: $emailAddress)
+                                .foregroundColor(.white)
                                 .placeholer(when: emailAddress.isEmpty) {
                                     Text("E-mail")
                                         .foregroundColor(.white.opacity(0.8))
@@ -93,6 +94,7 @@ struct LoginView: View {
                             Image(systemName: "lock.fill")
                                 .padding(.leading)
                             SecureField("", text: $userPassword)
+                                .foregroundColor(.white)
                                 .placeholer(when: userPassword.isEmpty) {
                                     Text("Password")
                                         .foregroundColor(.white.opacity(0.8))

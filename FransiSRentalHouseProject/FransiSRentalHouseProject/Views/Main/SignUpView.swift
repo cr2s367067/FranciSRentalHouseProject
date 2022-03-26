@@ -63,6 +63,7 @@ struct SignUpView: View {
                     VStack(alignment: .leading) {
                         HStack {
                             TextField("", text: $appViewModel.emailAddress)
+                                .foregroundColor(.white)
                                 .placeholer(when: appViewModel.emailAddress.isEmpty) {
                                     Text("E-mail")
                                         .foregroundColor(.white.opacity(0.8))
@@ -80,6 +81,7 @@ struct SignUpView: View {
                     VStack {
                         HStack {
                             SecureField("", text: $appViewModel.userPassword)
+                                .foregroundColor(.white)
                                 .placeholer(when: appViewModel.userPassword.isEmpty) {
                                     Text("Password")
                                         .foregroundColor(.white.opacity(0.8))
@@ -98,6 +100,7 @@ struct SignUpView: View {
                         HStack {
                             //Re-check the password
                             SecureField("", text: $appViewModel.recheckPassword)
+                                .foregroundColor(.white)
                                 .placeholer(when: appViewModel.recheckPassword.isEmpty) {
                                     Text("Confirm")
                                         .foregroundColor(.white.opacity(0.8))

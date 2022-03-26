@@ -23,11 +23,22 @@ struct MessageView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-//    init() {
-//        if providerUID !=  {
-//
-//        }
-//    }
+    // MARK: Compare thr provider doc id is exist or not.
+    func identityProvider(input: [ChatCenterDataModel], providerDocID: String) -> Bool {
+        var compareResult: Bool = false
+        print("providerDocID: \(providerDocID)")
+        let compareDocID = input.map { seq in
+            seq.contact2docID
+        }
+        for (seq1, seq2) in zip(compareDocID, [providerDocID]) {
+            print("seqs: \(seq1) compare with \(seq2)")
+            let result = seq1 == seq1
+            compareResult = result
+        }
+        print(compareResult)
+        return compareResult
+    }
+    
     
     //Figure out init at where!!
     func initChatRoom(providerUID: String, providerName: String) async throws {
@@ -68,14 +79,14 @@ struct MessageView: View {
                         Text("test")
                     }
                     Button {
-                        Task {
-                            do {
-                                _ = try await firestoreForTextingMessage.fetchChatCenter()
-                            } catch {
-                                self.errorHandler.handle(error: error)
-                            }
-                        }
-//                        firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: firestoreForTextingMessage.chatUserData.chatRoomUID)
+//                        Task {
+//                            do {
+//                                _ = try await firestoreForTextingMessage.fetchChatCenter()
+//                            } catch {
+//                                self.errorHandler.handle(error: error)
+//                            }
+//                        }
+                        identityProvider(input: firestoreForTextingMessage.chatManager, providerDocID: chatDocID)
                     } label: {
                          Text("get")
                     }
@@ -146,8 +157,8 @@ struct MessageView: View {
                 _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
                 if firestoreForTextingMessage.chatManager.isEmpty {
                     try await initChatRoom(providerUID: providerUID, providerName: providerName)
-                } else {
-                    // MARK: Create the function to identity the provider is exist or not, if it's exist skip if not initChatRoom
+                } else if identityProvider(input: firestoreForTextingMessage.chatManager, providerDocID: chatDocID) == false {
+                    try await initChatRoom(providerUID: providerUID, providerName: providerName)
                 }
                 _ = try await firestoreForTextingMessage.fetchChatUserInfo(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
                 await firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: firestoreForTextingMessage.chatUserData.chatRoomUID)
