@@ -72,13 +72,13 @@ struct MessageView: View {
                 .fill(Color("backgroundBrown"))
                 .edgesIgnoringSafeArea([.top, .bottom])
             VStack(alignment: .center) {
-                HStack {
-                    Button {
-                        print(firestoreForTextingMessage.chatManager)
-                    } label: {
-                        Text("test")
-                    }
-                    Button {
+//                HStack {
+//                    Button {
+//                        print(firestoreForTextingMessage.contactMember)
+//                    } label: {
+//                        Text("test")
+//                    }
+//                    Button {
 //                        Task {
 //                            do {
 //                                _ = try await firestoreForTextingMessage.fetchChatCenter()
@@ -86,11 +86,11 @@ struct MessageView: View {
 //                                self.errorHandler.handle(error: error)
 //                            }
 //                        }
-                        identityProvider(input: firestoreForTextingMessage.chatManager, providerDocID: chatDocID)
-                    } label: {
-                         Text("get")
-                    }
-                }
+//                        identityProvider(input: firestoreForTextingMessage.chatManager, providerDocID: chatDocID)
+//                    } label: {
+//                         Text("get")
+//                    }
+//                }
                 ScrollView(.vertical, showsIndicators: false) {
                     ScrollViewReader { item in
                         VStack {
@@ -186,12 +186,6 @@ struct MessageView: View {
         }
     }
 }
-
-//struct MessageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MessageView(providerUID: "", roomUID: "")
-//    }
-//}
 
 struct TextingViewForReceiver: View {
     let text: String

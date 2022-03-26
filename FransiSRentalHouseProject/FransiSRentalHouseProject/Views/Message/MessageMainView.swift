@@ -36,19 +36,28 @@ struct MessageMainView: View {
                     Spacer()
                 }
                 VStack(spacing: 10) {
-//                    ForEach(firestoreForTextingMessage.chatCenter) { message in
-//                        NavigationLink {
-//                            withAnimation(.easeInOut) {
-//                            }
-//                        } label: {
-//                            MessageUserSession()
-//                        }
-//                    }
+                    ForEach(firestoreForTextingMessage.contactMember) { message in
+                        NavigationLink {
+                            withAnimation(.easeInOut) {
+                                MessageView(providerName: message.contacterPlayName, providerUID: message.contacterMailUidPath, chatDocID: message.id ?? "")
+                            }
+                        } label: {
+                            MessageUserSession(userName: message.contacterPlayName)
+                        }
+                    }
                 }
                 Spacer()
             }
             .padding(.horizontal)
             .padding(.vertical)
+        }
+        .task {
+            do {
+                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+                try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -62,6 +71,9 @@ struct MessageMainView_Previews: PreviewProvider {
 }
 
 struct MessageUserSession: View {
+    
+    let userName: String
+    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     var body: some View {
@@ -72,8 +84,7 @@ struct MessageUserSession: View {
                 .clipShape(Circle())
                 .frame(width: 35, height: 35)
             VStack(alignment: .leading, spacing: 3) {
-                Text("Username")
-                Text("some message")
+                Text(userName)
             }
             .padding(.leading)
             .foregroundColor(.white)

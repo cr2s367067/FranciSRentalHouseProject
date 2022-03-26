@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct MaintainWaitingView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     
     @State private var showDetail = false
     
@@ -26,7 +28,7 @@ struct MaintainWaitingView: View {
                 Spacer()
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { data in
-                        MaintainWaitingReusableUnit(showDetail: self.$showDetail, roomAddress: data.roomAddress, roomTown: data.town, roomCity: data.city, roomZipCode: data.zipCode)
+                        MaintainWaitingReusableUnit(showDetail: self.$showDetail, roomAddress: data.roomAddress, roomTown: data.town, roomCity: data.city, roomZipCode: data.zipCode, roomUID: data.roomUID ?? "", roomImage: data.roomImage ?? "", uidPath: firebaseAuth.getUID())
                             .padding(.top)
                     }
                 }
@@ -52,6 +54,9 @@ struct MaintainWaitingReusableUnit: View {
     var roomCity: String = ""
     var roomZipCode: String = ""
     var renter: String = ""
+    var roomUID: String
+    var roomImage: String
+    var uidPath: String
     
     func address() -> String {
         var tempAddressHolder = ""
@@ -74,13 +79,19 @@ struct MaintainWaitingReusableUnit: View {
             VStack {
                 VStack {
                     HStack {
-                        Image(systemName: "photo")
-                            .font(.system(size: 50))
-                            .frame(width: 130, height: 100)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.brown)
-                            )
+                        ZStack {
+                            Image(systemName: "photo")
+                                .font(.system(size: 50))
+                                .frame(width: 130, height: 100)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.brown)
+                                )
+                            WebImage(url: URL(string: roomImage))
+                                .resizable()
+                                .frame(width: 130, height: 100)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
                         Spacer()
                             .frame(width: uiScreenWidth - 200)
                     }
@@ -132,6 +143,9 @@ struct MaintainWaitingReusableUnit: View {
                 
             }
             .frame(width: uiScreenWidth - 20, height: showDetail ? uiScreenHeight - 200 : uiScreenHeight - 670)
+        }
+        .onAppear {
+            firestoreToFetchMaintainTasks.fetchListeningMaintainInfo(uidPath: uidPath, roomUID: roomUID)
         }
     }
 }
