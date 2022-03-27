@@ -48,7 +48,7 @@ struct UserDetailInfoView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color("backgroundBrown"))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .edgesIgnoringSafeArea([.top, .bottom])
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
@@ -98,9 +98,9 @@ struct UserDetailInfoView: View {
                                         } label: {
                                             HStack {
                                                 Text("Male")
-                                                    .foregroundColor(isMale ? .white : .gray)
+                                                    .foregroundColor(isMale ? .white : .white)
                                                 Image(systemName: isMale ? "checkmark.circle.fill" : "checkmark.circle")
-                                                    .foregroundColor(isMale ? .green : .gray)
+                                                    .foregroundColor(isMale ? .green : .white)
                                                     .padding(.leading, 10)
                                                 
                                             }
@@ -120,9 +120,9 @@ struct UserDetailInfoView: View {
                                         } label: {
                                             HStack {
                                                 Text("Female")
-                                                    .foregroundColor(isFemale ? .white : .gray)
+                                                    .foregroundColor(isFemale ? .white : .white)
                                                 Image(systemName: isFemale ? "checkmark.circle.fill" : "checkmark.circle")
-                                                    .foregroundColor(isFemale ? .green : .gray)
+                                                    .foregroundColor(isFemale ? .green : .white)
                                                     .padding(.leading, 10)
                                             }
                                             .frame(width: 140, height: 30)

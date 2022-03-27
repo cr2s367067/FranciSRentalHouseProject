@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+struct PastedPaymentHistoryDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var paidRentalPrice: String
+    @ServerTimestamp var paymentDate: Timestamp?
+}

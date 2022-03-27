@@ -69,7 +69,7 @@ struct MessageView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color("backgroundBrown"))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .edgesIgnoringSafeArea([.top, .bottom])
             VStack(alignment: .center) {
 //                HStack {
@@ -145,7 +145,7 @@ struct MessageView: View {
                 .frame(width: uiScreenWidth / 2 + 185, height: 45, alignment: .center)
                 .background(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 50)
-                        .stroke(Color.gray.opacity(0.8), lineWidth: 3)
+                        .stroke(Color.white, lineWidth: 2)
                         .foregroundColor(Color.clear)
                 }
             }

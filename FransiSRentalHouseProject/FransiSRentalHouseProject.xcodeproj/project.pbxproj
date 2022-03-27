@@ -80,8 +80,11 @@
 		0E3DD1A127ED5CB6001525E3 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD1A027ED5CB6001525E3 /* FirebaseStorageSwift-Beta */; };
 		0E3DD1A427ED5CE3001525E3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD1A327ED5CE3001525E3 /* SDWebImageSwiftUI */; };
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
-		0E8F3ED827E9C104008F0310 /* RoomLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocation.swift */; };
+		0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */; };
 		0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */; };
+		0ED1F42427F049D90004B5CE /* AnnouncementDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */; };
+		0ED1F42627F04A460004B5CE /* FirestoreFetchingAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */; };
+		0ED1F42A27F087D70004B5CE /* PastedPaymentHistoryDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,8 +156,11 @@
 		0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForTextingMessage.swift; sourceTree = "<group>"; };
 		0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMainView.swift; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
-		0E8F3ED727E9C104008F0310 /* RoomLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocation.swift; sourceTree = "<group>"; };
+		0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocationDataModel.swift; sourceTree = "<group>"; };
 		0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsLocationViewModel.swift; sourceTree = "<group>"; };
+		0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementDataModel.swift; sourceTree = "<group>"; };
+		0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreFetchingAnnouncement.swift; sourceTree = "<group>"; };
+		0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastedPaymentHistoryDataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -406,8 +412,10 @@
 				02CB58EA27CDAE520035EE20 /* FurnitureDataModel.swift */,
 				02CB58EC27CDAE730035EE20 /* UserDataModel.swift */,
 				02450AE527D2AC7000370683 /* ContactDataModel.swift */,
-				0E8F3ED727E9C104008F0310 /* RoomLocation.swift */,
+				0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */,
 				0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */,
+				0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */,
+				0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -420,6 +428,7 @@
 				02CB58F227CDB3950035EE20 /* FirestoreToFetchRoomsData.swift */,
 				02450AE727D2AD7100370683 /* FirestoreForContactInfo.swift */,
 				0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */,
+				0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
@@ -538,7 +547,7 @@
 				0249D44B27C63A850085F4A5 /* PaymentSummaryView.swift in Sources */,
 				0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */,
 				0249D45527C63B0B0085F4A5 /* UserDetailInfoView.swift in Sources */,
-				0E8F3ED827E9C104008F0310 /* RoomLocation.swift in Sources */,
+				0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */,
 				0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */,
 				02B7C43E27D0ECA000DC100E /* TermOfServiceView.swift in Sources */,
 				0E0CB2D127E763130096A5CE /* UnregisterCoverView.swift in Sources */,
@@ -573,6 +582,8 @@
 				02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */,
 				0292835D27D3824900DEF068 /* PrivatePolicyView.swift in Sources */,
 				0249D46D27C63CCC0085F4A5 /* SearchListItemView.swift in Sources */,
+				0ED1F42A27F087D70004B5CE /* PastedPaymentHistoryDataModel.swift in Sources */,
+				0ED1F42627F04A460004B5CE /* FirestoreFetchingAnnouncement.swift in Sources */,
 				0249D42C27C637CC0085F4A5 /* LocalDataModel.swift in Sources */,
 				0249D44327C639BE0085F4A5 /* SheetView.swift in Sources */,
 				0249D46327C63BF50085F4A5 /* ProviderProfileView.swift in Sources */,
@@ -592,6 +603,7 @@
 				0E2EDD3827EAF307008FEF58 /* TextingViewModel.swift in Sources */,
 				0249D44027C6399D0085F4A5 /* RenterMainView.swift in Sources */,
 				0263079D27D7382A000E3CFD /* SummitAlertView.swift in Sources */,
+				0ED1F42427F049D90004B5CE /* AnnouncementDataModel.swift in Sources */,
 				0249D46127C63B960085F4A5 /* RoomStatusView.swift in Sources */,
 				0249D43027C637EA0085F4A5 /* FirebaseStorage.swift in Sources */,
 				0249D44527C639CA0085F4A5 /* GridView.swift in Sources */,

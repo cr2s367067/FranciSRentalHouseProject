@@ -53,7 +53,7 @@ struct MaintainView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color("backgroundBrown"))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .ignoresSafeArea(.all)
             VStack(alignment: .leading) {
                 Spacer()

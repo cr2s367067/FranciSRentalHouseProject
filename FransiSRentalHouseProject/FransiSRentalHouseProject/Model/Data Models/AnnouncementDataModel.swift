@@ -6,3 +6,10 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
+
+
+struct AnnouncementDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var announcement: String?
+}

@@ -24,7 +24,7 @@ struct AppTabView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color("backgroundBrown"))
+                .fill(Color("background2"))
                 .ignoresSafeArea(.all)
             
             //: Tab Views
@@ -58,7 +58,7 @@ struct AppTabView: View {
                 //: Tab bar
                 ZStack {
                     RoundedRectangle(cornerRadius: 27)
-                        .fill(Color("fieldGray"))
+                        .fill(Color("Shadow"))
                         .frame(width: 389, height: 70)
                     HStack {
                         ForEach(appViewModel.selectArray, id: \.self) { buttonName in

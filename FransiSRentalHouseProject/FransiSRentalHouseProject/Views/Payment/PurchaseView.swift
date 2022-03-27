@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct PurchaseView: View {
-    
+
+    @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var localData: LocalData
@@ -44,7 +45,7 @@ struct PurchaseView: View {
 //                .fill(.gray)
 //                .blendMode(.multiply)
             Rectangle()
-                .fill(Color("backgroundBrown"))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .ignoresSafeArea(.all)
             VStack {
                 Image("cardPic")
@@ -195,16 +196,25 @@ struct PurchaseView: View {
                 
                 Button {
                     //: pass data to the next view
-                    localData.summaryItemHolder.forEach { result in
-                        Task {
-                            try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID)
-                            try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.docID)
-                            try await firestoreToFetchUserinfo.reloadUserDataTest()
-                            try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providerUID, docID: result.docID, renterID: firebaseAuth.getUID())
-                            reset()
+//                    if firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo.roomUID.isEmpty {
+                        localData.summaryItemHolder.forEach { result in
+                            Task {
+                                try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID)
+                                try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.docID)
+                                try await firestoreToFetchUserinfo.reloadUserDataTest()
+                                try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providerUID, docID: result.docID, renterID: firebaseAuth.getUID())
+                                reset()
+                            }
                         }
-                    }
-                    
+//                    } else {
+//                        Task {
+//                            do {
+//                                try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo.roomPrice, date: Date())
+//                            } catch {
+//                                self.errorHandler.handle(error: error)
+//                            }
+//                        }
+//                    }
                     print("test")
                 } label: {
                     Text("Pay")

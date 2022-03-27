@@ -48,10 +48,10 @@ struct PrePurchaseView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                Rectangle()
-                    .fill(Color("backgroundBrown"))
-                    .ignoresSafeArea(.all)
+//            ZStack {
+//                Rectangle()
+//                    .fill(Color("backgroundBrown"))
+//                    .ignoresSafeArea(.all)
                 VStack {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
@@ -94,6 +94,10 @@ struct PrePurchaseView: View {
                             Group {
                                 Image(systemName: "dollarsign.circle")
                                 Text("\(localData.sumPrice)")
+//                                if firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo.roomUID.isEmpty {
+                                    Text("(Include Deposit fee 2 month)")
+                                        .font(.system(size: 12, weight: .semibold))
+//                                }
                             }
                             Spacer()
                                 .frame(width: 50)
@@ -124,16 +128,19 @@ struct PrePurchaseView: View {
                                         .clipShape(RoundedRectangle(cornerRadius: 5))
                                         .padding(.trailing)
                                 }
-                            }
-                            
+                            }   
                         }
                         .frame(width: 400, height: 50)
                         .foregroundColor(.white)
-                        .background(Color("fieldGray").opacity(0.1))
+                        .background(Color("fieldGray").opacity(0.5))
                         .cornerRadius(10)
                     }
                 }
-            }
+                .background {
+                    LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
+                        .edgesIgnoringSafeArea([.top, .bottom])
+                }
+//            }
             .overlay(content: {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)

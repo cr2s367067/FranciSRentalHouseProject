@@ -121,14 +121,14 @@ extension FirestoreToFetchUserinfo {
         rentingRoomInfo = dataInLocalRentedRoomInfo(input: fetchedUserData)
     }
     private func dataInLocalRentedRoomInfo(input: UserDataModel) -> RentedRoomInfo {
-        let roomUID = input.rentedRoomInfo?.roomUID ?? ""
-        let roomAddress = input.rentedRoomInfo?.roomAddress ?? ""
-        let roomTown = input.rentedRoomInfo?.roomTown ?? ""
-        let roomCity = input.rentedRoomInfo?.roomCity ?? ""
-        let roomPrice = input.rentedRoomInfo?.roomPrice ?? ""
-        let roomZipCode = input.rentedRoomInfo?.roomZipCode ?? ""
-        let roomImageCover = input.rentedRoomInfo?.roomImageCover ?? ""
-        let providerUID = input.rentedRoomInfo?.providerUID ?? ""
+        let roomUID = input.rentedRoomInfo?.roomUID
+        let roomAddress = input.rentedRoomInfo?.roomAddress
+        let roomTown = input.rentedRoomInfo?.roomTown
+        let roomCity = input.rentedRoomInfo?.roomCity
+        let roomPrice = input.rentedRoomInfo?.roomPrice
+        let roomZipCode = input.rentedRoomInfo?.roomZipCode
+        let roomImageCover = input.rentedRoomInfo?.roomImageCover
+        let providerUID = input.rentedRoomInfo?.providerUID
         self.rentingRoomInfo = RentedRoomInfo(roomUID: roomUID,
                                                 roomAddress: roomAddress,
                                                 roomTown: roomTown,
@@ -317,5 +317,17 @@ extension FirestoreToFetchUserinfo {
     func reloadUserDataTest() async throws {
         try await fetchUploadUserDataAsync()
         userRentedRoomInfo()
+    }
+}
+
+
+extension FirestoreToFetchUserinfo {
+    func summitPaidInfo(uidPath: String, rentalPrice: String, date: Date) async throws {
+        let paymentHistoryRef = db.collection("users").document(uidPath).collection("PaymentHistory")
+        _ = try await paymentHistoryRef.addDocument(data: [
+            "paidRentalPrice" : rentalPrice,
+            "paymentDate" : date
+        ])
+        
     }
 }

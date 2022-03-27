@@ -17,21 +17,8 @@ struct PaymentSummaryView: View {
     
     var body: some View {
         ZStack {
-            //            Group {
-            //                Image("room")
-            //                    .resizable()
-            //                    .blur(radius: 10)
-            //                    .aspectRatio(contentMode: .fill)
-            //                    .frame(width: 428, height: 926)
-            //                    .offset(x: -40)
-            //                    .clipped()
-            //                Rectangle()
-            //                    .fill(.gray)
-            //                    .blendMode(.multiply)
-            //            }
-            //            .edgesIgnoringSafeArea([.top, .bottom])
             Rectangle()
-                .fill(Color("backgroundBrown"))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .ignoresSafeArea(.all)
             VStack {
                 TitleAndDivider(title: "Summary")

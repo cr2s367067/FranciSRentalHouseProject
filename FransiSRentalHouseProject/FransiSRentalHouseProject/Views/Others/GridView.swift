@@ -30,14 +30,13 @@ struct GridView: View {
     }
     
     var body: some View {
-        ZStack {
-            WebImage(url: URL(string: imageURL))
-                .resizable()
-                .frame(width: 160, height: 100)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+//        ZStack {
+//            WebImage(url: URL(string: imageURL))
+//                .resizable()
+//                .frame(width: 160, height: 100)
+//                .clipShape(RoundedRectangle(cornerRadius: 10))
             VStack {
                 Spacer()
-                    .frame(height: 140)
                 HStack {
                     VStack(alignment: .leading) {
                         HStack {
@@ -45,7 +44,12 @@ struct GridView: View {
                             Spacer()
                         }
                         HStack {
-                            Text("$\(objectPrice)")
+                            Text("$\(objectPrice)/mo")
+                                .padding(.horizontal, 3)
+                                .background(alignment: .center) {
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .fill(Color("Shadow").opacity(0.8))
+                                }
                             Spacer()
                         }
                     }
@@ -59,7 +63,16 @@ struct GridView: View {
                         .frame(width: 20, height: 20)
                         .padding(.leading, 10)
                 }
+                .padding()
             }
-        }
+            .frame(width: 300, height: 160)
+            .background(alignment: .center) {
+                WebImage(url: URL(string: imageURL))
+                    .resizable()
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.black.opacity(0.5))
+            }
+//        }
     }
 }

@@ -332,31 +332,6 @@ class AppViewModel: ObservableObject {
         return isCorrect
     }
     
-    // MARK: remove after testing
-//    func passwordCheckAndSignUp(email: String, password: String, confirmPassword: String) throws {
-//        if email.isEmpty {
-//            throw SignUpError.emailIsEmpty
-//        } else if password.isEmpty {
-//            throw SignUpError.passwordIsEmpty
-//        } else if confirmPassword.isEmpty {
-//            throw SignUpError.confirmPasswordIsEmpty
-//        } else if password.count < 6 {
-//            throw SignUpError.passwordIstooShort
-//        } else if isProvider != true, isRenter != true {
-//            throw SignUpError.missingUserType
-//        } else if isAgree != true {
-//            throw SignUpError.termofServiceIsNotAgree
-//        } else if password != confirmPassword {
-//            throw SignUpError.passwordAndConfirmIsNotMatch
-//        }
-//        //signUp(email: email, password: password)
-//    }
-    
-    
-    
-    
-    
-    
     func getSafeAreaTop() -> CGFloat {
         let keyWindow = UIApplication.shared.connectedScenes
             .filter({$0.activationState == .foregroundActive})
@@ -377,10 +352,11 @@ class AppViewModel: ObservableObject {
         return keyWindow?.safeAreaInsets.bottom ?? 0
     }
     
+//    Color("background1")  UIColor(named: "backgroundBrown")
     
     func updateNavigationBarColor() {
-        UINavigationBar.appearance().barTintColor = UIColor(named: "backgroundBrown")
-        UINavigationBar.appearance().backgroundColor = UIColor(named: "backgroundBrown")
+        UINavigationBar.appearance().barTintColor = UIColor(named: "background1")
+        UINavigationBar.appearance().backgroundColor = UIColor(Color.clear)
     }
     
 }
@@ -468,7 +444,7 @@ struct TitleAndDivider: View {
             HStack {
                 Text(title)
                     .font(.system(size: 24, weight: .heavy))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.white)
                 Spacer()
             }
             HStack {
@@ -577,7 +553,7 @@ struct InfoUnit: View {
         .frame(width: uiScreenWidth - 30)
         .background(alignment: .center, content: {
             RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.gray, lineWidth: 1)
+                .stroke(Color.white, lineWidth: 1)
         })
     }
 }

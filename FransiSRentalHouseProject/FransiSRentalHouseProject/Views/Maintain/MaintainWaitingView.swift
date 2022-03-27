@@ -22,7 +22,7 @@ struct MaintainWaitingView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color("backgroundBrown"))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .ignoresSafeArea(.all)
             //:~Main View
             VStack {
@@ -97,11 +97,21 @@ struct MaintainWaitingReusableUnit: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
+    private func increaseByElement(amount: Int) -> CGFloat {
+        let result = amount * 90
+        return CGFloat(630 - result)
+    }
+    
     var body: some View {
         VStack {
             Spacer()
             VStack {
                 VStack {
+//                    Button {
+//                        increaseByElement(amount: firestoreToFetchMaintainTasks.fetchMaintainInfo.count)
+//                    } label: {
+//                        Text("test")
+//                    }
                     HStack {
                         ZStack {
                             Image(systemName: "photo")
@@ -162,10 +172,10 @@ struct MaintainWaitingReusableUnit: View {
                         }
                     }
                 }
-                
+//                ((uiScreenHeight / 2 - 190) + (firestoreToFetchMaintainTasks.fetchMaintainInfo.count * 70))
             }
             .padding()
-            .frame(width: uiScreenWidth - 20, height: showDetail ? ((uiScreenHeight / 2 - 190) + (firestoreToFetchMaintainTasks.fetchMaintainInfo.count * 70)) : uiScreenHeight / 4 - 50  )
+            .frame(width: uiScreenWidth - 20, height: showDetail ? uiScreenHeight - increaseByElement(amount: firestoreToFetchMaintainTasks.fetchMaintainInfo.count) : uiScreenHeight / 4 - 50)
             .background(alignment: .center, content: {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color("fieldGray"))
@@ -192,16 +202,20 @@ struct MaintainTaskWaitingListUnit: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.gray.opacity(0.5))
-                .frame(width: uiscreenWidth - 50, height: 70, alignment: .center)
+                .frame(width: uiscreenWidth - 50, height: 90, alignment: .center)
             VStack(alignment: .leading) {
-                HStack {
-                    Text(taskName)
-                        .padding(.leading, 25)
-                    Text("\(appointmentTime)")
-                        .padding(.trailing)
-                    Spacer()
+                VStack {
+                    HStack {
+                        Text(taskName)
+                        Spacer()
+                    }
+                    HStack{
+                        Text("\(appointmentTime)")
+                        Spacer()
+                    }
                 }
             }
+            .padding()
         }
     }
 }

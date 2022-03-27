@@ -50,7 +50,7 @@ struct RenterProfileView: View {
                     VStack {
                         Spacer()
                         Rectangle()
-                            .fill(Color("backgroundBrown"))
+                            .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                             .frame(height: UIScreen.main.bounds.height / 2 + 167)
                             .cornerRadius(30, corners: [.topLeft, .topRight])
                     }
@@ -97,7 +97,7 @@ struct RenterProfileView: View {
                             ScrollView(.vertical, showsIndicators: false) {
                                 //: Room Status Session
                                 ZStack {
-                                    Rectangle()
+                                    RoundedRectangle(cornerRadius: 20)
                                         .fill(Color("sessionBackground"))
                                         .cornerRadius(4)
                                         .frame(width: 378, height: 123)
@@ -132,7 +132,7 @@ struct RenterProfileView: View {
                                 }
                                 //: Payment Session
                                 ZStack {
-                                    Rectangle()
+                                    RoundedRectangle(cornerRadius: 20)
                                         .fill(Color("sessionBackground"))
                                         .cornerRadius(4)
                                         .frame(width: 378, height: 123)
@@ -168,7 +168,7 @@ struct RenterProfileView: View {
                                 .padding(.top, 10)
                                 //: Maintain Session
                                 ZStack {
-                                    Rectangle()
+                                    RoundedRectangle(cornerRadius: 20)
                                         .fill(Color("sessionBackground"))
                                         .cornerRadius(4)
                                         .frame(width: 378, height: localData.maintainTaskHolder.count > 3 ? 83 + CGFloat(localData.maintainTaskHolder.count * 60) : 263)
@@ -212,7 +212,7 @@ struct RenterProfileView: View {
                     .blur(radius: 10)
                     .clipped()
                 Rectangle()
-                    .fill(.black.opacity(0.5))
+                    .fill(.white.opacity(0.5))
                     .blendMode(.multiply)
             }
             .edgesIgnoringSafeArea([.top, .bottom])

@@ -11,7 +11,7 @@ import SwiftUI
 
 class RoomsLocationDataModel: ObservableObject {
     
-    @Published var roomLocation = [RoomLocation]()
+    @Published var roomLocation = [RoomLocationDataModel]()
     @Published var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 25.0, longitude: 121.0), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
     
     private func convertedAddress(address: String) async throws -> CLLocationCoordinate2D {
@@ -31,7 +31,7 @@ class RoomsLocationDataModel: ObservableObject {
     func makeConvertAndAppend(address: String) async throws {
         let convertedCor = try await convertedAddress(address: address)
         self.mapRegion = try await showMapRegion(address: address)
-        roomLocation.append(RoomLocation(coordinate: convertedCor))
+        roomLocation.append(RoomLocationDataModel(coordinate: convertedCor))
     }
     
 }

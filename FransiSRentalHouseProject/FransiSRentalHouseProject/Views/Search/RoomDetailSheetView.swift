@@ -36,7 +36,7 @@ struct RoomDetailSheetView: View {
         NavigationView {
             ZStack {
                 Rectangle()
-                    .fill(Color("backgroundBrown"))
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.bottom, .top])
                 VStack(alignment: .center) {
                     SheetPullBar()

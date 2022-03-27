@@ -19,16 +19,16 @@ struct SearchView: View {
     
     var body: some View {
         
-        ZStack {
-            Rectangle()
-                .fill(Color("backgroundBrown"))
-                .edgesIgnoringSafeArea([.bottom, .top])
+//        ZStack {
+//            Rectangle()
+//                .fill(Color("backgroundBrown"))
+//                .edgesIgnoringSafeArea([.bottom, .top])
             VStack(spacing: 10) {
                 Spacer()
-//                    .frame(height: 5)
                 //: Search TextField For Temp
                 HStack {
                     Image(systemName: "magnifyingglass")
+                        .foregroundColor(.white)
                         .padding(.leading)
                     TextField("", text: $searchName)
                         .placeholer(when: searchName.isEmpty) {
@@ -41,9 +41,7 @@ struct SearchView: View {
                 .foregroundColor(.gray)
                 .background(Color("fieldGray").opacity(0.07))
                 .cornerRadius(10)
-                //.offset(y: 40)
                 .fixedSize(horizontal: true, vertical: true)
-                //.padding(.bottom, 10)
                 
                 //: Scroll View
                 VStack {
@@ -80,7 +78,11 @@ struct SearchView: View {
                 }
                 .padding()
             }
-        }
+            .background {
+                LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea([.top, .bottom])
+            }
+//        }
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)

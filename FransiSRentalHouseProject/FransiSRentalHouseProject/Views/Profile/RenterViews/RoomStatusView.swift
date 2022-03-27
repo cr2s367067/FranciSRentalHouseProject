@@ -39,7 +39,7 @@ struct RoomStatusView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color("backgroundBrown"))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .ignoresSafeArea(.all)
             VStack {
                 VStack {
@@ -82,6 +82,7 @@ struct RoomStatusView: View {
                                 .padding(.leading, 1)
                             
                         }
+                        
                         HStack(spacing: 1) {
                             Text("Addition Furniture:  ")
                                 .foregroundColor(.white)
@@ -90,6 +91,21 @@ struct RoomStatusView: View {
                                 .foregroundColor(.white)
                                 .padding(.leading, 1)
                         }
+                        
+                        HStack {
+                            Text("Pay Rental Bill: ")
+                                .foregroundColor(.white)
+                            Spacer()
+                            NavigationLink {
+                                PurchaseView()
+                            } label: {
+                                 Text("Pay")
+                                    .frame(width: 108, height: 35)
+                                    .background(Color("fieldGray"))
+                                    .cornerRadius(10)
+                            }
+                        }
+                        
                         HStack(spacing: 1) {
                             Text("Renew: ")
                                 .foregroundColor(.white)
@@ -121,7 +137,7 @@ struct RoomStatusView: View {
                     }
                 }
                 .padding()
-                .frame(width: uiScreenWidth - 40, height: uiScreenHeigth / 3)
+                .frame(width: uiScreenWidth - 40, height: uiScreenHeigth / 2)
                 .background(alignment: .top) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("sessionBackground"))

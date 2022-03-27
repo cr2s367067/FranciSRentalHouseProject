@@ -33,7 +33,7 @@ struct RenterContractView: View {
         ZStack {
             Group {
                 Rectangle()
-                    .fill(Color("backgroundBrown"))
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.top, .bottom])
                 RoundedRectangle(cornerRadius: 30)
                     .fill(Color.white)

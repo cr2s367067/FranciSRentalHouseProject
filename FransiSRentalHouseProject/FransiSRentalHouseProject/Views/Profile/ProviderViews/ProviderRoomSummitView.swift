@@ -70,7 +70,7 @@ struct ProviderRoomSummitView: View {
         NavigationView {
             ZStack {
                 Rectangle()
-                    .fill(Color("backgroundBrown"))
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.top, .bottom])
                 VStack(spacing: 5) {
                     ScrollView(.vertical, showsIndicators: false){

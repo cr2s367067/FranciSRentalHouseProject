@@ -48,10 +48,11 @@ struct ProviderProfileView: View {
                         .frame(width: 25, height: 25)
                 }
                 .padding(.trailing)
-                Rectangle()
-                    .fill(Color("fieldGray"))
-                    .frame(width: 378, height: 304)
-                    .cornerRadius(10)
+                ProviderBarChartView()
+//                Rectangle()
+//                    .fill(Color("fieldGray"))
+//                    .frame(width: 378, height: 304)
+//                    .cornerRadius(10)
                 
                 TitleAndDivider(title: "Detail")
                 VStack {
@@ -74,7 +75,7 @@ struct ProviderProfileView: View {
         .background(alignment: .center, content: {
             Group {
                 Rectangle()
-                    .fill(Color("backgroundBrown"))
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
             }
             .edgesIgnoringSafeArea([.top, .bottom])
         })
