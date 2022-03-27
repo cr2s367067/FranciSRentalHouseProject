@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "TapSearchButton.png",
+      "filename" : "SearchMessageButton.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
