@@ -21,9 +21,8 @@ struct FurnitureDataModel: Identifiable, Codable {
 
 struct FurnitureProviderDataModel: Identifiable, Codable {
     @DocumentID var id: String?
-    var furnitureImage: String
-    var furnitureName: String
-    var furniturePrice: Int
+    var productImage: String
+    var productPrice: Int
     var productDescription: String
     var shippingFrom: String
     var providerName: String

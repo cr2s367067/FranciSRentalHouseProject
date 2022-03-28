@@ -14,6 +14,8 @@ struct RenterMainView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreFetchingAnnouncement: FirestoreFetchingAnnouncement
+    @EnvironmentObject var firestoreForFurniture: FirestoreForFurniture
+    
     var gridItemLayout = [
         GridItem(.fixed(170)),
         GridItem(.fixed(170))
@@ -22,6 +24,9 @@ struct RenterMainView: View {
     private func notRented() -> Bool {
         return firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? false
     }
+    
+    @State private var showRooms = true
+    @State private var showFurniture = false
     
     var body: some View {
         NavigationView {
@@ -38,11 +43,53 @@ struct RenterMainView: View {
                     }
                     //: New rooms Group
                     Group {
-                        TitleAndDivider(title: "What's new")
+//                        TitleAndDivider(title: "What's new")
+                        VStack(alignment: .leading, spacing: 1) {
+                            HStack {
+                                Text("What's new")
+                                    .font(.system(size: 24, weight: .heavy))
+                                    .foregroundColor(Color.white)
+                                Spacer()
+                                Button {
+                                    if showFurniture == true {
+                                        showFurniture = false
+                                    }
+                                    if showRooms == false {
+                                        showRooms = true
+                                    }
+                                } label: {
+                                    Image(systemName: "house")
+                                        .resizable()
+                                        .foregroundColor(.white)
+                                        .frame(width: 25, height: 25)
+                                }
+                                Button {
+                                    if showRooms == true {
+                                        showRooms = false
+                                    }
+                                    if showFurniture == false {
+                                        showFurniture = true
+                                    }
+                                } label: {
+                                    Image(systemName: "bag")
+                                        .resizable()
+                                        .foregroundColor(.white)
+                                        .frame(width: 25, height: 25)
+                                }
+                            }
+                            HStack {
+                                VStack {
+                                    Divider()
+                                        .background(Color.white)
+                                }
+                            }
+                        }
+                        .frame(width: UIScreen.main.bounds.width - 25)
                         //: New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
-                                ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
+                                if showRooms == true {
+                                    ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
                                     Button {
                                         if localData.tempCart.isEmpty {
                                             if firestoreToFetchUserinfo.notRented() {
@@ -81,7 +128,7 @@ struct RenterMainView: View {
                                         localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
                                         
                                     } label: {
-                                        GridView(imageURL: result.roomImage ?? "",
+                                        RoomsGridView(imageURL: result.roomImage ?? "",
                                                  roomTown: result.town,
                                                  roomCity: result.city,
                                                  objectPrice: Int(result.rentalPrice) ?? 0)
@@ -91,6 +138,11 @@ struct RenterMainView: View {
                                             Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
                                         }
                                         
+                                    }
+                                }
+                                } else if showFurniture == true {
+                                    ForEach(firestoreForFurniture.furnitureDataSet) { furniture in
+                                        FurnitureGridView(furnitureIamge: furniture.furnitureImage, furnitureName: furniture.furnitureName, furniturePrice: furniture.furniturePrice)
                                     }
                                 }
                             }
@@ -142,7 +194,7 @@ struct RenterMainView: View {
                                         }
                                         localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
                                     } label: {
-                                        GridView(imageURL: result.roomImage ?? "",
+                                        RoomsGridView(imageURL: result.roomImage ?? "",
                                                  roomTown: result.town,
                                                  roomCity: result.city,
                                                  objectPrice: Int(result.rentalPrice) ?? 0)

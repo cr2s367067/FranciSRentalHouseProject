@@ -17,12 +17,15 @@ struct SearchView: View {
     @State private var searchName = ""
     @State private var isPressentSheetData: RoomInfoDataModel? = nil
     
+    @State private var showRooms = true
+    @State private var showFurniture = false
+    
     var body: some View {
         
-//        ZStack {
-//            Rectangle()
-//                .fill(Color("backgroundBrown"))
-//                .edgesIgnoringSafeArea([.bottom, .top])
+        ZStack {
+            Rectangle()
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
+                .edgesIgnoringSafeArea([.bottom, .top])
             VStack(spacing: 10) {
                 Spacer()
                 //: Search TextField For Temp
@@ -42,7 +45,37 @@ struct SearchView: View {
                 .background(Color("fieldGray").opacity(0.07))
                 .cornerRadius(10)
                 .fixedSize(horizontal: true, vertical: true)
-                
+                HStack(spacing: 5) {
+                    Spacer()
+                    Button {
+                        if showFurniture == true {
+                            showFurniture = false
+                        }
+                        if showRooms == false {
+                            showRooms = true
+                        }
+                    } label: {
+                        Image(systemName: "house")
+                            .resizable()
+                            .foregroundColor(.white)
+                            .frame(width: 25, height: 25)
+                    }
+                    Button {
+                        if showRooms == true {
+                            showRooms = false
+                        }
+                        if showFurniture == false {
+                            showFurniture = true
+                        }
+                    } label: {
+                        Image(systemName: "bag")
+                            .resizable()
+                            .foregroundColor(.white)
+                            .frame(width: 25, height: 25)
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.trailing)
                 //: Scroll View
                 VStack {
                     ScrollView(.vertical, showsIndicators: false) {
@@ -78,11 +111,7 @@ struct SearchView: View {
                 }
                 .padding()
             }
-            .background {
-                LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
-                    .edgesIgnoringSafeArea([.top, .bottom])
-            }
-//        }
+        }
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)

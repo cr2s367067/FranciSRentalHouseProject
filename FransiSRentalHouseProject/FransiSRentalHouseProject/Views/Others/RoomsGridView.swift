@@ -8,7 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct GridView: View {
+struct RoomsGridView: View {
     
     let storageForRoomsImage = StorageForRoomsImage()
     let firebaseAuth = FirebaseAuth()

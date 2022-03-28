@@ -16,24 +16,23 @@ class FirestoreForFurniture: ObservableObject {
     
     let db = Firestore.firestore()
     
-    func summitFurniture(uidPath: String, furnitureImage: String, furnitureName: String, furniturePrice: Int, productDescription: String, shippingFrom: String, providerName: String) async throws {
+    func summitFurniture(uidPath: String, productImage: String, providerName: String, productPrice: Int, productDescription: String) async throws {
         let furnitureProviderRef = db.collection("FurnitureProvider").document(uidPath).collection("FurnitureProducts")
         _ = try await furnitureProviderRef.addDocument(data: [
-            "furnitureImage" : furnitureImage,
-            "furnitureName" : furnitureName,
-            "furniturePrice" : furniturePrice,
-            "productDescription" : productDescription,
-            "shippingFrom" : shippingFrom
+            "productImage" : productImage,
+            "providerName" : providerName,
+            "productPrice" : productPrice,
+            "productDescription" : productDescription
         ])
         
         let furniturePublicRef = db.collection("FurniturePublic")
         _ = try await furniturePublicRef.addDocument(data: [
-            "furnitureImage" : furnitureImage,
-            "furnitureName" : furnitureName,
-            "furniturePrice" : furniturePrice,
-            "productDescription" : productDescription,
-            "shippingFrom" : shippingFrom
+            "productImage" : productImage,
+            "providerName" : providerName,
+            "productPrice" : productPrice,
+            "productDescription" : productDescription
         ])
+        
         
         
     }

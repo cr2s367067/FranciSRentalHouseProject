@@ -39,8 +39,13 @@ struct AppTabView: View {
                             .tag("TapPaymentButton")
                         
                     } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
-                        ProviderRoomSummitView()
-                            .tag("TapPaymentButton")
+                        if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
+                            ProviderRoomSummitView()
+                                .tag("TapPaymentButton")
+                        } else if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
+                            FurnitureProviderSummitView()
+                                .tag("TapPaymentButton")
+                        }
                     }
                     ProfileView()
                         .tag("TapProfileButton")

@@ -35,6 +35,8 @@ class FirestoreToFetchUserinfo: ObservableObject {
         return tempHolder
     }
     
+    
+    
     func evaluateProviderType() -> String {
         var tempHoler = ""
         tempHoler = evaluateProviderType(input: fetchedUserData)
@@ -199,7 +201,6 @@ extension FirestoreToFetchUserinfo {
     
     func createUserInfomationAsync(uidPath: String, id: String , firstName: String, lastName: String, displayName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String, RLNumber: String? = "") async throws {
         let userRef = db.collection("users").document(uidPath)
-        if userType == "Renter" {
             try await userRef.setData([
                 "id": id,
                 "firstName": firstName,
@@ -231,42 +232,6 @@ extension FirestoreToFetchUserinfo {
                     ]
                 ]
             ])
-        } else {
-            if providerType == "Rental Manager" {
-                try await userRef.setData([
-                    "id": id,
-                    "firstName": firstName,
-                    "lastName": lastName,
-                    "displayName" : displayName,
-                    "mobileNumber": mobileNumber,
-                    "address": address,
-                    "town": town,
-                    "city": city,
-                    "zip": zip,
-                    "country": country,
-                    "userType": userType,
-                    "providerType": providerType,
-                    "rentalManagerLicenseNumber": RLNumber ?? "",
-                    "emailAddress": emailAddress ?? ""
-                ])
-            } else {
-                try await userRef.setData([
-                    "id": id,
-                    "firstName": firstName,
-                    "lastName": lastName,
-                    "displayName" : displayName,
-                    "mobileNumber": mobileNumber,
-                    "address": address,
-                    "town": town,
-                    "city": city,
-                    "zip": zip,
-                    "country": country,
-                    "userType": userType,
-                    "providerType": providerType,
-                    "emailAddress": emailAddress ?? ""
-                ])
-            }
-        }
     }
     
     

@@ -27,6 +27,8 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var firestoreForTextingMessage = FirestoreForTextingMessage()
     @StateObject var textingViewModel = TextingViewModel()
     @StateObject var firestoreFetchingAnnouncement = FirestoreFetchingAnnouncement()
+    @StateObject var firestoreForFurniture = FirestoreForFurniture()
+    @StateObject var furnitureProviderSummitViewModel = FurnitureProviderSummitViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -45,6 +47,8 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(firestoreForTextingMessage)
                 .environmentObject(textingViewModel)
                 .environmentObject(firestoreFetchingAnnouncement)
+                .environmentObject(firestoreForFurniture)
+                .environmentObject(furnitureProviderSummitViewModel)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
