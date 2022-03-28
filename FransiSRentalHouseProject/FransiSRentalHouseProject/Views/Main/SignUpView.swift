@@ -172,35 +172,35 @@ struct SignUpView: View {
                                 if appViewModel.isRentalM == true {
                                     appViewModel.isRentalM = false
                                 }
-                                if appViewModel.isHoseOwner == false {
-                                    appViewModel.isHoseOwner = true
-                                    appViewModel.providerType = "House Owner"
+                                if appViewModel.isFurnitureProvider == false {
+                                    appViewModel.isFurnitureProvider = true
+                                    appViewModel.providerType = "Furniture Provider"
                                 }
                             } label: {
                                 HStack {
-                                    Text("House Owner")
-                                        .foregroundColor(appViewModel.isHoseOwner ? .white : .gray)
-                                    Image(systemName: appViewModel.isHoseOwner ? "checkmark.circle.fill" : "checkmark.circle")
-                                        .foregroundColor(appViewModel.isHoseOwner ? .green : .gray)
+                                    Text("Furniture Provider")
+                                        .foregroundColor(appViewModel.isFurnitureProvider ? .white : .gray)
+                                    Image(systemName: appViewModel.isFurnitureProvider ? "checkmark.circle.fill" : "checkmark.circle")
+                                        .foregroundColor(appViewModel.isFurnitureProvider ? .green : .gray)
                                         .padding(.leading, 10)
                                     
                                 }
-                                .frame(width: 160, height: 34)
+                                .frame(width: 180, height: 34)
                                 .background(Color("fieldGray").opacity(0.07))
                                 .cornerRadius(5)
                             }
                             Spacer()
                                 .frame(width: 45)
                             Button {
-                                if appViewModel.isHoseOwner == true {
-                                    appViewModel.isHoseOwner = false
+                                if appViewModel.isFurnitureProvider == true {
+                                    appViewModel.isFurnitureProvider = false
                                     
                                 }
                                 if appViewModel.isRentalM == false {
                                     appViewModel.isRentalM = true
                                     appViewModel.providerType = "Rental Manager"
                                 }
-                                //                            appViewModel.isRenter.toggle()
+
                             } label: {
                                 HStack {
                                     Text("Rental Manager")

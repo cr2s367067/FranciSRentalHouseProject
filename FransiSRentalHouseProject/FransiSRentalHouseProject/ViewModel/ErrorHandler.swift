@@ -57,7 +57,9 @@ enum UserInformationError: LocalizedError {
     case dobFormateError
     case blankError
     case userRentalError
-    case purchaseError
+    case roomSelectedError
+    case chartError
+//    case furnitureError
 
     var errorDescription: String? {
         switch self {
@@ -75,8 +77,10 @@ enum UserInformationError: LocalizedError {
             return NSLocalizedString("Please fill out the blank", comment: "")
         case .userRentalError:
             return NSLocalizedString("You haven't rent any room.", comment: "")
-        case .purchaseError:
+        case .roomSelectedError:
             return NSLocalizedString("Hi, You haven't select any product.", comment: "")
+        case .chartError:
+            return NSLocalizedString("Please select something🥸", comment: "")
         }
     }
 }

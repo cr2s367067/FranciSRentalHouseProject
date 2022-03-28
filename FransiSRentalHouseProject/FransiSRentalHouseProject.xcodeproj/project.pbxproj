@@ -85,6 +85,7 @@
 		0ED1F42427F049D90004B5CE /* AnnouncementDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */; };
 		0ED1F42627F04A460004B5CE /* FirestoreFetchingAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */; };
 		0ED1F42A27F087D70004B5CE /* PastedPaymentHistoryDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */; };
+		0ED1F42C27F1AA4F0004B5CE /* FirestoreForFurniture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42B27F1AA4F0004B5CE /* FirestoreForFurniture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -161,6 +162,7 @@
 		0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementDataModel.swift; sourceTree = "<group>"; };
 		0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreFetchingAnnouncement.swift; sourceTree = "<group>"; };
 		0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastedPaymentHistoryDataModel.swift; sourceTree = "<group>"; };
+		0ED1F42B27F1AA4F0004B5CE /* FirestoreForFurniture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForFurniture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -429,6 +431,7 @@
 				02450AE727D2AD7100370683 /* FirestoreForContactInfo.swift */,
 				0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */,
 				0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */,
+				0ED1F42B27F1AA4F0004B5CE /* FirestoreForFurniture.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 				02450AE827D2AD7100370683 /* FirestoreForContactInfo.swift in Sources */,
 				0249D43E27C639900085F4A5 /* SignUpView.swift in Sources */,
 				0249D45327C63AF80085F4A5 /* ContactView.swift in Sources */,
+				0ED1F42C27F1AA4F0004B5CE /* FirestoreForFurniture.swift in Sources */,
 				02CB58EB27CDAE520035EE20 /* FurnitureDataModel.swift in Sources */,
 				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
 				0249D43A27C639720085F4A5 /* AppTabView.swift in Sources */,

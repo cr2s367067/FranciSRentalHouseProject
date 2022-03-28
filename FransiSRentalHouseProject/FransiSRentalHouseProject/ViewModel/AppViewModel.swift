@@ -28,7 +28,7 @@ class AppViewModel: ObservableObject {
     @Published var isShowUserDetailView = false
     
     @Published var isProvider = false
-    @Published var isHoseOwner = false
+    @Published var isFurnitureProvider = false
     @Published var isRentalM = false
     @Published var isRenter = false
     @Published var isAgree = false
@@ -473,7 +473,7 @@ struct SummaryItems: View {
                     HStack {
                         Button {
                             localData.summaryItemHolder.removeAll(where: {$0.id == data.id})
-                            localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                            localData.sumPrice = localData.sum()
                             appViewModel.isRedacted = true
                         } label: {
                             Image(systemName: "xmark.circle")
@@ -483,6 +483,22 @@ struct SummaryItems: View {
                         Text(data.roomAddress)
                         Spacer()
                         Text("$\(data.itemPrice)")
+                    }
+                }
+                ForEach(localData.furnitureOrderChart) { furniture in
+                    HStack {
+                        Button {
+                            localData.furnitureOrderChart.removeAll(where: {$0.id == furniture.id})
+                            localData.sumPrice = localData.sum()
+                            appViewModel.isRedacted = true
+                        } label: {
+                            Image(systemName: "xmark.circle")
+                                .resizable()
+                                .frame(width: 22, height: 22)
+                        }
+                        Text(furniture.furnitureName)
+                        Spacer()
+                        Text("$\(furniture.furniturePrice)")
                     }
                 }
             }
@@ -639,7 +655,7 @@ extension AppViewModel {
             throw SignUpError.passwordAndConfirmIsNotMatch
         }
         if isProvider == true {
-            guard isHoseOwner == true || isRentalM == true else {
+            guard isFurnitureProvider == true || isRentalM == true else {
                 throw SignUpError.providerTypeError
             }
             if isRentalM == true {

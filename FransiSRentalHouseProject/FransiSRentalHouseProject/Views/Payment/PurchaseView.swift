@@ -206,6 +206,9 @@ struct PurchaseView: View {
                                 reset()
                             }
                         }
+                        localData.furnitureOrderChart.forEach { furniture in
+                            
+                        }
                     } else {
                         Task {
                             do {

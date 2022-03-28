@@ -16,6 +16,8 @@ class LocalData: ObservableObject {
     @Published var tempCart = [RoomInfoDataModel]()
     @Published var summaryItemHolder: [SummaryItemHolder] = []
     
+    @Published var furnitureOrderChart = [FurnitureDataModel]()
+    
     //: User Data
 //    @Published var userDataHolder: [UserDataModel] = []
     //: Maintain Task
@@ -37,14 +39,37 @@ class LocalData: ObservableObject {
                                                    providerUID: providerUID))
     }
     
+    func addFurniture(furnitureImage: String, furnitureName: String, furniturePrice: Int) {
+        furnitureOrderChart.append(FurnitureDataModel(furnitureImage: furnitureImage, furnitureName: furnitureName, furniturePrice: furniturePrice))
+    }
+    
     func compute(source: [SummaryItemHolder]) -> Int {
         var newElemet = 0
         for item in source {
             newElemet += item.itemPrice
         }
         debugPrint(newElemet)
-        sumPrice = newElemet
-        return sumPrice
+        return newElemet
+    }
+    
+    func computeFurniture(source: [FurnitureDataModel]) -> Int {
+        var newElemet = 0
+        for item in source {
+            newElemet += item.furniturePrice
+        }
+        debugPrint(newElemet)
+        return newElemet
+    }
+    
+    func sum() -> Int {
+        var newValue = 0
+        newValue = sum(value1: compute(source: summaryItemHolder), value2: computeFurniture(source: furnitureOrderChart))
+        return newValue
+    }
+    
+    private func sum(value1: Int, value2: Int?) -> Int {
+        let _value2 = value2 ?? 0
+        return value1 + _value2
     }
     
     //MARK: Testing dumb data set
