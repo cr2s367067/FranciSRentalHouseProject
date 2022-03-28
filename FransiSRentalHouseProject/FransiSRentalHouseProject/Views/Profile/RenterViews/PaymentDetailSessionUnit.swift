@@ -9,30 +9,30 @@ import SwiftUI
 
 struct PaymentDetailSessionUnit: View {
     
-    @State var rentalPrice: String = "9000"
+    var rentalPrice: String
+    var paymentDate: Date
     
     var body: some View {
-        ZStack {
-            Rectangle()
+        HStack {
+            Text("$ \(rentalPrice)")
+            Spacer()
+            Text("\(paymentDate, format: Date.FormatStyle().year().month().day())")
+            
+        }
+        .padding()
+        .foregroundColor(Color("sessionBackground"))
+        .font(.system(size: 16, weight: .heavy))
+        .frame(width: 354, height: 50)
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 10)
                 .fill(Color("fieldGray"))
-                .cornerRadius(5)
-                .frame(width: 354, height: 51)
-            HStack {
-                Text("$ \(rentalPrice)")
-                Spacer()
-                    .frame(width: 90)
-                Text("1/14/2022")
-                    
-            }
-            .foregroundColor(Color("sessionBackground"))
-            .font(.system(size: 16, weight: .heavy))
-            .padding()
+                .shadow(color: .black, radius: 2)
         }
     }
 }
 
-struct PaymentDetailSessionUnit_Previews: PreviewProvider {
-    static var previews: some View {
-        PaymentDetailSessionUnit()
-    }
-}
+//struct PaymentDetailSessionUnit_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PaymentDetailSessionUnit()
+//    }
+//}

@@ -19,15 +19,12 @@ struct RenterMainView: View {
         GridItem(.fixed(170))
     ]
     
-//    private func notRented() -> Bool {
-//        return firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo.roomUID.isEmpty
-//    }
+    private func notRented() -> Bool {
+        return firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? false
+    }
     
     var body: some View {
         NavigationView {
-//            Rectangle()
-//                .fill(Color("backgroundBrown"))
-//                .ignoresSafeArea(.all)
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Announcement Group
@@ -48,34 +45,34 @@ struct RenterMainView: View {
                                 ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
                                     Button {
                                         if localData.tempCart.isEmpty {
-//                                            if notRented() {
+                                            if firestoreToFetchUserinfo.notRented() {
                                                 localData.tempCart.append(result)
                                                 localData.addItem(roomAddress: result.roomAddress,
                                                                   roomTown: result.town,
                                                                   roomCity: result.city,
-                                                                  itemPrice: Int(result.rentalPrice) ?? 0,
+                                                                  itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
                                                                   roomUID: result.roomUID ,
                                                                   roomImage: result.roomImage ?? "",
                                                                   roomZipCode: result.zipCode,
                                                                   docID: result.docID ?? "",
                                                                   providerUID: result.providedBy)
-//                                            }
+                                            }
                                         } else {
                                             localData.tempCart.removeAll()
                                             localData.summaryItemHolder.removeAll()
                                             if localData.tempCart.isEmpty {
                                                 localData.tempCart.append(result)
-//                                                if notRented() {
+                                                if firestoreToFetchUserinfo.notRented() {
                                                     localData.addItem(roomAddress: result.roomAddress,
                                                                       roomTown: result.town,
                                                                       roomCity: result.city,
-                                                                      itemPrice: Int(result.rentalPrice) ?? 0 ,
+                                                                      itemPrice: (Int(result.rentalPrice) ?? 0) * 3 ,
                                                                       roomUID: result.roomUID ,
                                                                       roomImage: result.roomImage ?? "",
                                                                       roomZipCode: result.zipCode,
                                                                       docID: result.docID ?? "",
                                                                       providerUID: result.providedBy)
-//                                                }
+                                                }
                                             }
                                         }
                                         if appViewModel.isPresent == false {
@@ -111,29 +108,33 @@ struct RenterMainView: View {
                                 ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
                                     Button {
                                         if localData.tempCart.isEmpty {
-                                            localData.tempCart.append(result)
-                                            localData.addItem(roomAddress: result.roomAddress,
-                                                              roomTown: result.town,
-                                                              roomCity: result.city,
-                                                              itemPrice: Int(result.rentalPrice) ?? 0,
-                                                              roomUID: result.roomUID ,
-                                                              roomImage: result.roomImage ?? "",
-                                                              roomZipCode: result.zipCode,
-                                                              docID: result.docID ?? "",
-                                                              providerUID: result.providedBy)
-                                        } else {
-                                            localData.tempCart.removeAll()
-                                            localData.summaryItemHolder.removeAll()
-                                            if localData.tempCart.isEmpty {
+                                            if firestoreToFetchUserinfo.notRented() {
                                                 localData.tempCart.append(result)
                                                 localData.addItem(roomAddress: result.roomAddress,
                                                                   roomTown: result.town,
                                                                   roomCity: result.city,
-                                                                  itemPrice: Int(result.rentalPrice) ?? 0,
+                                                                  itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
                                                                   roomUID: result.roomUID ,
                                                                   roomImage: result.roomImage ?? "",
                                                                   roomZipCode: result.zipCode,
-                                                                  docID: result.docID ?? "", providerUID: result.providedBy )
+                                                                  docID: result.docID ?? "",
+                                                                  providerUID: result.providedBy)
+                                            }
+                                        } else {
+                                            localData.tempCart.removeAll()
+                                            localData.summaryItemHolder.removeAll()
+                                            if localData.tempCart.isEmpty {
+                                                if firestoreToFetchUserinfo.notRented() {
+                                                    localData.tempCart.append(result)
+                                                    localData.addItem(roomAddress: result.roomAddress,
+                                                                      roomTown: result.town,
+                                                                      roomCity: result.city,
+                                                                      itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
+                                                                      roomUID: result.roomUID ,
+                                                                      roomImage: result.roomImage ?? "",
+                                                                      roomZipCode: result.zipCode,
+                                                                      docID: result.docID ?? "", providerUID: result.providedBy )
+                                                }
                                             }
                                         }
                                         if appViewModel.isPresent == false {

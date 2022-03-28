@@ -9,41 +9,57 @@ import SwiftUI
 
 struct PaymentDetailView: View {
     
-    @State var rentalPrice = "9000"
+    @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    
+    var heightData: Double {
+        let amount = Double(firestoreToFetchUserinfo.paymentHistory.count)
+        if amount == 0 {
+            return 1.0
+        }
+        return amount
+    }
     
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                .ignoresSafeArea(.all)
-            VStack {
-                ZStack {
-                    Rectangle()
-                        .fill(Color("sessionBackground"))
-                        .cornerRadius(4)
-                        .frame(width: 378, height: 263)
+                .edgesIgnoringSafeArea([.top, .bottom])
+            VStack(alignment: .center) {
+                HStack {
+                    Text("Payment History: ")
+                        .foregroundColor(.white)
+                        .font(.system(size: 20, weight: .heavy))
+                    Spacer()
+                }
+                GeometryReader { geometry in
+                    let width = geometry.size.width
+                    let height = geometry.size.height - 660 + (Double(firestoreToFetchUserinfo.paymentHistory.count) * 80)
                     VStack(spacing: 10) {
-                        HStack {
-                            Text("Payment History: ")
-                                .font(.system(size: 20, weight: .heavy))
+                        ScrollView(.vertical, showsIndicators: false) {
+                            ForEach(firestoreToFetchUserinfo.paymentHistory) { history in
+                                PaymentDetailSessionUnit(rentalPrice: history.pastPaymentFee ?? "", paymentDate: history.paymentDate ?? Date())
+                            }
+                            .padding(.top)
                             Spacer()
-                                .frame(width: 180)
                         }
-                        
-                        PaymentDetailSessionUnit(rentalPrice: rentalPrice)
-                        PaymentDetailSessionUnit(rentalPrice: rentalPrice)
-                        PaymentDetailSessionUnit(rentalPrice: rentalPrice)
-                        
-                        
-                        Spacer()
-                            .frame(height: 40)
                     }
-                    .foregroundColor(.white)
-                    .padding(.leading, 2)
-                    .padding(.top, 3)
+                    .frame(width: width, height: height)
+                    .background(alignment: .center) {
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(Color("sessionBackground"))
+                    }
                 }
                 Spacer()
-                    .frame(height: 450)
+            }
+            .padding(.horizontal)
+        }
+        .task {
+            do {
+                try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
+            } catch {
+                self.errorHandler.handle(error: error)
             }
         }
         .navigationTitle("")

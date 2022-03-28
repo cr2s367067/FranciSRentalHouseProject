@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+import FirebaseFirestoreSwift
 
 struct UserDataModel: Identifiable, Codable {
     var id: String
@@ -38,12 +38,18 @@ struct RentedRoomInfo: Codable {
     var roomZipCode: String?
     var roomImageCover: String?
     var providerUID: String?
-    var pastRentalFee: RentalFee?
+    var rentalDepositFee: DepositFeeDataModel?
 }
 
-struct RentalFee: Codable {
-    var paymentDate : Date?
-    var pastRentalFee: String?
+struct DepositFeeDataModel: Codable {
+    var depositFee : String?
+    var paymentDate: Date?
+}
+
+struct PaymentHistoryDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var pastPaymentFee : String?
+    var paymentDate: Date?
 }
 
 extension UserDataModel {
@@ -51,5 +57,5 @@ extension UserDataModel {
 }
 
 extension RentedRoomInfo {
-    static let empty = RentedRoomInfo(roomUID: "", roomAddress: "", roomTown: "", roomCity: "", roomPrice: "", roomZipCode: "", roomImageCover: "", providerUID: "", pastRentalFee: nil)
+    static let empty = RentedRoomInfo(roomUID: "", roomAddress: "", roomTown: "", roomCity: "", roomPrice: "", roomZipCode: "", roomImageCover: "", providerUID: "", rentalDepositFee: nil)
 }

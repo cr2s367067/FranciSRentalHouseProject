@@ -24,21 +24,12 @@ struct PrePurchaseView: View {
 //    @State private var isRedacted = true
 //    let dataModel: RoomsDataModel
     
-    var tempFurData = ["furpic1", "furpic2", "furpic3", "furpic4", "furpic5", "furpic6", "furpic7", "furpic8"]
+//    var tempFurData = ["furpic1", "furpic2", "furpic3", "furpic4", "furpic5", "furpic6", "furpic7", "furpic8"]
     
     var gridFurItemLayout = [
         GridItem(.fixed(170)),
         GridItem(.fixed(170))
     ]
-    
-//    private func checkRoomStatus(completion: (()->Void)? = nil) {
-//        do {
-//            try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
-//            completion?()
-//        } catch {
-//            self.errorHandler.handle(error: error)
-//        }
-//    }
     
     private func itemSelectChecker() throws {
         guard !localData.tempCart.isEmpty || !localData.summaryItemHolder.isEmpty else {
@@ -48,10 +39,6 @@ struct PrePurchaseView: View {
     
     var body: some View {
         NavigationView {
-//            ZStack {
-//                Rectangle()
-//                    .fill(Color("backgroundBrown"))
-//                    .ignoresSafeArea(.all)
                 VStack {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
@@ -94,10 +81,10 @@ struct PrePurchaseView: View {
                             Group {
                                 Image(systemName: "dollarsign.circle")
                                 Text("\(localData.sumPrice)")
-//                                if firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo.roomUID.isEmpty {
+                                if firestoreToFetchUserinfo.notRented() {
                                     Text("(Include Deposit fee 2 month)")
                                         .font(.system(size: 12, weight: .semibold))
-//                                }
+                                }
                             }
                             Spacer()
                                 .frame(width: 50)
@@ -140,7 +127,6 @@ struct PrePurchaseView: View {
                     LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
                         .edgesIgnoringSafeArea([.top, .bottom])
                 }
-//            }
             .overlay(content: {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
@@ -157,8 +143,6 @@ struct PrePurchaseView: View {
 
 struct PrePurchaseView_Previews: PreviewProvider {
     static var previews: some View {
-        PrePurchaseView(
-//            dataModel: RoomsDataModel(roomImage: "", roomName: "", roomDescribtion: "", roomPrice: 0, ranking: 0, isSelected: false)
-        )
+        PrePurchaseView()
     }
 }

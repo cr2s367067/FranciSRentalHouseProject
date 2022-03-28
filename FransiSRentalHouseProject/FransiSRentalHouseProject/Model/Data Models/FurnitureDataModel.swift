@@ -7,17 +7,11 @@
 
 import Foundation
 import SwiftUI
+import FirebaseFirestoreSwift
 
 struct FurnitureDataModel: Identifiable, Codable {
-    var id = UUID()
+    @DocumentID var id: String?
     var furnitureImage: String
     var furnitureName: String
     var furniturePrice: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case furnitureImage
-        case furnitureName
-        case furniturePrice
-    }
 }

@@ -26,6 +26,17 @@ struct RenterProfileView: View {
         self._show = show
     }
     
+    func lastPaymentDate(input: [PaymentHistoryDataModel]) -> Date {
+        let lastDate = input.map({$0.paymentDate}).last
+//        let dateFormate = DateFormatter()
+        return (lastDate ?? Date()) ?? Date()
+    }
+    
+    func lastPayment(input: [PaymentHistoryDataModel]) -> String {
+        let payment = input.map({$0.pastPaymentFee}).last
+        return (payment ?? "") ?? ""
+    }
+    
     var body: some View {
         ZStack {
             //: Tool bar
@@ -150,13 +161,13 @@ struct RenterProfileView: View {
                                         }
                                         //.padding(.leading, 5)
                                         HStack {
-                                            Text("$9000 ")
+                                            Text("$\(lastPayment(input: firestoreToFetchUserinfo.paymentHistory)) ")
                                                 .font(.system(size: 20, weight: .heavy))
                                             Spacer()
                                                 .frame(width: 100)
-                                            Text("2/15/2023")
+                                            Text("\(lastPaymentDate(input: firestoreToFetchUserinfo.paymentHistory), format: Date.FormatStyle().year().month().day())")
                                                 .font(.system(size: 15, weight: .heavy))
-                                        }
+                                        }  
                                         .padding(.top, 5)
                                         Spacer()
                                             .frame(height: 40)
@@ -178,11 +189,6 @@ struct RenterProfileView: View {
                                                 .font(.system(size: 20, weight: .heavy))
                                             Spacer()
                                                 .frame(width: 225)
-                                            //                                                    NavigationLink {
-                                            //                                                        MaintainDetailView()
-                                            //                                                    } label: {
-                                            //                                                        Image(systemName: "chevron.forward")
-                                            //                                                    }
                                         }
                                         VStack {
                                             ScrollView(.vertical, showsIndicators: false) {
@@ -238,6 +244,7 @@ struct RenterProfileView: View {
 //                if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
 //                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), roomUID: "")
 //                }
+                try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
                 try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)

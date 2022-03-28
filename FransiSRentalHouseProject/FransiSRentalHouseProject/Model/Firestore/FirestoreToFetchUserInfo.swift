@@ -20,6 +20,7 @@ class FirestoreToFetchUserinfo: ObservableObject {
     @Published var fetchedUserData: UserDataModel = .empty
     @Published var rentingRoomInfo: RentedRoomInfo = .empty
     @Published var userLastName = ""
+    @Published var paymentHistory = [PaymentHistoryDataModel]()
     
     private func getUserLastName(lastName: UserDataModel) -> String{
         var tempLastNameHolder = ""
@@ -111,6 +112,10 @@ class FirestoreToFetchUserinfo: ObservableObject {
         var tempEmailAddress = ""
         tempEmailAddress = input.emailAddress ?? ""
         return tempEmailAddress
+    }
+    
+    func notRented() -> Bool {
+        return fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? false
     }
     
     
@@ -219,32 +224,6 @@ extension FirestoreToFetchUserinfo {
     }
     
     func createUserInfomationAsync(uidPath: String, id: String , firstName: String, lastName: String, displayName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String = "House Owner", RLNumber: String? = "") async throws {
-//        let rentalFee = RentalFee(paymentDate: Date(),
-//                                  pastRentalFee: "")
-//        let rentedRoomInfo = RentedRoomInfo(roomUID: "",
-//                                            roomAddress: "",
-//                                            roomTown: "",
-//                                            roomCity: "",
-//                                            roomPrice: "",
-//                                            roomImageCover: "",
-//                                            providerUID: "",
-//                                            pastRentalFee: rentalFee)
-//        _ = UserDataModel(id: id,
-//                                     firstName: firstName,
-//                                     lastName: lastName,
-//                                     mobileNumber: mobileNumber,
-//                                     dob: dob,
-//                                     address: address,
-//                                     town: town,
-//                                     city: city,
-//                                     zip: zip,
-//                                     country: country,
-//                                     gender: gender,
-//                                     userType: userType,
-//                                     providerType: providerType,
-//                                     rentalManagerLicenseNumber: RLNumber,
-//                                     emailAddress: emailAddress,
-//                                     rentedRoomInfo: rentedRoomInfo)
         let userRef = db.collection("users").document(uidPath)
         try await userRef.setData([
             "id": id,
@@ -271,9 +250,9 @@ extension FirestoreToFetchUserinfo {
                 "roomPrice" : "",
                 "roomImageCover" : "",
                 "providerUID" : "",
-                "pastRentalFee": [
+                "rentalDepositFee": [
                     "paymentDate": Date(),
-                    "pastRentalFee": ""
+                    "depositFee": ""
                 ]
             ]
         ])
@@ -297,7 +276,7 @@ extension FirestoreToFetchUserinfo {
         return fetchedUserData
     }
     
-    func updateUserInformationAsync(uidPath: String, roomID: String = "", roomImage: String, roomAddress: String, roomTown: String, roomCity: String, roomPrice: String, roomZipCode: String, providerUID: String) async throws {
+    func updateUserInformationAsync(uidPath: String, roomID: String = "", roomImage: String, roomAddress: String, roomTown: String, roomCity: String, roomPrice: String, roomZipCode: String, providerUID: String, depositFee: String, paymentDate: Date) async throws {
         let userRef = db.collection("users").document(uidPath)
         try await userRef.updateData([
             "rentedRoomInfo.roomUID" : roomID,
@@ -307,7 +286,9 @@ extension FirestoreToFetchUserinfo {
             "rentedRoomInfo.roomPrice" : roomPrice,
             "rentedRoomInfo.roomZipCode" : roomZipCode,
             "rentedRoomInfo.roomImageCover" : roomImage,
-            "rentedRoomInfo.providerUID" : providerUID
+            "rentedRoomInfo.providerUID" : providerUID,
+            "rentedRoomInfo.rentalDepositFee.depositFee" : depositFee,
+            "rentedRoomInfo.rentalDepositFee.paymentDate" : paymentDate
         ])
     }
     
@@ -325,9 +306,27 @@ extension FirestoreToFetchUserinfo {
     func summitPaidInfo(uidPath: String, rentalPrice: String, date: Date) async throws {
         let paymentHistoryRef = db.collection("users").document(uidPath).collection("PaymentHistory")
         _ = try await paymentHistoryRef.addDocument(data: [
-            "paidRentalPrice" : rentalPrice,
+            "pastPaymentFee" : rentalPrice,
             "paymentDate" : date
         ])
         
+    }
+    
+    @MainActor
+    func fetchPaymentHistory(uidPath: String) async throws {
+        let paymentHistoryRef = db.collection("users").document(uidPath).collection("PaymentHistory").order(by: "paymentDate", descending: false)
+        let document = try await paymentHistoryRef.getDocuments().documents
+        self.paymentHistory = document.compactMap { queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: PaymentHistoryDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print("error eccure: \(error)")
+            }
+            return nil
+        }
     }
 }

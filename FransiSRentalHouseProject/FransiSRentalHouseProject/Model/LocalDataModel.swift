@@ -37,11 +37,6 @@ class LocalData: ObservableObject {
                                                    providerUID: providerUID))
     }
     
-    
-//    func addFetchedData(id: String, firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, providerType: String = "") {
-//        userDataHolder.append(UserDataModel(id: id, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, dob: dob, address: address, town: town, city: city, zip: zip, country: country, gender: gender, userType: userType, providerType: providerType))
-//    }
-    
     func compute(source: [SummaryItemHolder]) -> Int {
         var newElemet = 0
         for item in source {
@@ -51,6 +46,50 @@ class LocalData: ObservableObject {
         sumPrice = newElemet
         return sumPrice
     }
+    
+    //MARK: Testing dumb data set
+    @Published var furnitureDataSets = [
+        FurnitureDataModel(
+            furnitureImage: "furpic1",
+            furnitureName: "furpic1",
+            furniturePrice: 100
+        ),
+        FurnitureDataModel(
+            furnitureImage: "furpic2",
+            furnitureName: "furpic2",
+            furniturePrice: 200
+        ),
+        FurnitureDataModel(
+            furnitureImage: "furpic3",
+            furnitureName: "furpic3",
+            furniturePrice: 300
+        ),
+        FurnitureDataModel(
+            furnitureImage: "furpic4",
+            furnitureName: "furpic4",
+            furniturePrice: 400
+        ),
+        FurnitureDataModel(
+            furnitureImage: "furpic5",
+            furnitureName: "furpic5",
+            furniturePrice: 500
+        ),
+        FurnitureDataModel(
+            furnitureImage: "furpic6",
+            furnitureName: "furpic6",
+            furniturePrice: 600
+        ),
+        FurnitureDataModel(
+            furnitureImage: "furpic7",
+            furnitureName: "furpic7",
+            furniturePrice: 700
+        ),
+        FurnitureDataModel(
+            furnitureImage: "furpic8",
+            furnitureName: "furpic8",
+            furniturePrice: 800
+        )
+    ]
     
 }
 
@@ -116,50 +155,6 @@ class LocalData: ObservableObject {
 //            roomPrice: 8000,
 //            ranking: 2,
 //            isSelected: false
-//        )
-//    ]
-
-
-//    @Published var furnitureDataSets = [
-//        FurnitureDataModel(
-//            furnitureImage: "furpic1",
-//            furnitureName: "furpic1",
-//            furniturePrice: 100
-//        ),
-//        FurnitureDataModel(
-//            furnitureImage: "furpic2",
-//            furnitureName: "furpic2",
-//            furniturePrice: 200
-//        ),
-//        FurnitureDataModel(
-//            furnitureImage: "furpic3",
-//            furnitureName: "furpic3",
-//            furniturePrice: 300
-//        ),
-//        FurnitureDataModel(
-//            furnitureImage: "furpic4",
-//            furnitureName: "furpic4",
-//            furniturePrice: 400
-//        ),
-//        FurnitureDataModel(
-//            furnitureImage: "furpic5",
-//            furnitureName: "furpic5",
-//            furniturePrice: 500
-//        ),
-//        FurnitureDataModel(
-//            furnitureImage: "furpic6",
-//            furnitureName: "furpic6",
-//            furniturePrice: 600
-//        ),
-//        FurnitureDataModel(
-//            furnitureImage: "furpic7",
-//            furnitureName: "furpic7",
-//            furniturePrice: 700
-//        ),
-//        FurnitureDataModel(
-//            furnitureImage: "furpic8",
-//            furnitureName: "furpic8",
-//            furniturePrice: 800
 //        )
 //    ]
 

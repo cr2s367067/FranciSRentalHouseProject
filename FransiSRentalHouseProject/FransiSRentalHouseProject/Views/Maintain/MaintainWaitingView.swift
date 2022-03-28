@@ -28,28 +28,6 @@ struct MaintainWaitingView: View {
             VStack {
                 TitleAndDivider(title: "Maintian List")
                 Spacer()
-//                HStack {
-//                    Button {
-//                        print(firestoreToFetchMaintainTasks.fetchMaintainInfo)
-//                    } label: {
-//                        Text("result")
-//                    }
-//                    Button {
-//                        firestoreToFetchRoomsData.fetchRoomInfoFormOwner.forEach({ room in
-//                            print("rent by: \(room.rentedBy ?? "")")
-//                            print("roomUID: \(room.roomUID)")
-////                            Task {
-////                                do {
-////                                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: room.rentedBy ?? "", roomUID: room.roomUID ?? "")
-////                                } catch {
-////                                    self.errorHandler.handle(error: error)
-////                                }
-////                            }
-//                        })
-//                    } label: {
-//                        Text("get")
-//                    }
-//                }
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { data in
                         if data.isRented == true {
@@ -107,11 +85,6 @@ struct MaintainWaitingReusableUnit: View {
             Spacer()
             VStack {
                 VStack {
-//                    Button {
-//                        increaseByElement(amount: firestoreToFetchMaintainTasks.fetchMaintainInfo.count)
-//                    } label: {
-//                        Text("test")
-//                    }
                     HStack {
                         ZStack {
                             Image(systemName: "photo")
@@ -172,7 +145,6 @@ struct MaintainWaitingReusableUnit: View {
                         }
                     }
                 }
-//                ((uiScreenHeight / 2 - 190) + (firestoreToFetchMaintainTasks.fetchMaintainInfo.count * 70))
             }
             .padding()
             .frame(width: uiScreenWidth - 20, height: showDetail ? uiScreenHeight - increaseByElement(amount: firestoreToFetchMaintainTasks.fetchMaintainInfo.count) : uiScreenHeight / 4 - 50)
@@ -221,8 +193,4 @@ struct MaintainTaskWaitingListUnit: View {
 }
 
 
-//struct MaitainWaitingView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MaintainWaitingView()
-//    }
-//}
+

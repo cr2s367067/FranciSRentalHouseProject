@@ -196,25 +196,25 @@ struct PurchaseView: View {
                 
                 Button {
                     //: pass data to the next view
-//                    if firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo.roomUID.isEmpty {
+                    if firestoreToFetchUserinfo.notRented() {
                         localData.summaryItemHolder.forEach { result in
                             Task {
-                                try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID)
+                                try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice / 3), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID, depositFee: String((result.itemPrice / 3) * 2), paymentDate: Date())
                                 try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.docID)
                                 try await firestoreToFetchUserinfo.reloadUserDataTest()
                                 try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providerUID, docID: result.docID, renterID: firebaseAuth.getUID())
                                 reset()
                             }
                         }
-//                    } else {
-//                        Task {
-//                            do {
-//                                try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo.roomPrice, date: Date())
-//                            } catch {
-//                                self.errorHandler.handle(error: error)
-//                            }
-//                        }
-//                    }
+                    } else {
+                        Task {
+                            do {
+                                try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "", date: Date())
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
+                        }
+                    }
                     print("test")
                 } label: {
                     Text("Pay")
