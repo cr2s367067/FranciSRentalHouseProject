@@ -7,8 +7,10 @@
 
 import Foundation
 import SwiftUI
+import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+//MARK: For user to order products
 struct FurnitureDataModel: Identifiable, Codable {
 //    @DocumentID var id: String?
     var id = UUID()
@@ -17,13 +19,30 @@ struct FurnitureDataModel: Identifiable, Codable {
     var furniturePrice: Int
     var orderName: String?
     var orderShippingAddress: String?
+    @ServerTimestamp var buyDate: Timestamp?
 }
 
-struct FurnitureProviderDataModel: Identifiable, Codable {
+
+//MARK: For provider to upload their product
+struct ProductProviderDataModel: Identifiable, Codable {
     @DocumentID var id: String?
+    var productUID: String
     var productImage: String
-    var productPrice: Int
+    var productName: String
+    var productPrice: String
     var productDescription: String
-    var shippingFrom: String
+    var productFrom: String
     var providerName: String
+    var providerUID: String
+    var productAmount: String
+    var isSoldOut: Bool
+}
+
+
+//MARK: For user to provider their comment
+struct ProductUsingCommentDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var user: String
+    var comment: String
+    var rating: String
 }

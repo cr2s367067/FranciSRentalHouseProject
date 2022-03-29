@@ -10,9 +10,9 @@ import SDWebImageSwiftUI
 
 struct FurnitureGridView: View {
     
-    var furnitureIamge: String
-    var furnitureName: String
-    var furniturePrice: Int
+    var productIamge: String
+    var productName: String
+    var productPrice: Int
     
     var body: some View {
         VStack {
@@ -20,11 +20,11 @@ struct FurnitureGridView: View {
             HStack {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text(furnitureName)
+                        Text(productName)
                         Spacer()
                     }
                     HStack {
-                        Text("$\(furniturePrice)/mo")
+                        Text("$\(productPrice)")
                             .padding(.horizontal, 3)
                             .background(alignment: .center) {
                                 RoundedRectangle(cornerRadius: 5)
@@ -47,7 +47,7 @@ struct FurnitureGridView: View {
         }
         .frame(width: 300, height: 160)
         .background(alignment: .center) {
-            WebImage(url: URL(string: furnitureIamge))
+            WebImage(url: URL(string: productIamge))
                 .resizable()
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             RoundedRectangle(cornerRadius: 10)
@@ -58,6 +58,6 @@ struct FurnitureGridView: View {
 
 struct FurnitureGridView_Previews: PreviewProvider {
     static var previews: some View {
-        FurnitureGridView(furnitureIamge: "", furnitureName: "", furniturePrice: 0)
+        FurnitureGridView(productIamge: "", productName: "", productPrice: 0)
     }
 }

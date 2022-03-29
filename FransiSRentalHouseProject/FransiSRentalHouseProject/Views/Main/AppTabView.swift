@@ -15,6 +15,7 @@ struct AppTabView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var firestoreForFurniture: FirestoreForProducts
 
     
     init() {
@@ -43,7 +44,7 @@ struct AppTabView: View {
                             ProviderRoomSummitView()
                                 .tag("TapPaymentButton")
                         } else if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
-                            FurnitureProviderSummitView()
+                            ProductsProviderSummitView()
                                 .tag("TapPaymentButton")
                         }
                     }
@@ -90,6 +91,7 @@ struct AppTabView: View {
         .onAppear {
             firestoreToFetchRoomsData.listeningRoomInfo(uidPath: firebaseAuth.getUID())
             firestoreToFetchRoomsData.listeningRoomInfoForPublic()
+            firestoreForFurniture.listeningFurnitureInfo()
         }
     }
 }

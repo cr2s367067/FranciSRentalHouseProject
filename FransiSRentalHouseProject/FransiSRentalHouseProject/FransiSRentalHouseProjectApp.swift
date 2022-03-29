@@ -27,8 +27,9 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var firestoreForTextingMessage = FirestoreForTextingMessage()
     @StateObject var textingViewModel = TextingViewModel()
     @StateObject var firestoreFetchingAnnouncement = FirestoreFetchingAnnouncement()
-    @StateObject var firestoreForFurniture = FirestoreForFurniture()
-    @StateObject var furnitureProviderSummitViewModel = FurnitureProviderSummitViewModel()
+    @StateObject var firestoreForProducts = FirestoreForProducts()
+    @StateObject var productsProviderSummitViewModel = ProductsProviderSummitViewModel()
+    @StateObject var storageForProductImage = StorageForProductImage()
     
     var body: some Scene {
         WindowGroup {
@@ -47,8 +48,9 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(firestoreForTextingMessage)
                 .environmentObject(textingViewModel)
                 .environmentObject(firestoreFetchingAnnouncement)
-                .environmentObject(firestoreForFurniture)
-                .environmentObject(furnitureProviderSummitViewModel)
+                .environmentObject(firestoreForProducts)
+                .environmentObject(productsProviderSummitViewModel)
+                .environmentObject(storageForProductImage)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

@@ -15,7 +15,7 @@ struct PrePurchaseView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
-    @EnvironmentObject var firestoreForFurnitureOrder: FirestoreForFurniture
+    @EnvironmentObject var firestoreForFurnitureOrder: FirestoreForProducts
     
     @State var roomImage = "room3"
     @State var roomPrice = "9000"

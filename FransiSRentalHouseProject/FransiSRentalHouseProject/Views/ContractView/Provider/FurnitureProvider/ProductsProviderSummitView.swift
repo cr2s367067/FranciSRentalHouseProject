@@ -7,21 +7,22 @@
 
 import SwiftUI
 
-struct FurnitureProviderSummitView: View {
-    
+struct ProductsProviderSummitView: View {
+
+    @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
 //    @EnvironmentObject var storageForRoomsImage: StorageForRoomsImage
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    @EnvironmentObject var furnitureProviderSummitViewModel: FurnitureProviderSummitViewModel
+    @EnvironmentObject var productsProviderSummitViewModel: ProductsProviderSummitViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
-    @EnvironmentObject var firestoreForFurniture: FirestoreForFurniture
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     
-    @State private var holderTosAgree = false
+    
     @State var image = UIImage()
     @State private var showSheet = false
     @State private var tosSheetShow = false
-    @State private var isSummitRoomPic = false
+    @State private var isSummitProductPic = false
     @State private var showSummitAlert = false
     
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -30,6 +31,8 @@ struct FurnitureProviderSummitView: View {
     init() {
         UITextView.appearance().backgroundColor = .clear
     }
+    
+    
     
     var body: some View {
         NavigationView {
@@ -53,7 +56,7 @@ struct FurnitureProviderSummitView: View {
                                     .resizable()
                                     .frame(width: 25, height: 25)
                                     .foregroundColor(Color.gray)
-                                if isSummitRoomPic == true {
+                                if isSummitProductPic == true {
                                     Image(uiImage: self.image)
                                         .resizable()
                                         .frame(width: 378, height: 304)
@@ -64,15 +67,17 @@ struct FurnitureProviderSummitView: View {
                         }
                         StepsTitle(stepsName: "Step2: Please provide the necessary information")
                         VStack(spacing: 10) {
-                            InfoUnit(title: "Product Name", bindingString: $furnitureProviderSummitViewModel.productName)
-                            InfoUnit(title: "Prodduct Price", bindingString: $furnitureProviderSummitViewModel.productPrice)
+                            InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productName)
+                            InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productFrom)
+                            InfoUnit(title: "Prodduct Price", bindingString: $productsProviderSummitViewModel.productPrice)
+                            InfoUnit(title: "Product Amount", bindingString: $productsProviderSummitViewModel.productAmount)
                             VStack(alignment: .leading, spacing: 2) {
                                 HStack {
                                     Text("Product Description")
                                         .modifier(textFormateForProviderSummitView())
                                     Spacer()
                                 }
-                                TextEditor(text: $furnitureProviderSummitViewModel.prductDescription)
+                                TextEditor(text: $productsProviderSummitViewModel.productDescription)
                                     .foregroundStyle(Color.white)
                                     .frame(height: 300, alignment: .center)
                                     .cornerRadius(5)
@@ -89,10 +94,10 @@ struct FurnitureProviderSummitView: View {
                                 Spacer()
                                 HStack {
                                     Button {
-                                        holderTosAgree.toggle()
+                                        productsProviderSummitViewModel.holderTosAgree.toggle()
                                     } label: {
-                                        Image(systemName: holderTosAgree ? "checkmark.square.fill" : "checkmark.square")
-                                            .foregroundColor(holderTosAgree ? .green : .white)
+                                        Image(systemName: productsProviderSummitViewModel.holderTosAgree ? "checkmark.square.fill" : "checkmark.square")
+                                            .foregroundColor(productsProviderSummitViewModel.holderTosAgree ? .green : .white)
                                             .padding(.trailing, 5)
                                     }
                                     Text("I have read and agree the")
@@ -112,10 +117,8 @@ struct FurnitureProviderSummitView: View {
                                 Button {
                                     Task {
                                         do {
-                                            try await firestoreForFurniture.summitFurniture(uidPath: firebaseAuth.getUID(), furnitureImage: "",
-                                                                                            furnitureName: furnitureProviderSummitViewModel.productName,
-                                                                                            furniturePrice: Int(furnitureProviderSummitViewModel.productPrice) ?? 0,
-                                                                                            productDescription: furnitureProviderSummitViewModel.prductDescription)
+                                            try await firestoreForProducts.summitFurniture(uidPath: firebaseAuth.getUID(), productImage: storageForProductImage.representedProductImageURL, providerName: firestoreToFetchUserinfo.fetchedUserData.displayName, productPrice: productsProviderSummitViewModel.productPrice, productDescription: productsProviderSummitViewModel.productDescription, productUID: firestoreForProducts.productUID, productName: productsProviderSummitViewModel.productName, productFrom: productsProviderSummitViewModel.productFrom, productAmount: productsProviderSummitViewModel.productAmount, isSoldOut: false)
+                                            productsProviderSummitViewModel.resetView()
                                         } catch {
                                             self.errorHandler.handle(error: error)
                                         }
@@ -157,11 +160,15 @@ struct FurnitureProviderSummitView: View {
             .sheet(isPresented: $tosSheetShow, content: {
                 TermOfServiceForRentalManager()
             })
+            .onAppear(perform: {
+                firestoreForProducts.productUID = firestoreForProducts.productIDGenerator()
+                storageForProductImage.productImageUUID = storageForProductImage.imagUUIDGenerator()
+            })
             .sheet(isPresented: $showSheet) {
                 Task {
-//                    try await storageForRoomsImage.uploadRoomImageAsync(uidPath: firebaseAuth.getUID(), image: image, roomID: "", imageUID: "")
+                    try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(), image: image, productID: firestoreForProducts.productUID, imageUID: storageForProductImage.productImageUUID)
                     DispatchQueue.main.async {
-                        isSummitRoomPic = true
+                        isSummitProductPic = true
                     }
                 }
             } content: {
@@ -173,6 +180,6 @@ struct FurnitureProviderSummitView: View {
 }
 struct FurnitureProviderSummitView_Previews: PreviewProvider {
     static var previews: some View {
-        FurnitureProviderSummitView()
+        ProductsProviderSummitView()
     }
 }

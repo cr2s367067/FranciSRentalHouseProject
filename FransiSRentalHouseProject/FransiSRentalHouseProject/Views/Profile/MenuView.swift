@@ -36,12 +36,22 @@ struct MenuView: View {
                             SideBarButton(buttonName: "User Profile", systemImageName: "person.crop.circle")
                         }
                     } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
-                        NavigationLink {
-                            withAnimation {
-                                ContractCollectionView()
+                        if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
+                            NavigationLink {
+                                withAnimation {
+                                    ContractCollectionView()
+                                }
+                            } label: {
+                                SideBarButton(buttonName: "Contracts", systemImageName: "folder")
                             }
-                        } label: {
-                            SideBarButton(buttonName: "Contracts", systemImageName: "folder")
+                        } else if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
+                            NavigationLink {
+                                withAnimation {
+                                    ProductCollectionView()
+                                }
+                            } label: {
+                                SideBarButton(buttonName: "Products", systemImageName: "square.stack.fill")
+                            }
                         }
                         NavigationLink {
                             withAnimation {

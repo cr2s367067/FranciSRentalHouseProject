@@ -14,7 +14,7 @@ struct RenterMainView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreFetchingAnnouncement: FirestoreFetchingAnnouncement
-    @EnvironmentObject var firestoreForFurniture: FirestoreForFurniture
+    @EnvironmentObject var firestoreForFurniture: FirestoreForProducts
     
     var gridItemLayout = [
         GridItem(.fixed(170)),
@@ -43,7 +43,6 @@ struct RenterMainView: View {
                     }
                     //: New rooms Group
                     Group {
-//                        TitleAndDivider(title: "What's new")
                         VStack(alignment: .leading, spacing: 1) {
                             HStack {
                                 Text("What's new")
@@ -61,7 +60,7 @@ struct RenterMainView: View {
                                     Image(systemName: "house")
                                         .resizable()
                                         .foregroundColor(.white)
-                                        .frame(width: 25, height: 25)
+                                        .frame(width: 28, height: 25)
                                 }
                                 Button {
                                     if showRooms == true {
@@ -74,7 +73,7 @@ struct RenterMainView: View {
                                     Image(systemName: "bag")
                                         .resizable()
                                         .foregroundColor(.white)
-                                        .frame(width: 25, height: 25)
+                                        .frame(width: 25, height: 26)
                                 }
                             }
                             HStack {
@@ -141,8 +140,12 @@ struct RenterMainView: View {
                                     }
                                 }
                                 } else if showFurniture == true {
-                                    ForEach(firestoreForFurniture.furnitureDataSet) { furniture in
-                                        FurnitureGridView(furnitureIamge: furniture.furnitureImage, furnitureName: furniture.furnitureName, furniturePrice: furniture.furniturePrice)
+                                    ForEach(firestoreForFurniture.productsDataSet) { product in
+                                        NavigationLink {
+                                            FurnitureDetailView(productName: product.productName, productPrice: product.productPrice, productDescription: product.productDescription, productImage: product.productImage)
+                                        } label: {
+                                            FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
+                                        }
                                     }
                                 }
                             }
