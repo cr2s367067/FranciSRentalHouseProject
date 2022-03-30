@@ -11,9 +11,8 @@ struct PaymentSummaryView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
-    
-    
-    @State var showErrorAlert = false
+    @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
+    @EnvironmentObject var paymentSummaryVM: PaymentSummaryViewModel
     
     var body: some View {
         ZStack {
@@ -22,7 +21,7 @@ struct PaymentSummaryView: View {
                 .ignoresSafeArea(.all)
             VStack {
                 TitleAndDivider(title: "Summary")
-                SummaryItems()
+                ListItems()
                 AppDivider()
                 HStack {
                     Text("Total Price")
@@ -33,10 +32,9 @@ struct PaymentSummaryView: View {
                 .foregroundColor(.white)
                 .font(.system(size: 20, weight: .regular))
                 .padding()
-                
-                Spacer()
-                    .frame(height: 180)
-                
+                if !productDetailViewModel.productOrderCart.isEmpty {
+                    AddressFillOut(address: $paymentSummaryVM.shippingAddress)
+                }
                 
                 VStack(alignment: .center, spacing: 30) {
                     //: Term Agreemnet
@@ -83,7 +81,7 @@ struct PaymentSummaryView: View {
                         }
                     } else {
                         Button {
-                            showErrorAlert.toggle()
+                            paymentSummaryVM.showErrorAlert.toggle()
                         } label: {
                             Text("Confirm")
                                 .foregroundColor(.white)
@@ -91,7 +89,7 @@ struct PaymentSummaryView: View {
                                 .frame(width: 343, height: 50)
                                 .background(Color.gray)
                                 .clipShape(RoundedRectangle(cornerRadius: 4))
-                                .alert(isPresented: $showErrorAlert) {
+                                .alert(isPresented: $paymentSummaryVM.showErrorAlert) {
                                     Alert(title: Text("Notice"), message: Text("Please check the terms of service and payment checkbox."), dismissButton: .default(Text("Sure")))
                                 }
                         }
@@ -108,4 +106,114 @@ struct PaymentSummaryView_Previews: PreviewProvider {
     static var previews: some View {
         PaymentSummaryView()
     }
+}
+
+
+
+struct SummaryItems: View {
+    
+    @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
+    
+    var checkOutItem = "No Data"
+    var checkOutPrice = "0"
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 25) {
+            ScrollView(.vertical, showsIndicators: false) {
+                ForEach(localData.summaryItemHolder) { data in
+                    HStack {
+                        Button {
+                            localData.summaryItemHolder.removeAll(where: {$0.id == data.id})
+                            localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
+                            localData.tempCart.removeAll()
+                            appViewModel.isRedacted = true
+                        } label: {
+                            Image(systemName: "xmark.circle")
+                                .resizable()
+                                .frame(width: 22, height: 22)
+                        }
+                        Text(data.roomAddress)
+                        Spacer()
+                        Text("$\(data.itemPrice)")
+                    }
+                }
+                ForEach(productDetailViewModel.productOrderCart) { product in
+                    HStack {
+                        Button {
+                            productDetailViewModel.productOrderCart.removeAll(where: {$0.id == product.id})
+                            localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
+                            appViewModel.isRedacted = true
+                        } label: {
+                            Image(systemName: "xmark.circle")
+                                .resizable()
+                                .frame(width: 22, height: 22)
+                        }
+                        Text(product.productName)
+                        Spacer()
+                        Text("$\(product.productPrice)")
+                    }
+                }
+            }
+            .padding(.leading, 20)
+            .padding(.trailing, 20)
+        }
+        .foregroundColor(.white)
+        .font(.system(size: 16, weight: .regular))
+    }
+}
+
+struct ListItems: View {
+    @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 25) {
+            ScrollView(.vertical, showsIndicators: false) {
+                ForEach(localData.summaryItemHolder) { data in
+                    HStack {
+                        Text(data.roomAddress)
+                        Spacer()
+                        Text("$\(data.itemPrice)")
+                    }
+                }
+                ForEach(productDetailViewModel.productOrderCart) { product in
+                    HStack {
+                        Text(product.productName)
+                        Spacer()
+                        Text("$\(product.productPrice)")
+                    }
+                }
+            }
+            .padding(.leading, 20)
+            .padding(.trailing, 20)
+        }
+        .foregroundColor(.white)
+        .font(.system(size: 16, weight: .regular))
+        .padding(.horizontal)
+    }
+}
+
+
+struct AddressFillOut: View {
+    
+    @Binding var address: String
+    
+    var body: some View {
+        VStack {
+            InfoUnit(title: "Shipping Address", bindingString: $address)
+//            Text("Notice: Please provider shipping address, if you needed, otherwise will user address you provider in user information by default.")
+//                .foregroundColor(.yellow)
+//                .font(.system(size: 14, weight: .heavy))
+        }
+        .padding()
+    }
+}
+
+
+class PaymentSummaryViewModel: ObservableObject {
+    @Published var shippingAddress = ""
+    @Published var showErrorAlert = false
 }

@@ -458,58 +458,6 @@ struct TitleAndDivider: View {
     }
 }
 
-struct SummaryItems: View {
-    
-    @EnvironmentObject var localData: LocalData
-    @EnvironmentObject var appViewModel: AppViewModel
-    
-    var checkOutItem = "No Data"
-    var checkOutPrice = "0"
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 25) {
-            ScrollView(.vertical, showsIndicators: false) {
-                ForEach(localData.summaryItemHolder) { data in
-                    HStack {
-                        Button {
-                            localData.summaryItemHolder.removeAll(where: {$0.id == data.id})
-                            localData.sumPrice = localData.sum()
-                            appViewModel.isRedacted = true
-                        } label: {
-                            Image(systemName: "xmark.circle")
-                                .resizable()
-                                .frame(width: 22, height: 22)
-                        }
-                        Text(data.roomAddress)
-                        Spacer()
-                        Text("$\(data.itemPrice)")
-                    }
-                }
-                ForEach(localData.furnitureOrderChart) { furniture in
-                    HStack {
-                        Button {
-                            localData.furnitureOrderChart.removeAll(where: {$0.id == furniture.id})
-                            localData.sumPrice = localData.sum()
-                            appViewModel.isRedacted = true
-                        } label: {
-                            Image(systemName: "xmark.circle")
-                                .resizable()
-                                .frame(width: 22, height: 22)
-                        }
-                        Text(furniture.furnitureName)
-                        Spacer()
-                        Text("$\(furniture.furniturePrice)")
-                    }
-                }
-            }
-            .padding(.leading, 20)
-            .padding(.trailing, 20)
-        }
-        .foregroundColor(.white)
-        .font(.system(size: 16, weight: .regular))
-    }
-}
-
 struct AppDivider: View {
     var body: some View {
         HStack {

@@ -30,6 +30,8 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var firestoreForProducts = FirestoreForProducts()
     @StateObject var productsProviderSummitViewModel = ProductsProviderSummitViewModel()
     @StateObject var storageForProductImage = StorageForProductImage()
+    @StateObject var productDetailViewModel = ProductDetailViewModel()
+    @StateObject var paymentSummaryVM = PaymentSummaryViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -51,6 +53,8 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(firestoreForProducts)
                 .environmentObject(productsProviderSummitViewModel)
                 .environmentObject(storageForProductImage)
+                .environmentObject(productDetailViewModel)
+                .environmentObject(paymentSummaryVM)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

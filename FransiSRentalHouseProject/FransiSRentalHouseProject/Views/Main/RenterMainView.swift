@@ -142,7 +142,16 @@ struct RenterMainView: View {
                                 } else if showFurniture == true {
                                     ForEach(firestoreForFurniture.productsDataSet) { product in
                                         NavigationLink {
-                                            FurnitureDetailView(productName: product.productName, productPrice: product.productPrice, productDescription: product.productDescription, productImage: product.productImage)
+                                            ProductDetailView(productName: product.productName,
+                                                              productPrice: Int(product.productPrice) ?? 0,
+                                                              productImage: product.productImage,
+                                                              productUID: product.productUID,
+                                                              productAmount: product.productAmount,
+                                                              productFrom: product.productFrom,
+                                                              providerUID: product.providerUID,
+                                                              isSoldOut: product.isSoldOut,
+                                                              providerName: product.providerName,
+                                                              productDescription: product.productDescription)
                                         } label: {
                                             FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
                                         }

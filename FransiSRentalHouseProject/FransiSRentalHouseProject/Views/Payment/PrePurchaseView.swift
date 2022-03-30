@@ -16,6 +16,7 @@ struct PrePurchaseView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForFurnitureOrder: FirestoreForProducts
+    @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     
     @State var roomImage = "room3"
     @State var roomPrice = "9000"
@@ -35,10 +36,10 @@ struct PrePurchaseView: View {
     
     private func checkout() -> Bool {
         var tempBool = false
-        guard !localData.furnitureOrderChart.isEmpty else {
-            tempBool = true
-            return tempBool
-        }
+//        guard !localData.furnitureOrderChart.isEmpty else {
+//            tempBool = true
+//            return tempBool
+//        }
         
         guard !localData.summaryItemHolder.isEmpty && !localData.tempCart.isEmpty else {
             tempBool = true
@@ -47,19 +48,6 @@ struct PrePurchaseView: View {
         return tempBool
     }
     
-    private func itemSelectChecker() throws {
-        guard !localData.summaryItemHolder.isEmpty || !localData.furnitureOrderChart.isEmpty else {
-            throw UserInformationError.chartError
-        }
-        if localData.furnitureOrderChart.isEmpty {
-            guard !localData.tempCart.isEmpty && !localData.summaryItemHolder.isEmpty else {
-                throw UserInformationError.roomSelectedError
-            }
-        }
-//        guard  !localData.furnitureOrderChart.isEmpty else {
-//            throw UserInformationError.roomSelectedError
-//        }
-    }
     
     @ViewBuilder
     var body: some View {
@@ -83,20 +71,21 @@ struct PrePurchaseView: View {
                                     .redacted(reason: appViewModel.isRedacted ? .placeholder : .init())
                             }
                             TitleAndDivider(title: "Furnitures")
-                            HStack(alignment: .center) {
+                            VStack(alignment: .center) {
                                 Spacer()
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    LazyHGrid(rows: gridFurItemLayout, spacing: 20) {
-                                        ForEach(localData.furnitureDataSets) { item in
-                                            Button {
-                                                localData.addFurniture(furnitureImage: item.furnitureImage, furnitureName: item.furnitureName, furniturePrice: item.furniturePrice)
-//                                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-                                                localData.sumPrice = localData.sum()
-                                            } label: {
-                                                FurnitureItemView(furnitureImage: item.furnitureImage, furnitureName: item.furnitureName, furniturePrice: String(item.furniturePrice))
-                                            }
-                                        }
-                                    }
+                                ScrollView(.vertical, showsIndicators: false) {
+//                                    LazyHGrid(rows: gridFurItemLayout, spacing: 20) {
+//                                        ForEach(localData.furnitureDataSets) { item in
+//                                            Button {
+//                                                localData.addFurniture(furnitureImage: item.furnitureImage, furnitureName: item.furnitureName, furniturePrice: item.furniturePrice)
+////                                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+//                                                localData.sumPrice = localData.sum()
+//                                            } label: {
+//                                                FurnitureItemView(furnitureImage: item.furnitureImage, furnitureName: item.furnitureName, furniturePrice: String(item.furniturePrice))
+//                                            }
+//                                        }
+//                                    }
+                                    SummaryItems()
                                 }
                             }
                             .padding()
@@ -114,14 +103,15 @@ struct PrePurchaseView: View {
                             Spacer()
                                 .frame(width: 50)
                             
-                            if !localData.summaryItemHolder.isEmpty || !localData.furnitureOrderChart.isEmpty {
+//                            if !localData.summaryItemHolder.isEmpty || !localData.furnitureOrderChart.isEmpty {
 //                                Button {
-//                                    do {
-//                                        try itemSelectChecker()
-//                                        print("at checker stage")
-//                                    } catch {
-//                                        self.errorHandler.handle(error: error)
-//                                    }
+////                                    do {
+////                                        try itemSelectChecker()
+////                                        print("at checker stage")
+////                                    } catch {
+////                                        self.errorHandler.handle(error: error)
+////                                    }
+//                                    print(productDetailViewModel.productOrderCart.count)
 //                                } label: {
 //                                    Text("Check Out")
 //                                        .foregroundColor(.white)
@@ -143,7 +133,7 @@ struct PrePurchaseView: View {
                                             .padding(.trailing)
                                     }
                                 }
-                            }
+//                            }
                         }
                         .frame(width: 400, height: 50)
                         .foregroundColor(.white)

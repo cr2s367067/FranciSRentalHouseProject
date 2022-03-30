@@ -8,27 +8,33 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct FurnitureDetailView: View {
-    let uiScreenWidth = UIScreen.main.bounds.width
-    let uiScreenHeight = UIScreen.main.bounds.height
+struct ProductDetailView: View {
     
-    @State private var mark = false
+    
+    @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
+    @EnvironmentObject var localData: LocalData
     
     var productName: String
-    var productPrice: String
-    var productDescription: String
+    var productPrice: Int
     var productImage: String
+    var productUID: String
+    var productAmount: String
+    var productFrom: String
+    var providerUID: String
+    var isSoldOut: Bool
+    var providerName: String
+    var productDescription: String
     
     var body: some View {
         VStack {
             HStack {
                 Spacer()
                 Button {
-                    mark.toggle()
+                    productDetailViewModel.mark.toggle()
                 } label: {
                      Image(systemName: "bookmark.circle")
                         .resizable()
-                        .foregroundColor(mark ? .orange : .white)
+                        .foregroundColor(productDetailViewModel.mark ? .orange : .white)
                         .frame(width: 35, height: 35)
                         .padding(.trailing)
                 }
@@ -81,7 +87,17 @@ struct FurnitureDetailView: View {
                         .font(.system(size: 30, weight: .bold))
                     Spacer()
                     Button {
-                        
+                        self.productDetailViewModel.addToCart(productName: productName,
+                                                         productUID: productUID,
+                                                         productPrice: productPrice,
+                                                         productAmount: productAmount,
+                                                         productFrom: productFrom,
+                                                         providerUID: providerUID,
+                                                         productImage: productImage,
+                                                         providerName: providerName,
+                                                         orderAmount: String(productDetailViewModel.orderAmount))
+                        localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
+                        print(localData.sumPrice)
                     } label: {
                         Text("Add Cart")
                             .foregroundColor(.white)
@@ -93,7 +109,7 @@ struct FurnitureDetailView: View {
                 .padding(.horizontal)
                 .padding(.bottom)
             }
-            .frame(width: uiScreenWidth, height: uiScreenHeight / 2 + 40)
+            .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 2 + 40)
             .background(alignment: .center) {
                 Rectangle()
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
@@ -107,7 +123,7 @@ struct FurnitureDetailView: View {
             VStack {
                 WebImage(url: URL(string: productImage))
                     .resizable()
-                    .frame(width: uiScreenWidth, height: uiScreenHeight / 3 + 60, alignment: .top)
+                    .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 3 + 60, alignment: .top)
                 Spacer()
             }
             .edgesIgnoringSafeArea(.top)
@@ -121,5 +137,19 @@ struct FurnitureDetailView: View {
 //    }
 //}
 
-
-
+//extension ProductDetailView {
+class ProductDetailViewModel: ObservableObject {
+    
+    @Published var productOrderCart = [UserOrederProductsDataModel]()
+    @Published var mark = false
+    @Published var orderAmount = 0
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
+    func addToCart(productName: String, productUID: String, productPrice: Int, productAmount: String, productFrom: String, providerUID: String, productImage: String, providerName: String, orderAmount: String) {
+        self.productOrderCart.append(UserOrederProductsDataModel(productImage: productImage, productName: productName, productPrice: productPrice, providerUID: providerUID, productUID: productUID, orderAmount: orderAmount))
+    }
+    
+}
+//}

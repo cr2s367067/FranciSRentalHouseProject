@@ -15,6 +15,9 @@ struct PurchaseView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
+    @EnvironmentObject var paymentSummaryViewModel: PaymentSummaryViewModel
     
     var brandArray = ["apple-pay", "google-pay", "mastercard", "visa"]
     
@@ -196,25 +199,56 @@ struct PurchaseView: View {
                 
                 Button {
                     //: pass data to the next view
-                    if firestoreToFetchUserinfo.notRented() {
-                        localData.summaryItemHolder.forEach { result in
-                            Task {
-                                try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice / 3), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID, depositFee: String((result.itemPrice / 3) * 2), paymentDate: Date())
-                                try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.docID)
-                                try await firestoreToFetchUserinfo.reloadUserDataTest()
-                                try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providerUID, docID: result.docID, renterID: firebaseAuth.getUID())
-                                reset()
+                    if !localData.summaryItemHolder.isEmpty {
+                        if firestoreToFetchUserinfo.notRented() {
+                            localData.summaryItemHolder.forEach { result in
+                                Task {
+                                    do {
+                                        try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice / 3), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID, depositFee: String((result.itemPrice / 3) * 2), paymentDate: Date())
+                                        try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.docID)
+                                        try await firestoreToFetchUserinfo.reloadUserDataTest()
+                                        try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providerUID, docID: result.docID, renterID: firebaseAuth.getUID())
+                                        reset()
+                                    } catch {
+                                        self.errorHandler.handle(error: error)
+                                    }
+                                }
                             }
                         }
-                        localData.furnitureOrderChart.forEach { furniture in
-                            
-                        }
                     } else {
-                        Task {
-                            do {
-                                try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "", date: Date())
-                            } catch {
-                                self.errorHandler.handle(error: error)
+//                        Task {
+//                            do {
+//                                try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "", date: Date())
+//                            } catch {
+//                                self.errorHandler.handle(error: error)
+//                            }
+//                        }
+                        if !productDetailViewModel.productOrderCart.isEmpty {
+                            productDetailViewModel.productOrderCart.forEach { products in
+                                Task {
+                                    do {
+                                        try await firestoreForProducts.makeOrder(uidPath: firebaseAuth.getUID(),
+                                                                                 productName: products.productName,
+                                                                                 productPrice: String(products.productPrice),
+                                                                                 providerUID: products.providerUID,
+                                                                                 productUID: products.productUID,
+                                                                                 orderAmount: products.orderAmount,
+                                                                                 productImage: products.productImage,
+                                                                                 comment: products.comment,
+                                                                                 rating: products.rating)
+                                        let orderUID = UUID().uuidString
+                                        try await firestoreForProducts.receiveOrder(uidPath: products.providerUID,
+                                                                                    orderUID: orderUID,
+                                                                                    orderShippingAddress: paymentSummaryViewModel.shippingAddress,
+                                                                                    orderName: firestoreToFetchUserinfo.presentUserName(),
+                                                                                    orderAmount: products.orderAmount,
+                                                                                    productUID: products.productUID,
+                                                                                    productImage: products.productImage,
+                                                                                    productPrice: String(products.productPrice))
+                                    } catch {
+                                        self.errorHandler.handle(error: error)
+                                    }
+                                }
                             }
                         }
                     }

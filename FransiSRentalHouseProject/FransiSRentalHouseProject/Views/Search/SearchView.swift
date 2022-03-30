@@ -116,7 +116,16 @@ struct SearchView: View {
                                     HStack(spacing: 40) {
                                         ForEach(firestoreForFurniture.productsDataSet) { product in
                                             NavigationLink {
-                                                FurnitureDetailView(productName: product.productName, productPrice: product.productPrice, productDescription: product.productDescription, productImage: product.productImage)
+                                                ProductDetailView(productName: product.productName,
+                                                                  productPrice: Int(product.productPrice) ?? 0,
+                                                                  productImage: product.productImage,
+                                                                  productUID: product.productUID,
+                                                                  productAmount: product.productAmount,
+                                                                  productFrom: product.productFrom,
+                                                                  providerUID: product.providerUID,
+                                                                  isSoldOut: product.isSoldOut,
+                                                                  providerName: product.providerName,
+                                                                  productDescription: product.productDescription)
                                             } label: {
                                                 SearchProductListItemView(productName: product.productName, productImage: product.productImage, productPrice: product.productPrice)
                                             }

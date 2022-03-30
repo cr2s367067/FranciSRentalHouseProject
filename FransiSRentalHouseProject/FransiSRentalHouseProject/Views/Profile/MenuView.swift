@@ -35,6 +35,13 @@ struct MenuView: View {
                         } label: {
                             SideBarButton(buttonName: "User Profile", systemImageName: "person.crop.circle")
                         }
+                        NavigationLink {
+                            withAnimation {
+                                UserOrderedListView()
+                            }
+                        } label: {
+                            SideBarButton(buttonName: "Ordered List", systemImageName: "filemenu.and.selection")
+                        }
                     } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
                         if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
                             NavigationLink {

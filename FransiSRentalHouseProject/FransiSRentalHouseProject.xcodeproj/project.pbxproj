@@ -60,7 +60,7 @@
 		02CB58E427CDAD2C0035EE20 /* SummaryItemDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58E327CDAD2C0035EE20 /* SummaryItemDataModel.swift */; };
 		02CB58E727CDAD960035EE20 /* MaintainTaskDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58E627CDAD960035EE20 /* MaintainTaskDataModel.swift */; };
 		02CB58E927CDADBC0035EE20 /* RoomsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58E827CDADBC0035EE20 /* RoomsDataModel.swift */; };
-		02CB58EB27CDAE520035EE20 /* FurnitureDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58EA27CDAE520035EE20 /* FurnitureDataModel.swift */; };
+		02CB58EB27CDAE520035EE20 /* ProductsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58EA27CDAE520035EE20 /* ProductsDataModel.swift */; };
 		02CB58ED27CDAE730035EE20 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58EC27CDAE730035EE20 /* UserDataModel.swift */; };
 		02CB58EF27CDB1470035EE20 /* FirestoreToFetchUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58EE27CDB1470035EE20 /* FirestoreToFetchUserInfo.swift */; };
 		02CB58F127CDB31D0035EE20 /* FirestoreToFetchMaintainTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58F027CDB31D0035EE20 /* FirestoreToFetchMaintainTasks.swift */; };
@@ -73,7 +73,7 @@
 		0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */; };
 		0E2EDD3C27EAF394008FEF58 /* FirestoreForTextingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */; };
 		0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */; };
-		0E36982027F2962E00AA7E88 /* FurnitureDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36981F27F2962E00AA7E88 /* FurnitureDetailView.swift */; };
+		0E36982027F2962E00AA7E88 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */; };
 		0E3DD19927ED5CB6001525E3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD19827ED5CB6001525E3 /* FirebaseAuth */; };
 		0E3DD19B27ED5CB6001525E3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD19A27ED5CB6001525E3 /* FirebaseFirestore */; };
 		0E3DD19D27ED5CB6001525E3 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD19C27ED5CB6001525E3 /* FirebaseFirestoreSwift-Beta */; };
@@ -83,11 +83,13 @@
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
 		0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */; };
 		0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */; };
+		0EC0018527F42597007AB488 /* UserOrderedListUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0018427F42597007AB488 /* UserOrderedListUnitView.swift */; };
+		0EC0018727F431DF007AB488 /* UserOrderedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0018627F431DF007AB488 /* UserOrderedListView.swift */; };
 		0EC5286927F2B20A002D2C6F /* StorageForProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC5286827F2B20A002D2C6F /* StorageForProductImage.swift */; };
 		0EC5286B27F2DDBB002D2C6F /* SearchProductListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC5286A27F2DDBB002D2C6F /* SearchProductListItemView.swift */; };
 		0EC5286E27F2E930002D2C6F /* ProductCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC5286D27F2E930002D2C6F /* ProductCollectionView.swift */; };
 		0EC5287027F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC5286F27F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift */; };
-		0EC5287227F2FCC1002D2C6F /* ProductDetialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC5287127F2FCC1002D2C6F /* ProductDetialView.swift */; };
+		0EC5287227F2FCC1002D2C6F /* ProductCollectionDetialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC5287127F2FCC1002D2C6F /* ProductCollectionDetialView.swift */; };
 		0ED1F42427F049D90004B5CE /* AnnouncementDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */; };
 		0ED1F42627F04A460004B5CE /* FirestoreFetchingAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */; };
 		0ED1F42A27F087D70004B5CE /* PastedPaymentHistoryDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */; };
@@ -152,7 +154,7 @@
 		02CB58E327CDAD2C0035EE20 /* SummaryItemDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryItemDataModel.swift; sourceTree = "<group>"; };
 		02CB58E627CDAD960035EE20 /* MaintainTaskDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintainTaskDataModel.swift; sourceTree = "<group>"; };
 		02CB58E827CDADBC0035EE20 /* RoomsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDataModel.swift; sourceTree = "<group>"; };
-		02CB58EA27CDAE520035EE20 /* FurnitureDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureDataModel.swift; sourceTree = "<group>"; };
+		02CB58EA27CDAE520035EE20 /* ProductsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataModel.swift; sourceTree = "<group>"; };
 		02CB58EC27CDAE730035EE20 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
 		02CB58EE27CDB1470035EE20 /* FirestoreToFetchUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreToFetchUserInfo.swift; sourceTree = "<group>"; };
 		02CB58F027CDB31D0035EE20 /* FirestoreToFetchMaintainTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreToFetchMaintainTasks.swift; sourceTree = "<group>"; };
@@ -165,15 +167,17 @@
 		0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingDataModel.swift; sourceTree = "<group>"; };
 		0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForTextingMessage.swift; sourceTree = "<group>"; };
 		0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMainView.swift; sourceTree = "<group>"; };
-		0E36981F27F2962E00AA7E88 /* FurnitureDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureDetailView.swift; sourceTree = "<group>"; };
+		0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
 		0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocationDataModel.swift; sourceTree = "<group>"; };
 		0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsLocationViewModel.swift; sourceTree = "<group>"; };
+		0EC0018427F42597007AB488 /* UserOrderedListUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListUnitView.swift; sourceTree = "<group>"; };
+		0EC0018627F431DF007AB488 /* UserOrderedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListView.swift; sourceTree = "<group>"; };
 		0EC5286827F2B20A002D2C6F /* StorageForProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForProductImage.swift; sourceTree = "<group>"; };
 		0EC5286A27F2DDBB002D2C6F /* SearchProductListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProductListItemView.swift; sourceTree = "<group>"; };
 		0EC5286D27F2E930002D2C6F /* ProductCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionView.swift; sourceTree = "<group>"; };
 		0EC5286F27F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionReusableUnitView.swift; sourceTree = "<group>"; };
-		0EC5287127F2FCC1002D2C6F /* ProductDetialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetialView.swift; sourceTree = "<group>"; };
+		0EC5287127F2FCC1002D2C6F /* ProductCollectionDetialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionDetialView.swift; sourceTree = "<group>"; };
 		0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementDataModel.swift; sourceTree = "<group>"; };
 		0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreFetchingAnnouncement.swift; sourceTree = "<group>"; };
 		0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastedPaymentHistoryDataModel.swift; sourceTree = "<group>"; };
@@ -296,7 +300,7 @@
 				0249D46A27C63CBD0085F4A5 /* SearchView.swift */,
 				0249D46C27C63CCC0085F4A5 /* SearchListItemView.swift */,
 				024172AA27DE1342002BF2F2 /* RoomDetailSheetView.swift */,
-				0E36981F27F2962E00AA7E88 /* FurnitureDetailView.swift */,
+				0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */,
 				0EC5286A27F2DDBB002D2C6F /* SearchProductListItemView.swift */,
 			);
 			path = Search;
@@ -360,6 +364,8 @@
 				0249D45E27C63B8B0085F4A5 /* PaymentDetailSessionUnit.swift */,
 				0249D46027C63B960085F4A5 /* RoomStatusView.swift */,
 				024CF42027DF178600D65B2F /* RenterProfileView.swift */,
+				0EC0018427F42597007AB488 /* UserOrderedListUnitView.swift */,
+				0EC0018627F431DF007AB488 /* UserOrderedListView.swift */,
 			);
 			path = RenterViews;
 			sourceTree = "<group>";
@@ -435,7 +441,7 @@
 				02CB58E327CDAD2C0035EE20 /* SummaryItemDataModel.swift */,
 				02CB58E627CDAD960035EE20 /* MaintainTaskDataModel.swift */,
 				02CB58E827CDADBC0035EE20 /* RoomsDataModel.swift */,
-				02CB58EA27CDAE520035EE20 /* FurnitureDataModel.swift */,
+				02CB58EA27CDAE520035EE20 /* ProductsDataModel.swift */,
 				02CB58EC27CDAE730035EE20 /* UserDataModel.swift */,
 				02450AE527D2AC7000370683 /* ContactDataModel.swift */,
 				0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */,
@@ -492,7 +498,7 @@
 			children = (
 				0EC5286D27F2E930002D2C6F /* ProductCollectionView.swift */,
 				0EC5286F27F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift */,
-				0EC5287127F2FCC1002D2C6F /* ProductDetialView.swift */,
+				0EC5287127F2FCC1002D2C6F /* ProductCollectionDetialView.swift */,
 			);
 			path = ProductCollection;
 			sourceTree = "<group>";
@@ -631,12 +637,13 @@
 				0249D43E27C639900085F4A5 /* SignUpView.swift in Sources */,
 				0249D45327C63AF80085F4A5 /* ContactView.swift in Sources */,
 				0ED1F42C27F1AA4F0004B5CE /* FirestoreForProducts.swift in Sources */,
-				02CB58EB27CDAE520035EE20 /* FurnitureDataModel.swift in Sources */,
+				02CB58EB27CDAE520035EE20 /* ProductsDataModel.swift in Sources */,
 				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
 				0249D43A27C639720085F4A5 /* AppTabView.swift in Sources */,
 				0249D42E27C637DA0085F4A5 /* PersistenceController.swift in Sources */,
 				024172AB27DE1342002BF2F2 /* RoomDetailSheetView.swift in Sources */,
 				02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */,
+				0EC0018727F431DF007AB488 /* UserOrderedListView.swift in Sources */,
 				0292835D27D3824900DEF068 /* PrivatePolicyView.swift in Sources */,
 				0249D46D27C63CCC0085F4A5 /* SearchListItemView.swift in Sources */,
 				0ED1F42A27F087D70004B5CE /* PastedPaymentHistoryDataModel.swift in Sources */,
@@ -646,7 +653,7 @@
 				0249D44327C639BE0085F4A5 /* SheetView.swift in Sources */,
 				0249D46327C63BF50085F4A5 /* ProviderProfileView.swift in Sources */,
 				0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */,
-				0E36982027F2962E00AA7E88 /* FurnitureDetailView.swift in Sources */,
+				0E36982027F2962E00AA7E88 /* ProductDetailView.swift in Sources */,
 				0ED1F43227F1F0970004B5CE /* ProductsProviderSummitView.swift in Sources */,
 				0249D44727C639E40085F4A5 /* MaintainView.swift in Sources */,
 				0249D46927C63C2A0085F4A5 /* ProviderLineChartView.swift in Sources */,
@@ -669,11 +676,12 @@
 				0249D46127C63B960085F4A5 /* RoomStatusView.swift in Sources */,
 				0249D43027C637EA0085F4A5 /* FirebaseStorage.swift in Sources */,
 				0249D44527C639CA0085F4A5 /* RoomsGridView.swift in Sources */,
+				0EC0018527F42597007AB488 /* UserOrderedListUnitView.swift in Sources */,
 				0249D40927C6351F0085F4A5 /* FransiSRentalHouseProjectApp.swift in Sources */,
 				02CB58F327CDB3950035EE20 /* FirestoreToFetchRoomsData.swift in Sources */,
 				0249D44927C63A760085F4A5 /* PrePurchaseView.swift in Sources */,
 				0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */,
-				0EC5287227F2FCC1002D2C6F /* ProductDetialView.swift in Sources */,
+				0EC5287227F2FCC1002D2C6F /* ProductCollectionDetialView.swift in Sources */,
 				0ED1F42E27F1DDBF0004B5CE /* FurnitureGridView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

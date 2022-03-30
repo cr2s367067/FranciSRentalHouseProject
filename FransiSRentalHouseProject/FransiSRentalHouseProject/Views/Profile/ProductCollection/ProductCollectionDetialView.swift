@@ -1,5 +1,5 @@
 //
-//  ProductDetialView.swift
+//  ProductCollectionDetialView.swift
 //  FransiSRentalHouseProject
 //
 //  Created by Kuan on 2022/3/29.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct ProductDetialView: View {
+struct ProductCollectionDetialView: View {
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -51,6 +51,6 @@ struct ProductDetialView: View {
 
 struct ProductDetialView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductDetialView()
+        ProductCollectionDetialView()
     }
 }

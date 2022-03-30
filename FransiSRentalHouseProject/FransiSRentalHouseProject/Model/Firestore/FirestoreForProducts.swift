@@ -75,7 +75,51 @@ class FirestoreForProducts: ObservableObject {
 
 
 extension FirestoreForProducts {
-    func makeOrder() async throws {
-        
+    func makeOrder(uidPath: String, productName: String, productPrice: String, providerUID: String, productUID: String, orderAmount: String, productImage: String, buyDate: Date = Date(), comment: String?, rating: String?) async throws {
+        let orderRef = db.collection("users").document(uidPath).collection("ProductOrder")
+        _ = try await orderRef.addDocument(data: [
+            "productName" : productName,
+            "productPrice" : productPrice,
+            "providerUID" : providerUID,
+            "productUID" : productUID,
+            "orderAmount" : orderAmount,
+            "productImage" : productImage,
+            "buyDate" : buyDate,
+            "comment" : comment ?? "",
+            "rating" : rating ?? ""
+        ])
+    }
+    
+    func userToSummitProductComment(uidPath: String, comment: String, rating: String, docID: String, isUploadComment: Bool) async throws {
+        let commentRef = db.collection("users").document(uidPath).collection("ProductOrder").document(docID)
+        _ = try await commentRef.updateData([
+            "isUploadComment" : isUploadComment,
+            "comment" : comment,
+            "rating" : rating
+        ])
+    }
+    
+    func receiveOrder(uidPath: String, orderUID: String, orderShippingAddress: String, orderName: String, orderAmount: String, productUID: String, productImage: String, productPrice: String) async throws {
+        let receiveOrderRef = db.collection("ProductsProvider").document(uidPath).collection("Orders")
+        _ = try await receiveOrderRef.addDocument(data: [
+            "orderUID" : orderUID,
+            "orderShippingAddress" : orderShippingAddress,
+            "orderName" : orderName,
+            "orderAmount" : orderAmount,
+            "productUID" : productUID,
+            "productImage" : productImage,
+            "productPrice" : productPrice
+        ])
+    }
+    
+    func providerReceiveProductsComment(uidPath: String, comment: String, rating: String, productUID: String, buyerUID: String, buyerDisplayName: String) async throws {
+        let commentRef = db.collection("ProductsProvider").document(uidPath).collection("Orders")
+        _ = try await commentRef.addDocument(data: [
+            "comment" : comment,
+            "rating" : rating,
+            "productUID" : productUID,
+            "buyerDisplayName" : buyerDisplayName,
+            "buyerUID" : buyerUID
+        ])
     }
 }

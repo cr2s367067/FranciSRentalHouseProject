@@ -21,7 +21,7 @@ struct ProductCollectionView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(firestoreForFurniture.productsDataSet) { product in
                         NavigationLink {
-                            ProductDetialView(productName: product.productName, productRate: "", productPrice: product.productPrice, productFrom: product.productFrom, productDescription: product.productDescription, productUserComment: "", productImage: product.productImage)
+                            ProductCollectionDetialView(productName: product.productName, productRate: "", productPrice: product.productPrice, productFrom: product.productFrom, productDescription: product.productDescription, productUserComment: "", productImage: product.productImage)
                         } label: {
                             ProductCollectionReusableUnitView(productName: product.productName, productRate: "", productPrice: product.productPrice, productFrom: product.productFrom, productImage: product.productImage)
                         }
