@@ -10,9 +10,11 @@ import SDWebImageSwiftUI
 
 struct ProductDetailView: View {
     
-    
+    @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     
     var productName: String
     var productPrice: Int
@@ -24,6 +26,9 @@ struct ProductDetailView: View {
     var isSoldOut: Bool
     var providerName: String
     var productDescription: String
+    var docID: String
+    
+    
     
     var body: some View {
         VStack {
@@ -31,6 +36,13 @@ struct ProductDetailView: View {
                 Spacer()
                 Button {
                     productDetailViewModel.mark.toggle()
+                    Task {
+                        if productDetailViewModel.mark == true {
+                            await markProduct()
+                        } else {
+                            await unmarkProduct(productUID: productUID)
+                        }
+                    }
                 } label: {
                      Image(systemName: "bookmark.circle")
                         .resizable()
@@ -38,6 +50,9 @@ struct ProductDetailView: View {
                         .frame(width: 35, height: 35)
                         .padding(.trailing)
                 }
+            }
+            .onAppear {
+                checkMarked(productUID: productUID)
             }
             Spacer()
             VStack(alignment: .center, spacing: 20) {
@@ -88,16 +103,15 @@ struct ProductDetailView: View {
                     Spacer()
                     Button {
                         self.productDetailViewModel.addToCart(productName: productName,
-                                                         productUID: productUID,
-                                                         productPrice: productPrice,
-                                                         productAmount: productAmount,
-                                                         productFrom: productFrom,
-                                                         providerUID: providerUID,
-                                                         productImage: productImage,
-                                                         providerName: providerName,
-                                                         orderAmount: String(productDetailViewModel.orderAmount))
+                                                              productUID: productUID,
+                                                              productPrice: productPrice,
+                                                              productAmount: productAmount,
+                                                              productFrom: productFrom,
+                                                              providerUID: providerUID,
+                                                              productImage: productImage,
+                                                              providerName: providerName,
+                                                              orderAmount: String(productDetailViewModel.orderAmount))
                         localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
-                        print(localData.sumPrice)
                     } label: {
                         Text("Add Cart")
                             .foregroundColor(.white)
@@ -131,16 +145,44 @@ struct ProductDetailView: View {
     }
 }
 
-//struct FurnitureDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FurnitureDetailView()
-//    }
-//}
-
-//extension ProductDetailView {
+extension ProductDetailView {
+    private func markProduct() async {
+        do {
+            try await firestoreForProducts.bookMark(uidPath: firebaseAuth.getUID(), productUID: productUID, providerUID: providerUID, productName: productName, productPrice: String(productPrice), productImage: productImage, productFrom: productFrom, isSoldOut: isSoldOut, productAmount: productAmount, productDescription: productDescription, providerName: providerName)
+            try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
+        } catch {
+            self.errorHandler.handle(error: error)
+        }
+    }
+    
+    private func unmarkProduct(productUID: String) async {
+        firestoreForProducts.markedProducts.forEach { mark in
+            if mark.productUID == productUID {
+                Task {
+                    do {
+                        try await firestoreForProducts.unSignBookMarked(uidPath: firebaseAuth.getUID(), id: mark.id ?? "")
+                        try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
+                    } catch {
+                        self.errorHandler.handle(error: error)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func checkMarked(productUID: String) {
+        firestoreForProducts.markedProducts.forEach { mark in
+            if mark.productUID == productUID {
+                return productDetailViewModel.mark = true
+            } else {
+                return productDetailViewModel.mark = false
+            }
+        }
+    }
+}
 class ProductDetailViewModel: ObservableObject {
     
-    @Published var productOrderCart = [UserOrederProductsDataModel]()
+    @Published var productOrderCart = [UserOrderProductsDataModel]()
     @Published var mark = false
     @Published var orderAmount = 0
     
@@ -148,8 +190,7 @@ class ProductDetailViewModel: ObservableObject {
     let uiScreenHeight = UIScreen.main.bounds.height
     
     func addToCart(productName: String, productUID: String, productPrice: Int, productAmount: String, productFrom: String, providerUID: String, productImage: String, providerName: String, orderAmount: String) {
-        self.productOrderCart.append(UserOrederProductsDataModel(productImage: productImage, productName: productName, productPrice: productPrice, providerUID: providerUID, productUID: productUID, orderAmount: orderAmount))
+        self.productOrderCart.append(UserOrderProductsDataModel(productImage: productImage, productName: productName, productPrice: productPrice, providerUID: providerUID, productUID: productUID, orderAmount: orderAmount))
     }
     
 }
-//}

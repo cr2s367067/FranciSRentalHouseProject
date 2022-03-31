@@ -45,7 +45,7 @@ class LocalData: ObservableObject {
         return newElemet
     }
     
-    func computeProductsPrice(source: [UserOrederProductsDataModel]) -> Int {
+    func computeProductsPrice(source: [UserOrderProductsDataModel]) -> Int {
         var newElemet = 0
         for item in source {
             newElemet += item.productPrice
@@ -54,7 +54,7 @@ class LocalData: ObservableObject {
         return newElemet
     }
     
-    func sum(productSource: [UserOrederProductsDataModel]) -> Int {
+    func sum(productSource: [UserOrderProductsDataModel]) -> Int {
         var newValue = 0
         newValue = sum(value1: compute(source: summaryItemHolder), value2: computeProductsPrice(source: productSource))
         return newValue

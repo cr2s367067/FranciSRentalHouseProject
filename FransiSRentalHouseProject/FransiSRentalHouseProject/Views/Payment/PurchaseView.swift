@@ -26,15 +26,6 @@ struct PurchaseView: View {
     @State var expDate = ""
     @State var secCode = ""
     
-    private func reset() {
-        localData.tempCart.removeAll()
-        appViewModel.isRedacted = false
-        appViewModel.rentalPolicyisAgree = false
-        localData.summaryItemHolder.removeAll()
-        appViewModel.paymentSummaryTosAgree = false
-        appViewModel.paymentSummaryAutoPayAgree = false
-    }
-    
     var body: some View {
         ZStack {
 //            Image("room")
@@ -200,57 +191,35 @@ struct PurchaseView: View {
                 Button {
                     //: pass data to the next view
                     if !localData.summaryItemHolder.isEmpty {
+                        //MARK: pay deposit and rent the room also pay for products if user ordered.
                         if firestoreToFetchUserinfo.notRented() {
                             localData.summaryItemHolder.forEach { result in
                                 Task {
-                                    do {
-                                        try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice / 3), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID, depositFee: String((result.itemPrice / 3) * 2), paymentDate: Date())
-                                        try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.docID)
-                                        try await firestoreToFetchUserinfo.reloadUserDataTest()
-                                        try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providerUID, docID: result.docID, renterID: firebaseAuth.getUID())
-                                        reset()
-                                    } catch {
-                                        self.errorHandler.handle(error: error)
+                                    await rentedRoom(result: result.self)
+                                }
+                            }
+                            if !productDetailViewModel.productOrderCart.isEmpty {
+                                productDetailViewModel.productOrderCart.forEach { products in
+                                    Task {
+                                        await buyProducts(products: products.self)
                                     }
                                 }
                             }
                         }
                     } else {
-//                        Task {
-//                            do {
-//                                try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "", date: Date())
-//                            } catch {
-//                                self.errorHandler.handle(error: error)
-//                            }
-//                        }
+                        //MARK: pay for products that user ordered
                         if !productDetailViewModel.productOrderCart.isEmpty {
                             productDetailViewModel.productOrderCart.forEach { products in
                                 Task {
-                                    do {
-                                        try await firestoreForProducts.makeOrder(uidPath: firebaseAuth.getUID(),
-                                                                                 productName: products.productName,
-                                                                                 productPrice: String(products.productPrice),
-                                                                                 providerUID: products.providerUID,
-                                                                                 productUID: products.productUID,
-                                                                                 orderAmount: products.orderAmount,
-                                                                                 productImage: products.productImage,
-                                                                                 comment: products.comment,
-                                                                                 rating: products.rating)
-                                        let orderUID = UUID().uuidString
-                                        try await firestoreForProducts.receiveOrder(uidPath: products.providerUID,
-                                                                                    orderUID: orderUID,
-                                                                                    orderShippingAddress: paymentSummaryViewModel.shippingAddress,
-                                                                                    orderName: firestoreToFetchUserinfo.presentUserName(),
-                                                                                    orderAmount: products.orderAmount,
-                                                                                    productUID: products.productUID,
-                                                                                    productImage: products.productImage,
-                                                                                    productPrice: String(products.productPrice))
-                                    } catch {
-                                        self.errorHandler.handle(error: error)
-                                    }
+                                    await buyProducts(products: products.self)
                                 }
                             }
                         }
+                    }
+                    
+                    //MARK: pay the rental bill
+                    Task {
+                        await justPayRentBill()
                     }
                     print("test")
                 } label: {
@@ -293,5 +262,70 @@ struct CardTextField: View {
 struct PurchaseView_Previews: PreviewProvider {
     static var previews: some View {
         PurchaseView()
+    }
+}
+
+
+extension PurchaseView {
+    private func rentedRoom(result: SummaryItemHolder) async {
+        do {
+            try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice / 3), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID, depositFee: String((result.itemPrice / 3) * 2), paymentDate: Date())
+            try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.docID)
+            try await firestoreToFetchUserinfo.reloadUserDataTest()
+            try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providerUID, docID: result.docID, renterID: firebaseAuth.getUID())
+            reset()
+        } catch {
+            self.errorHandler.handle(error: error)
+        }
+    }
+    
+    private func monthlyRentalFeePayment() async {
+        do {
+            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "", date: Date())
+        } catch {
+            self.errorHandler.handle(error: error)
+        }
+    }
+    
+    private func buyProducts(products: UserOrderProductsDataModel) async {
+        do {
+            try await firestoreForProducts.makeOrder(uidPath: firebaseAuth.getUID(),
+                                                     productName: products.productName,
+                                                     productPrice: products.productPrice,
+                                                     providerUID: products.providerUID,
+                                                     productUID: products.productUID,
+                                                     orderAmount: products.orderAmount,
+                                                     productImage: products.productImage,
+                                                     comment: products.comment,
+                                                     rating: products.rating)
+            let orderUID = UUID().uuidString
+            try await firestoreForProducts.receiveOrder(uidPath: products.providerUID,
+                                                        orderUID: orderUID,
+                                                        orderShippingAddress: paymentSummaryViewModel.shippingAddress,
+                                                        orderName: firestoreToFetchUserinfo.presentUserName(),
+                                                        orderAmount: products.orderAmount,
+                                                        productUID: products.productUID,
+                                                        productImage: products.productImage,
+                                                        productPrice: String(products.productPrice))
+            reset()
+        } catch {
+            self.errorHandler.handle(error: error)
+        }
+    }
+    
+    private func reset() {
+        localData.tempCart.removeAll()
+        appViewModel.isRedacted = false
+        appViewModel.rentalPolicyisAgree = false
+        localData.summaryItemHolder.removeAll()
+        productDetailViewModel.productOrderCart.removeAll()
+        appViewModel.paymentSummaryTosAgree = false
+        appViewModel.paymentSummaryAutoPayAgree = false
+    }
+    
+    private func justPayRentBill() async {
+        guard !firestoreToFetchUserinfo.notRented() else { return }
+        guard productDetailViewModel.productOrderCart.isEmpty else { return }
+        await monthlyRentalFeePayment()
     }
 }

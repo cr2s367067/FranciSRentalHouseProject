@@ -12,6 +12,8 @@ import FirebaseFirestoreSwift
 
 class FirestoreForProducts: ObservableObject {
     
+    @Published var fetchOrderedDataSet = [UserOrderProductsDataModel]()
+    @Published var markedProducts = [MarkedProductsDataModel]()
     @Published var productsDataSet = [ProductProviderDataModel]()
     @Published var productUID = ""
     
@@ -75,19 +77,38 @@ class FirestoreForProducts: ObservableObject {
 
 
 extension FirestoreForProducts {
-    func makeOrder(uidPath: String, productName: String, productPrice: String, providerUID: String, productUID: String, orderAmount: String, productImage: String, buyDate: Date = Date(), comment: String?, rating: String?) async throws {
+    func makeOrder(uidPath: String, productName: String, productPrice: Int, providerUID: String, productUID: String, orderAmount: String, productImage: String, buyDate: Date = Date(), comment: String?, rating: String?) async throws {
         let orderRef = db.collection("users").document(uidPath).collection("ProductOrder")
         _ = try await orderRef.addDocument(data: [
+            "productImage" : productImage,
             "productName" : productName,
             "productPrice" : productPrice,
             "providerUID" : providerUID,
             "productUID" : productUID,
             "orderAmount" : orderAmount,
-            "productImage" : productImage,
-            "buyDate" : buyDate,
             "comment" : comment ?? "",
-            "rating" : rating ?? ""
+            "rating" : rating ?? "",
+            "buyDate" : buyDate
         ])
+    }
+    
+    @MainActor
+    func fetchOrderedData(uidPath: String) async throws {
+        let orderRef = db.collection("users").document(uidPath).collection("ProductOrder")
+        let document = try await orderRef.getDocuments().documents
+        self.fetchOrderedDataSet = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: UserOrderProductsDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print("error: \(error)")
+            }
+            return nil
+        })
+        
     }
     
     func userToSummitProductComment(uidPath: String, comment: String, rating: String, docID: String, isUploadComment: Bool) async throws {
@@ -123,3 +144,63 @@ extension FirestoreForProducts {
         ])
     }
 }
+
+extension FirestoreForProducts {
+    
+    // MARK: For user to mark the product that they like
+    func bookMark(uidPath: String, productUID: String, providerUID: String, productName: String, productPrice: String, productImage: String, productFrom: String, isSoldOut: Bool, productAmount: String, productDescription: String, providerName: String) async throws {
+        let bookMarkRef = db.collection("users").document(uidPath).collection("MarkedProducts")
+        _ = try await bookMarkRef.addDocument(data: [
+            "productUID" : productUID,
+            "providerUID" : providerUID,
+            "productName" : productName,
+            "productPrice" : productPrice,
+            "productImage" : productImage,
+            "productFrom" : productFrom,
+            "isSoldOut" : isSoldOut,
+            "productAmount" : productAmount,
+            "productDescription" : productDescription,
+            "providerName" : providerName
+        ])
+    }
+    
+    func updateBookMarkInfo(uidPath: String, productUID: String, providerUID: String, productName: String, productPrice: String, productImage: String, productFrom: String, isSoldOut: Bool, productAmount: String, productDescription: String, providerName: String, docID: String) async throws {
+        let bookMarkRef = db.collection("users").document(uidPath).collection("MarkedProducts").document(docID)
+        _ = try await bookMarkRef.updateData([
+            "productUID" : productUID,
+            "providerUID" : providerUID,
+            "productName" : productName,
+            "productPrice" : productPrice,
+            "productImage" : productImage,
+            "productFrom" : productFrom,
+            "isSoldOut" : isSoldOut,
+            "productAmount" : productAmount,
+            "productDescription" : productDescription,
+            "providerName" : providerName
+        ])
+    }
+    
+    @MainActor
+    func fetchMarkedProducts(uidPath: String) async throws {
+        let bookMarkRef = db.collection("users").document(uidPath).collection("MarkedProducts")
+        let document = try await bookMarkRef.getDocuments().documents
+        self.markedProducts = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: MarkedProductsDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print("error: \(error.localizedDescription)")
+            }
+            return nil
+        })
+    }
+    
+    func unSignBookMarked(uidPath: String, id: String) async throws {
+        let bookMarkRef = db.collection("users").document(uidPath).collection("MarkedProducts").document(id)
+        try await bookMarkRef.delete()
+    }
+}
+

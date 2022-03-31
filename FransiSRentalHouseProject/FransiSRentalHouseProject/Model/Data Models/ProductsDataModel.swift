@@ -11,9 +11,8 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 //MARK: For user to order products
-struct UserOrederProductsDataModel: Identifiable, Codable {
-    @DocumentID var docID: String?
-    var id = UUID().uuidString
+struct UserOrderProductsDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
     var productImage: String
     var productName: String
     var productPrice: Int
@@ -75,3 +74,16 @@ struct ProductCommentRecivingDataModel: Identifiable, Codable {
 }
 
 //MARK: To store the bookmark temperary
+struct MarkedProductsDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var productUID: String
+    var providerUID: String
+    var productName: String
+    var productPrice: String
+    var productImage: String
+    var productFrom: String
+    var isSoldOut: Bool
+    var productAmount: String
+    var productDescription: String
+    var providerName: String
+}

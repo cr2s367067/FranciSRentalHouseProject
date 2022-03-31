@@ -97,6 +97,8 @@
 		0ED1F42E27F1DDBF0004B5CE /* FurnitureGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42D27F1DDBF0004B5CE /* FurnitureGridView.swift */; };
 		0ED1F43227F1F0970004B5CE /* ProductsProviderSummitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F43127F1F0970004B5CE /* ProductsProviderSummitView.swift */; };
 		0ED1F43427F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */; };
+		0EE447F227F5867C001DC4DF /* FocusProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F127F5867C001DC4DF /* FocusProductsView.swift */; };
+		0EE447F427F59378001DC4DF /* UserDetailInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -185,6 +187,8 @@
 		0ED1F42D27F1DDBF0004B5CE /* FurnitureGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureGridView.swift; sourceTree = "<group>"; };
 		0ED1F43127F1F0970004B5CE /* ProductsProviderSummitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsProviderSummitView.swift; sourceTree = "<group>"; };
 		0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsProviderSummitViewModel.swift; sourceTree = "<group>"; };
+		0EE447F127F5867C001DC4DF /* FocusProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusProductsView.swift; sourceTree = "<group>"; };
+		0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailInfoViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +279,7 @@
 				0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */,
 				0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */,
 				0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */,
+				0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -366,6 +371,7 @@
 				024CF42027DF178600D65B2F /* RenterProfileView.swift */,
 				0EC0018427F42597007AB488 /* UserOrderedListUnitView.swift */,
 				0EC0018627F431DF007AB488 /* UserOrderedListView.swift */,
+				0EE447F127F5867C001DC4DF /* FocusProductsView.swift */,
 			);
 			path = RenterViews;
 			sourceTree = "<group>";
@@ -645,7 +651,9 @@
 				02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */,
 				0EC0018727F431DF007AB488 /* UserOrderedListView.swift in Sources */,
 				0292835D27D3824900DEF068 /* PrivatePolicyView.swift in Sources */,
+				0EE447F227F5867C001DC4DF /* FocusProductsView.swift in Sources */,
 				0249D46D27C63CCC0085F4A5 /* SearchListItemView.swift in Sources */,
+				0EE447F427F59378001DC4DF /* UserDetailInfoViewModel.swift in Sources */,
 				0ED1F42A27F087D70004B5CE /* PastedPaymentHistoryDataModel.swift in Sources */,
 				0ED1F42627F04A460004B5CE /* FirestoreFetchingAnnouncement.swift in Sources */,
 				0ED1F43427F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift in Sources */,

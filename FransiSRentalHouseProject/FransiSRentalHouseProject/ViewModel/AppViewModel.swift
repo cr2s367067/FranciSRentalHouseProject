@@ -14,6 +14,7 @@ import FirebaseFirestore
 class AppViewModel: ObservableObject {
     
     @EnvironmentObject var localData: LocalData
+    let firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
     
     //    let fetchFirestore = FetchFirestore()
     //    let auth = Auth.auth()

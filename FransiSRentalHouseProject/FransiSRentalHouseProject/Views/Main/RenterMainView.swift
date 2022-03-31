@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct RenterMainView: View {
-    
+
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreFetchingAnnouncement: FirestoreFetchingAnnouncement
-    @EnvironmentObject var firestoreForFurniture: FirestoreForProducts
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     
     var gridItemLayout = [
         GridItem(.fixed(170)),
@@ -140,7 +141,7 @@ struct RenterMainView: View {
                                     }
                                 }
                                 } else if showFurniture == true {
-                                    ForEach(firestoreForFurniture.productsDataSet) { product in
+                                    ForEach(firestoreForProducts.productsDataSet) { product in
                                         NavigationLink {
                                             ProductDetailView(productName: product.productName,
                                                               productPrice: Int(product.productPrice) ?? 0,
@@ -151,7 +152,7 @@ struct RenterMainView: View {
                                                               providerUID: product.providerUID,
                                                               isSoldOut: product.isSoldOut,
                                                               providerName: product.providerName,
-                                                              productDescription: product.productDescription)
+                                                              productDescription: product.productDescription, docID: product.id ?? "")
                                         } label: {
                                             FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
                                         }
@@ -234,6 +235,7 @@ struct RenterMainView: View {
             .task {
                 do {
                     try await firestoreFetchingAnnouncement.fetchAnnouncement()
+                    try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
                 } catch {
                     print("some error")
                 }

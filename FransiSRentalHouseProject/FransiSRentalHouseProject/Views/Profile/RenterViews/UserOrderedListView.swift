@@ -8,13 +8,42 @@
 import SwiftUI
 
 struct UserOrderedListView: View {
+    
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
+    @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .edgesIgnoringSafeArea([.top, .bottom])
             VStack {
-                UserOrderedListUnitView()
+//                Button {
+//                    Task {
+//                        do {
+//                            try await firestoreForProducts.fetchOrderedData(uidPath: firebaseAuth.getUID())
+//                            print(firestoreForProducts.fetchOrderedDataSet.count)
+//                        } catch {
+//                            self.errorHandler.handle(error: error)
+//                        }
+//                    }
+//                } label: {
+//                     Text("get")
+//                }
+                ForEach(firestoreForProducts.fetchOrderedDataSet) { products in
+                    UserOrderedListUnitView(productName: products.productName,
+                                            productPrice: String(products.productPrice),
+                                            productImage: products.productImage,
+                                            docID: products.id ?? "")
+                }
+            }
+        }
+        .task {
+            do {
+                try await firestoreForProducts.fetchOrderedData(uidPath: firebaseAuth.getUID())
+            } catch {
+                self.errorHandler.handle(error: error)
             }
         }
     }

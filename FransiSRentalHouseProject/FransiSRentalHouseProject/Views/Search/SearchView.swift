@@ -125,7 +125,7 @@ struct SearchView: View {
                                                                   providerUID: product.providerUID,
                                                                   isSoldOut: product.isSoldOut,
                                                                   providerName: product.providerName,
-                                                                  productDescription: product.productDescription)
+                                                                  productDescription: product.productDescription, docID: product.id ?? "")
                                             } label: {
                                                 SearchProductListItemView(productName: product.productName, productImage: product.productImage, productPrice: product.productPrice)
                                             }

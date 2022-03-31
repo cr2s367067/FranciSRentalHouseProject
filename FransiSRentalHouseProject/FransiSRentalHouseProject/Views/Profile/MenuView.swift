@@ -42,6 +42,13 @@ struct MenuView: View {
                         } label: {
                             SideBarButton(buttonName: "Ordered List", systemImageName: "filemenu.and.selection")
                         }
+                        NavigationLink {
+                            withAnimation {
+                                FocusProductsView()
+                            }
+                        } label: {
+                            SideBarButton(buttonName: "Focusing\rProducts", systemImageName: "face.dashed.fill")
+                        }
                     } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
                         if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
                             NavigationLink {
@@ -85,7 +92,7 @@ struct MenuView: View {
                 }
                 .foregroundColor(.white)
                 Spacer()
-                    .frame(height: UIScreen.main.bounds.height / 2)
+                    .frame(height: UIScreen.main.bounds.height / 3)
                 HStack {
                     Button {
                         do {

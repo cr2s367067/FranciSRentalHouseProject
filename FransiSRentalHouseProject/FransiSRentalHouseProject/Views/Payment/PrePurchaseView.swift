@@ -22,34 +22,13 @@ struct PrePurchaseView: View {
     @State var roomPrice = "9000"
     @State var ranking = 4
     @State var totalPrice = "9000"
-    
     @State private var isRented = false
-//    @State private var isRedacted = true
-//    let dataModel: RoomsDataModel
-    
-//    var tempFurData = ["furpic1", "furpic2", "furpic3", "furpic4", "furpic5", "furpic6", "furpic7", "furpic8"]
     
     var gridFurItemLayout = [
         GridItem(.fixed(170)),
         GridItem(.fixed(170))
     ]
     
-    private func checkout() -> Bool {
-        var tempBool = false
-//        guard !localData.furnitureOrderChart.isEmpty else {
-//            tempBool = true
-//            return tempBool
-//        }
-        
-        guard !localData.summaryItemHolder.isEmpty && !localData.tempCart.isEmpty else {
-            tempBool = true
-            return tempBool
-        }
-        return tempBool
-    }
-    
-    
-    @ViewBuilder
     var body: some View {
         NavigationView {
                 VStack {
@@ -74,17 +53,6 @@ struct PrePurchaseView: View {
                             VStack(alignment: .center) {
                                 Spacer()
                                 ScrollView(.vertical, showsIndicators: false) {
-//                                    LazyHGrid(rows: gridFurItemLayout, spacing: 20) {
-//                                        ForEach(localData.furnitureDataSets) { item in
-//                                            Button {
-//                                                localData.addFurniture(furnitureImage: item.furnitureImage, furnitureName: item.furnitureName, furniturePrice: item.furniturePrice)
-////                                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-//                                                localData.sumPrice = localData.sum()
-//                                            } label: {
-//                                                FurnitureItemView(furnitureImage: item.furnitureImage, furnitureName: item.furnitureName, furniturePrice: String(item.furniturePrice))
-//                                            }
-//                                        }
-//                                    }
                                     SummaryItems()
                                 }
                             }
@@ -102,38 +70,7 @@ struct PrePurchaseView: View {
                             }
                             Spacer()
                                 .frame(width: 50)
-                            
-//                            if !localData.summaryItemHolder.isEmpty || !localData.furnitureOrderChart.isEmpty {
-//                                Button {
-////                                    do {
-////                                        try itemSelectChecker()
-////                                        print("at checker stage")
-////                                    } catch {
-////                                        self.errorHandler.handle(error: error)
-////                                    }
-//                                    print(productDetailViewModel.productOrderCart.count)
-//                                } label: {
-//                                    Text("Check Out")
-//                                        .foregroundColor(.white)
-//                                        .frame(width: 108, height: 35)
-//                                        .background(Color("buttonBlue"))
-//                                        .clipShape(RoundedRectangle(cornerRadius: 5))
-//                                        .padding(.trailing)
-//                                }
-
-                                withAnimation(.easeInOut) {
-                                    NavigationLink {
-                                        PaymentSummaryView()
-                                    } label: {
-                                        Text("Check Out")
-                                            .foregroundColor(.white)
-                                            .frame(width: 108, height: 35)
-                                            .background(Color("buttonBlue"))
-                                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                                            .padding(.trailing)
-                                    }
-                                }
-//                            }
+                            checkCartIsNotEmptyAndShowTheView()
                         }
                         .frame(width: 400, height: 50)
                         .foregroundColor(.white)
@@ -204,6 +141,26 @@ struct FurnitureItemView: View {
             Image(furnitureImage)
                 .resizable()
                 .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+    }
+}
+
+extension PrePurchaseView {
+    @ViewBuilder
+    private func checkCartIsNotEmptyAndShowTheView() -> some View {
+        if !localData.summaryItemHolder.isEmpty || !productDetailViewModel.productOrderCart.isEmpty {
+            withAnimation(.easeInOut) {
+                NavigationLink {
+                    PaymentSummaryView()
+                } label: {
+                    Text("Check Out")
+                        .foregroundColor(.white)
+                        .frame(width: 108, height: 35)
+                        .background(Color("buttonBlue"))
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .padding(.trailing)
+                }
+            }
         }
     }
 }
