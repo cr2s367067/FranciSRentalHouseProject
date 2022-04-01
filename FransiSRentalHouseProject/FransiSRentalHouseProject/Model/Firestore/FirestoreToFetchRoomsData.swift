@@ -181,7 +181,8 @@ extension FirestoreToFetchRoomsData {
                 "parkingUGFloor": "", //地上(下)第__層
                 "parkingStyleN": false, //平面式停車位
                 "parkingStyleM": false, //機械式停車位
-                "parkingNumber": "", //編號第__號
+                "parkingNumberForVehicle": "", //編號第__號
+                "parkingNumberForMortor": "",
                 "forAllday": false, //使用時間全日
                 "forMorning": false, //使用時間日間
                 "forNight": false, //使用時間夜間
@@ -343,7 +344,8 @@ extension FirestoreToFetchRoomsData {
                 "parkingUGFloor": "", //地上(下)第__層
                 "parkingStyleN": false, //平面式停車位
                 "parkingStyleM": false, //機械式停車位
-                "parkingNumber": "", //編號第__號
+                "parkingNumberForVehicle": "", //編號第__號
+                "parkingNumberForMortor": "",
                 "forAllday": false, //使用時間全日
                 "forMorning": false, //使用時間日間
                 "forNight": false, //使用時間夜間
@@ -494,7 +496,8 @@ extension FirestoreToFetchRoomsData {
                             parkingUGFloor: String,
                             parkingStyleN: Bool,
                             parkingStyleM: Bool,
-                            parkingNumber: String,
+                            parkingNumberForVehicle: String,
+                            parkingNumberForMortor: String,
                             forAllday: Bool,
                             forMorning: Bool,
                             forNight: Bool,
@@ -614,7 +617,8 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.parkingUGFloor": parkingUGFloor, //地上(下)第__層
             "rentersContractData.parkingStyleN": parkingStyleN, //平面式停車位
             "rentersContractData.parkingStyleM": parkingStyleM, //機械式停車位
-            "rentersContractData.parkingNumber": parkingNumber, //編號第__號
+            "rentersContractData.parkingNumberForVehicle": parkingNumberForVehicle, //編號第__號
+            "rentersContractData.parkingNumberForMortor": parkingNumberForMortor,
             "rentersContractData.forAllday": forAllday, //使用時間全日
             "rentersContractData.forMorning": forMorning, //使用時間日間
             "rentersContractData.forNight": forNight, //使用時間夜間
@@ -759,7 +763,8 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.parkingUGFloor": parkingUGFloor, //地上(下)第__層
             "rentersContractData.parkingStyleN": parkingStyleN, //平面式停車位
             "rentersContractData.parkingStyleM": parkingStyleM, //機械式停車位
-            "rentersContractData.parkingNumber": parkingNumber, //編號第__號
+            "rentersContractData.parkingNumberForVehicle": parkingNumberForVehicle, //編號第__號
+            "rentersContractData.parkingNumberForMortor": parkingNumberForMortor,
             "rentersContractData.forAllday": forAllday, //使用時間全日
             "rentersContractData.forMorning": forMorning, //使用時間日間
             "rentersContractData.forNight": forNight, //使用時間夜間

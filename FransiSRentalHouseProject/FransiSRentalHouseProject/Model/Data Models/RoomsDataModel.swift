@@ -67,7 +67,8 @@ struct RentersContractDataModel: Codable {
     var parkingUGFloor: String //地上(下)第__層
     var parkingStyleN: Bool //平面式停車位ㄩ
     var parkingStyleM: Bool //機械式停車位
-    var parkingNumber: String //編號第__號
+    var parkingNumberForVehicle: String //編號第__號
+    var parkingNumberForMortor: String //編號第__號
     var forAllday: Bool //使用時間全日
     var forMorning: Bool //使用時間日間
     var forNight: Bool //使用時間夜間

@@ -67,7 +67,7 @@ struct PaymentSummaryView: View {
                     if appViewModel.paymentSummaryTosAgree == true && appViewModel.paymentSummaryAutoPayAgree == true {
                         NavigationLink {
                             if !localData.summaryItemHolder.isEmpty {
-                                RenterContractView()
+//                                RenterContractView()
                             } else {                            
                                 PurchaseView()
                             }

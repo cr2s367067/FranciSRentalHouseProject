@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 struct RenterContractView: View {
     //    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var appViewModel: AppViewModel
@@ -75,9 +74,10 @@ struct RenterContractView: View {
     var isMorto: Bool //機車停車位
     var isBoth: Bool //汽車機車皆有
     var parkingUGFloor: String //地上(下)第__層
-    var parkingStyleN: Bool //平面式停車位ㄩ
+    var parkingStyleN: Bool //平面式停車位
     var parkingStyleM: Bool //機械式停車位
-    var parkingNumber: String //編號第__號
+    var parkingNumberForVehicle: String //編號第__號
+    var parkingNumberForMortor: String //編號第__號
     var forAllday: Bool //使用時間全日
     var forMorning: Bool //使用時間日間
     var forNight: Bool //使用時間夜間
@@ -90,7 +90,7 @@ struct RenterContractView: View {
     var rentalEndDate: Date //委託管理期間至
     
     // MARK: 第三條 租金約定及支付
-    
+    var rentalPrice: String
     var paymentdays: String //每月__日前支付
     var paybyCash: Bool //報酬約定及給付-現金繳付
     var paybyTransmission: Bool //報酬約定及給付-轉帳繳付
@@ -228,7 +228,7 @@ struct RenterContractView: View {
                                     LineWithSpacer(contain: "(三)共有部分建號:\(publicBuildingNumber)，權利範圍:\(publicBuildingRightRange)，持分面積\(publicBuildingArea)平方公尺。")
                                     LineWithSpacer(contain: "(四)車位：□有(汽車停車位\(parkinglotAmount)個、機車停車位__個)□無。") //車位有無
                                     LineWithSpacer(contain: "(五)□有□無設定他項權利，若有，權利種類：\(SettingTheRightForThirdPersonForWhatKind)。") //有無設定他項權利
-                                    LineWithSpacer(contain: "(六)□有□無查封登記。") //有無查封登記
+                                    blockByBankCheck(isBlockByBankYes: isBlockByBankYes, isBlockByBankNo: isBlockByBankNo)  //有無查封登記
                                 }
                                 .font(.system(size: 14, weight: .regular))
                             }
@@ -241,44 +241,10 @@ struct RenterContractView: View {
                             
                             VStack(spacing: 6) {
                                 Group {
-                                    LineWithSpacer(contain: "(一)租賃住宅□全部□部分：第\(appViewModel.provideFloor)層□房間\(appViewModel.provideRooms)間□第\(appViewModel.provideRoomNumber)室，面積\(appViewModel.provideFloor)平方公尺。") //租賃住宅全部
-                                    if appViewModel.hasParkinglotYes == true && appViewModel.hasParkinglotNo == false {
-                                        Group {
-                                            LineWithSpacer(contain: "(二)車位：(如無則免填)")//汽車停車位, 機車停車位
-                                            LineWithSpacer(contain: "1.汽車停車位種類及編號：")
-                                            Text("地上(下)第\(appViewModel.parkingUGFloor)層□平面式停車位□機械式停車位，編號第\(appViewModel.parkingNumber)號。") //平面式停車位, 機械式停車位
-                                            LineWithSpacer(contain: "2.機車停車位：")
-                                            HStack {
-                                                Text("地上(下)第層，編號第 號或其位置示意圖。")
-                                                Spacer()
-                                                
-                                            }
-                                            LineWithSpacer(contain: "3.使用時間：")
-                                            HStack {
-                                                Text("□全日□日間□夜間□其他___。") //使用時間全日, 日間, 夜間
-                                                Spacer()
-                                            }
-                                        }
-                                    } else {
-                                        Group {
-                                            LineWithSpacer(contain: "(二)車位：(如無則免填)")//汽車停車位, 機車停車位
-                                            LineWithSpacer(contain: "1.汽車停車位種類及編號：")
-                                            Text("地上(下)第＿＿層□平面式停車位□機械式停車位，編號第＿＿號。") //平面式停車位, 機械式停車位
-                                            LineWithSpacer(contain: "2.機車停車位：")
-                                            HStack {
-                                                Text("地上(下)第＿＿層，編號第＿＿號或其位置示意圖。")
-                                                Spacer()
-                                                
-                                            }
-                                            LineWithSpacer(contain: "3.使用時間：")
-                                            HStack {
-                                                Text("□全日□日間□夜間□其他___。") //使用時間全日, 日間, 夜間
-                                                Spacer()
-                                            }
-                                        }
-                                    }
+                                    buildProvidePart(entire: provideForAll, part: provideForPart) //租賃住宅全部
+                                    haveParkingLot(hasParkingLotYes: hasParkinglotYes, hasParkingLotNo: hasParkinglotNo, all: forAllday, morning: forMorning, night: forNight)
                                     LineWithSpacer(contain: "(三)租賃附屬設備：")
-                                    Text("□有□無附屬設備，若有，除另有附屬設備清單外，詳如附件委託管理標的現況確認書。") ////租賃附屬設備有無
+                                    idfSubFacility(havingSubFacilityYes: havingSubFacilityYes, havingSubFacilityNo: havingSubFacilityNo)////租賃附屬設備有無
                                 }
                                 .font(.system(size: 14, weight: .regular))
                             }
@@ -293,7 +259,7 @@ struct RenterContractView: View {
                             TitleView(titleName: "第二條 租賃期間")
                             VStack(spacing: 6) {
                                 Group {
-                                    Text("租賃期間自  年  月  日起至  年  月  日止。") //租賃期間
+                                    Text("租賃期間自\(rentalStartDate)起至\(rentalEndDate)止。") //租賃期間
                                 }
                                 .font(.system(size: 14, weight: .regular))
                             }
@@ -306,8 +272,8 @@ struct RenterContractView: View {
                             TitleView(titleName: "第三條 租金約定及支付")
                             VStack(spacing: 6) {
                                 Group {
-                                    Text("承租人每月租金為新臺幣(下同)___元整，每期應繳納1個月租金，並於每月__日前支付，不得藉任何理由拖延或拒絕；出租人亦不得任意要求調整租金。") //每月租金
-                                    Text("租金支付方式：自動轉帳扣款繳付：金融機構：____，戶名：____，帳號：____。□其他：____。") //報酬約定及給付-轉帳繳付
+                                    Text("承租人每月租金為新臺幣(下同)\(rentalPrice)元整，每期應繳納1個月租金，並於每月\(paymentdays)日前支付，不得藉任何理由拖延或拒絕；出租人亦不得任意要求調整租金。") //每月租金
+                                    idfPaymentMethod(paybyCash: paybyCash, paybyTransmission: paybyTransmission, paybyCreditDebitCard: paybyCreditDebitCard) //報酬約定及給付-轉帳繳付
                                 }
                                 .font(.system(size: 14, weight: .regular))
                             }
@@ -320,7 +286,7 @@ struct RenterContractView: View {
                             TitleView(titleName: "第四條 擔保金（押金）約定及返還")
                             VStack(spacing: 6) {
                                 Group {
-                                    Text("擔保金（押金）由租賃雙方約定為2個月租金，金額為__元整(最高不得超過二個月房屋租金之總額)。承租人應於簽訂本契約之同時給付出租人。")//押金
+                                    Text("擔保金（押金）由租賃雙方約定為2個月租金，金額為\((Int(rentalPrice) ?? 0) * 2)元整(最高不得超過二個月房屋租金之總額)。承租人應於簽訂本契約之同時給付出租人。")//押金
                                     Text("前項擔保金（押金），除有第十一條第三項、第十二條第四項及第十六條第二項之情形外，出租人應於租期屆滿或租賃契約終止，承租人交還房屋時返還之。")
                                 }
                             }
@@ -338,33 +304,28 @@ struct RenterContractView: View {
                                 SubTitleView(subTitleName: "租賃期間，使用房屋所生之相關費用：")
                                 Group {
                                     SubTitleView(subTitleName: "一、管理費：")
-                                    LineWithSpacer(contain: "□由出租人負擔。")
-                                    LineWithSpacer(contain: "□由承租人負擔。")
-                                    LineWithSpacer(contain: "房屋每月___元整。")
-                                    LineWithSpacer(contain: "停車位每月___元整。")
+                                    idfPaymentSideMF(payByRenterForManagementPart: payByRenterForManagementPart, payByProviderForManagementPart: payByProviderForManagementPart)
+                                    LineWithSpacer(contain: "房屋每月\(managementFeeMonthly)元整。")
+                                    LineWithSpacer(contain: "停車位每月\(parkingFeeMonthly)元整。")
                                     Text("租賃期間因不可歸責於雙方當事人之事由，致本費用增加者，承租人就增加部分之金額，以負擔百分之十為限；如本費用減少者，承租人負擔減少後之金額。")
-                                    LineWithSpacer(contain: "□其他：      。")
+                                    LineWithSpacer(contain: "其他：\(additionalReqForManagementPart)。")
                                 }
                                 Group {
                                     SubTitleView(subTitleName: "二、水費：")
-                                    LineWithSpacer(contain: "□由出租人負擔。")
-                                    LineWithSpacer(contain: "□由承租人負擔。")
-                                    LineWithSpacer(contain: "□其他：______。(例如每度  元整)")
+                                    idfPaymentSideWF(payByRenterForWaterFee: payByRenterForWaterFee, payByProviderForWaterFee: payByProviderForWaterFee)
+                                    LineWithSpacer(contain: "其他：\(additionalReqForWaterFeePart)。(例如每度  元整)")
                                 }
                                 Group {
                                     SubTitleView(subTitleName: "三、電費：")
-                                    LineWithSpacer(contain: "□由出租人負擔。")
-                                    LineWithSpacer(contain: "□由承租人負擔。")
-                                    LineWithSpacer(contain: "□其他：______。(例如每度  元整)")
+                                    idfPaymentSideEF(payByRenterForEletricFee: payByRenterForEletricFee, payByProviderForEletricFee: payByProviderForEletricFee)
+                                    LineWithSpacer(contain: "其他：\(additionalReqForEletricFeePart)。(例如每度  元整)")
                                 }
                                 Group {
-                                    SubTitleView(subTitleName: "四、瓦斯費：")
-                                    LineWithSpacer(contain: "□由出租人負擔。")
-                                    LineWithSpacer(contain: "□由承租人負擔。")
-                                    LineWithSpacer(contain: "□其他：______。")
+                                    idfPaymentSideGF(payByRenterForGasFee: payByRenterForGasFee, payByProviderForGasFee: payByProviderForGasFee)
+                                    LineWithSpacer(contain: "其他：\(additionalReqForGasFeePart)。")
                                 }
                                 Group {
-                                    LineWithSpacer(contain: "五、其他費用及其支付方式：______。")
+                                    LineWithSpacer(contain: "五、其他費用及其支付方式：\(additionalReqForOtherPart)。")
                                 }
                             }
                             .font(.system(size: 14, weight: .regular))
@@ -382,22 +343,16 @@ struct RenterContractView: View {
                                 LineWithSpacer(contain: "一、房屋稅、地價稅由出租人負擔。")
                                 LineWithSpacer(contain: "二、銀錢收據之印花稅由出租人負擔。")
                                 Group {
-                                    LineWithSpacer(contain: "三、簽約代辦費__元")
-                                    LineWithSpacer(contain: "□由出租人負擔。")
-                                    LineWithSpacer(contain: "□由承租人負擔。")
-                                    LineWithSpacer(contain: "□由租賃雙方平均負擔。")
+                                    LineWithSpacer(contain: "三、簽約代辦費\(contractSigurtureProxyFee)元")
+                                    idfcontractSigurtureProxyFee(payByRenterForProxyFee: payByRenterForProxyFee, payByProviderForProxyFee: payByProviderForProxyFee, separateForBothForProxyFee: separateForBothForProxyFee)
                                 }
                                 Group {
-                                    LineWithSpacer(contain: "四、公證費__元")
-                                    LineWithSpacer(contain: "□由出租人負擔。")
-                                    LineWithSpacer(contain: "□由承租人負擔。")
-                                    LineWithSpacer(contain: "□由租賃雙方平均負擔。")
+                                    LineWithSpacer(contain: "四、公證費\(contractIdentitificationFee)元")
+                                    idfcontractIdentitificationFee(payByRenterForIDFFee: payByRenterForIDFFee, payByProviderForIDFFee: payByProviderForIDFFee, separateForBothForIDFFee: separateForBothForIDFFee)
                                 }
                                 Group {
-                                    LineWithSpacer(contain: "五、公證代辦費__元")
-                                    LineWithSpacer(contain: "□由出租人負擔。")
-                                    LineWithSpacer(contain: "□由承租人負擔。")
-                                    LineWithSpacer(contain: "□由租賃雙方平均負擔。")
+                                    LineWithSpacer(contain: "五、公證代辦費\(contractIdentitificationProxyFee)元")
+                                    idfcontractIdentitificationProxyFee(payByRenterForIDFProxyFee: payByRenterForIDFProxyFee, payByProviderForIDFProxyFee: payByProviderForIDFProxyFee, separateForBothForIDFProxyFee: separateForBothForIDFProxyFee)
                                 }
                             }
                             .font(.system(size: 14, weight: .regular))
@@ -412,7 +367,7 @@ struct RenterContractView: View {
                         VStack(spacing: 6) {
                             Group {
                                 Text("本房屋係供住宅使用。非經出租人同意，不得變更用途。承租人同意遵守住戶規約，不得違法使用，或存放有爆炸性或易燃性物品，影響公共安全。")
-                                Text("出租人□同意□不同意將本房屋之全部或一部分轉租、出借或 以其他方式供他人使用，或將租賃權轉讓於他人。前項出租人同意轉租者，承租人應提示出租人同意轉租之證明文件。")
+                                subLeaseAgreement(subLeaseAgreement: subLeaseAgreement)
                             }
                             .font(.system(size: 14, weight: .regular))
                         }
@@ -593,8 +548,8 @@ struct RenterContractView: View {
                                 TitleView(titleName: "第十九條 其他約定")
                                 VStack(spacing: 6) {
                                     Group {
-                                        LineWithSpacer(contain: "本契約雙方同意□辦理公證□不辦理公證。")
-                                        Text("本契約經辦理公證者，租賃雙方□不同意；□同意公證書載明下列事項應逕受強制執行：")
+                                        doCourtIDF(doCourtIDF: doCourtIDF)
+                                        doCourtIDFDoc(courtIDFDoc: courtIDFDoc)
                                         LineWithSpacer(contain: "一、承租人如於租期屆滿後不返還房屋。")
                                         Text("二、承租人未依約給付之欠繳租金、出租人代繳之管理費，或違約時應支付之金額。")
                                         Text("三、出租人如於租期屆滿或租賃契約終止時，應返還之全部或一部擔保金（押金）。")
@@ -659,14 +614,14 @@ struct RenterContractView: View {
                                     Group {
                                         VStack {
                                             LineWithSpacer(contain: "出租人：")
-                                            signatureContainer(containerName: "姓名(名稱)：", containHolder: "")
-                                            signatureContainer(containerName: "統一編號：", containHolder: "")
-                                            signatureContainer(containerName: "戶籍地址：", containHolder: "")
-                                            signatureContainer(containerName: "通訊地址：", containHolder: "")
-                                            signatureContainer(containerName: "聯絡電話：", containHolder: "")
-                                            signatureHolder(signatureTitle: "負責人：", signString: "")
-                                            signatureContainer(containerName: "統一編號：", containHolder: "")
-                                            signatureContainer(containerName: "電子郵件信箱：", containHolder: "")
+                                            signatureContainer(containerName: "姓名(名稱)：", containHolder: providerName)
+                                            signatureContainer(containerName: "統一編號：", containHolder: providerID)
+                                            signatureContainer(containerName: "戶籍地址：", containHolder: providerResidenceAddress)
+                                            signatureContainer(containerName: "通訊地址：", containHolder: providerMailingAddress)
+                                            signatureContainer(containerName: "聯絡電話：", containHolder: providerPhoneNumber)
+                                            signatureHolder(signatureTitle: "負責人：", signString: providerPhoneChargeName)
+                                            signatureContainer(containerName: "統一編號：", containHolder: providerPhoneChargeID)
+                                            signatureContainer(containerName: "電子郵件信箱：", containHolder: providerPhoneChargeEmailAddress)
                                         }
                                     }
                                     .font(.system(size: 14, weight: .regular))
@@ -680,13 +635,13 @@ struct RenterContractView: View {
                                     Group {
                                         VStack {
                                             LineWithSpacer(contain: "承租人：")
-                                            signatureHolder(signatureTitle: "姓名(名稱)：", signString: "")
-                                            signatureContainer(containerName: "統一編號：", containHolder: "")
-                                            signatureContainer(containerName: "戶籍地址：", containHolder: "")
-                                            signatureContainer(containerName: "通訊地址：", containHolder: "")
-                                            signatureContainer(containerName: "聯絡電話：", containHolder: "")
-                                            signatureContainer(containerName: "電子郵件信箱：", containHolder: "")
-                                            LineWithSpacer(contain: "＿年＿月＿日")
+                                            signatureHolder(signatureTitle: "姓名(名稱)：", signString: renterName)
+                                            signatureContainer(containerName: "統一編號：", containHolder: renterID)
+                                            signatureContainer(containerName: "戶籍地址：", containHolder: renterResidenceAddress)
+                                            signatureContainer(containerName: "通訊地址：", containHolder: renterMailingAddress)
+                                            signatureContainer(containerName: "聯絡電話：", containHolder: renterPhoneNumber)
+                                            signatureContainer(containerName: "電子郵件信箱：", containHolder: renterEmailAddress)
+                                            LineWithSpacer(contain: "\(sigurtureDate)")
                                         }
                                     }
                                     .font(.system(size: 14, weight: .regular))
@@ -1845,4 +1800,210 @@ extension RenterContractView {
         .frame(width: UIScreen.main.bounds.width - 20)
         .padding()
     }
+    
+    @ViewBuilder
+    func blockByBankCheck(isBlockByBankYes: Bool, isBlockByBankNo: Bool) -> some View {
+        if isBlockByBankYes == true {
+            LineWithSpacer(contain: "(六)有查封登記。")
+        } else if isBlockByBankNo == true {
+            LineWithSpacer(contain: "(六)無查封登記。")
+        }
+    }
+    
+    @ViewBuilder
+    func buildProvidePart(entire: Bool, part: Bool) -> some View {
+        if entire == true {
+            LineWithSpacer(contain: "(一)租賃住宅全部：第\(provideFloor)層□房間\(provideRooms)間□第\(provideRoomNumber)室，面積\(provideFloor)平方公尺。")
+        } else if part == true {
+            LineWithSpacer(contain: "(一)租賃住宅部分：第\(provideFloor)層□房間\(provideRooms)間□第\(provideRoomNumber)室，面積\(provideFloor)平方公尺。")
+        }
+    }
+    
+    @ViewBuilder
+    func forUsingDay(all: Bool, morning: Bool, night: Bool) -> some View {
+        if all == true {
+            HStack {
+                Text("全日。") //使用時間全日, 日間, 夜間
+                Spacer()
+            }        }
+        if morning == true {
+            HStack {
+                Text("□日間。") //使用時間全日, 日間, 夜間
+                Spacer()
+            }
+        }
+        if night == true {
+            HStack {
+                Text("夜間。") //使用時間全日, 日間, 夜間
+                Spacer()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func haveParkingLot(hasParkingLotYes: Bool, hasParkingLotNo: Bool, all: Bool, morning: Bool, night: Bool) -> some View {
+        if hasParkingLotYes == true {
+            Group {
+                LineWithSpacer(contain: "(二)車位：(如無則免填)")//汽車停車位, 機車停車位
+                LineWithSpacer(contain: "1.汽車停車位種類及編號：")
+                Text("地上(下)第\(parkingUGFloor)層□平面式停車位□機械式停車位，編號第\(parkingNumberForVehicle)號。") //平面式停車位, 機械式停車位
+                LineWithSpacer(contain: "2.機車停車位：")
+                HStack {
+                    Text("地上(下)第\(parkingNumberForMortor)或其位置示意圖。")
+                    Spacer()
+                    
+                }
+                LineWithSpacer(contain: "3.使用時間：")
+                forUsingDay(all: all, morning: morning, night: night)
+            }
+        } else if hasParkingLotNo == true {
+            Group {
+                LineWithSpacer(contain: "(二)車位：(如無則免填)")//汽車停車位, 機車停車位
+                LineWithSpacer(contain: "1.汽車停車位種類及編號：")
+                Text("地上(下)第＿＿層□平面式停車位□機械式停車位，編號第＿＿號。") //平面式停車位, 機械式停車位
+                LineWithSpacer(contain: "2.機車停車位：")
+                HStack {
+                    Text("地上(下)第＿＿層，編號第＿＿號或其位置示意圖。")
+                    Spacer()
+                    
+                }
+                LineWithSpacer(contain: "3.使用時間：")
+                HStack {
+                    Text("□全日□日間□夜間□其他___。") //使用時間全日, 日間, 夜間
+                    Spacer()
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func idfSubFacility(havingSubFacilityYes: Bool, havingSubFacilityNo: Bool) -> some View {
+        if havingSubFacilityYes == true {
+            Text("有附屬設備，若有，除另有附屬設備清單外，詳如附件委託管理標的現況確認書。") ////租賃附屬設備有無
+        }
+        if hasParkinglotNo == true {
+            Text("無附屬設備，若有，除另有附屬設備清單外，詳如附件委託管理標的現況確認書。") ////租賃附屬設備有無
+        }
+    }
+    
+    @ViewBuilder
+    func idfPaymentMethod(paybyCash: Bool, paybyTransmission: Bool, paybyCreditDebitCard: Bool) -> some View {
+        if paybyCash == true {
+            Text("租金支付方式：現金繳付。") //報酬約定及給付-轉帳繳付
+        }
+        if paybyTransmission == true {
+            Text("租金支付方式：轉帳繳付：金融機構：\(bankName)，戶名：\(bankOwnerName)，帳號：\(bankAccount)。")
+        }
+        if paybyCreditDebitCard == true {
+            Text("租金支付方式：信用/簽帳卡繳付。")
+        }
+        if paybyCash == true && paybyTransmission == true && paybyCreditDebitCard == true {
+            Text("租金支付方式：現金繳付/轉帳繳付信用/簽帳卡繳付皆可：金融機構：\(bankName)，戶名：\(bankOwnerName)，帳號：\(bankAccount)。")
+        }
+    }
+    
+    @ViewBuilder
+    func idfPaymentSideMF(payByRenterForManagementPart: Bool, payByProviderForManagementPart: Bool) -> some View {
+        if payByRenterForManagementPart == true {
+            LineWithSpacer(contain: "由承租人負擔。")
+        }
+        if payByProviderForManagementPart == true {
+            LineWithSpacer(contain: "由出租人負擔。")
+        }
+    }
+    @ViewBuilder
+    func idfPaymentSideWF(payByRenterForWaterFee: Bool, payByProviderForWaterFee: Bool) -> some View {
+        if payByRenterForWaterFee == true {
+            LineWithSpacer(contain: "由承租人負擔。")
+        }
+        if payByProviderForWaterFee == true {
+            LineWithSpacer(contain: "由出租人負擔。")
+        }
+    }
+    
+    @ViewBuilder
+    func idfPaymentSideEF(payByRenterForEletricFee: Bool, payByProviderForEletricFee: Bool) -> some View {
+        if payByRenterForEletricFee == true {
+            LineWithSpacer(contain: "由承租人負擔。")
+        }
+        if payByProviderForEletricFee == true {
+            LineWithSpacer(contain: "由出租人負擔。")
+        }
+    }
+    @ViewBuilder
+    func idfPaymentSideGF(payByRenterForGasFee: Bool, payByProviderForGasFee: Bool) -> some View {
+        if payByRenterForGasFee == true {
+            LineWithSpacer(contain: "由承租人負擔。")
+        }
+        if payByProviderForGasFee == true {
+            LineWithSpacer(contain: "由出租人負擔。")
+        }
+    }
+    
+    @ViewBuilder
+    func idfcontractSigurtureProxyFee(payByRenterForProxyFee: Bool, payByProviderForProxyFee: Bool, separateForBothForProxyFee: Bool) -> some View {
+        if payByRenterForProxyFee == true {
+            LineWithSpacer(contain: "由承租人負擔。")
+        }
+        if payByProviderForProxyFee == true {
+            LineWithSpacer(contain: "由出租人負擔。")
+        }
+        if separateForBothForProxyFee == true {
+            LineWithSpacer(contain: "由租賃雙方平均負擔。")
+        }
+    }
+    
+    @ViewBuilder
+    func idfcontractIdentitificationFee(payByRenterForIDFFee: Bool, payByProviderForIDFFee: Bool, separateForBothForIDFFee: Bool) -> some View {
+        if payByRenterForIDFFee == true {
+            LineWithSpacer(contain: "由承租人負擔。")
+        }
+        if payByProviderForIDFFee == true {
+            LineWithSpacer(contain: "由出租人負擔。")
+        }
+        if separateForBothForIDFFee == true {
+            LineWithSpacer(contain: "由租賃雙方平均負擔。")
+        }
+    }
+    
+    @ViewBuilder
+    func idfcontractIdentitificationProxyFee(payByRenterForIDFProxyFee: Bool, payByProviderForIDFProxyFee: Bool, separateForBothForIDFProxyFee: Bool) -> some View {
+        if payByRenterForIDFProxyFee == true {
+            LineWithSpacer(contain: "由承租人負擔。")
+        }
+        if payByProviderForIDFProxyFee == true {
+            LineWithSpacer(contain: "由出租人負擔。")
+        }
+        if separateForBothForIDFProxyFee == true {
+            LineWithSpacer(contain: "由租賃雙方平均負擔。")
+        }
+    }
+    
+    @ViewBuilder
+    func subLeaseAgreement(subLeaseAgreement: Bool) -> some View {
+        if subLeaseAgreement == true {
+            Text("出租人同意將本房屋之全部或一部分轉租、出借或 以其他方式供他人使用，或將租賃權轉讓於他人。前項出租人同意轉租者，承租人應提示出租人同意轉租之證明文件。")
+        } else {
+            Text("出租人不同意將本房屋之全部或一部分轉租、出借或 以其他方式供他人使用，或將租賃權轉讓於他人。前項出租人同意轉租者，承租人應提示出租人同意轉租之證明文件。")
+        }
+    }
+
+    @ViewBuilder
+    func doCourtIDF(doCourtIDF: Bool) -> some View {
+        if doCourtIDF == true {
+            LineWithSpacer(contain: "本契約雙方同意辦理公證。")
+        } else {
+            LineWithSpacer(contain: "本契約雙方同意不辦理公證。")
+        }
+    }
+    
+    @ViewBuilder
+    func doCourtIDFDoc(courtIDFDoc: Bool) -> some View {
+        if courtIDFDoc == true {
+            Text("本契約經辦理公證者，租賃雙方同意公證書載明下列事項應逕受強制執行：")
+        } else {
+            Text("本契約經辦理公證者，租賃雙方不同意公證書載明下列事項應逕受強制執行：")
+        }
+    }
+    
 }
