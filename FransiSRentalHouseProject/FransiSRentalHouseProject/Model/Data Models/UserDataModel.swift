@@ -38,6 +38,8 @@ struct RentedRoomInfo: Codable {
     var roomZipCode: String?
     var roomImageCover: String?
     var providerUID: String?
+    var startDate: String?
+    var expiredDate: String?
     var rentalDepositFee: DepositFeeDataModel?
 }
 

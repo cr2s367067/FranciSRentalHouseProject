@@ -21,7 +21,7 @@ class LocalData: ObservableObject {
     @Published var maintainTaskHolder: [MaintainTaskHolder] = []
     
     //: Room Information
-    @Published var localRoomsHolder: RoomInfoDataModel = .empty
+//    @Published var localRoomsHolder: RoomInfoDataModel = .empty
     
     
     func addItem(roomAddress: String, roomTown: String, roomCity: String, itemPrice: Int, roomUID: String, roomImage: String, roomZipCode: String, docID: String, providerUID: String) {

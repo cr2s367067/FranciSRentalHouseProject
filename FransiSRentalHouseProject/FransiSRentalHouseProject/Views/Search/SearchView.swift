@@ -12,14 +12,14 @@ struct SearchView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
-    @EnvironmentObject var firestoreForFurniture: FirestoreForProducts
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     
     @State private var tagSelect = "TapSearchButton"
     @State private var searchName = ""
     @State private var isPressentSheetData: RoomInfoDataModel? = nil
     
     @State private var showRooms = true
-    @State private var showFurniture = false
+    @State private var showProducts = false
     
     var body: some View {
         NavigationView {
@@ -49,8 +49,8 @@ struct SearchView: View {
                     HStack(spacing: 5) {
                         Spacer()
                         Button {
-                            if showFurniture == true {
-                                showFurniture = false
+                            if showProducts == true {
+                                showProducts = false
                             }
                             if showRooms == false {
                                 showRooms = true
@@ -65,8 +65,8 @@ struct SearchView: View {
                             if showRooms == true {
                                 showRooms = false
                             }
-                            if showFurniture == false {
-                                showFurniture = true
+                            if showProducts == false {
+                                showProducts = true
                             }
                         } label: {
                             Image(systemName: "bag")
@@ -79,6 +79,7 @@ struct SearchView: View {
                     .padding(.trailing)
                     //: Scroll View
                     VStack {
+                        /*
                         if showRooms == true {
                             ScrollView(.vertical, showsIndicators: false) {
                                 //ForEach to catch the data from firebase
@@ -110,11 +111,11 @@ struct SearchView: View {
                                 }
                             }
                             
-                        } else if showFurniture == true {
+                        } else if showProducts == true {
                             ScrollView(.vertical, showsIndicators: false) {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 40) {
-                                        ForEach(firestoreForFurniture.productsDataSet) { product in
+                                        ForEach(firestoreForProducts.productsDataSet) { product in
                                             NavigationLink {
                                                 ProductDetailView(productName: product.productName,
                                                                   productPrice: Int(product.productPrice) ?? 0,
@@ -134,6 +135,8 @@ struct SearchView: View {
                                 }
                             }
                         }
+                         */
+                        identityRoomsProducts(showRooms: showRooms, showProducts: showProducts)
                     }
                     .padding()
                 }
@@ -151,9 +154,95 @@ struct SearchView_Previews: PreviewProvider {
     }
 }
 
-
-
-/*
- 
-
-*/
+extension SearchView {
+    @ViewBuilder
+    private func roomsUnit() -> some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            //ForEach to catch the data from firebase
+            ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic.filter({
+                searchName.isEmpty ? true : $0.town.contains(searchName)
+            })) { result in
+                Button {
+                    isPressentSheetData = result
+                } label: {
+                    SearchListItemView(roomImage: result.roomImage ?? "",
+                                       roomAddress: result.roomAddress,
+                                       roomTown: result.town,
+                                       roomCity: result.city,
+                                       roomPrice: Int(result.rentalPrice) ?? 0)
+                }
+            }
+            .sheet(item: $isPressentSheetData) { result in
+                RoomDetailSheetView(roomImage: result.roomImage ?? "",
+                                    roomAddress: result.roomAddress,
+                                    roomTown: result.town,
+                                    roomCity: result.city,
+                                    roomPrice: Int(result.rentalPrice) ?? 0,
+                                    roomUID: result.roomUID ,
+                                    roomZipCode: result.zipCode,
+                                    docID: result.docID ?? "",
+                                    providedBy: result.providedBy,
+                                    providedName: result.providerDisplayName ,
+                                    result: result, chatDocID: result.providerChatDocId)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func roomUnitWithPlaceHolder() -> some View {
+        if firestoreToFetchRoomsData.fetchRoomInfoFormPublic.isEmpty {
+            roomsUnit()
+                .disabled(true)
+                .redacted(reason: .placeholder)
+        } else {
+            roomsUnit()
+        }
+    }
+    
+    @ViewBuilder
+    private func productsUnit() -> some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 40) {
+                    ForEach(firestoreForProducts.productsDataSet) { product in
+                        NavigationLink {
+                            ProductDetailView(productName: product.productName,
+                                              productPrice: Int(product.productPrice) ?? 0,
+                                              productImage: product.productImage,
+                                              productUID: product.productUID,
+                                              productAmount: product.productAmount,
+                                              productFrom: product.productFrom,
+                                              providerUID: product.providerUID,
+                                              isSoldOut: product.isSoldOut,
+                                              providerName: product.providerName,
+                                              productDescription: product.productDescription, docID: product.id ?? "")
+                        } label: {
+                            SearchProductListItemView(productName: product.productName, productImage: product.productImage, productPrice: product.productPrice)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func productsUnitWithPlaceHolder() -> some View {
+        if firestoreForProducts.productsDataSet.isEmpty {
+            productsUnit()
+                .disabled(true)
+                .redacted(reason: .placeholder)
+        } else {
+            productsUnit()
+        }
+    }
+    
+    @ViewBuilder
+    func identityRoomsProducts(showRooms: Bool, showProducts: Bool) -> some View {
+        if showRooms == true {
+            roomUnitWithPlaceHolder()
+        }
+        if showProducts == true {
+            productsUnitWithPlaceHolder()
+        }
+    }
+}

@@ -104,107 +104,11 @@ struct RenterProfileView: View {
                                 .padding(.leading, 20)
                         }
                         .padding()
-                        VStack {
+                        VStack(spacing: 30) {
                             ScrollView(.vertical, showsIndicators: false) {
-                                //: Room Status Session
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color("sessionBackground"))
-                                        .cornerRadius(4)
-                                        .frame(width: 378, height: 123)
-                                    VStack {
-                                        HStack {
-                                            Text("Room Status: ")
-                                                .font(.system(size: 20, weight: .heavy))
-                                            Spacer()
-                                                .frame(width: 218)
-                                            NavigationLink {
-                                                RoomStatusView()
-                                            } label: {
-                                                Image(systemName: "chevron.forward")
-                                            }
-                                        }
-                                        //.padding(.leading, 5)
-                                        HStack {
-                                            Text("Expired Day")
-                                                .font(.system(size: 20, weight: .heavy))
-                                            Spacer()
-                                                .frame(width: 100)
-                                            Text("1/15/2023")
-                                                .font(.system(size: 15, weight: .heavy))
-                                        }
-                                        .padding(.top, 5)
-                                        Spacer()
-                                            .frame(height: 40)
-                                    }
-                                    .foregroundColor(.white)
-                                    .padding(.leading, 2)
-                                    .padding(.top, 3)
-                                }
-                                //: Payment Session
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color("sessionBackground"))
-                                        .cornerRadius(4)
-                                        .frame(width: 378, height: 123)
-                                    VStack {
-                                        HStack {
-                                            Text("Last Payment: ")
-                                                .font(.system(size: 20, weight: .heavy))
-                                            Spacer()
-                                                .frame(width: 210)
-                                            NavigationLink {
-                                                PaymentDetailView()
-                                            } label: {
-                                                Image(systemName: "chevron.forward")
-                                            }
-                                        }
-                                        //.padding(.leading, 5)
-                                        HStack {
-                                            Text("$\(lastPayment(input: firestoreToFetchUserinfo.paymentHistory)) ")
-                                                .font(.system(size: 20, weight: .heavy))
-                                            Spacer()
-                                                .frame(width: 100)
-                                            Text("\(lastPaymentDate(input: firestoreToFetchUserinfo.paymentHistory), format: Date.FormatStyle().year().month().day())")
-                                                .font(.system(size: 15, weight: .heavy))
-                                        }  
-                                        .padding(.top, 5)
-                                        Spacer()
-                                            .frame(height: 40)
-                                    }
-                                    .foregroundColor(.white)
-                                    .padding(.leading, 2)
-                                    .padding(.top, 3)
-                                }
-                                .padding(.top, 10)
-                                //: Maintain Session
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color("sessionBackground"))
-                                        .cornerRadius(4)
-                                        .frame(width: 378, height: localData.maintainTaskHolder.count > 3 ? 83 + CGFloat(localData.maintainTaskHolder.count * 60) : 263)
-                                    VStack {
-                                        HStack {
-                                            Text("Maintain List: ")
-                                                .font(.system(size: 20, weight: .heavy))
-                                            Spacer()
-                                                .frame(width: 225)
-                                        }
-                                        VStack {
-                                            ScrollView(.vertical, showsIndicators: false) {
-                                                ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
-                                                    ProfileSessionUnit(mainTainTask: task.description)
-                                                }
-                                            }
-                                        }
-                                        Spacer()
-                                            .frame(height: 40)
-                                    }
-                                    .foregroundColor(.white)
-                                    .padding(.leading, 2)
-                                    .padding(.top, 3)
-                                }
-                                .padding(.top, 10)
+                                roomStatusSessionWithPlaceHolder()
+                                lastPaymentSessionWithPlaceholder()
+                                maintainSessionWithPlaceHolder()
                             }
                         }
                     }
@@ -241,6 +145,7 @@ struct RenterProfileView: View {
         .navigationBarBackButtonHidden(true)
         .task({
             do {
+                //MARK: Fetch uploaded maintain tasks
 //                if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
 //                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), roomUID: "")
 //                }
@@ -251,4 +156,159 @@ struct RenterProfileView: View {
             }
         })
     }
+}
+
+
+extension RenterProfileView {
+    
+    @ViewBuilder
+    private func roomStatusSession() -> some View {
+        let uiScreenWidth = UIScreen.main.bounds.width
+        let uiScreenHeight = UIScreen.main.bounds.height
+        
+            VStack {
+                HStack {
+                    Text("Room Status: ")
+                        .font(.system(size: 20, weight: .heavy))
+                        .unredacted()
+                    Spacer()
+                    NavigationLink {
+                        RoomStatusView()
+                    } label: {
+                        Image(systemName: "chevron.forward")
+                            .unredacted()
+                    }
+                }
+                //.padding(.leading, 5)
+                HStack {
+                    Text("Expired Day")
+                        .font(.system(size: 20, weight: .heavy))
+                        .unredacted()
+                    Spacer()
+                        .frame(width: 100)
+                    //MARK: Add the expired date in data model
+                    Text("1/15/2023")
+                        .font(.system(size: 15, weight: .heavy))
+                }
+                .padding(.top, 5)
+                Spacer()
+                    .frame(height: 40)
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal)
+            .padding(.vertical)
+            .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 6, alignment: .center)
+            .background(alignment: .center) {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color("sessionBackground"))
+                    .cornerRadius(4)
+            }
+    }
+    
+    @ViewBuilder
+    func roomStatusSessionWithPlaceHolder() -> some View {
+        if !(firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? true) {
+            roomStatusSession()
+        } else {
+            roomStatusSession()
+                .disabled(true)
+                .redacted(reason: .placeholder)
+        }
+    }
+    
+    @ViewBuilder
+    private func lastPaymentSession() -> some View {
+        let uiScreenWidth = UIScreen.main.bounds.width
+        let uiScreenHeight = UIScreen.main.bounds.height
+        //: Payment Session
+        VStack {
+            HStack {
+                Text("Last Payment: ")
+                    .font(.system(size: 20, weight: .heavy))
+                    .unredacted()
+                Spacer()
+                NavigationLink {
+                    PaymentDetailView()
+                } label: {
+                    Image(systemName: "chevron.forward")
+                        .unredacted()
+                }
+            }
+            //.padding(.leading, 5)
+            HStack {
+                Text("$\(lastPayment(input: firestoreToFetchUserinfo.paymentHistory)) ")
+                    .font(.system(size: 20, weight: .heavy))
+                Spacer()
+                    .frame(width: 80)
+                Text("\(lastPaymentDate(input: firestoreToFetchUserinfo.paymentHistory), format: Date.FormatStyle().year().month().day())")
+                    .font(.system(size: 15, weight: .heavy))
+            }
+            .padding()
+            Spacer()
+        }
+        .foregroundColor(.white)
+        .padding(.horizontal)
+        .padding(.vertical)
+        .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 6)
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color("sessionBackground"))
+                .cornerRadius(4)
+        }
+    }
+    
+    @ViewBuilder
+    func lastPaymentSessionWithPlaceholder() -> some View {
+        if !firestoreToFetchUserinfo.paymentHistory.isEmpty {
+            lastPaymentSession()
+        } else {
+            lastPaymentSession()
+                .disabled(true)
+                .redacted(reason: .placeholder)
+        }
+    }
+    
+    @ViewBuilder
+    private func maintainListSession() -> some View {
+        let uiScreenWidth = UIScreen.main.bounds.width
+        let uiScreenHeight = UIScreen.main.bounds.height
+        VStack(alignment: .center) {
+            HStack {
+                Text("Maintain List: ")
+                    .font(.system(size: 20, weight: .heavy))
+                    .unredacted()
+                Spacer()
+            }
+            VStack {
+                ScrollView(.vertical, showsIndicators: false) {
+                    ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
+                        ProfileSessionUnit(mainTainTask: task.description)
+                            .redacted(reason: .placeholder)
+                    }
+                }
+            }
+            Spacer()
+        }
+        .padding(.horizontal)
+        .padding(.vertical)
+        .foregroundColor(.white)
+        .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 3)
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color("sessionBackground"))
+                .cornerRadius(4)
+//                .frame(width: 378, height: localData.maintainTaskHolder.count > 3 ? 83 + CGFloat(localData.maintainTaskHolder.count * 60) : 263)
+        }
+    }
+    
+    @ViewBuilder
+    func maintainSessionWithPlaceHolder() -> some View {
+        if !firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
+            maintainListSession()
+        } else {
+            maintainListSession()
+                .redacted(reason: .placeholder)
+        }
+    }
+    
 }

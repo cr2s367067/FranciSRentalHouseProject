@@ -321,3 +321,10 @@ extension FirestoreToFetchUserinfo {
         ])
     }
 }
+
+extension FirestoreToFetchUserinfo {
+    //MARK: Upload the contact data to user's data set
+    func uploadRentedRoomInfo() async throws {
+        
+    }
+}

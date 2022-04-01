@@ -80,28 +80,18 @@ struct UserOrderedListUnitView: View {
     }
 }
 
-//struct UserOrderedListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let userOrderedListViewModel = UserOrderedListViewModel()
-//        UserOrderedListView()
-//            .environmentObject(userOrderedListViewModel)
-//    }
-//}
 
-
-//extension UserOrderedListUnitView {
-    class UserOrderedListUnitViewModel: ObservableObject {
-        
-        @Published var comments = ""
-        @Published var rating = 0
-        @Published var isUploadComment = false
-        
-        let productName: String = ""
-        let productImage: String = ""
-        let productFrom: String = ""
-        let productRating: String = ""
-        
-        let uiScreenWidth = UIScreen.main.bounds.width
-        let uiScreenHeight = UIScreen.main.bounds.height
-    }
-//}
+class UserOrderedListUnitViewModel: ObservableObject {
+    
+    @Published var comments = ""
+    @Published var rating = 0
+    @Published var isUploadComment = false
+    
+    let productName: String = ""
+    let productImage: String = ""
+    let productFrom: String = ""
+    let productRating: String = ""
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+}

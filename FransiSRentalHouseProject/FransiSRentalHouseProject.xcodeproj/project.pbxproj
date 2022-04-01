@@ -69,6 +69,7 @@
 		02CB58F927CDB53D0035EE20 /* StorageForRoomsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */; };
 		02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D684BE27D9EFF000061B99 /* RenterContractView.swift */; };
 		0E0CB2D127E763130096A5CE /* UnregisterCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */; };
+		0E19C8CB27F6CAEB00FD23D8 /* RentalContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E19C8CA27F6CAEB00FD23D8 /* RentalContractViewModel.swift */; };
 		0E2EDD3827EAF307008FEF58 /* TextingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */; };
 		0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */; };
 		0E2EDD3C27EAF394008FEF58 /* FirestoreForTextingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */; };
@@ -165,6 +166,7 @@
 		02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForRoomsImage.swift; sourceTree = "<group>"; };
 		02D684BE27D9EFF000061B99 /* RenterContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractView.swift; sourceTree = "<group>"; };
 		0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnregisterCoverView.swift; sourceTree = "<group>"; };
+		0E19C8CA27F6CAEB00FD23D8 /* RentalContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalContractViewModel.swift; sourceTree = "<group>"; };
 		0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingViewModel.swift; sourceTree = "<group>"; };
 		0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingDataModel.swift; sourceTree = "<group>"; };
 		0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForTextingMessage.swift; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 			isa = PBXGroup;
 			children = (
 				02D684BE27D9EFF000061B99 /* RenterContractView.swift */,
+				0E19C8CA27F6CAEB00FD23D8 /* RentalContractViewModel.swift */,
 			);
 			path = Renter;
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 				02CB58F727CDB5230035EE20 /* StorageForUserProfile.swift in Sources */,
 				02CB58EF27CDB1470035EE20 /* FirestoreToFetchUserInfo.swift in Sources */,
 				0249D43227C638C00085F4A5 /* AppViewModel.swift in Sources */,
+				0E19C8CB27F6CAEB00FD23D8 /* RentalContractViewModel.swift in Sources */,
 				0249D45127C63AEA0085F4A5 /* MenuView.swift in Sources */,
 				0226660F27DE2A1D0051940B /* MessageView.swift in Sources */,
 				0249D42827C6376E0085F4A5 /* UserCoreDataModel.xcdatamodeld in Sources */,

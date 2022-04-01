@@ -25,7 +25,7 @@ struct ContractCollectionView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { roomInfo in
                         NavigationLink {
-                            
+                            RenterContractView()
                         } label: {
                             ContractReusableUnit(showDetail: $showDetail, roomAddress: roomInfo.roomAddress, roomTown: roomInfo.town, roomCity: roomInfo.city, roomZipCode: roomInfo.zipCode, renter: roomInfo.rentedBy ?? "", roomImage: roomInfo.roomImage ?? "")
                                 .foregroundColor(.black)
