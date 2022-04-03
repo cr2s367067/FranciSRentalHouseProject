@@ -264,13 +264,9 @@ extension RenterContractView {
                     Text("\(roomsData.rentersContractData?.mainBuildArea ?? "")層 平方公尺，用途\(roomsData.rentersContractData?.mainBuildingPurpose ?? "")。")
                     LineWithSpacer(contain: "2.附屬建物用途\(roomsData.rentersContractData?.subBuildingPurpose ?? "")，面積\(roomsData.rentersContractData?.subBuildingArea ?? "")平方公尺。")
                     LineWithSpacer(contain: "(三)共有部分建號:\(roomsData.rentersContractData?.publicBuildingNumber ?? "")，權利範圍:\(roomsData.rentersContractData?.publicBuildingRightRange ?? "")，持分面積\(roomsData.rentersContractData?.publicBuildingArea ?? "")平方公尺。")
-//                    LineWithSpacer(contain: "(四)車位：有(汽車停車位\(roomsData.rentersContractData?.parkinglotAmount ?? "")個、機車停車位__個)無。") //車位有無
-                    settingTheRightForThirdPerson(_isSettingTheRightForThirdPersonYes: roomsData.rentersContractData?.isSettingTheRightForThirdPersonYes ?? false,
-                                                  _isSettingTheRightForThirdPersonNo: roomsData.rentersContractData?.isSettingTheRightForThirdPersonNo ?? false,
-                                                  _SettingTheRightForThirdPersonForWhatKind: roomsData.rentersContractData?.SettingTheRightForThirdPersonForWhatKind ?? "")
+                    settingTheRightForThirdPerson(_isSettingTheRightForThirdPerson: roomsData.rentersContractData?.isSettingTheRightForThirdPerson ?? false,          _SettingTheRightForThirdPersonForWhatKind: roomsData.rentersContractData?.settingTheRightForThirdPersonForWhatKind ?? "")
                      //有無設定他項權利
-                    blockByBankCheck(_isBlockByBankYes: roomsData.rentersContractData?.isBlockByBankYes ?? false,
-                                     _isBlockByBankNo: roomsData.rentersContractData?.isBlockByBankNo ?? false)  //有無查封登記
+                    blockByBankCheck(_isBlockByBank: roomsData.rentersContractData?.isBlockByBank ?? false)  //有無查封登記
                 }
                 .font(.system(size: 14, weight: .regular))
             }
@@ -280,11 +276,11 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func settingTheRightForThirdPerson(_isSettingTheRightForThirdPersonYes: Bool, _isSettingTheRightForThirdPersonNo: Bool, _SettingTheRightForThirdPersonForWhatKind: String) -> some View {
-        if _isSettingTheRightForThirdPersonYes == true {
+    func settingTheRightForThirdPerson(_isSettingTheRightForThirdPerson: Bool, _SettingTheRightForThirdPersonForWhatKind: String) -> some View {
+        if _isSettingTheRightForThirdPerson == true {
             LineWithSpacer(contain: "(四)有設定他項權利，若有，權利種類：\(_SettingTheRightForThirdPersonForWhatKind)。")
-        }
-        if _isSettingTheRightForThirdPersonNo == true {
+        } else {
+            
             LineWithSpacer(contain: "(四)無設定他項權利。")
         }
     }
@@ -298,14 +294,12 @@ extension RenterContractView {
                 Group {
                     buildProvidePart(_entire: roomsData.rentersContractData?.provideForAll ?? false,
                                      _part: roomsData.rentersContractData?.provideForPart ?? false) //租賃住宅全部
-                    haveParkingLot(_hasParkingLotYes: roomsData.rentersContractData?.hasParkinglotYes ?? false,
-                                   _hasParkingLotNo: roomsData.rentersContractData?.hasParkinglotNo ?? false,
+                    haveParkingLot(_hasParkingLot: roomsData.rentersContractData?.hasParkinglot ?? false,
                                    _all: roomsData.rentersContractData?.forAllday ?? false,
                                    _morning: roomsData.rentersContractData?.forMorning ?? false,
-                                   _night: roomsData.rentersContractData?.forNight ?? false)
+                                   _night: roomsData.rentersContractData?.forNight ?? false, isVehicle: roomsData.rentersContractData?.isVehicle ?? false, isMorto: roomsData.rentersContractData?.isMorto ?? false)
                     LineWithSpacer(contain: "(三)租賃附屬設備：")
-                    idfSubFacility(_havingSubFacilityYes: roomsData.rentersContractData?.havingSubFacilityYes ?? false,
-                                   _havingSubFacilityNo: roomsData.rentersContractData?.havingSubFacilityNo ?? false)////租賃附屬設備有無
+                    idfSubFacility(_havingSubFacility: roomsData.rentersContractData?.havingSubFacility ?? false)////租賃附屬設備有無
                 }
                 .font(.system(size: 14, weight: .regular))
             }
@@ -398,6 +392,7 @@ extension RenterContractView {
                         LineWithSpacer(contain: "其他：\(roomsData.rentersContractData?.additionalReqForEletricFeePart ?? "")。(例如每度  元整)")
                     }
                     Group {
+                        SubTitleView(subTitleName: "四、瓦斯：")
                         idfPaymentSideGF(_payByRenterForGasFee: roomsData.rentersContractData?.payByRenterForGasFee ?? false,
                                          _payByProviderForGasFee: roomsData.rentersContractData?.payByProviderForGasFee ?? false)
                         LineWithSpacer(contain: "其他：\(roomsData.rentersContractData?.additionalReqForGasFeePart ?? "")。")
@@ -730,10 +725,10 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func blockByBankCheck(_isBlockByBankYes: Bool, _isBlockByBankNo: Bool) -> some View {
-        if _isBlockByBankYes == true {
+    func blockByBankCheck(_isBlockByBank: Bool) -> some View {
+        if _isBlockByBank == true {
             LineWithSpacer(contain: "(六)有查封登記。")
-        } else if _isBlockByBankNo == true {
+        } else {
             LineWithSpacer(contain: "(六)無查封登記。")
         }
     }
@@ -769,22 +764,40 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func haveParkingLot(_hasParkingLotYes: Bool, _hasParkingLotNo: Bool, _all: Bool, _morning: Bool, _night: Bool) -> some View {
-        if _hasParkingLotYes == true {
+    func idfParkingLotStyle(parkingStyleN: Bool, parkingStyleM: Bool) -> some View {
+        if parkingStyleM == true {
+            Text("地上(下)第\(roomsData.rentersContractData?.parkingUGFloor ?? "")層機械式停車位，編號第\(roomsData.rentersContractData?.parkingNumberForVehicle ?? "")號。") //平面式停車位, 機械式停車位
+        }
+        if parkingStyleN == true {
+            Text("地上(下)第\(roomsData.rentersContractData?.parkingUGFloor ?? "")層平面式停車位，編號第\(roomsData.rentersContractData?.parkingNumberForVehicle ?? "")號。") //平面式停車位, 機械式停車位
+        }
+    }
+    
+    @ViewBuilder
+    func vehicleType(isVehicle: Bool, isMorto: Bool) -> some View {
+        if isVehicle == true {
+            LineWithSpacer(contain: "1.汽車停車位種類及編號：")
+            idfParkingLotStyle(parkingStyleN: roomsData.rentersContractData?.parkingStyleN ?? false, parkingStyleM: roomsData.rentersContractData?.parkingStyleM ?? false)
+        }
+        if isMorto == true {
+            LineWithSpacer(contain: "2.機車停車位：")
+            HStack {
+                Text("地上(下)第\(roomsData.rentersContractData?.parkingNumberForMortor ?? "")或其位置示意圖。")
+                Spacer()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func haveParkingLot(_hasParkingLot: Bool, _all: Bool, _morning: Bool, _night: Bool, isVehicle: Bool, isMorto: Bool) -> some View {
+        if _hasParkingLot == true {
             Group {
                 LineWithSpacer(contain: "(二)車位：(如無則免填)")//汽車停車位, 機車停車位
-                LineWithSpacer(contain: "1.汽車停車位種類及編號：")
-                Text("地上(下)第\(roomsData.rentersContractData?.parkingUGFloor ?? "")層□平面式停車位□機械式停車位，編號第\(roomsData.rentersContractData?.parkingNumberForVehicle ?? "")號。") //平面式停車位, 機械式停車位
-                LineWithSpacer(contain: "2.機車停車位：")
-                HStack {
-                    Text("地上(下)第\(roomsData.rentersContractData?.parkingNumberForMortor ?? "")或其位置示意圖。")
-                    Spacer()
-                    
-                }
+                vehicleType(isVehicle: isVehicle, isMorto: isMorto)
                 LineWithSpacer(contain: "3.使用時間：")
                 forUsingDay(_all: _all, _morning: _morning, _night: _night)
             }
-        } else if _hasParkingLotNo == true {
+        } else {
             Group {
                 LineWithSpacer(contain: "(二)車位：(如無則免填)")//汽車停車位, 機車停車位
                 LineWithSpacer(contain: "1.汽車停車位種類及編號：")
@@ -805,11 +818,10 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func idfSubFacility(_havingSubFacilityYes: Bool, _havingSubFacilityNo: Bool) -> some View {
-        if _havingSubFacilityYes == true {
+    func idfSubFacility(_havingSubFacility: Bool) -> some View {
+        if _havingSubFacility == true {
             Text("有附屬設備，若有，除另有附屬設備清單外，詳如附件委託管理標的現況確認書。") ////租賃附屬設備有無
-        }
-        if _havingSubFacilityNo == true {
+        } else {
             Text("無附屬設備，若有，除另有附屬設備清單外，詳如附件委託管理標的現況確認書。") ////租賃附屬設備有無
         }
     }

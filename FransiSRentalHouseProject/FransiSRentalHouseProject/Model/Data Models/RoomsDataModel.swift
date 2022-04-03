@@ -42,16 +42,13 @@ struct RentersContractDataModel: Codable {
     var publicBuildingRightRange: String //共有部分權利範圍
     var publicBuildingArea: String //共有部分持分面積__平方公尺
     
-    var hasParkinglotYes: Bool //車位-有
-    var hasParkinglotNo: Bool //車位-無
-    var parkinglotAmount: String //汽機車車位數量
+    var hasParkinglot: Bool //車位-有
+//    var parkinglotAmount: String //汽機車車位數量
     
-    var isSettingTheRightForThirdPersonYes: Bool //設定他項權利-有
-    var isSettingTheRightForThirdPersonNo: Bool //設定他項權利-無
-    var SettingTheRightForThirdPersonForWhatKind: String //權利種類
+    var isSettingTheRightForThirdPerson: Bool //設定他項權利-有無
+    var settingTheRightForThirdPersonForWhatKind: String //權利種類
     
-    var isBlockByBankYes: Bool //查封登記-有
-    var isBlockByBankNo: Bool //查封登記-無
+    var isBlockByBank: Bool //查封登記-有
     
     // MARK: 第一條 委託管理標的 - 租賃範圍
     var provideForAll: Bool //租賃住宅全部
@@ -63,7 +60,7 @@ struct RentersContractDataModel: Codable {
     
     var isVehicle: Bool //汽車停車位
     var isMorto: Bool //機車停車位
-    var isBoth: Bool //汽車機車皆有
+//    var isBoth: Bool //汽車機車皆有
     var parkingUGFloor: String //地上(下)第__層
     var parkingStyleN: Bool //平面式停車位ㄩ
     var parkingStyleM: Bool //機械式停車位
@@ -73,8 +70,7 @@ struct RentersContractDataModel: Codable {
     var forMorning: Bool //使用時間日間
     var forNight: Bool //使用時間夜間
     
-    var havingSubFacilityYes: Bool //租賃附屬設備-有
-    var havingSubFacilityNo: Bool //租賃附屬設備-無
+    var havingSubFacility: Bool //租賃附屬設備-有
     
     // MARK: 第二條 租賃期間
     var rentalStartDate: Date //委託管理期間自
@@ -130,9 +126,9 @@ struct RentersContractDataModel: Codable {
     var subLeaseAgreement: Bool
     
     // MARK: 第十二條 房屋之返還
-    var contractSendbyEmail: Bool //履行本契約之通知-電子郵件信箱
-    var contractSendbyTextingMessage: Bool //履行本契約之通知-手機簡訊
-    var contractSendbyMessageSoftware: Bool //履行本契約之通知-即時通訊軟體
+//    var contractSendbyEmail: Bool //履行本契約之通知-電子郵件信箱
+//    var contractSendbyTextingMessage: Bool //履行本契約之通知-手機簡訊
+//    var contractSendbyMessageSoftware: Bool //履行本契約之通知-即時通訊軟體
     
     // MARK: 第十九條 其他約定
     var doCourtIDF: Bool //□辦理公證□不辦理公證
@@ -181,14 +177,10 @@ extension RentersContractDataModel {
                                                 publicBuildingNumber: "",
                                                 publicBuildingRightRange: "",
                                                 publicBuildingArea: "",
-                                                hasParkinglotYes: false,
-                                                hasParkinglotNo: false,
-                                                parkinglotAmount: "",
-                                                isSettingTheRightForThirdPersonYes: false,
-                                                isSettingTheRightForThirdPersonNo: false,
-                                                SettingTheRightForThirdPersonForWhatKind: "",
-                                                isBlockByBankYes: false,
-                                                isBlockByBankNo: false,
+                                                hasParkinglot: false,
+                                                isSettingTheRightForThirdPerson: false,
+                                                settingTheRightForThirdPersonForWhatKind: "",
+                                                isBlockByBank: false,
                                                 provideForAll: false,
                                                 provideForPart: false,
                                                 provideFloor: "",
@@ -197,7 +189,6 @@ extension RentersContractDataModel {
                                                 provideRoomArea: "",
                                                 isVehicle: false,
                                                 isMorto: false,
-                                                isBoth: false,
                                                 parkingUGFloor: "",
                                                 parkingStyleN: false,
                                                 parkingStyleM: false,
@@ -206,8 +197,7 @@ extension RentersContractDataModel {
                                                 forAllday: false,
                                                 forMorning: false,
                                                 forNight: false,
-                                                havingSubFacilityYes: false,
-                                                havingSubFacilityNo: false,
+                                                havingSubFacility: false,
                                                 rentalStartDate: Date(),
                                                 rentalEndDate: Date(),
                                                 paymentdays: "",
@@ -245,9 +235,6 @@ extension RentersContractDataModel {
                                                 payByProviderForIDFProxyFee: false,
                                                 separateForBothForIDFProxyFee: false,
                                                 subLeaseAgreement: false,
-                                                contractSendbyEmail: false,
-                                                contractSendbyTextingMessage: false,
-                                                contractSendbyMessageSoftware: false,
                                                 doCourtIDF: false,
                                                 courtIDFDoc: false,
                                                 providerName: "",

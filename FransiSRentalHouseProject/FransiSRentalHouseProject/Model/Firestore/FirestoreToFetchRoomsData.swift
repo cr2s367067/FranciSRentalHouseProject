@@ -156,16 +156,12 @@ extension FirestoreToFetchRoomsData {
                 "publicBuildingRightRange" : "", //共有部分權利範圍
                 "publicBuildingArea" : "", //共有部分持分面積__平方公尺
                 
-                "hasParkinglotYes" : false, //車位-有
-                "hasParkinglotNo" : false, //車位-無
-                "parkinglotAmount" : "", //汽機車車位數量
+                "hasParkinglot" : false, //車位-有無
                 
-                "isSettingTheRightForThirdPersonYes" : false, //設定他項權利-有
-                "isSettingTheRightForThirdPersonNo" : false, //設定他項權利-無
+                "isSettingTheRightForThirdPerson" : false, //設定他項權利-有無
                 "SettingTheRightForThirdPersonForWhatKind" : "", //權利種類
                 
-                "isBlockByBankYes" : false, //查封登記-有
-                "isBlockByBankNo" : false, //查封登記-無
+                "isBlockByBank" : false, //查封登記-有無
                 
                 // MARK: 第一條 委託管理標的 - 租賃範圍
                 "provideForAll": false, //租賃住宅全部
@@ -177,7 +173,6 @@ extension FirestoreToFetchRoomsData {
                 
                 "isVehicle": false, //汽車停車位
                 "isMorto": false, //機車停車位
-                "isBoth": false, //汽車機車皆有
                 "parkingUGFloor": "", //地上(下)第__層
                 "parkingStyleN": false, //平面式停車位
                 "parkingStyleM": false, //機械式停車位
@@ -187,8 +182,7 @@ extension FirestoreToFetchRoomsData {
                 "forMorning": false, //使用時間日間
                 "forNight": false, //使用時間夜間
                 
-                "havingSubFacilityYes": false, //租賃附屬設備-有
-                "havingSubFacilityNo": false, //租賃附屬設備-無
+                "havingSubFacility": false, //租賃附屬設備-有無
                 
                 // MARK: 第二條 租賃期間
                 "rentalStartDate" : Date(), //委託管理期間自
@@ -244,9 +238,9 @@ extension FirestoreToFetchRoomsData {
                 "subLeaseAgreement" : false,
                 
                 // MARK: 第十二條 房屋之返還
-                "contractSendbyEmail" : false, //履行本契約之通知-電子郵件信箱
-                "contractSendbyTextingMessage" : false, //履行本契約之通知-手機簡訊
-                "contractSendbyMessageSoftware" : false, //履行本契約之通知-即時通訊軟體
+//                "contractSendbyEmail" : false, //履行本契約之通知-電子郵件信箱
+//                "contractSendbyTextingMessage" : false, //履行本契約之通知-手機簡訊
+//                "contractSendbyMessageSoftware" : false, //履行本契約之通知-即時通訊軟體
                 
                 // MARK: 第十九條 其他約定
                 "doCourtIDF" : false, //□辦理公證□不辦理公證
@@ -319,16 +313,12 @@ extension FirestoreToFetchRoomsData {
                 "publicBuildingRightRange" : "", //共有部分權利範圍
                 "publicBuildingArea" : "", //共有部分持分面積__平方公尺
                 
-                "hasParkinglotYes" : false, //車位-有
-                "hasParkinglotNo" : false, //車位-無
-                "parkinglotAmount" : "", //汽機車車位數量
+                "hasParkinglot" : false, //車位-有無
                 
-                "isSettingTheRightForThirdPersonYes" : false, //設定他項權利-有
-                "isSettingTheRightForThirdPersonNo" : false, //設定他項權利-無
+                "isSettingTheRightForThirdPerson" : false, //設定他項權利-有無
                 "SettingTheRightForThirdPersonForWhatKind" : "", //權利種類
                 
-                "isBlockByBankYes" : false, //查封登記-有
-                "isBlockByBankNo" : false, //查封登記-無
+                "isBlockByBank" : false, //查封登記-有無
                 
                 // MARK: 第一條 委託管理標的 - 租賃範圍
                 "provideForAll": false, //租賃住宅全部
@@ -340,7 +330,6 @@ extension FirestoreToFetchRoomsData {
                 
                 "isVehicle": false, //汽車停車位
                 "isMorto": false, //機車停車位
-                "isBoth": false, //汽車機車皆有
                 "parkingUGFloor": "", //地上(下)第__層
                 "parkingStyleN": false, //平面式停車位
                 "parkingStyleM": false, //機械式停車位
@@ -350,8 +339,7 @@ extension FirestoreToFetchRoomsData {
                 "forMorning": false, //使用時間日間
                 "forNight": false, //使用時間夜間
                 
-                "havingSubFacilityYes": false, //租賃附屬設備-有
-                "havingSubFacilityNo": false, //租賃附屬設備-無
+                "havingSubFacility": false, //租賃附屬設備-有無
                 
                 // MARK: 第二條 租賃期間
                 "rentalStartDate" : Date(), //委託管理期間自
@@ -407,14 +395,13 @@ extension FirestoreToFetchRoomsData {
                 "subLeaseAgreement" : false,
                 
                 // MARK: 第十二條 房屋之返還
-                "contractSendbyEmail" : false, //履行本契約之通知-電子郵件信箱
-                "contractSendbyTextingMessage" : false, //履行本契約之通知-手機簡訊
-                "contractSendbyMessageSoftware" : false, //履行本契約之通知-即時通訊軟體
+//                "contractSendbyEmail" : false, //履行本契約之通知-電子郵件信箱
+//                "contractSendbyTextingMessage" : false, //履行本契約之通知-手機簡訊
+//                "contractSendbyMessageSoftware" : false, //履行本契約之通知-即時通訊軟體
                 
                 // MARK: 第十九條 其他約定
                 "doCourtIDF" : false, //□辦理公證□不辦理公證
                 "courtIDFDoc" : false, //□不同意；□同意公證書
-                
                 
                 // MARK: 立契約書人
                 "providerName" : "",
@@ -476,14 +463,10 @@ extension FirestoreToFetchRoomsData {
                             publicBuildingNumber: String,
                             publicBuildingRightRange: String,
                             publicBuildingArea: String,
-                            hasParkinglotYes: Bool,
-                            hasParkinglotNo: Bool,
-                            parkinglotAmount: String,
-                            isSettingTheRightForThirdPersonYes: Bool,
-                            isSettingTheRightForThirdPersonNo: Bool,
+                            hasParkinglot: Bool,
+                            isSettingTheRightForThirdPerson: Bool,
                             SettingTheRightForThirdPersonForWhatKind: String,
-                            isBlockByBankYes: Bool,
-                            isBlockByBankNo: Bool,
+                            isBlockByBank: Bool,
                             provideForAll: Bool,
                             provideForPart: Bool,
                             provideFloor: String,
@@ -492,7 +475,6 @@ extension FirestoreToFetchRoomsData {
                             provideRoomArea: String,
                             isVehicle: Bool,
                             isMorto: Bool,
-                            isBoth: Bool,
                             parkingUGFloor: String,
                             parkingStyleN: Bool,
                             parkingStyleM: Bool,
@@ -501,8 +483,7 @@ extension FirestoreToFetchRoomsData {
                             forAllday: Bool,
                             forMorning: Bool,
                             forNight: Bool,
-                            havingSubFacilityYes: Bool,
-                            havingSubFacilityNo: Bool,
+                            havingSubFacility: Bool,
                             rentalStartDate: Date,
                             rentalEndDate: Date,
                             paymentdays: String,
@@ -540,9 +521,6 @@ extension FirestoreToFetchRoomsData {
                             payByProviderForIDFProxyFee: Bool,
                             separateForBothForIDFProxyFee: Bool,
                             subLeaseAgreement: Bool,
-                            contractSendbyEmail: Bool,
-                            contractSendbyTextingMessage: Bool,
-                            contractSendbyMessageSoftware: Bool,
                             doCourtIDF: Bool,
                             courtIDFDoc: Bool,
                             providerName: String,
@@ -592,16 +570,12 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.publicBuildingRightRange" : publicBuildingRightRange, //共有部分權利範圍
             "rentersContractData.publicBuildingArea" : publicBuildingArea, //共有部分持分面積__平方公尺
             
-            "rentersContractData.hasParkinglotYes" : hasParkinglotYes, //車位-有
-            "rentersContractData.hasParkinglotNo" : hasParkinglotNo, //車位-無
-            "rentersContractData.parkinglotAmount" : parkinglotAmount, //汽機車車位數量
+            "rentersContractData.hasParkinglot" : hasParkinglot, //車位-有無
             
-            "rentersContractData.isSettingTheRightForThirdPersonYes" : isSettingTheRightForThirdPersonYes, //設定他項權利-有
-            "rentersContractData.isSettingTheRightForThirdPersonNo" : isSettingTheRightForThirdPersonNo, //設定他項權利-無
+            "rentersContractData.isSettingTheRightForThirdPerson" : isSettingTheRightForThirdPerson, //設定他項權利-有無
             "rentersContractData.SettingTheRightForThirdPersonForWhatKind" : SettingTheRightForThirdPersonForWhatKind, //權利種類
             
-            "rentersContractData.isBlockByBankYes" : isBlockByBankYes, //查封登記-有
-            "rentersContractData.isBlockByBankNo" : isBlockByBankNo, //查封登記-無
+            "rentersContractData.isBlockByBank" : isBlockByBank, //查封登記-有無
             
             // MARK: 第一條 委託管理標的 - 租賃範圍
             "rentersContractData.provideForAll": provideForAll, //租賃住宅全部
@@ -613,7 +587,6 @@ extension FirestoreToFetchRoomsData {
             
             "rentersContractData.isVehicle": isVehicle, //汽車停車位
             "rentersContractData.isMorto": isMorto, //機車停車位
-            "rentersContractData.isBoth": isBoth, //汽車機車皆有
             "rentersContractData.parkingUGFloor": parkingUGFloor, //地上(下)第__層
             "rentersContractData.parkingStyleN": parkingStyleN, //平面式停車位
             "rentersContractData.parkingStyleM": parkingStyleM, //機械式停車位
@@ -623,8 +596,7 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.forMorning": forMorning, //使用時間日間
             "rentersContractData.forNight": forNight, //使用時間夜間
             
-            "rentersContractData.havingSubFacilityYes": havingSubFacilityYes, //租賃附屬設備-有
-            "rentersContractData.havingSubFacilityNo": havingSubFacilityNo, //租賃附屬設備-無
+            "rentersContractData.havingSubFacility": havingSubFacility, //租賃附屬設備-有無
             
             // MARK: 第二條 租賃期間
             "rentersContractData.rentalStartDate" : rentalStartDate, //委託管理期間自
@@ -680,9 +652,9 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.subLeaseAgreement" : subLeaseAgreement,
             
             // MARK: 第十二條 房屋之返還
-            "rentersContractData.contractSendbyEmail" : contractSendbyEmail, //履行本契約之通知-電子郵件信箱
-            "rentersContractData.contractSendbyTextingMessage" : contractSendbyTextingMessage, //履行本契約之通知-手機簡訊
-            "rentersContractData.contractSendbyMessageSoftware" : contractSendbyMessageSoftware, //履行本契約之通知-即時通訊軟體
+//            "rentersContractData.contractSendbyEmail" : contractSendbyEmail, //履行本契約之通知-電子郵件信箱
+//            "rentersContractData.contractSendbyTextingMessage" : contractSendbyTextingMessage, //履行本契約之通知-手機簡訊
+//            "rentersContractData.contractSendbyMessageSoftware" : contractSendbyMessageSoftware, //履行本契約之通知-即時通訊軟體
             
             // MARK: 第十九條 其他約定
             "rentersContractData.doCourtIDF" : doCourtIDF, //□辦理公證□不辦理公證
@@ -738,16 +710,12 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.publicBuildingRightRange" : publicBuildingRightRange, //共有部分權利範圍
             "rentersContractData.publicBuildingArea" : publicBuildingArea, //共有部分持分面積__平方公尺
             
-            "rentersContractData.hasParkinglotYes" : hasParkinglotYes, //車位-有
-            "rentersContractData.hasParkinglotNo" : hasParkinglotNo, //車位-無
-            "rentersContractData.parkinglotAmount" : parkinglotAmount, //汽機車車位數量
+            "rentersContractData.hasParkinglot" : hasParkinglot, //車位-有無
             
-            "rentersContractData.isSettingTheRightForThirdPersonYes" : isSettingTheRightForThirdPersonYes, //設定他項權利-有
-            "rentersContractData.isSettingTheRightForThirdPersonNo" : isSettingTheRightForThirdPersonNo, //設定他項權利-無
+            "rentersContractData.isSettingTheRightForThirdPerson" : isSettingTheRightForThirdPerson, //設定他項權利-有無
             "rentersContractData.SettingTheRightForThirdPersonForWhatKind" : SettingTheRightForThirdPersonForWhatKind, //權利種類
             
-            "rentersContractData.isBlockByBankYes" : isBlockByBankYes, //查封登記-有
-            "rentersContractData.isBlockByBankNo" : isBlockByBankNo, //查封登記-無
+            "rentersContractData.isBlockByBank" : isBlockByBank, //查封登記-有無
             
             // MARK: 第一條 委託管理標的 - 租賃範圍
             "rentersContractData.provideForAll": provideForAll, //租賃住宅全部
@@ -759,7 +727,6 @@ extension FirestoreToFetchRoomsData {
             
             "rentersContractData.isVehicle": isVehicle, //汽車停車位
             "rentersContractData.isMorto": isMorto, //機車停車位
-            "rentersContractData.isBoth": isBoth, //汽車機車皆有
             "rentersContractData.parkingUGFloor": parkingUGFloor, //地上(下)第__層
             "rentersContractData.parkingStyleN": parkingStyleN, //平面式停車位
             "rentersContractData.parkingStyleM": parkingStyleM, //機械式停車位
@@ -769,8 +736,7 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.forMorning": forMorning, //使用時間日間
             "rentersContractData.forNight": forNight, //使用時間夜間
             
-            "rentersContractData.havingSubFacilityYes": havingSubFacilityYes, //租賃附屬設備-有
-            "rentersContractData.havingSubFacilityNo": havingSubFacilityNo, //租賃附屬設備-無
+            "rentersContractData.havingSubFacility": havingSubFacility, //租賃附屬設備-有無
             
             // MARK: 第二條 租賃期間
             "rentersContractData.rentalStartDate" : rentalStartDate, //委託管理期間自
@@ -826,9 +792,9 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.subLeaseAgreement" : subLeaseAgreement,
             
             // MARK: 第十二條 房屋之返還
-            "rentersContractData.contractSendbyEmail" : contractSendbyEmail, //履行本契約之通知-電子郵件信箱
-            "rentersContractData.contractSendbyTextingMessage" : contractSendbyTextingMessage, //履行本契約之通知-手機簡訊
-            "rentersContractData.contractSendbyMessageSoftware" : contractSendbyMessageSoftware, //履行本契約之通知-即時通訊軟體
+//            "rentersContractData.contractSendbyEmail" : contractSendbyEmail, //履行本契約之通知-電子郵件信箱
+//            "rentersContractData.contractSendbyTextingMessage" : contractSendbyTextingMessage, //履行本契約之通知-手機簡訊
+//            "rentersContractData.contractSendbyMessageSoftware" : contractSendbyMessageSoftware, //履行本契約之通知-即時通訊軟體
             
             // MARK: 第十九條 其他約定
             "rentersContractData.doCourtIDF" : doCourtIDF, //□辦理公證□不辦理公證

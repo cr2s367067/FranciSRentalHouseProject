@@ -406,6 +406,14 @@ extension View {
     func withErrorHandling() -> some View {
         modifier(HandleErrorByShowingAlertViewModifier())
     }
+    
+    @available(iOS 14, *)
+    func navigationBarTitleTextColor(_ color: Color) -> some View {
+        let uiColor = UIColor(color)
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: uiColor]
+        
+        return self
+    }
 }
 
 

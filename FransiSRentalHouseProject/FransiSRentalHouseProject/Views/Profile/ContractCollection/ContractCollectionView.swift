@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 struct ContractCollectionView: View {
     
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var appViewModel: AppViewModel
 
     @State private var showDetail = false
     
@@ -36,6 +37,9 @@ struct ContractCollectionView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            appViewModel.updateNavigationBarColor()
+        }
     }
 }
 
