@@ -98,6 +98,7 @@
 		0ED1F42E27F1DDBF0004B5CE /* FurnitureGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42D27F1DDBF0004B5CE /* FurnitureGridView.swift */; };
 		0ED1F43227F1F0970004B5CE /* ProductsProviderSummitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F43127F1F0970004B5CE /* ProductsProviderSummitView.swift */; };
 		0ED1F43427F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */; };
+		0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */; };
 		0EE447F227F5867C001DC4DF /* FocusProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F127F5867C001DC4DF /* FocusProductsView.swift */; };
 		0EE447F427F59378001DC4DF /* UserDetailInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -189,6 +190,7 @@
 		0ED1F42D27F1DDBF0004B5CE /* FurnitureGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureGridView.swift; sourceTree = "<group>"; };
 		0ED1F43127F1F0970004B5CE /* ProductsProviderSummitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsProviderSummitView.swift; sourceTree = "<group>"; };
 		0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsProviderSummitViewModel.swift; sourceTree = "<group>"; };
+		0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractEditView.swift; sourceTree = "<group>"; };
 		0EE447F127F5867C001DC4DF /* FocusProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusProductsView.swift; sourceTree = "<group>"; };
 		0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailInfoViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -490,6 +492,7 @@
 			children = (
 				02D684BE27D9EFF000061B99 /* RenterContractView.swift */,
 				0E19C8CA27F6CAEB00FD23D8 /* RentalContractViewModel.swift */,
+				0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */,
 			);
 			path = Renter;
 			sourceTree = "<group>";
@@ -643,6 +646,7 @@
 				0249D45127C63AEA0085F4A5 /* MenuView.swift in Sources */,
 				0226660F27DE2A1D0051940B /* MessageView.swift in Sources */,
 				0249D42827C6376E0085F4A5 /* UserCoreDataModel.xcdatamodeld in Sources */,
+				0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */,
 				02450AE827D2AD7100370683 /* FirestoreForContactInfo.swift in Sources */,
 				0249D43E27C639900085F4A5 /* SignUpView.swift in Sources */,
 				0249D45327C63AF80085F4A5 /* ContactView.swift in Sources */,
