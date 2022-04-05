@@ -82,6 +82,7 @@
 		0E3DD1A127ED5CB6001525E3 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD1A027ED5CB6001525E3 /* FirebaseStorageSwift-Beta */; };
 		0E3DD1A427ED5CE3001525E3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD1A327ED5CE3001525E3 /* SDWebImageSwiftUI */; };
 		0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */; };
+		0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */; };
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
 		0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */; };
 		0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */; };
@@ -175,6 +176,7 @@
 		0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMainView.swift; sourceTree = "<group>"; };
 		0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDetailView.swift; sourceTree = "<group>"; };
+		0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerRepresentable.swift; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
 		0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocationDataModel.swift; sourceTree = "<group>"; };
 		0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsLocationViewModel.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */,
 				0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */,
 				0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */,
+				0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -683,6 +686,7 @@
 				02450AE627D2AC7000370683 /* ContactDataModel.swift in Sources */,
 				0E2EDD3C27EAF394008FEF58 /* FirestoreForTextingMessage.swift in Sources */,
 				0249D45D27C63B720085F4A5 /* PaymentDetailView.swift in Sources */,
+				0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */,
 				0EC5286E27F2E930002D2C6F /* ProductCollectionView.swift in Sources */,
 				02CB58ED27CDAE730035EE20 /* UserDataModel.swift in Sources */,
 				0259C26627CF460800DFDE18 /* ProviderSummittedRoomContractView.swift in Sources */,

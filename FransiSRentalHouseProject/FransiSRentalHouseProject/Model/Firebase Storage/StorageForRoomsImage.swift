@@ -36,4 +36,6 @@ extension StorageForRoomsImage {
             self.representedRoomImageURL = url.absoluteString
         }
     }
+    
+    
 }

@@ -21,7 +21,7 @@ struct ProviderRoomSummitView: View {
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     
     @State private var holderTosAgree = false
-    @State var image = UIImage()
+    @State var image = [UIImage]()
     @State private var showSheet = false
     @State private var tosSheetShow = false
     @State private var isSummitRoomPic = false
@@ -88,13 +88,14 @@ struct ProviderRoomSummitView: View {
                                     .resizable()
                                     .frame(width: 25, height: 25)
                                     .foregroundColor(Color.gray)
-                                if isSummitRoomPic == true {
-                                    Image(uiImage: self.image)
-                                        .resizable()
-                                        .frame(width: 378, height: 304)
-                                        .cornerRadius(10)
-                                        .scaledToFit()
-                                }
+//                                if isSummitRoomPic == true {
+//                                    Image(uiImage: self.image)
+//                                        .resizable()
+//                                        .frame(width: 378, height: 304)
+//                                        .cornerRadius(10)
+//                                        .scaledToFit()
+//                                }
+                                Text("\(image.count)")
                             }
                         }
                         StepsTitle(stepsName: "Step2: Please provide the necessary information")
@@ -771,13 +772,14 @@ struct ProviderRoomSummitView: View {
             })
             .sheet(isPresented: $showSheet) {
                 Task {
-                    try await storageForRoomsImage.uploadRoomImageAsync(uidPath: firebaseAuth.getUID(), image: image, roomID: firestoreToFetchRoomsData.roomID, imageUID: storageForRoomsImage.imageUUID)
-                    DispatchQueue.main.async {                    
-                        isSummitRoomPic = true
-                    }
+//                    try await storageForRoomsImage.uploadRoomImageAsync(uidPath: firebaseAuth.getUID(), image: image, roomID: firestoreToFetchRoomsData.roomID, imageUID: storageForRoomsImage.imageUUID)
+//                    DispatchQueue.main.async {
+//                        isSummitRoomPic = true
+//                    }
                 }
             } content: {
-                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
+//                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
+                PHPickerRepresentable(images: self.$image)
             }
         }
     }
