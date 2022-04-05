@@ -259,8 +259,7 @@ struct RoomImageCovers: Codable {
 }
 
 struct RoomInfoDataModel: Identifiable, Codable {
-    @DocumentID var docID: String?
-    var id = UUID().uuidString
+    @DocumentID var id: String?
     var roomUID: String
     var holderName: String
     var mobileNumber: String

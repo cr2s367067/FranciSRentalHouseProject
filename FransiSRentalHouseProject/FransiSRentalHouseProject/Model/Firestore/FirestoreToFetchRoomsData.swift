@@ -27,9 +27,9 @@ class FirestoreToFetchRoomsData: ObservableObject {
     
     @Published var roomID = ""
     
-    func listenRoomsData() {
-        listeningRoomInfo(uidPath: firebaseAuth.getUID())
-    }
+//    func listenRoomsData() {
+//        listeningRoomInfo(uidPath: firebaseAuth.getUID())
+//    }
     
     func roomIdGenerator() -> String {
         let roomId = UUID().uuidString
@@ -38,70 +38,70 @@ class FirestoreToFetchRoomsData: ObservableObject {
     }
 
     
-    func listeningRoomInfoForPublic() {
-        let roomPublicRef = db.collection("RoomsForPublic")
-        roomPublicRef.addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot?.documents else {
-                print("Error fetch document: \(error!)")
-                return
-            }
-            
-            self.fetchRoomInfoFormPublic = document.map { queryDocumentSnapshot -> RoomInfoDataModel in
-                let data = queryDocumentSnapshot.data()
-                let docID = queryDocumentSnapshot.documentID
-                let holderName = data["holderName"] as? String ?? ""
-                let mobileNumber = data["mobileNumber"] as? String ?? ""
-                let roomAddress = data["roomAddress"] as? String ?? ""
-                let town = data["town"] as? String ?? ""
-                let city = data["city"] as? String ?? ""
-                let zipCode = data["zipCode"] as? String ?? ""
-                let roomArea = data["roomArea"] as? String ?? ""
-                let rentalPrice = data["rentalPrice"] as? String ?? ""
-                let someoneDeadInRoom = data["someoneDeadInRoom"] as? String ?? ""
-                let waterLeakingProblem = data["waterLeakingProblem"] as? String ?? ""
-                let roomUID = data["roomUID"] as? String ?? ""
-                let roomImage = data["roomImage"] as? String ?? ""
-                let providedBy = data["providedBy"] as? String ?? ""
-                let providerDisplayName = data["providerDisplayName"] as? String ?? ""
-                let providerChatDocId = data["providerChatDocId"] as? String ?? ""
-                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage, providedBy: providedBy, providerDisplayName: providerDisplayName, providerChatDocId: providerChatDocId)
-                
-            }
-        }
-    }
+//    func listeningRoomInfoForPublic() {
+//        let roomPublicRef = db.collection("RoomsForPublic")
+//        roomPublicRef.addSnapshotListener { documentSnapshot, error in
+//            guard let document = documentSnapshot?.documents else {
+//                print("Error fetch document: \(error!)")
+//                return
+//            }
+//
+//            self.fetchRoomInfoFormPublic = document.map { queryDocumentSnapshot -> RoomInfoDataModel in
+//                let data = queryDocumentSnapshot.data()
+//                let docID = queryDocumentSnapshot.documentID
+//                let holderName = data["holderName"] as? String ?? ""
+//                let mobileNumber = data["mobileNumber"] as? String ?? ""
+//                let roomAddress = data["roomAddress"] as? String ?? ""
+//                let town = data["town"] as? String ?? ""
+//                let city = data["city"] as? String ?? ""
+//                let zipCode = data["zipCode"] as? String ?? ""
+//                let roomArea = data["roomArea"] as? String ?? ""
+//                let rentalPrice = data["rentalPrice"] as? String ?? ""
+//                let someoneDeadInRoom = data["someoneDeadInRoom"] as? String ?? ""
+//                let waterLeakingProblem = data["waterLeakingProblem"] as? String ?? ""
+//                let roomUID = data["roomUID"] as? String ?? ""
+//                let roomImage = data["roomImage"] as? String ?? ""
+//                let providedBy = data["providedBy"] as? String ?? ""
+//                let providerDisplayName = data["providerDisplayName"] as? String ?? ""
+//                let providerChatDocId = data["providerChatDocId"] as? String ?? ""
+//                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage, providedBy: providedBy, providerDisplayName: providerDisplayName, providerChatDocId: providerChatDocId)
+//
+//            }
+//        }
+//    }
     
-    func listeningRoomInfo(uidPath: String) {
-        let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
-        roomOwnerRef.addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot?.documents else {
-                print("Error fetch document: \(error!)")
-                return
-            }
-            self.fetchRoomInfoFormOwner = document.map { queryDocumentSnapshot -> RoomInfoDataModel in
-                let data = queryDocumentSnapshot.data()
-                let docID = queryDocumentSnapshot.documentID
-                let holderName = data["holderName"] as? String ?? ""
-                let mobileNumber = data["mobileNumber"] as? String ?? ""
-                let roomAddress = data["roomAddress"] as? String ?? ""
-                let town = data["town"] as? String ?? ""
-                let city = data["city"] as? String ?? ""
-                let zipCode = data["zipCode"] as? String ?? ""
-                let roomArea = data["roomArea"] as? String ?? ""
-                let rentalPrice = data["rentalPrice"] as? String ?? ""
-                let someoneDeadInRoom = data["someoneDeadInRoom"] as? String ?? ""
-                let waterLeakingProblem = data["waterLeakingProblem"] as? String ?? ""
-                let roomUID = data["roomUID"] as? String ?? ""
-                let roomImage = data["roomImage"] as? String ?? ""
-                let isRented = data["isRented"] as? Bool ?? false
-                let rentedBy = data["rentedBy"] as? String ?? ""
-                let providedBy = data["providedBy"] as? String ?? ""
-                let providerDisplayName = data["providerDisplayName"] as? String ?? ""
-                let providerChatDocId = data["providerChatDocId"] as? String ?? ""
-                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage,isRented: isRented,rentedBy: rentedBy, providedBy: providedBy, providerDisplayName: providerDisplayName, providerChatDocId: providerChatDocId)
-                
-            }
-        }
-    }
+//    func listeningRoomInfo(uidPath: String) {
+//        let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
+//        roomOwnerRef.addSnapshotListener { documentSnapshot, error in
+//            guard let document = documentSnapshot?.documents else {
+//                print("Error fetch document: \(error!)")
+//                return
+//            }
+//            self.fetchRoomInfoFormOwner = document.map { queryDocumentSnapshot -> RoomInfoDataModel in
+//                let data = queryDocumentSnapshot.data()
+//                let docID = queryDocumentSnapshot.documentID
+//                let holderName = data["holderName"] as? String ?? ""
+//                let mobileNumber = data["mobileNumber"] as? String ?? ""
+//                let roomAddress = data["roomAddress"] as? String ?? ""
+//                let town = data["town"] as? String ?? ""
+//                let city = data["city"] as? String ?? ""
+//                let zipCode = data["zipCode"] as? String ?? ""
+//                let roomArea = data["roomArea"] as? String ?? ""
+//                let rentalPrice = data["rentalPrice"] as? String ?? ""
+//                let someoneDeadInRoom = data["someoneDeadInRoom"] as? String ?? ""
+//                let waterLeakingProblem = data["waterLeakingProblem"] as? String ?? ""
+//                let roomUID = data["roomUID"] as? String ?? ""
+//                let roomImage = data["roomImage"] as? String ?? ""
+//                let isRented = data["isRented"] as? Bool ?? false
+//                let rentedBy = data["rentedBy"] as? String ?? ""
+//                let providedBy = data["providedBy"] as? String ?? ""
+//                let providerDisplayName = data["providerDisplayName"] as? String ?? ""
+//                let providerChatDocId = data["providerChatDocId"] as? String ?? ""
+//                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage,isRented: isRented,rentedBy: rentedBy, providedBy: providedBy, providerDisplayName: providerDisplayName, providerChatDocId: providerChatDocId)
+//                
+//            }
+//        }
+//    }
     
 }
 
@@ -159,7 +159,7 @@ extension FirestoreToFetchRoomsData {
                 "hasParkinglot" : false, //車位-有無
                 
                 "isSettingTheRightForThirdPerson" : false, //設定他項權利-有無
-                "SettingTheRightForThirdPersonForWhatKind" : "", //權利種類
+                "settingTheRightForThirdPersonForWhatKind" : "", //權利種類
                 
                 "isBlockByBank" : false, //查封登記-有無
                 
@@ -316,7 +316,7 @@ extension FirestoreToFetchRoomsData {
                 "hasParkinglot" : false, //車位-有無
                 
                 "isSettingTheRightForThirdPerson" : false, //設定他項權利-有無
-                "SettingTheRightForThirdPersonForWhatKind" : "", //權利種類
+                "settingTheRightForThirdPersonForWhatKind" : "", //權利種類
                 
                 "isBlockByBank" : false, //查封登記-有無
                 
@@ -465,7 +465,7 @@ extension FirestoreToFetchRoomsData {
                             publicBuildingArea: String,
                             hasParkinglot: Bool,
                             isSettingTheRightForThirdPerson: Bool,
-                            SettingTheRightForThirdPersonForWhatKind: String,
+                            settingTheRightForThirdPersonForWhatKind: String,
                             isBlockByBank: Bool,
                             provideForAll: Bool,
                             provideForPart: Bool,
@@ -573,7 +573,7 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.hasParkinglot" : hasParkinglot, //車位-有無
             
             "rentersContractData.isSettingTheRightForThirdPerson" : isSettingTheRightForThirdPerson, //設定他項權利-有無
-            "rentersContractData.SettingTheRightForThirdPersonForWhatKind" : SettingTheRightForThirdPersonForWhatKind, //權利種類
+            "rentersContractData.settingTheRightForThirdPersonForWhatKind" : settingTheRightForThirdPersonForWhatKind, //權利種類
             
             "rentersContractData.isBlockByBank" : isBlockByBank, //查封登記-有無
             
@@ -713,7 +713,7 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.hasParkinglot" : hasParkinglot, //車位-有無
             
             "rentersContractData.isSettingTheRightForThirdPerson" : isSettingTheRightForThirdPerson, //設定他項權利-有無
-            "rentersContractData.SettingTheRightForThirdPersonForWhatKind" : SettingTheRightForThirdPersonForWhatKind, //權利種類
+            "rentersContractData.settingTheRightForThirdPersonForWhatKind" : settingTheRightForThirdPersonForWhatKind, //權利種類
             
             "rentersContractData.isBlockByBank" : isBlockByBank, //查封登記-有無
             
@@ -823,4 +823,51 @@ extension FirestoreToFetchRoomsData {
         ])
         
     }
+}
+
+
+extension FirestoreToFetchRoomsData {
+    func listeningRoomInfoForPublicRestruct() {
+        let roomPublicRef = db.collection("RoomsForPublic")
+        roomPublicRef.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot?.documents else {
+                print("Error fetch document: \(error!)")
+                return
+            }
+            self.fetchRoomInfoFormPublic = document.compactMap({ queryDocumentSnapshot in
+                let result = Result {
+                    try queryDocumentSnapshot.data(as: RoomInfoDataModel.self)
+                }
+                switch result {
+                case .success(let data):
+                    return data
+                case .failure(let error):
+                    print("error: \(error)")
+                }
+                return nil
+            })
+        }
+    }
+    
+    func listeningRoomInfoOwnerSideRestruct(uidPath: String) {
+           let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
+           roomOwnerRef.addSnapshotListener { documentSnapshot, error in
+               guard let document = documentSnapshot?.documents else {
+                   print("Error fetch document: \(error!)")
+                   return
+               }
+               self.fetchRoomInfoFormOwner = document.compactMap({ queryDocumentSnapshot in
+                   let result = Result {
+                       try queryDocumentSnapshot.data(as: RoomInfoDataModel.self)
+                   }
+                   switch result {
+                   case .success(let data):
+                       return data
+                   case .failure(let error):
+                       print("error: \(error)")
+                   }
+                   return nil
+               })
+           }
+       }
 }

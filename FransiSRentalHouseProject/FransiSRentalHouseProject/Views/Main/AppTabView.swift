@@ -89,8 +89,8 @@ struct AppTabView: View {
             }
         })
         .onAppear {
-            firestoreToFetchRoomsData.listeningRoomInfo(uidPath: firebaseAuth.getUID())
-            firestoreToFetchRoomsData.listeningRoomInfoForPublic()
+            firestoreToFetchRoomsData.listeningRoomInfoOwnerSideRestruct(uidPath: firebaseAuth.getUID())
+            firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct()
             firestoreForFurniture.listeningFurnitureInfo()
         }
     }

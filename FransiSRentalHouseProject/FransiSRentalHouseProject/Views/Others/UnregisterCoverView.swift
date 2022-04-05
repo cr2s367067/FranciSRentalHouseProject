@@ -13,10 +13,11 @@ struct UnregisterCoverView: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     @Binding var isShowUserDetailView: Bool
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                .ignoresSafeArea(.all)
+//        ZStack {
+//            Rectangle()
+//                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
+//                .ignoresSafeArea(.all)
+        VStack {
             VStack {
                 Text("Notice")
                     .font(.headline)
@@ -46,6 +47,12 @@ struct UnregisterCoverView: View {
                     .fill(Color.white)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(alignment: .center) {
+            LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea([.top, .bottom])
+        }
+//        }
     }
 }
 

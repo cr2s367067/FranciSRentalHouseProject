@@ -34,6 +34,8 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var paymentSummaryVM = PaymentSummaryViewModel()
     @StateObject var userOrderedListViewModel = UserOrderedListUnitViewModel()
     @StateObject var renterContractEditViewModel = RenterContractEditViewModel()
+    @StateObject var renterContractViewModel = RenterContractViewModel()
+    @StateObject var userDetailInfoViewModel = UserDetailInfoViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -59,6 +61,8 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(paymentSummaryVM)
                 .environmentObject(userOrderedListViewModel)
                 .environmentObject(renterContractEditViewModel)
+                .environmentObject(renterContractViewModel)
+                .environmentObject(userDetailInfoViewModel)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

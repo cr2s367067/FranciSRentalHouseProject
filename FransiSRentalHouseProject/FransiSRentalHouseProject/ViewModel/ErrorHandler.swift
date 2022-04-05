@@ -59,6 +59,7 @@ enum UserInformationError: LocalizedError {
     case userRentalError
     case roomSelectedError
     case chartError
+    case registeError
 //    case furnitureError
 
     var errorDescription: String? {
@@ -81,6 +82,8 @@ enum UserInformationError: LocalizedError {
             return NSLocalizedString("Hi, You haven't select any product.", comment: "")
         case .chartError:
             return NSLocalizedString("Please select something🥸", comment: "")
+        case .registeError:
+            return NSLocalizedString("Hi, I know you love it, but you have to fill out the user infomation first.😉", comment: "")
         }
     }
 }
@@ -155,6 +158,17 @@ enum MaintainError: LocalizedError {
         switch self {
         case .maintianFillingError:
             return NSLocalizedString("Please fill out the maintain infomation, thanks", comment: "")
+        }
+    }
+}
+
+enum PurchaseError: LocalizedError {
+    case blankError
+    
+    var errorDescription: String? {
+        switch self {
+        case .blankError:
+            return NSLocalizedString("Please fill out payment infomation, thanks.", comment: "")
         }
     }
 }

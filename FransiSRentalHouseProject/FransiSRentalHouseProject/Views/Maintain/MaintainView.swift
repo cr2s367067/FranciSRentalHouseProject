@@ -51,13 +51,10 @@ struct MaintainView: View {
     //    }
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                .ignoresSafeArea(.all)
-            VStack(alignment: .leading) {
+        NavigationView {
+            VStack {
                 Spacer()
-                    .frame(height: 2)
+                //                .frame(height: 2)
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Title Group
                     VStack(spacing: 1) {
@@ -131,18 +128,22 @@ struct MaintainView: View {
                     .padding(.top, 5)
                 }
             }
-        }
-        .onAppear {
-            firestoreToFetchUserinfo.userRentedRoomInfo()
-        }
-        .overlay(content: {
-            if firestoreToFetchUserinfo.presentUserId().isEmpty {
-                UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+            .background(alignment: .center) {
+                LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea([.top, .bottom])
             }
-        })
-        .navigationTitle("")
-        .navigationBarHidden(true)
-        .navigationBarBackButtonHidden(true)
+            .overlay(content: {
+                if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                    UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+                    //                SecondOverLay(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+                }
+            })
+            .onAppear {
+                firestoreToFetchUserinfo.userRentedRoomInfo()
+            }
+            .navigationTitle("")
+            .navigationBarHidden(true)
+        }
     }
 }
 

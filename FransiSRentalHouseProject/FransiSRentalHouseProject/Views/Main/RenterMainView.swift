@@ -16,6 +16,7 @@ struct RenterMainView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreFetchingAnnouncement: FirestoreFetchingAnnouncement
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
+    @EnvironmentObject var errorHandler: ErrorHandler
     
     var gridItemLayout = [
         GridItem(.fixed(170)),
@@ -42,6 +43,12 @@ struct RenterMainView: View {
                             }
                         }
                     }
+//                    Button {
+//                        firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct()
+//                        print(firestoreToFetchRoomsData.fetchRoomInfoFormPublic)
+//                    } label: {
+//                        Text("test")
+//                    }
                     //: New rooms Group
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
@@ -91,42 +98,46 @@ struct RenterMainView: View {
                                 if showRooms == true {
                                     ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
                                     Button {
-                                        if localData.tempCart.isEmpty {
-                                            if firestoreToFetchUserinfo.notRented() {
-                                                localData.tempCart.append(result)
-                                                localData.addItem(roomAddress: result.roomAddress,
-                                                                  roomTown: result.town,
-                                                                  roomCity: result.city,
-                                                                  itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
-                                                                  roomUID: result.roomUID ,
-                                                                  roomImage: result.roomImage ?? "",
-                                                                  roomZipCode: result.zipCode,
-                                                                  docID: result.docID ?? "",
-                                                                  providerUID: result.providedBy)
-                                            }
-                                        } else {
-                                            localData.tempCart.removeAll()
-                                            localData.summaryItemHolder.removeAll()
+                                        do {
+                                            try checkUserInfo()
                                             if localData.tempCart.isEmpty {
-                                                localData.tempCart.append(result)
                                                 if firestoreToFetchUserinfo.notRented() {
+                                                    localData.tempCart.append(result)
                                                     localData.addItem(roomAddress: result.roomAddress,
                                                                       roomTown: result.town,
                                                                       roomCity: result.city,
-                                                                      itemPrice: (Int(result.rentalPrice) ?? 0) * 3 ,
+                                                                      itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
                                                                       roomUID: result.roomUID ,
                                                                       roomImage: result.roomImage ?? "",
                                                                       roomZipCode: result.zipCode,
-                                                                      docID: result.docID ?? "",
+                                                                      docID: result.id ?? "",
                                                                       providerUID: result.providedBy)
                                                 }
+                                            } else {
+                                                localData.tempCart.removeAll()
+                                                localData.summaryItemHolder.removeAll()
+                                                if localData.tempCart.isEmpty {
+                                                    localData.tempCart.append(result)
+                                                    if firestoreToFetchUserinfo.notRented() {
+                                                        localData.addItem(roomAddress: result.roomAddress,
+                                                                          roomTown: result.town,
+                                                                          roomCity: result.city,
+                                                                          itemPrice: (Int(result.rentalPrice) ?? 0) * 3 ,
+                                                                          roomUID: result.roomUID ,
+                                                                          roomImage: result.roomImage ?? "",
+                                                                          roomZipCode: result.zipCode,
+                                                                          docID: result.id ?? "",
+                                                                          providerUID: result.providedBy)
+                                                    }
+                                                }
                                             }
+                                            if appViewModel.isPresent == false {
+                                                appViewModel.isPresent = true
+                                            }
+                                            localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                                        } catch {
+                                            self.errorHandler.handle(error: error)
                                         }
-                                        if appViewModel.isPresent == false {
-                                            appViewModel.isPresent = true
-                                        }
-                                        localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-                                        
                                     } label: {
                                         RoomsGridView(imageURL: result.roomImage ?? "",
                                                  roomTown: result.town,
@@ -172,22 +183,8 @@ struct RenterMainView: View {
                             LazyHGrid(rows: gridItemLayout, spacing: 50) {
                                 ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
                                     Button {
-                                        if localData.tempCart.isEmpty {
-                                            if firestoreToFetchUserinfo.notRented() {
-                                                localData.tempCart.append(result)
-                                                localData.addItem(roomAddress: result.roomAddress,
-                                                                  roomTown: result.town,
-                                                                  roomCity: result.city,
-                                                                  itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
-                                                                  roomUID: result.roomUID ,
-                                                                  roomImage: result.roomImage ?? "",
-                                                                  roomZipCode: result.zipCode,
-                                                                  docID: result.docID ?? "",
-                                                                  providerUID: result.providedBy)
-                                            }
-                                        } else {
-                                            localData.tempCart.removeAll()
-                                            localData.summaryItemHolder.removeAll()
+                                        do {
+                                            try checkUserInfo()
                                             if localData.tempCart.isEmpty {
                                                 if firestoreToFetchUserinfo.notRented() {
                                                     localData.tempCart.append(result)
@@ -198,14 +195,35 @@ struct RenterMainView: View {
                                                                       roomUID: result.roomUID ,
                                                                       roomImage: result.roomImage ?? "",
                                                                       roomZipCode: result.zipCode,
-                                                                      docID: result.docID ?? "", providerUID: result.providedBy )
+                                                                      docID: result.id ?? "",
+                                                                      providerUID: result.providedBy)
+                                                }
+                                            } else {
+                                                localData.tempCart.removeAll()
+                                                localData.summaryItemHolder.removeAll()
+                                                if localData.tempCart.isEmpty {
+                                                    if firestoreToFetchUserinfo.notRented() {
+                                                        localData.tempCart.append(result)
+                                                        localData.addItem(roomAddress: result.roomAddress,
+                                                                          roomTown: result.town,
+                                                                          roomCity: result.city,
+                                                                          itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
+                                                                          roomUID: result.roomUID ,
+                                                                          roomImage: result.roomImage ?? "",
+                                                                          roomZipCode: result.zipCode,
+                                                                          docID: result.id ?? "",
+                                                                          providerUID: result.providedBy )
+                                                    }
                                                 }
                                             }
+                                            if appViewModel.isPresent == false {
+                                                appViewModel.isPresent = true
+                                            }
+                                            localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                                        } catch {
+                                            self.errorHandler.handle(error: error)
                                         }
-                                        if appViewModel.isPresent == false {
-                                            appViewModel.isPresent = true
-                                        }
-                                        localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                                        
                                     } label: {
                                         RoomsGridView(imageURL: result.roomImage ?? "",
                                                  roomTown: result.town,
@@ -266,6 +284,14 @@ struct AnnouncementView: View {
                 Spacer()
             }
             .padding(.leading)
+        }
+    }
+}
+
+extension RenterMainView {
+    private func checkUserInfo() throws {
+        guard !firestoreToFetchUserinfo.fetchedUserData.id.isEmpty else {
+            throw UserInformationError.registeError
         }
     }
 }

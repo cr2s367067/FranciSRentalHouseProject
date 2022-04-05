@@ -16,6 +16,7 @@ struct UserDetailInfoView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
+    @EnvironmentObject var userDetailInfoViewModel: UserDetailInfoViewModel
     
 
     @State var isMale = false
@@ -24,7 +25,7 @@ struct UserDetailInfoView: View {
     @State var inforFormatterCorrect = false
     @State private var isSummit = false
     @State private var selection = "House Owner"
-    @State private var isEdit = false
+    
     
     private func reset() {
         appViewModel.userDetailViewReset()
@@ -42,7 +43,7 @@ struct UserDetailInfoView: View {
                     VStack {
                         TitleAndDivider(title: "User Detail Information")
                         VStack(alignment: .leading, spacing: 10) {
-                           isEditMode(isEdit: isEdit)
+                            isEditMode(isEdit: userDetailInfoViewModel.isEdit)
                         }
                         .padding()
                         Spacer()
@@ -57,13 +58,16 @@ struct UserDetailInfoView: View {
                                     .foregroundColor(isSummit ? Color.green : Color.clear)
                                     .font(.system(size: 12, weight: .thin))
                             }
-                            summitButton(isEdit: isEdit)
+                            summitButton(isEdit: userDetailInfoViewModel.isEdit)
                         }
                     }
                 }
             }
         }
         .onAppear(perform: {
+            if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                userDetailInfoViewModel.isEdit = true
+            }
             appViewModel.updateNavigationBarColor()
             reset()
         })
@@ -72,7 +76,7 @@ struct UserDetailInfoView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    isEdit.toggle()
+                    userDetailInfoViewModel.isEdit.toggle()
                 } label: {
                      Image(systemName: "gearshape")
                         .resizable()
@@ -248,6 +252,7 @@ extension UserDetailInfoView {
                             isSummit = true
                             try await firestoreToFetchUserinfo.reloadUserData()
                             appViewModel.isShowUserDetailView = false
+                            userDetailInfoViewModel.isEdit = false
                         } catch {
                             self.errorHandler.handle(error: error)
                         }
@@ -272,22 +277,6 @@ extension UserDetailInfoView {
 
 
 
-//class UserDetailInfoViewModel: ObservableObject {
-//
-//    let firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
-//
-//    @Published var id = ""
-//    @Published var firstName = ""
-//    @Published var lastName = ""
-//    @Published var displayName = "Unknown"
-//    @Published var mobileNumber = ""
-//    @Published var dob = Date()
-//    @Published var address = ""
-//    @Published var town = ""
-//    @Published var city = ""
-//    @Published var zipCode = ""
-//    @Published var country = "Taiwan"
-//    @Published var gender = ""
-//    @Published var providerType = ""
-//    @Published var rentalManagerLicenseNumber = ""
-//}
+class UserDetailInfoViewModel: ObservableObject {
+    @Published var isEdit = false
+}

@@ -180,7 +180,7 @@ extension SearchView {
                                     roomPrice: Int(result.rentalPrice) ?? 0,
                                     roomUID: result.roomUID ,
                                     roomZipCode: result.zipCode,
-                                    docID: result.docID ?? "",
+                                    docID: result.id ?? "",
                                     providedBy: result.providedBy,
                                     providedName: result.providerDisplayName ,
                                     result: result, chatDocID: result.providerChatDocId)

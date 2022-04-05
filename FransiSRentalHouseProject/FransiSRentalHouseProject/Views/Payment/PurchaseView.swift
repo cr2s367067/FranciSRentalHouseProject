@@ -18,6 +18,7 @@ struct PurchaseView: View {
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var paymentSummaryViewModel: PaymentSummaryViewModel
+    @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     
     var brandArray = ["apple-pay", "google-pay", "mastercard", "visa"]
     
@@ -67,8 +68,8 @@ struct PurchaseView: View {
                         }
                         ZStack {
                             HStack {
-                                TextField("", text: $cardName)
-                                    .placeholer(when: cardName.isEmpty) {
+                                TextField("", text: $purchaseViewModel.cardName)
+                                    .placeholer(when: purchaseViewModel.cardName.isEmpty) {
                                         Text("Card Holder Name")
                                             .foregroundColor(.white.opacity(0.5))
                                     }
@@ -97,8 +98,8 @@ struct PurchaseView: View {
                         }
                         ZStack {
                             HStack {
-                                TextField("", text: $cardNumber)
-                                    .placeholer(when: cardNumber.isEmpty) {
+                                TextField("", text: $purchaseViewModel.cardNumber)
+                                    .placeholer(when: purchaseViewModel.cardNumber.isEmpty) {
                                         Text("Card Number")
                                             .foregroundColor(.white.opacity(0.5))
                                     }
@@ -127,8 +128,8 @@ struct PurchaseView: View {
                             }
                             ZStack {
                                 HStack {
-                                    TextField("", text: $expDate)
-                                        .placeholer(when: expDate.isEmpty) {
+                                    TextField("", text: $purchaseViewModel.expDate)
+                                        .placeholer(when: purchaseViewModel.expDate.isEmpty) {
                                             Text("x/xx")
                                                 .foregroundColor(.white.opacity(0.5))
                                         }
@@ -327,5 +328,22 @@ extension PurchaseView {
         guard !firestoreToFetchUserinfo.notRented() else { return }
         guard productDetailViewModel.productOrderCart.isEmpty else { return }
         await monthlyRentalFeePayment()
+    }
+}
+
+
+class PurchaseViewModel: ObservableObject {
+    @Published var cardName = ""
+    @Published var cardNumber = ""
+    @Published var expDate = ""
+    @Published var secCode = ""
+    
+    
+    func blankChecker() throws {
+        guard !cardName.isEmpty && !cardNumber.isEmpty && !expDate.isEmpty && !secCode.isEmpty else {
+            throw PurchaseError.blankError
+        }
+        
+        
     }
 }
