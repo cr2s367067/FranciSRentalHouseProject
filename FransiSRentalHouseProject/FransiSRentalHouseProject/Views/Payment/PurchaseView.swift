@@ -343,7 +343,5 @@ class PurchaseViewModel: ObservableObject {
         guard !cardName.isEmpty && !cardNumber.isEmpty && !expDate.isEmpty && !secCode.isEmpty else {
             throw PurchaseError.blankError
         }
-        
-        
     }
 }

@@ -43,12 +43,6 @@ struct RenterMainView: View {
                             }
                         }
                     }
-//                    Button {
-//                        firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct()
-//                        print(firestoreToFetchRoomsData.fetchRoomInfoFormPublic)
-//                    } label: {
-//                        Text("test")
-//                    }
                     //: New rooms Group
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
@@ -97,60 +91,20 @@ struct RenterMainView: View {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
                                 if showRooms == true {
                                     ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
-                                    Button {
-                                        do {
-                                            try checkUserInfo()
-                                            if localData.tempCart.isEmpty {
-                                                if firestoreToFetchUserinfo.notRented() {
-                                                    localData.tempCart.append(result)
-                                                    localData.addItem(roomAddress: result.roomAddress,
-                                                                      roomTown: result.town,
-                                                                      roomCity: result.city,
-                                                                      itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
-                                                                      roomUID: result.roomUID ,
-                                                                      roomImage: result.roomImage ?? "",
-                                                                      roomZipCode: result.zipCode,
-                                                                      docID: result.id ?? "",
-                                                                      providerUID: result.providedBy)
-                                                }
-                                            } else {
-                                                localData.tempCart.removeAll()
-                                                localData.summaryItemHolder.removeAll()
-                                                if localData.tempCart.isEmpty {
-                                                    localData.tempCart.append(result)
-                                                    if firestoreToFetchUserinfo.notRented() {
-                                                        localData.addItem(roomAddress: result.roomAddress,
-                                                                          roomTown: result.town,
-                                                                          roomCity: result.city,
-                                                                          itemPrice: (Int(result.rentalPrice) ?? 0) * 3 ,
-                                                                          roomUID: result.roomUID ,
-                                                                          roomImage: result.roomImage ?? "",
-                                                                          roomZipCode: result.zipCode,
-                                                                          docID: result.id ?? "",
-                                                                          providerUID: result.providedBy)
-                                                    }
-                                                }
+                                        NavigationLink {
+                                            RoomsDetailView(roomsData: result)
+                                        } label: {
+                                            RoomsGridView(imageURL: result.roomImage ?? "",
+                                                     roomTown: result.town,
+                                                     roomCity: result.city,
+                                                     objectPrice: Int(result.rentalPrice) ?? 0)
+                                            .frame(height: 160)
+                                            .alert(isPresented: $appViewModel.isPresent) {
+                                                //MARK: Throw the "Have rented error to instead"
+                                                Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
                                             }
-                                            if appViewModel.isPresent == false {
-                                                appViewModel.isPresent = true
-                                            }
-                                            localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-                                        } catch {
-                                            self.errorHandler.handle(error: error)
                                         }
-                                    } label: {
-                                        RoomsGridView(imageURL: result.roomImage ?? "",
-                                                 roomTown: result.town,
-                                                 roomCity: result.city,
-                                                 objectPrice: Int(result.rentalPrice) ?? 0)
-                                        .frame(height: 160)
-                                        .alert(isPresented: $appViewModel.isPresent) {
-                                            //MARK: Throw the "Have rented error to instead"
-                                            Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                                        }
-                                        
                                     }
-                                }
                                 } else if showFurniture == true {
                                     ForEach(firestoreForProducts.productsDataSet) { product in
                                         NavigationLink {
@@ -295,3 +249,60 @@ extension RenterMainView {
         }
     }
 }
+
+
+/*
+ Button {
+     do {
+         try checkUserInfo()
+         if localData.tempCart.isEmpty {
+             if firestoreToFetchUserinfo.notRented() {
+                 localData.tempCart.append(result)
+                 localData.addItem(roomAddress: result.roomAddress,
+                                   roomTown: result.town,
+                                   roomCity: result.city,
+                                   itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
+                                   roomUID: result.roomUID ,
+                                   roomImage: result.roomImage ?? "",
+                                   roomZipCode: result.zipCode,
+                                   docID: result.id ?? "",
+                                   providerUID: result.providedBy)
+             }
+         } else {
+             localData.tempCart.removeAll()
+             localData.summaryItemHolder.removeAll()
+             if localData.tempCart.isEmpty {
+                 localData.tempCart.append(result)
+                 if firestoreToFetchUserinfo.notRented() {
+                     localData.addItem(roomAddress: result.roomAddress,
+                                       roomTown: result.town,
+                                       roomCity: result.city,
+                                       itemPrice: (Int(result.rentalPrice) ?? 0) * 3 ,
+                                       roomUID: result.roomUID ,
+                                       roomImage: result.roomImage ?? "",
+                                       roomZipCode: result.zipCode,
+                                       docID: result.id ?? "",
+                                       providerUID: result.providedBy)
+                 }
+             }
+         }
+         if appViewModel.isPresent == false {
+             appViewModel.isPresent = true
+         }
+         localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+     } catch {
+         self.errorHandler.handle(error: error)
+     }
+ } label: {
+     RoomsGridView(imageURL: result.roomImage ?? "",
+              roomTown: result.town,
+              roomCity: result.city,
+              objectPrice: Int(result.rentalPrice) ?? 0)
+     .frame(height: 160)
+     .alert(isPresented: $appViewModel.isPresent) {
+         //MARK: Throw the "Have rented error to instead"
+         Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+     }
+     
+ }
+*/
