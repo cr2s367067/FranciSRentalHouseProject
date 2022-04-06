@@ -13,8 +13,10 @@ import FirebaseFirestore
 
 class AppViewModel: ObservableObject {
     
-    @EnvironmentObject var localData: LocalData
-    let firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
+    static let shared: AppViewModel = AppViewModel()
+    
+//    @EnvironmentObject var localData: LocalData
+//    let firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
     
     //    let fetchFirestore = FetchFirestore()
     //    let auth = Auth.auth()
@@ -379,7 +381,7 @@ struct textFormateForProviderSummitView: ViewModifier {
     func body(content: Content) -> some View {
         content
             .foregroundStyle(Color.white)
-            .font(.system(size: 13, weight: .regular))
+            .font(.system(size: 15, weight: .regular))
     }
 }
 

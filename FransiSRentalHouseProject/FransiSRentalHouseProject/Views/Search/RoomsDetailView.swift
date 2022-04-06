@@ -11,7 +11,9 @@ import SDWebImageSwiftUI
 struct RoomsDetailView: View {
     
     @EnvironmentObject var roomsDetailViewModel: RoomsDetailViewModel
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var errorHandler: ErrorHandler
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -22,12 +24,8 @@ struct RoomsDetailView: View {
         VStack {
             Spacer()
             VStack {
-                HStack {
-                    //Add image here
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.black)
-                        .frame(width: 60, height: 60)
-                }
+                roomImagesPresenterWithPlaceHolder()
+                    .frame(width: uiScreenWidth - 50)
                 Spacer()
                     .frame(height: 15)
                 VStack(alignment: .leading) {
@@ -38,9 +36,11 @@ struct RoomsDetailView: View {
                         Button {
                             roomsDetailViewModel.showMap.toggle()
                         } label: {
-                            Image(systemName: "map")
-                                .resizable()
-                                .frame(width: 30, height: 30, alignment: .trailing)
+                            withAnimation {
+                                Image(systemName: roomsDetailViewModel.showMap ? "map" : "photo.artframe")
+                                    .resizable()
+                                    .frame(width: 30, height: 30, alignment: .trailing)
+                            }
                         }
                     }
                     RoomsInfoUnit(title: "Rooms Address")
@@ -78,6 +78,13 @@ struct RoomsDetailView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            do {
+                try await firestoreToFetchRoomsData.fetchRoomImages(docID: roomsData.id ?? "")
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+        }
         .onAppear {
             UINavigationBar.appearance().barTintColor = UIColor(Color.clear)
             UINavigationBar.appearance().backgroundColor = UIColor(Color.clear)
@@ -103,6 +110,7 @@ struct RoomsInfoUnit: View {
 
 class RoomsDetailViewModel: ObservableObject {
     @Published var showMap = true
+    @Published var presentingImageURL = ""
 }
 
 
@@ -114,10 +122,50 @@ extension RoomsDetailView {
                 .frame(height: uiScreenHeight / 2, alignment: .top)
                 .edgesIgnoringSafeArea(.top)
         } else {
-            Image("room")
-                .resizable()
-                .frame(height: uiScreenHeight / 2 + 190, alignment: .top)
-                .edgesIgnoringSafeArea(.top)
+            if !roomsDetailViewModel.presentingImageURL.isEmpty {
+                WebImage(url: URL(string: roomsDetailViewModel.presentingImageURL))
+                    .resizable()
+                    .frame(height: uiScreenHeight / 2 + 190, alignment: .top)
+                    .edgesIgnoringSafeArea(.top)
+            } else {
+                WebImage(url: URL(string: roomsData.roomImage ?? ""))
+                    .resizable()
+                    .frame(height: uiScreenHeight / 2 + 190, alignment: .top)
+                    .edgesIgnoringSafeArea(.top)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func roomImagesPresenter() -> some View {
+        ScrollView(.horizontal) {
+            HStack(alignment: .center) {
+                ForEach(firestoreToFetchRoomsData.fetchRoomImages) { image in
+                    Button {
+                        roomsDetailViewModel.presentingImageURL = image.imageURL
+                        print(roomsDetailViewModel.presentingImageURL)
+                    } label: {
+                        WebImage(url: URL(string: image.imageURL))
+                            .resizable()
+                            .cornerRadius(20)
+                            .frame(width: 60, height: 60, alignment: .center)
+                    }
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func roomImagesPresenterWithPlaceHolder() -> some View {
+        if firestoreToFetchRoomsData.fetchRoomImages.isEmpty {
+            HStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.gray)
+                    .frame(width: 60, height: 60)
+            }
+            .redacted(reason: .placeholder)
+        } else {
+            roomImagesPresenter()
         }
     }
     

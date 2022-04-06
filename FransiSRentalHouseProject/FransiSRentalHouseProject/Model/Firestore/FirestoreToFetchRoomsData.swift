@@ -13,7 +13,7 @@ import FirebaseFirestoreSwift
 
 class FirestoreToFetchRoomsData: ObservableObject {
     
-    @EnvironmentObject var localData: LocalData
+//    @EnvironmentObject var localData: LocalData
     
     //    let localData = LocalData()
     let firebaseAuth = FirebaseAuth()
@@ -23,7 +23,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
     @Published var fetchRoomInfoFormOwner = [RoomInfoDataModel]()
     @Published var fetchRoomInfoFormPublic = [RoomInfoDataModel]()
     
-    @Published var testingHolder = [RoomInfoDataModel]()
+    @Published var fetchRoomImages = [RoomImageDataModel]()
     
     @Published var roomID = ""
     
@@ -870,4 +870,24 @@ extension FirestoreToFetchRoomsData {
                })
            }
        }
+}
+
+extension FirestoreToFetchRoomsData {
+    @MainActor
+    func fetchRoomImages(docID: String) async throws {
+        let roomPublicRef = db.collection("RoomsForPublic").document(docID).collection("RoomImages")
+        let document = try await roomPublicRef.getDocuments().documents
+        self.fetchRoomImages = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: RoomImageDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print("error: \(error)")
+            }
+            return nil
+        })
+    }
 }

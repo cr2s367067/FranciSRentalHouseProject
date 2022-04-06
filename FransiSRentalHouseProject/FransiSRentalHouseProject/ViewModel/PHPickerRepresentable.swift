@@ -17,14 +17,17 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration()
-        let controller = PHPickerViewController(configuration: configuration)
-        configuration.selectionLimit = 0
+        configuration.selectionLimit = 10
         configuration.filter = .images
+        configuration.preferredAssetRepresentationMode = .current
+        
+        let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator
+        
         return controller
     }
     
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: UIViewControllerRepresentableContext<PHPickerRepresentable>) {
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
         
     }
     
@@ -55,10 +58,12 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
             for itemProvider in parent.itemProviders {
                 if itemProvider.canLoadObject(ofClass: UIImage.self) {
                     itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                        if let image = image as? UIImage {
-                            self.parent.images.append(image)
-                        } else {
-                            print("Could not load image", error?.localizedDescription ?? "")
+                        DispatchQueue.main.async {                        
+                            if let image = image as? UIImage {
+                                self.parent.images.append(image)
+                            } else {
+                                print("Could not load image", error?.localizedDescription ?? "")
+                            }
                         }
                     }
                 }
