@@ -28,7 +28,7 @@ struct ContractCollectionView: View {
                         NavigationLink {
                             RenterContractView(roomsData: roomInfo)
                         } label: {
-                            ContractReusableUnit(showDetail: $showDetail, roomAddress: roomInfo.roomAddress, roomTown: roomInfo.town, roomCity: roomInfo.city, roomZipCode: roomInfo.zipCode, renter: roomInfo.rentedBy ?? "", roomImage: roomInfo.roomImage ?? "")
+                            ContractReusableUnit(showDetail: $showDetail, roomAddress: roomInfo.roomAddress, roomTown: roomInfo.town, roomCity: roomInfo.city, roomZipCode: roomInfo.zipCode, renter: roomInfo.rentersContractData?.renterName ?? "", roomImage: roomInfo.roomImage ?? "")
                                 .foregroundColor(.black)
                         }
                     }

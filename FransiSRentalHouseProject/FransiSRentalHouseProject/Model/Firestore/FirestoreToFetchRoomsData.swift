@@ -36,77 +36,11 @@ class FirestoreToFetchRoomsData: ObservableObject {
         roomID = roomId
         return roomID
     }
-
-    
-//    func listeningRoomInfoForPublic() {
-//        let roomPublicRef = db.collection("RoomsForPublic")
-//        roomPublicRef.addSnapshotListener { documentSnapshot, error in
-//            guard let document = documentSnapshot?.documents else {
-//                print("Error fetch document: \(error!)")
-//                return
-//            }
-//
-//            self.fetchRoomInfoFormPublic = document.map { queryDocumentSnapshot -> RoomInfoDataModel in
-//                let data = queryDocumentSnapshot.data()
-//                let docID = queryDocumentSnapshot.documentID
-//                let holderName = data["holderName"] as? String ?? ""
-//                let mobileNumber = data["mobileNumber"] as? String ?? ""
-//                let roomAddress = data["roomAddress"] as? String ?? ""
-//                let town = data["town"] as? String ?? ""
-//                let city = data["city"] as? String ?? ""
-//                let zipCode = data["zipCode"] as? String ?? ""
-//                let roomArea = data["roomArea"] as? String ?? ""
-//                let rentalPrice = data["rentalPrice"] as? String ?? ""
-//                let someoneDeadInRoom = data["someoneDeadInRoom"] as? String ?? ""
-//                let waterLeakingProblem = data["waterLeakingProblem"] as? String ?? ""
-//                let roomUID = data["roomUID"] as? String ?? ""
-//                let roomImage = data["roomImage"] as? String ?? ""
-//                let providedBy = data["providedBy"] as? String ?? ""
-//                let providerDisplayName = data["providerDisplayName"] as? String ?? ""
-//                let providerChatDocId = data["providerChatDocId"] as? String ?? ""
-//                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage, providedBy: providedBy, providerDisplayName: providerDisplayName, providerChatDocId: providerChatDocId)
-//
-//            }
-//        }
-//    }
-    
-//    func listeningRoomInfo(uidPath: String) {
-//        let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
-//        roomOwnerRef.addSnapshotListener { documentSnapshot, error in
-//            guard let document = documentSnapshot?.documents else {
-//                print("Error fetch document: \(error!)")
-//                return
-//            }
-//            self.fetchRoomInfoFormOwner = document.map { queryDocumentSnapshot -> RoomInfoDataModel in
-//                let data = queryDocumentSnapshot.data()
-//                let docID = queryDocumentSnapshot.documentID
-//                let holderName = data["holderName"] as? String ?? ""
-//                let mobileNumber = data["mobileNumber"] as? String ?? ""
-//                let roomAddress = data["roomAddress"] as? String ?? ""
-//                let town = data["town"] as? String ?? ""
-//                let city = data["city"] as? String ?? ""
-//                let zipCode = data["zipCode"] as? String ?? ""
-//                let roomArea = data["roomArea"] as? String ?? ""
-//                let rentalPrice = data["rentalPrice"] as? String ?? ""
-//                let someoneDeadInRoom = data["someoneDeadInRoom"] as? String ?? ""
-//                let waterLeakingProblem = data["waterLeakingProblem"] as? String ?? ""
-//                let roomUID = data["roomUID"] as? String ?? ""
-//                let roomImage = data["roomImage"] as? String ?? ""
-//                let isRented = data["isRented"] as? Bool ?? false
-//                let rentedBy = data["rentedBy"] as? String ?? ""
-//                let providedBy = data["providedBy"] as? String ?? ""
-//                let providerDisplayName = data["providerDisplayName"] as? String ?? ""
-//                let providerChatDocId = data["providerChatDocId"] as? String ?? ""
-//                return RoomInfoDataModel(docID: docID, roomUID: roomUID, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImage: roomImage,isRented: isRented,rentedBy: rentedBy, providedBy: providedBy, providerDisplayName: providerDisplayName, providerChatDocId: providerChatDocId)
-//                
-//            }
-//        }
-//    }
     
 }
 
 extension FirestoreToFetchRoomsData {
-    func summitRoomInfoAsync(docID: String, uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, isRented: Bool = false, rentedBy: String = "", providerDisplayName: String, providerChatDocId: String) async throws {
+    func summitRoomInfoAsync(docID: String, uidPath: String, roomUID: String = "", holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, isRented: Bool = false, rentedBy: String = "", providerDisplayName: String, providerChatDocId: String, roomDescription: String) async throws {
         let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
         let roomPublicRef = db.collection("RoomsForPublic").document(docID)
         _ = try await roomOwerRef.setData([
@@ -126,6 +60,7 @@ extension FirestoreToFetchRoomsData {
             "rentedBy" : rentedBy,
             "providedBy": uidPath,
             "providerDisplayName" : providerDisplayName,
+            "roomDescription" : roomDescription,
             "providerChatDocId" : providerChatDocId,
             "rentersContractData" : [
                 "isSummitContract" : false,
@@ -283,6 +218,7 @@ extension FirestoreToFetchRoomsData {
             "roomImage" : roomImageURL,
             "providedBy": uidPath,
             "providerDisplayName" : providerDisplayName,
+            "roomDescription" : roomDescription,
             "providerChatDocId" : providerChatDocId,
             "rentersContractData" : [
                 "isSummitContract" : false,
@@ -530,15 +466,7 @@ extension FirestoreToFetchRoomsData {
                             providerPhoneNumber: String,
                             providerPhoneChargeName: String,
                             providerPhoneChargeID: String,
-                            providerPhoneChargeEmailAddress: String,
-                            renterName: String,
-                            renterID: String,
-                            renterResidenceAddress: String,
-                            renterMailingAddress: String,
-                            renterPhoneNumber: String,
-                            renterEmailAddress: String,
-                            sigurtureDate: Date
-    ) async throws {
+                            providerPhoneChargeEmailAddress: String) async throws {
         let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
         let roomPublicRef = db.collection("RoomsForPublic").document(docID)
         try await roomOwerRef.updateData([
@@ -669,17 +597,7 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.providerPhoneNumber" : providerPhoneNumber,
             "rentersContractData.providerPhoneChargeName" : providerPhoneChargeName,
             "rentersContractData.providerPhoneChargeID" : providerPhoneChargeID,
-            "rentersContractData.providerPhoneChargeEmailAddress" : providerPhoneChargeEmailAddress,
-            
-            "rentersContractData.renterName" : renterName,
-            "rentersContractData.renterID" : renterID,
-            "rentersContractData.renterResidenceAddress" : renterResidenceAddress,
-            "rentersContractData.renterMailingAddress" : renterMailingAddress,
-            "rentersContractData.renterPhoneNumber" : renterPhoneNumber,
-            "rentersContractData.renterEmailAddress" : renterEmailAddress,
-            
-            //End
-            "rentersContractData.sigurtureDate" : sigurtureDate
+            "rentersContractData.providerPhoneChargeEmailAddress" : providerPhoneChargeEmailAddress
         ])
         try await roomPublicRef.updateData([
             "rentersContractData.isSummitContract" : isSummitContract,
@@ -809,17 +727,7 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.providerPhoneNumber" : providerPhoneNumber,
             "rentersContractData.providerPhoneChargeName" : providerPhoneChargeName,
             "rentersContractData.providerPhoneChargeID" : providerPhoneChargeID,
-            "rentersContractData.providerPhoneChargeEmailAddress" : providerPhoneChargeEmailAddress,
-            
-            "rentersContractData.renterName" : renterName,
-            "rentersContractData.renterID" : renterID,
-            "rentersContractData.renterResidenceAddress" : renterResidenceAddress,
-            "rentersContractData.renterMailingAddress" : renterMailingAddress,
-            "rentersContractData.renterPhoneNumber" : renterPhoneNumber,
-            "rentersContractData.renterEmailAddress" : renterEmailAddress,
-            
-            //End
-            "rentersContractData.sigurtureDate" : sigurtureDate
+            "rentersContractData.providerPhoneChargeEmailAddress" : providerPhoneChargeEmailAddress
         ])
         
     }
@@ -889,5 +797,28 @@ extension FirestoreToFetchRoomsData {
             }
             return nil
         })
+    }
+}
+
+extension FirestoreToFetchRoomsData {
+    func summitRenter(uidPath: String,
+                      docID: String,
+                      renterName: String,
+                      renterID: String,
+                      renterResidenceAddress: String,
+                      renterMailingAddress: String,
+                      renterPhoneNumber: String,
+                      renterEmailAddress: String,
+                      sigurtureDate: Date) async throws {
+        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
+        try await roomOwerRef.updateData([
+            "rentersContractData.renterName" : renterName,
+            "rentersContractData.renterID" : renterID,
+            "rentersContractData.renterResidenceAddress" : renterResidenceAddress,
+            "rentersContractData.renterMailingAddress" : renterMailingAddress,
+            "rentersContractData.renterPhoneNumber" : renterPhoneNumber,
+            "rentersContractData.renterEmailAddress" : renterEmailAddress,
+            "rentersContractData.sigurtureDate" : sigurtureDate
+        ])
     }
 }

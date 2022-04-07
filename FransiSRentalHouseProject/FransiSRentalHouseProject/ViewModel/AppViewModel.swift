@@ -79,6 +79,7 @@ class AppViewModel: ObservableObject {
     @Published var hasWaterLeakingYes = false
     @Published var hasWaterLeakingNo = false
     @Published var waterLeakingProblem = ""
+    @Published var roomDescription = ""
     
     //:~Provider summit fields (HouseOwner)
     @Published var specificBuildingNumber = "" //專有部分建號

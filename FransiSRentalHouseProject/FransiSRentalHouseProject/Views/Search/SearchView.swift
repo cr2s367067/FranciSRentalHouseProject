@@ -35,6 +35,7 @@ struct SearchView: View {
                             .foregroundColor(.white)
                             .padding(.leading)
                         TextField("", text: $searchName)
+                            .foregroundColor(.white)
                             .placeholer(when: searchName.isEmpty) {
                                 Text("Search")
                                     .foregroundColor(.white.opacity(0.8))
@@ -155,15 +156,38 @@ struct SearchView_Previews: PreviewProvider {
 }
 
 extension SearchView {
+    
+    func address(input: RoomInfoDataModel) -> String {
+        let zipCode = input.zipCode
+        let city = input.city
+        let town = input.town
+        let address = input.roomAddress
+        return zipCode + city + town + address
+    }
+    
+    func customSearchFilter(input: [RoomInfoDataModel], searchText: String) -> [RoomInfoDataModel] {
+        var tempHolder = [RoomInfoDataModel]()
+        if searchText.isEmpty {
+            tempHolder = input
+        } else {
+            tempHolder = input.filter({ search in
+                let city = search.city
+                let town = search.town
+                let address = search.roomAddress
+                let fullAddress = city + town + address
+                return fullAddress.contains(searchText)
+            })
+        }
+        return tempHolder
+    }
+    
     @ViewBuilder
     private func roomsUnit() -> some View {
         ScrollView(.vertical, showsIndicators: false) {
             //ForEach to catch the data from firebase
-            ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic.filter({
-                searchName.isEmpty ? true : $0.town.contains(searchName)
-            })) { result in
-                Button {
-                    isPressentSheetData = result
+            ForEach(customSearchFilter(input: firestoreToFetchRoomsData.fetchRoomInfoFormPublic, searchText: searchName)) { result in
+                NavigationLink {
+                    RoomsDetailView(roomsData: result)
                 } label: {
                     SearchListItemView(roomImage: result.roomImage ?? "",
                                        roomAddress: result.roomAddress,
@@ -172,21 +196,9 @@ extension SearchView {
                                        roomPrice: Int(result.rentalPrice) ?? 0)
                 }
             }
-            .sheet(item: $isPressentSheetData) { result in
-                RoomDetailSheetView(roomImage: result.roomImage ?? "",
-                                    roomAddress: result.roomAddress,
-                                    roomTown: result.town,
-                                    roomCity: result.city,
-                                    roomPrice: Int(result.rentalPrice) ?? 0,
-                                    roomUID: result.roomUID ,
-                                    roomZipCode: result.zipCode,
-                                    docID: result.id ?? "",
-                                    providedBy: result.providedBy,
-                                    providedName: result.providerDisplayName ,
-                                    result: result, chatDocID: result.providerChatDocId)
-            }
         }
     }
+    
     
     @ViewBuilder
     func roomUnitWithPlaceHolder() -> some View {

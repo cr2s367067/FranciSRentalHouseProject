@@ -22,6 +22,10 @@ struct ProviderRoomSummitView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
+    init() {
+        UITextView.appearance().backgroundColor = .clear
+    }
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -65,6 +69,24 @@ struct ProviderRoomSummitView: View {
                             }
                             InfoUnit(title: "Room Area", bindingString: $appViewModel.roomArea)
                             InfoUnit(title: "Rental Price", bindingString: $appViewModel.roomRentalPrice)
+                            VStack(alignment: .leading, spacing: 2) {
+                                HStack {
+                                    Text("Product Description")
+                                        .modifier(textFormateForProviderSummitView())
+                                    Spacer()
+                                }
+                                TextEditor(text: $appViewModel.roomDescription)
+                                    .foregroundStyle(Color.white)
+                                    .frame(height: 300, alignment: .center)
+                                    .cornerRadius(5)
+                                    .background(Color.clear)
+                            }
+                            .padding()
+                            .frame(width: uiScreenWidth - 30)
+                            .background(alignment: .center, content: {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.white, lineWidth: 1)
+                            })
                             VStack(alignment: .leading, spacing: 2) {
                                 HStack {
                                     Text("Additional Room Images")
@@ -263,7 +285,7 @@ struct ProviderRoomSummitView: View {
                                                                                  someoneDeadInRoom: appViewModel.someoneDeadinRoom,
                                                                                  waterLeakingProblem: appViewModel.waterLeakingProblem,
                                                                                  roomImageURL: storageForRoomsImage.representedRoomImageURL,
-                                                                                 providerDisplayName: appViewModel.displayName)
+                                                                                 providerDisplayName: appViewModel.displayName, roomDescription: appViewModel.roomDescription)
                                                             
                                                             resetView()
                                                             providerRoomSummitViewModel.showProgressView = false
@@ -349,11 +371,11 @@ struct BlurView: UIViewRepresentable {
 
 extension ProviderRoomSummitView {
     
-    private func roomSummit(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, providerDisplayName: String) async throws {
+    private func roomSummit(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, providerDisplayName: String, roomDescription: String) async throws {
         
         let docID = UUID().uuidString
         _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
-        try await firestoreToFetchRoomsData.summitRoomInfoAsync(docID: docID, uidPath: firebaseAuth.getUID(), roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL, providerDisplayName: providerDisplayName, providerChatDocId: firestoreForTextingMessage.senderUIDPath.chatDocId)
+        try await firestoreToFetchRoomsData.summitRoomInfoAsync(docID: docID, uidPath: firebaseAuth.getUID(), roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL, providerDisplayName: providerDisplayName, providerChatDocId: firestoreForTextingMessage.senderUIDPath.chatDocId, roomDescription: roomDescription)
         if !providerRoomSummitViewModel.imageSet.isEmpty {
             try await storageForRoomsImage.uploadImageSet(uidPath: firebaseAuth.getUID(), images: providerRoomSummitViewModel.imageSet, roomID: roomUID, docID: docID)
         }

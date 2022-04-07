@@ -36,39 +36,34 @@ class FirebaseAuth: ObservableObject {
 
 
 extension FirebaseAuth {
+    @MainActor
     func signUpAsync(email: String, password: String) async throws {
         try await auth.createUser(withEmail: email, password: password)
-        DispatchQueue.main.async {
-            self.signUp = true
-        }
+        self.signUp = true
     }
     
+    @MainActor
     func signInAsync(email: String, password: String) async throws {
         try await auth.signIn(withEmail: email, password: password)
-        DispatchQueue.main.async {
-            self.signIn = true
-        }
+        self.signIn = true
     }
     
+    @MainActor
     func signWithAnonymousAsync() async throws {
         try await auth.signInAnonymously()
-        DispatchQueue.main.async {
-            self.isSkipIt = true
-        }
+        self.isSkipIt = true
     }
     
     func signOutAsync() throws {
         try auth.signOut()
-        DispatchQueue.main.async {
-            if self.isSkipIt == true {
-                self.isSkipIt = false
-            }
-            if self.signIn == true {
-                self.signIn = false
-            }
-            if self.signUp == true {
-                self.signUp = false
-            }
+        if self.isSkipIt == true {
+            self.isSkipIt = false
+        }
+        if self.signIn == true {
+            self.signIn = false
+        }
+        if self.signUp == true {
+            self.signUp = false
         }
     }
     

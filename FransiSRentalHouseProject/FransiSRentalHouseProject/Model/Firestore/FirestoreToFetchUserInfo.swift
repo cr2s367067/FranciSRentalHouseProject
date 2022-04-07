@@ -324,7 +324,239 @@ extension FirestoreToFetchUserinfo {
 
 extension FirestoreToFetchUserinfo {
     //MARK: Upload the contact data to user's data set
-    func uploadRentedRoomInfo() async throws {
-        
+    func uploadRentedRoomInfo(uidPath: String,
+                              isSummitContract: Bool,
+                              contractBuildDate: Date,
+                              contractReviewDays: String,
+                              providerSignurture: String,
+                              renterSignurture: String,
+                              companyTitle: String,
+                              roomAddress: String,
+                              roomTown: String,
+                              roomCity: String,
+                              roomZipCode: String,
+                              specificBuildingNumber: String,
+                              specificBuildingRightRange: String,
+                              specificBuildingArea: String,
+                              mainBuildArea: String,
+                              mainBuildingPurpose: String,
+                              subBuildingPurpose: String,
+                              subBuildingArea: String,
+                              publicBuildingNumber: String,
+                              publicBuildingRightRange: String,
+                              publicBuildingArea: String,
+                              hasParkinglot: Bool,
+                              isSettingTheRightForThirdPerson: Bool,
+                              settingTheRightForThirdPersonForWhatKind: String,
+                              isBlockByBank: Bool,
+                              provideForAll: Bool,
+                              provideForPart: Bool,
+                              provideFloor: String,
+                              provideRooms: String,
+                              provideRoomNumber: String,
+                              provideRoomArea: String,
+                              isVehicle: Bool,
+                              isMorto: Bool,
+                              parkingUGFloor: String,
+                              parkingStyleN: Bool,
+                              parkingStyleM: Bool,
+                              parkingNumberForVehicle: String,
+                              parkingNumberForMortor: String,
+                              forAllday: Bool,
+                              forMorning: Bool,
+                              forNight: Bool,
+                              havingSubFacility: Bool,
+                              rentalStartDate: Date,
+                              rentalEndDate: Date,
+                              paymentdays: String,
+                              paybyCash: Bool,
+                              paybyTransmission: Bool,
+                              paybyCreditDebitCard: Bool,
+                              bankName: String,
+                              bankOwnerName: String,
+                              bankAccount: String,
+                              payByRenterForManagementPart: Bool,
+                              payByProviderForManagementPart: Bool,
+                              managementFeeMonthly: String,
+                              parkingFeeMonthly: String,
+                              additionalReqForManagementPart: String,
+                              payByRenterForWaterFee: Bool,
+                              payByProviderForWaterFee: Bool,
+                              additionalReqForWaterFeePart: String,
+                              payByRenterForEletricFee: Bool,
+                              payByProviderForEletricFee: Bool,
+                              additionalReqForEletricFeePart: String,
+                              payByRenterForGasFee: Bool,
+                              payByProviderForGasFee: Bool,
+                              additionalReqForGasFeePart: String,
+                              additionalReqForOtherPart: String,
+                              contractSigurtureProxyFee: String,
+                              payByRenterForProxyFee: Bool,
+                              payByProviderForProxyFee: Bool,
+                              separateForBothForProxyFee: Bool,
+                              contractIdentitificationFee: String,
+                              payByRenterForIDFFee: Bool,
+                              payByProviderForIDFFee: Bool,
+                              separateForBothForIDFFee: Bool,
+                              contractIdentitificationProxyFee: String,
+                              payByRenterForIDFProxyFee: Bool,
+                              payByProviderForIDFProxyFee: Bool,
+                              separateForBothForIDFProxyFee: Bool,
+                              subLeaseAgreement: Bool,
+                              doCourtIDF: Bool,
+                              courtIDFDoc: Bool,
+                              providerName: String,
+                              providerID: String,
+                              providerResidenceAddress: String,
+                              providerMailingAddress: String,
+                              providerPhoneNumber: String,
+                              providerPhoneChargeName: String,
+                              providerPhoneChargeID: String,
+                              providerPhoneChargeEmailAddress: String,
+                              renterName: String,
+                              renterID: String,
+                              renterResidenceAddress: String,
+                              renterMailingAddress: String,
+                              renterPhoneNumber: String,
+                              renterEmailAddress: String,
+                              sigurtureDate: Date) async throws {
+        let userRentedContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
+        try await userRentedContractRef.setData([
+            "isSummitContract" : isSummitContract,
+            
+            //MARK: Contract's Data Model
+            "contractBuildDate" : contractBuildDate,
+            "contractReviewDays" : contractReviewDays,
+            "providerSignurture" : providerSignurture,
+            "renterSignurture" : renterSignurture,
+            "companyTitle" : companyTitle,
+            "roomAddress" : roomAddress,
+            "roomTown" : roomTown,
+            "roomCity" : roomCity,
+            "roomZipCode" : roomZipCode,
+            
+            // MARK: 第一條 委託管理標的 - 房屋標示
+            "specificBuildingNumber" : specificBuildingNumber, //專有部分建號
+            "specificBuildingRightRange" : specificBuildingRightRange, //專有部分權利範圍
+            "specificBuildingArea" : specificBuildingArea, //專有部分面積共計
+            
+            "mainBuildArea" : mainBuildArea, //主建物面積__層__平方公尺
+            "mainBuildingPurpose" : mainBuildingPurpose, //主建物用途
+            
+            "subBuildingPurpose" : subBuildingPurpose, //附屬建物用途
+            "subBuildingArea" : subBuildingArea, //附屬建物面積__平方公尺
+            
+            "publicBuildingNumber" : publicBuildingNumber, //共有部分建號
+            "publicBuildingRightRange" : publicBuildingRightRange, //共有部分權利範圍
+            "publicBuildingArea" : publicBuildingArea, //共有部分持分面積__平方公尺
+            
+            "hasParkinglot" : hasParkinglot, //車位-有無
+            
+            "isSettingTheRightForThirdPerson" : isSettingTheRightForThirdPerson, //設定他項權利-有無
+            "settingTheRightForThirdPersonForWhatKind" : settingTheRightForThirdPersonForWhatKind, //權利種類
+            
+            "isBlockByBank" : isBlockByBank, //查封登記-有無
+            
+            // MARK: 第一條 委託管理標的 - 租賃範圍
+            "provideForAll": provideForAll, //租賃住宅全部
+            "provideForPart": provideForPart, //租賃住宅部分
+            "provideFloor": provideFloor, //租賃住宅第__層
+            "provideRooms": provideRooms, //租賃住宅房間__間
+            "provideRoomNumber": provideRoomNumber, //租賃住宅第__室
+            "provideRoomArea": provideRoomArea, //租賃住宅面積__平方公尺
+            
+            "isVehicle": isVehicle, //汽車停車位
+            "isMorto": isMorto, //機車停車位
+            "parkingUGFloor": parkingUGFloor, //地上(下)第__層
+            "parkingStyleN": parkingStyleN, //平面式停車位
+            "parkingStyleM": parkingStyleM, //機械式停車位
+            "parkingNumberForVehicle": parkingNumberForVehicle, //編號第__號
+            "parkingNumberForMortor": parkingNumberForMortor,
+            "forAllday": forAllday, //使用時間全日
+            "forMorning": forMorning, //使用時間日間
+            "forNight": forNight, //使用時間夜間
+            
+            "havingSubFacility": havingSubFacility, //租賃附屬設備-有無
+            
+            // MARK: 第二條 租賃期間
+            "rentalStartDate" : rentalStartDate, //委託管理期間自
+            "rentalEndDate" : rentalEndDate, //委託管理期間至
+            
+            // MARK: 第三條 租金約定及支付
+            "paymentdays": paymentdays, //每月__日前支付
+            "paybyCash": paybyCash, //報酬約定及給付-現金繳付
+            "paybyTransmission": paybyTransmission, //報酬約定及給付-轉帳繳付
+            "paybyCreditDebitCard": paybyCreditDebitCard, //報酬約定及給付-信用卡/簽帳卡
+            "bankName": bankName, //金融機構
+            "bankOwnerName": bankOwnerName, //戶名
+            "bankAccount": bankAccount, //帳號
+            
+            // MARK: 第五條 租賃期間相關費用之支付
+            "payByRenterForManagementPart" : payByRenterForManagementPart, //承租人負擔
+            "payByProviderForManagementPart" : payByProviderForManagementPart, //出租人負擔
+            "managementFeeMonthly" : managementFeeMonthly, //房屋每月___元整
+            "parkingFeeMonthly" : parkingFeeMonthly, //停車位每月___元整
+            "additionalReqForManagementPart" : additionalReqForManagementPart,
+            
+            "payByRenterForWaterFee" : payByRenterForWaterFee, //承租人負擔
+            "payByProviderForWaterFee" : payByProviderForWaterFee, //出租人負擔
+            "additionalReqForWaterFeePart" : additionalReqForWaterFeePart,
+            
+            "payByRenterForEletricFee" : payByRenterForEletricFee, //承租人負擔
+            "payByProviderForEletricFee" : payByProviderForEletricFee, //出租人負擔
+            "additionalReqForEletricFeePart" : additionalReqForEletricFeePart,
+            
+            "payByRenterForGasFee" : payByRenterForGasFee, //承租人負擔
+            "payByProviderForGasFee" : payByProviderForGasFee, //出租人負擔
+            "additionalReqForGasFeePart" : additionalReqForGasFeePart,
+            
+            "additionalReqForOtherPart" : additionalReqForOtherPart, //其他費用及其支付方式
+            
+            // MARK: 第六條 稅費負擔之約定
+            "contractSigurtureProxyFee" : contractSigurtureProxyFee,
+            "payByRenterForProxyFee" : payByRenterForProxyFee, //承租人負擔
+            "payByProviderForProxyFee" : payByProviderForProxyFee, //出租人負擔
+            "separateForBothForProxyFee" : separateForBothForProxyFee, //雙方平均負擔
+            
+            "contractIdentitificationFee" : contractIdentitificationFee,
+            "payByRenterForIDFFee" : payByRenterForIDFFee, //承租人負擔
+            "payByProviderForIDFFee" : payByProviderForIDFFee, //出租人負擔
+            "separateForBothForIDFFee" : separateForBothForIDFFee, //雙方平均負擔
+            
+            "contractIdentitificationProxyFee" : contractIdentitificationProxyFee ,
+            "payByRenterForIDFProxyFee" : payByRenterForIDFProxyFee, //承租人負擔
+            "payByProviderForIDFProxyFee" : payByProviderForIDFProxyFee, //出租人負擔
+            "separateForBothForIDFProxyFee" : separateForBothForIDFProxyFee, //雙方平均負擔
+            
+            // MARK: 第七條 使用房屋之限制
+            "subLeaseAgreement" : subLeaseAgreement,
+            
+            // MARK: 第十二條 房屋之返還
+//            "contractSendbyEmail" : contractSendbyEmail, //履行本契約之通知-電子郵件信箱
+//            "contractSendbyTextingMessage" : contractSendbyTextingMessage, //履行本契約之通知-手機簡訊
+//            "contractSendbyMessageSoftware" : contractSendbyMessageSoftware, //履行本契約之通知-即時通訊軟體
+            
+            // MARK: 第十九條 其他約定
+            "doCourtIDF" : doCourtIDF, //□辦理公證□不辦理公證
+            "courtIDFDoc" : courtIDFDoc, //□不同意；□同意公證書
+            
+            
+            // MARK: 立契約書人
+            "providerName" : providerName,
+            "providerID" : providerID,
+            "providerResidenceAddress" : providerResidenceAddress,
+            "providerMailingAddress" : providerMailingAddress,
+            "providerPhoneNumber" : providerPhoneNumber,
+            "providerPhoneChargeName" : providerPhoneChargeName,
+            "providerPhoneChargeID" : providerPhoneChargeID,
+            "providerPhoneChargeEmailAddress" : providerPhoneChargeEmailAddress,
+            "renterName" : renterName,
+            "renterID" : renterID,
+            "renterResidenceAddress" : renterResidenceAddress,
+            "renterMailingAddress" : renterMailingAddress,
+            "renterPhoneNumber" : renterPhoneNumber,
+            "renterEmailAddress" : renterEmailAddress,
+            "sigurtureDate" : sigurtureDate
+        ])
     }
 }

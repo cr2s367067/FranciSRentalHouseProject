@@ -12,6 +12,7 @@ struct RenterContractView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firestoreToFetchUserinfo:  FirestoreToFetchUserinfo
     @EnvironmentObject var renterContractVM: RenterContractViewModel
+    @EnvironmentObject var localData: LocalData
     
     
     private func agreementCheckerThows() throws {
@@ -37,14 +38,16 @@ struct RenterContractView: View {
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    renterContractVM.showEditMode.toggle()
-                } label: {
-                    Image(systemName: "gearshape")
-                        .resizable()
-                        .foregroundColor(.white)
-                        .frame(width: 25, height: 25)
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
+                    Button {
+                        renterContractVM.showEditMode.toggle()
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .resizable()
+                            .foregroundColor(.white)
+                            .frame(width: 25, height: 25)
+                    }
                 }
             }
         }
@@ -180,29 +183,59 @@ extension RenterContractView {
                                     self.errorHandler.handle(error: error)
                                 }
                             } label: {
-                                Text("Summit")
+                                Text("I want this!")
                                     .foregroundColor(.white)
-                                    .frame(width: 108, height: 35)
+                                    .frame(width: 120, height: 35)
                                     .background(Color("buttonBlue"))
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                             }
                             .padding(.top, 10)
                             .padding(.horizontal)
                         } else if appViewModel.rentalPolicyisAgree == true {
-                            NavigationLink {
-                                PurchaseView()
+                            Button {
+                                if localData.tempCart.isEmpty {
+                                    localData.tempCart.append(roomsData)
+                                    localData.addItem(roomAddress: roomsData.roomAddress,
+                                                      roomTown: roomsData.town,
+                                                      roomCity: roomsData.city,
+                                                      itemPrice: Int(roomsData.rentalPrice) ?? 0 ,
+                                                      roomUID: roomsData.roomUID,
+                                                      roomImage: roomsData.roomImage ?? "",
+                                                      roomZipCode: roomsData.zipCode,
+                                                      docID: roomsData.id ?? "",
+                                                      providerUID: roomsData.providedBy)
+                                } else {
+                                    localData.tempCart.removeAll()
+                                    localData.summaryItemHolder.removeAll()
+                                    if localData.tempCart.isEmpty {
+                                        localData.tempCart.append(roomsData)
+                                        localData.addItem(roomAddress: roomsData.roomAddress,
+                                                          roomTown: roomsData.town,
+                                                          roomCity: roomsData.city,
+                                                          itemPrice: Int(roomsData.rentalPrice) ?? 0 ,
+                                                          roomUID: roomsData.roomUID,
+                                                          roomImage: roomsData.roomImage ?? "",
+                                                          roomZipCode: roomsData.zipCode,
+                                                          docID: roomsData.id ?? "",
+                                                          providerUID: roomsData.providedBy)
+                                    }
+                                }
+                                if appViewModel.isPresent == false {
+                                    appViewModel.isPresent = true
+                                }
+                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
                             } label: {
-                                Text("Summit")
+                                Text("I want this!")
                                     .foregroundColor(.white)
-                                    .frame(width: 108, height: 35)
+                                    .frame(width: 120, height: 35)
                                     .background(Color("buttonBlue"))
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .alert(isPresented: $appViewModel.isPresent) {
+                                        Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+                                    }
                             }
-                            .padding(.top, 10)
-                            .padding(.horizontal)
                         }
                     }
-                    
                 }
             }
             .frame(width: UIScreen.main.bounds.width - 20)

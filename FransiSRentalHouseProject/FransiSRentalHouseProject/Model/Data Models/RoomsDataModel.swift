@@ -278,5 +278,6 @@ struct RoomInfoDataModel: Identifiable, Codable {
     var providedBy: String
     var providerDisplayName: String
     var providerChatDocId: String
+    var roomDescription: String
     var rentersContractData: RentersContractDataModel?
 }

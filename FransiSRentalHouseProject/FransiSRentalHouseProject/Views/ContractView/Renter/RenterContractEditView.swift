@@ -531,14 +531,7 @@ struct RenterContractEditView: View {
                                                                                providerPhoneNumber: rentEditVM.contractDataModel.providerPhoneNumber,
                                                                                providerPhoneChargeName: rentEditVM.contractDataModel.providerPhoneChargeName,
                                                                                providerPhoneChargeID: rentEditVM.contractDataModel.providerPhoneChargeID,
-                                                                               providerPhoneChargeEmailAddress: rentEditVM.contractDataModel.providerPhoneChargeEmailAddress,
-                                                                               renterName: rentEditVM.contractDataModel.renterName,
-                                                                               renterID: rentEditVM.contractDataModel.renterID,
-                                                                               renterResidenceAddress: rentEditVM.contractDataModel.renterResidenceAddress,
-                                                                               renterMailingAddress: rentEditVM.contractDataModel.renterMailingAddress,
-                                                                               renterPhoneNumber: rentEditVM.contractDataModel.renterPhoneNumber,
-                                                                               renterEmailAddress: rentEditVM.contractDataModel.renterEmailAddress,
-                                                                               sigurtureDate: rentEditVM.contractDataModel.sigurtureDate)
+                                                                               providerPhoneChargeEmailAddress: rentEditVM.contractDataModel.providerPhoneChargeEmailAddress)
                         renterContractVM.showEditMode = false
                     } catch {
                         self.errorHandler.handle(error: error)

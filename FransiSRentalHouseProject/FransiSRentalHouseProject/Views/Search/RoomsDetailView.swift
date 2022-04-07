@@ -12,7 +12,9 @@ struct RoomsDetailView: View {
     
     @EnvironmentObject var roomsDetailViewModel: RoomsDetailViewModel
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var localData: LocalData
     @EnvironmentObject var errorHandler: ErrorHandler
     
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -28,7 +30,7 @@ struct RoomsDetailView: View {
                     .frame(width: uiScreenWidth - 50)
                 Spacer()
                     .frame(height: 15)
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 10) {
                     HStack {
                         Text("Room Name") //If it has
                             .font(.system(size: 30))
@@ -43,8 +45,58 @@ struct RoomsDetailView: View {
                             }
                         }
                     }
-                    RoomsInfoUnit(title: "Rooms Address")
-                    Spacer()
+                    ScrollView(.vertical) {
+                        VStack(spacing: 5) {
+                            RoomsInfoUnit(title: "Rooms Address")
+                            HStack {
+                                Text(address(input: roomsData))
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 15))
+                                Spacer()
+                            }
+                            .padding(.horizontal)
+                        }
+                        VStack(spacing: 5) {
+                            HStack {
+                                Text("Description")
+                                    .foregroundColor(.white)
+                                    .font(.headline)
+                                Spacer()
+                            }
+                            HStack {
+                                Text(roomsData.roomDescription)
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 15, weight: .regular))
+                                Spacer()
+                            }
+                        }
+                        HStack {
+                            if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" {
+                                NavigationLink {
+                                    MessageView(providerName: roomsData.providerDisplayName, providerUID: roomsData.providedBy, chatDocID: roomsData.providerChatDocId)
+                                } label: {
+                                    Text("Contact provider.")
+                                        .foregroundColor(.white)
+                                        .frame(width: 175, height: 35)
+                                        .background(Color("buttonBlue"))
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        .padding(.trailing)
+                                }
+                            }
+                            NavigationLink {
+                                RenterContractView(roomsData: roomsData)
+                            } label: {
+                                 Text("Check Contract")
+                                    .foregroundColor(.white)
+                                    .frame(width: 140, height: 35)
+                                    .background(Color("buttonBlue"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .padding(.horizontal)
+                            }
+                            
+                        }
+                        Spacer()
+                    }
                 }
                 .foregroundColor(.white)
                 .padding(.horizontal)
@@ -69,10 +121,6 @@ struct RoomsDetailView: View {
         .background(alignment: .center) {
             VStack {
                 mapSwitch(showMap: roomsDetailViewModel.showMap, address: getAddress())
-//                Image("room")
-//                    .resizable()
-//                    .frame(height: uiScreenHeight / 2 + 190, alignment: .top)
-//                    .edgesIgnoringSafeArea(.top)
                 Spacer()
             }
         }
@@ -91,12 +139,6 @@ struct RoomsDetailView: View {
         }
     }
 }
-
-//struct RoomsDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RoomsDetailView()
-//    }
-//}
 
 struct RoomsInfoUnit: View {
     var title: String
@@ -147,7 +189,7 @@ extension RoomsDetailView {
                     } label: {
                         WebImage(url: URL(string: image.imageURL))
                             .resizable()
-                            .cornerRadius(20)
+                            .cornerRadius(10)
                             .frame(width: 60, height: 60, alignment: .center)
                     }
                 }
@@ -159,7 +201,7 @@ extension RoomsDetailView {
     func roomImagesPresenterWithPlaceHolder() -> some View {
         if firestoreToFetchRoomsData.fetchRoomImages.isEmpty {
             HStack {
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: 10)
                     .fill(.gray)
                     .frame(width: 60, height: 60)
             }

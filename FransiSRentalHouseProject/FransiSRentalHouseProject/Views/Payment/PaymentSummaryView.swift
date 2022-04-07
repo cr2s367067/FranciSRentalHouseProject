@@ -66,11 +66,11 @@ struct PaymentSummaryView: View {
                     }
                     if appViewModel.paymentSummaryTosAgree == true && appViewModel.paymentSummaryAutoPayAgree == true {
                         NavigationLink {
-                            if !localData.summaryItemHolder.isEmpty {
+//                            if !localData.summaryItemHolder.isEmpty {
 //                                RenterContractView()
-                            } else {                            
+//                            } else {
                                 PurchaseView()
-                            }
+//                            }
                         } label: {
                             Text("Confirm")
                                 .foregroundColor(.white)
