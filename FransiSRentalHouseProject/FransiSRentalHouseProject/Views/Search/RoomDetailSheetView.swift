@@ -70,47 +70,47 @@ struct RoomDetailSheetView: View {
                                         .padding(.trailing)
                                 }
                             }
-                            Button {
-                                if localData.tempCart.isEmpty {
-                                    localData.tempCart.append(result)
-                                    localData.addItem(roomAddress: roomAddress,
-                                                      roomTown: roomTown,
-                                                      roomCity: roomCity,
-                                                      itemPrice: Int(roomPrice) ,
-                                                      roomUID: roomUID ,
-                                                      roomImage: roomImage ,
-                                                      roomZipCode: roomZipCode,
-                                                      docID: docID, providerUID: providedBy)
-                                } else {
-                                    localData.tempCart.removeAll()
-                                    localData.summaryItemHolder.removeAll()
-                                    if localData.tempCart.isEmpty {
-                                        localData.tempCart.append(result)
-                                        localData.addItem(roomAddress: roomAddress,
-                                                          roomTown: roomTown,
-                                                          roomCity: roomCity,
-                                                          itemPrice: Int(roomPrice) ,
-                                                          roomUID: roomUID ,
-                                                          roomImage: roomImage ,
-                                                          roomZipCode: roomZipCode,
-                                                          docID: docID, providerUID: providedBy)
-                                    }
-                                }
-                                if appViewModel.isPresent == false {
-                                    appViewModel.isPresent = true
-                                }
-                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-                            } label: {
-                                Text("I want this!")
-                                    .foregroundColor(.white)
-                                    .frame(width: 120, height: 35)
-                                    .background(Color("buttonBlue"))
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                    .padding(.trailing)
-                                    .alert(isPresented: $appViewModel.isPresent) {
-                                        Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                                    }
-                            }
+//                            Button {
+//                                if localData.tempCart.isEmpty {
+//                                    localData.tempCart.append(result)
+//                                    localData.addItem(roomAddress: roomAddress,
+//                                                      roomTown: roomTown,
+//                                                      roomCity: roomCity,
+//                                                      itemPrice: Int(roomPrice) ,
+//                                                      roomUID: roomUID ,
+//                                                      roomImage: roomImage ,
+//                                                      roomZipCode: roomZipCode,
+//                                                      docID: docID, providerUID: providedBy)
+//                                } else {
+//                                    localData.tempCart.removeAll()
+//                                    localData.summaryItemHolder.removeAll()
+//                                    if localData.tempCart.isEmpty {
+//                                        localData.tempCart.append(result)
+//                                        localData.addItem(roomAddress: roomAddress,
+//                                                          roomTown: roomTown,
+//                                                          roomCity: roomCity,
+//                                                          itemPrice: Int(roomPrice) ,
+//                                                          roomUID: roomUID ,
+//                                                          roomImage: roomImage ,
+//                                                          roomZipCode: roomZipCode,
+//                                                          docID: docID, providerUID: providedBy)
+//                                    }
+//                                }
+//                                if appViewModel.isPresent == false {
+//                                    appViewModel.isPresent = true
+//                                }
+//                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+//                            } label: {
+//                                Text("I want this!")
+//                                    .foregroundColor(.white)
+//                                    .frame(width: 120, height: 35)
+//                                    .background(Color("buttonBlue"))
+//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+//                                    .padding(.trailing)
+//                                    .alert(isPresented: $appViewModel.isPresent) {
+//                                        Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+//                                    }
+//                            }
                         }
                     }
                 }

@@ -15,7 +15,7 @@ class LocalData: ObservableObject {
     //: Payment Holder
     @Published var sumPrice = 0
     @Published var tempCart = [RoomInfoDataModel]()
-    @Published var summaryItemHolder: [SummaryItemHolder] = []
+    @Published var summaryItemHolder: RoomInfoDataModel = .empty
     
     //: Maintain Task
     @Published var maintainTaskHolder: [MaintainTaskHolder] = []
@@ -24,24 +24,12 @@ class LocalData: ObservableObject {
 //    @Published var localRoomsHolder: RoomInfoDataModel = .empty
     
     
-    func addItem(roomAddress: String, roomTown: String, roomCity: String, itemPrice: Int, roomUID: String, roomImage: String, roomZipCode: String, docID: String, providerUID: String) {
-        summaryItemHolder.append(SummaryItemHolder(roomAddress: roomAddress,
-                                                   roomTown: roomTown,
-                                                   roomCity: roomCity,
-                                                   itemPrice: itemPrice,
-                                                   roomUID: roomUID,
-                                                   roomImage: roomImage,
-                                                   roomZipCode: roomZipCode,
-                                                   docID: docID,
-                                                   providerUID: providerUID))
+    func addItem(roomsInfo: RoomInfoDataModel) {
+        self.summaryItemHolder = roomsInfo
     }
     
-    func compute(source: [SummaryItemHolder]) -> Int {
-        var newElemet = 0
-        for item in source {
-            newElemet += item.itemPrice
-        }
-        debugPrint(newElemet)
+    func compute(source: RoomInfoDataModel) -> Int {
+        let newElemet = Int(source.rentalPrice) ?? 0
         return newElemet
     }
     

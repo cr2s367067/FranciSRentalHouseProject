@@ -81,6 +81,7 @@
 		0E3DD19F27ED5CB6001525E3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD19E27ED5CB6001525E3 /* FirebaseStorage */; };
 		0E3DD1A127ED5CB6001525E3 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD1A027ED5CB6001525E3 /* FirebaseStorageSwift-Beta */; };
 		0E3DD1A427ED5CE3001525E3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD1A327ED5CE3001525E3 /* SDWebImageSwiftUI */; };
+		0E41D13727FF13260042E14D /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E41D13627FF13260042E14D /* CustomProgressView.swift */; };
 		0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */; };
 		0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */; };
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
@@ -175,6 +176,7 @@
 		0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForTextingMessage.swift; sourceTree = "<group>"; };
 		0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMainView.swift; sourceTree = "<group>"; };
 		0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
+		0E41D13627FF13260042E14D /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
 		0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDetailView.swift; sourceTree = "<group>"; };
 		0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerRepresentable.swift; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				0249D44427C639CA0085F4A5 /* RoomsGridView.swift */,
 				0E0CB2D027E763130096A5CE /* UnregisterCoverView.swift */,
 				0ED1F42D27F1DDBF0004B5CE /* FurnitureGridView.swift */,
+				0E41D13627FF13260042E14D /* CustomProgressView.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */,
 				0249D45F27C63B8B0085F4A5 /* PaymentDetailSessionUnit.swift in Sources */,
 				0249D46527C63C040085F4A5 /* ProviderRoomSummitView.swift in Sources */,
+				0E41D13727FF13260042E14D /* CustomProgressView.swift in Sources */,
 				0249D46727C63C190085F4A5 /* ProviderBarChartView.swift in Sources */,
 				02CB58F927CDB53D0035EE20 /* StorageForRoomsImage.swift in Sources */,
 				0292835B27D37FDA00DEF068 /* TermOfServiceForRentalManager.swift in Sources */,

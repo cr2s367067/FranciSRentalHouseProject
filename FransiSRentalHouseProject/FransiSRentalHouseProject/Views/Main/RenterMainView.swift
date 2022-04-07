@@ -134,65 +134,45 @@ struct RenterMainView: View {
                         TitleAndDivider(title: "What's Everybody Favorite")
                         //: New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHGrid(rows: gridItemLayout, spacing: 50) {
-                                ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
-                                    Button {
-                                        do {
-                                            try checkUserInfo()
-                                            if localData.tempCart.isEmpty {
-                                                if firestoreToFetchUserinfo.notRented() {
-                                                    localData.tempCart.append(result)
-                                                    localData.addItem(roomAddress: result.roomAddress,
-                                                                      roomTown: result.town,
-                                                                      roomCity: result.city,
-                                                                      itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
-                                                                      roomUID: result.roomUID ,
-                                                                      roomImage: result.roomImage ?? "",
-                                                                      roomZipCode: result.zipCode,
-                                                                      docID: result.id ?? "",
-                                                                      providerUID: result.providedBy)
-                                                }
-                                            } else {
-                                                localData.tempCart.removeAll()
-                                                localData.summaryItemHolder.removeAll()
-                                                if localData.tempCart.isEmpty {
-                                                    if firestoreToFetchUserinfo.notRented() {
-                                                        localData.tempCart.append(result)
-                                                        localData.addItem(roomAddress: result.roomAddress,
-                                                                          roomTown: result.town,
-                                                                          roomCity: result.city,
-                                                                          itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
-                                                                          roomUID: result.roomUID ,
-                                                                          roomImage: result.roomImage ?? "",
-                                                                          roomZipCode: result.zipCode,
-                                                                          docID: result.id ?? "",
-                                                                          providerUID: result.providedBy )
-                                                    }
-                                                }
+                            LazyHGrid(rows: gridItemLayout, spacing: 35) {
+                                if showRooms == true {
+                                    ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
+                                        NavigationLink {
+                                            RoomsDetailView(roomsData: result)
+                                        } label: {
+                                            RoomsGridView(imageURL: result.roomImage ?? "",
+                                                     roomTown: result.town,
+                                                     roomCity: result.city,
+                                                     objectPrice: Int(result.rentalPrice) ?? 0)
+                                            .frame(height: 160)
+                                            .alert(isPresented: $appViewModel.isPresent) {
+                                                //MARK: Throw the "Have rented error to instead"
+                                                Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
                                             }
-                                            if appViewModel.isPresent == false {
-                                                appViewModel.isPresent = true
-                                            }
-                                            localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-                                        } catch {
-                                            self.errorHandler.handle(error: error)
                                         }
-                                        
-                                    } label: {
-                                        RoomsGridView(imageURL: result.roomImage ?? "",
-                                                 roomTown: result.town,
-                                                 roomCity: result.city,
-                                                 objectPrice: Int(result.rentalPrice) ?? 0)
-                                        .frame(height: 160)
-                                        .alert(isPresented: $appViewModel.isPresent) {
-                                            Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+                                    }
+                                } else if showFurniture == true {
+                                    ForEach(firestoreForProducts.productsDataSet) { product in
+                                        NavigationLink {
+                                            ProductDetailView(productName: product.productName,
+                                                              productPrice: Int(product.productPrice) ?? 0,
+                                                              productImage: product.productImage,
+                                                              productUID: product.productUID,
+                                                              productAmount: product.productAmount,
+                                                              productFrom: product.productFrom,
+                                                              providerUID: product.providerUID,
+                                                              isSoldOut: product.isSoldOut,
+                                                              providerName: product.providerName,
+                                                              productDescription: product.productDescription, docID: product.id ?? "")
+                                        } label: {
+                                            FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
                                         }
                                     }
                                 }
                             }
+                            .frame(height: 330)
+                            .padding()
                         }
-                        .frame(height: 330)
-                        .padding()
                     }
                     
                 }

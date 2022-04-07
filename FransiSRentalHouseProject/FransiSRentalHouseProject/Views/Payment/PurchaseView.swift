@@ -27,6 +27,8 @@ struct PurchaseView: View {
     @State var expDate = ""
     @State var secCode = ""
     
+    var roomsData: RoomInfoDataModel
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -181,13 +183,11 @@ struct PurchaseView: View {
                 
                 Button {
                     //: pass data to the next view
-                    if !localData.summaryItemHolder.isEmpty {
+                    if !localData.summaryItemHolder.roomUID.isEmpty {
                         //MARK: pay deposit and rent the room also pay for products if user ordered.
                         if firestoreToFetchUserinfo.notRented() {
-                            localData.summaryItemHolder.forEach { result in
-                                Task {
-                                    await rentedRoom(result: result.self)
-                                }
+                            Task {
+                                await rentedRoom(result: roomsData)
                             }
                             if !productDetailViewModel.productOrderCart.isEmpty {
                                 productDetailViewModel.productOrderCart.forEach { products in
@@ -249,20 +249,23 @@ struct CardTextField: View {
     }
 }
 
-
-struct PurchaseView_Previews: PreviewProvider {
-    static var previews: some View {
-        PurchaseView()
-    }
-}
-
-
 extension PurchaseView {
-    private func rentedRoom(result: SummaryItemHolder) async {
+    private func rentedRoom(result: RoomInfoDataModel) async {
         do {
-            try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(), roomID: result.roomUID ?? "NA", roomImage: result.roomImage ?? "NA", roomAddress: result.roomAddress, roomTown: result.roomTown, roomCity: result.roomCity, roomPrice: String(result.itemPrice / 3), roomZipCode: result.roomZipCode ?? "", providerUID: result.providerUID, depositFee: String((result.itemPrice / 3) * 2), paymentDate: Date())
-            try await firestoreToFetchRoomsData.summitRenter(uidPath: result.providerUID,
-                                                             docID: result.docID,
+            let roomPrice = Int(result.rentalPrice) ?? 0 / 3
+            try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(),
+                                                                          roomID: result.roomUID ,
+                                                                          roomImage: result.roomImage ?? "NA",
+                                                                          roomAddress: result.roomAddress,
+                                                                          roomTown: result.town,
+                                                                          roomCity: result.city,
+                                                                          roomPrice: String(roomPrice),
+                                                                          roomZipCode: result.zipCode ,
+                                                                          providerUID: result.providedBy,
+                                                                          depositFee: String((roomPrice) * 2),
+                                                                          paymentDate: Date())
+            try await firestoreToFetchRoomsData.summitRenter(uidPath: result.providedBy,
+                                                             docID: result.id ?? "",
                                                              renterName: firestoreToFetchUserinfo.presentUserName(),
                                                              renterID: firestoreToFetchUserinfo.presentUserId(),
                                                              renterResidenceAddress: firestoreToFetchUserinfo.presentAddress(),
@@ -270,98 +273,106 @@ extension PurchaseView {
                                                              renterPhoneNumber: firestoreToFetchUserinfo.presentMobileNumber(),
                                                              renterEmailAddress: firestoreToFetchUserinfo.presentEmailAddress(),
                                                              sigurtureDate: Date())
-//            try await firestoreToFetchUserinfo.uploadRentedRoomInfo(uidPath: firebaseAuth.getUID(),
-//                                                                   isSummitContract: result.contractDataModel.isSummitContract,
-//                                                                   contractBuildDate: result.contractDataModel.contractBuildDate,
-//                                                                   contractReviewDays: result.contractDataModel.contractReviewDays,
-//                                                                   providerSignurture: result.contractDataModel.providerSignurture,
-//                                                                   renterSignurture: result.contractDataModel.renterSignurture,
-//                                                                   companyTitle: result.contractDataModel.companyTitle,
-//                                                                   roomAddress: result.contractDataModel.roomAddress,
-//                                                                   roomTown: result.contractDataModel.roomTown,
-//                                                                   roomCity: result.contractDataModel.roomCity,
-//                                                                   roomZipCode: result.contractDataModel.roomZipCode,
-//                                                                   specificBuildingNumber: result.contractDataModel.specificBuildingNumber,
-//                                                                   specificBuildingRightRange: result.contractDataModel.specificBuildingRightRange,
-//                                                                   specificBuildingArea: result.contractDataModel.specificBuildingArea,
-//                                                                   mainBuildArea: result.contractDataModel.mainBuildArea,
-//                                                                   mainBuildingPurpose: result.contractDataModel.mainBuildingPurpose,
-//                                                                   subBuildingPurpose: result.contractDataModel.subBuildingPurpose,
-//                                                                   subBuildingArea: result.contractDataModel.subBuildingArea,
-//                                                                   publicBuildingNumber: result.contractDataModel.publicBuildingNumber,
-//                                                                   publicBuildingRightRange: result.contractDataModel.publicBuildingRightRange,
-//                                                                   publicBuildingArea: result.contractDataModel.publicBuildingArea,
-//                                                                   hasParkinglot: result.contractDataModel.hasParkinglot,
-//                                                                   isSettingTheRightForThirdPerson: result.contractDataModel.isSettingTheRightForThirdPerson,
-//                                                                   settingTheRightForThirdPersonForWhatKind: result.contractDataModel.settingTheRightForThirdPersonForWhatKind,
-//                                                                   isBlockByBank: result.contractDataModel.isBlockByBank,
-//                                                                   provideForAll: result.contractDataModel.provideForAll,
-//                                                                   provideForPart: result.contractDataModel.provideForPart,
-//                                                                   provideFloor: result.contractDataModel.provideFloor,
-//                                                                   provideRooms: result.contractDataModel.provideRooms,
-//                                                                   provideRoomNumber: result.contractDataModel.provideRoomNumber,
-//                                                                   provideRoomArea: result.contractDataModel.provideRoomArea,
-//                                                                   isVehicle: result.contractDataModel.isVehicle,
-//                                                                   isMorto: result.contractDataModel.isMorto,
-//                                                                   parkingUGFloor: result.contractDataModel.parkingUGFloor,
-//                                                                   parkingStyleN: result.contractDataModel.parkingStyleN,
-//                                                                   parkingStyleM: result.contractDataModel.parkingStyleM,
-//                                                                   parkingNumberForVehicle: result.contractDataModel.parkingNumberForVehicle,
-//                                                                   parkingNumberForMortor: result.contractDataModel.parkingNumberForMortor,
-//                                                                   forAllday: result.contractDataModel.forAllday,
-//                                                                   forMorning: result.contractDataModel.forMorning,
-//                                                                   forNight: result.contractDataModel.forNight,
-//                                                                   havingSubFacility: result.contractDataModel.havingSubFacility,
-//                                                                   rentalStartDate: result.contractDataModel.rentalStartDate,
-//                                                                   rentalEndDate: result.contractDataModel.rentalEndDate,
-//                                                                   paymentdays: result.contractDataModel.paymentdays,
-//                                                                   paybyCash: result.contractDataModel.paybyCash,
-//                                                                   paybyTransmission: result.contractDataModel.paybyTransmission,
-//                                                                   paybyCreditDebitCard: result.contractDataModel.paybyCreditDebitCard,
-//                                                                   bankName: result.contractDataModel.bankName,
-//                                                                   bankOwnerName: result.contractDataModel.bankOwnerName,
-//                                                                   bankAccount: result.contractDataModel.bankAccount,
-//                                                                   payByRenterForManagementPart: result.contractDataModel.payByRenterForManagementPart,
-//                                                                   payByProviderForManagementPart: result.contractDataModel.payByProviderForManagementPart,
-//                                                                   managementFeeMonthly: result.contractDataModel.managementFeeMonthly,
-//                                                                   parkingFeeMonthly: result.contractDataModel.parkingFeeMonthly,
-//                                                                   additionalReqForManagementPart: result.contractDataModel.additionalReqForManagementPart,
-//                                                                   payByRenterForWaterFee: result.contractDataModel.payByRenterForWaterFee,
-//                                                                   payByProviderForWaterFee: result.contractDataModel.payByProviderForWaterFee,
-//                                                                   additionalReqForWaterFeePart: result.contractDataModel.additionalReqForWaterFeePart,
-//                                                                   payByRenterForEletricFee: result.contractDataModel.payByRenterForEletricFee,
-//                                                                   payByProviderForEletricFee: result.contractDataModel.payByProviderForEletricFee,
-//                                                                   additionalReqForEletricFeePart: result.contractDataModel.additionalReqForEletricFeePart,
-//                                                                   payByRenterForGasFee: result.contractDataModel.payByRenterForGasFee,
-//                                                                   payByProviderForGasFee: result.contractDataModel.payByProviderForGasFee,
-//                                                                   additionalReqForGasFeePart: result.contractDataModel.additionalReqForGasFeePart,
-//                                                                   additionalReqForOtherPart: result.contractDataModel.additionalReqForOtherPart,
-//                                                                   contractSigurtureProxyFee: result.contractDataModel.contractSigurtureProxyFee,
-//                                                                   payByRenterForProxyFee: result.contractDataModel.payByRenterForProxyFee,
-//                                                                   payByProviderForProxyFee: result.contractDataModel.payByProviderForProxyFee,
-//                                                                   separateForBothForProxyFee: result.contractDataModel.separateForBothForProxyFee,
-//                                                                   contractIdentitificationFee: result.contractDataModel.contractIdentitificationFee,
-//                                                                   payByRenterForIDFFee: result.contractDataModel.payByRenterForIDFFee,
-//                                                                   payByProviderForIDFFee: result.contractDataModel.payByProviderForIDFFee,
-//                                                                   separateForBothForIDFFee: result.contractDataModel.separateForBothForIDFFee,
-//                                                                   contractIdentitificationProxyFee: result.contractDataModel.contractIdentitificationProxyFee,
-//                                                                   payByRenterForIDFProxyFee: result.contractDataModel.payByRenterForIDFProxyFee,
-//                                                                   payByProviderForIDFProxyFee: result.contractDataModel.payByProviderForIDFProxyFee,
-//                                                                   separateForBothForIDFProxyFee: result.contractDataModel.separateForBothForIDFProxyFee,
-//                                                                   subLeaseAgreement: result.contractDataModel.subLeaseAgreement,
-//                                                                   doCourtIDF: result.contractDataModel.doCourtIDF,
-//                                                                   courtIDFDoc: result.contractDataModel.courtIDFDoc,
-//                                                                   providerName: result.contractDataModel.providerName,
-//                                                                   providerID: result.contractDataModel.providerID,
-//                                                                   providerResidenceAddress: result.contractDataModel.providerResidenceAddress,
-//                                                                   providerMailingAddress: result.contractDataModel.providerMailingAddress,
-//                                                                   providerPhoneNumber: result.contractDataModel.providerPhoneNumber,
-//                                                                   providerPhoneChargeName: result.contractDataModel.providerPhoneChargeName,
-//                                                                   providerPhoneChargeID: result.contractDataModel.providerPhoneChargeID,
-//                                                                   providerPhoneChargeEmailAddress: result.contractDataModel.providerPhoneChargeEmailAddress)
-            try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.docID)
+            try await firestoreToFetchUserinfo.uploadRentedRoomInfo(uidPath: firebaseAuth.getUID(),
+                                                                    contractBuildDate: result.rentersContractData?.contractBuildDate ?? Date(),
+                                                                    contractReviewDays: result.rentersContractData?.contractReviewDays ?? "",
+                                                                    providerSignurture: result.rentersContractData?.providerSignurture ?? "",
+                                                                    renterSignurture: result.rentersContractData?.renterSignurture ?? "",
+                                                                    companyTitle: result.rentersContractData?.companyTitle ?? "",
+                                                                    roomAddress: result.rentersContractData?.roomAddress ?? "",
+                                                                    roomTown: result.rentersContractData?.roomTown ?? "",
+                                                                    roomCity: result.rentersContractData?.roomCity ?? "",
+                                                                    roomZipCode: result.rentersContractData?.roomZipCode ?? "",
+                                                                    specificBuildingNumber: result.rentersContractData?.specificBuildingNumber ?? "",
+                                                                    specificBuildingRightRange: result.rentersContractData?.specificBuildingRightRange ?? "",
+                                                                    specificBuildingArea: result.rentersContractData?.specificBuildingArea ?? "",
+                                                                    mainBuildArea: result.rentersContractData?.mainBuildArea ?? "",
+                                                                    mainBuildingPurpose: result.rentersContractData?.mainBuildingPurpose ?? "",
+                                                                    subBuildingPurpose: result.rentersContractData?.subBuildingPurpose ?? "",
+                                                                    subBuildingArea: result.rentersContractData?.subBuildingArea ?? "",
+                                                                    publicBuildingNumber: result.rentersContractData?.publicBuildingNumber ?? "",
+                                                                    publicBuildingRightRange: result.rentersContractData?.publicBuildingRightRange ?? "",
+                                                                    publicBuildingArea: result.rentersContractData?.publicBuildingArea ?? "",
+                                                                    hasParkinglot: result.rentersContractData?.hasParkinglot ?? false,
+                                                                    isSettingTheRightForThirdPerson: result.rentersContractData?.isSettingTheRightForThirdPerson ?? false,
+                                                                    settingTheRightForThirdPersonForWhatKind: result.rentersContractData?.settingTheRightForThirdPersonForWhatKind ?? "",
+                                                                    isBlockByBank: result.rentersContractData?.isBlockByBank ?? false,
+                                                                    provideForAll: result.rentersContractData?.provideForAll ?? false,
+                                                                    provideForPart: result.rentersContractData?.provideForPart ?? false,
+                                                                    provideFloor: result.rentersContractData?.provideFloor ?? "",
+                                                                    provideRooms: result.rentersContractData?.provideRooms ?? "",
+                                                                    provideRoomNumber: result.rentersContractData?.provideRoomNumber ?? "",
+                                                                    provideRoomArea: result.rentersContractData?.provideRoomArea ?? "",
+                                                                    isVehicle: result.rentersContractData?.isVehicle ?? false,
+                                                                    isMorto: result.rentersContractData?.isMorto ?? false,
+                                                                    parkingUGFloor: result.rentersContractData?.parkingUGFloor ?? "",
+                                                                    parkingStyleN: result.rentersContractData?.parkingStyleN ?? false,
+                                                                    parkingStyleM: result.rentersContractData?.parkingStyleM ?? false,
+                                                                    parkingNumberForVehicle: result.rentersContractData?.parkingNumberForVehicle ?? "",
+                                                                    parkingNumberForMortor: result.rentersContractData?.parkingNumberForMortor ?? "",
+                                                                    forAllday: result.rentersContractData?.forAllday ?? false,
+                                                                    forMorning: result.rentersContractData?.forMorning ?? false,
+                                                                    forNight: result.rentersContractData?.forNight ?? false,
+                                                                    havingSubFacility: result.rentersContractData?.havingSubFacility ?? false,
+                                                                    rentalStartDate: result.rentersContractData?.rentalStartDate ?? Date(),
+                                                                    rentalEndDate: result.rentersContractData?.rentalEndDate ?? Date(),
+                                                                    paymentdays: result.rentersContractData?.paymentdays ?? "",
+                                                                    paybyCash: result.rentersContractData?.paybyCash ?? false,
+                                                                    paybyTransmission: result.rentersContractData?.paybyTransmission ?? false,
+                                                                    paybyCreditDebitCard: result.rentersContractData?.paybyCreditDebitCard ?? false,
+                                                                    bankName: result.rentersContractData?.bankName ?? "",
+                                                                    bankOwnerName: result.rentersContractData?.bankOwnerName ?? "",
+                                                                    bankAccount: result.rentersContractData?.bankAccount ?? "",
+                                                                    payByRenterForManagementPart: result.rentersContractData?.payByRenterForManagementPart ?? false,
+                                                                    payByProviderForManagementPart: result.rentersContractData?.payByProviderForManagementPart ?? false,
+                                                                    managementFeeMonthly: result.rentersContractData?.managementFeeMonthly ?? "",
+                                                                    parkingFeeMonthly: result.rentersContractData?.parkingFeeMonthly ?? "",
+                                                                    additionalReqForManagementPart: result.rentersContractData?.additionalReqForManagementPart ?? "",
+                                                                    payByRenterForWaterFee: result.rentersContractData?.payByRenterForWaterFee ?? false,
+                                                                    payByProviderForWaterFee: result.rentersContractData?.payByProviderForWaterFee ?? false,
+                                                                    additionalReqForWaterFeePart: result.rentersContractData?.additionalReqForWaterFeePart ?? "",
+                                                                    payByRenterForEletricFee: result.rentersContractData?.payByRenterForEletricFee ?? false,
+                                                                    payByProviderForEletricFee: result.rentersContractData?.payByProviderForEletricFee ?? false,
+                                                                    additionalReqForEletricFeePart: result.rentersContractData?.additionalReqForEletricFeePart ?? "",
+                                                                    payByRenterForGasFee: result.rentersContractData?.payByRenterForGasFee ?? false,
+                                                                    payByProviderForGasFee: result.rentersContractData?.payByProviderForGasFee ?? false,
+                                                                    additionalReqForGasFeePart: result.rentersContractData?.additionalReqForGasFeePart ?? "",
+                                                                    additionalReqForOtherPart: result.rentersContractData?.additionalReqForOtherPart ?? "",
+                                                                    contractSigurtureProxyFee: result.rentersContractData?.contractSigurtureProxyFee ?? "",
+                                                                    payByRenterForProxyFee: result.rentersContractData?.payByRenterForProxyFee ?? false,
+                                                                    payByProviderForProxyFee: result.rentersContractData?.payByProviderForProxyFee ?? false,
+                                                                    separateForBothForProxyFee: result.rentersContractData?.separateForBothForProxyFee ?? false,
+                                                                    contractIdentitificationFee: result.rentersContractData?.contractIdentitificationFee ?? "",
+                                                                    payByRenterForIDFFee: result.rentersContractData?.payByRenterForIDFFee ?? false,
+                                                                    payByProviderForIDFFee: result.rentersContractData?.payByProviderForIDFFee ?? false,
+                                                                    separateForBothForIDFFee: result.rentersContractData?.separateForBothForIDFFee ?? false,
+                                                                    contractIdentitificationProxyFee: result.rentersContractData?.contractIdentitificationProxyFee ?? "",
+                                                                    payByRenterForIDFProxyFee: result.rentersContractData?.payByRenterForIDFProxyFee ?? false,
+                                                                    payByProviderForIDFProxyFee: result.rentersContractData?.payByProviderForIDFProxyFee ?? false,
+                                                                    separateForBothForIDFProxyFee: result.rentersContractData?.separateForBothForIDFProxyFee ?? false,
+                                                                    subLeaseAgreement: result.rentersContractData?.subLeaseAgreement ?? false,
+                                                                    doCourtIDF: result.rentersContractData?.doCourtIDF ?? false,
+                                                                    courtIDFDoc: result.rentersContractData?.courtIDFDoc ?? false,
+                                                                    providerName: result.rentersContractData?.providerName ?? "",
+                                                                    providerID: result.rentersContractData?.providerID ?? "",
+                                                                    providerResidenceAddress: result.rentersContractData?.providerResidenceAddress ?? "",
+                                                                    providerMailingAddress: result.rentersContractData?.providerMailingAddress ?? "",
+                                                                    providerPhoneNumber: result.rentersContractData?.providerPhoneNumber ?? "",
+                                                                    providerPhoneChargeName: result.rentersContractData?.providerPhoneChargeName ?? "",
+                                                                    providerPhoneChargeID: result.rentersContractData?.providerPhoneChargeID ?? "",
+                                                                    providerPhoneChargeEmailAddress: result.rentersContractData?.providerPhoneChargeEmailAddress ?? "",
+                                                                    renterName: result.rentersContractData?.renterName ?? "",
+                                                                    renterID: result.rentersContractData?.renterID ?? "",
+                                                                    renterResidenceAddress: result.rentersContractData?.renterResidenceAddress ?? "",
+                                                                    renterMailingAddress: result.rentersContractData?.renterMailingAddress ?? "",
+                                                                    renterPhoneNumber: result.rentersContractData?.renterPhoneNumber ?? "",
+                                                                    renterEmailAddress: result.rentersContractData?.renterEmailAddress ?? "",
+                                                                    sigurtureDate: result.rentersContractData?.sigurtureDate ?? Date())
+            try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.id ?? "")
             try await firestoreToFetchUserinfo.reloadUserDataTest()
-            try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providerUID, docID: result.docID, renterID: firebaseAuth.getUID())
+            try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providedBy,
+                                                                 docID: result.id ?? "",
+                                                                 renterID: firebaseAuth.getUID())
             reset()
         } catch {
             self.errorHandler.handle(error: error)
@@ -403,11 +414,11 @@ extension PurchaseView {
     }
     
     private func reset() {
-        localData.tempCart.removeAll()
+        localData.tempCart = []
         appViewModel.isRedacted = false
         appViewModel.rentalPolicyisAgree = false
-        localData.summaryItemHolder.removeAll()
-        productDetailViewModel.productOrderCart.removeAll()
+        localData.summaryItemHolder = .empty
+        productDetailViewModel.productOrderCart = []
         appViewModel.paymentSummaryTosAgree = false
         appViewModel.paymentSummaryAutoPayAgree = false
     }

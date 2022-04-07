@@ -325,7 +325,6 @@ extension FirestoreToFetchUserinfo {
 extension FirestoreToFetchUserinfo {
     //MARK: Upload the contact data to user's data set
     func uploadRentedRoomInfo(uidPath: String,
-                              isSummitContract: Bool,
                               contractBuildDate: Date,
                               contractReviewDays: String,
                               providerSignurture: String,
@@ -422,8 +421,6 @@ extension FirestoreToFetchUserinfo {
                               sigurtureDate: Date) async throws {
         let userRentedContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
         try await userRentedContractRef.setData([
-            "isSummitContract" : isSummitContract,
-            
             //MARK: Contract's Data Model
             "contractBuildDate" : contractBuildDate,
             "contractReviewDays" : contractReviewDays,

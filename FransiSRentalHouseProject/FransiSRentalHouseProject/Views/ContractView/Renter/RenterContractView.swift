@@ -195,29 +195,13 @@ extension RenterContractView {
                             Button {
                                 if localData.tempCart.isEmpty {
                                     localData.tempCart.append(roomsData)
-                                    localData.addItem(roomAddress: roomsData.roomAddress,
-                                                      roomTown: roomsData.town,
-                                                      roomCity: roomsData.city,
-                                                      itemPrice: Int(roomsData.rentalPrice) ?? 0 ,
-                                                      roomUID: roomsData.roomUID,
-                                                      roomImage: roomsData.roomImage ?? "",
-                                                      roomZipCode: roomsData.zipCode,
-                                                      docID: roomsData.id ?? "",
-                                                      providerUID: roomsData.providedBy)
+                                    localData.addItem(roomsInfo: roomsData)
                                 } else {
                                     localData.tempCart.removeAll()
-                                    localData.summaryItemHolder.removeAll()
+                                    localData.summaryItemHolder = .empty
                                     if localData.tempCart.isEmpty {
                                         localData.tempCart.append(roomsData)
-                                        localData.addItem(roomAddress: roomsData.roomAddress,
-                                                          roomTown: roomsData.town,
-                                                          roomCity: roomsData.city,
-                                                          itemPrice: Int(roomsData.rentalPrice) ?? 0 ,
-                                                          roomUID: roomsData.roomUID,
-                                                          roomImage: roomsData.roomImage ?? "",
-                                                          roomZipCode: roomsData.zipCode,
-                                                          docID: roomsData.id ?? "",
-                                                          providerUID: roomsData.providedBy)
+                                        localData.addItem(roomsInfo: roomsData)
                                     }
                                 }
                                 if appViewModel.isPresent == false {

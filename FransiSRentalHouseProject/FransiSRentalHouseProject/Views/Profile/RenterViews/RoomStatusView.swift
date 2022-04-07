@@ -10,6 +10,7 @@ import SDWebImageSwiftUI
 
 struct RoomStatusView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var localData: LocalData
     
     var roomImageURL: String {
         firestoreToFetchUserinfo.rentingRoomInfo.roomImageCover ?? ""
@@ -97,7 +98,7 @@ struct RoomStatusView: View {
                                 .foregroundColor(.white)
                             Spacer()
                             NavigationLink {
-                                PurchaseView()
+                                PurchaseView(roomsData: localData.summaryItemHolder)
                             } label: {
                                  Text("Pay")
                                     .frame(width: 108, height: 35)

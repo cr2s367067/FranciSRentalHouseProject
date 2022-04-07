@@ -21,7 +21,7 @@ struct PaymentSummaryView: View {
                 .ignoresSafeArea(.all)
             VStack {
                 TitleAndDivider(title: "Summary")
-                ListItems()
+                ListItems(roomsData: localData.summaryItemHolder)
                 AppDivider()
                 HStack {
                     Text("Total Price")
@@ -69,7 +69,7 @@ struct PaymentSummaryView: View {
 //                            if !localData.summaryItemHolder.isEmpty {
 //                                RenterContractView()
 //                            } else {
-                                PurchaseView()
+                            PurchaseView(roomsData: localData.summaryItemHolder)
 //                            }
                         } label: {
                             Text("Confirm")
@@ -116,28 +116,28 @@ struct SummaryItems: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     
+    var roomsData: RoomInfoDataModel
+    
     var checkOutItem = "No Data"
     var checkOutPrice = "0"
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
-                ForEach(localData.summaryItemHolder) { data in
-                    HStack {
-                        Button {
-                            localData.summaryItemHolder.removeAll(where: {$0.id == data.id})
-                            localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
-                            localData.tempCart.removeAll()
-                            appViewModel.isRedacted = true
-                        } label: {
-                            Image(systemName: "xmark.circle")
-                                .resizable()
-                                .frame(width: 22, height: 22)
-                        }
-                        Text(data.roomAddress)
-                        Spacer()
-                        Text("$\(data.itemPrice)")
+                HStack {
+                    Button {
+                        localData.summaryItemHolder = .empty
+                        localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
+                        localData.tempCart.removeAll()
+                        appViewModel.isRedacted = true
+                    } label: {
+                        Image(systemName: "xmark.circle")
+                            .resizable()
+                            .frame(width: 22, height: 22)
                     }
+                    Text(roomsData.roomAddress)
+                    Spacer()
+                    Text("$\(roomsData.rentalPrice)")
                 }
                 ForEach(productDetailViewModel.productOrderCart) { product in
                     HStack {
@@ -169,15 +169,15 @@ struct ListItems: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     
+    var roomsData: RoomInfoDataModel
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
-                ForEach(localData.summaryItemHolder) { data in
-                    HStack {
-                        Text(data.roomAddress)
-                        Spacer()
-                        Text("$\(data.itemPrice)")
-                    }
+                HStack {
+                    Text(roomsData.roomAddress)
+                    Spacer()
+                    Text("$\(roomsData.rentalPrice)")
                 }
                 ForEach(productDetailViewModel.productOrderCart) { product in
                     HStack {

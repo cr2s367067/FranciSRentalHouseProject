@@ -23,8 +23,7 @@ struct MaintainView: View {
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
     @State var showAlert = false
-    
-    //    let persistenceDM = PersistenceController()
+    @FocusState private var isFocused: Bool
     
     private func reset() {
         describtion = "Please describe what stuff needs to fix."
@@ -44,17 +43,10 @@ struct MaintainView: View {
         }
     }
     
-    //    private func checkFillOut(completion: (()->Void)? = nil) {
-    //        if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-    //            completion?()
-    //        }
-    //    }
-    
     var body: some View {
         NavigationView {
             VStack {
                 Spacer()
-                //                .frame(height: 2)
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Title Group
                     VStack(spacing: 1) {
@@ -82,6 +74,7 @@ struct MaintainView: View {
                                 .background(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                                 .frame(width: 360, height: 200)
+                                .focused($isFocused)
                                 .onTapGesture {
                                     if describtion == "Please describe what stuff needs to fix." {
                                         describtion.removeAll()
@@ -128,6 +121,9 @@ struct MaintainView: View {
                     .padding(.top, 5)
                 }
             }
+            .onTapGesture(perform: {
+                isFocused = false
+            })
             .background(alignment: .center) {
                 LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea([.top, .bottom])
@@ -135,7 +131,6 @@ struct MaintainView: View {
             .overlay(content: {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
-                    //                SecondOverLay(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
             })
             .onAppear {

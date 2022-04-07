@@ -53,7 +53,7 @@ struct PrePurchaseView: View {
                             VStack(alignment: .center) {
                                 Spacer()
                                 ScrollView(.vertical, showsIndicators: false) {
-                                    SummaryItems()
+                                    SummaryItems(roomsData: localData.summaryItemHolder)
                                 }
                             }
                             .padding()
@@ -63,7 +63,7 @@ struct PrePurchaseView: View {
                             Group {
                                 Image(systemName: "dollarsign.circle")
                                 Text("\(localData.sumPrice)")
-                                if firestoreToFetchUserinfo.notRented() && !localData.summaryItemHolder.isEmpty && !localData.tempCart.isEmpty {
+                                if firestoreToFetchUserinfo.notRented() && !localData.summaryItemHolder.roomUID.isEmpty && !localData.tempCart.isEmpty {
                                     Text("(Include Deposit fee 2 month)")
                                         .font(.system(size: 12, weight: .semibold))
                                 }
@@ -148,7 +148,7 @@ struct FurnitureItemView: View {
 extension PrePurchaseView {
     @ViewBuilder
     private func checkCartIsNotEmptyAndShowTheView() -> some View {
-        if !localData.summaryItemHolder.isEmpty || !productDetailViewModel.productOrderCart.isEmpty {
+        if !localData.summaryItemHolder.roomUID.isEmpty || !productDetailViewModel.productOrderCart.isEmpty {
             withAnimation(.easeInOut) {
                 NavigationLink {
                     PaymentSummaryView()

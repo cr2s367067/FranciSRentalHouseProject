@@ -313,6 +313,7 @@ struct ProviderRoomSummitView: View {
                         .padding([.trailing, .top])
                         .frame(width: 400)
                     }
+                    .disabled(providerRoomSummitViewModel.showProgressView ? true : false)
                 }
                 
             }
@@ -322,7 +323,7 @@ struct ProviderRoomSummitView: View {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
                 if providerRoomSummitViewModel.showProgressView == true {
-                    ProgressView("Uploading please wait...")
+                    CustomProgressView()
                 }
             })
             .onAppear(perform: {

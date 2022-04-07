@@ -281,3 +281,7 @@ struct RoomInfoDataModel: Identifiable, Codable {
     var roomDescription: String
     var rentersContractData: RentersContractDataModel?
 }
+
+extension RoomInfoDataModel {
+    static let empty = RoomInfoDataModel(roomUID: "", holderName: "", mobileNumber: "", roomAddress: "", town: "", city: "", zipCode: "", roomArea: "", rentalPrice: "", someoneDeadInRoom: "", waterLeakingProblem: "", providedBy: "", providerDisplayName: "", providerChatDocId: "", roomDescription: "")
+}
