@@ -62,7 +62,7 @@ struct RenterProfileView: View {
                         Spacer()
                         Rectangle()
                             .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                            .frame(height: UIScreen.main.bounds.height / 2 + 167)
+                            .frame(height: UIScreen.main.bounds.height / 2 + 195)
                             .cornerRadius(30, corners: [.topLeft, .topRight])
                     }
                     VStack {
@@ -75,8 +75,6 @@ struct RenterProfileView: View {
                                     .clipped()
                                 Button {
                                     showSheet.toggle()
-                                    //                                            print("\(fetchFirestore.fetchMaintainInfo)")
-                                    
                                 } label: {
                                     if storageForUserProfile.isSummitImage == false {
                                         Image(systemName: "person.fill")
@@ -116,16 +114,20 @@ struct RenterProfileView: View {
             }
         }
         .background(alignment: .center, content: {
-            Group {
-                Image("backgroundImage")
-                    .resizable()
-                    .blur(radius: 10)
-                    .clipped()
-                Rectangle()
-                    .fill(.white.opacity(0.5))
-                    .blendMode(.multiply)
+            VStack {
+                Group {
+                    Image("backgroundImage")
+                        .resizable()
+                        .blur(radius: 10)
+                        .clipped()
+                    Rectangle()
+                        .fill(.white.opacity(0.5))
+                        .blendMode(.multiply)
+                }
+                .edgesIgnoringSafeArea(.top)
+                Color("background2")
+                    .edgesIgnoringSafeArea(.bottom)
             }
-            .edgesIgnoringSafeArea([.top, .bottom])
         })
         .sheet(isPresented: $showSheet, onDismiss: {
             Task {
@@ -133,6 +135,7 @@ struct RenterProfileView: View {
                     if !image.isSymbolImage {
                         try await storageForUserProfile.uploadImageAsync(uidPath: firebaseAuth.getUID(), image: image)
                     }
+                    try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
                 } catch {
                     self.errorHandler.handle(error: error)
                 }
@@ -145,12 +148,12 @@ struct RenterProfileView: View {
         .navigationBarBackButtonHidden(true)
         .task({
             do {
+                try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
                 //MARK: Fetch uploaded maintain tasks
 //                if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
 //                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), roomUID: "")
 //                }
                 try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
-                try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)
             }

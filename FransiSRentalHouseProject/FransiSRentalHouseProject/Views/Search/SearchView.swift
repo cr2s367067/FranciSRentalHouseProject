@@ -21,6 +21,8 @@ struct SearchView: View {
     @State private var showRooms = true
     @State private var showProducts = false
     
+    @FocusState private var isFocused: Bool
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -36,6 +38,7 @@ struct SearchView: View {
                             .padding(.leading)
                         TextField("", text: $searchName)
                             .foregroundColor(.white)
+                            .focused($isFocused)
                             .placeholer(when: searchName.isEmpty) {
                                 Text("Search")
                                     .foregroundColor(.white.opacity(0.8))
@@ -142,6 +145,9 @@ struct SearchView: View {
                     .padding()
                 }
             }
+            .onTapGesture(perform: {
+                isFocused = false
+            })
             .navigationTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)

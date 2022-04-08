@@ -122,6 +122,8 @@ struct RoomsDetailView: View {
             VStack {
                 mapSwitch(showMap: roomsDetailViewModel.showMap, address: getAddress())
                 Spacer()
+                Color("background2")
+                    .edgesIgnoringSafeArea(.bottom)
             }
         }
         .navigationTitle("")

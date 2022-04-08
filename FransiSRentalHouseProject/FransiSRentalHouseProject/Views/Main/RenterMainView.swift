@@ -78,6 +78,11 @@ struct RenterMainView: View {
                                         .frame(width: 25, height: 26)
                                 }
                             }
+                            Button {
+                                print(firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct())
+                            } label: {
+                                Text("test")
+                            }
                             HStack {
                                 VStack {
                                     Divider()

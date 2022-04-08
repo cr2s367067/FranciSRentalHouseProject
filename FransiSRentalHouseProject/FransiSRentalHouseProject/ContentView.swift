@@ -14,9 +14,7 @@ struct ContentView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
-    init() {
-        UITabBar.appearance().isHidden = true
-    }
+   
     var body: some View {
         Group {
             if firebaseAuth.signIn == true || firebaseAuth.signUp == true || firebaseAuth.isSkipIt == true {
@@ -36,12 +34,11 @@ struct ContentView: View {
         })
         .onAppear {
             firebaseAuth.signIn = firebaseAuth.isSignedIn
-           
         }
     }
     
 }
-
+//testKeyboard()
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

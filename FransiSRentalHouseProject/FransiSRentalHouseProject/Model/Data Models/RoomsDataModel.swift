@@ -77,6 +77,7 @@ struct RentersContractDataModel: Codable {
     var rentalEndDate: Date //委託管理期間至
     
     // MARK: 第三條 租金約定及支付
+    var roomRentalPrice: String
     var paymentdays: String //每月__日前支付
     var paybyCash: Bool //報酬約定及給付-現金繳付
     var paybyTransmission: Bool //報酬約定及給付-轉帳繳付
@@ -200,6 +201,7 @@ extension RentersContractDataModel {
                                                 havingSubFacility: false,
                                                 rentalStartDate: Date(),
                                                 rentalEndDate: Date(),
+                                                roomRentalPrice: "",
                                                 paymentdays: "",
                                                 paybyCash: false,
                                                 paybyTransmission: false,
@@ -261,6 +263,7 @@ struct RoomImageDataModel: Identifiable, Codable {
 
 struct RoomInfoDataModel: Identifiable, Codable {
     @DocumentID var id: String?
+    var isPublished: Bool
     var roomUID: String
     var holderName: String
     var mobileNumber: String
@@ -283,5 +286,5 @@ struct RoomInfoDataModel: Identifiable, Codable {
 }
 
 extension RoomInfoDataModel {
-    static let empty = RoomInfoDataModel(roomUID: "", holderName: "", mobileNumber: "", roomAddress: "", town: "", city: "", zipCode: "", roomArea: "", rentalPrice: "", someoneDeadInRoom: "", waterLeakingProblem: "", providedBy: "", providerDisplayName: "", providerChatDocId: "", roomDescription: "")
+    static let empty = RoomInfoDataModel(isPublished: false, roomUID: "", holderName: "", mobileNumber: "", roomAddress: "", town: "", city: "", zipCode: "", roomArea: "", rentalPrice: "", someoneDeadInRoom: "", waterLeakingProblem: "", providedBy: "", providerDisplayName: "", providerChatDocId: "", roomDescription: "")
 }

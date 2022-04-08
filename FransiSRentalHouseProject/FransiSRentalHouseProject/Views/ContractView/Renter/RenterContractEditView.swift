@@ -242,6 +242,7 @@ struct RenterContractEditView: View {
                             .foregroundColor(.white)
                     }
                     Section {
+                        TextField("租金", text: $rentEditVM.contractDataModel.roomRentalPrice)
                         TextField("每月支付日", text: $rentEditVM.contractDataModel.paymentdays)
                     } header: {
                         Text("租金約定及支付")
@@ -442,6 +443,8 @@ struct RenterContractEditView: View {
             Button {
                 Task {
                     do {
+                        rentEditVM.contractDataModel.isSummitContract = true
+                        try await firestoreToFetchRoomsData.updataRentalPrice(uidPath: firebaseAuth.getUID(), docID: docID, rentalPrice: rentEditVM.contractDataModel.roomRentalPrice)
                         try await firestoreToFetchRoomsData.updateContractData(uidPath: firebaseAuth.getUID(),
                                                                                docID: docID,
                                                                                isSummitContract: rentEditVM.contractDataModel.isSummitContract,
@@ -487,6 +490,7 @@ struct RenterContractEditView: View {
                                                                                havingSubFacility: rentEditVM.contractDataModel.havingSubFacility,
                                                                                rentalStartDate: rentEditVM.contractDataModel.rentalStartDate,
                                                                                rentalEndDate: rentEditVM.contractDataModel.rentalEndDate,
+                                                                               roomRentalPrice: rentEditVM.contractDataModel.roomRentalPrice,
                                                                                paymentdays: rentEditVM.contractDataModel.paymentdays,
                                                                                paybyCash: rentEditVM.contractDataModel.paybyCash,
                                                                                paybyTransmission: rentEditVM.contractDataModel.paybyTransmission,

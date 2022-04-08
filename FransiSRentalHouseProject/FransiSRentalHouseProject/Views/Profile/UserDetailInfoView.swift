@@ -26,6 +26,8 @@ struct UserDetailInfoView: View {
     @State private var isSummit = false
     @State private var selection = "House Owner"
     
+    @FocusState private var isFocused: Bool
+    
     
     private func reset() {
         appViewModel.userDetailViewReset()
@@ -64,6 +66,9 @@ struct UserDetailInfoView: View {
                 }
             }
         }
+        .onTapGesture(perform: {
+            isFocused = false
+        })
         .onAppear(perform: {
             if firestoreToFetchUserinfo.presentUserId().isEmpty {
                 userDetailInfoViewModel.isEdit = true
@@ -139,14 +144,19 @@ extension UserDetailInfoView {
     
     @ViewBuilder
     func isEditMode(isEdit: Bool) -> some View {
+        
         if isEdit == false {
             userInfoPresenting(source: firestoreToFetchUserinfo.fetchedUserData)
         } else {
             Group {
+                Group {
                 InfoUnit(title: "ID", bindingString: $appViewModel.id)
                 InfoUnit(title: "First Name", bindingString: $appViewModel.firstName)
                 InfoUnit(title: "Last Name", bindingString: $appViewModel.lastName)
                 InfoUnit(title: "Display Name", bindingString: $appViewModel.displayName)
+                        .onTapGesture {
+                            appViewModel.displayName = ""
+                        }
                 Group {
                     Text("Gender")
                         .foregroundColor(.white)
@@ -200,7 +210,7 @@ extension UserDetailInfoView {
                     }
                 }
             }
-            Group {
+                Group {
                 InfoUnit(title: "Mobile Number", bindingString: $appViewModel.mobileNumber)
                     .keyboardType(.decimalPad)
                 DatePicker("Date of Birth", selection: $appViewModel.dob, in: ...Date(), displayedComponents: .date)
@@ -214,6 +224,8 @@ extension UserDetailInfoView {
                 InfoUnit(title: "Zip Code", bindingString: $appViewModel.zipCode)
                 InfoUnit(title: "Country", bindingString: $appViewModel.country) //: Picker
             }
+            }
+            .focused($isFocused)
         }
     }
     

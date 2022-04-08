@@ -11,6 +11,9 @@ import SDWebImageSwiftUI
 struct RoomStatusView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var localData: LocalData
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var errorHandler: ErrorHandler
     
     var roomImageURL: String {
         firestoreToFetchUserinfo.rentingRoomInfo.roomImageCover ?? ""
@@ -125,8 +128,8 @@ struct RoomStatusView: View {
                             Text("Contract: ")
                                 .foregroundColor(.white)
                             Spacer()
-                            Button {
-                                
+                            NavigationLink {
+                                PresentContract(contractData: firestoreToFetchRoomsData.roomContractData)
                             } label: {
                                 Text("show")
                                     .frame(width: 108, height: 35)
@@ -148,6 +151,13 @@ struct RoomStatusView: View {
         }
         .onAppear {
             firestoreToFetchUserinfo.userRentedRoomInfo()
+        }
+        .task {
+            do {
+                _ = try await firestoreToFetchRoomsData.fetchRentedContract(uidPath: firebaseAuth.getUID())
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)

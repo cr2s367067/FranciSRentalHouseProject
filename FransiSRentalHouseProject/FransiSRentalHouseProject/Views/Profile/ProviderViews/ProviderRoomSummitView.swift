@@ -409,6 +409,7 @@ extension ProviderRoomSummitView {
         appViewModel.someoneDeadinRoom = ""
         appViewModel.waterLeakingProblem = ""
         providerRoomSummitViewModel.imageSet.removeAll()
+        appViewModel.roomDescription = ""
     }
 }
 

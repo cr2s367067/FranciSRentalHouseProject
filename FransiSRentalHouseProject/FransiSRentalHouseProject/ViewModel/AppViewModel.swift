@@ -38,7 +38,7 @@ class AppViewModel: ObservableObject {
     @Published var checked = false
     @Published var showAlert = false
     
-    @Published var tagSelect = "TapHomeButton"
+//    @Published var tagSelect = "TapHomeButton"
     @Published var isPresent = false
     @Published var userType = ""
     @Published var tempUserType = ""
@@ -429,7 +429,12 @@ struct TabBarButton: View {
         Button {
             tagSelect = buttonImage
         } label: {
-            Image(buttonImage)
+            VStack(spacing: 5) {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(tagSelect == buttonImage ? .white : Color.clear)
+                    .frame(width: 35, height: 3)
+                Image(buttonImage)
+            }
         }
     }
 }

@@ -45,88 +45,92 @@ struct MaintainView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                Spacer()
-                ScrollView(.vertical, showsIndicators: false) {
-                    //: Title Group
-                    VStack(spacing: 1) {
-                        HStack {
-                            Text("Fix Something?")
-                                .font(.system(size: 24, weight: .heavy))
-                                .foregroundColor(.white)
-                            Spacer()
-                        }
-                        HStack {
-                            VStack {
-                                Divider()
-                                    .background(Color.white)
-                                    .frame(width: 400, height: 10)
-                            }
-                        }
-                    }
-                    .padding(.leading)
-                    VStack(alignment: .leading) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Please describe it.")
-                                .foregroundColor(.white)
-                                .font(.system(size: 24, weight: .heavy))
-                            TextEditor(text: $describtion)
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                                .frame(width: 360, height: 200)
-                                .focused($isFocused)
-                                .onTapGesture {
-                                    if describtion == "Please describe what stuff needs to fix." {
-                                        describtion.removeAll()
-                                    }
-                                }
-                        }
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Make an appointment")
-                                .foregroundColor(.white)
-                                .font(.system(size: 24, weight: .heavy))
-                            DatePicker("Appointment Date", selection: $appointment, in: Date()...)
-                                .datePickerStyle(GraphicalDatePickerStyle())
-                                .background(Color.white)
-                                .frame(width: 360)
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                        }
-                    }
-                    
-                    HStack {
-                        Spacer()
-                        Button {
-                            Task {
-                                try await checkRoomStatus(describtion: describtion, appointmentDate: appointment)
-                            }
-                        } label: {
-                            Text("Summit it!")
-                                .foregroundColor(.white)
-                                .frame(width: 108, height: 35)
-                                .background(Color("buttonBlue"))
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                                .alert("Notice", isPresented: $showAlert, actions: {
-                                    Button {
-                                        reset()
-                                    } label: {
-                                        Text(describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? "Okay!" : "Got it.")
-                                    }
-                                }, message: {
-                                    describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("It's added in our schedule, We will fix it as fast as possible.") : Text("Please fill the blank. Thanks")
-                                })
-                        }
-                        
-                    }
-                    .padding(.trailing)
-                    .padding(.top, 5)
-                }
-            }
-            .onTapGesture(perform: {
-                isFocused = false
-            })
-            .background(alignment: .center) {
+            ZStack {
                 LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea([.top, .bottom])
+                VStack {
+                    Spacer()
+                    ScrollView(.vertical, showsIndicators: false) {
+                        //: Title Group
+                        VStack(spacing: 1) {
+                            HStack {
+                                Text("Fix Something?")
+                                    .font(.system(size: 24, weight: .heavy))
+                                    .foregroundColor(.white)
+                                Spacer()
+                            }
+                            HStack {
+                                VStack {
+                                    Divider()
+                                        .background(Color.white)
+                                        .frame(width: 400, height: 10)
+                                }
+                            }
+                        }
+                        .padding(.leading)
+                        VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Please describe it.")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 24, weight: .heavy))
+                                TextEditor(text: $describtion)
+                                    .background(.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                                    .frame(width: 360, height: 200)
+                                    .focused($isFocused)
+                                    .onTapGesture {
+                                        if describtion == "Please describe what stuff needs to fix." {
+                                            describtion.removeAll()
+                                        }
+                                    }
+                            }
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Make an appointment")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 24, weight: .heavy))
+                                DatePicker("Appointment Date", selection: $appointment, in: Date()...)
+                                    .datePickerStyle(GraphicalDatePickerStyle())
+                                    .background(Color.white)
+                                    .frame(width: 360)
+                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                            }
+                        }
+                        
+                        HStack {
+                            Spacer()
+                            Button {
+                                Task {
+                                    try await checkRoomStatus(describtion: describtion, appointmentDate: appointment)
+                                }
+                            } label: {
+                                Text("Summit it!")
+                                    .foregroundColor(.white)
+                                    .frame(width: 108, height: 35)
+                                    .background(Color("buttonBlue"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .alert("Notice", isPresented: $showAlert, actions: {
+                                        Button {
+                                            reset()
+                                        } label: {
+                                            Text(describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? "Okay!" : "Got it.")
+                                        }
+                                    }, message: {
+                                        describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("It's added in our schedule, We will fix it as fast as possible.") : Text("Please fill the blank. Thanks")
+                                    })
+                            }
+                            
+                        }
+                        .padding(.trailing)
+                        .padding(.top, 5)
+                    }
+                }
+                .onTapGesture(perform: {
+                    isFocused = false
+                })
+                //            .background(alignment: .center) {
+                //                LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
+                //                    .edgesIgnoringSafeArea([.top, .bottom])
+                //            }
             }
             .overlay(content: {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {
