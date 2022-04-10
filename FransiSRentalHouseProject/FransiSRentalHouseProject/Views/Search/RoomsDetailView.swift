@@ -39,7 +39,7 @@ struct RoomsDetailView: View {
                             roomsDetailViewModel.showMap.toggle()
                         } label: {
                             withAnimation {
-                                Image(systemName: roomsDetailViewModel.showMap ? "map" : "photo.artframe")
+                                Image(systemName: roomsDetailViewModel.showMap ? "photo.artframe" : "map")
                                     .resizable()
                                     .frame(width: 30, height: 30, alignment: .trailing)
                             }

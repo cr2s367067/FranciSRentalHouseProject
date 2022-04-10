@@ -190,7 +190,7 @@ extension RenterProfileView {
                     Spacer()
                         .frame(width: 100)
                     //MARK: Add the expired date in data model
-                    Text("1/15/2023")
+                    Text(firestoreToFetchUserinfo.rentedContract.rentalEndDate, format: Date.FormatStyle().year().month().day())
                         .font(.system(size: 15, weight: .heavy))
                 }
                 .padding(.top, 5)
@@ -314,4 +314,23 @@ extension RenterProfileView {
         }
     }
     
+}
+
+
+class RenterProfileViewModel: ObservableObject {
+    
+    let firestoreToFetchRoomsData = FirestoreToFetchRoomsData()
+    let firebaseAuth = FirebaseAuth()
+    
+    func isRenewable(from fromDate: Date, to endDate: Date, docID: String) async {
+        let calendar = Calendar.current
+        print("fromDate: \(fromDate)")
+        print("endDate: \(endDate)")
+//        print("diff: \(diffDate)")
+//        if fromDate == endDate {
+//            //Push notification for user to let them know the rental is expired
+//            //and delete the old version contract or renew new contract
+//            try? await firestoreToFetchRoomsData.expiredRoom(uidPath: firebaseAuth.getUID(), docID: docID)
+//        }
+    }
 }

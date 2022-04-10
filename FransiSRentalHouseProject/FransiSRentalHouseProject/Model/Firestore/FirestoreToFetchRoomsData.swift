@@ -13,9 +13,6 @@ import FirebaseFirestoreSwift
 
 class FirestoreToFetchRoomsData: ObservableObject {
     
-//    @EnvironmentObject var localData: LocalData
-    
-    //    let localData = LocalData()
     let firebaseAuth = FirebaseAuth()
     
     let db = Firestore.firestore()
@@ -23,13 +20,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
     @Published var fetchRoomInfoFormOwner = [RoomInfoDataModel]()
     @Published var fetchRoomInfoFormPublic = [RoomInfoDataModel]()
     @Published var fetchRoomImages = [RoomImageDataModel]()
-    @Published var roomContractData: RentersContractDataModel = .empty
-    
     @Published var roomID = ""
-    
-//    func listenRoomsData() {
-//        listeningRoomInfo(uidPath: firebaseAuth.getUID())
-//    }
     
     func roomIdGenerator() -> String {
         let roomId = UUID().uuidString
@@ -314,7 +305,6 @@ extension FirestoreToFetchRoomsData {
                             providerPhoneChargeID: String,
                             providerPhoneChargeEmailAddress: String) async throws {
         let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
-        let roomPublicRef = db.collection("RoomsForPublic").document(docID)
         try await roomOwerRef.updateData([
             "rentersContractData.isSummitContract" : isSummitContract,
             
@@ -446,138 +436,6 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.providerPhoneChargeID" : providerPhoneChargeID,
             "rentersContractData.providerPhoneChargeEmailAddress" : providerPhoneChargeEmailAddress
         ])
-        try await roomPublicRef.updateData([
-            "rentersContractData.isSummitContract" : isSummitContract,
-            
-            //MARK: Contract's Data Model
-            "rentersContractData.contractBuildDate" : contractBuildDate,
-            "rentersContractData.contractReviewDays" : contractReviewDays,
-            "rentersContractData.providerSignurture" : providerSignurture,
-            "rentersContractData.renterSignurture" : renterSignurture,
-            "rentersContractData.companyTitle" : companyTitle,
-            "rentersContractData.roomAddress" : roomAddress,
-            "rentersContractData.roomTown" : roomTown,
-            "rentersContractData.roomCity" : roomCity,
-            "rentersContractData.roomZipCode" : roomZipCode,
-            
-            // MARK: 第一條 委託管理標的 - 房屋標示
-            "rentersContractData.specificBuildingNumber" : specificBuildingNumber, //專有部分建號
-            "rentersContractData.specificBuildingRightRange" : specificBuildingRightRange, //專有部分權利範圍
-            "rentersContractData.specificBuildingArea" : specificBuildingArea, //專有部分面積共計
-            
-            "rentersContractData.mainBuildArea" : mainBuildArea, //主建物面積__層__平方公尺
-            "rentersContractData.mainBuildingPurpose" : mainBuildingPurpose, //主建物用途
-            
-            "rentersContractData.subBuildingPurpose" : subBuildingPurpose, //附屬建物用途
-            "rentersContractData.subBuildingArea" : subBuildingArea, //附屬建物面積__平方公尺
-            
-            "rentersContractData.publicBuildingNumber" : publicBuildingNumber, //共有部分建號
-            "rentersContractData.publicBuildingRightRange" : publicBuildingRightRange, //共有部分權利範圍
-            "rentersContractData.publicBuildingArea" : publicBuildingArea, //共有部分持分面積__平方公尺
-            
-            "rentersContractData.hasParkinglot" : hasParkinglot, //車位-有無
-            
-            "rentersContractData.isSettingTheRightForThirdPerson" : isSettingTheRightForThirdPerson, //設定他項權利-有無
-            "rentersContractData.settingTheRightForThirdPersonForWhatKind" : settingTheRightForThirdPersonForWhatKind, //權利種類
-            
-            "rentersContractData.isBlockByBank" : isBlockByBank, //查封登記-有無
-            
-            // MARK: 第一條 委託管理標的 - 租賃範圍
-            "rentersContractData.provideForAll": provideForAll, //租賃住宅全部
-            "rentersContractData.provideForPart": provideForPart, //租賃住宅部分
-            "rentersContractData.provideFloor": provideFloor, //租賃住宅第__層
-            "rentersContractData.provideRooms": provideRooms, //租賃住宅房間__間
-            "rentersContractData.provideRoomNumber": provideRoomNumber, //租賃住宅第__室
-            "rentersContractData.provideRoomArea": provideRoomArea, //租賃住宅面積__平方公尺
-            
-            "rentersContractData.isVehicle": isVehicle, //汽車停車位
-            "rentersContractData.isMorto": isMorto, //機車停車位
-            "rentersContractData.parkingUGFloor": parkingUGFloor, //地上(下)第__層
-            "rentersContractData.parkingStyleN": parkingStyleN, //平面式停車位
-            "rentersContractData.parkingStyleM": parkingStyleM, //機械式停車位
-            "rentersContractData.parkingNumberForVehicle": parkingNumberForVehicle, //編號第__號
-            "rentersContractData.parkingNumberForMortor": parkingNumberForMortor,
-            "rentersContractData.forAllday": forAllday, //使用時間全日
-            "rentersContractData.forMorning": forMorning, //使用時間日間
-            "rentersContractData.forNight": forNight, //使用時間夜間
-            
-            "rentersContractData.havingSubFacility": havingSubFacility, //租賃附屬設備-有無
-            
-            // MARK: 第二條 租賃期間
-            "rentersContractData.rentalStartDate" : rentalStartDate, //委託管理期間自
-            "rentersContractData.rentalEndDate" : rentalEndDate, //委託管理期間至
-            
-            // MARK: 第三條 租金約定及支付
-            "rentersContractData.roomRentalPrice" : roomRentalPrice,
-            "rentersContractData.paymentdays": paymentdays, //每月__日前支付
-            "rentersContractData.paybyCash": paybyCash, //報酬約定及給付-現金繳付
-            "rentersContractData.paybyTransmission": paybyTransmission, //報酬約定及給付-轉帳繳付
-            "rentersContractData.paybyCreditDebitCard": paybyCreditDebitCard, //報酬約定及給付-信用卡/簽帳卡
-            "rentersContractData.bankName": bankName, //金融機構
-            "rentersContractData.bankOwnerName": bankOwnerName, //戶名
-            "rentersContractData.bankAccount": bankAccount, //帳號
-            
-            // MARK: 第五條 租賃期間相關費用之支付
-            "rentersContractData.payByRenterForManagementPart" : payByRenterForManagementPart, //承租人負擔
-            "rentersContractData.payByProviderForManagementPart" : payByProviderForManagementPart, //出租人負擔
-            "rentersContractData.managementFeeMonthly" : managementFeeMonthly, //房屋每月___元整
-            "rentersContractData.parkingFeeMonthly" : parkingFeeMonthly, //停車位每月___元整
-            "rentersContractData.additionalReqForManagementPart" : additionalReqForManagementPart,
-            
-            "rentersContractData.payByRenterForWaterFee" : payByRenterForWaterFee, //承租人負擔
-            "rentersContractData.payByProviderForWaterFee" : payByProviderForWaterFee, //出租人負擔
-            "rentersContractData.additionalReqForWaterFeePart" : additionalReqForWaterFeePart,
-            
-            "rentersContractData.payByRenterForEletricFee" : payByRenterForEletricFee, //承租人負擔
-            "rentersContractData.payByProviderForEletricFee" : payByProviderForEletricFee, //出租人負擔
-            "rentersContractData.additionalReqForEletricFeePart" : additionalReqForEletricFeePart,
-            
-            "rentersContractData.payByRenterForGasFee" : payByRenterForGasFee, //承租人負擔
-            "rentersContractData.payByProviderForGasFee" : payByProviderForGasFee, //出租人負擔
-            "rentersContractData.additionalReqForGasFeePart" : additionalReqForGasFeePart,
-            
-            "rentersContractData.additionalReqForOtherPart" : additionalReqForOtherPart, //其他費用及其支付方式
-            
-            // MARK: 第六條 稅費負擔之約定
-            "rentersContractData.contractSigurtureProxyFee" : contractSigurtureProxyFee,
-            "rentersContractData.payByRenterForProxyFee" : payByRenterForProxyFee, //承租人負擔
-            "rentersContractData.payByProviderForProxyFee" : payByProviderForProxyFee, //出租人負擔
-            "rentersContractData.separateForBothForProxyFee" : separateForBothForProxyFee, //雙方平均負擔
-            
-            "rentersContractData.contractIdentitificationFee" : contractIdentitificationFee,
-            "rentersContractData.payByRenterForIDFFee" : payByRenterForIDFFee, //承租人負擔
-            "rentersContractData.payByProviderForIDFFee" : payByProviderForIDFFee, //出租人負擔
-            "rentersContractData.separateForBothForIDFFee" : separateForBothForIDFFee, //雙方平均負擔
-            
-            "rentersContractData.contractIdentitificationProxyFee" : contractIdentitificationProxyFee ,
-            "rentersContractData.payByRenterForIDFProxyFee" : payByRenterForIDFProxyFee, //承租人負擔
-            "rentersContractData.payByProviderForIDFProxyFee" : payByProviderForIDFProxyFee, //出租人負擔
-            "rentersContractData.separateForBothForIDFProxyFee" : separateForBothForIDFProxyFee, //雙方平均負擔
-            
-            // MARK: 第七條 使用房屋之限制
-            "rentersContractData.subLeaseAgreement" : subLeaseAgreement,
-            
-            // MARK: 第十二條 房屋之返還
-//            "rentersContractData.contractSendbyEmail" : contractSendbyEmail, //履行本契約之通知-電子郵件信箱
-//            "rentersContractData.contractSendbyTextingMessage" : contractSendbyTextingMessage, //履行本契約之通知-手機簡訊
-//            "rentersContractData.contractSendbyMessageSoftware" : contractSendbyMessageSoftware, //履行本契約之通知-即時通訊軟體
-            
-            // MARK: 第十九條 其他約定
-            "rentersContractData.doCourtIDF" : doCourtIDF, //□辦理公證□不辦理公證
-            "rentersContractData.courtIDFDoc" : courtIDFDoc, //□不同意；□同意公證書
-            
-            
-            // MARK: 立契約書人
-            "rentersContractData.providerName" : providerName,
-            "rentersContractData.providerID" : providerID,
-            "rentersContractData.providerResidenceAddress" : providerResidenceAddress,
-            "rentersContractData.providerMailingAddress" : providerMailingAddress,
-            "rentersContractData.providerPhoneNumber" : providerPhoneNumber,
-            "rentersContractData.providerPhoneChargeName" : providerPhoneChargeName,
-            "rentersContractData.providerPhoneChargeID" : providerPhoneChargeID,
-            "rentersContractData.providerPhoneChargeEmailAddress" : providerPhoneChargeEmailAddress
-        ])
-        
     }
 }
 
@@ -670,12 +528,12 @@ extension FirestoreToFetchRoomsData {
         ])
     }
     
-    func fetchRentedContract(uidPath: String) async throws -> RentersContractDataModel {
-        let userContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
-        let roomContractData = try await userContractRef.getDocument(as: RentersContractDataModel.self)
-        self.roomContractData = roomContractData
-        return roomContractData
-    }
+//    func fetchRentedContract(uidPath: String) async throws {
+//        let userContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
+//        print(userContractRef)
+//        let roomContractData = try await userContractRef.getDocument(as: RentersContractDataModel.self)
+//        print(roomContractData)
+//    }
     
     func updataRentalPrice(uidPath: String, docID: String, rentalPrice: String) async throws {
         let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
@@ -919,6 +777,24 @@ extension FirestoreToFetchRoomsData {
                 "renterEmailAddress" : renterEmailAddress,
                 "sigurtureDate" : sigurtureDate
             ]
+        ])
+        
+        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
+        try await roomOwerRef.updateData([
+            "isPublished" : isPublished
+        ])
+    }
+}
+
+
+extension FirestoreToFetchRoomsData {
+    //erase user rented info when it's expired
+    func expiredRoom(uidPath: String, docID: String) async throws {
+        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
+        try await roomOwerRef.updateData([
+            "rentedBy" : "",
+            "isRented" : false,
+            "isPublished" : false
         ])
     }
 }

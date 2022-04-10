@@ -9,10 +9,25 @@ import SwiftUI
 
 struct PresentContract: View {
     var contractData: RentersContractDataModel
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     var body: some View {
         VStack {
             presentedContract()
+                .background(alignment: .center) {
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(Color.white)
+                        .frame(width: uiScreenWidth - 10, height: uiScreenHeight - 185, alignment: .center)
+                }
         }
+        .background(alignment: .center, content: {
+            LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea([.top, .bottom])
+        })
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

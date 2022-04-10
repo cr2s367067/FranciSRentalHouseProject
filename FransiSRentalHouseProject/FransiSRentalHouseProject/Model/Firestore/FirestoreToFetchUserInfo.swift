@@ -18,6 +18,8 @@ class FirestoreToFetchUserinfo: ObservableObject {
     let firebaseAuth = FirebaseAuth()
     let db = Firestore.firestore()
     
+    
+    @Published var rentedContract: RentersContractDataModel = .empty
     @Published var fetchedUserData: UserDataModel = .empty
     @Published var rentingRoomInfo: RentedRoomInfo = .empty
     @Published var userLastName = ""
@@ -323,8 +325,10 @@ extension FirestoreToFetchUserinfo {
 }
 
 extension FirestoreToFetchUserinfo {
+    /*
     //MARK: Upload the contact data to user's data set
     func uploadRentedRoomInfo(uidPath: String,
+                              isSummitContract: Bool,
                               contractBuildDate: Date,
                               contractReviewDays: String,
                               providerSignurture: String,
@@ -421,6 +425,7 @@ extension FirestoreToFetchUserinfo {
                               sigurtureDate: Date) async throws {
         let userRentedContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
         try await userRentedContractRef.setData([
+            "isSummitContract" : isSummitContract,
             //MARK: Contract's Data Model
             "contractBuildDate" : contractBuildDate,
             "contractReviewDays" : contractReviewDays,
@@ -528,15 +533,9 @@ extension FirestoreToFetchUserinfo {
             // MARK: 第七條 使用房屋之限制
             "subLeaseAgreement" : subLeaseAgreement,
             
-            // MARK: 第十二條 房屋之返還
-//            "contractSendbyEmail" : contractSendbyEmail, //履行本契約之通知-電子郵件信箱
-//            "contractSendbyTextingMessage" : contractSendbyTextingMessage, //履行本契約之通知-手機簡訊
-//            "contractSendbyMessageSoftware" : contractSendbyMessageSoftware, //履行本契約之通知-即時通訊軟體
-            
             // MARK: 第十九條 其他約定
             "doCourtIDF" : doCourtIDF, //□辦理公證□不辦理公證
             "courtIDFDoc" : courtIDFDoc, //□不同意；□同意公證書
-            
             
             // MARK: 立契約書人
             "providerName" : providerName,
@@ -555,5 +554,214 @@ extension FirestoreToFetchUserinfo {
             "renterEmailAddress" : renterEmailAddress,
             "sigurtureDate" : sigurtureDate
         ])
+    }
+     */
+}
+
+extension FirestoreToFetchUserinfo {
+    func summitRentedContractToUserData(uidPath: String,
+    isSummitContract: Bool,
+    contractBuildDate: Date,
+    contractReviewDays:String,
+    providerSignurture: String,
+    renterSignurture: String,
+    companyTitle: String,
+    roomAddress: String,
+    roomTown: String,
+    roomCity: String,
+    roomZipCode: String,
+    specificBuildingNumber: String,
+    specificBuildingRightRange: String,
+    specificBuildingArea: String,
+    mainBuildArea: String,
+    mainBuildingPurpose: String,
+    subBuildingPurpose: String,
+    subBuildingArea: String,
+    publicBuildingNumber: String,
+    publicBuildingRightRange: String,
+    publicBuildingArea: String,
+    hasParkinglot: Bool,
+    isSettingTheRightForThirdPerson: Bool,
+    settingTheRightForThirdPersonForWhatKind: String,
+    isBlockByBank: Bool,
+    provideForAll: Bool,
+    provideForPart: Bool,
+    provideFloor: String,
+    provideRooms: String,
+    provideRoomNumber: String,
+    provideRoomArea: String,
+    isVehicle: Bool,
+    isMorto: Bool,
+    parkingUGFloor: String,
+    parkingStyleN: Bool,
+    parkingStyleM: Bool,
+    parkingNumberForVehicle: String,
+    parkingNumberForMortor: String,
+    forAllday: Bool,
+    forMorning: Bool,
+    forNight: Bool,
+    havingSubFacility: Bool,
+    rentalStartDate: Date,
+    rentalEndDate: Date,
+    roomRentalPrice: String,
+    paymentdays: String,
+    paybyCash: Bool,
+    paybyTransmission: Bool,
+    paybyCreditDebitCard: Bool,
+    bankName: String,
+    bankOwnerName: String,
+    bankAccount: String,
+    payByRenterForManagementPart: Bool,
+    payByProviderForManagementPart: Bool,
+    managementFeeMonthly: String,
+    parkingFeeMonthly: String,
+    additionalReqForManagementPart: String,
+    payByRenterForWaterFee: Bool,
+    payByProviderForWaterFee: Bool,
+    additionalReqForWaterFeePart: String,
+    payByRenterForEletricFee: Bool,
+    payByProviderForEletricFee: Bool,
+    additionalReqForEletricFeePart: String,
+    payByRenterForGasFee: Bool,
+    payByProviderForGasFee: Bool,
+    additionalReqForGasFeePart: String,
+    additionalReqForOtherPart: String,
+    contractSigurtureProxyFee: String,
+    payByRenterForProxyFee: Bool,
+    payByProviderForProxyFee: Bool,
+    separateForBothForProxyFee: Bool,
+    contractIdentitificationFee: String,
+    payByRenterForIDFFee: Bool,
+    payByProviderForIDFFee: Bool,
+    separateForBothForIDFFee: Bool,
+    contractIdentitificationProxyFee: String,
+    payByRenterForIDFProxyFee: Bool,
+    payByProviderForIDFProxyFee: Bool,
+    separateForBothForIDFProxyFee: Bool,
+    subLeaseAgreement: Bool,
+    doCourtIDF: Bool,
+    courtIDFDoc: Bool,
+    providerName: String,
+    providerID: String,
+    providerResidenceAddress: String,
+    providerMailingAddress: String,
+    providerPhoneNumber: String,
+    providerPhoneChargeName: String,
+    providerPhoneChargeID: String,
+    providerPhoneChargeEmailAddress: String,
+    renterName: String,
+    renterID: String,
+    renterResidenceAddress: String,
+    renterMailingAddress: String,
+    renterPhoneNumber: String,
+    renterEmailAddress: String,
+    sigurtureDate: Date
+    ) async throws {
+        let userRentedContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
+        try await userRentedContractRef.setData([
+            "isSummitContract": isSummitContract,
+            "contractBuildDate": contractBuildDate,
+            "contractReviewDays": contractReviewDays,
+            "providerSignurture": providerSignurture,
+            "renterSignurture": renterSignurture,
+            "companyTitle": companyTitle,
+            "roomAddress": roomAddress,
+            "roomTown": roomTown,
+            "roomCity": roomCity,
+            "roomZipCode": roomZipCode,
+            "specificBuildingNumber": specificBuildingNumber,
+            "specificBuildingRightRange": specificBuildingRightRange,
+            "specificBuildingArea": specificBuildingArea,
+            "mainBuildArea": mainBuildArea,
+            "mainBuildingPurpose": mainBuildingPurpose,
+            "subBuildingPurpose": subBuildingPurpose,
+            "subBuildingArea": subBuildingArea,
+            "publicBuildingNumber": publicBuildingNumber,
+            "publicBuildingRightRange": publicBuildingRightRange,
+            "publicBuildingArea": publicBuildingArea,
+            "hasParkinglot": hasParkinglot,
+            "isSettingTheRightForThirdPerson": isSettingTheRightForThirdPerson,
+            "settingTheRightForThirdPersonForWhatKind": settingTheRightForThirdPersonForWhatKind,
+            "isBlockByBank": isBlockByBank,
+            "provideForAll": provideForAll,
+            "provideForPart": provideForPart,
+            "provideFloor": provideFloor,
+            "provideRooms": provideRooms,
+            "provideRoomNumber": provideRoomNumber,
+            "provideRoomArea": provideRoomArea,
+            "isVehicle": isVehicle,
+            "isMorto": isMorto,
+            "parkingUGFloor": parkingUGFloor,
+            "parkingStyleN": parkingStyleN,
+            "parkingStyleM": parkingStyleM,
+            "parkingNumberForVehicle": parkingNumberForVehicle,
+            "parkingNumberForMortor": parkingNumberForMortor,
+            "forAllday": forAllday,
+            "forMorning": forMorning,
+            "forNight": forNight,
+            "havingSubFacility": havingSubFacility,
+            "rentalStartDate": rentalStartDate,
+            "rentalEndDate": rentalEndDate,
+            "roomRentalPrice": roomRentalPrice,
+            "paymentdays": paymentdays,
+            "paybyCash": paybyCash,
+            "paybyTransmission": paybyTransmission,
+            "paybyCreditDebitCard": paybyCreditDebitCard,
+            "bankName": bankName,
+            "bankOwnerName": bankOwnerName,
+            "bankAccount": bankAccount,
+            "payByRenterForManagementPart": payByRenterForManagementPart,
+            "payByProviderForManagementPart": payByProviderForManagementPart,
+            "managementFeeMonthly": managementFeeMonthly,
+            "parkingFeeMonthly": parkingFeeMonthly,
+            "additionalReqForManagementPart": additionalReqForManagementPart,
+            "payByRenterForWaterFee": payByRenterForWaterFee,
+            "payByProviderForWaterFee": payByProviderForWaterFee,
+            "additionalReqForWaterFeePart": additionalReqForWaterFeePart,
+            "payByRenterForEletricFee": payByRenterForEletricFee,
+            "payByProviderForEletricFee": payByProviderForEletricFee,
+            "additionalReqForEletricFeePart": additionalReqForEletricFeePart,
+            "payByRenterForGasFee": payByRenterForGasFee,
+            "payByProviderForGasFee": payByProviderForGasFee,
+            "additionalReqForGasFeePart": additionalReqForGasFeePart,
+            "additionalReqForOtherPart": additionalReqForOtherPart,
+            "contractSigurtureProxyFee": contractSigurtureProxyFee,
+            "payByRenterForProxyFee": payByRenterForProxyFee,
+            "payByProviderForProxyFee": payByProviderForProxyFee,
+            "separateForBothForProxyFee": separateForBothForProxyFee,
+            "contractIdentitificationFee": contractIdentitificationFee,
+            "payByRenterForIDFFee": payByRenterForIDFFee,
+            "payByProviderForIDFFee": payByProviderForIDFFee,
+            "separateForBothForIDFFee": separateForBothForIDFFee,
+            "contractIdentitificationProxyFee": contractIdentitificationProxyFee,
+            "payByRenterForIDFProxyFee": payByRenterForIDFProxyFee,
+            "payByProviderForIDFProxyFee": payByProviderForIDFProxyFee,
+            "separateForBothForIDFProxyFee": separateForBothForIDFProxyFee,
+            "subLeaseAgreement": subLeaseAgreement,
+            "doCourtIDF": doCourtIDF,
+            "courtIDFDoc": courtIDFDoc,
+            "providerName": providerName,
+            "providerID": providerID,
+            "providerResidenceAddress": providerResidenceAddress,
+            "providerMailingAddress": providerMailingAddress,
+            "providerPhoneNumber": providerPhoneNumber,
+            "providerPhoneChargeName": providerPhoneChargeName,
+            "providerPhoneChargeID": providerPhoneChargeID,
+            "providerPhoneChargeEmailAddress": providerPhoneChargeEmailAddress,
+            "renterName": renterName,
+            "renterID": renterID,
+            "renterResidenceAddress": renterResidenceAddress,
+            "renterMailingAddress": renterMailingAddress,
+            "renterPhoneNumber": renterPhoneNumber,
+            "renterEmailAddress": renterEmailAddress,
+            "sigurtureDate": sigurtureDate
+        ])
+    }
+    
+    @MainActor
+    func getSummittedContract(uidPath: String) async throws -> RentersContractDataModel {
+        let userContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
+        rentedContract = try await userContractRef.getDocument(as: RentersContractDataModel.self)
+        return rentedContract
     }
 }

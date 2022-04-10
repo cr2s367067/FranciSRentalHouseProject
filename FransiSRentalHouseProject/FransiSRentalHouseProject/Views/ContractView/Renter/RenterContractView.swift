@@ -201,11 +201,21 @@ extension RenterContractView {
                             }
                         }
                     } label: {
-                        Text("Publish")
-                            .foregroundColor(.white)
-                            .frame(width: 108, height: 35)
-                            .background(Color("buttonBlue"))
-                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                        if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
+                            withAnimation {
+                                HStack(alignment: .center, spacing: 5) {
+                                    Image(systemName: roomsData.isPublished ? "checkmark.circle.fill" : "checkmark.circle")
+                                        .resizable()
+                                        .foregroundColor(roomsData.isPublished ? Color.green : Color.gray)
+                                        .frame(width: 25, height: 25)
+                                    Text(roomsData.isPublished ? "Published" : "Publish")
+                                        .foregroundColor(.white)
+                                        .frame(width: 108, height: 35)
+                                        .background(Color("buttonBlue"))
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                }
+                            }
+                        }
                     }
                 }
                 ScrollView(.vertical, showsIndicators: true) {

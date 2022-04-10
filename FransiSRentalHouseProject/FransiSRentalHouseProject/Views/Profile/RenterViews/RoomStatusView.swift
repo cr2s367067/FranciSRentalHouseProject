@@ -67,7 +67,6 @@ struct RoomStatusView: View {
                         }
                         Spacer()
                     }
-                    Spacer()
                     VStack(alignment: .center, spacing: 10) {
                         HStack(spacing: 1) {
                             Text("Monthly Rental Price: ")
@@ -81,19 +80,10 @@ struct RoomStatusView: View {
                             Text("Expired Date: ")
                                 .foregroundColor(.white)
                             Spacer()
-                            Text("1/15/2023")
+                            Text(firestoreToFetchUserinfo.rentedContract.rentalEndDate, format: Date.FormatStyle().year().month().day())
                                 .foregroundColor(.white)
                                 .padding(.leading, 1)
                             
-                        }
-                        
-                        HStack(spacing: 1) {
-                            Text("Addition Furniture:  ")
-                                .foregroundColor(.white)
-                            Spacer()
-                            Text("Yes")
-                                .foregroundColor(.white)
-                                .padding(.leading, 1)
                         }
                         
                         HStack {
@@ -129,7 +119,7 @@ struct RoomStatusView: View {
                                 .foregroundColor(.white)
                             Spacer()
                             NavigationLink {
-                                PresentContract(contractData: firestoreToFetchRoomsData.roomContractData)
+                                PresentContract(contractData: firestoreToFetchUserinfo.rentedContract)
                             } label: {
                                 Text("show")
                                     .frame(width: 108, height: 35)
@@ -141,7 +131,7 @@ struct RoomStatusView: View {
                     }
                 }
                 .padding()
-                .frame(width: uiScreenWidth - 40, height: uiScreenHeigth / 2)
+                .frame(width: uiScreenWidth - 40, height: uiScreenHeigth / 3 + 50)
                 .background(alignment: .top) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("sessionBackground"))
@@ -154,7 +144,7 @@ struct RoomStatusView: View {
         }
         .task {
             do {
-                _ = try await firestoreToFetchRoomsData.fetchRentedContract(uidPath: firebaseAuth.getUID())
+                _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)
             }

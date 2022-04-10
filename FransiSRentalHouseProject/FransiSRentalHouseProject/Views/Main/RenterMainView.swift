@@ -17,6 +17,7 @@ struct RenterMainView: View {
     @EnvironmentObject var firestoreFetchingAnnouncement: FirestoreFetchingAnnouncement
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     
     var gridItemLayout = [
         GridItem(.fixed(170)),
@@ -33,6 +34,15 @@ struct RenterMainView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Button {
+                    Task {
+//                        do {
+                            await renterProfileViewModel.isRenewable(from: Date(), to: firestoreToFetchUserinfo.rentedContract.rentalEndDate, docID: "")
+//                        }
+                    }
+                } label: {
+                    Text("test")
+                }
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Announcement Group
                     Group {
@@ -77,11 +87,6 @@ struct RenterMainView: View {
                                         .foregroundColor(.white)
                                         .frame(width: 25, height: 26)
                                 }
-                            }
-                            Button {
-                                print(firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct())
-                            } label: {
-                                Text("test")
                             }
                             HStack {
                                 VStack {
@@ -197,12 +202,6 @@ struct RenterMainView: View {
                     print("some error")
                 }
             }
-        }
-    }
-    
-    struct RenterMainView_Previews: PreviewProvider {
-        static var previews: some View {
-            RenterMainView()
         }
     }
 }

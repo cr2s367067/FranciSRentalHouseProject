@@ -579,7 +579,7 @@ extension RenterContractEditView {
             .keyboardType(.numberPad)
         TextField("第幾室", text: $rentEditVM.contractDataModel.provideRoomNumber)
             .keyboardType(.numberPad)
-        TextField("面積幾平方公尺", text: $rentEditVM.contractDataModel.provideFloor)
+        TextField("面積幾平方公尺", text: $rentEditVM.contractDataModel.provideRoomArea)
             .keyboardType(.numberPad)
     }
     
