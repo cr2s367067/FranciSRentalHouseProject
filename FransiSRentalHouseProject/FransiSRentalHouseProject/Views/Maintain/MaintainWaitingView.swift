@@ -31,7 +31,7 @@ struct MaintainWaitingView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { data in
                         if data.isRented == true {
-                            MaintainWaitingReusableUnit(showDetail: self.$showDetail, roomAddress: data.roomAddress, roomTown: data.town, roomCity: data.city, roomZipCode: data.zipCode, roomUID: data.roomUID, roomImage: data.roomImage ?? "", uidPath: data.rentedBy ?? "")
+                            MaintainWaitingReusableUnit(showDetail: self.$showDetail, roomsData: data)
                                 .padding(.top)
                         }
                     }
@@ -49,27 +49,19 @@ struct MaintainWaitingView: View {
 struct MaintainWaitingReusableUnit: View {
     
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     
     
     @Binding var showDetail: Bool
     
-    var roomAddress: String = ""
-    var roomTown: String = ""
-    var roomCity: String = ""
-    var roomZipCode: String = ""
-    var renter: String = ""
-    var roomUID: String
-    var roomImage: String
-    var uidPath: String
+    var roomsData: RoomInfoDataModel
     
-    func address() -> String {
-        var tempAddressHolder = ""
-        tempAddressHolder = address(roomAddress: roomAddress, roomTown: roomTown, roomCity: roomCity, roomZipCode: roomZipCode)
-        return tempAddressHolder
-    }
-    
-    private func address(roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String) -> String {
-        return roomZipCode + roomCity + roomTown + roomAddress
+    var address: String {
+        let zipCode = roomsData.zipCode
+        let city = roomsData.city
+        let town = roomsData.town
+        let roomAddress = roomsData.roomAddress
+        return zipCode + city + town + roomAddress
     }
     
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -94,7 +86,7 @@ struct MaintainWaitingReusableUnit: View {
                                     RoundedRectangle(cornerRadius: 10)
                                         .fill(Color.brown)
                                 )
-                            WebImage(url: URL(string: roomImage))
+                            WebImage(url: URL(string: roomsData.roomImage ?? ""))
                                 .resizable()
                                 .frame(width: 130, height: 100)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -105,13 +97,13 @@ struct MaintainWaitingReusableUnit: View {
                     VStack(spacing: 3) {
                         HStack {
                             Text("Address: ")
-                            Text("\(address())")
+                            Text(address)
                             Spacer()
                         }
                         .padding(.leading)
                         .padding(.top, 3)
                         HStack {
-                            Text("Waiting Task: ")
+                            Text("Tasks: ")
                             Text("\(firestoreToFetchMaintainTasks.fetchMaintainInfo.count)")
                             Spacer()
                         }
@@ -140,7 +132,7 @@ struct MaintainWaitingReusableUnit: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
                             if showDetail {
-                                MaintainTaskWaitingListUnit(taskName: task.description, appointmentTime: task.appointmentDate)
+                                MaintainTaskWaitingListUnit(maintainTask: task, roomUID: roomsData.roomUID)
                             }
                         }
                     }
@@ -155,7 +147,7 @@ struct MaintainWaitingReusableUnit: View {
         }
         .task {
             do {
-                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: uidPath, roomUID: roomUID)
+                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), roomUID: roomsData.roomUID)
             } catch {
                 print("error")
             }
@@ -165,8 +157,11 @@ struct MaintainWaitingReusableUnit: View {
 
 struct MaintainTaskWaitingListUnit: View {
     
-    var taskName: String
-    var appointmentTime: Date
+    @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    
+    var maintainTask: MaintainTaskHolder
+    var roomUID: String
     
     let uiscreenWidth = UIScreen.main.bounds.width
     let uiscreedHeight = UIScreen.main.bounds.height
@@ -176,14 +171,32 @@ struct MaintainTaskWaitingListUnit: View {
                 .fill(Color.gray.opacity(0.5))
                 .frame(width: uiscreenWidth - 50, height: 90, alignment: .center)
             VStack(alignment: .leading) {
-                VStack {
-                    HStack {
-                        Text(taskName)
-                        Spacer()
+                HStack {
+                    VStack {
+                        HStack {
+                            Text(maintainTask.description)
+                            Spacer()
+                        }
+                        HStack{
+                            Text(maintainTask.appointmentDate, format: Date.FormatStyle().year().month().day())
+                            Spacer()
+                        }
                     }
-                    HStack{
-                        Text("\(appointmentTime)")
-                        Spacer()
+                    Button {
+                        Task {
+                            do {
+                                try await firestoreToFetchMaintainTasks.updateFixedInfo(uidPath: firebaseAuth.getUID(), roomUID: roomUID, maintainDocID: maintainTask.id ?? "")
+                                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), roomUID: roomUID)
+                            } catch {
+                                print("error")
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: maintainTask.isFixed ? "checkmark.circle.fill" : "x.circle.fill")
+                                .foregroundColor(maintainTask.isFixed ? .green : .red)
+                            Text("Fixed")
+                        }
                     }
                 }
             }

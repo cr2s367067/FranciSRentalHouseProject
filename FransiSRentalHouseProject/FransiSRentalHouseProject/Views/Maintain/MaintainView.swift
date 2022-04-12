@@ -14,20 +14,24 @@ struct MaintainView: View {
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var appViewModel: AppViewModel
-    
-    //:temp
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
-    //    let firebaseAuth = FirebaseAuth()
+    @EnvironmentObject var storageForMaintainImage: StorageForMaintainImage
     
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
     @State var showAlert = false
     @FocusState private var isFocused: Bool
+    @State var image = UIImage()
+    @State var imagePickerSheet = false
+    @State var isSelectedImage = false
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
     
     private func reset() {
         describtion = "Please describe what stuff needs to fix."
         appointment = Date()
+        isSelectedImage = false
     }
     
     private func checkRoomStatus(describtion: String, appointmentDate: Date) async throws {
@@ -35,7 +39,8 @@ struct MaintainView: View {
             try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
             try firestoreToFetchUserinfo.checkMaintainFilled(description: describtion, appointmentDate: appointmentDate)
             if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firebaseAuth.getUID(), taskName: describtion, appointmentDate: appointment, roomUID: firestoreToFetchUserinfo.getRoomUID())
+                try await storageForMaintainImage.uploadFixItemImage(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", image: image, roomUID: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID ?? "")
+                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", taskName: describtion, appointmentDate: appointment, roomUID: firestoreToFetchUserinfo.getRoomUID(), itemImageURL: storageForMaintainImage.itemImageURL)
                 showAlert.toggle()
             }
         } catch {
@@ -48,35 +53,18 @@ struct MaintainView: View {
             ZStack {
                 LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea([.top, .bottom])
-                VStack {
+                VStack(alignment: .center) {
                     Spacer()
                     ScrollView(.vertical, showsIndicators: false) {
                         //: Title Group
-                        VStack(spacing: 1) {
-                            HStack {
-                                Text("Fix Something?")
-                                    .font(.system(size: 24, weight: .heavy))
-                                    .foregroundColor(.white)
-                                Spacer()
-                            }
-                            HStack {
-                                VStack {
-                                    Divider()
-                                        .background(Color.white)
-                                        .frame(width: 400, height: 10)
-                                }
-                            }
-                        }
-                        .padding(.leading)
-                        VStack(alignment: .leading) {
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text("Please describe it.")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 24, weight: .heavy))
+                        TitleAndDivider(title: "Fix Something?")
+                        VStack(alignment: .center) {
+                            VStack(alignment: .center, spacing: 5) {
+                                MaintainTitleUnit(title: "Please describe it.")
                                 TextEditor(text: $describtion)
                                     .background(.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 15))
-                                    .frame(width: 360, height: 200)
+                                    .frame(width: uiScreenWidth - 30, height: 200)
                                     .focused($isFocused)
                                     .onTapGesture {
                                         if describtion == "Please describe what stuff needs to fix." {
@@ -84,16 +72,32 @@ struct MaintainView: View {
                                         }
                                     }
                             }
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text("Make an appointment")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 24, weight: .heavy))
-                                DatePicker("Appointment Date", selection: $appointment, in: Date()...)
-                                    .datePickerStyle(GraphicalDatePickerStyle())
-                                    .background(Color.white)
-                                    .frame(width: 360)
-                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .padding(.horizontal)
+                            VStack(alignment: .center, spacing: 5) {
+                                graphicalDatePicker()
                             }
+                            VStack(spacing: 5) {
+                                MaintainTitleUnit(title: "Upload Image")
+                                Button {
+                                    imagePickerSheet.toggle()
+                                } label: {
+                                    ZStack(alignment: .center) {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(Color("fieldGray"))
+                                            .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
+                                        Image(systemName: "plus.square")
+                                            .font(.system(size: 20))
+                                            .foregroundColor(.white)
+                                        if isSelectedImage == true {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                                .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
+                                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
                         }
                         
                         HStack {
@@ -118,20 +122,21 @@ struct MaintainView: View {
                                         describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("It's added in our schedule, We will fix it as fast as possible.") : Text("Please fill the blank. Thanks")
                                     })
                             }
-                            
                         }
-                        .padding(.trailing)
-                        .padding(.top, 5)
+                        .padding()
                     }
                 }
+                .padding()
+                .frame(width: uiScreenWidth - 30, alignment: .center)
                 .onTapGesture(perform: {
                     isFocused = false
                 })
-                //            .background(alignment: .center) {
-                //                LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
-                //                    .edgesIgnoringSafeArea([.top, .bottom])
-                //            }
             }
+            .sheet(isPresented: $imagePickerSheet, onDismiss: {
+                isSelectedImage = true
+            }, content: {
+                ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
+            })
             .overlay(content: {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
@@ -149,5 +154,35 @@ struct MaintainView: View {
 struct MaintainView_Previews: PreviewProvider {
     static var previews: some View {
         MaintainView()
+    }
+}
+
+extension MaintainView {
+    @ViewBuilder
+    func graphicalDatePicker() -> some View {
+        HStack {
+            DatePicker("Appointment", selection: $appointment, in: Date()...)
+                .datePickerStyle(CompactDatePickerStyle())
+                .font(.system(size: 18))
+                .applyTextColor(.white)
+            Spacer()
+        }
+        .frame(width: uiScreenWidth - 30, alignment: .center)
+        .padding(.horizontal)
+    }
+    
+    
+}
+
+
+struct MaintainTitleUnit: View {
+    var title: String
+    var body: some View {
+        HStack {
+            Text(title)
+                .foregroundColor(.white)
+                .font(.system(size: 24, weight: .heavy))
+            Spacer()
+        }
     }
 }

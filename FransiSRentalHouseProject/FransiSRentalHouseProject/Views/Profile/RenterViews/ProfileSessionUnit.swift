@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileSessionUnit: View {
     
-    var mainTainTask: String = ""
+    var mainTainTask: MaintainTaskHolder
     
     var body: some View {
         ZStack {
@@ -18,7 +18,7 @@ struct ProfileSessionUnit: View {
                 .cornerRadius(5)
                 .frame(width: 354, height: 51)
             HStack {
-                Text(mainTainTask)
+                Text(mainTainTask.description)
                     .foregroundColor(Color("sessionBackground"))
                     .font(.system(size: 16, weight: .heavy))
                 Spacer()
@@ -31,11 +31,5 @@ struct ProfileSessionUnit: View {
             .padding(.leading, 20)
             .padding(.trailing, 20)
         }
-    }
-}
-
-struct ProfileSessionUnit_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileSessionUnit()
     }
 }

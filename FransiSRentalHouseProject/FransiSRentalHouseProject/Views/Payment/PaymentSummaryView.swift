@@ -51,26 +51,22 @@ struct PaymentSummaryView: View {
                                 .foregroundColor(.white)
                                 .font(.system(size: 14, weight: .medium))
                         }
-                        HStack {
-                            Button {
-                                appViewModel.paymentSummaryAutoPayAgree.toggle()
-                            } label: {
-                                Image(systemName: appViewModel.paymentSummaryAutoPayAgree ? "checkmark.square.fill" : "checkmark.square")
-                                    .foregroundColor(appViewModel.paymentSummaryAutoPayAgree ? .green : .white)
-                                    .padding(.trailing, 5)
-                            }
-                            Text("The rent payment will automatically pay\n monthly until the expired day.")
-                                .foregroundColor(.white)
-                                .font(.system(size: 14, weight: .medium))
-                        }
-                    }
-                    if appViewModel.paymentSummaryTosAgree == true && appViewModel.paymentSummaryAutoPayAgree == true {
-                        NavigationLink {
-//                            if !localData.summaryItemHolder.isEmpty {
-//                                RenterContractView()
-//                            } else {
-                            PurchaseView(roomsData: localData.summaryItemHolder)
+//                        HStack {
+//                            Button {
+//                                appViewModel.paymentSummaryAutoPayAgree.toggle()
+//                            } label: {
+//                                Image(systemName: appViewModel.paymentSummaryAutoPayAgree ? "checkmark.square.fill" : "checkmark.square")
+//                                    .foregroundColor(appViewModel.paymentSummaryAutoPayAgree ? .green : .white)
+//                                    .padding(.trailing, 5)
 //                            }
+//                            Text("The rent payment will automatically pay\n monthly until the expired day.")
+//                                .foregroundColor(.white)
+//                                .font(.system(size: 14, weight: .medium))
+//                        }
+                    }
+                    if appViewModel.paymentSummaryTosAgree == true {
+                        NavigationLink {
+                            PurchaseView(roomsData: localData.summaryItemHolder)
                         } label: {
                             Text("Confirm")
                                 .foregroundColor(.white)

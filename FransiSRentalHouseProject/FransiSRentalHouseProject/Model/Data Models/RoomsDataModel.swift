@@ -11,6 +11,9 @@ import FirebaseFirestoreSwift
 
 
 struct RentersContractDataModel: Codable {
+    
+    var docID: String
+    
     var isSummitContract: Bool
     
     //MARK: Contract's Data Model
@@ -157,7 +160,7 @@ struct RentersContractDataModel: Codable {
 }
 
 extension RentersContractDataModel {
-    static let empty = RentersContractDataModel(isSummitContract: false,
+    static let empty = RentersContractDataModel(docID: "", isSummitContract: false,
                                                 contractBuildDate: Date(),
                                                 contractReviewDays: "",
                                                 providerSignurture: "",

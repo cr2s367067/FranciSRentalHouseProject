@@ -54,6 +54,10 @@ let components = Calendar.current.dateComponents([.year, .month, .day], from: cu
 print(components)
 
 
-let year1 = currentCal.dateComponents([.year], from: current)
-let year2 = currentCal.dateComponents([.year], from: current.addingTimeInterval(-9999999))
+let year1 = currentCal.dateComponents([.year, .month], from: current)
+let oneMonth: Double = (60*60*24)*30
+let year2 = currentCal.dateComponents([.year, .month], from: current.addingTimeInterval(oneMonth))
+
+let diff = currentCal.dateComponents([.year, .month], from: year2, to: year1)
+print(diff)
 

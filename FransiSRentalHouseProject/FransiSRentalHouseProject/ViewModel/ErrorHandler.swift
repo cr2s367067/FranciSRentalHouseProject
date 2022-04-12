@@ -60,7 +60,6 @@ enum UserInformationError: LocalizedError {
     case roomSelectedError
     case chartError
     case registeError
-//    case furnitureError
 
     var errorDescription: String? {
         switch self {

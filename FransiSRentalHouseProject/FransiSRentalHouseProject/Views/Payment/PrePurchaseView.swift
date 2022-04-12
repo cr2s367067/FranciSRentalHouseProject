@@ -49,7 +49,7 @@ struct PrePurchaseView: View {
                                 SearchListItemView(roomAddress: "placehold", roomTown: "placehold", roomCity: "placehold")
                                     .redacted(reason: appViewModel.isRedacted ? .placeholder : .init())
                             }
-                            TitleAndDivider(title: "Furnitures")
+                            TitleAndDivider(title: "Order List")
                             VStack(alignment: .center) {
                                 Spacer()
                                 ScrollView(.vertical, showsIndicators: false) {

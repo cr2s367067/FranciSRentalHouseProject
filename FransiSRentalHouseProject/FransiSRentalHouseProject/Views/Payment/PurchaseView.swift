@@ -273,7 +273,7 @@ extension PurchaseView {
                                                              renterPhoneNumber: firestoreToFetchUserinfo.presentMobileNumber(),
                                                              renterEmailAddress: firestoreToFetchUserinfo.presentEmailAddress(),
                                                              sigurtureDate: Date())
-            try await firestoreToFetchUserinfo.summitRentedContractToUserData(uidPath: firebaseAuth.getUID(),
+            try await firestoreToFetchUserinfo.summitRentedContractToUserData(uidPath: firebaseAuth.getUID(), docID: result.id ?? "",
                                                           isSummitContract: result.rentersContractData?.isSummitContract ?? false,
                                                           contractBuildDate: result.rentersContractData?.contractBuildDate ?? Date(),
                                                           contractReviewDays: result.rentersContractData?.contractReviewDays ?? "",
@@ -415,13 +415,14 @@ extension PurchaseView {
     }
     
     private func reset() {
-        localData.tempCart = []
+        localData.tempCart.removeAll()
         appViewModel.isRedacted = false
         appViewModel.rentalPolicyisAgree = false
         localData.summaryItemHolder = .empty
-        productDetailViewModel.productOrderCart = []
+        productDetailViewModel.productOrderCart.removeAll()
         appViewModel.paymentSummaryTosAgree = false
         appViewModel.paymentSummaryAutoPayAgree = false
+        appViewModel.isRedacted = true
     }
     
     private func justPayRentBill() async {

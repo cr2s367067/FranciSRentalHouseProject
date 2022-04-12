@@ -14,6 +14,7 @@ struct RoomStatusView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     
     var roomImageURL: String {
         firestoreToFetchUserinfo.rentingRoomInfo.roomImageCover ?? ""
@@ -59,7 +60,7 @@ struct RoomStatusView: View {
                                     Text(roomCityAndTown)
                                     Text(roomAddress)
                                 }
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                                 .font(.system(size: 18, weight: .medium))
                                 .padding(.leading, 10)
                             }
@@ -91,9 +92,10 @@ struct RoomStatusView: View {
                                 .foregroundColor(.white)
                             Spacer()
                             NavigationLink {
-                                PurchaseView(roomsData: localData.summaryItemHolder)
+//                                PurchaseView(roomsData: localData.summaryItemHolder)
+                                RentalBillSettingView()
                             } label: {
-                                 Text("Pay")
+                                 Text("Setting")
                                     .frame(width: 108, height: 35)
                                     .background(Color("fieldGray"))
                                     .cornerRadius(10)
@@ -104,14 +106,7 @@ struct RoomStatusView: View {
                             Text("Renew: ")
                                 .foregroundColor(.white)
                             Spacer()
-                            Button {
-                                
-                            } label: {
-                                Text("Yes")
-                                    .frame(width: 108, height: 35)
-                                    .background(Color("fieldGray"))
-                                    .cornerRadius(10)
-                            }
+                            renewButton()
                             .padding(.leading, 1)
                         }
                         HStack(spacing: 1) {
@@ -145,9 +140,14 @@ struct RoomStatusView: View {
         .task {
             do {
                 _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
+                let currentDate = Date()
+                if currentDate == firestoreToFetchUserinfo.rentedContract.rentalEndDate {
+                    try await renterProfileViewModel.eraseExpiredRoomInfo(from: currentDate, to: firestoreToFetchUserinfo.rentedContract.rentalEndDate, docID: firestoreToFetchUserinfo.rentedContract.docID)
+                }
             } catch {
                 self.errorHandler.handle(error: error)
             }
+            
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -157,5 +157,45 @@ struct RoomStatusView: View {
 struct RoomStatusView_Previews: PreviewProvider {
     static var previews: some View {
         RoomStatusView()
+    }
+}
+
+extension RoomStatusView {
+    @ViewBuilder
+    func renewButton() -> some View {
+        if Date() == firestoreToFetchUserinfo.rentedContract.rentalEndDate {
+            NavigationLink {
+                SearchView()
+            } label: {
+                Text("Un-Rented")
+                    .frame(width: 108, height: 35)
+                    .background(Color("fieldGray"))
+                    .cornerRadius(10)
+            }
+        } else {
+            Button {
+                renterProfileViewModel.noticeAlert.toggle()
+                renterProfileViewModel.isRenewable(from: Date(), to: firestoreToFetchUserinfo.rentedContract.rentalEndDate)
+            } label: {
+                Text(renterProfileViewModel.readyToRenew ? "Yes" : "No")
+                    .frame(width: 108, height: 35)
+                    .background(Color("fieldGray"))
+                    .cornerRadius(10)
+            }
+            .alert("Notice", isPresented: $renterProfileViewModel.noticeAlert, actions: {
+                Button {
+                    renterProfileViewModel.noticeAlert = false
+                } label: {
+                    Text("Okay")
+                }
+            }, message: {
+                Text(renterProfileViewModel.noticeMessage)
+            })
+        }
+    }
+    
+    @ViewBuilder
+    func rentalBillSetting() -> some View {
+        
     }
 }

@@ -15,6 +15,7 @@ struct RenterContractView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var storageForRoomsImage: StorageForRoomsImage
     
     
     private func agreementCheckerThows() throws {

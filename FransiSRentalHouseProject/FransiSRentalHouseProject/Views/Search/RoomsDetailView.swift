@@ -16,6 +16,7 @@ struct RoomsDetailView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -130,7 +131,7 @@ struct RoomsDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task {
             do {
-                try await firestoreToFetchRoomsData.fetchRoomImages(docID: roomsData.id ?? "")
+                try await firestoreToFetchRoomsData.fetchRoomImages(uidPath: roomsData.providedBy, docID: roomsData.id ?? "")
             } catch {
                 self.errorHandler.handle(error: error)
             }

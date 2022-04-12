@@ -36,7 +36,7 @@ struct MaintainDetailView: View {
                         VStack {
                             ScrollView(.vertical, showsIndicators: false) {
                                 ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
-                                    ProfileSessionUnit(mainTainTask: task.description)
+                                    ProfileSessionUnit(mainTainTask: task)
                                 }
                             }
                         }

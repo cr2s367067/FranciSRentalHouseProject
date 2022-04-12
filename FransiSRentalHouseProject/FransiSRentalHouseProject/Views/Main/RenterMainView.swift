@@ -18,6 +18,7 @@ struct RenterMainView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
+    @EnvironmentObject var paymentMg: PaymentMethodManager
     
     var gridItemLayout = [
         GridItem(.fixed(170)),
@@ -34,15 +35,11 @@ struct RenterMainView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Button {
-                    Task {
-//                        do {
-                            await renterProfileViewModel.isRenewable(from: Date(), to: firestoreToFetchUserinfo.rentedContract.rentalEndDate, docID: "")
-//                        }
-                    }
-                } label: {
-                    Text("test")
-                }
+//                Button {
+//                    print(paymentMg.computePaymentMonth(from: Date()))
+//                } label: {
+//                    Text("test")
+//                }
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Announcement Group
                     Group {

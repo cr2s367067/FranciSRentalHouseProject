@@ -30,13 +30,13 @@ class StorageForRoomsImage: ObservableObject {
 }
 
 extension StorageForRoomsImage {
+    @MainActor
     func uploadRoomCoverImage(uidPath: String, image: UIImage, roomID: String, imageUID: String) async throws {
         guard let roomImageData = image.jpegData(compressionQuality: 0.5) else { return }
         let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(roomID)/\(imageUID).jpg")
         _ = try await roomImageRef.putDataAsync(roomImageData)
         let url = try await roomImageRef.downloadURL().absoluteString
         self.representedRoomImageURL = url
-//        try await summitRoomInfoAsync(docID: docID, uidPath: uidPath, holderName: holderName, mobileNumber: mobileNumber, roomAddress: roomAddress, town: town, city: city, zipCode: zipCode, roomArea: roomArea, rentalPrice: rentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: url, providerDisplayName: providerDisplayName, providerChatDocId: providerChatDocId)
     }
 }
 
@@ -54,15 +54,6 @@ extension StorageForRoomsImage {
             _ = try await roomOwerRef.addDocument(data: [
                 "imageURL" : url.absoluteString
             ])
-            let roomPublicRef = db.collection("RoomsForPublic").document(docID).collection("RoomImages")
-            _ = try await roomPublicRef.addDocument(data: [
-                "imageURL" : url.absoluteString
-            ])
         }
     }
 }
-
-
-/*
- , docID: String, holderName: String, mobileNumber: String, roomAddress: String, town: String, city: String, zipCode: String, roomArea: String, rentalPrice: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, isRented: Bool = false, rentedBy: String = "", providerDisplayName: String, providerChatDocId: String
-*/

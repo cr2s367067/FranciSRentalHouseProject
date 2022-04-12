@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PresentContract: View {
+    @EnvironmentObject var firestoreUser: FirestoreToFetchUserinfo
     var contractData: RentersContractDataModel
-    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
@@ -167,7 +167,7 @@ extension PresentContract {
             }
             .padding(.top, 5)
             VStack {
-                Text("\t立契約書人承租人__，出租人\(contractData.companyTitle )【為□所有權人□轉租人(應提示經原所有權人同意轉租之證明文件)】茲為房屋租賃事宜，雙方同意本契約條款如下：")
+                Text("\t立契約書人承租人\(firestoreUser.presentUserName())，出租人\(contractData.companyTitle )【為□所有權人□轉租人(應提示經原所有權人同意轉租之證明文件)】茲為房屋租賃事宜，雙方同意本契約條款如下：")
                     .font(.system(size: 15, weight: .regular))
             }
             .padding(.top, 5)

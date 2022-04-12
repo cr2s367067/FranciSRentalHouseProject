@@ -54,6 +54,9 @@ extension FirestoreToFetchRoomsData {
             "roomDescription" : roomDescription,
             "providerChatDocId" : providerChatDocId,
             "rentersContractData" : [
+                
+                "docID" : docID,
+                
                 "isSummitContract" : false,
                 
                 //MARK: Contract's Data Model
@@ -488,9 +491,10 @@ extension FirestoreToFetchRoomsData {
 
 extension FirestoreToFetchRoomsData {
     @MainActor
-    func fetchRoomImages(docID: String) async throws {
-        let roomPublicRef = db.collection("RoomsForPublic").document(docID).collection("RoomImages")
-        let document = try await roomPublicRef.getDocuments().documents
+    func fetchRoomImages(uidPath: String, docID: String) async throws {
+        let roomImagesRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
+            .collection("RoomImages")
+        let document = try await roomImagesRef.getDocuments().documents
         self.fetchRoomImages = document.compactMap({ queryDocumentSnapshot in
             let result = Result {
                 try queryDocumentSnapshot.data(as: RoomImageDataModel.self)
@@ -527,13 +531,6 @@ extension FirestoreToFetchRoomsData {
             "rentersContractData.sigurtureDate" : sigurtureDate
         ])
     }
-    
-//    func fetchRentedContract(uidPath: String) async throws {
-//        let userContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
-//        print(userContractRef)
-//        let roomContractData = try await userContractRef.getDocument(as: RentersContractDataModel.self)
-//        print(roomContractData)
-//    }
     
     func updataRentalPrice(uidPath: String, docID: String, rentalPrice: String) async throws {
         let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
@@ -680,6 +677,7 @@ extension FirestoreToFetchRoomsData {
             "roomDescription" : roomDescription,
             "providerChatDocId" : providerChatDocId,
             "rentersContractData" : [
+                "docID" : docID,
                 "isSummitContract" : isSummitContract,
                 "contractBuildDate" : contractBuildDate,
                 "contractReviewDays" : contractReviewDays,
