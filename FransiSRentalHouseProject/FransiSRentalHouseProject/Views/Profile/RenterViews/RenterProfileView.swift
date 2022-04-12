@@ -167,7 +167,7 @@ struct RenterProfileView: View {
             do {
                 try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
                 //MARK: Fetch uploaded maintain tasks
-                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID, roomUID: firestoreToFetchUserinfo.getRoomUID())
+                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", docID: firestoreToFetchUserinfo.rentedContract.docID)
                 try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)

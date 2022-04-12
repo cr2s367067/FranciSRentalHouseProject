@@ -24,6 +24,7 @@ struct MaintainView: View {
     @State var image = UIImage()
     @State var imagePickerSheet = false
     @State var isSelectedImage = false
+    @State var showProgressView = false
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -38,9 +39,12 @@ struct MaintainView: View {
         do {
             try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
             try firestoreToFetchUserinfo.checkMaintainFilled(description: describtion, appointmentDate: appointmentDate)
+            showProgressView = true
+            _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
             if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
                 try await storageForMaintainImage.uploadFixItemImage(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", image: image, roomUID: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID ?? "")
-                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", taskName: describtion, appointmentDate: appointment, roomUID: firestoreToFetchUserinfo.getRoomUID(), itemImageURL: storageForMaintainImage.itemImageURL)
+                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", taskName: describtion, appointmentDate: appointment, docID: firestoreToFetchUserinfo.rentedContract.docID, itemImageURL: storageForMaintainImage.itemImageURL)
+                showProgressView = false
                 showAlert.toggle()
             }
         } catch {
@@ -140,6 +144,9 @@ struct MaintainView: View {
             .overlay(content: {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+                }
+                if showProgressView == true {
+                    CustomProgressView()
                 }
             })
             .onAppear {

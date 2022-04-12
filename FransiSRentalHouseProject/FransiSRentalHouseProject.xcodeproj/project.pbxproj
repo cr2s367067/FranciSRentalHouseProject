@@ -92,6 +92,7 @@
 		0EB65BDC28042DA1000EAA43 /* PaymentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB65BDB28042DA1000EAA43 /* PaymentDataModel.swift */; };
 		0EB65BE0280455F1000EAA43 /* AutoPaymentSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB65BDF280455F1000EAA43 /* AutoPaymentSettingView.swift */; };
 		0EB65BE2280551DF000EAA43 /* StorageForMaintainImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB65BE1280551DF000EAA43 /* StorageForMaintainImage.swift */; };
+		0EB65BE428057D11000EAA43 /* MaintainWaitingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB65BE328057D11000EAA43 /* MaintainWaitingDetailView.swift */; };
 		0EC0018527F42597007AB488 /* UserOrderedListUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0018427F42597007AB488 /* UserOrderedListUnitView.swift */; };
 		0EC0018727F431DF007AB488 /* UserOrderedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0018627F431DF007AB488 /* UserOrderedListView.swift */; };
 		0EC24C7627FFCE8F00B0E0C7 /* PresentContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC24C7527FFCE8F00B0E0C7 /* PresentContract.swift */; };
@@ -193,6 +194,7 @@
 		0EB65BDB28042DA1000EAA43 /* PaymentDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDataModel.swift; sourceTree = "<group>"; };
 		0EB65BDF280455F1000EAA43 /* AutoPaymentSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoPaymentSettingView.swift; sourceTree = "<group>"; };
 		0EB65BE1280551DF000EAA43 /* StorageForMaintainImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForMaintainImage.swift; sourceTree = "<group>"; };
+		0EB65BE328057D11000EAA43 /* MaintainWaitingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintainWaitingDetailView.swift; sourceTree = "<group>"; };
 		0EC0018427F42597007AB488 /* UserOrderedListUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListUnitView.swift; sourceTree = "<group>"; };
 		0EC0018627F431DF007AB488 /* UserOrderedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListView.swift; sourceTree = "<group>"; };
 		0EC24C7527FFCE8F00B0E0C7 /* PresentContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentContract.swift; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 			children = (
 				0249D44627C639E40085F4A5 /* MaintainView.swift */,
 				0263079F27D83C7B000E3CFD /* MaintainWaitingView.swift */,
+				0EB65BE328057D11000EAA43 /* MaintainWaitingDetailView.swift */,
 			);
 			path = Maintain;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				0249D42827C6376E0085F4A5 /* UserCoreDataModel.xcdatamodeld in Sources */,
 				0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */,
 				02450AE827D2AD7100370683 /* FirestoreForContactInfo.swift in Sources */,
+				0EB65BE428057D11000EAA43 /* MaintainWaitingDetailView.swift in Sources */,
 				0249D43E27C639900085F4A5 /* SignUpView.swift in Sources */,
 				0249D45327C63AF80085F4A5 /* ContactView.swift in Sources */,
 				0ED1F42C27F1AA4F0004B5CE /* FirestoreForProducts.swift in Sources */,
