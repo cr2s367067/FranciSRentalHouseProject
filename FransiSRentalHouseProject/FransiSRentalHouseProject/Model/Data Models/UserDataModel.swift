@@ -51,8 +51,8 @@ struct DepositFeeDataModel: Codable {
 
 struct PaymentHistoryDataModel: Identifiable, Codable {
     @DocumentID var id: String?
-    var pastPaymentFee : String?
-    var paymentDate: Date?
+    var pastPaymentFee : String
+    var paymentDate: Date
 }
 
 extension UserDataModel {

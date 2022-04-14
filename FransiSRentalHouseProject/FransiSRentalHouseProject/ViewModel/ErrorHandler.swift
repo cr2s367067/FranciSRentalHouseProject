@@ -172,6 +172,26 @@ enum PurchaseError: LocalizedError {
     }
 }
 
+enum SettlementError: LocalizedError {
+    case settlementResultError
+    case historyFetchingError
+    case settlementDateError
+    case closeAccountError
+    
+    var errorDescription: String? {
+        switch self {
+        case .settlementResultError:
+            return NSLocalizedString("Please compute amount first.", comment: "")
+        case .historyFetchingError:
+            return NSLocalizedString("Hi you have already fetched data.", comment: "")
+        case .settlementDateError:
+            return NSLocalizedString("Hi, Today is not settlement date.", comment: "")
+        case .closeAccountError:
+            return NSLocalizedString("Hi, Account is closed, you couldn't change it.", comment: "")
+        }
+    }
+}
+
 struct ErrorAlert: Identifiable {
     var id = UUID()
     var message: String

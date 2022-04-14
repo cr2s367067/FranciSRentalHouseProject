@@ -39,7 +39,7 @@ struct PaymentDetailView: View {
                     VStack(spacing: 10) {
                         ScrollView(.vertical, showsIndicators: false) {
                             ForEach(firestoreToFetchUserinfo.paymentHistory) { history in
-                                PaymentDetailSessionUnit(rentalPrice: history.pastPaymentFee ?? "", paymentDate: history.paymentDate ?? Date())
+                                PaymentDetailSessionUnit(rentalPrice: history.pastPaymentFee , paymentDate: history.paymentDate )
                             }
                             .padding(.top)
                             Spacer()

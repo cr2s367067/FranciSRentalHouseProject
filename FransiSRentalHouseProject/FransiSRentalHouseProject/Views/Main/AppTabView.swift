@@ -16,6 +16,8 @@ struct AppTabView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreForFurniture: FirestoreForProducts
+    @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
+    @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
 
     @State private var selecting = "TapHomeButton"
     
@@ -33,6 +35,10 @@ struct AppTabView: View {
         .task({
             do {
                 try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
+                if firestoreToFetchUserinfo.fetchedUserData.userType == "Provider" {
+                    _ = try await providerProfileViewModel.fetchConfigData(uidPath: firebaseAuth.getUID())
+                    try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
+                }
             } catch {
                 self.errorHandler.handle(error: error)
             }

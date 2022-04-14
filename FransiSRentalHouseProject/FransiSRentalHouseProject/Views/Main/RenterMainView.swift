@@ -20,6 +20,10 @@ struct RenterMainView: View {
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     @EnvironmentObject var paymentMg: PaymentMethodManager
     
+    //temp
+    @EnvironmentObject var providerBarChartViewModel: ProviderBarChartViewModel
+    @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
+    
     var gridItemLayout = [
         GridItem(.fixed(170)),
         GridItem(.fixed(170))
@@ -35,10 +39,24 @@ struct RenterMainView: View {
     var body: some View {
         NavigationView {
             VStack {
-//                Button {
-//                    print(paymentMg.computePaymentMonth(from: Date()))
-//                } label: {
-//                    Text("test")
+//                HStack {
+//                    Button {
+//                        providerBarChartViewModel.convertToDouble(input: providerBarChartViewModel.tempDataCollection)
+//                    } label: {
+//                        Text("test")
+//                    }
+//                    Button {
+////                        Task {
+////                            do {
+////                                try await providerBarChartViewModel.fetchDate(uidPath: firebaseAuth.getUID())
+////                            } catch {
+////                                self.errorHandler.handle(error: error)
+////                            }
+////                        }
+//                        providerBarChartViewModel.convertAndStore(input: paymentReceiveManager.monthlySettlement)
+//                    } label: {
+//                        Text("test2")
+//                    }
 //                }
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Announcement Group

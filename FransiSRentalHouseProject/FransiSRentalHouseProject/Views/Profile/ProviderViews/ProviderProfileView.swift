@@ -10,9 +10,15 @@ import SwiftUI
 struct ProviderProfileView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
+    @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     
     @Binding var show: Bool
-    
+
     init(show: Binding<Bool>) {
         self._show = show
     }
@@ -49,25 +55,20 @@ struct ProviderProfileView: View {
                 }
                 .padding(.trailing)
                 ProviderBarChartView()
-//                Rectangle()
-//                    .fill(Color("fieldGray"))
-//                    .frame(width: 378, height: 304)
-//                    .cornerRadius(10)
-                
-                TitleAndDivider(title: "Detail")
                 VStack {
-                    OwnerProfileDetailUnit()
-                    OwnerProfileDetailUnit()
-                    OwnerProfileDetailUnit()
+                    HStack {
+                        Spacer()
+                        Button {
+                            providerProfileViewModel.editMode.toggle()
+                        } label: {
+                            Image(systemName: "gearshape.circle")
+                                .foregroundColor(.white)
+                                .font(.system(size: 30, weight: .semibold))
+                        }
+                    }
+                    SettlementUnitView(date: $providerProfileViewModel.settlementDate, editMode: $providerProfileViewModel.editMode)
+                    editModeSummitButton(editMode: providerProfileViewModel.editMode)
                 }
-                AppDivider()
-                HStack {
-                    Text("Total Earning")
-                    Spacer()
-                    Text("$27,000")
-                }
-                .foregroundColor(.white)
-                .frame(width: 350)
                 .padding()
                 Spacer()
             }
@@ -82,6 +83,13 @@ struct ProviderProfileView: View {
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
+        .task {
+            do {
+                try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+        }
     }
 }
 
@@ -98,8 +106,29 @@ struct OwnerProfileDetailUnit: View {
     }
 }
 
-//struct ProviderProfileView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProviderProfileView()
-//    }
-//}
+extension ProviderProfileView {
+    @ViewBuilder
+    func editModeSummitButton(editMode: Bool) -> some View {
+        if editMode == true {
+            Button {
+                Task {
+                    do {
+                        try await providerProfileViewModel.updateConfig(uidPath: firebaseAuth.getUID(), settlementDate: providerProfileViewModel.settlementDate)
+                        _ = try await providerProfileViewModel.fetchConfigData(uidPath: firebaseAuth.getUID())
+                        providerProfileViewModel.editMode = false
+                    } catch {
+                        self.errorHandler.handle(error: error)
+                    }
+                }
+            } label: {
+                Text("Update")
+                    .foregroundColor(.white)
+                    .frame(width: 108, height: 35)
+                    .background(Color("buttonBlue"))
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+            }
+        }
+    }
+}
+
+

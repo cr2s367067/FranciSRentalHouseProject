@@ -43,6 +43,9 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var paymentMethodManager = PaymentMethodManager()
     @StateObject var autoPaymentSettingViewModel = AutoPaymentSettingViewModel()
     @StateObject var storageForMaintainImage = StorageForMaintainImage()
+    @StateObject var paymentReceiveManager = PaymentReceiveManager()
+    @StateObject var providerProfileViewModel = ProviderProfileViewModel()
+    @StateObject var providerBarChartViewModel = ProviderBarChartViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -77,6 +80,9 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(paymentMethodManager)
                 .environmentObject(autoPaymentSettingViewModel)
                 .environmentObject(storageForMaintainImage)
+                .environmentObject(paymentReceiveManager)
+                .environmentObject(providerProfileViewModel)
+                .environmentObject(providerBarChartViewModel)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

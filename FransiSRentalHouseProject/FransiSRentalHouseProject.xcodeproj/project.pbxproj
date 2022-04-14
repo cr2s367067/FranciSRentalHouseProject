@@ -75,6 +75,15 @@
 		0E2EDD3C27EAF394008FEF58 /* FirestoreForTextingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */; };
 		0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */; };
 		0E36982027F2962E00AA7E88 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */; };
+		0E36B6F828066B860008A7C9 /* PaymentReceiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B6F728066B860008A7C9 /* PaymentReceiveManager.swift */; };
+		0E36B6FA28066CC30008A7C9 /* ReceivePaymentDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B6F928066CC30008A7C9 /* ReceivePaymentDateModel.swift */; };
+		0E36B6FD2806AFA40008A7C9 /* SettlementUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B6FC2806AFA40008A7C9 /* SettlementUnitView.swift */; };
+		0E36B6FF2806BEA30008A7C9 /* ProviderProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B6FE2806BEA30008A7C9 /* ProviderProfileViewModel.swift */; };
+		0E36B7012806BEF80008A7C9 /* ProviderConfigurationDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B7002806BEF80008A7C9 /* ProviderConfigurationDateModel.swift */; };
+		0E36B703280704140008A7C9 /* SettlementPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B702280704140008A7C9 /* SettlementPaymentView.swift */; };
+		0E36B7052807B5470008A7C9 /* MonthlySettlementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B7042807B5470008A7C9 /* MonthlySettlementDetailView.swift */; };
+		0E36B7072807EDF10008A7C9 /* ListDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B7062807EDF10008A7C9 /* ListDetailView.swift */; };
+		0E36B709280809130008A7C9 /* ProviderBarChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B708280809130008A7C9 /* ProviderBarChartViewModel.swift */; };
 		0E3DD19927ED5CB6001525E3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD19827ED5CB6001525E3 /* FirebaseAuth */; };
 		0E3DD19B27ED5CB6001525E3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD19A27ED5CB6001525E3 /* FirebaseFirestore */; };
 		0E3DD19D27ED5CB6001525E3 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD19C27ED5CB6001525E3 /* FirebaseFirestoreSwift-Beta */; };
@@ -183,6 +192,15 @@
 		0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForTextingMessage.swift; sourceTree = "<group>"; };
 		0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMainView.swift; sourceTree = "<group>"; };
 		0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
+		0E36B6F728066B860008A7C9 /* PaymentReceiveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentReceiveManager.swift; sourceTree = "<group>"; };
+		0E36B6F928066CC30008A7C9 /* ReceivePaymentDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivePaymentDateModel.swift; sourceTree = "<group>"; };
+		0E36B6FC2806AFA40008A7C9 /* SettlementUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettlementUnitView.swift; sourceTree = "<group>"; };
+		0E36B6FE2806BEA30008A7C9 /* ProviderProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderProfileViewModel.swift; sourceTree = "<group>"; };
+		0E36B7002806BEF80008A7C9 /* ProviderConfigurationDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderConfigurationDateModel.swift; sourceTree = "<group>"; };
+		0E36B702280704140008A7C9 /* SettlementPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettlementPaymentView.swift; sourceTree = "<group>"; };
+		0E36B7042807B5470008A7C9 /* MonthlySettlementDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlySettlementDetailView.swift; sourceTree = "<group>"; };
+		0E36B7062807EDF10008A7C9 /* ListDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDetailView.swift; sourceTree = "<group>"; };
+		0E36B708280809130008A7C9 /* ProviderBarChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderBarChartViewModel.swift; sourceTree = "<group>"; };
 		0E41D13627FF13260042E14D /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
 		0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDetailView.swift; sourceTree = "<group>"; };
 		0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerRepresentable.swift; sourceTree = "<group>"; };
@@ -306,6 +324,9 @@
 				0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */,
 				0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */,
 				0EB65BD928042725000EAA43 /* PaymentMethodManager.swift */,
+				0E36B6F728066B860008A7C9 /* PaymentReceiveManager.swift */,
+				0E36B6FE2806BEA30008A7C9 /* ProviderProfileViewModel.swift */,
+				0E36B708280809130008A7C9 /* ProviderBarChartViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -410,6 +431,7 @@
 		0249D44F27C63AD00085F4A5 /* ProviderViews */ = {
 			isa = PBXGroup;
 			children = (
+				0E36B6FB2806AF860008A7C9 /* ProviderProfileUnitViews */,
 				0249D46227C63BF50085F4A5 /* ProviderProfileView.swift */,
 				0249D46427C63C040085F4A5 /* ProviderRoomSummitView.swift */,
 				0249D46627C63C190085F4A5 /* ProviderBarChartView.swift */,
@@ -487,6 +509,8 @@
 				0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */,
 				0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */,
 				0EB65BDB28042DA1000EAA43 /* PaymentDataModel.swift */,
+				0E36B6F928066CC30008A7C9 /* ReceivePaymentDateModel.swift */,
+				0E36B7002806BEF80008A7C9 /* ProviderConfigurationDateModel.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -525,6 +549,17 @@
 				0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */,
 			);
 			path = Renter;
+			sourceTree = "<group>";
+		};
+		0E36B6FB2806AF860008A7C9 /* ProviderProfileUnitViews */ = {
+			isa = PBXGroup;
+			children = (
+				0E36B6FC2806AFA40008A7C9 /* SettlementUnitView.swift */,
+				0E36B702280704140008A7C9 /* SettlementPaymentView.swift */,
+				0E36B7042807B5470008A7C9 /* MonthlySettlementDetailView.swift */,
+				0E36B7062807EDF10008A7C9 /* ListDetailView.swift */,
+			);
+			path = ProviderProfileUnitViews;
 			sourceTree = "<group>";
 		};
 		0E8F3ED427E9BC66008F0310 /* MapView */ = {
@@ -647,6 +682,7 @@
 				0EC24C7627FFCE8F00B0E0C7 /* PresentContract.swift in Sources */,
 				0249D45927C63B570085F4A5 /* ProfileSessionUnit.swift in Sources */,
 				02CB58E727CDAD960035EE20 /* MaintainTaskDataModel.swift in Sources */,
+				0E36B703280704140008A7C9 /* SettlementPaymentView.swift in Sources */,
 				0249D44B27C63A850085F4A5 /* PaymentSummaryView.swift in Sources */,
 				0EC5287027F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift in Sources */,
 				0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */,
@@ -662,6 +698,7 @@
 				0249D46527C63C040085F4A5 /* ProviderRoomSummitView.swift in Sources */,
 				0E41D13727FF13260042E14D /* CustomProgressView.swift in Sources */,
 				0249D46727C63C190085F4A5 /* ProviderBarChartView.swift in Sources */,
+				0E36B6F828066B860008A7C9 /* PaymentReceiveManager.swift in Sources */,
 				02CB58F927CDB53D0035EE20 /* StorageForRoomsImage.swift in Sources */,
 				0292835B27D37FDA00DEF068 /* TermOfServiceForRentalManager.swift in Sources */,
 				026307A027D83C7B000E3CFD /* MaintainWaitingView.swift in Sources */,
@@ -674,13 +711,16 @@
 				0EC5286B27F2DDBB002D2C6F /* SearchProductListItemView.swift in Sources */,
 				02CB58F727CDB5230035EE20 /* StorageForUserProfile.swift in Sources */,
 				02CB58EF27CDB1470035EE20 /* FirestoreToFetchUserInfo.swift in Sources */,
+				0E36B709280809130008A7C9 /* ProviderBarChartViewModel.swift in Sources */,
 				0249D43227C638C00085F4A5 /* AppViewModel.swift in Sources */,
 				0E19C8CB27F6CAEB00FD23D8 /* RentalContractViewModel.swift in Sources */,
+				0E36B6FA28066CC30008A7C9 /* ReceivePaymentDateModel.swift in Sources */,
 				0249D45127C63AEA0085F4A5 /* MenuView.swift in Sources */,
 				0226660F27DE2A1D0051940B /* MessageView.swift in Sources */,
 				0249D42827C6376E0085F4A5 /* UserCoreDataModel.xcdatamodeld in Sources */,
 				0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */,
 				02450AE827D2AD7100370683 /* FirestoreForContactInfo.swift in Sources */,
+				0E36B7072807EDF10008A7C9 /* ListDetailView.swift in Sources */,
 				0EB65BE428057D11000EAA43 /* MaintainWaitingDetailView.swift in Sources */,
 				0249D43E27C639900085F4A5 /* SignUpView.swift in Sources */,
 				0249D45327C63AF80085F4A5 /* ContactView.swift in Sources */,
@@ -699,6 +739,7 @@
 				0ED1F42A27F087D70004B5CE /* PastedPaymentHistoryDataModel.swift in Sources */,
 				0ED1F42627F04A460004B5CE /* FirestoreFetchingAnnouncement.swift in Sources */,
 				0ED1F43427F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift in Sources */,
+				0E36B6FF2806BEA30008A7C9 /* ProviderProfileViewModel.swift in Sources */,
 				0249D42C27C637CC0085F4A5 /* LocalDataModel.swift in Sources */,
 				0249D44327C639BE0085F4A5 /* SheetView.swift in Sources */,
 				0249D46327C63BF50085F4A5 /* ProviderProfileView.swift in Sources */,
@@ -710,6 +751,7 @@
 				0249D43427C638DF0085F4A5 /* ErrorHandler.swift in Sources */,
 				024CF42127DF178600D65B2F /* RenterProfileView.swift in Sources */,
 				02CB58F127CDB31D0035EE20 /* FirestoreToFetchMaintainTasks.swift in Sources */,
+				0E36B7052807B5470008A7C9 /* MonthlySettlementDetailView.swift in Sources */,
 				0EB65BD828040799000EAA43 /* RentalBillSettingView.swift in Sources */,
 				0249D43C27C6397F0085F4A5 /* LoginView.swift in Sources */,
 				02450AE627D2AC7000370683 /* ContactDataModel.swift in Sources */,
@@ -726,7 +768,9 @@
 				0249D44027C6399D0085F4A5 /* RenterMainView.swift in Sources */,
 				0263079D27D7382A000E3CFD /* SummitAlertView.swift in Sources */,
 				0ED1F42427F049D90004B5CE /* AnnouncementDataModel.swift in Sources */,
+				0E36B7012806BEF80008A7C9 /* ProviderConfigurationDateModel.swift in Sources */,
 				0249D46127C63B960085F4A5 /* RoomStatusView.swift in Sources */,
+				0E36B6FD2806AFA40008A7C9 /* SettlementUnitView.swift in Sources */,
 				0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */,
 				0249D43027C637EA0085F4A5 /* FirebaseStorage.swift in Sources */,
 				0EB65BDA28042725000EAA43 /* PaymentMethodManager.swift in Sources */,

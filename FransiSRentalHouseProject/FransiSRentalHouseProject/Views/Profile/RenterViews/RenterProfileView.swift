@@ -29,12 +29,12 @@ struct RenterProfileView: View {
     func lastPaymentDate(input: [PaymentHistoryDataModel]) -> Date {
         let lastDate = input.map({$0.paymentDate}).last
 //        let dateFormate = DateFormatter()
-        return (lastDate ?? Date()) ?? Date()
+        return (lastDate ?? Date()) 
     }
     
     func lastPayment(input: [PaymentHistoryDataModel]) -> String {
         let payment = input.map({$0.pastPaymentFee}).last
-        return (payment ?? "") ?? ""
+        return (payment ?? "") 
     }
     
     var body: some View {
@@ -167,7 +167,9 @@ struct RenterProfileView: View {
             do {
                 try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
                 //MARK: Fetch uploaded maintain tasks
-                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", docID: firestoreToFetchUserinfo.rentedContract.docID)
+                if !firestoreToFetchUserinfo.rentedContract.docID.isEmpty {                
+                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", docID: firestoreToFetchUserinfo.rentedContract.docID)
+                }
                 try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)

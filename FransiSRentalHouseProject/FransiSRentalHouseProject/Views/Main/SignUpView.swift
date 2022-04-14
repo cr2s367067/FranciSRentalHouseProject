@@ -14,7 +14,8 @@ struct SignUpView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
-    
+    @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
+    @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     //    let persistenceDM = PersistenceController()
     
     @State private var tosSheetShow = false
@@ -247,6 +248,9 @@ struct SignUpView: View {
                                                                                              emailAddress: appViewModel.emailAddress,
                                                                                              providerType: appViewModel.providerType,
                                                                                              RLNumber: appViewModel.rentalManagerLicenseNumber)
+                                if appViewModel.isProvider == true {
+                                    try await providerProfileViewModel.createConfig(uidPath: firebaseAuth.getUID())
+                                }
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }

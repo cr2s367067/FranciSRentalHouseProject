@@ -21,6 +21,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
     @Published var fetchRoomInfoFormPublic = [RoomInfoDataModel]()
     @Published var fetchRoomImages = [RoomImageDataModel]()
     @Published var roomID = ""
+    @Published var receivePaymentDataSet = [PaymentHistoryDataModel]()
     
     func roomIdGenerator() -> String {
         let roomId = UUID().uuidString
@@ -794,5 +795,26 @@ extension FirestoreToFetchRoomsData {
             "isRented" : false,
             "isPublished" : false
         ])
+    }
+}
+
+extension FirestoreToFetchRoomsData {
+    @MainActor
+    func loopTofetchPaymentData(renterUidPath: String) async throws {
+        let paymentHistoryRef = db.collection("users").document(renterUidPath).collection("PaymentHistory").order(by: "paymentDate", descending: false)
+        let document = try await paymentHistoryRef.getDocuments().documents
+        print("document: \(document)")
+        self.receivePaymentDataSet = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: PaymentHistoryDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print("some error eccure: \(error.localizedDescription)")
+            }
+            return nil
+        })
     }
 }
