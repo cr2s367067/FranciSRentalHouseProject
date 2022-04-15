@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import simd
+//import simd
 
 class FirestoreForTextingMessage: ObservableObject {
     
@@ -31,13 +31,12 @@ class FirestoreForTextingMessage: ObservableObject {
         ])
     }
     
-    func storeSenderUserInfo(uidPath: String, userDocID: String, displayName: String, displayProfileImage: String? = "", chatRoomUID: String) async throws {
+    func storeSenderUserInfo(uidPath: String, userDocID: String, displayName: String, displayProfileImage: String? = "") async throws {
         let chatUserInfoRef = db.collection("ChatUserInfo").document(userDocID)
         _ = try await chatUserInfoRef.setData([
             "senderMailUidPath" : uidPath,
             "senderDisplayName" : displayName,
-            "senderProfileImage" : displayProfileImage ?? "",
-            "chatRoomUID" : chatRoomUID
+            "senderProfileImage" : displayProfileImage ?? ""
         ])
     }
     
@@ -60,8 +59,8 @@ class FirestoreForTextingMessage: ObservableObject {
     }
     
     func sendingMessage(text: String, sendingImage: String?, senderProfileImage: String, senderDocID: String, sendingTimestamp: Date = Date(), chatRoomUID: String) async throws {
-        let messageContainRef = db.collection("ChatCenter").document(chatRoomUID).collection("MessageContain").document()
-        _ = try await messageContainRef.setData([
+        let messageContainRef = db.collection("ChatCenter").document(chatRoomUID).collection("MessageContain")
+        _ = try await messageContainRef.addDocument(data: [
             "sendingImage" : sendingImage ?? "",
             "senderDocID" : senderDocID,
             "text" : text,
@@ -69,7 +68,7 @@ class FirestoreForTextingMessage: ObservableObject {
         ])
     }
     
-    func listenChatCenterMessageContain(chatRoomUID: String) async {
+    func listenChatCenterMessageContain(chatRoomUID: String) {
         let chatCenterContainMessagesRef = db.collection("ChatCenter").document(chatRoomUID).collection("MessageContain").order(by: "sendingTimestamp", descending: false)
         chatCenterContainMessagesRef.addSnapshotListener { querySnapshot, error in
             guard let document = querySnapshot?.documents else {
@@ -144,5 +143,14 @@ extension FirestoreForTextingMessage {
             }
             return nil
         }
+    }
+}
+
+
+extension FirestoreForTextingMessage {
+    func getProviderProfileImage(provideBy: String) async throws -> String {
+        let imageRef = db.collection("users").document(provideBy)
+        let document = try await imageRef.getDocument(as: UserDataModel.self)
+        return document.profileImageURL
     }
 }

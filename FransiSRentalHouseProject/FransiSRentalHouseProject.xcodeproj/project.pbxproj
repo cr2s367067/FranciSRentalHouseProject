@@ -90,6 +90,7 @@
 		0E3DD19F27ED5CB6001525E3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD19E27ED5CB6001525E3 /* FirebaseStorage */; };
 		0E3DD1A127ED5CB6001525E3 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD1A027ED5CB6001525E3 /* FirebaseStorageSwift-Beta */; };
 		0E3DD1A427ED5CE3001525E3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD1A327ED5CE3001525E3 /* SDWebImageSwiftUI */; };
+		0E40D46B28095C1B00695FA4 /* StorageForMessageImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E40D46A28095C1B00695FA4 /* StorageForMessageImage.swift */; };
 		0E41D13727FF13260042E14D /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E41D13627FF13260042E14D /* CustomProgressView.swift */; };
 		0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */; };
 		0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */; };
@@ -201,6 +202,7 @@
 		0E36B7042807B5470008A7C9 /* MonthlySettlementDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlySettlementDetailView.swift; sourceTree = "<group>"; };
 		0E36B7062807EDF10008A7C9 /* ListDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDetailView.swift; sourceTree = "<group>"; };
 		0E36B708280809130008A7C9 /* ProviderBarChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderBarChartViewModel.swift; sourceTree = "<group>"; };
+		0E40D46A28095C1B00695FA4 /* StorageForMessageImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForMessageImage.swift; sourceTree = "<group>"; };
 		0E41D13627FF13260042E14D /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
 		0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDetailView.swift; sourceTree = "<group>"; };
 		0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerRepresentable.swift; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 				02CB58F827CDB53D0035EE20 /* StorageForRoomsImage.swift */,
 				0EC5286827F2B20A002D2C6F /* StorageForProductImage.swift */,
 				0EB65BE1280551DF000EAA43 /* StorageForMaintainImage.swift */,
+				0E40D46A28095C1B00695FA4 /* StorageForMessageImage.swift */,
 			);
 			path = "Firebase Storage";
 			sourceTree = "<group>";
@@ -691,6 +694,7 @@
 				0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */,
 				02B7C43E27D0ECA000DC100E /* TermOfServiceView.swift in Sources */,
 				0E0CB2D127E763130096A5CE /* UnregisterCoverView.swift in Sources */,
+				0E40D46B28095C1B00695FA4 /* StorageForMessageImage.swift in Sources */,
 				0249D44D27C63A930085F4A5 /* PurchaseView.swift in Sources */,
 				0EB65BE2280551DF000EAA43 /* StorageForMaintainImage.swift in Sources */,
 				0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */,

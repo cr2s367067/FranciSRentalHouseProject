@@ -21,14 +21,13 @@ struct RenterProfileView: View {
     @Binding var show: Bool
     @State private var image = UIImage()
     @State private var showSheet = false
-    
+    @State private var isLoading = false
     init(show: Binding<Bool>) {
         self._show = show
     }
     
     func lastPaymentDate(input: [PaymentHistoryDataModel]) -> Date {
         let lastDate = input.map({$0.paymentDate}).last
-//        let dateFormate = DateFormatter()
         return (lastDate ?? Date()) 
     }
     
@@ -90,7 +89,7 @@ struct RenterProfileView: View {
                                 Button {
                                     showSheet.toggle()
                                 } label: {
-                                    if storageForUserProfile.isSummitImage == false {
+                                    ZStack {
                                         Image(systemName: "person.fill")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
@@ -98,14 +97,20 @@ struct RenterProfileView: View {
                                             .frame(width: 120, height: 120)
                                             .clipShape(Circle())
                                             .scaledToFit()
-                                    } else if storageForUserProfile.isSummitImage == true {
                                         if firebaseAuth.auth.currentUser != nil {
-                                            WebImage(url: URL(string: storageForUserProfile.representedProfileImageURL))
+                                            WebImage(url: URL(string: firestoreToFetchUserinfo.fetchedUserData.profileImageURL))
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
                                                 .frame(width: 120, height: 120)
                                                 .clipShape(Circle())
                                                 .scaledToFit()
+                                        }
+                                        if isLoading == true {
+                                            ProgressView()
+                                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                                .frame(width: 120, height: 120)
+                                                .background(Color.black.opacity(0.4))
+                                                .clipShape(Circle())
                                         }
                                     }
                                 }
@@ -146,10 +151,10 @@ struct RenterProfileView: View {
         .sheet(isPresented: $showSheet, onDismiss: {
             Task {
                 do {
-                    if !image.isSymbolImage {
-                        try await storageForUserProfile.uploadImageAsync(uidPath: firebaseAuth.getUID(), image: image)
-                    }
-                    try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
+                    isLoading = true
+                    try await storageForUserProfile.uploadImageAsync(uidPath: firebaseAuth.getUID(), image: image)
+                    try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
+                    isLoading = false
                 } catch {
                     self.errorHandler.handle(error: error)
                 }
@@ -165,7 +170,7 @@ struct RenterProfileView: View {
         }
         .task({
             do {
-                try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
+//                try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
                 //MARK: Fetch uploaded maintain tasks
                 if !firestoreToFetchUserinfo.rentedContract.docID.isEmpty {                
                     try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", docID: firestoreToFetchUserinfo.rentedContract.docID)

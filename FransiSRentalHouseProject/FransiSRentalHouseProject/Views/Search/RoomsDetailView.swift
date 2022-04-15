@@ -74,7 +74,7 @@ struct RoomsDetailView: View {
                         HStack {
                             if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" {
                                 NavigationLink {
-                                    MessageView(providerName: roomsData.providerDisplayName, providerUID: roomsData.providedBy, chatDocID: roomsData.providerChatDocId)
+                                    MessageMainView()
                                 } label: {
                                     Text("Contact provider.")
                                         .foregroundColor(.white)
@@ -83,6 +83,16 @@ struct RoomsDetailView: View {
                                         .clipShape(RoundedRectangle(cornerRadius: 5))
                                         .padding(.trailing)
                                 }
+                                .simultaneousGesture(TapGesture().onEnded({ _ in
+                                    roomsDetailViewModel.createNewChateRoom = true
+                                    debugPrint(roomsDetailViewModel.createNewChateRoom)
+                                    roomsDetailViewModel.providerUID = roomsData.providedBy
+                                    debugPrint("providerBy: \(roomsDetailViewModel.providerUID)")
+                                    roomsDetailViewModel.providerDisplayName = roomsData.providerDisplayName
+                                    debugPrint("providerDN: \(roomsDetailViewModel.providerDisplayName)")
+                                    roomsDetailViewModel.providerChatDodID = roomsData.providerChatDocId
+                                    debugPrint("providerChatID: \(roomsDetailViewModel.providerChatDodID)")
+                                }))
                             }
                             NavigationLink {
                                 RenterContractView(roomsData: roomsData)
@@ -156,6 +166,11 @@ struct RoomsInfoUnit: View {
 class RoomsDetailViewModel: ObservableObject {
     @Published var showMap = true
     @Published var presentingImageURL = ""
+    @Published var createNewChateRoom = false
+    
+    @Published var providerUID = ""
+    @Published var providerDisplayName = ""
+    @Published var providerChatDodID = ""
 }
 
 

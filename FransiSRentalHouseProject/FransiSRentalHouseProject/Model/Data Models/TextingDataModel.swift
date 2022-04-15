@@ -23,11 +23,11 @@ struct ChatUserInfoDataModel: Identifiable, Codable {
     var senderMailUidPath: String
     var senderDisplayName: String
     var senderProfileImage: String
-    var chatRoomUID: String
+//    var chatRoomUID: String
 }
 
 extension ChatUserInfoDataModel {
-    static let empty = ChatUserInfoDataModel(senderMailUidPath: "", senderDisplayName: "", senderProfileImage: "", chatRoomUID: "")
+    static let empty = ChatUserInfoDataModel(senderMailUidPath: "", senderDisplayName: "", senderProfileImage: "")
 }
 
 struct ContactUserDataModel: Identifiable, Codable {

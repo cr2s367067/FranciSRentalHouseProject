@@ -221,6 +221,7 @@ extension FirestoreToFetchUserinfo {
                 "rentalManagerLicenseNumber": RLNumber ?? "",
                 "emailAddress": emailAddress ?? "",
                 "agreeAutoPay" : false,
+                "profileImageURL" : "",
                 "rentedRoomInfo": [
                     "roomUID" : "",
                     "roomAddress" : "",
@@ -236,8 +237,6 @@ extension FirestoreToFetchUserinfo {
                 ]
             ])
     }
-    
-    
     
     
     func reloadUserData() async throws {

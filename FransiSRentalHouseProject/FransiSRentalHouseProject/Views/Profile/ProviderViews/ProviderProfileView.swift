@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ProviderProfileView: View {
     
@@ -16,9 +17,16 @@ struct ProviderProfileView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
+    @EnvironmentObject var storageForUserProfile: StorageForUserProfile
     
     @Binding var show: Bool
 
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    @State private var isLoading = false
+    @State private var image = UIImage()
+    @State private var showSheet = false
+    
     init(show: Binding<Bool>) {
         self._show = show
     }
@@ -32,26 +40,67 @@ struct ProviderProfileView: View {
                             self.show.toggle()
                         }
                     } label: {
-                        Image(systemName: "line.3.horizontal.circle")
+                        Image(systemName: "line.3.horizontal")
                             .resizable()
                             .frame(width: 25, height: 25)
                     }
                     Spacer()
                 }
                 .foregroundColor(.white)
-                .padding(.leading)
-                .padding(.top)
-                TitleAndDivider(title: "My Profile")
+                .padding()
+                VStack(alignment: .leading, spacing: 5) {
+                    HStack {
+                        Button {
+                            showSheet.toggle()
+                        } label: {
+                            ZStack {
+                                Image(systemName: "person.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(Color.white.opacity(0.6))
+                                    .frame(width: 45, height: 45)
+                                    .clipShape(Circle())
+                                    .scaledToFit()
+                                if firebaseAuth.auth.currentUser != nil {
+                                    WebImage(url: URL(string: firestoreToFetchUserinfo.fetchedUserData.profileImageURL))
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 45, height: 45)
+                                        .clipShape(Circle())
+                                        .scaledToFit()
+                                }
+                                if isLoading == true {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .frame(width: 30, height: 30)
+                                        .background(Color.black.opacity(0.4))
+                                        .clipShape(Circle())
+                                }
+                            }
+                        }
+                        Text("My Profile")
+                            .font(.system(size: 24, weight: .heavy))
+                            .foregroundColor(Color.white)
+                        Spacer()
+                    }
+                    HStack {
+                        VStack {
+                            Divider()
+                                .background(Color.white)
+                        }
+                    }
+                }
+                .frame(width: uiScreenWidth - 25)
                 HStack(spacing: 20) {
                     Spacer()
                     Image(systemName: "chart.bar.xaxis")
                         .resizable()
                         .foregroundColor(.white)
                         .frame(width: 25, height: 25)
-                    Image(systemName: "chart.xyaxis.line")
-                        .resizable()
-                        .foregroundColor(.white)
-                        .frame(width: 25, height: 25)
+//                    Image(systemName: "chart.xyaxis.line")
+//                        .resizable()
+//                        .foregroundColor(.white)
+//                        .frame(width: 25, height: 25)
                 }
                 .padding(.trailing)
                 ProviderBarChartView()
@@ -83,6 +132,20 @@ struct ProviderProfileView: View {
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
+        .sheet(isPresented: $showSheet, onDismiss: {
+            Task {
+                do {
+                    isLoading = true
+                    try await storageForUserProfile.uploadImageAsync(uidPath: firebaseAuth.getUID(), image: image)
+                    try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
+                    isLoading = false
+                } catch {
+                    self.errorHandler.handle(error: error)
+                }
+            }
+        }, content: {
+            ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
+        })
         .task {
             do {
                 try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())

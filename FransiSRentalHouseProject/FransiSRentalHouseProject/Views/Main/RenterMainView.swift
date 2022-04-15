@@ -24,6 +24,9 @@ struct RenterMainView: View {
     @EnvironmentObject var providerBarChartViewModel: ProviderBarChartViewModel
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     
+    
+    @State private var dragCompleted = false
+    
     var gridItemLayout = [
         GridItem(.fixed(170)),
         GridItem(.fixed(170))
@@ -36,32 +39,36 @@ struct RenterMainView: View {
     @State private var showRooms = true
     @State private var showFurniture = false
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    
     var body: some View {
         NavigationView {
             VStack {
-//                HStack {
-//                    Button {
-//                        providerBarChartViewModel.convertToDouble(input: providerBarChartViewModel.tempDataCollection)
-//                    } label: {
-//                        Text("test")
-//                    }
-//                    Button {
-////                        Task {
-////                            do {
-////                                try await providerBarChartViewModel.fetchDate(uidPath: firebaseAuth.getUID())
-////                            } catch {
-////                                self.errorHandler.handle(error: error)
-////                            }
-////                        }
-//                        providerBarChartViewModel.convertAndStore(input: paymentReceiveManager.monthlySettlement)
-//                    } label: {
-//                        Text("test2")
-//                    }
-//                }
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Announcement Group
                     Group {
-                        TitleAndDivider(title: "Announcement")
+                        VStack(alignment: .leading, spacing: 1) {
+                            HStack {
+                                Text("Announcement")
+                                    .font(.system(size: 24, weight: .heavy))
+                                    .foregroundColor(Color.white)
+                                Spacer()
+                                NavigationLink(isActive: $dragCompleted) {
+                                    MessageMainView()
+                                } label: {
+                                    Image(systemName: "message")
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 20))
+                                }
+                            }
+                            HStack {
+                                VStack {
+                                    Divider()
+                                        .background(Color.white)
+                                }
+                            }
+                        }
+                        .frame(width: uiScreenWidth - 25)
                         VStack(alignment: .leading) {
                             ForEach(firestoreFetchingAnnouncement.announcementDataSet) { anno in
                                 AnnouncementView(announcement: anno.announcement ?? "")
@@ -202,6 +209,14 @@ struct RenterMainView: View {
                     
                 }
             }
+            .gesture(
+                DragGesture(minimumDistance: 10)
+                    .onEnded({ gesture in
+                        if gesture.startLocation.x > gesture.predictedEndLocation.x {
+                            dragCompleted = true
+                        }
+                    })
+            )
             .background {
                 LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea([.top, .bottom])

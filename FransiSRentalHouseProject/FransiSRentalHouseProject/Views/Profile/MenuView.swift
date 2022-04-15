@@ -75,13 +75,13 @@ struct MenuView: View {
                             SideBarButton(buttonName: "User Profile", systemImageName: "person.crop.circle")
                         }
                     }
-                    NavigationLink {
-                        withAnimation {
-                            MessageMainView()
-                        }
-                    } label: {
-                        SideBarButton(buttonName: "Messages", systemImageName: "message")
-                    }
+//                    NavigationLink {
+//                        withAnimation {
+//                            MessageMainView()
+//                        }
+//                    } label: {
+//                        SideBarButton(buttonName: "Messages", systemImageName: "message")
+//                    }
                     NavigationLink {
                         withAnimation {
                             ContactView()
