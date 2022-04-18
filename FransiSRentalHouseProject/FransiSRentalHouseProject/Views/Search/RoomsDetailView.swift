@@ -26,6 +26,19 @@ struct RoomsDetailView: View {
     var body: some View {
         VStack {
             Spacer()
+            if roomsDetailViewModel.showMap == false {
+                HStack {
+                    Spacer()
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "arrow.up.left.and.down.right.magnifyingglass")
+                            .foregroundColor(.white)
+                            .font(.system(size: 35))
+                            .padding(.trailing)
+                    }
+                }
+            }
             VStack {
                 roomImagesPresenterWithPlaceHolder()
                     .frame(width: uiScreenWidth - 50)
@@ -127,6 +140,7 @@ struct RoomsDetailView: View {
                     .cornerRadius(30, corners: [.topLeft, .topRight])
             }
         }
+        .padding()
         .edgesIgnoringSafeArea(.top)
         .frame(maxWidth: .infinity)
         .background(alignment: .center) {
@@ -203,6 +217,7 @@ extension RoomsDetailView {
                 ForEach(firestoreToFetchRoomsData.fetchRoomImages) { image in
                     Button {
                         roomsDetailViewModel.presentingImageURL = image.imageURL
+                        roomsDetailViewModel.showMap = false
                         print(roomsDetailViewModel.presentingImageURL)
                     } label: {
                         WebImage(url: URL(string: image.imageURL))

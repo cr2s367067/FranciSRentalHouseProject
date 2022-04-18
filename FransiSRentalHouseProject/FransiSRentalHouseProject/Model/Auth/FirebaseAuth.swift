@@ -56,14 +56,14 @@ extension FirebaseAuth {
     
     func signOutAsync() throws {
         try auth.signOut()
-        if self.isSkipIt == true {
-            self.isSkipIt = false
-        }
         if self.signIn == true {
             self.signIn = false
         }
         if self.signUp == true {
             self.signUp = false
+        }
+        if self.isSkipIt == true {
+            self.isSkipIt = false
         }
     }
     

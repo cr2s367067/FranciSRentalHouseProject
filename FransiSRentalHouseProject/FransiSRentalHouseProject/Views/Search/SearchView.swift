@@ -8,6 +8,34 @@
 import SwiftUI
 
 struct SearchView: View {
+
+    enum Cities: String, CaseIterable {
+        case taipei = "Taipei"
+        case newTaipei = "新北市"
+        case taoyuan = "Taoyuan"
+        case taichung = "Taichung"
+        case tainan = "Tainan"
+        case kaohsiung = "Kaohsiung"
+    }
+    
+    enum Counties: String, CaseIterable {
+        case hsinchu = "Hsinchu County"
+        case miaoli = "Miaoli County"
+        case chanhua = "Chanhua County"
+        case nantou = "Nantou County"
+        case yunlin = "Yunlin County"
+        case chiayi = "Chiayi County"
+        case pingtung = "Pingtung County"
+        case yilan = "Yilan County"
+        case hualien = "Hualien County"
+        case taitung = "Taitung County"
+        case penghu = "Penghu County"
+        case kinmen = "Kinmen County"
+        case matsu = "Matsu County"
+        case keelungCity = "Keelung City"
+        case hsinchuCity = "Hsinchu City"
+        case chiayiCity = "Chiayi City"
+    }
     
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
@@ -18,10 +46,17 @@ struct SearchView: View {
     @State private var searchName = ""
     @State private var isPressentSheetData: RoomInfoDataModel? = nil
     
+    @State private var showTags = false
     @State private var showRooms = true
     @State private var showProducts = false
     
     @FocusState private var isFocused: Bool
+    
+    let cityAarray: [String] = Cities.allCases.map({$0.rawValue})
+    let countyArray: [String] = Counties.allCases.map({$0.rawValue})
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
     
     var body: some View {
         NavigationView {
@@ -44,12 +79,22 @@ struct SearchView: View {
                                     .foregroundColor(.white.opacity(0.8))
                             }
                             .textInputAutocapitalization(.never)
+                        Button {
+                            showTags.toggle()
+                        } label: {
+                            Image(systemName: "tag")
+                                .foregroundColor(.white)
+                                .font(.system(size: 20))
+                        }
+                        Spacer()
                     }
-                    .frame(width: 400, height: 50)
+                    .padding(.horizontal)
+                    .frame(height: 50)
                     .foregroundColor(.gray)
-                    .background(Color("fieldGray").opacity(0.07))
-                    .cornerRadius(10)
-                    .fixedSize(horizontal: true, vertical: true)
+                    .background(alignment: .center) {
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color("fieldGray").opacity(0.07))
+                    }
                     HStack(spacing: 5) {
                         Spacer()
                         Button {
@@ -79,71 +124,29 @@ struct SearchView: View {
                                 .frame(width: 25, height: 26)
                         }
                     }
-                    .padding(.horizontal)
-                    .padding(.trailing)
-                    //: Scroll View
-                    VStack {
-                        /*
-                        if showRooms == true {
-                            ScrollView(.vertical, showsIndicators: false) {
-                                //ForEach to catch the data from firebase
-                                ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic.filter({
-                                    searchName.isEmpty ? true : $0.town.contains(searchName)
-                                })) { result in
-                                    Button {
-                                        isPressentSheetData = result
-                                    } label: {
-                                        SearchListItemView(roomImage: result.roomImage ?? "",
-                                                           roomAddress: result.roomAddress,
-                                                           roomTown: result.town,
-                                                           roomCity: result.city,
-                                                           roomPrice: Int(result.rentalPrice) ?? 0)
-                                    }
-                                }
-                                .sheet(item: $isPressentSheetData) { result in
-                                    RoomDetailSheetView(roomImage: result.roomImage ?? "",
-                                                        roomAddress: result.roomAddress,
-                                                        roomTown: result.town,
-                                                        roomCity: result.city,
-                                                        roomPrice: Int(result.rentalPrice) ?? 0,
-                                                        roomUID: result.roomUID ,
-                                                        roomZipCode: result.zipCode,
-                                                        docID: result.docID ?? "",
-                                                        providedBy: result.providedBy,
-                                                        providedName: result.providerDisplayName ,
-                                                        result: result, chatDocID: result.providerChatDocId)
-                                }
-                            }
-                            
-                        } else if showProducts == true {
-                            ScrollView(.vertical, showsIndicators: false) {
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 40) {
-                                        ForEach(firestoreForProducts.productsDataSet) { product in
-                                            NavigationLink {
-                                                ProductDetailView(productName: product.productName,
-                                                                  productPrice: Int(product.productPrice) ?? 0,
-                                                                  productImage: product.productImage,
-                                                                  productUID: product.productUID,
-                                                                  productAmount: product.productAmount,
-                                                                  productFrom: product.productFrom,
-                                                                  providerUID: product.providerUID,
-                                                                  isSoldOut: product.isSoldOut,
-                                                                  providerName: product.providerName,
-                                                                  productDescription: product.productDescription, docID: product.id ?? "")
-                                            } label: {
-                                                SearchProductListItemView(productName: product.productName, productImage: product.productImage, productPrice: product.productPrice)
+                    if showTags {
+                        HStack {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack {
+                                    ForEach(cityAarray, id: \.self) { city in
+                                        sortingTagUnit(name: city)
+                                            .onTapGesture {
+                                                searchName = tagCollecte(firstTag: city)
                                             }
-                                        }
                                     }
                                 }
                             }
                         }
-                         */
+                    }
+                    //: Scroll View
+                    VStack {
                         identityRoomsProducts(showRooms: showRooms, showProducts: showProducts)
                     }
-                    .padding()
+//                    .padding()
                 }
+                .padding()
+                .frame(width: uiScreenWidth - 5)
+                
             }
             .onTapGesture(perform: {
                 isFocused = false
@@ -155,11 +158,11 @@ struct SearchView: View {
     }
 }
 
-struct SearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchView()
-    }
-}
+//struct SearchView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SearchView()
+//    }
+//}
 
 extension SearchView {
     
@@ -263,4 +266,67 @@ extension SearchView {
             productsUnitWithPlaceHolder()
         }
     }
+    
+    @ViewBuilder
+    func sortingTagUnit(name: String) -> some View {
+        HStack {
+            Text("#\(name)")
+                .foregroundColor(.white)
+        }
+        .frame(width: 80 + charCount(name: name), height: 30)
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 5)
+                .fill(.gray.opacity(0.7))
+        }
+    }
+    
+    private func charCount(name: String) -> CGFloat {
+        return CGFloat(Double(name.count) * 2.3)
+    }
+    
+    private func tagCollecte(firstTag: String?, secTag: String? = nil) -> String {
+        return (firstTag ?? "") + (secTag ?? "")
+    }
 }
+
+struct SortUnitView: View {
+    var body: some View {
+        HStack {
+            Text("#台北市")
+                .foregroundColor(.white)
+        }
+        .frame(width: 80, height: 30)
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 5)
+                .fill(.gray.opacity(0.7))
+        }
+    }
+}
+
+struct SortUnitView_Previews: PreviewProvider {
+    static var previews: some View {
+        SortUnitView()
+    }
+}
+
+/*
+ countys:
+ hsinchu
+ miaoli
+ chanhua
+ nantou
+ yunlin
+ chiayi
+ pingtung
+ yilan
+ hualien
+ taitung
+ penghu
+ kinmen
+ matsu
+ 
+ city:
+ keelung
+ hsinchu
+ chiayi
+*/

@@ -129,6 +129,9 @@ struct LoginView: View {
                             Task {
                                 do {
                                     try await firebaseAuth.resetPasswordAsync(email: emailAddress)
+                                    bioAuthViewModel.faceIDEnable = false
+                                    bioAuthViewModel.userNameBioAuth = ""
+                                    bioAuthViewModel.passwordBioAuth = ""
                                 } catch {
                                     self.errorHandler.handle(error: error)
                                 }

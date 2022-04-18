@@ -45,13 +45,13 @@ struct SearchListItemView: View {
 //                        Text(roomDescribtion)
 //                            .foregroundColor(.white)
 //                            .font(.system(size: 15, weight: .semibold))
-                        HStack {
-                            ForEach(0..<5) { _ in
-                                Image("Vector")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                            }
-                        }
+//                        HStack {
+//                            ForEach(0..<5) { _ in
+//                                Image("Vector")
+//                                    .resizable()
+//                                    .frame(width: 20, height: 20)
+//                            }
+//                        }
                     }
                     Spacer()
                     ZStack {
