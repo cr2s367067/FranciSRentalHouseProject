@@ -18,7 +18,7 @@ struct MenuView: View {
             Rectangle()
                 .fill(Color("menuBackground"))
                 .edgesIgnoringSafeArea([.top, .bottom])
-            VStack {
+            VStack(spacing: 10) {
                 HStack {
                     Text("Setting")
                         .font(.system(size: 25, weight: .semibold))
@@ -40,7 +40,7 @@ struct MenuView: View {
                                 UserOrderedListView()
                             }
                         } label: {
-                            SideBarButton(buttonName: "Ordered List", systemImageName: "filemenu.and.selection")
+                            SideBarButton(buttonName: "Ordered", systemImageName: "filemenu.and.selection")
                         }
                         NavigationLink {
                             withAnimation {
@@ -75,19 +75,19 @@ struct MenuView: View {
                             SideBarButton(buttonName: "User Profile", systemImageName: "person.crop.circle")
                         }
                     }
-//                    NavigationLink {
-//                        withAnimation {
-//                            MessageMainView()
-//                        }
-//                    } label: {
-//                        SideBarButton(buttonName: "Messages", systemImageName: "message")
-//                    }
                     NavigationLink {
                         withAnimation {
                             ContactView()
                         }
                     } label: {
                         SideBarButton(buttonName: "Contect Us", systemImageName: "questionmark.circle")
+                    }
+                    NavigationLink {
+                        withAnimation {
+                            BioAuthSettingView()
+                        }
+                    } label: {
+                        SideBarButton(buttonName: "Security", systemImageName: "lock.iphone")
                     }
                 }
                 .foregroundColor(.white)
@@ -112,6 +112,7 @@ struct MenuView: View {
                     Spacer()
                 }
             }
+            .padding()
         }
     }
 }
@@ -122,9 +123,11 @@ struct SideBarButton: View {
     var body: some View {
         HStack {
             Image(systemName: systemImageName)
-                .resizable()
-                .frame(width: 24, height: 24)
+                .foregroundColor(.white)
+                .font(.system(size: 24))
             Text(buttonName)
+                .foregroundColor(.white)
+                .font(.system(size: 18))
             Spacer()
         }
         .padding(.leading, 5)

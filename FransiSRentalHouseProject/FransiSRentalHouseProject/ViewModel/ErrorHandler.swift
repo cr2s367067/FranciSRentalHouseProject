@@ -192,6 +192,20 @@ enum SettlementError: LocalizedError {
     }
 }
 
+enum BioAuthError: LocalizedError {
+    case deviceError
+    case evaluateError
+    
+    var errorDescription: String? {
+        switch self {
+        case .deviceError:
+            return NSLocalizedString("Sorry, please check your device is supported bio authentication or not.", comment: "")
+        case .evaluateError:
+            return NSLocalizedString("Sorry, fail to access account. please type username and password try again.", comment: "")
+        }
+    }
+}
+
 struct ErrorAlert: Identifiable {
     var id = UUID()
     var message: String

@@ -13,6 +13,11 @@ import FirebaseFirestore
 
 class AppViewModel: ObservableObject {
     
+    enum UserInfoStatus: String {
+        case id ,firstName ,lastName ,displayName ,mobileNumber ,zipCode ,country, address, town, city, gender, isMale, isFemale, dob
+    }
+    
+    
     static let shared: AppViewModel = AppViewModel()
     
 //    @EnvironmentObject var localData: LocalData
@@ -49,18 +54,21 @@ class AppViewModel: ObservableObject {
     
     
     //:~ Sign up view fields
-    @Published var id = ""
-    @Published var firstName = ""
-    @Published var lastName = ""
-    @Published var displayName = "Unknown"
-    @Published var mobileNumber = ""
-    @Published var dob = Date()
-    @Published var address = ""
-    @Published var town = ""
-    @Published var city = ""
-    @Published var zipCode = ""
-    @Published var country = "Taiwan"
-    @Published var gender = ""
+//    @Published var id = ""
+    @AppStorage(UserInfoStatus.id.rawValue) var id = ""
+    @AppStorage(UserInfoStatus.firstName.rawValue) var firstName = ""
+    @AppStorage(UserInfoStatus.lastName.rawValue) var lastName = ""
+    @AppStorage(UserInfoStatus.displayName.rawValue) var displayName = ""
+    @AppStorage(UserInfoStatus.mobileNumber.rawValue) var mobileNumber = ""
+    @AppStorage(UserInfoStatus.dob.rawValue) var dob = Date()
+    @AppStorage(UserInfoStatus.isMale.rawValue) var isMale = false
+    @AppStorage(UserInfoStatus.isFemale.rawValue) var isFemale = false
+    @AppStorage(UserInfoStatus.address.rawValue) var address = ""
+    @AppStorage(UserInfoStatus.town.rawValue) var town = ""
+    @AppStorage(UserInfoStatus.city.rawValue) var city = ""
+    @AppStorage(UserInfoStatus.zipCode.rawValue) var zipCode = ""
+    @AppStorage(UserInfoStatus.country.rawValue) var country = "Taiwan"
+    @AppStorage(UserInfoStatus.gender.rawValue) var gender = ""
     @Published var providerType = ""
     @Published var rentalManagerLicenseNumber = ""
     
@@ -669,5 +677,17 @@ extension View {
         } else {
             self.colorMultiply(color)
         }
+    }
+}
+
+extension Date: RawRepresentable {
+    private static let formmater = ISO8601DateFormatter()
+    
+    public var rawValue: String {
+        Date.formmater.string(from: self)
+    }
+    
+    public init?(rawValue: String) {
+        self = Date.formmater.date(from: rawValue) ?? Date()
     }
 }

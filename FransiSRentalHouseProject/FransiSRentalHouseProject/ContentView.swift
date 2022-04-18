@@ -13,13 +13,14 @@ struct ContentView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
     
    
     var body: some View {
         Group {
-            if firebaseAuth.signIn == true || firebaseAuth.signUp == true || firebaseAuth.isSkipIt == true {
+            if firebaseAuth.signIn == true || firebaseAuth.signUp == true || firebaseAuth.isSkipIt == true || bioAuthViewModel.isUnlocked == true {
                 AppTabView()
-            } else {
+            } else  {
                 LoginView()
             }
         }
@@ -38,9 +39,13 @@ struct ContentView: View {
     }
     
 }
-//testKeyboard()
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+
+
+
+

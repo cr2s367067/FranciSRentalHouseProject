@@ -9,12 +9,17 @@ import SwiftUI
 
 struct LoginView: View {
     
-//    @EnvironmentObject var appViewModel: AppViewModel
+    enum LoginStatus: String {
+        case saveUserName
+    }
+    
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
     
     @State private var emailAddress = ""
     @State private var userPassword = ""
+//    @AppStorage(LoginStatus.saveUserName.rawValue) var saveUserName = false
     
     
     var body: some View {
@@ -105,7 +110,19 @@ struct LoginView: View {
                         .modifier(customTextField())
                     }
                     
-                    HStack {
+                    HStack(spacing: 5) {
+//                        Button {
+//                            saveUserName.toggle()
+//                        } label: {
+//                            HStack {
+//                                Image(systemName: saveUserName ? "checkmark.square.fill" : "checkmark.square")
+//                                    .foregroundColor(saveUserName ? .green : .white)
+//                                    .font(.system(size: 20))
+//                                Text("Save username?")
+//                                    .foregroundColor(.white)
+//                                    .font(.system(size: 15))
+//                            }
+//                        }
                         Spacer()
                         Button {
                             //: Request reset password
@@ -124,9 +141,7 @@ struct LoginView: View {
                                 }
                         }
                     }
-                    .padding(.top, 0)
-                    .padding(.trailing, 25)
-                    .padding(.bottom, 25)
+                    .padding()
                     VStack {
                         Button {
                             Task {
@@ -160,15 +175,23 @@ struct LoginView: View {
                                     .foregroundColor(.blue)
                             }
                         }
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.system(size: 15, weight: .regular))
                         .shadow(radius: 5)
                         .padding(.top, 80)
                         
                     }
                     Spacer()
                 }
+                .padding()
             }
             .navigationBarHidden(true)
+            .onAppear {
+                if bioAuthViewModel.faceIDEnable == true {
+                    if firebaseAuth.signIn == false {
+                        bioAuthViewModel.bioAuthentication(userNameBioAuth: bioAuthViewModel.userNameBioAuth, passBioAuth: bioAuthViewModel.passwordBioAuth)
+                    }
+                }
+            }
         }
     }
 }

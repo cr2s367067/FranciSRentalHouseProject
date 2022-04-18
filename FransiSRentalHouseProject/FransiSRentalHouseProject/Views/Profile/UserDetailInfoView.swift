@@ -18,9 +18,9 @@ struct UserDetailInfoView: View {
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     @EnvironmentObject var userDetailInfoViewModel: UserDetailInfoViewModel
     
+    
 
-    @State var isMale = false
-    @State var isFemale = false
+   
     @State var showAlert = false
     @State var inforFormatterCorrect = false
     @State private var isSummit = false
@@ -29,11 +29,11 @@ struct UserDetailInfoView: View {
     @FocusState private var isFocused: Bool
     
     
-    private func reset() {
-        appViewModel.userDetailViewReset()
-        isMale = false
-        isFemale = false
-    }
+//    private func reset() {
+//        appViewModel.userDetailViewReset()
+//        isMale = false
+//        isFemale = false
+//    }
     
     var body: some View {
         ZStack {
@@ -74,7 +74,7 @@ struct UserDetailInfoView: View {
                 userDetailInfoViewModel.isEdit = true
             }
             appViewModel.updateNavigationBarColor()
-            reset()
+//            reset()
         })
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -164,20 +164,20 @@ extension UserDetailInfoView {
                     HStack(alignment: .center, spacing: 30) {
                         Spacer()
                         Button {
-                            isMale.toggle()
-                            if isMale == true {
+                            appViewModel.isMale.toggle()
+                            if appViewModel.isMale == true {
                                 appViewModel.gender = "Male"
                                 debugPrint(appViewModel.gender)
                             }
-                            if isFemale == true {
-                                isFemale = false
+                            if appViewModel.isFemale == true {
+                                appViewModel.isFemale = false
                             }
                         } label: {
                             HStack {
                                 Text("Male")
-                                    .foregroundColor(isMale ? .white : .white)
-                                Image(systemName: isMale ? "checkmark.circle.fill" : "checkmark.circle")
-                                    .foregroundColor(isMale ? .green : .white)
+                                    .foregroundColor(appViewModel.isMale ? .white : .white)
+                                Image(systemName: appViewModel.isMale ? "checkmark.circle.fill" : "checkmark.circle")
+                                    .foregroundColor(appViewModel.isMale ? .green : .white)
                                     .padding(.leading, 10)
                                 
                             }
@@ -186,20 +186,20 @@ extension UserDetailInfoView {
                             .cornerRadius(5)
                         }
                         Button {
-                            isFemale.toggle()
-                            if isFemale == true {
+                            appViewModel.isFemale.toggle()
+                            if appViewModel.isFemale == true {
                                 appViewModel.gender = "Female"
                                 debugPrint(appViewModel.gender)
                             }
-                            if isMale == true {
-                                isMale = false
+                            if appViewModel.isMale == true {
+                                appViewModel.isMale = false
                             }
                         } label: {
                             HStack {
                                 Text("Female")
-                                    .foregroundColor(isFemale ? .white : .white)
-                                Image(systemName: isFemale ? "checkmark.circle.fill" : "checkmark.circle")
-                                    .foregroundColor(isFemale ? .green : .white)
+                                    .foregroundColor(appViewModel.isFemale ? .white : .white)
+                                Image(systemName: appViewModel.isFemale ? "checkmark.circle.fill" : "checkmark.circle")
+                                    .foregroundColor(appViewModel.isFemale ? .green : .white)
                                     .padding(.leading, 10)
                             }
                             .frame(width: 140, height: 30)
