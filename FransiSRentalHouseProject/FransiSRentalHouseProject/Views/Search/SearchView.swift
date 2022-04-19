@@ -173,6 +173,7 @@ extension SearchView {
                     TapGesture().onEnded({ _ in
                         searchVM.searchName = ""
                         searchVM.showTags = false
+                        searchVM.holderArray = []
                     })
                 )
             }

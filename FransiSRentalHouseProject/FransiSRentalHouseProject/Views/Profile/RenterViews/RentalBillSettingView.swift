@@ -54,14 +54,17 @@ struct RentalBillSettingView: View {
             }
             Spacer()
         }
+        .onAppear(perform: {
+            UITableView.appearance().backgroundColor = .clear
+        })
+//        .onDisappear(perform: {
+//            UITableView.appearance().backgroundColor = .systemBackground
+//        })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(alignment: .center) {
             LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea([.top, .bottom])
         }
-//        .onAppear {
-//            firestoreToFetchUserinfo.userRentedRoomInfo()
-//        }
         .task {
             do {
                 _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
@@ -202,6 +205,10 @@ extension RentalBillSettingView {
             renewUnit()
             contractUnit()
         }
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.gray.opacity(0.2))
+        }
     }
     
     @ViewBuilder
@@ -269,6 +276,10 @@ extension RentalBillSettingView {
                 Text("Payment History")
                     .foregroundColor(.black)
             }
+        }
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.gray.opacity(0.2))
         }
     }
     

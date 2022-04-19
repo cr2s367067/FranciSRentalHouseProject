@@ -563,13 +563,12 @@ struct RenterContractEditView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
 //struct RenterContractEditView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        RenterContractEditView()
 //    }
 //}
-
-
 
 extension RenterContractEditView {
     @ViewBuilder

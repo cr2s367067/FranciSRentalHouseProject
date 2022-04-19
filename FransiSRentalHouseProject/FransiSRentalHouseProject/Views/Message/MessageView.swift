@@ -120,7 +120,7 @@ struct MessageView: View {
             Task {
                 do {
                     try await storageForMessageImage.sendingImage(images: textingViewModel.image, chatRoomUID: contactMember.chatRoomUID, senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
-                    textingViewModel.image = []
+                    textingViewModel.image.removeAll()
                 } catch {
                     self.errorHandler.handle(error: error)
                 }

@@ -190,7 +190,6 @@ extension RenterProfileView {
     private func roomStatusSession() -> some View {
         let uiScreenWidth = UIScreen.main.bounds.width
         let uiScreenHeight = UIScreen.main.bounds.height
-        
             VStack {
                 HStack {
                     Text("Room Status: ")

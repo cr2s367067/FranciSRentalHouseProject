@@ -30,11 +30,11 @@ struct RoomsDetailView: View {
                 HStack {
                     Spacer()
                     Button {
-                        
+                        roomsDetailViewModel.zoomImageIn.toggle()
                     } label: {
                         Image(systemName: "arrow.up.left.and.down.right.magnifyingglass")
                             .foregroundColor(.white)
-                            .font(.system(size: 35))
+                            .font(.system(size: 30))
                             .padding(.trailing)
                     }
                 }
@@ -153,6 +153,11 @@ struct RoomsDetailView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .overlay(content: {
+            if roomsDetailViewModel.zoomImageIn {
+                ShowImageSets(roomImages: firestoreToFetchRoomsData.fetchRoomImages, zoomImageIn: $roomsDetailViewModel.zoomImageIn)
+            }
+        })
         .task {
             do {
                 try await firestoreToFetchRoomsData.fetchRoomImages(uidPath: roomsData.providedBy, docID: roomsData.id ?? "")
@@ -185,6 +190,8 @@ class RoomsDetailViewModel: ObservableObject {
     @Published var providerUID = ""
     @Published var providerDisplayName = ""
     @Published var providerChatDodID = ""
+    
+    @Published var zoomImageIn = false
 }
 
 
@@ -254,5 +261,48 @@ extension RoomsDetailView {
         let town = input.town
         let roomAddress = input.roomAddress
         return zipCode + city + town + roomAddress
+    }
+}
+
+
+struct ShowImageSets: View {
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    var roomImages: [RoomImageDataModel]
+    @Binding var zoomImageIn: Bool
+    var body: some View {
+        VStack(spacing: 22) {
+            HStack {
+                Spacer()
+                Button {
+                    zoomImageIn = false
+                } label: {
+                    Image(systemName: "x.square")
+                        .foregroundColor(.white.opacity(0.8))
+                        .font(.system(size: 25))
+                }
+            }
+            .padding(.horizontal)
+            VStack {
+                ScrollView(.horizontal, showsIndicators: true) {
+                    HStack {
+                        ForEach(roomImages) { image in
+                            WebImage(url: URL(string: image.imageURL))
+                                .resizable()
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .frame(width: uiScreenWidth - 100, height: uiScreenHeight / 2)
+                                .padding()
+                        }
+                    }
+                }
+            }
+            Spacer()
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(alignment: .center) {
+            Color.black.opacity(0.85)
+                .edgesIgnoringSafeArea([.top, .bottom])
+        }
     }
 }
