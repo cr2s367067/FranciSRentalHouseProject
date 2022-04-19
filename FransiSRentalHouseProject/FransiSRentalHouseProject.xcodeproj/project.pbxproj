@@ -77,6 +77,7 @@
 		0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */; };
 		0E2EDD3C27EAF394008FEF58 /* FirestoreForTextingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */; };
 		0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */; };
+		0E336CDE280E909C00EC91B6 /* TwDistrictDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E336CDD280E909C00EC91B6 /* TwDistrictDataModel.swift */; };
 		0E36982027F2962E00AA7E88 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */; };
 		0E36B6F828066B860008A7C9 /* PaymentReceiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B6F728066B860008A7C9 /* PaymentReceiveManager.swift */; };
 		0E36B6FA28066CC30008A7C9 /* ReceivePaymentDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B6F928066CC30008A7C9 /* ReceivePaymentDateModel.swift */; };
@@ -198,6 +199,7 @@
 		0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingDataModel.swift; sourceTree = "<group>"; };
 		0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForTextingMessage.swift; sourceTree = "<group>"; };
 		0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMainView.swift; sourceTree = "<group>"; };
+		0E336CDD280E909C00EC91B6 /* TwDistrictDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwDistrictDataModel.swift; sourceTree = "<group>"; };
 		0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		0E36B6F728066B860008A7C9 /* PaymentReceiveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentReceiveManager.swift; sourceTree = "<group>"; };
 		0E36B6F928066CC30008A7C9 /* ReceivePaymentDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivePaymentDateModel.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				0EB65BDB28042DA1000EAA43 /* PaymentDataModel.swift */,
 				0E36B6F928066CC30008A7C9 /* ReceivePaymentDateModel.swift */,
 				0E36B7002806BEF80008A7C9 /* ProviderConfigurationDateModel.swift */,
+				0E336CDD280E909C00EC91B6 /* TwDistrictDataModel.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				0EB65BE0280455F1000EAA43 /* AutoPaymentSettingView.swift in Sources */,
 				0EC5287227F2FCC1002D2C6F /* ProductCollectionDetialView.swift in Sources */,
 				0ED1F42E27F1DDBF0004B5CE /* FurnitureGridView.swift in Sources */,
+				0E336CDE280E909C00EC91B6 /* TwDistrictDataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
