@@ -48,6 +48,7 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var providerBarChartViewModel = ProviderBarChartViewModel()
     @StateObject var storageForMessageImage = StorageForMessageImage()
     @StateObject var bioAuthViewModel = BioAuthViewModel()
+    @StateObject var searchVM = SearchViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -87,6 +88,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(providerBarChartViewModel)
                 .environmentObject(storageForMessageImage)
                 .environmentObject(bioAuthViewModel)
+                .environmentObject(searchVM)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

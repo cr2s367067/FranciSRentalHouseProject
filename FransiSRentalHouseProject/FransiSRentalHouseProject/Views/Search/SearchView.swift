@@ -9,100 +9,14 @@ import SwiftUI
 
 struct SearchView: View {
     
-    func evaluateArray(par: Cities) -> [String] {
-        switch par {
-        case .taipei:
-            return taipeiDistrictArray
-        case .newTaipei:
-            return newTaipeiDistrictArray
-        case .taoyuan:
-            return taoyuanDistrictArray
-        case .taichung:
-            return taichungDistrictArray
-        case .tainan:
-            return tainanDistrictArray
-        case .kaohsiung:
-            return kaohsiungDistrictArray
-        case .hsinchu:
-            return hsinchuDistrictArray
-        case .miaoli:
-            return miaoliDistrictArray
-        case .chanhua:
-            return changhuaDistrictArray
-        case .nantou:
-            return nantouDistrictArray
-        case .yunlin:
-            return yunlinDistrictArray
-        case .chiayi:
-            return chiayiDistrictArray
-        case .pingtung:
-            return pingtungDistrictArray
-        case .yilan:
-            return yilanDistrictArray
-        case .hualien:
-            return hualienDistrictArray
-        case .taitung:
-            return taitungDistrictArray
-        case .penghu:
-            return penghuDistrictArray
-        case .kinmen:
-            return kinmenDistrictArray
-        case .matsu:
-            return matsuDistrictArray
-        case .keelungCity:
-            return keelungDistrictArray
-        case .hsinchuCity:
-            return hsinchuCityArray
-        case .chiayiCity:
-            return chiayiCityArray
-        }
-    }
-    
-   
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
-    
-    @State private var tagSelect = "TapSearchButton"
-    @State private var searchName = ""
-    @State private var isPressentSheetData: RoomInfoDataModel? = nil
-    
-    @State private var showTags = false
-    @State private var showRooms = true
-    @State private var showProducts = false
-    
+    @EnvironmentObject var searchVM: SearchViewModel
+
     @FocusState private var isFocused: Bool
-    
-    @State private var holderArray = [String]()
-    
-    let cityAarray: [String] = Cities.allCases.map({$0.rawValue})
-    let taipeiDistrictArray: [String] = TaipeiDistrict.allCases.map({$0.rawValue})
-    let newTaipeiDistrictArray: [String] = NewTaipeiDistrict.allCases.map({$0.rawValue})
-    let taoyuanDistrictArray: [String] = TaoyuanDistrict.allCases.map({$0.rawValue})
-    let taichungDistrictArray: [String] = TaichungDistrict.allCases.map({$0.rawValue})
-    let tainanDistrictArray: [String] = TainanDistrict.allCases.map({$0.rawValue})
-    let kaohsiungDistrictArray: [String] = KaohsiungDistrict.allCases.map({$0.rawValue})
-    let yilanDistrictArray: [String] = YilanDistrict.allCases.map({$0.rawValue})
-    let nantouDistrictArray: [String] = NantouDistrict.allCases.map({$0.rawValue})
-    let hsinchuDistrictArray: [String] = HsinchuDistrict.allCases.map({$0.rawValue})
-    let miaoliDistrictArray: [String] = MiaoliDistrict.allCases.map({$0.rawValue})
-    let changhuaDistrictArray: [String] = ChanghuaDistrict.allCases.map({$0.rawValue})
-    let yunlinDistrictArray: [String] = YunlinDistrict.allCases.map({$0.rawValue})
-    let chiayiDistrictArray: [String] = ChiayiDistrict.allCases.map({$0.rawValue})
-    let pingtungDistrictArray: [String] = PingtungDistrict.allCases.map({$0.rawValue})
-    let taitungDistrictArray: [String] = TaitungDistrict.allCases.map({$0.rawValue})
-    let hualienDistrictArray: [String] = HualienDistrict.allCases.map({$0.rawValue})
-    let penghuDistrictArray: [String] = PenghuDistrict.allCases.map({$0.rawValue})
-    let keelungDistrictArray: [String] = KeelungDistrict.allCases.map({$0.rawValue})
-    let hsinchuCityArray: [String] = HsinchuCity.allCases.map({$0.rawValue})
-    let chiayiCityArray: [String] = ChiayiCity.allCases.map({$0.rawValue})
-    let matsuDistrictArray: [String] = MatsuDistrict.allCases.map({$0.rawValue})
-    let kinmenDistrictArray: [String] = KinmenDistrict.allCases.map({$0.rawValue})
-    
-    
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
@@ -113,28 +27,22 @@ struct SearchView: View {
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.bottom, .top])
                 VStack(spacing: 10) {
-                    Button {
-                        holderArray = evaluateArray(par: .taipei)
-                        print(holderArray)
-                    } label: {
-                        Text("test")
-                    }
                     Spacer()
                     //: Search TextField For Temp
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.white)
                             .padding(.leading)
-                        TextField("", text: $searchName)
+                        TextField("", text: $searchVM.searchName)
                             .foregroundColor(.white)
                             .focused($isFocused)
-                            .placeholer(when: searchName.isEmpty) {
+                            .placeholer(when: searchVM.searchName.isEmpty) {
                                 Text("Search")
                                     .foregroundColor(.white.opacity(0.8))
                             }
                             .textInputAutocapitalization(.never)
                         Button {
-                            showTags.toggle()
+                            searchVM.showTags.toggle()
                         } label: {
                             Image(systemName: "tag")
                                 .foregroundColor(.white)
@@ -152,11 +60,11 @@ struct SearchView: View {
                     HStack(spacing: 5) {
                         Spacer()
                         Button {
-                            if showProducts == true {
-                                showProducts = false
+                            if searchVM.showProducts == true {
+                                searchVM.showProducts = false
                             }
-                            if showRooms == false {
-                                showRooms = true
+                            if searchVM.showRooms == false {
+                                searchVM.showRooms = true
                             }
                         } label: {
                             Image(systemName: "house")
@@ -165,11 +73,11 @@ struct SearchView: View {
                                 .frame(width: 28, height: 25)
                         }
                         Button {
-                            if showRooms == true {
-                                showRooms = false
+                            if searchVM.showRooms == true {
+                                searchVM.showRooms = false
                             }
-                            if showProducts == false {
-                                showProducts = true
+                            if searchVM.showProducts == false {
+                                searchVM.showProducts = true
                             }
                         } label: {
                             Image(systemName: "bag")
@@ -181,7 +89,7 @@ struct SearchView: View {
                     showTagView()
                     //: Scroll View
                     VStack {
-                        identityRoomsProducts(showRooms: showRooms, showProducts: showProducts)
+                        identityRoomsProducts(showRooms: searchVM.showRooms, showProducts: searchVM.showProducts)
                     }
 //                    .padding()
                 }
@@ -199,17 +107,11 @@ struct SearchView: View {
     }
 }
 
-//struct SearchView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SearchView()
-//    }
-//}
-
 extension SearchView {
     
     @ViewBuilder
     func showTagView() -> some View {
-        if showTags {
+        if searchVM.showTags {
             VStack {
                 HStack {
                     Text("City&County")
@@ -219,17 +121,17 @@ extension SearchView {
                 }
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(cityAarray, id: \.self) { city in
+                        ForEach(searchVM.cityAarray, id: \.self) { city in
                             sortingTagUnit(name: city)
                                 .onTapGesture {
-                                    searchName = tagCollecte(firstTag: city)
+                                    searchVM.searchName = tagCollecte(firstTag: city)
                                     let defaultValue = Cities.taipei
-                                    holderArray = evaluateArray(par: Cities(rawValue: city) ?? defaultValue)
+                                    searchVM.holderArray = searchVM.evaluateArray(par: Cities(rawValue: city) ?? defaultValue)
                                 }
                         }
                     }
                 }
-                if !holderArray.isEmpty {
+                if !searchVM.holderArray.isEmpty {
                     HStack {
                         Text("District")
                             .foregroundColor(.white)
@@ -237,49 +139,27 @@ extension SearchView {
                         Spacer()
                     }
                     ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(holderArray, id: \.self) { city in
-                            sortingTagUnit(name: city)
-                                .onTapGesture {
-                                    searchName = tagCollecte(firstTag: city)
-                                }
+                        HStack {
+                            ForEach(searchVM.holderArray, id: \.self) { city in
+                                sortingTagUnit(name: city)
+                                    .onTapGesture {
+                                        searchVM.searchName = tagCollecte(firstTag: city)
+                                    }
+                            }
                         }
                     }
-                }
                 }
             }
         }
     }
     
-    func address(input: RoomInfoDataModel) -> String {
-        let zipCode = input.zipCode
-        let city = input.city
-        let town = input.town
-        let address = input.roomAddress
-        return zipCode + city + town + address
-    }
     
-    func customSearchFilter(input: [RoomInfoDataModel], searchText: String) -> [RoomInfoDataModel] {
-        var tempHolder = [RoomInfoDataModel]()
-        if searchText.isEmpty {
-            tempHolder = input
-        } else {
-            tempHolder = input.filter({ search in
-                let city = search.city
-                let town = search.town
-                let address = search.roomAddress
-                let fullAddress = city + town + address
-                return fullAddress.contains(searchText)
-            })
-        }
-        return tempHolder
-    }
     
     @ViewBuilder
     private func roomsUnit() -> some View {
         ScrollView(.vertical, showsIndicators: false) {
             //ForEach to catch the data from firebase
-            ForEach(customSearchFilter(input: firestoreToFetchRoomsData.fetchRoomInfoFormPublic, searchText: searchName)) { result in
+            ForEach(searchVM.customSearchFilter(input: firestoreToFetchRoomsData.fetchRoomInfoFormPublic, searchText: searchVM.searchName)) { result in
                 NavigationLink {
                     RoomsDetailView(roomsData: result)
                 } label: {
@@ -291,8 +171,8 @@ extension SearchView {
                 }
                 .simultaneousGesture(
                     TapGesture().onEnded({ _ in
-                        searchName = ""
-                        showTags = false
+                        searchVM.searchName = ""
+                        searchVM.showTags = false
                     })
                 )
             }
@@ -380,44 +260,3 @@ extension SearchView {
     }
 }
 
-struct SortUnitView: View {
-    var body: some View {
-        HStack {
-            Text("#台北市")
-                .foregroundColor(.white)
-        }
-        .frame(width: 80, height: 30)
-        .background(alignment: .center) {
-            RoundedRectangle(cornerRadius: 5)
-                .fill(.gray.opacity(0.7))
-        }
-    }
-}
-
-struct SortUnitView_Previews: PreviewProvider {
-    static var previews: some View {
-        SortUnitView()
-    }
-}
-
-/*
- countys:
- hsinchu
- miaoli
- chanhua
- nantou
- yunlin
- chiayi
- pingtung
- yilan
- hualien
- taitung
- penghu
- kinmen
- matsu
- 
- city:
- keelung
- hsinchu
- chiayi
-*/
