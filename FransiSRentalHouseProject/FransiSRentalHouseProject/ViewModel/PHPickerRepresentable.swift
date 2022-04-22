@@ -19,7 +19,7 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = 10
         configuration.filter = .images
-        configuration.preferredAssetRepresentationMode = .current
+        configuration.preferredAssetRepresentationMode = .automatic
         
         let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator

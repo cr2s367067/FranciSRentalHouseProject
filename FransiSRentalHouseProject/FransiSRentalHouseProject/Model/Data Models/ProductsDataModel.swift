@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 
 //MARK: For user to order products
 struct UserOrderProductsDataModel: Identifiable, Codable {
-    @DocumentID var id: String?
+    @DocumentID var id = UUID().uuidString
     var productImage: String
     var productName: String
     var productPrice: Int
@@ -38,6 +38,8 @@ struct ProductProviderDataModel: Identifiable, Codable {
     var providerUID: String
     var productAmount: String
     var isSoldOut: Bool
+    var productType: String
+    
 }
 
 //MARK: For provider to track who ordered products
@@ -86,4 +88,22 @@ struct MarkedProductsDataModel: Identifiable, Codable {
     var productAmount: String
     var productDescription: String
     var providerName: String
+}
+
+
+//MARK: Store information for each store and presneting in searchview
+struct StoreDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var provideBy: String
+    var providerDisplayName: String
+    var providerProfileImage: String
+    var providerDescription: String
+//    var providerCredit: Int
+    var storeBackgroundImage: String
+    var storeChatDocID: String
+    
+}
+
+extension StoreDataModel {
+    static let empty = StoreDataModel(provideBy: "", providerDisplayName: "", providerProfileImage: "", providerDescription: "", storeBackgroundImage: "", storeChatDocID: "")
 }

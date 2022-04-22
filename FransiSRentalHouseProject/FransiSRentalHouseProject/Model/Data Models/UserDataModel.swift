@@ -63,3 +63,7 @@ extension UserDataModel {
 extension RentedRoomInfo {
     static let empty = RentedRoomInfo(roomUID: "", roomAddress: "", roomTown: "", roomCity: "", roomPrice: "", roomZipCode: "", roomImageCover: "", providerUID: "", rentalDepositFee: nil)
 }
+
+extension PaymentHistoryDataModel {
+    static let empty = PaymentHistoryDataModel(pastPaymentFee: "", paymentDate: Date())
+}

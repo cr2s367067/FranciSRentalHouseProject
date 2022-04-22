@@ -13,7 +13,7 @@ struct ContractCollectionView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var appViewModel: AppViewModel
 
-    @State private var showDetail = false
+//    @State private var showDetail = false
     
     var body: some View {
         ZStack {
@@ -28,7 +28,7 @@ struct ContractCollectionView: View {
                         NavigationLink {
                             RenterContractView(roomsData: roomInfo)
                         } label: {
-                            ContractReusableUnit(showDetail: $showDetail, roomAddress: roomInfo.roomAddress, roomTown: roomInfo.town, roomCity: roomInfo.city, roomZipCode: roomInfo.zipCode, renter: roomInfo.rentersContractData?.renterName ?? "", roomImage: roomInfo.roomImage ?? "")
+                            ContractReusableUnit(roomsData: roomInfo)
                                 .foregroundColor(.black)
                         }
                     }
@@ -47,26 +47,17 @@ struct ContractCollectionView: View {
 
 struct ContractReusableUnit: View {
     
-    @Binding var showDetail: Bool
-    
-    var roomAddress: String = ""
-    var roomTown: String = ""
-    var roomCity: String = ""
-    var roomZipCode: String = ""
-    var renter: String
-    var roomImage: String
+    var roomsData: RoomInfoDataModel
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    func address() -> String {
-        var tempAddressHolder = ""
-        tempAddressHolder = address(roomAddress: roomAddress, roomTown: roomTown, roomCity: roomCity, roomZipCode: roomZipCode)
-        return tempAddressHolder
-    }
-    
-   private func address(roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String) -> String {
-        return roomZipCode + roomCity + roomTown + roomAddress
+    var address: String {
+        let roomAddress = roomsData.roomAddress
+        let town = roomsData.town
+        let city = roomsData.city
+        let zipCode = roomsData.zipCode
+        return zipCode + city + town + roomAddress
     }
     
     var body: some View {
@@ -80,7 +71,7 @@ struct ContractReusableUnit: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.brown)
                         )
-                    WebImage(url: URL(string: roomImage))
+                    WebImage(url: URL(string: roomsData.roomImage ?? ""))
                         .resizable()
                         .frame(width: 130, height: 100)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -91,34 +82,18 @@ struct ContractReusableUnit: View {
             VStack(spacing: 3) {
                 HStack {
                     Text("Address: ")
-                    Text("\(address())")
+                    Text("\(address)")
                     Spacer()
                 }
                 .padding(.leading)
                 .padding(.top, 3)
                 HStack {
                     Text("Renter: ")
-                    Text(renter)
+                    Text(roomsData.rentersContractData?.renterName ?? "No Rented")
                     Spacer()
                 }
                 .padding(.leading)
             }
-//            HStack {
-//                Spacer()
-//                    .frame(width: uiScreenWidth - 50)
-//                Button {
-//                    withAnimation {
-//                        showDetail.toggle()
-//                    }
-//                } label: {
-//                    Image(systemName: "arrow.right.circle.fill")
-//                        .resizable()
-//                        .foregroundColor(Color("buttonBlue"))
-//                        .frame(width: 25, height: 25, alignment: .trailing)
-////                        .rotationEffect(showDetail ? .degrees(45) : .degrees(0))
-//                }
-//            }
-//            .padding(.trailing)
             Spacer()
         }
         .frame(width: uiScreenWidth - 20, height: uiScreenHeight - 700)

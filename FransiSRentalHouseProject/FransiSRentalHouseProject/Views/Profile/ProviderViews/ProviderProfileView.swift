@@ -78,7 +78,7 @@ struct ProviderProfileView: View {
                                 }
                             }
                         }
-                        Text("My Profile")
+                        Text(firestoreToFetchUserinfo.fetchedUserData.displayName)
                             .font(.system(size: 24, weight: .heavy))
                             .foregroundColor(Color.white)
                         Spacer()
@@ -103,7 +103,7 @@ struct ProviderProfileView: View {
 //                        .frame(width: 25, height: 25)
                 }
                 .padding(.trailing)
-                ProviderBarChartView()
+                isContainDataInBarChart()
                 VStack {
                     HStack {
                         Spacer()
@@ -170,6 +170,16 @@ struct OwnerProfileDetailUnit: View {
 }
 
 extension ProviderProfileView {
+    
+    @ViewBuilder
+    func isContainDataInBarChart() -> some View {
+        if paymentReceiveManager.monthlySettlement.isEmpty {
+            PlaceHolderView()
+        } else {
+            ProviderBarChartView()
+        }
+    }
+    
     @ViewBuilder
     func editModeSummitButton(editMode: Bool) -> some View {
         if editMode == true {

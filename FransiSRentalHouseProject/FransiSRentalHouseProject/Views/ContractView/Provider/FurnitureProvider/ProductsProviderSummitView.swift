@@ -17,14 +17,9 @@ struct ProductsProviderSummitView: View {
     @EnvironmentObject var productsProviderSummitViewModel: ProductsProviderSummitViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
+    @EnvironmentObject var searchVM: SearchViewModel
     
-    
-    @State var image = UIImage()
-    @State private var showSheet = false
-    @State private var tosSheetShow = false
-    @State private var isSummitProductPic = false
-    @State private var showSummitAlert = false
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
@@ -45,7 +40,7 @@ struct ProductsProviderSummitView: View {
                         TitleAndDivider(title: "Ready to Post your products?")
                         StepsTitle(stepsName: "Step1: Upload the room pic.")
                         Button {
-                            showSheet.toggle()
+                            productsProviderSummitViewModel.showSheet.toggle()
                         } label: {
                             ZStack(alignment: .center) {
                                 Rectangle()
@@ -56,8 +51,8 @@ struct ProductsProviderSummitView: View {
                                     .resizable()
                                     .frame(width: 25, height: 25)
                                     .foregroundColor(Color.gray)
-                                if isSummitProductPic == true {
-                                    Image(uiImage: self.image)
+                                if productsProviderSummitViewModel.isSummitProductPic == true {
+                                    Image(uiImage: self.productsProviderSummitViewModel.image)
                                         .resizable()
                                         .frame(width: 378, height: 304)
                                         .cornerRadius(10)
@@ -70,7 +65,72 @@ struct ProductsProviderSummitView: View {
                             InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productName)
                             InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productFrom)
                             InfoUnit(title: "Prodduct Price", bindingString: $productsProviderSummitViewModel.productPrice)
+                                .keyboardType(.numberPad)
+                            if !productsProviderSummitViewModel.productPrice.isEmpty {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    HStack {
+                                        Text("Product Cost Infomation")
+                                            .modifier(textFormateForProviderSummitView())
+                                        Spacer()
+                                    }
+                                    costInfo(title: "Service Fee (2%)", contain: productsProviderSummitViewModel.serviceFee)
+                                    costInfo(title: "Credit Card Payment Fee (2.75%)", contain: productsProviderSummitViewModel.paymentFee)
+                                    Divider()
+                                        .foregroundColor(.white)
+                                    costInfo(title: "Total Cost", contain: productsProviderSummitViewModel.totalCost)
+                                }
+                                .padding()
+                                .frame(width: uiScreenWidth - 30)
+                                .background(alignment: .center, content: {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.white, lineWidth: 1)
+                                })
+                            }
                             InfoUnit(title: "Product Amount", bindingString: $productsProviderSummitViewModel.productAmount)
+                                .keyboardType(.numberPad)
+                            VStack(alignment: .leading, spacing: 2) {
+                                HStack {
+                                    Text("Product Type")
+                                        .modifier(textFormateForProviderSummitView())
+                                    Spacer()
+                                }
+                                HStack {
+                                    Spacer()
+                                    Section {
+                                        Menu {
+                                            Picker("", selection: $productsProviderSummitViewModel.productType) {
+                                                ForEach(searchVM.groceryTypesArray, id: \.self) {
+                                                    Text($0)
+                                                }
+                                            }
+                                        } label: {
+                                            HStack {
+                                                Text(productsProviderSummitViewModel.productType)
+                                                Image(systemName: "chevron.down")
+                                                    .foregroundColor(.white)
+                                                    .font(.system(size: 15))
+                                            }
+                                            .frame(width: 70 + CGFloat((productsProviderSummitViewModel.productType.count * 8)), height: 40)
+                                            .background(alignment: .center) {
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .fill(.gray.opacity(0.6))
+                                            }
+                                        }
+                                    } header: {
+                                        HStack {
+                                            Text("Please choose type")
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                                .foregroundColor(.white)
+                            }
+                            .padding()
+                            .frame(width: uiScreenWidth - 30)
+                            .background(alignment: .center, content: {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.white, lineWidth: 1)
+                            })
                             VStack(alignment: .leading, spacing: 2) {
                                 HStack {
                                     Text("Product Description")
@@ -107,7 +167,7 @@ struct ProductsProviderSummitView: View {
                                         .foregroundColor(.blue)
                                         .font(.system(size: 14, weight: .medium))
                                         .onTapGesture {
-                                            tosSheetShow.toggle()
+                                            productsProviderSummitViewModel.tosSheetShow.toggle()
                                         }
                                 }
                                 Spacer()
@@ -115,13 +175,16 @@ struct ProductsProviderSummitView: View {
                             HStack {
                                 Spacer()
                                 Button {
-                                    Task {
-                                        do {
-                                            try await firestoreForProducts.summitFurniture(uidPath: firebaseAuth.getUID(), productImage: storageForProductImage.representedProductImageURL, providerName: firestoreToFetchUserinfo.fetchedUserData.displayName, productPrice: productsProviderSummitViewModel.productPrice, productDescription: productsProviderSummitViewModel.productDescription, productUID: firestoreForProducts.productUID, productName: productsProviderSummitViewModel.productName, productFrom: productsProviderSummitViewModel.productFrom, productAmount: productsProviderSummitViewModel.productAmount, isSoldOut: false)
-                                            productsProviderSummitViewModel.resetView()
-                                        } catch {
-                                            self.errorHandler.handle(error: error)
-                                        }
+                                    do {
+                                        try productsProviderSummitViewModel.checker(productName: productsProviderSummitViewModel.productName,
+                                                                                productPrice: productsProviderSummitViewModel.productPrice,
+                                                                                productFrom: productsProviderSummitViewModel.productFrom,
+                                                                                    images: productsProviderSummitViewModel.images,
+                                                                                    holderTosAgree: productsProviderSummitViewModel.holderTosAgree,
+                                                                                    productAmount: productsProviderSummitViewModel.productAmount, productType: productsProviderSummitViewModel.productType)
+                                        productsProviderSummitViewModel.showSummitAlert.toggle()
+                                    } catch {
+                                        self.errorHandler.handle(error: error)
                                     }
                                 } label: {
                                     Text("Summit")
@@ -129,19 +192,43 @@ struct ProductsProviderSummitView: View {
                                         .frame(width: 108, height: 35)
                                         .background(Color("buttonBlue"))
                                         .clipShape(RoundedRectangle(cornerRadius: 5))
-                                        .alert("Success", isPresented: $showSummitAlert, actions: {
+                                        .alert("Success", isPresented: $productsProviderSummitViewModel.showSummitAlert, actions: {
                                             Button {
-//                                                resetView()
-                                                showSummitAlert = false
+                                                productsProviderSummitViewModel.showSummitAlert = false
+                                            } label: {
+                                                Text("Cancel")
+                                            }
+                                            Button {
+                                                Task {
+                                                    do {
+                                                        productsProviderSummitViewModel.showProgressView = true
+                                                        try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(),
+                                                                                                            image: productsProviderSummitViewModel.image,
+                                                                                                            productID: firestoreForProducts.productUID,
+                                                                                                            imageUID: storageForProductImage.productImageUUID)
+                                                        try await firestoreForProducts.summitFurniture(uidPath: firebaseAuth.getUID(),
+                                                                                                       productImage: storageForProductImage.representedProductImageURL,
+                                                                                                       providerName: firestoreToFetchUserinfo.fetchedUserData.displayName,
+                                                                                                       productPrice: productsProviderSummitViewModel.productPrice,
+                                                                                                       productDescription: productsProviderSummitViewModel.productDescription,
+                                                                                                       productUID: firestoreForProducts.productUID,
+                                                                                                       productName: productsProviderSummitViewModel.productName,
+                                                                                                       productFrom: productsProviderSummitViewModel.productFrom, 
+                                                                                                       productAmount: productsProviderSummitViewModel.productAmount,
+                                                                                                       isSoldOut: false,
+                                                                                                       productType: productsProviderSummitViewModel.productType)
+                                                        productsProviderSummitViewModel.resetView()
+                                                        productsProviderSummitViewModel.showProgressView = false
+                                                    } catch {
+                                                        self.errorHandler.handle(error: error)
+                                                    }
+                                                }
+                                                productsProviderSummitViewModel.showSummitAlert = false
                                             } label: {
                                                 Text("Okay")
-                                                    .foregroundColor(.white)
-                                                    .frame(width: 108, height: 35)
-                                                    .background(Color("buttonBlue"))
-                                                    .clipShape(RoundedRectangle(cornerRadius: 5))
                                             }
                                         }, message: {
-                                            let message = "Successfuly upload room's information to database, let's try the other if need."
+                                            let message = "Product's Information is waiting to summit, if you want to adjust something, please press cancel, else press okay to continue"
                                             Text(message)
                                         })
                                 }
@@ -156,30 +243,36 @@ struct ProductsProviderSummitView: View {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
+                if productsProviderSummitViewModel.showProgressView == true {
+                    CustomProgressView()
+                }
             })
-            .sheet(isPresented: $tosSheetShow, content: {
+            .sheet(isPresented: $productsProviderSummitViewModel.tosSheetShow, content: {
                 TermOfServiceForRentalManager()
             })
             .onAppear(perform: {
                 firestoreForProducts.productUID = firestoreForProducts.productIDGenerator()
                 storageForProductImage.productImageUUID = storageForProductImage.imagUUIDGenerator()
             })
-            .sheet(isPresented: $showSheet) {
-                Task {
-                    try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(), image: image, productID: firestoreForProducts.productUID, imageUID: storageForProductImage.productImageUUID)
-                    DispatchQueue.main.async {
-                        isSummitProductPic = true
-                    }
-                }
+            .sheet(isPresented: $productsProviderSummitViewModel.showSheet) {
+                productsProviderSummitViewModel.isSummitProductPic = true
             } content: {
-                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
+                PHPickerRepresentable(images: $productsProviderSummitViewModel.images)
             }
             .navigationBarHidden(true)
         }
     }
 }
-struct FurnitureProviderSummitView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductsProviderSummitView()
+
+extension ProductsProviderSummitView {
+    @ViewBuilder
+    func costInfo(title: String, contain: Double) -> some View {
+        HStack {
+            Text("\(title): ")
+            Text("\(contain, specifier: "%.3f")")
+            Spacer()
+        }
+        .foregroundColor(.white)
+        .font(.system(size: 15))
     }
 }

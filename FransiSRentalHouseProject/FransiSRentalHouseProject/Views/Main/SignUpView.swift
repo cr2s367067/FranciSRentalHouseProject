@@ -231,6 +231,10 @@ struct SignUpView: View {
                                                                                    password: appViewModel.userPassword,
                                                                                    confirmPassword: appViewModel.recheckPassword)
                                 try await firebaseAuth.signUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword)
+                                if appViewModel.isProvider == true {
+                                    print("Create provider config")
+                                    try await providerProfileViewModel.createConfig(uidPath: firebaseAuth.getUID())
+                                }
                                 try await firestoreToFetchUserinfo.createUserInfomationAsync(uidPath: firebaseAuth.getUID(),
                                                                                              id: appViewModel.id,
                                                                                              firstName: appViewModel.firstName,
@@ -248,9 +252,7 @@ struct SignUpView: View {
                                                                                              emailAddress: appViewModel.emailAddress,
                                                                                              providerType: appViewModel.providerType,
                                                                                              RLNumber: appViewModel.rentalManagerLicenseNumber)
-                                if appViewModel.isProvider == true {
-                                    try await providerProfileViewModel.createConfig(uidPath: firebaseAuth.getUID())
-                                }
+                                
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }

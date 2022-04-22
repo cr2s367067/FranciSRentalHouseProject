@@ -121,40 +121,7 @@ struct RenterMainView: View {
                         //: New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
-                                if showRooms == true {
-                                    ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
-                                        NavigationLink {
-                                            RoomsDetailView(roomsData: result)
-                                        } label: {
-                                            RoomsGridView(imageURL: result.roomImage ?? "",
-                                                     roomTown: result.town,
-                                                     roomCity: result.city,
-                                                     objectPrice: Int(result.rentalPrice) ?? 0)
-                                            .frame(height: 160)
-                                            .alert(isPresented: $appViewModel.isPresent) {
-                                                //MARK: Throw the "Have rented error to instead"
-                                                Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                                            }
-                                        }
-                                    }
-                                } else if showFurniture == true {
-                                    ForEach(firestoreForProducts.productsDataSet) { product in
-                                        NavigationLink {
-                                            ProductDetailView(productName: product.productName,
-                                                              productPrice: Int(product.productPrice) ?? 0,
-                                                              productImage: product.productImage,
-                                                              productUID: product.productUID,
-                                                              productAmount: product.productAmount,
-                                                              productFrom: product.productFrom,
-                                                              providerUID: product.providerUID,
-                                                              isSoldOut: product.isSoldOut,
-                                                              providerName: product.providerName,
-                                                              productDescription: product.productDescription, docID: product.id ?? "")
-                                        } label: {
-                                            FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
-                                        }
-                                    }
-                                }
+                                elementSwitch(showRooms: showRooms, showProduct: showFurniture)
                             }
                             .frame(height: 330)
                             .padding()
@@ -167,40 +134,7 @@ struct RenterMainView: View {
                         //: New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
-                                if showRooms == true {
-                                    ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
-                                        NavigationLink {
-                                            RoomsDetailView(roomsData: result)
-                                        } label: {
-                                            RoomsGridView(imageURL: result.roomImage ?? "",
-                                                     roomTown: result.town,
-                                                     roomCity: result.city,
-                                                     objectPrice: Int(result.rentalPrice) ?? 0)
-                                            .frame(height: 160)
-                                            .alert(isPresented: $appViewModel.isPresent) {
-                                                //MARK: Throw the "Have rented error to instead"
-                                                Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                                            }
-                                        }
-                                    }
-                                } else if showFurniture == true {
-                                    ForEach(firestoreForProducts.productsDataSet) { product in
-                                        NavigationLink {
-                                            ProductDetailView(productName: product.productName,
-                                                              productPrice: Int(product.productPrice) ?? 0,
-                                                              productImage: product.productImage,
-                                                              productUID: product.productUID,
-                                                              productAmount: product.productAmount,
-                                                              productFrom: product.productFrom,
-                                                              providerUID: product.providerUID,
-                                                              isSoldOut: product.isSoldOut,
-                                                              providerName: product.providerName,
-                                                              productDescription: product.productDescription, docID: product.id ?? "")
-                                        } label: {
-                                            FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
-                                        }
-                                    }
-                                }
+                                elementSwitch(showRooms: showRooms, showProduct: showFurniture)
                             }
                             .frame(height: 330)
                             .padding()
@@ -262,6 +196,57 @@ extension RenterMainView {
             throw UserInformationError.registeError
         }
     }
+    
+    @ViewBuilder
+    func elementSwitch(showRooms: Bool, showProduct: Bool) -> some View {
+        if showRooms {
+            showRoomsElement()
+        }
+        if showProduct {
+            showProductElement()
+        }
+    }
+    
+    @ViewBuilder
+    func showRoomsElement() -> some View {
+        ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
+            NavigationLink {
+                RoomsDetailView(roomsData: result)
+            } label: {
+                RoomsGridView(imageURL: result.roomImage ?? "",
+                              roomTown: result.town,
+                              roomCity: result.city,
+                              objectPrice: Int(result.rentalPrice) ?? 0)
+                .frame(height: 160)
+                .alert(isPresented: $appViewModel.isPresent) {
+                    //MARK: Throw the "Have rented error to instead"
+                    Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func showProductElement() -> some View {
+        ForEach(firestoreForProducts.productsDataSet) { product in
+            NavigationLink {
+                ProductDetailView(productName: product.productName,
+                                  productPrice: Int(product.productPrice) ?? 0,
+                                  productImage: product.productImage,
+                                  productUID: product.productUID,
+                                  productAmount: product.productAmount,
+                                  productFrom: product.productFrom,
+                                  providerUID: product.providerUID,
+                                  isSoldOut: product.isSoldOut,
+                                  providerName: product.providerName,
+                                  productDescription: product.productDescription, docID: product.id ?? "")
+            } label: {
+                FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
+            }
+        }
+    }
+    
+    
 }
 
 

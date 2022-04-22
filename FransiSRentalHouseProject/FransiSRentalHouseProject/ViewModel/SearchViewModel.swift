@@ -10,12 +10,18 @@ import Foundation
 
 class SearchViewModel: ObservableObject {
     
+    
+    
     @Published var isPressentSheetData: RoomInfoDataModel? = nil
     @Published var searchName = ""
     @Published var holderArray = [String]()
     @Published var showTags = false
     @Published var showRooms = true
     @Published var showProducts = false
+    @Published var showStores = false
+    @Published var showProductTags = false
+    
+    //MARK: For rooms
     
     let cityAarray: [String] = Cities.allCases.map({$0.rawValue})
     let taipeiDistrictArray: [String] = TaipeiDistrict.allCases.map({$0.rawValue})
@@ -113,4 +119,28 @@ class SearchViewModel: ObservableObject {
         }
         return tempHolder
     }
+    
+    func filterProductByTags(input: [ProductProviderDataModel], tags: String) -> [ProductProviderDataModel] {
+        var sortedHolder = [ProductProviderDataModel]()
+        sortedHolder = input.filter({ tag in
+            tag.productType.contains(tags) || tag.productName.contains(tags)
+        })
+        return sortedHolder
+    }
+    
+    func filterStore(input: [StoreDataModel], name: String) -> [StoreDataModel] {
+        var resultArray = [StoreDataModel]()
+        if name.isEmpty {
+            resultArray = input
+        } else {
+            resultArray = input.filter({ store in
+                store.providerDisplayName.contains(name)
+            })
+        }
+        return resultArray
+    }
+    
+    
+    //MARK: For products
+    let groceryTypesArray: [String] = GroceryTypes.allCases.map({$0.rawValue})
 }

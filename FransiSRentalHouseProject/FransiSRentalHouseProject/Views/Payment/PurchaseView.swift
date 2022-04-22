@@ -182,6 +182,7 @@ struct PurchaseView: View {
                 Spacer()
                 
                 Button {
+                    let orderID = firestoreForProducts.initOrderID()
                     //: pass data to the next view
                     if !localData.summaryItemHolder.roomUID.isEmpty {
                         //MARK: pay deposit and rent the room also pay for products if user ordered.
@@ -192,7 +193,7 @@ struct PurchaseView: View {
                             if !productDetailViewModel.productOrderCart.isEmpty {
                                 productDetailViewModel.productOrderCart.forEach { products in
                                     Task {
-                                        await buyProducts(products: products.self)
+                                        await buyProducts(products: products.self, orderID: orderID)
                                     }
                                 }
                             }
@@ -202,7 +203,7 @@ struct PurchaseView: View {
                         if !productDetailViewModel.productOrderCart.isEmpty {
                             productDetailViewModel.productOrderCart.forEach { products in
                                 Task {
-                                    await buyProducts(products: products.self)
+                                    await buyProducts(products: products.self, orderID: orderID)
                                 }
                             }
                         }
@@ -212,7 +213,9 @@ struct PurchaseView: View {
                     Task {
                         await justPayRentBill()
                     }
+                    print("Payment: \(localData.sumPrice)")
                     print("test")
+                    localData.sumPrice = 0
                 } label: {
                     Text("Pay")
                         .foregroundColor(.white)
@@ -388,8 +391,16 @@ extension PurchaseView {
         }
     }
     
-    private func buyProducts(products: UserOrderProductsDataModel) async {
+    private func buyProducts(products: UserOrderProductsDataModel, orderID: String) async {
         do {
+            var userName: String {
+                let firstName = firestoreToFetchUserinfo.fetchedUserData.firstName
+                let lastName = firestoreToFetchUserinfo.fetchedUserData.lastName
+                return lastName + firstName
+            }
+            let mobileNumber = firestoreToFetchUserinfo.fetchedUserData.mobileNumber
+            let address = paymentSummaryViewModel.shippingAddress
+            
             try await firestoreForProducts.makeOrder(uidPath: firebaseAuth.getUID(),
                                                      productName: products.productName,
                                                      productPrice: products.productPrice,
@@ -398,7 +409,14 @@ extension PurchaseView {
                                                      orderAmount: products.orderAmount,
                                                      productImage: products.productImage,
                                                      comment: products.comment,
-                                                     rating: products.rating)
+                                                     rating: products.rating,
+                                                     userName: userName,
+                                                     userMobileNumber: mobileNumber,
+                                                     shippingAddress: address,
+                                                     shippingStatus: "",
+                                                     paymentStatus: "",
+                                                     shippingMethod: "",
+                                                     orderID: orderID)
             let orderUID = UUID().uuidString
             try await firestoreForProducts.receiveOrder(uidPath: products.providerUID,
                                                         orderUID: orderUID,
@@ -415,7 +433,7 @@ extension PurchaseView {
     }
     
     private func reset() {
-        localData.tempCart.removeAll()
+        localData.tempCart = .empty
         appViewModel.isRedacted = false
         appViewModel.rentalPolicyisAgree = false
         localData.summaryItemHolder = .empty

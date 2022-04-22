@@ -16,6 +16,12 @@ class FirestoreForProducts: ObservableObject {
     @Published var markedProducts = [MarkedProductsDataModel]()
     @Published var productsDataSet = [ProductProviderDataModel]()
     @Published var productUID = ""
+    @Published var storesDataSet = [StoreDataModel]()
+    @Published var storeLocalData: StoreDataModel = .empty
+    @Published var storeProductsDataSet = [ProductProviderDataModel]()
+    
+    @Published var purchasedUserDataSet = [PurchasedUserDataModel]()
+    @Published var cartListDataSet = [PurchasedOrdedProductDataModel]()
     
     let db = Firestore.firestore()
     
@@ -24,7 +30,7 @@ class FirestoreForProducts: ObservableObject {
         return productID
     }
     
-    func summitFurniture(uidPath: String, productImage: String, providerName: String, productPrice: String, productDescription: String, productUID: String, productName: String, productFrom: String, productAmount: String, isSoldOut: Bool) async throws {
+    func summitFurniture(uidPath: String, productImage: String, providerName: String, productPrice: String, productDescription: String, productUID: String, productName: String, productFrom: String, productAmount: String, isSoldOut: Bool, productType: String) async throws {
         let furnitureProviderRef = db.collection("ProductsProvider").document(uidPath).collection("Products")
         _ = try await furnitureProviderRef.addDocument(data: [
             "productUID" : productUID,
@@ -36,7 +42,8 @@ class FirestoreForProducts: ObservableObject {
             "productFrom" : productFrom,
             "providerUID" : uidPath,
             "productAmount" : productAmount,
-            "isSoldOut" : isSoldOut
+            "isSoldOut" : isSoldOut,
+            "productType" : productType
         ])
         
         let furniturePublicRef = db.collection("ProductsPublic")
@@ -50,7 +57,8 @@ class FirestoreForProducts: ObservableObject {
             "productFrom" : productFrom,
             "providerUID" : uidPath,
             "productAmount" : productAmount,
-            "isSoldOut" : isSoldOut
+            "isSoldOut" : isSoldOut,
+            "productType" : productType
         ])
     }
     
@@ -77,7 +85,12 @@ class FirestoreForProducts: ObservableObject {
 
 
 extension FirestoreForProducts {
-    func makeOrder(uidPath: String, productName: String, productPrice: Int, providerUID: String, productUID: String, orderAmount: String, productImage: String, buyDate: Date = Date(), comment: String?, rating: String?) async throws {
+    
+    func initOrderID() -> String {
+        return UUID().uuidString
+    }
+    
+    func makeOrder(uidPath: String, productName: String, productPrice: Int, providerUID: String, productUID: String, orderAmount: String, productImage: String, buyDate: Date = Date(), comment: String?, rating: String?, userName: String, userMobileNumber: String, shippingAddress: String, shippingStatus: String, paymentStatus: String, shippingMethod: String, orderID: String) async throws {
         let orderRef = db.collection("users").document(uidPath).collection("ProductOrder")
         _ = try await orderRef.addDocument(data: [
             "productImage" : productImage,
@@ -90,6 +103,66 @@ extension FirestoreForProducts {
             "rating" : rating ?? "",
             "buyDate" : buyDate
         ])
+        let shippingRef = db.collection("users").document(providerUID).collection("ShippingList").document(orderID)
+        //store user basic info include shipping info
+        _ = try await shippingRef.setData([
+            "userName" : userName,
+            "userMobileNumber" : userMobileNumber,
+            "userAddress" : shippingAddress,
+            "shippingStatus" : shippingStatus,
+            "shippingMethod" : shippingMethod,
+            "paymentStatus" : paymentStatus,
+            "createTimestamp" : buyDate
+        ])
+        let cartRef = shippingRef.collection("CartContain")
+        //auto doc id with products info
+        _ = try await cartRef.addDocument(data: [
+            "productImageURL" : productImage,
+            "productName" : productName,
+            "productPrice" : productPrice,
+            "orderAmount" : orderAmount,
+            "createTimestamp" : buyDate
+        ])
+        
+    }
+    
+    @MainActor
+    func fetchOrdedDataProviderSide(uidPath: String) async throws {
+        let shippingRef = db.collection("users").document(uidPath).collection("ShippingList").order(by: "createeTimestemp", descending: false)
+        let purchasedUsers = try await shippingRef.getDocuments().documents
+        purchasedUserDataSet = purchasedUsers.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: PurchasedUserDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            return nil
+        })
+    }
+    
+    @MainActor
+    func fetchOrdedDataInCartList(uidPath: String, docID: String) async throws {
+        let cartListRef = db.collection("users").document(uidPath).collection("ShippingList").document(docID).collection("CartContain")
+        print("find document path: \(cartListRef)")
+        let cartList = try await cartListRef.getDocuments().documents
+        print("try get contain: \(cartList)")
+        cartListDataSet = cartList.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: PurchasedOrdedProductDataModel.self)
+            }
+            print("try to get result: \(result)")
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            return nil
+        })
     }
     
     @MainActor
@@ -108,7 +181,6 @@ extension FirestoreForProducts {
             }
             return nil
         })
-        
     }
     
     func userToSummitProductComment(uidPath: String, comment: String, rating: String, docID: String, isUploadComment: Bool) async throws {
@@ -204,3 +276,72 @@ extension FirestoreForProducts {
     }
 }
 
+
+extension FirestoreForProducts {
+    func createStore(uidPath: String, provideBy: String, providerDisplayName: String, providerProfileImage: String, providerDescription: String, storeChatDocID: String) async throws {
+        let storeRef = db.collection("Stores").document(uidPath)
+        _ = try await storeRef.setData([
+            "provideBy" : provideBy,
+            "providerDisplayName" : providerDisplayName,
+            "providerProfileImage" : providerProfileImage,
+            "providerDescription" : providerDescription,
+            "storeBackgroundImage" : "",
+            "storeChatDocID" : storeChatDocID
+        ])
+    }
+    
+    func updateStoreInfo(uidPath: String, providerDescription: String) async throws {
+        let storeRef = db.collection("Stores").document(uidPath)
+        _ = try await storeRef.updateData([
+            "providerDescription" : providerDescription
+        ])
+    }
+    
+    
+    
+    @MainActor
+    func fetchStoreInLocal(uidPath: String) async throws -> StoreDataModel {
+        let storeRef = db.collection("Stores").document(uidPath)
+        storeLocalData = try await storeRef.getDocument(as: StoreDataModel.self)
+        return storeLocalData
+    }
+    
+    
+    @MainActor
+    func fetchStore() async throws {
+        let storeRef = db.collection("Stores")
+        let document = try await storeRef.getDocuments().documents
+        storesDataSet = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: StoreDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            return nil
+        })
+    }
+}
+
+extension FirestoreForProducts {
+    @MainActor
+    func fetchStoreProduct(uidPath: String) async throws {
+        let productRef = db.collection("ProductsProvider").document(uidPath).collection("Products")
+        let document = try await productRef.getDocuments().documents
+        storeProductsDataSet = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: ProductProviderDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            return nil
+        })
+    }
+}

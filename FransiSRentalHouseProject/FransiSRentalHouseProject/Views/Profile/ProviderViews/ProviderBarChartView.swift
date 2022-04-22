@@ -66,3 +66,33 @@ struct BarView: View {
         }
     }
 }
+
+
+struct PlaceHolderView: View {
+
+    @ViewBuilder
+    func emptyBarView() -> some View {
+        ZStack(alignment: .bottom) {
+            RoundedRectangle(cornerRadius: 50)
+                .fill(Color.gray.opacity(0.5))
+                .frame(width: 20, height: 304)
+            VStack {
+                RoundedRectangle(cornerRadius: 50)
+                    .fill(Color("barChart1"))
+                    .frame(width: 20, height: 0)
+                Text("No Data")
+                    .foregroundColor(.white)
+                    .font(.system(size: 15))
+            }
+        }
+    }
+    
+    
+    var body: some View {
+        HStack(alignment: .bottom, spacing: 20) {
+            ForEach(1..<6) { _ in
+                emptyBarView()
+            }
+        }
+    }
+}

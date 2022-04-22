@@ -36,22 +36,32 @@ struct RenterContractView: View {
                     .fill(Color.white)
                     .frame(width: UIScreen.main.bounds.width - 15)
             }
-            idfEditMode(showEditMode: renterContractVM.showEditMode, docID: roomsData.id ?? "")
+            viewSwitch(paymentH: renterContractVM.showPaymentHistory)
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
-                    Button {
-                        renterContractVM.showEditMode.toggle()
-                    } label: {
-                        Image(systemName: "gearshape")
-                            .resizable()
-                            .foregroundColor(.white)
-                            .frame(width: 25, height: 25)
+                        HStack {
+                            if roomsData.isRented == true {
+                                Button {
+                                    renterContractVM.showPaymentHistory.toggle()
+                                } label: {
+                                    Image(systemName: renterContractVM.showPaymentHistory ? "list.bullet.rectangle.portrait.fill" : "list.bullet.rectangle.portrait")
+                                        .foregroundColor(.white)
+                                        .frame(width: 25, height: 25)
+                                }
+                            }
+                            Button {
+                                renterContractVM.showEditMode.toggle()
+                            } label: {
+                                Image(systemName: "gearshape")
+                                    .foregroundColor(.white)
+                                    .frame(width: 25, height: 25)
+                            }
+                        }
                     }
-                }
             }
         }
     }
@@ -69,6 +79,15 @@ struct SpacerAtRightOfText: View {
 }
 
 extension RenterContractView {
+    
+    @ViewBuilder
+    func viewSwitch(paymentH: Bool) -> some View {
+        if paymentH {
+            RentedPaymentHistoryView(paymentHistory: firestoreToFetchUserinfo.paymentHistory, roomsData: roomsData)
+        } else {
+            idfEditMode(showEditMode: renterContractVM.showEditMode, docID: roomsData.id ?? "")
+        }
+    }
     
     @ViewBuilder
     func idfEditMode(showEditMode: Bool, docID: String) -> some View {
@@ -339,21 +358,23 @@ extension RenterContractView {
                             .padding(.horizontal)
                         } else if appViewModel.rentalPolicyisAgree == true {
                             Button {
-                                if localData.tempCart.isEmpty {
-                                    localData.tempCart.append(roomsData)
+//                                if localData.tempCart.roomUID.isEmpty {
+                                    localData.tempCart = roomsData
                                     localData.addItem(roomsInfo: roomsData)
-                                } else {
-                                    localData.tempCart.removeAll()
-                                    localData.summaryItemHolder = .empty
-                                    if localData.tempCart.isEmpty {
-                                        localData.tempCart.append(roomsData)
-                                        localData.addItem(roomsInfo: roomsData)
-                                    }
-                                }
+//                                } else {
+//                                    localData.tempCart.removeAll()
+//                                    localData.summaryItemHolder = .empty
+//                                    if localData.tempCart.isEmpty {
+//                                        localData.tempCart.append(roomsData)
+//                                        localData.addItem(roomsInfo: roomsData)
+//                                    }
+//                                }
+                                
                                 if appViewModel.isPresent == false {
                                     appViewModel.isPresent = true
                                 }
                                 localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                                print(localData.sumPrice)
                             } label: {
                                 Text("I want this!")
                                     .foregroundColor(.white)
@@ -1372,6 +1393,4 @@ struct expressionContractList: View {
     }
 }
 
-class RenterContractViewModel: ObservableObject {
-    @Published var showEditMode = false
-}
+

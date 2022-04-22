@@ -120,20 +120,22 @@ struct SummaryItems: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
-                HStack {
-                    Button {
-                        localData.summaryItemHolder = .empty
-                        localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
-                        localData.tempCart.removeAll()
-                        appViewModel.isRedacted = true
-                    } label: {
-                        Image(systemName: "xmark.circle")
-                            .resizable()
-                            .frame(width: 22, height: 22)
+                if !localData.summaryItemHolder.roomUID.isEmpty {                
+                    HStack {
+                        Button {
+                            localData.summaryItemHolder = .empty
+                            localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
+                            localData.tempCart = .empty
+                            appViewModel.isRedacted = true
+                        } label: {
+                            Image(systemName: "xmark.circle")
+                                .resizable()
+                                .frame(width: 22, height: 22)
+                        }
+                        Text(roomsData.roomAddress)
+                        Spacer()
+                        Text("$\(roomsData.rentalPrice)")
                     }
-                    Text(roomsData.roomAddress)
-                    Spacer()
-                    Text("$\(roomsData.rentalPrice)")
                 }
                 ForEach(productDetailViewModel.productOrderCart) { product in
                     HStack {
@@ -148,6 +150,7 @@ struct SummaryItems: View {
                         }
                         Text(product.productName)
                         Spacer()
+                        Text("Unit: \(product.orderAmount)")
                         Text("$\(product.productPrice)")
                     }
                 }
@@ -170,10 +173,12 @@ struct ListItems: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
-                HStack {
-                    Text(roomsData.roomAddress)
-                    Spacer()
-                    Text("$\(roomsData.rentalPrice)")
+                if !localData.summaryItemHolder.roomUID.isEmpty {
+                    HStack {
+                        Text(roomsData.roomAddress)
+                        Spacer()
+                        Text("$\(roomsData.rentalPrice)")
+                    }
                 }
                 ForEach(productDetailViewModel.productOrderCart) { product in
                     HStack {

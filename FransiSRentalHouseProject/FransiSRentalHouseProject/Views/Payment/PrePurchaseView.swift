@@ -34,19 +34,10 @@ struct PrePurchaseView: View {
                 VStack {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
-                            if !localData.tempCart.isEmpty {
-                                ForEach(localData.tempCart) { data in
-                                    SearchListItemView(roomImage: data.roomImage ?? "",
-                                                       roomAddress: data.roomAddress,
-                                                       roomTown: data.town,
-                                                       roomCity: data.city,
-                                                       roomPrice: Int(data.rentalPrice) ?? 0)
-                                }
-                                .onAppear {
-                                    appViewModel.isRedacted = false
-                                }
+                            if !localData.tempCart.roomUID.isEmpty {
+                                SearchListItemView(roomsData: localData.tempCart)
                             } else {
-                                SearchListItemView(roomAddress: "placehold", roomTown: "placehold", roomCity: "placehold")
+                                SearchListItemView(roomsData: .empty)
                                     .redacted(reason: appViewModel.isRedacted ? .placeholder : .init())
                             }
                             TitleAndDivider(title: "Order List")
@@ -63,7 +54,7 @@ struct PrePurchaseView: View {
                             Group {
                                 Image(systemName: "dollarsign.circle")
                                 Text("\(localData.sumPrice)")
-                                if firestoreToFetchUserinfo.notRented() && !localData.summaryItemHolder.roomUID.isEmpty && !localData.tempCart.isEmpty {
+                                if firestoreToFetchUserinfo.notRented() && !localData.summaryItemHolder.roomUID.isEmpty && !localData.tempCart.roomUID.isEmpty {
                                     Text("(Include Deposit fee 2 month)")
                                         .font(.system(size: 12, weight: .semibold))
                                 }

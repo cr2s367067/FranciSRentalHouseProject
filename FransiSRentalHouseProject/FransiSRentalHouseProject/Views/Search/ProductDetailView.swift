@@ -16,6 +16,8 @@ struct ProductDetailView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     
+    
+//    var productData: ProductProviderDataModel
     var productName: String
     var productPrice: Int
     var productImage: String
@@ -28,7 +30,11 @@ struct ProductDetailView: View {
     var productDescription: String
     var docID: String
     
-    
+    var pickerAmount: Int {
+        let convertInt = Int(productAmount) ?? 0
+        return convertInt
+    }
+
     
     var body: some View {
         VStack {
@@ -80,8 +86,40 @@ struct ProductDetailView: View {
                 .padding(.horizontal)
                 .padding(.top)
                 HStack {
+                    Section {
+                        Menu {
+                            Picker("", selection: $productDetailViewModel.orderAmount) {
+                                ForEach(0..<pickerAmount + 1, id: \.self) {
+                                    Text("\($0)")
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                Text("\(productDetailViewModel.orderAmount)")
+                                Image(systemName: "chevron.down")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 20))
+                            }
+                            .frame(width: 70, height: 40)
+                            .background(alignment: .center) {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.gray.opacity(0.6))
+                            }
+                        }
+                    } header: {
+                        HStack {
+                            Text("Amount")
+                            Spacer()
+                        }
+                    }
+                }
+                .foregroundColor(.white)
+                .font(.system(size: 20))
+                .padding(.horizontal)
+                HStack {
                     Text("Description")
                         .foregroundColor(.white)
+                        .font(.system(size: 20))
                     Spacer()
                 }
                 .padding(.horizontal)
@@ -101,17 +139,33 @@ struct ProductDetailView: View {
                         .foregroundColor(.white)
                         .font(.system(size: 30, weight: .bold))
                     Spacer()
+
                     Button {
-                        self.productDetailViewModel.addToCart(productName: productName,
-                                                              productUID: productUID,
-                                                              productPrice: productPrice,
-                                                              productAmount: productAmount,
-                                                              productFrom: productFrom,
-                                                              providerUID: providerUID,
-                                                              productImage: productImage,
-                                                              providerName: providerName,
-                                                              orderAmount: String(productDetailViewModel.orderAmount))
+                        if productDetailViewModel.orderAmount == 0 {
+                            productDetailViewModel.orderAmount = 1
+                            self.productDetailViewModel.addToCart(productName: productName,
+                                                                  productUID: productUID,
+                                                                  productPrice: productPrice,
+                                                                  productAmount: productAmount,
+                                                                  productFrom: productFrom,
+                                                                  providerUID: providerUID,
+                                                                  productImage: productImage,
+                                                                  providerName: providerName,
+                                                                  orderAmount: String(productDetailViewModel.orderAmount))
+                        } else {
+                            self.productDetailViewModel.addToCart(productName: productName,
+                                                                  productUID: productUID,
+                                                                  productPrice: productPrice,
+                                                                  productAmount: productAmount,
+                                                                  productFrom: productFrom,
+                                                                  providerUID: providerUID,
+                                                                  productImage: productImage,
+                                                                  providerName: providerName,
+                                                                  orderAmount: String(productDetailViewModel.orderAmount))
+                        }
+                        print(productDetailViewModel.productOrderCart)
                         localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
+                        productDetailViewModel.orderAmount = 0
                     } label: {
                         Text("Add Cart")
                             .foregroundColor(.white)
@@ -148,7 +202,17 @@ struct ProductDetailView: View {
 extension ProductDetailView {
     private func markProduct() async {
         do {
-            try await firestoreForProducts.bookMark(uidPath: firebaseAuth.getUID(), productUID: productUID, providerUID: providerUID, productName: productName, productPrice: String(productPrice), productImage: productImage, productFrom: productFrom, isSoldOut: isSoldOut, productAmount: productAmount, productDescription: productDescription, providerName: providerName)
+            try await firestoreForProducts.bookMark(uidPath: firebaseAuth.getUID(),
+                                                    productUID: productUID,
+                                                    providerUID: providerUID,
+                                                    productName: productName,
+                                                    productPrice: String(productPrice),
+                                                    productImage: productImage,
+                                                    productFrom: productFrom,
+                                                    isSoldOut: isSoldOut,
+                                                    productAmount: productAmount,
+                                                    productDescription: productDescription,
+                                                    providerName: providerName)
             try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
         } catch {
             self.errorHandler.handle(error: error)

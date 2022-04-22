@@ -99,6 +99,10 @@ enum ProviderSummitError: LocalizedError {
     case blankError
     case tosAgreementError
     case roomImageError
+    case imageSelectedError
+    case productAmountError
+    case productPriceError
+    case productTypeError
     
     var errorDescription: String? {
         switch self {
@@ -124,6 +128,14 @@ enum ProviderSummitError: LocalizedError {
             return NSLocalizedString("Please read term of service.", comment: "")
         case .roomImageError:
             return NSLocalizedString("Please provide the room image.", comment: "")
+        case .imageSelectedError:
+            return NSLocalizedString("Please provide the image for user to check out", comment: "")
+        case .productAmountError:
+            return NSLocalizedString("Could not be 0", comment: "")
+        case .productPriceError:
+            return NSLocalizedString("Could not be 0", comment: "")
+        case .productTypeError:
+            return NSLocalizedString("Please select types for this product.", comment: "")
         }
     }
 }

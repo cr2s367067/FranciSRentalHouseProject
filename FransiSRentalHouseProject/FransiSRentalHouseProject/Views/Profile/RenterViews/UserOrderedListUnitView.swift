@@ -50,18 +50,19 @@ struct UserOrderedListUnitView: View {
                 .padding(.horizontal)
                 
                 Button {
-                    Task {
-                        //MARK: Summit comment
-                        do {
-                            try await firestoreForProducts.userToSummitProductComment(uidPath: firebaseAuth.getUID(),
-                                                                                      comment: userOrderedListViewModel.comments,
-                                                                                      rating: String(userOrderedListViewModel.rating),
-                                                                                      docID: docID,
-                                                                                      isUploadComment: userOrderedListViewModel.isUploadComment)
-                        } catch {
-                            self.errorHandler.handle(error: error)
-                        }
-                    }
+//                    Task {
+//                        //MARK: Summit comment
+//                        do {
+//                            try await firestoreForProducts.userToSummitProductComment(uidPath: firebaseAuth.getUID(),
+//                                                                                      comment: userOrderedListViewModel.comments,
+//                                                                                      rating: String(userOrderedListViewModel.rating),
+//                                                                                      docID: docID,
+//                                                                                      isUploadComment: userOrderedListViewModel.isUploadComment)
+//                        } catch {
+//                            self.errorHandler.handle(error: error)
+//                        }
+//                    }
+                    print(docID)
                 } label: {
                     Text("Post")
                         .foregroundColor(.white)

@@ -45,7 +45,9 @@ struct AppTabView: View {
         })
         .onAppear {
             UITabBar.appearance().barTintColor = UIColor.init(named: "background2")
-            firestoreToFetchRoomsData.listeningRoomInfoOwnerSideRestruct(uidPath: firebaseAuth.getUID())
+            if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
+                firestoreToFetchRoomsData.listeningRoomInfoOwnerSideRestruct(uidPath: firebaseAuth.getUID())
+            }
             firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct()
             firestoreForFurniture.listeningFurnitureInfo()
         }
@@ -123,11 +125,14 @@ extension AppTabView {
 //                })
                     .tag("TapSearchButton")
                 if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
-                    MaintainWaitingView()
-//                        .tabItem({
-//                            Image("FixButton")
-//                        })
-                        .tag("FixButton")
+                    if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
+                        MaintainWaitingView()
+                            .tag("FixButton")
+                    }else if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
+                        ShippingListView()
+                            .tag("FixButton")
+                    }
+                    
                 } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" || appViewModel.userType == "Renter" {
                     MaintainView()
 //                        .tabItem({

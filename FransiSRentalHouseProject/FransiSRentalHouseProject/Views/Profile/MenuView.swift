@@ -61,6 +61,13 @@ struct MenuView: View {
                         } else if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
                             NavigationLink {
                                 withAnimation {
+                                    StoreProfileView()
+                                }
+                            } label: {
+                                SideBarButton(buttonName: "My Store", systemImageName: "briefcase")
+                            }
+                            NavigationLink {
+                                withAnimation {
                                     ProductCollectionView()
                                 }
                             } label: {

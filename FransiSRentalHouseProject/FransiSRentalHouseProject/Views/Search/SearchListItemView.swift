@@ -10,28 +10,19 @@ import SDWebImageSwiftUI
 
 struct SearchListItemView: View {
     
-    var roomImage: String = ""
-    var roomAddress: String
-    var roomTown: String
-    var roomCity: String
-
-    var roomPrice: Int = 0
-//    var ranking: Int = 0
+    var roomsData: RoomInfoDataModel
     
-    func address() -> String {
-        var tempAddressHolder = ""
-        tempAddressHolder = address(roomAddress: roomAddress, roomTown: roomTown, roomCity: roomCity)
-        return tempAddressHolder
-    }
-    
-    private func address(roomAddress: String, roomTown: String, roomCity: String) -> String {
-        return roomCity + roomTown + roomAddress
+    var address: String {
+        let roomAddress = roomsData.roomAddress
+        let town = roomsData.town
+        let city = roomsData.city
+        return city + town + roomAddress
     }
     
     var body: some View {
         ZStack {
             VStack {
-                WebImage(url: URL(string: roomImage))
+                WebImage(url: URL(string: roomsData.roomImage ?? ""))
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 400, height: 338)
@@ -39,19 +30,9 @@ struct SearchListItemView: View {
                     .clipped()
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(address())
+                        Text(address)
                             .foregroundColor(.white)
                             .font(.system(size: 25, weight: .bold))
-//                        Text(roomDescribtion)
-//                            .foregroundColor(.white)
-//                            .font(.system(size: 15, weight: .semibold))
-//                        HStack {
-//                            ForEach(0..<5) { _ in
-//                                Image("Vector")
-//                                    .resizable()
-//                                    .frame(width: 20, height: 20)
-//                            }
-//                        }
                     }
                     Spacer()
                     ZStack {
@@ -60,7 +41,7 @@ struct SearchListItemView: View {
                             .frame(width: 147, height: 92)
                             .cornerRadius(20, corners: [.topRight, .bottomLeft])
                         VStack {
-                            Text("$\(roomPrice)")
+                            Text("$\(roomsData.rentalPrice)")
                             Text("Per Month")
                         }
                         .foregroundColor(.white)

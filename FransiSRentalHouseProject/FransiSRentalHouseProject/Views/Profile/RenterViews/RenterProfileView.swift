@@ -65,20 +65,6 @@ struct RenterProfileView: View {
                             .cornerRadius(30, corners: [.topLeft, .topRight])
                     }
                     VStack {
-//                        Button {
-//                            firestoreToFetchUserinfo.userRentedRoomInfo()
-//                            Task {
-//                                do {
-//                                    print(firestoreToFetchUserinfo.rentingRoomInfo.providerUID)
-//                                    print(firestoreToFetchUserinfo.rentingRoomInfo.roomUID)
-////                                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID, roomUID: firestoreToFetchUserinfo.rentingRoomInfo.roomUID)
-//                                } catch {
-//                                    self.errorHandler.handle(error: error)
-//                                }
-//                            }
-//                        } label: {
-//                            Text("test")
-//                        }
                         HStack {
                             //: Profile Image
                             ZStack(alignment: .center) {
