@@ -12,6 +12,25 @@ import FirebaseFirestoreSwift
 
 class FirestoreForProducts: ObservableObject {
     
+    enum PaymentMethodStatus {
+        case creditCard
+    }
+    
+    enum ShippingMethod: String {
+        case convenienceStore = "711"
+        case homeDelivery = "Home Delivery"
+        case personalDelivery = "Personal Delivery"
+    }
+    
+    
+    
+    enum ShippingStatus: String {
+        case orderBuilt = "Order Built"
+        case orderConfrim = "Order Confirm"
+        case shipped = "Shipped"
+        case deliveried = "Deliveried"
+    }
+    
     @Published var fetchOrderedDataSet = [UserOrderProductsDataModel]()
     @Published var markedProducts = [MarkedProductsDataModel]()
     @Published var productsDataSet = [ProductProviderDataModel]()
@@ -22,6 +41,11 @@ class FirestoreForProducts: ObservableObject {
     
     @Published var purchasedUserDataSet = [PurchasedUserDataModel]()
     @Published var cartListDataSet = [PurchasedOrdedProductDataModel]()
+    
+    @Published var userOrderedDataSet = [OrderedDataModel]()
+    
+    @Published var shippingMethod: ShippingMethod = .convenienceStore
+    @Published var shippingStatus: ShippingStatus = .orderBuilt
     
     let db = Firestore.firestore()
     
@@ -90,9 +114,20 @@ extension FirestoreForProducts {
         return UUID().uuidString
     }
     
-    func makeOrder(uidPath: String, productName: String, productPrice: Int, providerUID: String, productUID: String, orderAmount: String, productImage: String, buyDate: Date = Date(), comment: String?, rating: String?, userName: String, userMobileNumber: String, shippingAddress: String, shippingStatus: String, paymentStatus: String, shippingMethod: String, orderID: String) async throws {
-        let orderRef = db.collection("users").document(uidPath).collection("ProductOrder")
-        _ = try await orderRef.addDocument(data: [
+    func makeOrder(uidPath: String, productName: String, productPrice: Int, providerUID: String, productUID: String, orderAmount: String, productImage: String, buyDate: Date = Date(), comment: String?, rating: Int?, userName: String, userMobileNumber: String, shippingAddress: String, shippingStatus: String, paymentStatus: String, shippingMethod: String, orderID: String, subTotal: Int) async throws {
+        
+        let orderRef = db.collection("users").document(uidPath).collection("ProductOrdered").document(orderID)
+        _ = try await orderRef.setData([
+            "orderID" : orderID,
+            "orderDate" : buyDate,
+            "shippingAddress" : shippingAddress,
+            "paymentStatus" : paymentStatus,
+            "subTotal" : subTotal,
+            "shippingStatus" : shippingStatus
+        ])
+        
+        let productDetailRef = orderRef.collection("ProductList")
+        _ = try await productDetailRef.addDocument(data: [
             "productImage" : productImage,
             "productName" : productName,
             "productPrice" : productPrice,
@@ -100,9 +135,10 @@ extension FirestoreForProducts {
             "productUID" : productUID,
             "orderAmount" : orderAmount,
             "comment" : comment ?? "",
-            "rating" : rating ?? "",
+            "rating" : rating ?? 0,
             "buyDate" : buyDate
         ])
+        
         let shippingRef = db.collection("users").document(providerUID).collection("ShippingList").document(orderID)
         //store user basic info include shipping info
         _ = try await shippingRef.setData([
@@ -112,7 +148,8 @@ extension FirestoreForProducts {
             "shippingStatus" : shippingStatus,
             "shippingMethod" : shippingMethod,
             "paymentStatus" : paymentStatus,
-            "createTimestamp" : buyDate
+            "createTimestamp" : buyDate,
+            "subTotal" : subTotal
         ])
         let cartRef = shippingRef.collection("CartContain")
         //auto doc id with products info
@@ -127,9 +164,31 @@ extension FirestoreForProducts {
     }
     
     @MainActor
+    func fetchOrderedDataUserSide(uidPath: String) async throws {
+        let orderRef = db.collection("users").document(uidPath).collection("ProductOrdered")
+        print("get ref: \(orderRef)")
+        let document = try await orderRef.getDocuments().documents
+        print("get doc: \(document)")
+        userOrderedDataSet = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: OrderedDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            return nil
+        })
+    }
+    
+    @MainActor
     func fetchOrdedDataProviderSide(uidPath: String) async throws {
-        let shippingRef = db.collection("users").document(uidPath).collection("ShippingList").order(by: "createeTimestemp", descending: false)
+        let shippingRef = db.collection("users").document(uidPath).collection("ShippingList").order(by: "createTimestamp", descending: false)
+        print("Find ref: \(shippingRef)")
         let purchasedUsers = try await shippingRef.getDocuments().documents
+        print("try get doc: \(purchasedUsers)")
         purchasedUserDataSet = purchasedUsers.compactMap({ queryDocumentSnapshot in
             let result = Result {
                 try queryDocumentSnapshot.data(as: PurchasedUserDataModel.self)
@@ -166,8 +225,8 @@ extension FirestoreForProducts {
     }
     
     @MainActor
-    func fetchOrderedData(uidPath: String) async throws {
-        let orderRef = db.collection("users").document(uidPath).collection("ProductOrder")
+    func fetchOrderedData(uidPath: String, docID: String) async throws {
+        let orderRef = db.collection("users").document(uidPath).collection("ProductOrdered").document(docID).collection("ProductList")
         let document = try await orderRef.getDocuments().documents
         self.fetchOrderedDataSet = document.compactMap({ queryDocumentSnapshot in
             let result = Result {
@@ -345,3 +404,16 @@ extension FirestoreForProducts {
         })
     }
 }
+
+extension FirestoreForProducts {
+    
+    func updateShippingStatus(update shippingStatus: String, uidPath: String, orderID: String) async throws {
+        let shippingRef = db.collection("users").document(uidPath).collection("ShippingList").document(orderID)
+        try await shippingRef.updateData([
+            "shippingStatus" : shippingStatus
+        ])
+    }
+    
+}
+
+

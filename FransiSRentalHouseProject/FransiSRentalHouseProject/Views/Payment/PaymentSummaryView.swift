@@ -13,6 +13,9 @@ struct PaymentSummaryView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @EnvironmentObject var paymentSummaryVM: PaymentSummaryViewModel
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
+    
+    @State private var testCheck = false
     
     var body: some View {
         ZStack {
@@ -33,6 +36,73 @@ struct PaymentSummaryView: View {
                 .font(.system(size: 20, weight: .regular))
                 .padding()
                 if !productDetailViewModel.productOrderCart.isEmpty {
+                    VStack(spacing: 10) {
+                        HStack {
+                            Text("Shipping Method")
+                                .foregroundColor(.white)
+                                .font(.headline)
+                            Spacer()
+                        }
+                        HStack {
+                            buttonWithText(buttonName: "Ship to Store", action: {
+                                if paymentSummaryVM.homeDelivery == true {
+                                    paymentSummaryVM.homeDelivery = false
+                                    localData.sumPrice -= 50
+                                }
+                                
+                                if  paymentSummaryVM.rushDelivery == true {
+                                    paymentSummaryVM.rushDelivery = false
+                                    localData.sumPrice -= 40
+                                }
+                                
+                                if paymentSummaryVM.shipToStore == false {
+                                    paymentSummaryVM.shipToStore = true
+                                    localData.sumPrice += 60
+                                    firestoreForProducts.shippingMethod = .convenienceStore
+                                }
+                                
+                                print(firestoreForProducts.shippingMethod)
+                            }, isCheck: paymentSummaryVM.shipToStore)
+                            buttonWithText(buttonName: "Home Delivery", action: {
+                                if paymentSummaryVM.shipToStore == true {
+                                    paymentSummaryVM.shipToStore = false
+                                    localData.sumPrice -= 60
+                                }
+                                
+                                if paymentSummaryVM.rushDelivery == true {
+                                    paymentSummaryVM.rushDelivery = false
+                                    localData.sumPrice -= 40
+                                }
+                                
+                                if paymentSummaryVM.homeDelivery == false {
+                                    paymentSummaryVM.homeDelivery = true
+                                    localData.sumPrice += 50
+                                    firestoreForProducts.shippingMethod = .homeDelivery
+                                }
+                                print(firestoreForProducts.shippingMethod)
+                            }, isCheck: paymentSummaryVM.homeDelivery)
+                            buttonWithText(buttonName: "Rush Delivery", action: {
+                                if paymentSummaryVM.shipToStore == true {
+                                    paymentSummaryVM.shipToStore = false
+                                    localData.sumPrice -= 60
+                                }
+                                
+                                if paymentSummaryVM.homeDelivery == true {
+                                    paymentSummaryVM.homeDelivery = false
+                                    localData.sumPrice -= 50
+                                }
+                                
+                                if paymentSummaryVM.rushDelivery == false {
+                                    paymentSummaryVM.rushDelivery = true
+                                    localData.sumPrice += 40
+                                    firestoreForProducts.shippingMethod = .personalDelivery
+                                }
+                                print(firestoreForProducts.shippingMethod)
+                            }, isCheck: paymentSummaryVM.rushDelivery)
+                        }
+                        
+                    }
+                    .padding(.horizontal)
                     AddressFillOut(address: $paymentSummaryVM.shippingAddress)
                 }
                 
@@ -217,4 +287,27 @@ struct AddressFillOut: View {
 class PaymentSummaryViewModel: ObservableObject {
     @Published var shippingAddress = ""
     @Published var showErrorAlert = false
+    
+    @Published var shipToStore = false
+    @Published var rushDelivery = false
+    @Published var homeDelivery = false
+}
+
+
+extension PaymentSummaryView {
+    @ViewBuilder
+    func buttonWithText(buttonName: String, action: @escaping () -> Void, isCheck: Bool) -> some View {
+        Button {
+            action()
+        } label: {
+            HStack {
+                Image(systemName: "checkmark.square")
+                    .foregroundColor(isCheck ? .green : .white)
+                    .font(.system(size: 15))
+                Text(buttonName)
+                    .foregroundColor(.white)
+                    .font(.system(size: 15))
+            }
+        }
+    }
 }

@@ -17,6 +17,7 @@ struct PurchasedUserDataModel:Identifiable, Codable {
     var shippingStatus: String
     var shippingMethod: String
     var paymentStatus: String
+    var subTotal: Int
     @ServerTimestamp var createTimestamp: Timestamp?
 }
 
@@ -27,4 +28,15 @@ struct PurchasedOrdedProductDataModel: Identifiable, Codable {
     var productPrice: Int
     var orderAmount: String
     @ServerTimestamp var createTimestamp: Timestamp?
+}
+
+
+struct OrderedDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var orderID: String
+    var orderDate: Date
+    var shippingAddress: String
+    var paymentStatus: String
+    var subTotal: Int
+    var shippingStatus: String
 }

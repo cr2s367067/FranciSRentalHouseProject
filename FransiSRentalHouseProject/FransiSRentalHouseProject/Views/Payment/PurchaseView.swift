@@ -20,6 +20,7 @@ struct PurchaseView: View {
     @EnvironmentObject var paymentSummaryViewModel: PaymentSummaryViewModel
     @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     
+    
     var brandArray = ["apple-pay", "google-pay", "mastercard", "visa"]
     
     @State var cardName = ""
@@ -189,11 +190,18 @@ struct PurchaseView: View {
                         if firestoreToFetchUserinfo.notRented() {
                             Task {
                                 await rentedRoom(result: roomsData)
+                                localData.sumPrice = 0
                             }
                             if !productDetailViewModel.productOrderCart.isEmpty {
                                 productDetailViewModel.productOrderCart.forEach { products in
                                     Task {
-                                        await buyProducts(products: products.self, orderID: orderID)
+                                        print("subTotal: \(localData.sumPrice)")
+                                        await buyProducts(products: products.self, orderID: orderID,
+                                                          shippingStatus: firestoreForProducts.shippingStatus.rawValue,
+                                                          paymentStatus: purchaseViewModel.paymentStatus.rawValue,
+                                                          shippingMethod: firestoreForProducts.shippingMethod.rawValue,
+                                                          subTotal: localData.sumPrice)
+                                        localData.sumPrice = 0
                                     }
                                 }
                             }
@@ -203,7 +211,13 @@ struct PurchaseView: View {
                         if !productDetailViewModel.productOrderCart.isEmpty {
                             productDetailViewModel.productOrderCart.forEach { products in
                                 Task {
-                                    await buyProducts(products: products.self, orderID: orderID)
+                                    print("subTotal: \(localData.sumPrice)")
+                                    await buyProducts(products: products, orderID: orderID,
+                                                      shippingStatus: firestoreForProducts.shippingStatus.rawValue,
+                                                      paymentStatus: purchaseViewModel.paymentStatus.rawValue,
+                                                      shippingMethod: firestoreForProducts.shippingMethod.rawValue,
+                                                      subTotal: localData.sumPrice)
+                                    localData.sumPrice = 0
                                 }
                             }
                         }
@@ -212,10 +226,11 @@ struct PurchaseView: View {
                     //MARK: pay the rental bill
                     Task {
                         await justPayRentBill()
+                        localData.sumPrice = 0
                     }
                     print("Payment: \(localData.sumPrice)")
                     print("test")
-                    localData.sumPrice = 0
+//                    localData.sumPrice = 0
                 } label: {
                     Text("Pay")
                         .foregroundColor(.white)
@@ -391,7 +406,7 @@ extension PurchaseView {
         }
     }
     
-    private func buyProducts(products: UserOrderProductsDataModel, orderID: String) async {
+    private func buyProducts(products: UserOrderProductsDataModel, orderID: String, shippingStatus: String, paymentStatus: String, shippingMethod: String, subTotal: Int) async {
         do {
             var userName: String {
                 let firstName = firestoreToFetchUserinfo.fetchedUserData.firstName
@@ -413,19 +428,20 @@ extension PurchaseView {
                                                      userName: userName,
                                                      userMobileNumber: mobileNumber,
                                                      shippingAddress: address,
-                                                     shippingStatus: "",
-                                                     paymentStatus: "",
-                                                     shippingMethod: "",
-                                                     orderID: orderID)
-            let orderUID = UUID().uuidString
-            try await firestoreForProducts.receiveOrder(uidPath: products.providerUID,
-                                                        orderUID: orderUID,
-                                                        orderShippingAddress: paymentSummaryViewModel.shippingAddress,
-                                                        orderName: firestoreToFetchUserinfo.presentUserName(),
-                                                        orderAmount: products.orderAmount,
-                                                        productUID: products.productUID,
-                                                        productImage: products.productImage,
-                                                        productPrice: String(products.productPrice))
+                                                     shippingStatus: shippingStatus,
+                                                     paymentStatus: paymentStatus,
+                                                     shippingMethod: shippingMethod,
+                                                     orderID: orderID,
+                                                     subTotal: subTotal)
+//            let orderUID = UUID().uuidString
+//            try await firestoreForProducts.receiveOrder(uidPath: products.providerUID,
+//                                                        orderUID: orderUID,
+//                                                        orderShippingAddress: paymentSummaryViewModel.shippingAddress,
+//                                                        orderName: firestoreToFetchUserinfo.presentUserName(),
+//                                                        orderAmount: products.orderAmount,
+//                                                        productUID: products.productUID,
+//                                                        productImage: products.productImage,
+//                                                        productPrice: String(products.productPrice))
             reset()
         } catch {
             self.errorHandler.handle(error: error)
@@ -434,13 +450,11 @@ extension PurchaseView {
     
     private func reset() {
         localData.tempCart = .empty
-        appViewModel.isRedacted = false
         appViewModel.rentalPolicyisAgree = false
         localData.summaryItemHolder = .empty
         productDetailViewModel.productOrderCart.removeAll()
         appViewModel.paymentSummaryTosAgree = false
         appViewModel.paymentSummaryAutoPayAgree = false
-        appViewModel.isRedacted = true
     }
     
     private func justPayRentBill() async {
@@ -452,11 +466,17 @@ extension PurchaseView {
 
 
 class PurchaseViewModel: ObservableObject {
+    
+    enum PaymentStatus: String {
+        case success = "Payment Success"
+        case fail = "Payment Denial"
+    }
+    
     @Published var cardName = ""
     @Published var cardNumber = ""
     @Published var expDate = ""
     @Published var secCode = ""
-    
+    @Published var paymentStatus: PaymentStatus = .success
     
     func blankChecker() throws {
         guard !cardName.isEmpty && !cardNumber.isEmpty && !expDate.isEmpty && !secCode.isEmpty else {

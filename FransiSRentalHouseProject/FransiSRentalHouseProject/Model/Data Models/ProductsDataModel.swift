@@ -20,7 +20,7 @@ struct UserOrderProductsDataModel: Identifiable, Codable {
     var productUID: String
     var orderAmount: String
     var comment: String?
-    var rating: String?
+    var rating: Int?
     @ServerTimestamp var buyDate: Timestamp?
 }
 

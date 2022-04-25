@@ -19,6 +19,18 @@ struct ShippingListView: View {
     
     var body: some View {
         VStack {
+//            Button {
+//                Task {
+//                    do {
+//                        try await firestoreForProducts.fetchOrdedDataProviderSide(uidPath: firebaseAuth.getUID())
+//
+//                    } catch {
+//                        self.errorHandler.handle(error: error)
+//                    }
+//                }
+//            } label: {
+//                Text("test")
+//            }
             TitleAndDivider(title: "Shipping List")
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreForProducts.purchasedUserDataSet) { pUserData in
@@ -46,10 +58,48 @@ struct ShippingListView_Previews: PreviewProvider {
 
 extension ShippingListView {
     
+    func stateAdjust(shippingState: FirestoreForProducts.ShippingStatus) -> String {
+        switch shippingState {
+        case .orderBuilt:
+            firestoreForProducts.shippingStatus = .orderConfrim
+            return "Order Confirm"
+        case .orderConfrim:
+            firestoreForProducts.shippingStatus = .shipped
+            return "Pending"
+        case .shipped:
+            firestoreForProducts.shippingStatus = .deliveried
+            return "Shipping"
+        case .deliveried:
+            return "Package Arrived"
+        }
+    }
+    
     @ViewBuilder
     func listUnit(pUserData: PurchasedUserDataModel) -> some View {
-        VStack(spacing: 5) {
+        VStack(spacing: 10) {
             orderUserInfoUnit(pUserData: pUserData)
+            HStack {
+                Button {
+                    Task {
+                        do {
+                            _ = stateAdjust(shippingState: FirestoreForProducts.ShippingStatus(rawValue: firestoreForProducts.shippingStatus.rawValue) ?? .orderBuilt)
+                            print(firestoreForProducts.shippingStatus.rawValue)
+                            guard let id = pUserData.id else { return }
+                            try await firestoreForProducts.updateShippingStatus(update: firestoreForProducts.shippingStatus.rawValue, uidPath: firebaseAuth.getUID(), orderID: id)
+                            try await firestoreForProducts.fetchOrdedDataProviderSide(uidPath: firebaseAuth.getUID())
+                        } catch {
+                            self.errorHandler.handle(error: error)
+                        }
+                    }
+                } label: {
+                    Text("Update State")
+                        .foregroundColor(.white)
+                        .frame(width: 120, height: 35)
+                        .background(Color("buttonBlue"))
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                }
+                Spacer()
+            }
             List {
                 ForEach(firestoreForProducts.cartListDataSet) { item in
                     productUnit(cartItemData: item)
