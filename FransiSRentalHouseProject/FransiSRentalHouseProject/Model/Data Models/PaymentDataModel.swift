@@ -8,5 +8,5 @@
 import Foundation
 
 struct PaymentDataModel: Codable {
-    
+    //MARK: For credit card payment data
 }

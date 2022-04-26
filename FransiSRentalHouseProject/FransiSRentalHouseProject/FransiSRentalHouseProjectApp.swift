@@ -50,6 +50,7 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var bioAuthViewModel = BioAuthViewModel()
     @StateObject var searchVM = SearchViewModel()
     @StateObject var storeProfileVM = StoreProfileViewModel()
+    @StateObject var userOrderedListVM = UserOrderedListViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -91,6 +92,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(bioAuthViewModel)
                 .environmentObject(searchVM)
                 .environmentObject(storeProfileVM)
+                .environmentObject(userOrderedListVM)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

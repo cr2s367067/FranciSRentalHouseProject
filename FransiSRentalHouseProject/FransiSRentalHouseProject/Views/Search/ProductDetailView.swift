@@ -15,6 +15,7 @@ struct ProductDetailView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     
     
 //    var productData: ProductProviderDataModel
@@ -71,8 +72,13 @@ struct ProductDetailView: View {
                         HStack {
                             Image(systemName: "star.fill")
                                 .foregroundColor(.yellow)
-                            Text("4.7")
-                                .font(.system(size: 15, weight: .bold))
+                            NavigationLink {
+                                CommentAndRattingView()
+                            } label: {
+                                Text("\(productDetailViewModel.computeRattingAvg(commentAndRatting: firestoreForProducts.productCommentAndRatting), specifier: "%.1f")")
+                                    .foregroundColor(.black)
+                                    .font(.system(size: 15, weight: .bold))
+                            }
                         }
                         .padding()
                         .frame(width: 90, height: 30, alignment: .center)
@@ -108,7 +114,9 @@ struct ProductDetailView: View {
                         }
                     } header: {
                         HStack {
-                            Text("Amount")
+                            Text("Order Amount")
+                                .foregroundColor(.white)
+                                .font(.headline)
                             Spacer()
                         }
                     }
@@ -163,6 +171,7 @@ struct ProductDetailView: View {
                                                                   providerName: providerName,
                                                                   orderAmount: String(productDetailViewModel.orderAmount))
                         }
+                        purchaseViewModel.productTotalAmount = String(pickerAmount)
                         print(productDetailViewModel.productOrderCart)
                         localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
                         productDetailViewModel.orderAmount = 0
@@ -195,6 +204,13 @@ struct ProductDetailView: View {
                 Spacer()
             }
             .edgesIgnoringSafeArea(.top)
+        }
+        .task {
+            do {
+                try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: providerUID, productID: productUID)
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
         }
     }
 }
@@ -250,11 +266,31 @@ class ProductDetailViewModel: ObservableObject {
     @Published var mark = false
     @Published var orderAmount = 0
     
+    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
     func addToCart(productName: String, productUID: String, productPrice: Int, productAmount: String, productFrom: String, providerUID: String, productImage: String, providerName: String, orderAmount: String) {
-        self.productOrderCart.append(UserOrderProductsDataModel(productImage: productImage, productName: productName, productPrice: productPrice, providerUID: providerUID, productUID: productUID, orderAmount: orderAmount))
+        self.productOrderCart.append(UserOrderProductsDataModel(productImage: productImage, productName: productName, productPrice: productPrice, providerUID: providerUID, productUID: productUID, orderAmount: orderAmount, comment: "", isUploadComment: false, ratting: 0))
+    }
+    
+    func computeRattingAvg(commentAndRatting: [ProductCommentRattingDataModel]) -> Double {
+        var numerator = 0
+        let denominator = commentAndRatting.count
+        var result: Double = 0
+        for rat in commentAndRatting {
+            print("ratting: \(rat.ratting)")
+            numerator += rat.ratting
+        }
+        if denominator > 0 {
+            result = Double(numerator / denominator)
+        } else {
+            result = Double(numerator / 1)
+        }
+        return result
     }
     
 }
+
+
+

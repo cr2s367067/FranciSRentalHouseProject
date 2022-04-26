@@ -424,7 +424,7 @@ extension PurchaseView {
                                                      orderAmount: products.orderAmount,
                                                      productImage: products.productImage,
                                                      comment: products.comment,
-                                                     rating: products.rating,
+                                                     ratting: products.ratting,
                                                      userName: userName,
                                                      userMobileNumber: mobileNumber,
                                                      shippingAddress: address,
@@ -433,19 +433,21 @@ extension PurchaseView {
                                                      shippingMethod: shippingMethod,
                                                      orderID: orderID,
                                                      subTotal: subTotal)
-//            let orderUID = UUID().uuidString
-//            try await firestoreForProducts.receiveOrder(uidPath: products.providerUID,
-//                                                        orderUID: orderUID,
-//                                                        orderShippingAddress: paymentSummaryViewModel.shippingAddress,
-//                                                        orderName: firestoreToFetchUserinfo.presentUserName(),
-//                                                        orderAmount: products.orderAmount,
-//                                                        productUID: products.productUID,
-//                                                        productImage: products.productImage,
-//                                                        productPrice: String(products.productPrice))
+            
+            let netAmount = computeAmount(orderAmount: products.orderAmount, totalAmount: purchaseViewModel.productTotalAmount)
+            try await firestoreForProducts.updateAmount(providerUidPath: products.providerUID, productID: products.productUID, netAmount: netAmount)
             reset()
         } catch {
             self.errorHandler.handle(error: error)
         }
+    }
+    
+    func computeAmount(orderAmount: String, totalAmount: String) -> String {
+        let convertInt1 = Int(orderAmount) ?? 0
+        let convertInt2 = Int(totalAmount) ?? 0
+        let resultAmount = convertInt1 - convertInt2
+        let convertString = String(resultAmount)
+        return convertString
     }
     
     private func reset() {
@@ -477,6 +479,7 @@ class PurchaseViewModel: ObservableObject {
     @Published var expDate = ""
     @Published var secCode = ""
     @Published var paymentStatus: PaymentStatus = .success
+    @Published var productTotalAmount = ""
     
     func blankChecker() throws {
         guard !cardName.isEmpty && !cardNumber.isEmpty && !expDate.isEmpty && !secCode.isEmpty else {

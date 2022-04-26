@@ -85,7 +85,7 @@ extension ShippingListView {
                             _ = stateAdjust(shippingState: FirestoreForProducts.ShippingStatus(rawValue: firestoreForProducts.shippingStatus.rawValue) ?? .orderBuilt)
                             print(firestoreForProducts.shippingStatus.rawValue)
                             guard let id = pUserData.id else { return }
-                            try await firestoreForProducts.updateShippingStatus(update: firestoreForProducts.shippingStatus.rawValue, uidPath: firebaseAuth.getUID(), orderID: id)
+                            try await firestoreForProducts.updateShippingStatus(update: firestoreForProducts.shippingStatus.rawValue, uidPath: firebaseAuth.getUID(), orderID: id, userUidPath: pUserData.userUidPath)
                             try await firestoreForProducts.fetchOrdedDataProviderSide(uidPath: firebaseAuth.getUID())
                         } catch {
                             self.errorHandler.handle(error: error)

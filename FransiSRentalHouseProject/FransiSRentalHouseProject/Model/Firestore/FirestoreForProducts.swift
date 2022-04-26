@@ -44,6 +44,8 @@ class FirestoreForProducts: ObservableObject {
     
     @Published var userOrderedDataSet = [OrderedDataModel]()
     
+    @Published var productCommentAndRatting = [ProductCommentRattingDataModel]()
+    
     @Published var shippingMethod: ShippingMethod = .convenienceStore
     @Published var shippingStatus: ShippingStatus = .orderBuilt
     
@@ -55,8 +57,8 @@ class FirestoreForProducts: ObservableObject {
     }
     
     func summitFurniture(uidPath: String, productImage: String, providerName: String, productPrice: String, productDescription: String, productUID: String, productName: String, productFrom: String, productAmount: String, isSoldOut: Bool, productType: String) async throws {
-        let furnitureProviderRef = db.collection("ProductsProvider").document(uidPath).collection("Products")
-        _ = try await furnitureProviderRef.addDocument(data: [
+        let furnitureProviderRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID)
+        _ = try await furnitureProviderRef.setData([
             "productUID" : productUID,
             "productImage" : productImage,
             "providerName" : providerName,
@@ -114,7 +116,7 @@ extension FirestoreForProducts {
         return UUID().uuidString
     }
     
-    func makeOrder(uidPath: String, productName: String, productPrice: Int, providerUID: String, productUID: String, orderAmount: String, productImage: String, buyDate: Date = Date(), comment: String?, rating: Int?, userName: String, userMobileNumber: String, shippingAddress: String, shippingStatus: String, paymentStatus: String, shippingMethod: String, orderID: String, subTotal: Int) async throws {
+    func makeOrder(uidPath: String, productName: String, productPrice: Int, providerUID: String, productUID: String, orderAmount: String, productImage: String, buyDate: Date = Date(), comment: String?, ratting: Int?, userName: String, userMobileNumber: String, shippingAddress: String, shippingStatus: String, paymentStatus: String, shippingMethod: String, orderID: String, subTotal: Int) async throws {
         
         let orderRef = db.collection("users").document(uidPath).collection("ProductOrdered").document(orderID)
         _ = try await orderRef.setData([
@@ -133,9 +135,10 @@ extension FirestoreForProducts {
             "productPrice" : productPrice,
             "providerUID" : providerUID,
             "productUID" : productUID,
+            "isUploadComment" : false,
             "orderAmount" : orderAmount,
             "comment" : comment ?? "",
-            "rating" : rating ?? 0,
+            "ratting" : ratting ?? 0,
             "buyDate" : buyDate
         ])
         
@@ -149,7 +152,8 @@ extension FirestoreForProducts {
             "shippingMethod" : shippingMethod,
             "paymentStatus" : paymentStatus,
             "createTimestamp" : buyDate,
-            "subTotal" : subTotal
+            "subTotal" : subTotal,
+            "userUidPath" : uidPath
         ])
         let cartRef = shippingRef.collection("CartContain")
         //auto doc id with products info
@@ -161,6 +165,13 @@ extension FirestoreForProducts {
             "createTimestamp" : buyDate
         ])
         
+    }
+    
+    func updateAmount(providerUidPath: String, productID: String, netAmount: String) async throws {
+        let productRef = db.collection("ProductsProvider").document(providerUidPath).collection("Products").document(productID)
+        try await productRef.updateData([
+            "productAmount" : netAmount
+        ])
     }
     
     @MainActor
@@ -236,18 +247,18 @@ extension FirestoreForProducts {
             case .success(let data):
                 return data
             case .failure(let error):
-                print("error: \(error)")
+                print(error.localizedDescription)
             }
             return nil
         })
     }
     
-    func userToSummitProductComment(uidPath: String, comment: String, rating: String, docID: String, isUploadComment: Bool) async throws {
-        let commentRef = db.collection("users").document(uidPath).collection("ProductOrder").document(docID)
+    func userToSummitProductComment(uidPath: String, comment: String, ratting: Int, docID: String, isUploadComment: Bool, listID: String) async throws {
+        let commentRef = db.collection("users").document(uidPath).collection("ProductOrdered").document(docID).collection("ProductList").document(listID)
         _ = try await commentRef.updateData([
             "isUploadComment" : isUploadComment,
             "comment" : comment,
-            "rating" : rating
+            "ratting" : ratting
         ])
     }
     
@@ -264,11 +275,11 @@ extension FirestoreForProducts {
         ])
     }
     
-    func providerReceiveProductsComment(uidPath: String, comment: String, rating: String, productUID: String, buyerUID: String, buyerDisplayName: String) async throws {
+    func providerReceiveProductsComment(uidPath: String, comment: String, ratting: String, productUID: String, buyerUID: String, buyerDisplayName: String) async throws {
         let commentRef = db.collection("ProductsProvider").document(uidPath).collection("Orders")
         _ = try await commentRef.addDocument(data: [
             "comment" : comment,
-            "rating" : rating,
+            "ratting" : ratting,
             "productUID" : productUID,
             "buyerDisplayName" : buyerDisplayName,
             "buyerUID" : buyerUID
@@ -407,13 +418,56 @@ extension FirestoreForProducts {
 
 extension FirestoreForProducts {
     
-    func updateShippingStatus(update shippingStatus: String, uidPath: String, orderID: String) async throws {
+    func updateShippingStatus(update shippingStatus: String, uidPath: String, orderID: String, userUidPath: String) async throws {
         let shippingRef = db.collection("users").document(uidPath).collection("ShippingList").document(orderID)
         try await shippingRef.updateData([
             "shippingStatus" : shippingStatus
         ])
+        
+        let userOrderRef = db.collection("users").document(userUidPath).collection("ProductOrdered").document(orderID)
+        
+        try await userOrderRef.updateData([
+            "shippingStatus" : shippingStatus
+        ])
+        
     }
     
 }
 
 
+extension FirestoreForProducts {
+    
+    func summitCommentAndRatting(providerUidPath: String, productID: String, ratting: Int, comment: String, summitUserDisplayName: String) async throws {
+        let commentRef = db.collection("ProductsProvider").document(providerUidPath).collection("Products").document(productID).collection("CommentAndRating")
+        _ = try await commentRef.addDocument(data: [
+            "comment" : comment,
+            "ratting" : ratting,
+            "uploadTimestamp" : Date(),
+            "summitUserDisplayName" : summitUserDisplayName
+        ])
+    }
+    
+    
+    @MainActor
+    func fetchProductCommentAndRating(providerUidPath: String, productID: String) async throws {
+        let commentRef = db.collection("ProductsProvider").document(providerUidPath).collection("Products").document(productID).collection("CommentAndRating")
+        let document = try await commentRef.getDocuments().documents
+        productCommentAndRatting = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: ProductCommentRattingDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            return nil
+        })
+    }
+    
+}
+
+extension FirestoreForProducts {
+    //MARK: Update product data in public when it calls
+}

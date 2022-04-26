@@ -49,6 +49,33 @@ struct FocusProductsView: View {
                 .edgesIgnoringSafeArea([.top, .bottom])
             
             VStack {
+                ifEmptyArray()
+            }
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                updateMarkProduct()
+            }
+        }
+    }
+}
+
+//struct FocusProductsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FocusProductsView()
+//    }
+//}
+
+extension FocusProductsView {
+    @ViewBuilder
+    func ifEmptyArray() -> some View {
+        if firestoreForProducts.markedProducts.isEmpty {
+            Text("Hey, you haven't add any product.🥺")
+                .foregroundColor(.white)
+                .font(.system(size: 20))
+                .padding()
+        } else {
+            ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreForProducts.markedProducts) { products in
                     NavigationLink {
                         ProductDetailView(productName: products.productName,
@@ -73,20 +100,9 @@ struct FocusProductsView: View {
                     }
                 }
             }
-            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                updateMarkProduct()
-            }
         }
     }
 }
-
-//struct FocusProductsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FocusProductsView()
-//    }
-//}
 
 
 struct FocusProductsUnitView: View {

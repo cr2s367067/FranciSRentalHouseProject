@@ -18,6 +18,7 @@ struct PurchasedUserDataModel:Identifiable, Codable {
     var shippingMethod: String
     var paymentStatus: String
     var subTotal: Int
+    var userUidPath: String
     @ServerTimestamp var createTimestamp: Timestamp?
 }
 

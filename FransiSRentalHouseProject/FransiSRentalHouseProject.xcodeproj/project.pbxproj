@@ -134,6 +134,8 @@
 		0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */; };
 		0EE447F227F5867C001DC4DF /* FocusProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F127F5867C001DC4DF /* FocusProductsView.swift */; };
 		0EE447F427F59378001DC4DF /* UserDetailInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */; };
+		0EFA3F362817938F00DA6014 /* UserOrderedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */; };
+		0EFA3F382817E36500DA6014 /* CommentAndRattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -259,6 +261,8 @@
 		0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractEditView.swift; sourceTree = "<group>"; };
 		0EE447F127F5867C001DC4DF /* FocusProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusProductsView.swift; sourceTree = "<group>"; };
 		0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailInfoViewModel.swift; sourceTree = "<group>"; };
+		0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListViewModel.swift; sourceTree = "<group>"; };
+		0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAndRattingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -359,6 +363,7 @@
 				0E336CDF280EA05200EC91B6 /* SearchViewModel.swift */,
 				0E318077280FB591009784B9 /* RenterContractViewModel.swift */,
 				0E31808228113D98009784B9 /* StoreProfileViewModel.swift */,
+				0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -389,6 +394,7 @@
 				0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */,
 				0EC5286A27F2DDBB002D2C6F /* SearchProductListItemView.swift */,
 				0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */,
+				0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -745,6 +751,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EFA3F362817938F00DA6014 /* UserOrderedListViewModel.swift in Sources */,
 				0EC24C7627FFCE8F00B0E0C7 /* PresentContract.swift in Sources */,
 				0249D45927C63B570085F4A5 /* ProfileSessionUnit.swift in Sources */,
 				02CB58E727CDAD960035EE20 /* MaintainTaskDataModel.swift in Sources */,
@@ -776,6 +783,7 @@
 				02677E0627D8638900AA7049 /* ContractCollectionView.swift in Sources */,
 				0249D45B27C63B660085F4A5 /* MaintainDetailView.swift in Sources */,
 				0259C26227CDF41E00DFDE18 /* FirebaseAuth.swift in Sources */,
+				0EFA3F382817E36500DA6014 /* CommentAndRattingView.swift in Sources */,
 				0249D46B27C63CBD0085F4A5 /* SearchView.swift in Sources */,
 				02CB58E927CDADBC0035EE20 /* RoomsDataModel.swift in Sources */,
 				0249D45727C63B460085F4A5 /* ProfileView.swift in Sources */,

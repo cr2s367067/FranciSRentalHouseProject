@@ -78,8 +78,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "fetchOrdedDataInCartList(uidPath:docID:)"
             landmarkType = "7">
             <Locations>
@@ -141,8 +141,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "fetchOrdedDataInCartList(uidPath:docID:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -157,10 +157,42 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "fetchOrdedDataInCartList(uidPath:docID:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6E2050EB-F4B6-4F57-A9E4-94EC6AD5F894 - 6ed4a704e3d4a795"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FransiSRentalHouseProject.FirestoreForProducts.fetchOrderedData(uidPath: Swift.String, docID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "232"
+                  endingLineNumber = "232"
+                  offsetFromSymbolStart = "172">
+               </Location>
+               <Location
+                  uuid = "6E2050EB-F4B6-4F57-A9E4-94EC6AD5F894 - 56619c5b8d88181d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.fetchOrderedData(uidPath: Swift.String, docID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "232"
+                  endingLineNumber = "232"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -252,8 +284,8 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "445"
-            endingLineNumber = "445"
+            startingLineNumber = "439"
+            endingLineNumber = "439"
             landmarkName = "buyProducts(products:orderID:shippingStatus:paymentStatus:shippingMethod:subTotal:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -268,8 +300,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
             landmarkType = "7">
             <Locations>
@@ -331,8 +363,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
             landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -347,10 +379,42 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "52293E33-9391-4856-A7EE-8E083C40FB50 - f45f3500aaa5a823"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FransiSRentalHouseProject.FirestoreForProducts.fetchOrdedDataInCartList(uidPath: Swift.String, docID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "211"
+                  endingLineNumber = "211"
+                  offsetFromSymbolStart = "196">
+               </Location>
+               <Location
+                  uuid = "52293E33-9391-4856-A7EE-8E083C40FB50 - 1d86871804c1627"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.fetchOrdedDataInCartList(uidPath: Swift.String, docID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "211"
+                  endingLineNumber = "211"
+                  offsetFromSymbolStart = "104">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -363,8 +427,8 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
             landmarkName = "buyProducts(products:orderID:shippingStatus:paymentStatus:shippingMethod:subTotal:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -442,6 +506,38 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "459"
+            endingLineNumber = "459"
+            landmarkName = "reset()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7C9D65AE-51B3-4BBB-81A3-F6191C7DB08B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
+            landmarkName = "reset()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5CD8773F-2437-46C8-A686-0F8E1233273A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "457"
             endingLineNumber = "457"
             landmarkName = "reset()"
@@ -451,7 +547,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7C9D65AE-51B3-4BBB-81A3-F6191C7DB08B"
+            uuid = "B314D3B1-35EA-4E36-B036-414BD96C2A1E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -467,7 +563,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5CD8773F-2437-46C8-A686-0F8E1233273A"
+            uuid = "99FCC128-B4FF-4458-995C-DF45A06F400B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -483,7 +579,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B314D3B1-35EA-4E36-B036-414BD96C2A1E"
+            uuid = "3A1A58B7-3192-4B31-BDD0-FA08DB159886"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -499,38 +595,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "99FCC128-B4FF-4458-995C-DF45A06F400B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "453"
-            endingLineNumber = "453"
-            landmarkName = "reset()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3A1A58B7-3192-4B31-BDD0-FA08DB159886"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "452"
-            endingLineNumber = "452"
-            landmarkName = "reset()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "86A1BA56-DBD0-4377-B9F4-31FE6E0F822A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -538,10 +602,42 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "fetchOrderedDataUserSide(uidPath:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "86A1BA56-DBD0-4377-B9F4-31FE6E0F822A - 2c041fc0d774949f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FransiSRentalHouseProject.FirestoreForProducts.fetchOrdedDataProviderSide(uidPath: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "191"
+                  endingLineNumber = "191"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "86A1BA56-DBD0-4377-B9F4-31FE6E0F822A - 4899ea5559af7c49"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.fetchOrdedDataProviderSide(uidPath: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "191"
+                  endingLineNumber = "191"
+                  offsetFromSymbolStart = "96">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -554,8 +650,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "fetchOrderedDataUserSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -570,9 +666,41 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
             landmarkName = "fetchOrderedDataUserSide(uidPath:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "96470892-9C55-4A2A-B100-CF6331530CBC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
+            landmarkName = "fetchOrderedData(uidPath:docID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2158B225-B4A3-4E34-BAD1-DD2EB28FBC2C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "fetchOrderedData(uidPath:docID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

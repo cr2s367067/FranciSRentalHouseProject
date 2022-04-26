@@ -7,40 +7,29 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import LocalAuthentication
 
 struct UserOrderedListView: View {
     
-    enum RatingStars: Int, CaseIterable {
-        case one = 1
-        case two = 2
-        case three = 3
-        case four = 4
-        case five = 5
-    }
-    
+   
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var userOrderedListVM: UserOrderedListViewModel
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    @State private var text = ""
-    
-    let ratingArray: [Int] = RatingStars.allCases.map({$0.rawValue})
+    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map({$0.rawValue})
     
     var body: some View {
         VStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                ForEach(firestoreForProducts.userOrderedDataSet) { order in
-                    orderedUnit(orderedData: order)
-                }
-            }
+            arrayEmptyHolder()
         }
         .modifier(ViewBackgroundInitModifier())
         .task {
             do {
-//                try await firestoreForProducts.fetchOrderedData(uidPath: firebaseAuth.getUID())
                 try await firestoreForProducts.fetchOrderedDataUserSide(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)
@@ -49,20 +38,24 @@ struct UserOrderedListView: View {
     }
 }
 
-//struct UserOrderedListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        UserOrderedListView()
-//    }
-//}
-
 extension UserOrderedListView {
     
-    func evaluateRange(set: [Int], compare: Int) {
-        let range = 1..<set.count
-        print(range.indices)
+    @ViewBuilder
+    func arrayEmptyHolder() -> some View {
+        if firestoreForProducts.userOrderedDataSet.isEmpty {
+            Text("You haven't bought anything yet. 😉")
+                .foregroundColor(.white)
+                .font(.system(size: 20, weight: .medium))
+                .padding()
+        } else {
+            ScrollView(.vertical, showsIndicators: false) {
+                ForEach(firestoreForProducts.userOrderedDataSet) { order in
+                    orderedUnit(orderedData: order)
+                }
+            }
+        }
     }
-    
-    
+
     @ViewBuilder
     func productUnit(cartItemData: UserOrderProductsDataModel) -> some View {
         HStack {
@@ -94,31 +87,28 @@ extension UserOrderedListView {
         }
     }
     
-    @ViewBuilder
-    func productsListUnit() -> some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            ForEach(firestoreForProducts.fetchOrderedDataSet) { products in
-                UserOrderedListUnitView(productName: products.productName,
-                                        productPrice: String(products.productPrice),
-                                        productImage: products.productImage,
-                                        docID: products.id ?? "")
-            }
-        }
-    }
-    
-    @ViewBuilder
-    func productsListUnitWithPlaceholder() -> some View {
-        if firestoreForProducts.fetchOrderedDataSet.isEmpty {
-            VStack(alignment: .center) {
-                Text("You haven't bought anything yet. 😉")
-                    .foregroundColor(.white)
-                    .font(.system(size: 20, weight: .medium))
-                    .padding()
-            }
-        } else {
-            productsListUnit()
-        }
-    }
+//    @ViewBuilder
+//    func productsListUnit() -> some View {
+//        ScrollView(.vertical, showsIndicators: false) {
+//            ForEach(firestoreForProducts.fetchOrderedDataSet) { products in
+//                UserOrderedListUnitView(productName: products.productName,
+//                                        productPrice: String(products.productPrice),
+//                                        productImage: products.productImage,
+//                                        docID: products.id ?? "")
+//            }
+//        }
+//    }
+//
+//    @ViewBuilder
+//    func productsListUnitWithPlaceholder() -> some View {
+//        if firestoreForProducts.fetchOrderedDataSet.isEmpty {
+//            VStack(alignment: .center) {
+//
+//            }
+//        } else {
+//            productsListUnit()
+//        }
+//    }
     
     @ViewBuilder
     func orderTitleAndContain(header: String, body: String) -> some View {
@@ -167,7 +157,7 @@ extension UserOrderedListView {
             List {
                 ForEach(firestoreForProducts.fetchOrderedDataSet) { item in
                     NavigationLink {
-                        orderedListDetailView(productsData: item)
+                        orderedListDetailView(productsData: item, orderID: orderedData.orderID)
                     } label: {
                         productUnit(cartItemData: item)
                     }
@@ -194,7 +184,7 @@ extension UserOrderedListView {
     }
     
     @ViewBuilder
-    func orderedListDetailView(productsData: UserOrderProductsDataModel) -> some View {
+    func orderedListDetailView(productsData: UserOrderProductsDataModel, orderID: String) -> some View {
         VStack {
             VStack(spacing: 10) {
                 HStack {
@@ -211,22 +201,7 @@ extension UserOrderedListView {
                 }
                 HStack {
                     Text("Rate: ")
-                    ForEach(ratingArray, id: \.self) { star in
-                        Button {
-                            evaluateRange(set: ratingArray, compare: star)
-                            print("number: \(star)")
-                        } label: {
-//                            if star == 2 {
-                                Image(systemName: "star")
-//                                    .foregroundColor(evaluateRange(set: ratingArray, compare: star) ? .yellow : .white)
-                                    .font(.system(size: 15))
-//                            } else {
-//                                Image(systemName: "star")
-//                                    .foregroundColor(.white)
-//                                    .font(.system(size: 15))
-//                            }
-                        }
-                    }
+                    showRattedResult(isSummit: productsData.isUploadComment, ratted: productsData.ratting)
                     Spacer()
                 }
                 .foregroundColor(.white)
@@ -235,20 +210,28 @@ extension UserOrderedListView {
                         .foregroundColor(.white)
                     Spacer()
                 }
-                HStack {
-                    TextEditor(text: $text)
-                        .foregroundColor(.black)
-                        .frame(width: uiScreenWidth - 80 , height: uiScreenHeight / 3 - 50, alignment: .center)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                }
+                
+                showComment(isSummit: productsData.isUploadComment, text: productsData.comment)
+                
                 HStack {
                     Spacer()
                     Button {
-                        
+                        Task {
+                            do {
+                                guard let id = productsData.id else { return }
+                                try await firestoreForProducts.userToSummitProductComment(uidPath: firebaseAuth.getUID(), comment: userOrderedListVM.comment, ratting: userOrderedListVM.rating, docID: orderID, isUploadComment: true, listID: id)
+                                try await firestoreForProducts.summitCommentAndRatting(providerUidPath: productsData.providerUID, productID: productsData.productUID, ratting: userOrderedListVM.rating, comment: userOrderedListVM.comment, summitUserDisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName)
+                                try await firestoreForProducts.fetchOrderedData(uidPath: firebaseAuth.getUID(), docID: orderID)
+                                userOrderedListVM.reset()
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
+                        }
                     } label: {
-                        Text("Summit")
+                        Text(productsData.isUploadComment ? "Thanks" : "Summit")
                             .modifier(ButtonModifier())
                     }
+                    .disabled(productsData.isUploadComment ? true : false)
                 }
                 Spacer()
             }
@@ -261,4 +244,88 @@ extension UserOrderedListView {
         }
         .modifier(ViewBackgroundInitModifier())
     }
+    
+    @ViewBuilder
+    func showRattedResult(isSummit: Bool, ratted result: Int) -> some View {
+        if isSummit {
+            HStack {
+                ForEach(1..<result + 1, id: \.self) { _ in
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                }
+            }
+        } else {
+            RantingView()
+        }
+    }
+    
+    @ViewBuilder
+    func showComment(isSummit: Bool, text: String) -> some View {
+        if isSummit {
+            HStack(alignment: .center) {
+                Text(text)
+                    .foregroundColor(.white)
+                Spacer()
+            }
+            .padding()
+            .frame(width: uiScreenWidth - 80 , height: uiScreenHeight / 6 - 80)
+            .background(alignment: .center) {
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(lineWidth: 1)
+                    .fill(.white)
+                    
+            }
+        } else {
+            HStack {
+                TextEditor(text: $userOrderedListVM.comment)
+                    .foregroundColor(.black)
+                    .frame(width: uiScreenWidth - 80 , height: uiScreenHeight / 3 - 50)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+            }
+        }
+    }
 }
+
+
+
+struct RantingView: View {
+    
+    @EnvironmentObject var userOrderedListVM: UserOrderedListViewModel
+    
+    @State var rating: Int = 0
+    
+    var offImage: Image?
+    var onImage = Image(systemName: "star.fill")
+    
+    var offColor = Color.white
+    var onColor = Color.yellow
+    
+    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map({$0.rawValue})
+    
+    func image(number: Int) -> Image {
+        if number > userOrderedListVM.rating {
+            return offImage ?? onImage
+        } else {
+            return onImage
+        }
+    }
+    
+    var body: some View {
+        HStack {
+            ForEach(ratingArray, id: \.self) { number in
+                Button {
+                    userOrderedListVM.rating = number
+                    print(userOrderedListVM.rating)
+                } label: {
+                    image(number: number)
+                        .foregroundColor(number > userOrderedListVM.rating ? offColor : onColor)
+                }
+            }
+        }
+        .background(alignment: .center) {
+            Color.clear
+        }
+    }
+}
+
+

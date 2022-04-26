@@ -19,8 +19,9 @@ struct UserOrderProductsDataModel: Identifiable, Codable {
     var providerUID: String
     var productUID: String
     var orderAmount: String
-    var comment: String?
-    var rating: Int?
+    var comment: String
+    var isUploadComment: Bool
+    var ratting: Int
     @ServerTimestamp var buyDate: Timestamp?
 }
 
@@ -43,37 +44,28 @@ struct ProductProviderDataModel: Identifiable, Codable {
 }
 
 //MARK: For provider to track who ordered products
-struct ProductsOrderedDataModel: Identifiable, Codable {
-    @DocumentID var id: String?
-    var productUID: String
-    var productImage: String
-    var productName: String
-    var productPrice: String
-    var orderAmount: String
-    var orderName: String
-    var orderShippingAddress: String
-    var orderUID: String
-    @ServerTimestamp var buyDate: Timestamp?
-}
-
-
-//MARK: For user to provide their comment
-struct ProductUsingCommentDataModel: Identifiable, Codable {
-    @DocumentID var id: String?
-    var comment: String
-    var rating: String
-    var isUploadComment: Bool
-}
+//struct ProductsOrderedDataModel: Identifiable, Codable {
+//    @DocumentID var id: String?
+//    var productUID: String
+//    var productImage: String
+//    var productName: String
+//    var productPrice: String
+//    var orderAmount: String
+//    var orderName: String
+//    var orderShippingAddress: String
+//    var orderUID: String
+//    @ServerTimestamp var buyDate: Timestamp?
+//}
 
 //MARK: For provider to show user's comment
-struct ProductCommentRecivingDataModel: Identifiable, Codable {
-    @DocumentID var id: String?
-    var buyerUID: String
-    var buyDisplayName: String
-    var comment: String
-    var rating: String
-    var productUID: String
-}
+//struct ProductCommentRecivingDataModel: Identifiable, Codable {
+//    @DocumentID var id: String?
+//    var buyerUID: String
+//    var buyDisplayName: String
+//    var comment: String
+//    var rating: String
+//    var productUID: String
+//}
 
 //MARK: To store the bookmark temperary
 struct MarkedProductsDataModel: Identifiable, Codable {
@@ -106,4 +98,13 @@ struct StoreDataModel: Identifiable, Codable {
 
 extension StoreDataModel {
     static let empty = StoreDataModel(provideBy: "", providerDisplayName: "", providerProfileImage: "", providerDescription: "", storeBackgroundImage: "", storeChatDocID: "")
+}
+
+//MARK: Store the comment and rating in provider side
+struct ProductCommentRattingDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var comment: String
+    var ratting: Int
+    var summitUserDisplayName: String
+    @ServerTimestamp var uploadTimestamp: Timestamp?
 }
