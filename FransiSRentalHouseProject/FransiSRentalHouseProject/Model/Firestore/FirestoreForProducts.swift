@@ -470,4 +470,13 @@ extension FirestoreForProducts {
 
 extension FirestoreForProducts {
     //MARK: Update product data in public when it calls
+    
+    func updatePublicAmountData(docID: String, providerUidPath: String, productID: String) async throws {
+        let productRef = db.collection("ProductsProvider").document(providerUidPath).collection("Products").document(productID)
+        let newAmount = try await productRef.getDocument(as: ProductProviderDataModel.self).productAmount
+        let furniturePublicRef = db.collection("ProductsPublic").document(docID)
+        try await furniturePublicRef.updateData([
+            "productAmount" : newAmount
+        ])
+    }
 }

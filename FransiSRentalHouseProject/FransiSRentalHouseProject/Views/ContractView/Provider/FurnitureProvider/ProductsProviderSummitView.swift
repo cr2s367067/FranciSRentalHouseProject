@@ -19,6 +19,7 @@ struct ProductsProviderSummitView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var searchVM: SearchViewModel
     
+    @FocusState private var isFocused: Bool
 
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -236,7 +237,11 @@ struct ProductsProviderSummitView: View {
                             .padding([.trailing, .top])
                             .frame(width: 400)
                         }
+                        .focused($isFocused)
                     }
+                }
+                .onTapGesture {
+                    isFocused = false
                 }
             }
             .overlay(content: {

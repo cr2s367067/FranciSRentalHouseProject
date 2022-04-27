@@ -445,7 +445,10 @@ extension PurchaseView {
     func computeAmount(orderAmount: String, totalAmount: String) -> String {
         let convertInt1 = Int(orderAmount) ?? 0
         let convertInt2 = Int(totalAmount) ?? 0
-        let resultAmount = convertInt1 - convertInt2
+        print("orderAmount: \(convertInt1)")
+        print("totalAmount: \(convertInt2)")
+        let resultAmount = convertInt2 - convertInt1
+        print("result Amount: \(resultAmount)")
         let convertString = String(resultAmount)
         return convertString
     }

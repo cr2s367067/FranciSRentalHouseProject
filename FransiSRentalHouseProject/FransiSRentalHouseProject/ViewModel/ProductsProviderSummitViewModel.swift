@@ -31,6 +31,8 @@ class ProductsProviderSummitViewModel: ObservableObject {
     
     @Published var showProgressView = false
     
+    
+    
     var image: UIImage {
         var temp = UIImage()
         if let firstImage = images.first {

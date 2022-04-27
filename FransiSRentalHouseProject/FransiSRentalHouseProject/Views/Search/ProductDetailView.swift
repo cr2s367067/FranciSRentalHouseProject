@@ -208,6 +208,7 @@ struct ProductDetailView: View {
         .task {
             do {
                 try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: providerUID, productID: productUID)
+                try await firestoreForProducts.updatePublicAmountData(docID: docID, providerUidPath: providerUID, productID: productUID)
             } catch {
                 self.errorHandler.handle(error: error)
             }

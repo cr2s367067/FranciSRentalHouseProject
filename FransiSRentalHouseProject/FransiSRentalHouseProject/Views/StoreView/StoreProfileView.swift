@@ -27,10 +27,15 @@ struct StoreProfileView: View {
     @State private var showImage = false
     @State private var showProgress = false
     
+    @FocusState private var isFocused: Bool
+    
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 storeHeaderView(isCreate: storeProfileVM.isCreated)
+            }
+            .onTapGesture {
+                isFocused = false
             }
         }
         .modifier(ViewBackgroundInitModifier())
@@ -123,6 +128,7 @@ extension StoreProfileView {
             }
             
             InfoUnit(title: "Store Description", bindingString: $storeProfileVM.providerDescription)
+                .focused($isFocused)
             
             HStack {
                 Spacer()
