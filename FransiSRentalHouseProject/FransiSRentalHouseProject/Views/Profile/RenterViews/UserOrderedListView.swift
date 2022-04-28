@@ -23,6 +23,8 @@ struct UserOrderedListView: View {
     
     let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map({$0.rawValue})
     
+    @State private var selectedOrderData: OrderedDataModel?
+    
     var body: some View {
         VStack {
             arrayEmptyHolder()
@@ -51,6 +53,12 @@ extension UserOrderedListView {
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreForProducts.userOrderedDataSet) { order in
                     orderedUnit(orderedData: order)
+                        .onTapGesture {
+                            selectedOrderData = order
+                        }
+                }
+                .sheet(item: $selectedOrderData) { order in
+                    customSheetList(orderID: order.orderID)
                 }
             }
         }
@@ -154,36 +162,59 @@ extension UserOrderedListView {
                 orderTitleAndContain(header: "Subtotal", body: String(orderedData.subTotal))
                 orderTitleAndContain(header: "Shipping Status", body: orderedData.shippingStatus)
             }
+            HStack {
+                Spacer()
+//                Button {
+//                } label: {
+                    Text("Show Contain")
+                        .foregroundColor(.white)
+                        .frame(width: 125, height: 35)
+                        .background(Color("buttonBlue"))
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+//                }
+            }
+//            List {
+//                ForEach(firestoreForProducts.fetchOrderedDataSet) { item in
+//                    NavigationLink {
+//                        orderedListDetailView(productsData: item, orderID: orderedData.orderID)
+//                    } label: {
+//                        productUnit(cartItemData: item)
+//                    }
+//                }
+//            }
+//            .clipShape(RoundedRectangle(cornerRadius: 20))
+            
+            Spacer()
+        }
+        .padding()
+        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 3 + 50)
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.black.opacity(0.5))
+        }
+    }
+    
+    @ViewBuilder
+    func customSheetList(orderID: String) -> some View {
+        NavigationView {
             List {
                 ForEach(firestoreForProducts.fetchOrderedDataSet) { item in
-                    Button {
-                        print(firestoreForProducts.fetchOrderedDataSet)                        
-                    } label: {
-                        Text("test")
-                    }
                     NavigationLink {
-                        orderedListDetailView(productsData: item, orderID: orderedData.orderID)
+                        orderedListDetailView(productsData: item, orderID: orderID)
                     } label: {
                         productUnit(cartItemData: item)
                     }
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
-            
-            Spacer()
-        }
-        .padding()
-        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 2 + 200)
-        .background(alignment: .center) {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.black.opacity(0.5))
-        }
-        .task {
-            do {
-                guard let id = orderedData.id else { return }
-                try await firestoreForProducts.fetchOrderedData(uidPath: firebaseAuth.getUID(), docID: id)
-            } catch {
-                self.errorHandler.handle(error: error)
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .task {
+                do {
+                    try await firestoreForProducts.fetchOrderedData(uidPath: firebaseAuth.getUID(), docID: orderID)
+                } catch {
+                    self.errorHandler.handle(error: error)
+                }
             }
         }
     }
@@ -334,3 +365,6 @@ struct RantingView: View {
 }
 
 
+extension String: Identifiable {
+    public var id: String { self }
+}

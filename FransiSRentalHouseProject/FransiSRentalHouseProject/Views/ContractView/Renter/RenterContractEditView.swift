@@ -18,6 +18,7 @@ struct RenterContractEditView: View {
     
     
     var docID: String
+    var contractData: RentersContractDataModel
     
     var body: some View {
         VStack {
@@ -553,6 +554,7 @@ struct RenterContractEditView: View {
         }
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
+            rentEditVM.contractDataModel = contractData
         })
         .onDisappear(perform: {
             UITableView.appearance().backgroundColor = .systemBackground

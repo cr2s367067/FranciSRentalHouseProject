@@ -72,6 +72,7 @@ struct SignUpView: View {
                                 .disableAutocorrection(true)
                                 .textInputAutocapitalization(.never)
                                 .padding(.leading)
+                                .keyboardType(.emailAddress)
                         }
                         .modifier(customTextField())
                         Text("")

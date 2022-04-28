@@ -36,7 +36,7 @@ struct RenterContractView: View {
                     .fill(Color.white)
                     .frame(width: UIScreen.main.bounds.width - 15)
             }
-            viewSwitch(paymentH: renterContractVM.showPaymentHistory)
+            viewSwitch(paymentH: renterContractVM.showPaymentHistory, contractData: roomsData.rentersContractData ?? .empty)
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -81,18 +81,18 @@ struct SpacerAtRightOfText: View {
 extension RenterContractView {
     
     @ViewBuilder
-    func viewSwitch(paymentH: Bool) -> some View {
+    func viewSwitch(paymentH: Bool, contractData: RentersContractDataModel = .empty) -> some View {
         if paymentH {
             RentedPaymentHistoryView(paymentHistory: firestoreToFetchUserinfo.paymentHistory, roomsData: roomsData)
         } else {
-            idfEditMode(showEditMode: renterContractVM.showEditMode, docID: roomsData.id ?? "")
+            idfEditMode(showEditMode: renterContractVM.showEditMode, docID: roomsData.id ?? "", contractData: contractData)
         }
     }
     
     @ViewBuilder
-    func idfEditMode(showEditMode: Bool, docID: String) -> some View {
+    func idfEditMode(showEditMode: Bool, docID: String, contractData: RentersContractDataModel) -> some View {
         if showEditMode == true {
-            RenterContractEditView(docID: docID)
+            RenterContractEditView(docID: docID, contractData: contractData)
         } else {
             VStack {
                 HStack {

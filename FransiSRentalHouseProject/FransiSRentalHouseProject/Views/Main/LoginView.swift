@@ -90,6 +90,7 @@ struct LoginView: View {
                                 }
                                 .disableAutocorrection(true)
                                 .textInputAutocapitalization(.never)
+                                .keyboardType(.emailAddress)
                         }
                         .modifier(customTextField())
                         

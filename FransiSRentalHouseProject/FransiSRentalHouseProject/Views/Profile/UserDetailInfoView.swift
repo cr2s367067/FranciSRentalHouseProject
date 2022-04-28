@@ -74,7 +74,18 @@ struct UserDetailInfoView: View {
                 userDetailInfoViewModel.isEdit = true
             }
             appViewModel.updateNavigationBarColor()
-//            reset()
+            appViewModel.id = firestoreToFetchUserinfo.fetchedUserData.id
+            appViewModel.firstName = firestoreToFetchUserinfo.fetchedUserData.firstName
+            appViewModel.lastName = firestoreToFetchUserinfo.fetchedUserData.lastName
+            appViewModel.displayName = firestoreToFetchUserinfo.fetchedUserData.displayName
+            appViewModel.mobileNumber = firestoreToFetchUserinfo.fetchedUserData.mobileNumber
+            appViewModel.dob = firestoreToFetchUserinfo.fetchedUserData.dob
+            appViewModel.address = firestoreToFetchUserinfo.fetchedUserData.address
+            appViewModel.town = firestoreToFetchUserinfo.fetchedUserData.town
+            appViewModel.city = firestoreToFetchUserinfo.fetchedUserData.city
+            appViewModel.zipCode = firestoreToFetchUserinfo.fetchedUserData.zip
+            appViewModel.country = firestoreToFetchUserinfo.fetchedUserData.country
+            appViewModel.gender = firestoreToFetchUserinfo.fetchedUserData.gender
         })
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
