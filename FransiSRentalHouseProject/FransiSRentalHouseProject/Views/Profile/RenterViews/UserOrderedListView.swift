@@ -156,6 +156,11 @@ extension UserOrderedListView {
             }
             List {
                 ForEach(firestoreForProducts.fetchOrderedDataSet) { item in
+                    Button {
+                        print(firestoreForProducts.fetchOrderedDataSet)                        
+                    } label: {
+                        Text("test")
+                    }
                     NavigationLink {
                         orderedListDetailView(productsData: item, orderID: orderedData.orderID)
                     } label: {

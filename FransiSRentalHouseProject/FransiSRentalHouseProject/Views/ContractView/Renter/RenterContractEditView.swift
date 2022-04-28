@@ -536,6 +536,8 @@ struct RenterContractEditView: View {
                                                                                providerPhoneChargeName: rentEditVM.contractDataModel.providerPhoneChargeName,
                                                                                providerPhoneChargeID: rentEditVM.contractDataModel.providerPhoneChargeID,
                                                                                providerPhoneChargeEmailAddress: rentEditVM.contractDataModel.providerPhoneChargeEmailAddress)
+
+                        try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
                         renterContractVM.showEditMode = false
                     } catch {
                         self.errorHandler.handle(error: error)

@@ -660,7 +660,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "BA3221BF-F425-4D77-8E87-CD6F85D7971A"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"

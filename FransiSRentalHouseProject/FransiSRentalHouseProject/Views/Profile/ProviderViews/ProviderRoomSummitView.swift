@@ -53,7 +53,7 @@ struct ProviderRoomSummitView: View {
                                         .resizable()
                                         .frame(width: 378, height: 304)
                                         .cornerRadius(10)
-                                        .scaledToFit()
+                                        .aspectRatio(contentMode: .fit)
                                 }
                             }
                         }
@@ -111,7 +111,7 @@ struct ProviderRoomSummitView: View {
                                                 .resizable()
                                                 .frame(width: uiScreenWidth / 2, height: uiScreenHeight / 6, alignment: .center)
                                                 .cornerRadius(10)
-                                                .scaledToFit()
+                                                .aspectRatio(contentMode: .fit)
                                         }
                                         VStack(alignment: .trailing) {
                                             HStack {

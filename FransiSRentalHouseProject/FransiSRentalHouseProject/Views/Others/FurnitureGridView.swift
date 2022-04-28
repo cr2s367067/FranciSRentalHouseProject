@@ -10,6 +10,9 @@ import SDWebImageSwiftUI
 
 struct FurnitureGridView: View {
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     var productIamge: String
     var productName: String
     var productPrice: Int
@@ -45,10 +48,12 @@ struct FurnitureGridView: View {
             }
             .padding()
         }
-        .frame(width: 300, height: 160)
+        .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
         .background(alignment: .center) {
             WebImage(url: URL(string: productIamge))
                 .resizable()
+                .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
+                .aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.black.opacity(0.5))

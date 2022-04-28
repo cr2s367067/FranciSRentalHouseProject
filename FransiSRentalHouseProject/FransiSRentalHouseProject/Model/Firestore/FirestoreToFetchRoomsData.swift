@@ -467,27 +467,45 @@ extension FirestoreToFetchRoomsData {
         }
     }
     
-    func listeningRoomInfoOwnerSideRestruct(uidPath: String) {
-           let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
-           roomOwnerRef.addSnapshotListener { documentSnapshot, error in
-               guard let document = documentSnapshot?.documents else {
-                   print("Error fetch document: \(error!)")
-                   return
-               }
-               self.fetchRoomInfoFormOwner = document.compactMap({ queryDocumentSnapshot in
-                   let result = Result {
-                       try queryDocumentSnapshot.data(as: RoomInfoDataModel.self)
-                   }
-                   switch result {
-                   case .success(let data):
-                       return data
-                   case .failure(let error):
-                       print("error: \(error)")
-                   }
-                   return nil
-               })
-           }
-       }
+//    func listeningRoomInfoOwnerSideRestruct(uidPath: String) {
+//           let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
+//           roomOwnerRef.addSnapshotListener { documentSnapshot, error in
+//               guard let document = documentSnapshot?.documents else {
+//                   print("Error fetch document: \(error!)")
+//                   return
+//               }
+//               self.fetchRoomInfoFormOwner = document.compactMap({ queryDocumentSnapshot in
+//                   let result = Result {
+//                       try queryDocumentSnapshot.data(as: RoomInfoDataModel.self)
+//                   }
+//                   switch result {
+//                   case .success(let data):
+//                       return data
+//                   case .failure(let error):
+//                       print("error: \(error)")
+//                   }
+//                   return nil
+//               })
+//           }
+//       }
+    
+    @MainActor
+    func getRoomInfo(uidPath: String) async throws {
+        let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
+        let document = try await roomOwnerRef.getDocuments().documents
+        self.fetchRoomInfoFormOwner = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: RoomInfoDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            return nil
+        })
+    }
 }
 
 extension FirestoreToFetchRoomsData {

@@ -216,6 +216,7 @@ extension RenterContractView {
                                                                                 renterPhoneNumber: roomsData.rentersContractData?.renterPhoneNumber ?? "",
                                                                                 renterEmailAddress: roomsData.rentersContractData?.renterEmailAddress ?? "",
                                                                                 sigurtureDate: roomsData.rentersContractData?.sigurtureDate ?? Date())
+                                try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }

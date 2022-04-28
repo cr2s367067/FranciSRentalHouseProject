@@ -97,6 +97,7 @@ struct MaintainView: View {
                                                 .resizable()
                                                 .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
                                                 .clipShape(RoundedRectangle(cornerRadius: 20))
+                                                .aspectRatio(contentMode: .fit)
                                         }
                                     }
                                 }

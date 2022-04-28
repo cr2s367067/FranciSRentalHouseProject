@@ -164,6 +164,7 @@ struct TextingViewForReceiver: View {
                     .resizable()
                     .clipShape(RoundedRectangle(cornerRadius: 25))
                     .frame(width: 200, height: 250)
+                    .aspectRatio(contentMode: .fit)
                     .padding()
                     .onTapGesture {
                         textingViewModel.showImageDetail = true
@@ -216,6 +217,7 @@ struct TextingViewForSender: View {
                     .resizable()
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .frame(width: 200, height: 250)
+                    .aspectRatio(contentMode: .fit)
                     .padding()
                     .onTapGesture {
                         textingViewModel.showImageDetail = true
@@ -254,6 +256,7 @@ struct ShowImage: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .frame(width: uiScreenWidth - 100, height: uiScreenHeight / 2)
                     .padding()
+                    .aspectRatio(contentMode: .fit)
             }
             Spacer()
         }

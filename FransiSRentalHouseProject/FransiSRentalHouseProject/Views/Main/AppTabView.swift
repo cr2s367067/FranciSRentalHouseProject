@@ -32,22 +32,25 @@ struct AppTabView: View {
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
-        .task({
+        .task {
             do {
                 try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
                 if firestoreToFetchUserinfo.fetchedUserData.userType == "Provider" {
                     _ = try await providerProfileViewModel.fetchConfigData(uidPath: firebaseAuth.getUID())
                     try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
                 }
+                if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
+                    try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
+                }
             } catch {
                 self.errorHandler.handle(error: error)
             }
-        })
+        }
         .onAppear {
             UITabBar.appearance().barTintColor = UIColor.init(named: "background2")
-            if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
-                firestoreToFetchRoomsData.listeningRoomInfoOwnerSideRestruct(uidPath: firebaseAuth.getUID())
-            }
+//            if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
+//                firestoreToFetchRoomsData.listeningRoomInfoOwnerSideRestruct(uidPath: firebaseAuth.getUID())
+//            }
             firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct()
             firestoreForFurniture.listeningFurnitureInfo()
         }

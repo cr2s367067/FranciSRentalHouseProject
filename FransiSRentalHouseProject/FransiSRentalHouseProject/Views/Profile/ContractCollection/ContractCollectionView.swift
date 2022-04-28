@@ -10,10 +10,14 @@ import SDWebImageSwiftUI
 
 struct ContractCollectionView: View {
     
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var appViewModel: AppViewModel
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var errorHandler: ErrorHandler
 
 //    @State private var showDetail = false
+    @State private var isFocused = false
     
     var body: some View {
         ZStack {
@@ -39,6 +43,26 @@ struct ContractCollectionView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             appViewModel.updateNavigationBarColor()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    Task {
+                        do {
+                            isFocused = true
+                            try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
+                            isFocused = false
+                        } catch {
+                            self.errorHandler.handle(error: error)
+                        }
+                    }
+                } label: {
+                    Image(systemName: "arrow.triangle.2.circlepath")
+                        .foregroundColor(.white)
+                        .font(.system(size: 16))
+                        .rotationEffect(.degrees(isFocused ? 270 : 0))
+                }
+            }
         }
     }
 }
@@ -75,6 +99,7 @@ struct ContractReusableUnit: View {
                         .resizable()
                         .frame(width: 130, height: 100)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .aspectRatio(contentMode: .fit)
                 }
                 Spacer()
                     .frame(width: uiScreenWidth - 200)

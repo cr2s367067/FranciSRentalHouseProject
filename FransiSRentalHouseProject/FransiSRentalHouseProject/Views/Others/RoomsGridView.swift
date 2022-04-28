@@ -13,6 +13,8 @@ struct RoomsGridView: View {
     let storageForRoomsImage = StorageForRoomsImage()
     let firebaseAuth = FirebaseAuth()
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
     
     var imageURL: String
     var roomTown: String
@@ -65,10 +67,13 @@ struct RoomsGridView: View {
                 }
                 .padding()
             }
-            .frame(width: 300, height: 160)
+//            .frame(width: 300, height: 160)
+            .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
             .background(alignment: .center) {
                 WebImage(url: URL(string: imageURL))
                     .resizable()
+                    .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
+                    .aspectRatio(contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.black.opacity(0.5))
