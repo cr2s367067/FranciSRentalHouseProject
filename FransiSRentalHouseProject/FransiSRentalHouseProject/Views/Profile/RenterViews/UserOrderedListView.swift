@@ -52,10 +52,9 @@ extension UserOrderedListView {
         } else {
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreForProducts.userOrderedDataSet) { order in
-                    orderedUnit(orderedData: order)
-                        .onTapGesture {
-                            selectedOrderData = order
-                        }
+                    orderedUnit(orderedData: order) {                    
+                        selectedOrderData = order
+                    }
                 }
                 .sheet(item: $selectedOrderData) { order in
                     customSheetList(orderID: order.orderID)
@@ -137,7 +136,7 @@ extension UserOrderedListView {
     }
     
     @ViewBuilder
-    func orderedUnit(orderedData: OrderedDataModel) -> some View {
+    func orderedUnit(orderedData: OrderedDataModel, action: (() -> Void)? = nil) -> some View {
         
         VStack(spacing: 10) {
             
@@ -164,14 +163,15 @@ extension UserOrderedListView {
             }
             HStack {
                 Spacer()
-//                Button {
-//                } label: {
+                Button {
+                    action?()
+                } label: {
                     Text("Show Contain")
                         .foregroundColor(.white)
                         .frame(width: 125, height: 35)
                         .background(Color("buttonBlue"))
                         .clipShape(RoundedRectangle(cornerRadius: 5))
-//                }
+                }
             }
 //            List {
 //                ForEach(firestoreForProducts.fetchOrderedDataSet) { item in
@@ -197,18 +197,23 @@ extension UserOrderedListView {
     @ViewBuilder
     func customSheetList(orderID: String) -> some View {
         NavigationView {
-            List {
-                ForEach(firestoreForProducts.fetchOrderedDataSet) { item in
-                    NavigationLink {
-                        orderedListDetailView(productsData: item, orderID: orderID)
-                    } label: {
-                        productUnit(cartItemData: item)
+            VStack {
+                SheetPullBar()
+                List {
+                    ForEach(firestoreForProducts.fetchOrderedDataSet) { item in
+                        NavigationLink {
+                            orderedListDetailView(productsData: item, orderID: orderID)
+                        } label: {
+                            productUnit(cartItemData: item)
+                        }
                     }
                 }
+                .clipShape(RoundedRectangle(cornerRadius: 20))
             }
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .modifier(ViewBackgroundInitModifier())
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(true)
             .task {
                 do {
                     try await firestoreForProducts.fetchOrderedData(uidPath: firebaseAuth.getUID(), docID: orderID)

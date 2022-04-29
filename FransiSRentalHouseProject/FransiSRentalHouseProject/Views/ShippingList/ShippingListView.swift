@@ -17,24 +17,19 @@ struct ShippingListView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
+    @State private var selectedOrderData: PurchasedUserDataModel?
+    
     var body: some View {
         VStack {
-//            Button {
-//                Task {
-//                    do {
-//                        try await firestoreForProducts.fetchOrdedDataProviderSide(uidPath: firebaseAuth.getUID())
-//
-//                    } catch {
-//                        self.errorHandler.handle(error: error)
-//                    }
-//                }
-//            } label: {
-//                Text("test")
-//            }
             TitleAndDivider(title: "Shipping List")
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreForProducts.purchasedUserDataSet) { pUserData in
-                    listUnit(pUserData: pUserData)
+                    listUnit(pUserData: pUserData) {
+                        selectedOrderData = pUserData
+                    }
+                }
+                .sheet(item: $selectedOrderData) { data in
+                    orderContain(orderData: data)
                 }
             }
         }
@@ -75,7 +70,7 @@ extension ShippingListView {
     }
     
     @ViewBuilder
-    func listUnit(pUserData: PurchasedUserDataModel) -> some View {
+    func listUnit(pUserData: PurchasedUserDataModel, action: (() -> Void)? = nil) -> some View {
         VStack(spacing: 10) {
             orderUserInfoUnit(pUserData: pUserData)
             HStack {
@@ -99,25 +94,42 @@ extension ShippingListView {
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                 }
                 Spacer()
+                
+                Button {
+                    action?()
+                } label: {
+                    Text("Show List")
+                        .modifier(ButtonModifier())
+                }
             }
+            
+            
+            Spacer()
+        }
+        .padding()
+        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 3 + 50)
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.black.opacity(0.5))
+        }
+        
+    }
+    
+    @ViewBuilder
+    func orderContain(orderData: PurchasedUserDataModel) -> some View {
+        VStack {
+            SheetPullBar()
             List {
                 ForEach(firestoreForProducts.cartListDataSet) { item in
                     productUnit(cartItemData: item)
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
-            
-            Spacer()
         }
-        .padding()
-        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 2 + 200)
-        .background(alignment: .center) {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.black.opacity(0.5))
-        }
+        .modifier(ViewBackgroundInitModifier())
         .task {
             do {
-                guard let id = pUserData.id else { return }
+                guard let id = orderData.id else { return }
                 try await firestoreForProducts.fetchOrdedDataInCartList(uidPath: firebaseAuth.getUID(), docID: id)
             } catch {
                 self.errorHandler.handle(error: error)

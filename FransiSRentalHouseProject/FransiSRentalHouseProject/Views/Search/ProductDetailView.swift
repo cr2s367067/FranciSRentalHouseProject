@@ -210,7 +210,8 @@ struct ProductDetailView: View {
                 try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: providerUID, productID: productUID)
                 try await firestoreForProducts.updatePublicAmountData(docID: docID, providerUidPath: providerUID, productID: productUID)
             } catch {
-                self.errorHandler.handle(error: error)
+//                self.errorHandler.handle(error: error)
+                print(error.localizedDescription)
             }
         }
     }

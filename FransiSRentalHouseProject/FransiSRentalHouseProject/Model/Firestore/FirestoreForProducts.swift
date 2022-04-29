@@ -262,29 +262,29 @@ extension FirestoreForProducts {
         ])
     }
     
-    func receiveOrder(uidPath: String, orderUID: String, orderShippingAddress: String, orderName: String, orderAmount: String, productUID: String, productImage: String, productPrice: String) async throws {
-        let receiveOrderRef = db.collection("ProductsProvider").document(uidPath).collection("Orders")
-        _ = try await receiveOrderRef.addDocument(data: [
-            "orderUID" : orderUID,
-            "orderShippingAddress" : orderShippingAddress,
-            "orderName" : orderName,
-            "orderAmount" : orderAmount,
-            "productUID" : productUID,
-            "productImage" : productImage,
-            "productPrice" : productPrice
-        ])
-    }
-    
-    func providerReceiveProductsComment(uidPath: String, comment: String, ratting: String, productUID: String, buyerUID: String, buyerDisplayName: String) async throws {
-        let commentRef = db.collection("ProductsProvider").document(uidPath).collection("Orders")
-        _ = try await commentRef.addDocument(data: [
-            "comment" : comment,
-            "ratting" : ratting,
-            "productUID" : productUID,
-            "buyerDisplayName" : buyerDisplayName,
-            "buyerUID" : buyerUID
-        ])
-    }
+//    func receiveOrder(uidPath: String, orderUID: String, orderShippingAddress: String, orderName: String, orderAmount: String, productUID: String, productImage: String, productPrice: String) async throws {
+//        let receiveOrderRef = db.collection("ProductsProvider").document(uidPath).collection("Orders")
+//        _ = try await receiveOrderRef.addDocument(data: [
+//            "orderUID" : orderUID,
+//            "orderShippingAddress" : orderShippingAddress,
+//            "orderName" : orderName,
+//            "orderAmount" : orderAmount,
+//            "productUID" : productUID,
+//            "productImage" : productImage,
+//            "productPrice" : productPrice
+//        ])
+//    }
+//
+//    func providerReceiveProductsComment(uidPath: String, comment: String, ratting: String, productUID: String, buyerUID: String, buyerDisplayName: String) async throws {
+//        let commentRef = db.collection("ProductsProvider").document(uidPath).collection("Orders")
+//        _ = try await commentRef.addDocument(data: [
+//            "comment" : comment,
+//            "ratting" : ratting,
+//            "productUID" : productUID,
+//            "buyerDisplayName" : buyerDisplayName,
+//            "buyerUID" : buyerUID
+//        ])
+//    }
 }
 
 extension FirestoreForProducts {
@@ -479,4 +479,20 @@ extension FirestoreForProducts {
             "productAmount" : newAmount
         ])
     }
+}
+
+extension FirestoreForProducts {
+    //MARK: For provider update product description and product amount
+    func updateProductAmountAndDesciption(uidPaht: String, productID: String, newProductAmount: String, newProductDescription: String) async throws {
+        let productRef = db.collection("ProductsProvider").document(uidPaht).collection("Products").document(productID)
+        try await productRef.updateData([
+            "productAmount" : newProductAmount,
+            "productDescription" : newProductDescription
+        ])
+    }
+}
+
+extension FirestoreForProducts {
+    //MARK: Create function to store the ordered history for presenting in bar chart
+    //MARK: Also create the data model to encode data
 }

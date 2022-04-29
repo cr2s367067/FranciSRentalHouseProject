@@ -13,18 +13,13 @@ struct ProductCollectionReusableUnitView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    var productName: String = ""
-    var productRate: String = ""
-    var productPrice: String = ""
-    var productFrom: String = ""
-//    var productDescription: String = ""
-//    var productUserComment: String = ""
-    var productImage: String = ""
+    
+    var productData: ProductProviderDataModel
     
     var body: some View {
         VStack {
             HStack {
-                WebImage(url: URL(string: productImage))
+                WebImage(url: URL(string: productData.productImage))
                     .resizable()
                     .frame(width: 140, height: 120, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -32,12 +27,14 @@ struct ProductCollectionReusableUnitView: View {
                 Spacer()
             }
             .padding(.horizontal)
-            ReusableUnit(title: "Product Name", containName: productName)
-            ReusableUnit(title: "Product Rate", containName: productRate)
-            ReusableUnit(title: "Product Price", containName: productPrice)
-            ReusableUnit(title: "Product From", containName: productFrom)
-//            ReusableUnitWithCommentDescription(title: "Product Description", commentOrDescription: productDescription)
-//            ReusableUnitWithCommentDescription(title: "User Comment", commentOrDescription: productUserComment)
+            ReusableUnit(title: "Product Name", containName: productData.productName)
+            ReusableUnit(title: "Product Price", containName: productData.productPrice)
+            HStack {
+                Spacer()
+                Image(systemName: "chevron.right.circle")
+                    .foregroundColor(.white)
+                    .font(.system(size: 18))
+            }
         }
         .padding()
         .frame(width: uiScreenWidth - 30)
@@ -48,11 +45,11 @@ struct ProductCollectionReusableUnitView: View {
     }
 }
 
-struct ProductCollectionReusableUnitView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductCollectionReusableUnitView()
-    }
-}
+//struct ProductCollectionReusableUnitView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProductCollectionReusableUnitView()
+//    }
+//}
 
 
 struct ReusableUnit: View {
@@ -65,7 +62,6 @@ struct ReusableUnit: View {
             Spacer()
         }
         .foregroundColor(.white)
-        .padding(.horizontal)
     }
 }
 
@@ -85,6 +81,5 @@ struct ReusableUnitWithCommentDescription: View {
             }
         }
         .foregroundColor(.white)
-        .padding(.horizontal)
     }
 }

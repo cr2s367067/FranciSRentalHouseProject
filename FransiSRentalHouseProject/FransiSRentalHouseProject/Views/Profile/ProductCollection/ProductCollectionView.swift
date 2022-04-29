@@ -9,7 +9,9 @@ import SwiftUI
 
 struct ProductCollectionView: View {
     
-    @EnvironmentObject var firestoreForFurniture: FirestoreForProducts
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var errorHandler: ErrorHandler
     
     var body: some View {
         ZStack {
@@ -19,11 +21,11 @@ struct ProductCollectionView: View {
             VStack {
                 TitleAndDivider(title: "Product Collection")
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(firestoreForFurniture.productsDataSet) { product in
+                    ForEach(firestoreForProducts.storeProductsDataSet) { product in
                         NavigationLink {
-                            ProductCollectionDetialView(productName: product.productName, productRate: "", productPrice: product.productPrice, productFrom: product.productFrom, productDescription: product.productDescription, productUserComment: "", productImage: product.productImage)
+                            ProductCollectionDetialView(productData: product)
                         } label: {
-                            ProductCollectionReusableUnitView(productName: product.productName, productRate: "", productPrice: product.productPrice, productFrom: product.productFrom, productImage: product.productImage)
+                            ProductCollectionReusableUnitView(productData: product)
                         }
                     }
                 }
@@ -32,6 +34,13 @@ struct ProductCollectionView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            do {
+                try await firestoreForProducts.fetchStoreProduct(uidPath: firebaseAuth.getUID())
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+        }
     }
 }
 
