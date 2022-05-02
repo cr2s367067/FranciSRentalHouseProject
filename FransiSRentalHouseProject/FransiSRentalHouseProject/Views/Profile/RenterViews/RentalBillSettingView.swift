@@ -17,6 +17,7 @@ struct RentalBillSettingView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     @EnvironmentObject var paymentMethodManager: PaymentMethodManager
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var showOverview = true
     @State private var showPaymentMethod = false
@@ -50,7 +51,7 @@ struct RentalBillSettingView: View {
             .frame(width: uiScreenWidth - 20, alignment: .center)
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.white)
+                    .fill(colorScheme == .dark ? Color.gray.opacity(0.5) : Color.white)
             }
             Spacer()
         }
@@ -72,6 +73,7 @@ struct RentalBillSettingView: View {
                 if currentDate == firestoreToFetchUserinfo.rentedContract.rentalEndDate {
                     try await renterProfileViewModel.eraseExpiredRoomInfo(from: currentDate, to: firestoreToFetchUserinfo.rentedContract.rentalEndDate, docID: firestoreToFetchUserinfo.rentedContract.docID)
                 }
+                try await firestoreToFetchRoomsData.getPostComment(roomUID: firestoreToFetchUserinfo.rentedContract.docID, uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -121,11 +123,11 @@ extension RentalBillSettingView {
     func addressUnit() -> some View {
         Section {
             Text(address)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .font(.system(size: 15, weight: .regular))
         } header: {
             Text("Address")
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
     }
     
@@ -133,11 +135,11 @@ extension RentalBillSettingView {
     func rentalPriceUnit() -> some View {
         Section {
             Text(address)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .font(.system(size: 15, weight: .regular))
         } header: {
             Text("Address")
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
     }
     
@@ -151,7 +153,7 @@ extension RentalBillSettingView {
             }
         } header: {
              Text("Renew Status")
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
     }
     
@@ -162,11 +164,26 @@ extension RentalBillSettingView {
                 PresentContract(contractData: firestoreToFetchUserinfo.rentedContract)
             } label: {
                 Text("Show Contract")
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
             }
         } header: {
             Text("Contract Status")
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
+        }
+    }
+    
+    @ViewBuilder
+    func CommentAndRate() -> some View {
+        Section {
+            NavigationLink {
+                RoomCommentAndRattingView(contractInfo: firestoreToFetchUserinfo.rentedContract, firestoreUserInfo: firestoreToFetchUserinfo)
+            } label: {
+                Text("Give Comment")
+                    .foregroundColor(.primary)
+            }
+        } header: {
+            Text("Comment And Ratting")
+                .foregroundColor(.primary)
         }
     }
     
@@ -177,10 +194,10 @@ extension RentalBillSettingView {
                 HStack {
                     Text(upComingPaymentDate, format: Date.FormatStyle().year().month().day())
                         .font(.system(size: 15))
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                     Spacer()
                     Text("$\(rentalPrice)")
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                 }
                 NavigationLink {
                     PurchaseView(roomsData: localData.summaryItemHolder)
@@ -193,7 +210,7 @@ extension RentalBillSettingView {
             .padding()
         } header: {
             Text("Payment")
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
     }
     
@@ -204,6 +221,7 @@ extension RentalBillSettingView {
             paymentUnit()
             renewUnit()
             contractUnit()
+            CommentAndRate()
         }
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 20)
@@ -218,13 +236,13 @@ extension RentalBillSettingView {
                 
             } label: {
                 Text("Auto Payment Setting")
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                     .font(.system(size: 15))
                 
             }
         } header: {
             Text("Auto Payment Setting")
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
     }
     
@@ -236,11 +254,11 @@ extension RentalBillSettingView {
                     AutoPaymentSettingView()
                 } label: {
                     Text("Automatic Payment Setting")
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                 }
             } header: {
                 Text("AutoPay Setting")
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
             }
             Section {
                 Button {
@@ -249,19 +267,19 @@ extension RentalBillSettingView {
                     HStack {
                         Image(systemName: "creditcard")
                             .font(.system(size: 25))
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                         Text("test")
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .font(.system(size: 18))
                         Spacer()
                         Image(systemName: "chevron.forward")
                             .font(.system(size: 15))
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                     }
                 }
             } header: {
                 Text("Card Setting")
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
             }
             
             Section {
@@ -270,11 +288,11 @@ extension RentalBillSettingView {
                     Spacer()
                     Text("paymnet Date")
                 }
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .font(.system(size: 18))
             } header: {
                 Text("Payment History")
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
             }
         }
         .background(alignment: .center) {
@@ -343,7 +361,7 @@ struct CustomSectionUnit: View {
             Spacer()
             Text(paidDate, format: Date.FormatStyle().year().month().day())
         }
-        .foregroundColor(.black)
+        .foregroundColor(.primary)
         .font(.system(size: 18))
     }
 }

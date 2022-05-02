@@ -19,6 +19,7 @@ struct PurchaseView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var paymentSummaryViewModel: PaymentSummaryViewModel
     @EnvironmentObject var purchaseViewModel: PurchaseViewModel
+    @EnvironmentObject var soldProductCollectionManager: SoldProductCollectionManager
     
     
     var brandArray = ["apple-pay", "google-pay", "mastercard", "visa"]
@@ -433,7 +434,8 @@ extension PurchaseView {
                                                      shippingMethod: shippingMethod,
                                                      orderID: orderID,
                                                      subTotal: subTotal)
-            
+            let converInt = Int(products.orderAmount) ?? 0
+            try await soldProductCollectionManager.postSoldInfo(providerUidPath: products.providerUID, proDocID: products.productUID, productName: products.productName, productPrice: products.productPrice, soldAmount: converInt)
             let netAmount = computeAmount(orderAmount: products.orderAmount, totalAmount: purchaseViewModel.productTotalAmount)
             try await firestoreForProducts.updateAmount(providerUidPath: products.providerUID, productID: products.productUID, netAmount: netAmount)
             reset()

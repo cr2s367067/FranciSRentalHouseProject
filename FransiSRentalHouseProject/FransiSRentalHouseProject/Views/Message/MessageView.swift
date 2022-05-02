@@ -17,6 +17,7 @@ struct MessageView: View {
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var storageForMessageImage: StorageForMessageImage
+    
 
     
     var contactMember: ContactUserDataModel
@@ -150,6 +151,7 @@ struct MessageView: View {
 
 struct TextingViewForReceiver: View {
     @EnvironmentObject var textingViewModel: TextingViewModel
+    @Environment(\.colorScheme) var colorScheme
     let text: String
     let imageURL: String
     let receiveProfileImage: String
@@ -182,7 +184,7 @@ struct TextingViewForReceiver: View {
                         Color.black.opacity(0.2)
                             .cornerRadius(30)
                         RoundedRectangle(cornerRadius: 30)
-                            .stroke(Color.blue.opacity(0.2), lineWidth: 2)
+                            .stroke(Color.blue.opacity(colorScheme == .dark ? 0.5 : 0.2), lineWidth: 2)
                     })
             }
             Spacer()
@@ -195,6 +197,7 @@ struct TextingViewForReceiver: View {
 
 struct TextingViewForSender: View {
     @EnvironmentObject var textingViewModel: TextingViewModel
+    @Environment(\.colorScheme) var colorScheme
     let text: String
     let imageURL: String
     var body: some View {
@@ -209,7 +212,7 @@ struct TextingViewForSender: View {
                         Color.black.opacity(0.2)
                             .cornerRadius(30)
                         RoundedRectangle(cornerRadius: 30)
-                            .stroke(Color.green.opacity(0.2), lineWidth: 2)
+                            .stroke(Color.green.opacity(colorScheme == .dark ? 0.5 : 0.2), lineWidth: 2)
                     })
             }
             if !imageURL.isEmpty {

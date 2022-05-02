@@ -743,7 +743,7 @@ struct signatureHolder: View {
             Text("簽章")
             Spacer()
         }
-        .foregroundColor(Color.black)
+//        .foregroundColor(Color.black)
     }
 }
 

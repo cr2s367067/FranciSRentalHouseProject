@@ -51,6 +51,8 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var searchVM = SearchViewModel()
     @StateObject var storeProfileVM = StoreProfileViewModel()
     @StateObject var userOrderedListVM = UserOrderedListViewModel()
+    @StateObject var roomCARVM = RoomCommentAndRattingViewModel()
+    @StateObject var soldProCollectionM = SoldProductCollectionManager()
     
     var body: some Scene {
         WindowGroup {
@@ -93,6 +95,8 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(searchVM)
                 .environmentObject(storeProfileVM)
                 .environmentObject(userOrderedListVM)
+                .environmentObject(roomCARVM)
+                .environmentObject(soldProCollectionM)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

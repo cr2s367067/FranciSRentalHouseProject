@@ -134,6 +134,12 @@
 		0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */; };
 		0EE447F227F5867C001DC4DF /* FocusProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F127F5867C001DC4DF /* FocusProductsView.swift */; };
 		0EE447F427F59378001DC4DF /* UserDetailInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */; };
+		0EE8A0CF281E311300613F0E /* RoomCommentAndRattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE8A0CE281E311300613F0E /* RoomCommentAndRattingView.swift */; };
+		0EE8A0D1281E685500613F0E /* RoomCommentAndRattingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE8A0D0281E685500613F0E /* RoomCommentAndRattingViewModel.swift */; };
+		0EE8A0D3281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE8A0D2281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift */; };
+		0EEEDC16281F6B340036FD0D /* RoomCommentAndRatePresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC15281F6B340036FD0D /* RoomCommentAndRatePresenterView.swift */; };
+		0EEEDC1A281FCB920036FD0D /* ProductSoldCollectionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC19281FCB920036FD0D /* ProductSoldCollectionDataModel.swift */; };
+		0EEEDC1C281FCF370036FD0D /* SoldProductCollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC1B281FCF370036FD0D /* SoldProductCollectionManager.swift */; };
 		0EFA3F362817938F00DA6014 /* UserOrderedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */; };
 		0EFA3F382817E36500DA6014 /* CommentAndRattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */; };
 /* End PBXBuildFile section */
@@ -261,6 +267,12 @@
 		0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractEditView.swift; sourceTree = "<group>"; };
 		0EE447F127F5867C001DC4DF /* FocusProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusProductsView.swift; sourceTree = "<group>"; };
 		0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailInfoViewModel.swift; sourceTree = "<group>"; };
+		0EE8A0CE281E311300613F0E /* RoomCommentAndRattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCommentAndRattingView.swift; sourceTree = "<group>"; };
+		0EE8A0D0281E685500613F0E /* RoomCommentAndRattingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCommentAndRattingViewModel.swift; sourceTree = "<group>"; };
+		0EE8A0D2281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCommentAndRattingDataModel.swift; sourceTree = "<group>"; };
+		0EEEDC15281F6B340036FD0D /* RoomCommentAndRatePresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCommentAndRatePresenterView.swift; sourceTree = "<group>"; };
+		0EEEDC19281FCB920036FD0D /* ProductSoldCollectionDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSoldCollectionDataModel.swift; sourceTree = "<group>"; };
+		0EEEDC1B281FCF370036FD0D /* SoldProductCollectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoldProductCollectionManager.swift; sourceTree = "<group>"; };
 		0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListViewModel.swift; sourceTree = "<group>"; };
 		0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAndRattingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -364,6 +376,8 @@
 				0E318077280FB591009784B9 /* RenterContractViewModel.swift */,
 				0E31808228113D98009784B9 /* StoreProfileViewModel.swift */,
 				0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */,
+				0EE8A0D0281E685500613F0E /* RoomCommentAndRattingViewModel.swift */,
+				0EEEDC1B281FCF370036FD0D /* SoldProductCollectionManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -464,7 +478,9 @@
 				0EC0018627F431DF007AB488 /* UserOrderedListView.swift */,
 				0EE447F127F5867C001DC4DF /* FocusProductsView.swift */,
 				0EB65BD728040799000EAA43 /* RentalBillSettingView.swift */,
+				0EE8A0CE281E311300613F0E /* RoomCommentAndRattingView.swift */,
 				0EB65BDF280455F1000EAA43 /* AutoPaymentSettingView.swift */,
+				0EEEDC15281F6B340036FD0D /* RoomCommentAndRatePresenterView.swift */,
 			);
 			path = RenterViews;
 			sourceTree = "<group>";
@@ -540,6 +556,7 @@
 			isa = PBXGroup;
 			children = (
 				02CB58E327CDAD2C0035EE20 /* SummaryItemDataModel.swift */,
+				0EEEDC19281FCB920036FD0D /* ProductSoldCollectionDataModel.swift */,
 				02CB58E627CDAD960035EE20 /* MaintainTaskDataModel.swift */,
 				02CB58E827CDADBC0035EE20 /* RoomsDataModel.swift */,
 				02CB58EA27CDAE520035EE20 /* ProductsDataModel.swift */,
@@ -555,6 +572,7 @@
 				0E336CDD280E909C00EC91B6 /* TwDistrictDataModel.swift */,
 				0E31807B2810EED4009784B9 /* GroceryTypeDataModel.swift */,
 				0E31808728128265009784B9 /* PurchaseUserDataModel.swift */,
+				0EE8A0D2281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -776,6 +794,7 @@
 				0249D46727C63C190085F4A5 /* ProviderBarChartView.swift in Sources */,
 				0E36B6F828066B860008A7C9 /* PaymentReceiveManager.swift in Sources */,
 				0E318078280FB591009784B9 /* RenterContractViewModel.swift in Sources */,
+				0EEEDC1A281FCB920036FD0D /* ProductSoldCollectionDataModel.swift in Sources */,
 				02CB58F927CDB53D0035EE20 /* StorageForRoomsImage.swift in Sources */,
 				0E14BC5B280D3D6B00CE56FE /* TestView.swift in Sources */,
 				0292835B27D37FDA00DEF068 /* TermOfServiceForRentalManager.swift in Sources */,
@@ -805,6 +824,7 @@
 				0EB65BE428057D11000EAA43 /* MaintainWaitingDetailView.swift in Sources */,
 				0E31808128113C16009784B9 /* StoreProfileView.swift in Sources */,
 				0249D43E27C639900085F4A5 /* SignUpView.swift in Sources */,
+				0EEEDC16281F6B340036FD0D /* RoomCommentAndRatePresenterView.swift in Sources */,
 				0249D45327C63AF80085F4A5 /* ContactView.swift in Sources */,
 				0ED1F42C27F1AA4F0004B5CE /* FirestoreForProducts.swift in Sources */,
 				02CB58EB27CDAE520035EE20 /* ProductsDataModel.swift in Sources */,
@@ -818,6 +838,7 @@
 				0EC0018727F431DF007AB488 /* UserOrderedListView.swift in Sources */,
 				0292835D27D3824900DEF068 /* PrivatePolicyView.swift in Sources */,
 				0EE447F227F5867C001DC4DF /* FocusProductsView.swift in Sources */,
+				0EE8A0D1281E685500613F0E /* RoomCommentAndRattingViewModel.swift in Sources */,
 				0249D46D27C63CCC0085F4A5 /* SearchListItemView.swift in Sources */,
 				0EE447F427F59378001DC4DF /* UserDetailInfoViewModel.swift in Sources */,
 				0ED1F42A27F087D70004B5CE /* PastedPaymentHistoryDataModel.swift in Sources */,
@@ -831,6 +852,7 @@
 				0249D46327C63BF50085F4A5 /* ProviderProfileView.swift in Sources */,
 				0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */,
 				0E36982027F2962E00AA7E88 /* ProductDetailView.swift in Sources */,
+				0EEEDC1C281FCF370036FD0D /* SoldProductCollectionManager.swift in Sources */,
 				0ED1F43227F1F0970004B5CE /* ProductsProviderSummitView.swift in Sources */,
 				0249D44727C639E40085F4A5 /* MaintainView.swift in Sources */,
 				0249D46927C63C2A0085F4A5 /* ProviderLineChartView.swift in Sources */,
@@ -855,6 +877,7 @@
 				0263079D27D7382A000E3CFD /* SummitAlertView.swift in Sources */,
 				0ED1F42427F049D90004B5CE /* AnnouncementDataModel.swift in Sources */,
 				0E36B7012806BEF80008A7C9 /* ProviderConfigurationDateModel.swift in Sources */,
+				0EE8A0CF281E311300613F0E /* RoomCommentAndRattingView.swift in Sources */,
 				0249D46127C63B960085F4A5 /* RoomStatusView.swift in Sources */,
 				0E36B6FD2806AFA40008A7C9 /* SettlementUnitView.swift in Sources */,
 				0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */,
@@ -866,6 +889,7 @@
 				02CB58F327CDB3950035EE20 /* FirestoreToFetchRoomsData.swift in Sources */,
 				0249D44927C63A760085F4A5 /* PrePurchaseView.swift in Sources */,
 				0E31808628125438009784B9 /* ShippingListView.swift in Sources */,
+				0EE8A0D3281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift in Sources */,
 				0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */,
 				0EB65BE0280455F1000EAA43 /* AutoPaymentSettingView.swift in Sources */,
 				0EC5287227F2FCC1002D2C6F /* ProductCollectionDetialView.swift in Sources */,

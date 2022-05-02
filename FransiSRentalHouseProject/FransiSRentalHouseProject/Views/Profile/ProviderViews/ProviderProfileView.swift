@@ -19,6 +19,8 @@ struct ProviderProfileView: View {
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var storageForUserProfile: StorageForUserProfile
     
+    @EnvironmentObject var soldProductCollectionM: SoldProductCollectionManager
+    
     @Binding var show: Bool
 
     
@@ -49,6 +51,18 @@ struct ProviderProfileView: View {
                 .foregroundColor(.white)
                 .padding()
                 VStack(alignment: .leading, spacing: 5) {
+                    Button {
+                        Task {
+                            do {
+                                try await soldProductCollectionM.loopInProducts(providerUidPath: firebaseAuth.getUID())
+                                print(soldProductCollectionM.soldDataSet)
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
+                        }
+                    } label: {
+                        Text("test")
+                    }
                     HStack {
                         Button {
                             showSheet.toggle()
@@ -156,27 +170,27 @@ struct ProviderProfileView: View {
     }
 }
 
-struct OwnerProfileDetailUnit: View {
-    var body: some View {
-        HStack {
-            Text("Rental Price")
-            Spacer()
-            Text("$9,000")
-        }
-        .foregroundColor(.white)
-        .frame(width: 350)
-        .padding()
-    }
-}
+//struct OwnerProfileDetailUnit: View {
+//    var body: some View {
+//        HStack {
+//            Text("Rental Price")
+//            Spacer()
+//            Text("$9,000")
+//        }
+//        .foregroundColor(.white)
+//        .frame(width: 350)
+//        .padding()
+//    }
+//}
 
 extension ProviderProfileView {
     
     @ViewBuilder
     func isContainDataInBarChart() -> some View {
-        if paymentReceiveManager.monthlySettlement.isEmpty {
-            PlaceHolderView()
-        } else {
+        if providerProfileViewModel.providerConfig.isCreatedMonthlySettlementData {
             ProviderBarChartView()
+        } else {
+            PlaceHolderView()
         }
     }
     

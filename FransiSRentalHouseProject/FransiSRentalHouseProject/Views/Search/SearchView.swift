@@ -291,6 +291,15 @@ extension SearchView {
                         searchVM.searchName = ""
                         searchVM.showTags = false
                         searchVM.holderArray = []
+                        Task {
+                            do {
+                                guard let id = result.id else { return }
+                                try await firestoreToFetchRoomsData.getCommentDataSet(roomUID: id)
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
+                        }
+
                     })
                 )
             }

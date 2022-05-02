@@ -16,6 +16,7 @@ struct RenterContractView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var storageForRoomsImage: StorageForRoomsImage
+    @Environment(\.colorScheme) var colorScheme
     
     
     private func agreementCheckerThows() throws {
@@ -33,7 +34,7 @@ struct RenterContractView: View {
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.top, .bottom])
                 RoundedRectangle(cornerRadius: 30)
-                    .fill(Color.white)
+                    .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
                     .frame(width: UIScreen.main.bounds.width - 15)
             }
             viewSwitch(paymentH: renterContractVM.showPaymentHistory, contractData: roomsData.rentersContractData ?? .empty)

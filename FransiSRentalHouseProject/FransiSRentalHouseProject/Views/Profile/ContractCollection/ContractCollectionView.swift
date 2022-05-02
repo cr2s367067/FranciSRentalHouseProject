@@ -44,6 +44,13 @@ struct ContractCollectionView: View {
         .onAppear {
             appViewModel.updateNavigationBarColor()
         }
+        .task {
+            do {
+                try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {

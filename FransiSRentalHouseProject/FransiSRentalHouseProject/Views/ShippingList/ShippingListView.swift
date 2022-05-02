@@ -13,6 +13,7 @@ struct ShippingListView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @Environment(\.colorScheme) var colorScheme
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -110,7 +111,7 @@ extension ShippingListView {
         .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 3 + 50)
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 10)
-                .fill(.black.opacity(0.5))
+                .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
         }
         
     }
@@ -159,20 +160,20 @@ extension ShippingListView {
             VStack {
                 HStack {
                     Text(cartItemData.productName)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .font(.body)
                     Spacer()
                     Text("$\(cartItemData.productPrice)")
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .font(.title3)
                         .fontWeight(.bold)
                 }
                 HStack {
                     Text("Order Amount: ")
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .font(.body)
                     Text(cartItemData.orderAmount)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .font(.body)
                     Spacer()
                 }

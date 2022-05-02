@@ -14,6 +14,7 @@ struct SettlementPaymentView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var appViewModel: AppViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -27,7 +28,7 @@ struct SettlementPaymentView: View {
             .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 2 + 280)
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(.white)
+                    .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
             }
         }
         .navigationTitle("")
@@ -73,7 +74,7 @@ extension SettlementPaymentView {
     func initView() -> some View {
         if paymentReceiveManager.monthlySettlement.isEmpty {
             Text("Hi welecome, press + button to create one.🥳")
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .padding()
         } else {
             ScrollView(.vertical, showsIndicators: true) {

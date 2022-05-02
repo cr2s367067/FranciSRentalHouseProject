@@ -66,13 +66,19 @@ struct MaintainView: View {
                             VStack(alignment: .center, spacing: 5) {
                                 MaintainTitleUnit(title: "Please describe it.")
                                 TextEditor(text: $describtion)
-                                    .background(.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+//                                    .background(.blue)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                                    .padding()
                                     .frame(width: uiScreenWidth - 30, height: 200)
                                     .focused($isFocused)
+                                    .background(alignment: .center, content: {
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .stroke(lineWidth: 1)
+                                            .fill(.white)
+                                    })
                                     .onTapGesture {
                                         if describtion == "Please describe what stuff needs to fix." {
-                                            describtion.removeAll()
+                                            describtion = ""
                                         }
                                     }
                             }

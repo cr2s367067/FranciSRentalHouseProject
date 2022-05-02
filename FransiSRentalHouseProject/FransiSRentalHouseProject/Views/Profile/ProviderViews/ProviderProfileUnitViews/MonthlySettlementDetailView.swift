@@ -29,11 +29,13 @@ struct MonthlySettlementDetailView: View {
                     Text("\(settleData.settlementAmount)")
                     Spacer()
                 }
+                .foregroundColor(.primary)
                 HStack {
                     Text("Post Date: ")
                     Text(settleData.settlementDate, format: Date.FormatStyle().year().month().day())
                     Spacer()
                 }
+                .foregroundColor(.primary)
             }
             .foregroundColor(.white)
             Spacer()
@@ -89,8 +91,12 @@ extension MonthlySettlementDetailView {
         firestoreToFetchRoomsData.fetchRoomInfoFormOwner.forEach { data in
             Task(priority: .high) {
                 do {
-                    try await firestoreToFetchRoomsData.loopTofetchPaymentData(renterUidPath: data.rentedBy ?? "")
-                    try await loopDate(currentDate: currentDate, docID: docID)
+                    guard let userUID = data.rentedBy else { return }
+                    if !userUID.isEmpty{
+                        print("user uid: \(userUID)")
+                        try await firestoreToFetchRoomsData.loopTofetchPaymentData(renterUidPath: data.rentedBy ?? "")
+                        try await loopDate(currentDate: currentDate, docID: docID)
+                    }
                 } catch {
                     self.errorHandler.handle(error: error)
                 }

@@ -13,6 +13,7 @@ struct ContactView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreForContactInfo: FirestoreForContactInfo
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @Environment(\.colorScheme) var colorScheme
     
     @State var connectDes = ""
     
@@ -46,7 +47,7 @@ struct ContactView: View {
                                 .foregroundColor(.white)
                                 .font(.system(size: 24, weight: .heavy))
                             TextEditor(text: $connectDes)
-                                .background(.white)
+                                .background(colorScheme == .dark ? .gray.opacity(0.8) : .white)
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                                 .frame(width: 360, height: 600)
                         }

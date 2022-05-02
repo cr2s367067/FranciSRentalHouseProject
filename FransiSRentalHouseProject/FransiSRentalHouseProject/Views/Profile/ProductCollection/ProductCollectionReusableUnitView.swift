@@ -10,6 +10,8 @@ import SDWebImageSwiftUI
 
 struct ProductCollectionReusableUnitView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
@@ -40,7 +42,7 @@ struct ProductCollectionReusableUnitView: View {
         .frame(width: uiScreenWidth - 30)
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.black.opacity(0.2))
+                .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
         }
     }
 }

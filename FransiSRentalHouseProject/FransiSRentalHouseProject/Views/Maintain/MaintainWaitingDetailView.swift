@@ -12,6 +12,7 @@ struct MaintainWaitingDetailView: View {
     
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @Environment(\.colorScheme) var colorScheme
     
     let uiscreenWidth = UIScreen.main.bounds.width
     let uiscreedHeight = UIScreen.main.bounds.height
@@ -30,11 +31,11 @@ struct MaintainWaitingDetailView: View {
                     Text("\(amountTask)")
                     Spacer()
                 }
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .padding()
                 .background(alignment: .center) {
-                    RoundedRectangle(cornerRadius: 30)
-                        .stroke(.gray, lineWidth: 5)
+                    Capsule()
+                        .stroke(.gray, lineWidth: 1)
                 }
                 ScrollView(.vertical, showsIndicators: true) {
                     ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { mTask in
@@ -46,7 +47,7 @@ struct MaintainWaitingDetailView: View {
             .frame(width: uiscreenWidth - 30, height: uiscreedHeight - 180, alignment: .center)
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 30)
-                    .fill(.white)
+                    .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
             }
         }
         .navigationTitle("")
@@ -103,9 +104,9 @@ extension MaintainTaskWaitingListUnit {
             VStack(alignment: .center) {
                 WebImage(url: URL(string: maintainTask.itemImageURL))
                     .resizable()
-                    .frame(width: uiscreenWidth / 2 + 50, height: uiscreedHeight / 6 + 50, alignment: .center)
+                    .frame(width: uiscreenWidth / 2 + 150, height: uiscreedHeight / 6 + 70, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding()
+//                    .padding()
                 HStack {
                     VStack {
                         HStack {

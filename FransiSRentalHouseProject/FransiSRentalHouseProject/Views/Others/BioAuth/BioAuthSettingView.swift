@@ -11,6 +11,7 @@ struct BioAuthSettingView: View {
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
+    @Environment(\.colorScheme) var colorScheme
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -39,13 +40,13 @@ struct BioAuthSettingView: View {
                 Section {
                     Toggle(isOn: $bioAuthViewModel.faceIDEnable) {
                         Text("Enable Face ID")
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                     }
                     if bioAuthViewModel.faceIDEnable {
                         TextField("UserName", text: $bioAuthViewModel.userNameBioAuth)
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                         SecureField("Password", text: $bioAuthViewModel.passwordBioAuth)
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                         Button {
                             showComfirmAlert.toggle()
                         } label: {
@@ -79,7 +80,7 @@ struct BioAuthSettingView: View {
                 } header: {
                     HStack {
                         Text("Security Setting")
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .font(.system(size: 22, weight: .bold))
                         Spacer()
                     }
@@ -90,7 +91,7 @@ struct BioAuthSettingView: View {
             .frame(width: uiScreenWidth - 30, height: uiScreenHeight - 200 )
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(.white)
+                    .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
             }
             Spacer()
         }

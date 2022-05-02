@@ -17,6 +17,7 @@ struct RenterProfileView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
+    @Environment(\.colorScheme) var colorScheme
     
     @Binding var show: Bool
     @State private var image = UIImage()
@@ -126,7 +127,7 @@ struct RenterProfileView: View {
                         .blur(radius: 10)
                         .clipped()
                     Rectangle()
-                        .fill(.white.opacity(0.5))
+                        .fill(colorScheme == .dark ? .black : .white.opacity(0.5))
                         .blendMode(.multiply)
                 }
                 .edgesIgnoringSafeArea(.top)

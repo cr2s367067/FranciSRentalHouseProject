@@ -23,7 +23,8 @@ class ProviderProfileViewModel: ObservableObject {
         try await providerConfigRef.setData([
             "isSetConfig" : false,
             "settlementDate" : Date(),
-            "isCreated" : false
+            "isCreated" : false,
+            "isCreatedMonthlySettlementData" : false
         ])
     }
     
@@ -39,6 +40,13 @@ class ProviderProfileViewModel: ObservableObject {
         let providerConfigRef = db.collection("users").document(uidPath).collection("ProviderConfiguration").document(uidPath)
         try await providerConfigRef.updateData([
             "isCreated" : isCreated
+        ])
+    }
+    
+    func isCreateMonthlySettleData(uidPath: String) async throws {
+        let providerConfigRef = db.collection("users").document(uidPath).collection("ProviderConfiguration").document(uidPath)
+        try await providerConfigRef.updateData([
+            "isCreatedMonthlySettlementData" : true
         ])
     }
     

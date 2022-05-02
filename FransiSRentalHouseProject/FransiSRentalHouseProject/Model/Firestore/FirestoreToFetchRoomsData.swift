@@ -22,6 +22,8 @@ class FirestoreToFetchRoomsData: ObservableObject {
     @Published var fetchRoomImages = [RoomImageDataModel]()
     @Published var roomID = ""
     @Published var receivePaymentDataSet = [PaymentHistoryDataModel]()
+    @Published var roomCAR: RoomCommentAndRattingDataModel = .empty
+    @Published var roomCARDataSet = [RoomCommentAndRattingDataModel]()
     
     func roomIdGenerator() -> String {
         let roomId = UUID().uuidString
@@ -467,31 +469,9 @@ extension FirestoreToFetchRoomsData {
         }
     }
     
-//    func listeningRoomInfoOwnerSideRestruct(uidPath: String) {
-//           let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
-//           roomOwnerRef.addSnapshotListener { documentSnapshot, error in
-//               guard let document = documentSnapshot?.documents else {
-//                   print("Error fetch document: \(error!)")
-//                   return
-//               }
-//               self.fetchRoomInfoFormOwner = document.compactMap({ queryDocumentSnapshot in
-//                   let result = Result {
-//                       try queryDocumentSnapshot.data(as: RoomInfoDataModel.self)
-//                   }
-//                   switch result {
-//                   case .success(let data):
-//                       return data
-//                   case .failure(let error):
-//                       print("error: \(error)")
-//                   }
-//                   return nil
-//               })
-//           }
-//       }
-    
     @MainActor
     func getRoomInfo(uidPath: String) async throws {
-        let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath)
+        let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).order(by: "rentersContractData.contractBuildDate", descending: true)
         let document = try await roomOwnerRef.getDocuments().documents
         self.fetchRoomInfoFormOwner = document.compactMap({ queryDocumentSnapshot in
             let result = Result {
@@ -820,6 +800,7 @@ extension FirestoreToFetchRoomsData {
     @MainActor
     func loopTofetchPaymentData(renterUidPath: String) async throws {
         let paymentHistoryRef = db.collection("users").document(renterUidPath).collection("PaymentHistory").order(by: "paymentDate", descending: false)
+        print("ref: \(paymentHistoryRef)")
         let document = try await paymentHistoryRef.getDocuments().documents
         print("document: \(document)")
         self.receivePaymentDataSet = document.compactMap({ queryDocumentSnapshot in
@@ -831,6 +812,51 @@ extension FirestoreToFetchRoomsData {
                 return data
             case .failure(let error):
                 print("some error eccure: \(error.localizedDescription)")
+            }
+            return nil
+        })
+    }
+}
+
+extension FirestoreToFetchRoomsData {
+    
+    @MainActor
+    func postRoomCommetAndRatting(roomUID: String, comment: String, neighborRate: Int, pricingRate: Int, convenienceRate: Int, trafficRate: Int, userDisplayName: String, uidPath: String) async throws {
+        let roomCARRef = db.collection("RoomsCommentAndRatting").document(roomUID).collection("CommentAndRate").document(uidPath)
+        _ = try await roomCARRef.setData([
+            "isPost" : true,
+            "userDisplayName" : userDisplayName,
+            "trafficRate" : trafficRate,
+            "convenienceRate" : convenienceRate,
+            "pricingRate" : pricingRate,
+            "neighborRate" : neighborRate,
+            "comment" : comment,
+            "postTimestamp" : Date()
+        ])
+        let document = try await roomCARRef.getDocument(as: RoomCommentAndRattingDataModel.self)
+        roomCAR = document
+    }
+    
+    @MainActor
+    func getPostComment(roomUID: String, uidPath: String) async throws {
+        let roomCARRef = db.collection("RoomsCommentAndRatting").document(roomUID).collection("CommentAndRate").document(uidPath)
+        let document = try await roomCARRef.getDocument(as: RoomCommentAndRattingDataModel.self)
+        roomCAR = document
+    }
+    
+    @MainActor
+    func getCommentDataSet(roomUID: String) async throws {
+        let roomCARRef = db.collection("RoomsCommentAndRatting").document(roomUID).collection("CommentAndRate")
+        let document = try await roomCARRef.getDocuments().documents
+        roomCARDataSet = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: RoomCommentAndRattingDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                print(error.localizedDescription)
             }
             return nil
         })

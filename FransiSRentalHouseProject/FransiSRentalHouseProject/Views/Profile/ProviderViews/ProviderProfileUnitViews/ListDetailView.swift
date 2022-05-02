@@ -71,6 +71,7 @@ struct ListDetailView: View {
                                 }
                                 if settleData.isSettle == false {
                                     try await closeAccount(docID: settleData.id ?? "")
+                                    try await providerProfileViewModel.isCreateMonthlySettleData(uidPath: firebaseAuth.getUID())
                                 }
                             } catch {
                                 self.errorHandler.handle(error: error)

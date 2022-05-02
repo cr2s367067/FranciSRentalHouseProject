@@ -17,6 +17,7 @@ struct UserOrderedListView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var userOrderedListVM: UserOrderedListViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -73,20 +74,20 @@ extension UserOrderedListView {
             VStack {
                 HStack {
                     Text(cartItemData.productName)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .font(.body)
                     Spacer()
                     Text("$\(cartItemData.productPrice)")
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .font(.title3)
                         .fontWeight(.bold)
                 }
                 HStack {
                     Text("Order Amount: ")
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .font(.body)
                     Text(cartItemData.orderAmount)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .font(.body)
                     Spacer()
                 }
@@ -190,7 +191,7 @@ extension UserOrderedListView {
         .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 3 + 50)
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 10)
-                .fill(.black.opacity(0.5))
+                .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
         }
     }
     
@@ -280,7 +281,7 @@ extension UserOrderedListView {
             .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 2 + 150)
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(.black.opacity(0.4))
+                    .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
             }
         }
         .modifier(ViewBackgroundInitModifier())
@@ -369,7 +370,7 @@ struct RantingView: View {
     }
 }
 
-
-extension String: Identifiable {
-    public var id: String { self }
-}
+//
+//extension String: Identifiable {
+//    public var id: String { self }
+//}

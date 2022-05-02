@@ -223,6 +223,16 @@ extension RenterMainView {
                     Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
                 }
             }
+            .simultaneousGesture(TapGesture().onEnded({ _ in
+                Task {
+                    do {
+                        guard let id = result.id else { return }
+                        try await firestoreToFetchRoomsData.getCommentDataSet(roomUID: id)
+                    } catch {
+                        self.errorHandler.handle(error: error)
+                    }
+                }
+            }))
         }
     }
     

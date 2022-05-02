@@ -17,6 +17,8 @@ struct RoomsDetailView: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -49,6 +51,26 @@ struct RoomsDetailView: View {
                         Text("Room Name") //If it has
                             .font(.system(size: 30))
                         Spacer()
+                        Group {
+                            HStack {
+                                Image(systemName: "star.fill")
+                                    .foregroundColor(.yellow)
+                                NavigationLink {
+                                    RoomCommentAndRatePresenterView()
+                                } label: {
+                                    Text("\(roomCARVM.rattingCompute(input: firestoreToFetchRoomsData.roomCARDataSet), specifier: "%.1f")")
+                                        .foregroundColor(.black)
+                                        .font(.system(size: 15, weight: .bold))
+                                }
+                            }
+                            .padding()
+                            .frame(width: 90, height: 30, alignment: .center)
+                            .background(alignment: .trailing) {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.white)
+                                    .shadow(color: .black.opacity(0.4), radius: 5)
+                            }
+                        }
                         Button {
                             roomsDetailViewModel.showMap.toggle()
                         } label: {
@@ -136,7 +158,7 @@ struct RoomsDetailView: View {
             .frame(height: uiScreenHeight / 2 - 60, alignment: .bottom)
             .background {
                 Rectangle()
-                    .fill(Color.brown)
+                    .fill(Color("background3"))
                     .cornerRadius(30, corners: [.topLeft, .topRight])
             }
         }

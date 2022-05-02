@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct TermOfServiceForRentalManager: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         ZStack {
             Group {
@@ -15,7 +18,7 @@ struct TermOfServiceForRentalManager: View {
                     .fill(Color("backgroundBrown"))
                     .edgesIgnoringSafeArea([.top, .bottom])
                 RoundedRectangle(cornerRadius: 30)
-                    .fill(Color.white)
+                    .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
                     .frame(width: UIScreen.main.bounds.width - 15)
             }
             VStack {

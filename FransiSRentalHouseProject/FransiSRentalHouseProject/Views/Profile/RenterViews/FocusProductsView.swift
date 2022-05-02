@@ -107,6 +107,8 @@ extension FocusProductsView {
 
 struct FocusProductsUnitView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var productAmount: String
     var productName: String
     var productImage: String
@@ -154,7 +156,7 @@ struct FocusProductsUnitView: View {
         .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 4)
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 20)
-                .fill(.black.opacity(0.4))
+                .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
                 .shadow(color: .black.opacity(0.3), radius: 10)
         }
     }

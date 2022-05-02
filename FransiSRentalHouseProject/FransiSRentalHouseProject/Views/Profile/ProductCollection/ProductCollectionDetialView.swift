@@ -13,6 +13,7 @@ struct ProductCollectionDetialView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -66,7 +67,6 @@ struct ProductCollectionDetialView: View {
                                     Text("Comment: ")
                                     Text(comment.comment)
                                 }
-                                .foregroundColor(.black)
                                 .font(.body)
                             }
                         }
@@ -79,7 +79,7 @@ struct ProductCollectionDetialView: View {
             .frame(width: uiScreenWidth - 30)
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.black.opacity(0.2))
+                    .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
             }
         }
         .modifier(ViewBackgroundInitModifier())
@@ -97,12 +97,33 @@ struct ProductCollectionDetialView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    isEdit.toggle()
-                } label: {
-                    Image(systemName: "gear")
-                        .foregroundColor(.white)
-                        .font(.system(size: 18))
+                if isEdit {
+                    Button {
+                        if isEdit == true {
+                            isEdit = false
+                        }
+                        Task {
+                            do {
+                                guard let id = productData.id else { return }
+                                try await firestoreForProducts.updateProductAmountAndDesciption(uidPaht: firebaseAuth.getUID(), productID: id, newProductAmount: newAmount, newProductDescription: newDescription)
+                                try await firestoreForProducts.fetchStoreProduct(uidPath: firebaseAuth.getUID())
+                            } catch {
+                                
+                            }
+                        }
+                    } label: {
+                        Text("Done")
+                    }
+                } else {
+                    Button {
+                        if isEdit == false {
+                            isEdit = true
+                        }
+                    } label: {
+                        Image(systemName: "gear")
+                            .foregroundColor(.white)
+                            .font(.system(size: 18))
+                    }
                 }
             }
         }

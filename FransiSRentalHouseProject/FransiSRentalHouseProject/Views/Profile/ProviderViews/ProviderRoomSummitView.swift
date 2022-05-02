@@ -18,6 +18,7 @@ struct ProviderRoomSummitView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     @EnvironmentObject var providerRoomSummitViewModel: ProviderRoomSummitViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -122,7 +123,7 @@ struct ProviderRoomSummitView: View {
                                                     .frame(width: 50, height: 40, alignment: .center)
                                                     .background {
                                                         RoundedRectangle(cornerRadius: 10)
-                                                            .fill(Color.black.opacity(0.4))
+                                                            .fill(colorScheme == .dark ? .gray.opacity(0.5) : Color.black.opacity(0.4))
                                                     }
                                             }
                                             Spacer()

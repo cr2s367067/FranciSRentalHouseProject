@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CustomProgressView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
@@ -22,7 +24,7 @@ struct CustomProgressView: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     .foregroundColor(.white)
                     .frame(width: uiScreenWidth / 2, height: uiScreenHeight / 6, alignment: .center)
-                    .background(Color.black.opacity(0.6))
+                    .background(colorScheme == .dark ? .gray.opacity(0.5) : Color.black.opacity(0.6))
                     .cornerRadius(20)
             }
         }

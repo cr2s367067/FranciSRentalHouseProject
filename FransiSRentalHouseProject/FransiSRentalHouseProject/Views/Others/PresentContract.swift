@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PresentContract: View {
     @EnvironmentObject var firestoreUser: FirestoreToFetchUserinfo
+    @Environment(\.colorScheme) var colorScheme
     var contractData: RentersContractDataModel
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -18,7 +19,7 @@ struct PresentContract: View {
             presentedContract()
                 .background(alignment: .center) {
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(Color.white)
+                        .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
                         .frame(width: uiScreenWidth - 10, height: uiScreenHeight - 185, alignment: .center)
                 }
         }
