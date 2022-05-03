@@ -196,11 +196,36 @@ extension RoomCommentAndRatePresenterView {
         .background(alignment: .center) {
             WebImage(url: URL(string: roomImage))
                 .resizable()
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .scaledToFill()
                 .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 5 + 10)
-                .aspectRatio(contentMode: .fill)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
             RoundedRectangle(cornerRadius: 20)
                 .fill(.black.opacity(0.3))
         }
     }
 }
+
+
+//struct ResizeImage: View {
+//    let uiScreenWidth = UIScreen.main.bounds.width
+//    let uiScreenHeight = UIScreen.main.bounds.height
+//    var body: some View {
+//        HStack {
+////            GeometryReader { geo in
+//                Image("test2")
+//                    .resizable()
+//                    .scaledToFill()
+////                    .frame(width: geo.size.width * 1, height: geo.size.height * 1)
+//                    .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 5 + 10)
+//                    .clipShape(RoundedRectangle(cornerRadius: 20))
+////            }
+//        }
+//        .border(.black)
+//    }
+//}
+//
+//struct ResizeImage_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ResizeImage()
+//    }
+//}
