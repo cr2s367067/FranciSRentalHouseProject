@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct RoomCommentAndRatePresenterView: View {
     
@@ -14,12 +15,23 @@ struct RoomCommentAndRatePresenterView: View {
     @Environment(\.colorScheme) var colorScheme
     
     
-    
+    var roomData: RoomInfoDataModel
     var carTitle = RoomCommentAndRattingView.SectionTitle.self
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    @State private var temp = 0
+    var address: String {
+        let zipCode = roomData.zipCode
+        let city = roomData.city
+        let town = roomData.town
+        let roomAddress = roomData.roomAddress
+        return zipCode + city + town + roomAddress
+    }
+    
+    var roomImage: String {
+        return roomData.roomImage ?? ""
+    }
+    
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
@@ -45,11 +57,11 @@ struct RoomCommentAndRatePresenterView: View {
     }
 }
 
-struct RoomCommentAndRatePresenterView_Previews: PreviewProvider {
-    static var previews: some View {
-        RoomCommentAndRatePresenterView()
-    }
-}
+//struct RoomCommentAndRatePresenterView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RoomCommentAndRatePresenterView()
+//    }
+//}
 
 extension RoomCommentAndRatePresenterView {
     
@@ -166,7 +178,7 @@ extension RoomCommentAndRatePresenterView {
             Spacer()
             Section {
                 HStack {
-                    Text("some address")
+                    Text(address)
                         .foregroundColor(.white)
                     Spacer()
                 }
@@ -182,9 +194,11 @@ extension RoomCommentAndRatePresenterView {
         .padding()
         .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 5 + 10)
         .background(alignment: .center) {
-            Image("room")
+            WebImage(url: URL(string: roomImage))
                 .resizable()
                 .clipShape(RoundedRectangle(cornerRadius: 20))
+                .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 5 + 10)
+                .aspectRatio(contentMode: .fill)
             RoundedRectangle(cornerRadius: 20)
                 .fill(.black.opacity(0.3))
         }

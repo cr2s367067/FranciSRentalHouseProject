@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MonthlySettlementDetailView: View {
     
+    @EnvironmentObject var soldProductCollectionManager: SoldProductCollectionManager
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
@@ -18,6 +20,8 @@ struct MonthlySettlementDetailView: View {
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
+    
+    @State private var providerStatus: UserTypeStatus = .roomProvider
     
     var settleData: ReceivePaymentDateModel
     
@@ -48,7 +52,7 @@ struct MonthlySettlementDetailView: View {
                             guard settleData.isFetchHistoryData == false else {
                                 throw SettlementError.historyFetchingError
                             }
-                            try await settlementMonthlyPayment(currentDate: providerProfileViewModel.settlementDate, docID: settleData.id ?? "")
+                            try await identityProviderFunc(type: UserTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
                             try await paymentReceiveManager.markFetchData(uidPath: firebaseAuth.getUID(), docID: settleData.id ?? "")
                             try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
                         } catch {
@@ -86,6 +90,47 @@ struct MonthlySettlementDetailView: View {
 }
 
 extension MonthlySettlementDetailView {
+    
+    func identityProviderFunc(type: UserTypeStatus) async throws {
+        if type == .roomProvider {
+            print("provider Typd: \(type.rawValue)")
+            try await settlementMonthlyPayment(currentDate: providerProfileViewModel.settlementDate, docID: settleData.id ?? "")
+        }
+        if type == .productProvider {
+            print("provider Typd: \(type.rawValue)")
+            guard soldProductCollectionManager.fetchComplete == false else { return }
+            guard let id = settleData.id else { return }
+            try await soldProductCollectionManager.loopInProducts(providerUidPath: firebaseAuth.getUID())
+            try await loopSoldProduct(currentDate: Date(), docID: id, fetchedArray: soldProductCollectionManager.soldDataSet)
+        }
+    }
+    
+    //MARK: Loop in product array and summit to store data
+    func loopSoldProduct(currentDate: Date, docID: String, fetchedArray: [ProductSoldCollectionDataModel]) async throws {
+        let cal = Calendar.current
+        let convertDate = cal.dateComponents([.year, .month], from: currentDate)
+        for soldProduct in fetchedArray {
+            let convertRecDate = cal.dateComponents([.year, .month], from: soldProduct.soldDate?.dateValue() ?? Date())
+            if convertDate.year == convertRecDate.year && convertDate.month == convertRecDate.month {
+                debugPrint("upload data...")
+                try await soldProductCollectionManager.summitSettleProducIncome(providerUidPath: firebaseAuth.getUID(), docID: docID, input: soldProduct)
+            }
+        }
+        
+        _ = firestoreToFetchRoomsData.receivePaymentDataSet.map { pay in
+            let cal = Calendar.current
+            let convertDate = cal.dateComponents([.year, .month], from: currentDate)
+            let convertReceivePaymentDate = cal.dateComponents([.year, .month], from: pay.paymentDate )
+            if convertReceivePaymentDate.year == convertDate.year && convertReceivePaymentDate.month == convertDate.month {
+                debugPrint("first step: \(pay)")
+                Task(priority: .high) {
+                    debugPrint("upload data...")
+                    try await paymentReceiveManager.summitMonthlyIncome(uidPath: firebaseAuth.getUID(), docID: docID, pastPaymentFee: pay.pastPaymentFee, paymentDate: pay.paymentDate)
+                }
+            }
+        }
+    }
+    
     //Collect data from each rooms payment income and set in one data set
     func settlementMonthlyPayment(currentDate: Date, docID: String) async throws {
         firestoreToFetchRoomsData.fetchRoomInfoFormOwner.forEach { data in
@@ -104,7 +149,7 @@ extension MonthlySettlementDetailView {
         }
     }
     
-    private func loopDate(currentDate: Date, docID: String) async throws {
+    func loopDate(currentDate: Date, docID: String) async throws {
         _ = firestoreToFetchRoomsData.receivePaymentDataSet.map { pay in
             let cal = Calendar.current
             let convertDate = cal.dateComponents([.year, .month], from: currentDate)
@@ -119,6 +164,4 @@ extension MonthlySettlementDetailView {
         }
     }
     
-    
-   
 }

@@ -140,6 +140,7 @@
 		0EEEDC16281F6B340036FD0D /* RoomCommentAndRatePresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC15281F6B340036FD0D /* RoomCommentAndRatePresenterView.swift */; };
 		0EEEDC1A281FCB920036FD0D /* ProductSoldCollectionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC19281FCB920036FD0D /* ProductSoldCollectionDataModel.swift */; };
 		0EEEDC1C281FCF370036FD0D /* SoldProductCollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC1B281FCF370036FD0D /* SoldProductCollectionManager.swift */; };
+		0EEEDC1F2820D9B20036FD0D /* AppStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */; };
 		0EFA3F362817938F00DA6014 /* UserOrderedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */; };
 		0EFA3F382817E36500DA6014 /* CommentAndRattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */; };
 /* End PBXBuildFile section */
@@ -273,6 +274,7 @@
 		0EEEDC15281F6B340036FD0D /* RoomCommentAndRatePresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCommentAndRatePresenterView.swift; sourceTree = "<group>"; };
 		0EEEDC19281FCB920036FD0D /* ProductSoldCollectionDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSoldCollectionDataModel.swift; sourceTree = "<group>"; };
 		0EEEDC1B281FCF370036FD0D /* SoldProductCollectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoldProductCollectionManager.swift; sourceTree = "<group>"; };
+		0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatusModel.swift; sourceTree = "<group>"; };
 		0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListViewModel.swift; sourceTree = "<group>"; };
 		0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAndRattingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -345,6 +347,7 @@
 		0249D42327C637330085F4A5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0EEEDC1D2820D9960036FD0D /* Status */,
 				0259C26027CDF3CA00DFDE18 /* Auth */,
 				02CB58E527CDAD5E0035EE20 /* Data Models */,
 				0249D42627C6376E0085F4A5 /* UserCoreDataModel.xcdatamodeld */,
@@ -686,6 +689,14 @@
 			path = RoomProvider;
 			sourceTree = "<group>";
 		};
+		0EEEDC1D2820D9960036FD0D /* Status */ = {
+			isa = PBXGroup;
+			children = (
+				0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */,
+			);
+			path = Status;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -813,6 +824,7 @@
 				0E31807A280FB60D009784B9 /* RentedPaymentHistoryView.swift in Sources */,
 				0249D43227C638C00085F4A5 /* AppViewModel.swift in Sources */,
 				0E19C8CB27F6CAEB00FD23D8 /* RentalContractViewModel.swift in Sources */,
+				0EEEDC1F2820D9B20036FD0D /* AppStatusModel.swift in Sources */,
 				0E36B6FA28066CC30008A7C9 /* ReceivePaymentDateModel.swift in Sources */,
 				0249D45127C63AEA0085F4A5 /* MenuView.swift in Sources */,
 				0226660F27DE2A1D0051940B /* MessageView.swift in Sources */,

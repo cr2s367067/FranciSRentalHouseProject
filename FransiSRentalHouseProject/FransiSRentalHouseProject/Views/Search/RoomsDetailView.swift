@@ -56,7 +56,7 @@ struct RoomsDetailView: View {
                                 Image(systemName: "star.fill")
                                     .foregroundColor(.yellow)
                                 NavigationLink {
-                                    RoomCommentAndRatePresenterView()
+                                    RoomCommentAndRatePresenterView(roomData: roomsData)
                                 } label: {
                                     Text("\(roomCARVM.rattingCompute(input: firestoreToFetchRoomsData.roomCARDataSet), specifier: "%.1f")")
                                         .foregroundColor(.black)

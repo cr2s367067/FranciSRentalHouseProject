@@ -53,7 +53,7 @@ struct ProductDetailView: View {
                 } label: {
                      Image(systemName: "bookmark.circle")
                         .resizable()
-                        .foregroundColor(productDetailViewModel.mark ? .orange : .white)
+                        .foregroundColor(productDetailViewModel.mark ? .orange : .gray)
                         .frame(width: 35, height: 35)
                         .padding(.trailing)
                 }

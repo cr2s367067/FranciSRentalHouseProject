@@ -18,7 +18,6 @@ struct ProviderProfileView: View {
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var storageForUserProfile: StorageForUserProfile
-    
     @EnvironmentObject var soldProductCollectionM: SoldProductCollectionManager
     
     @Binding var show: Bool
@@ -51,18 +50,6 @@ struct ProviderProfileView: View {
                 .foregroundColor(.white)
                 .padding()
                 VStack(alignment: .leading, spacing: 5) {
-                    Button {
-                        Task {
-                            do {
-                                try await soldProductCollectionM.loopInProducts(providerUidPath: firebaseAuth.getUID())
-                                print(soldProductCollectionM.soldDataSet)
-                            } catch {
-                                self.errorHandler.handle(error: error)
-                            }
-                        }
-                    } label: {
-                        Text("test")
-                    }
                     HStack {
                         Button {
                             showSheet.toggle()
