@@ -53,6 +53,7 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var userOrderedListVM = UserOrderedListViewModel()
     @StateObject var roomCARVM = RoomCommentAndRattingViewModel()
     @StateObject var soldProCollectionM = SoldProductCollectionManager()
+//    @StateObject var cryptoM = CryptoManagement()
     
     var body: some Scene {
         WindowGroup {
@@ -97,6 +98,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(userOrderedListVM)
                 .environmentObject(roomCARVM)
                 .environmentObject(soldProCollectionM)
+//                .environmentObject(cryptoM)
                 .withErrorHandling()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

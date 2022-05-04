@@ -218,6 +218,20 @@ enum BioAuthError: LocalizedError {
     }
 }
 
+enum EncryptError: LocalizedError {
+    case encryptError
+    case decryptError
+    
+    var errorDescription: String? {
+        switch self {
+        case .encryptError:
+            return NSLocalizedString("Fail to encrypt", comment: "")
+        case .decryptError:
+            return NSLocalizedString("Fail to decrypt", comment: "")
+        }
+    }
+}
+
 struct ErrorAlert: Identifiable {
     var id = UUID()
     var message: String

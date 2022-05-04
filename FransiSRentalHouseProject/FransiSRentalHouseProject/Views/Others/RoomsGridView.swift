@@ -72,8 +72,8 @@ struct RoomsGridView: View {
             .background(alignment: .center) {
                 WebImage(url: URL(string: imageURL))
                     .resizable()
+                    .scaledToFill()
                     .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
-                    .aspectRatio(contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.black.opacity(0.5))

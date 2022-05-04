@@ -21,6 +21,9 @@ struct AppTabView: View {
 
     @State private var selecting = "TapHomeButton"
     
+    @AppStorage("userHodler") var userHodler: SignUpType = .isNormalCustomer
+    @AppStorage("providerHolder") var providerHolder: ProviderTypeStatus = .roomProvider
+    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
  
@@ -45,6 +48,10 @@ struct AppTabView: View {
             UITabBar.appearance().barTintColor = UIColor.init(named: "background2")
             firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct()
             firestoreForFurniture.listeningFurnitureInfo()
+            userHodler = SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer
+            if userHodler == .isProvider {
+                providerHolder = ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider
+            }
         }
     }
 }

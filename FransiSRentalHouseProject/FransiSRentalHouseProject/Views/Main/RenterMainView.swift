@@ -21,8 +21,7 @@ struct RenterMainView: View {
     @EnvironmentObject var paymentMg: PaymentMethodManager
     
     //temp
-    @EnvironmentObject var providerBarChartViewModel: ProviderBarChartViewModel
-    @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
+//    @EnvironmentObject var cryptoM: CryptoManagement
     
     
     @State private var dragCompleted = false
@@ -44,6 +43,15 @@ struct RenterMainView: View {
     var body: some View {
         NavigationView {
             VStack {
+//                Button {
+//                    do {
+//                        try cryptoM.encryptMessage(message: "testingmessage", uidPath: firebaseAuth.getUID())
+//                    } catch {
+//                        self.errorHandler.handle(error: error)
+//                    }
+//                } label: {
+//                    Text("test")
+//                }
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Announcement Group
                     Group {
