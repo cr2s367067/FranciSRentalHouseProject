@@ -25,7 +25,7 @@ struct ListDetailView: View {
         VStack {
             Form {
                 Section {
-                    identityProviderType(providerType: UserTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
+                    identityProviderType(providerType: ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
                 } header: {
                     Text(settleData.settlementDate, format: Date.FormatStyle().year().month())
                         .foregroundColor(.white)
@@ -36,7 +36,7 @@ struct ListDetailView: View {
                 HStack {
                     Group {
                         Text("Settlement Amount: ")
-                        identityProTypeSettlementAmount(providerType: UserTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
+                        identityProTypeSettlementAmount(providerType: ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
                     }
                     .foregroundColor(.white)
                     .font(.system(size: 18))
@@ -44,7 +44,7 @@ struct ListDetailView: View {
                     Button {
                         Task {
                             do {
-                                try await ideProTypeForComputeAmount(type: UserTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
+                                try await ideProTypeForComputeAmount(type: ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }
@@ -72,7 +72,7 @@ struct ListDetailView: View {
                                 }
                                 if settleData.isSettle == false {
                                     guard let id = settleData.id else { return }
-                                    try await closeAccount(docID: id, providerType: UserTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
+                                    try await closeAccount(docID: id, providerType: ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
                                     try await providerProfileViewModel.isCreateMonthlySettleData(uidPath: firebaseAuth.getUID())
                                 }
                             } catch {
@@ -93,7 +93,7 @@ struct ListDetailView: View {
         }
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
-            let pTypeWithDefault = UserTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider
+            let pTypeWithDefault = ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider
             evaluateAppear(type: pTypeWithDefault)
             
         })
@@ -110,7 +110,7 @@ struct ListDetailView: View {
         .task {
             do {
                 guard let id =  settleData.id else { return }
-                let pTypeWithDefault = UserTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider
+                let pTypeWithDefault = ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider
                 try await step2(docID: id, providerType: pTypeWithDefault)
                 
             } catch {
@@ -128,7 +128,7 @@ struct ListDetailView: View {
 
 extension ListDetailView {
     
-    func evaluateAppear(type: UserTypeStatus) {
+    func evaluateAppear(type: ProviderTypeStatus) {
         if type == .roomProvider {
             paymentReceiveManager.settlementResultAmount = settleData.settlementAmount
         }
@@ -150,7 +150,7 @@ extension ListDetailView {
     }
     
     
-    func ideProTypeForComputeAmount(type: UserTypeStatus) async throws {
+    func ideProTypeForComputeAmount(type: ProviderTypeStatus) async throws {
         if type == .roomProvider {
             try await getResult()
         }
@@ -160,7 +160,7 @@ extension ListDetailView {
     }
     
     @ViewBuilder
-    func identityProTypeSettlementAmount(providerType: UserTypeStatus) -> some View {
+    func identityProTypeSettlementAmount(providerType: ProviderTypeStatus) -> some View {
         if providerType == .roomProvider {
             Text("\(paymentReceiveManager.settlementResultAmount)")
         }
@@ -171,7 +171,7 @@ extension ListDetailView {
     }
     
     @ViewBuilder
-    func identityProviderType(providerType: UserTypeStatus) -> some View {
+    func identityProviderType(providerType: ProviderTypeStatus) -> some View {
         if providerType == .roomProvider {
             List(paymentReceiveManager.fetchResult) { data in
                 listUnit(data: data)
@@ -214,7 +214,7 @@ extension ListDetailView {
     
     
     
-    func step2(docID: String, providerType: UserTypeStatus) async throws {
+    func step2(docID: String, providerType: ProviderTypeStatus) async throws {
         Task {
             do {
                 if providerType == .roomProvider {
@@ -244,7 +244,7 @@ extension ListDetailView {
     }
     
     
-    func closeAccount(docID: String, providerType: UserTypeStatus) async throws {
+    func closeAccount(docID: String, providerType: ProviderTypeStatus) async throws {
         Task(priority: .low, operation: {
             var holdAmount = 0
             if providerType == .roomProvider {

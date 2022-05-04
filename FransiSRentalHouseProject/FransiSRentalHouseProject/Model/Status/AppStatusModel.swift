@@ -8,7 +8,12 @@
 import Foundation
 
 
-enum UserTypeStatus: String {
+enum SignUpType: String {
+    case isNormalCustomer = "Renter"
+    case isProvider = "Provider"
+}
+
+enum ProviderTypeStatus: String {
     case productProvider = "Furniture Provider"
     case roomProvider = "Rental Management"
 }

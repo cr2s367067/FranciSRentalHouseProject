@@ -220,7 +220,7 @@ class RoomsDetailViewModel: ObservableObject {
 extension RoomsDetailView {
     @ViewBuilder
     func mapSwitch(showMap: Bool, address: String) -> some View {
-        if showMap == true {
+        if showMap {
             RoomLocateMapView(address: address)
                 .frame(height: uiScreenHeight / 2, alignment: .top)
                 .edgesIgnoringSafeArea(.top)
@@ -228,12 +228,16 @@ extension RoomsDetailView {
             if !roomsDetailViewModel.presentingImageURL.isEmpty {
                 WebImage(url: URL(string: roomsDetailViewModel.presentingImageURL))
                     .resizable()
+                    .scaledToFill()
                     .frame(height: uiScreenHeight / 2 + 190, alignment: .top)
+                    .clipped()
                     .edgesIgnoringSafeArea(.top)
             } else {
                 WebImage(url: URL(string: roomsData.roomImage ?? ""))
                     .resizable()
+                    .scaledToFill()
                     .frame(height: uiScreenHeight / 2 + 190, alignment: .top)
+                    .clipped()
                     .edgesIgnoringSafeArea(.top)
             }
         }

@@ -15,51 +15,42 @@ struct ContactView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @Environment(\.colorScheme) var colorScheme
     
-    @State var connectDes = ""
+    @State var contactDes = ""
+    @FocusState private var isFocused: Bool
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                .edgesIgnoringSafeArea([.top, .bottom])
-            VStack(alignment: .leading) {
-                ScrollView(.vertical, showsIndicators: false) {
-                    //: Title Group
-                    VStack(spacing: 1) {
-                        HStack {
-                            Text("Have any question?")
-                                .font(.system(size: 24, weight: .heavy))
-                                .foregroundColor(.white)
-                            Spacer()
-                        }
-                        HStack {
-                            VStack {
-                                Divider()
-                                    .background(Color.white)
-                                    .frame(width: 400, height: 10)
-                            }
-                        }
+        VStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading) {
+                    TitleAndDivider(title: "Have any question?")
+                    HStack {
+                        Text("Tell Us 🤓")
+                            .foregroundColor(.white)
+                            .font(.title3)
+                        Spacer()
                     }
-                    .padding(.leading)
-                    VStack(alignment: .leading) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Contact Us")
-                                .foregroundColor(.white)
-                                .font(.system(size: 24, weight: .heavy))
-                            TextEditor(text: $connectDes)
-                                .background(colorScheme == .dark ? .gray.opacity(0.8) : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                                .frame(width: 360, height: 600)
-                        }
+                    VStack {
+                        TextEditor(text: $contactDes)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 2 + 100)
+                        
                     }
-                    
+                    .padding()
+                    .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 2 + 120)
+                    .background(alignment: .center) {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(colorScheme == .dark ? .gray.opacity(0.5) : .black.opacity(0.5))
+                    }
                     HStack {
                         Spacer()
                         Button {
-                            Task {   
+                            Task {
                                 do {
-                                    if !connectDes.isEmpty {
-                                        try await firestoreForContactInfo.summitContactInfoAsync(question: connectDes, uidPath: firebaseAuth.getUID())
+                                    if !contactDes.isEmpty {
+                                        try await firestoreForContactInfo.summitContactInfoAsync(question: contactDes, uidPath: firebaseAuth.getUID())
                                     }
                                 } catch {
                                     self.errorHandler.handle(error: error)
@@ -67,24 +58,22 @@ struct ContactView: View {
                             }
                         } label: {
                             Text("Send it!")
-                                .foregroundColor(.white)
-                                .frame(width: 108, height: 35)
-                                .background(Color("buttonBlue"))
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                .modifier(ButtonModifier())
                         }
                     }
-                    .padding(.trailing)
-                    .padding(.top, 5)
+                    
                 }
             }
+            .onTapGesture {
+                isFocused = false
+            }
         }
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
+        .modifier(ViewBackgroundInitModifier())
     }
 }
 
-struct ContectView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContactView()
-    }
-}
+//struct ContectView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContactView()
+//    }
+//}

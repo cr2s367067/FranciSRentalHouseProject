@@ -105,6 +105,7 @@
 		0E3DD1A427ED5CE3001525E3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3DD1A327ED5CE3001525E3 /* SDWebImageSwiftUI */; };
 		0E40D46B28095C1B00695FA4 /* StorageForMessageImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E40D46A28095C1B00695FA4 /* StorageForMessageImage.swift */; };
 		0E41D13727FF13260042E14D /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E41D13627FF13260042E14D /* CustomProgressView.swift */; };
+		0E504DD428224BFE005E2386 /* CryptoManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E504DD328224BFD005E2386 /* CryptoManagement.swift */; };
 		0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */; };
 		0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */; };
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
@@ -132,6 +133,7 @@
 		0ED1F43227F1F0970004B5CE /* ProductsProviderSummitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F43127F1F0970004B5CE /* ProductsProviderSummitView.swift */; };
 		0ED1F43427F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */; };
 		0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */; };
+		0EDD9D1628220829003F031D /* ImagePresentingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDD9D1528220829003F031D /* ImagePresentingManager.swift */; };
 		0EE447F227F5867C001DC4DF /* FocusProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F127F5867C001DC4DF /* FocusProductsView.swift */; };
 		0EE447F427F59378001DC4DF /* UserDetailInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */; };
 		0EE8A0CF281E311300613F0E /* RoomCommentAndRattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE8A0CE281E311300613F0E /* RoomCommentAndRattingView.swift */; };
@@ -239,6 +241,7 @@
 		0E36B708280809130008A7C9 /* ProviderBarChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderBarChartViewModel.swift; sourceTree = "<group>"; };
 		0E40D46A28095C1B00695FA4 /* StorageForMessageImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageForMessageImage.swift; sourceTree = "<group>"; };
 		0E41D13627FF13260042E14D /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
+		0E504DD328224BFD005E2386 /* CryptoManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoManagement.swift; sourceTree = "<group>"; };
 		0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDetailView.swift; sourceTree = "<group>"; };
 		0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerRepresentable.swift; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
@@ -266,6 +269,7 @@
 		0ED1F43127F1F0970004B5CE /* ProductsProviderSummitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsProviderSummitView.swift; sourceTree = "<group>"; };
 		0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsProviderSummitViewModel.swift; sourceTree = "<group>"; };
 		0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractEditView.swift; sourceTree = "<group>"; };
+		0EDD9D1528220829003F031D /* ImagePresentingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePresentingManager.swift; sourceTree = "<group>"; };
 		0EE447F127F5867C001DC4DF /* FocusProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusProductsView.swift; sourceTree = "<group>"; };
 		0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailInfoViewModel.swift; sourceTree = "<group>"; };
 		0EE8A0CE281E311300613F0E /* RoomCommentAndRattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCommentAndRattingView.swift; sourceTree = "<group>"; };
@@ -381,6 +385,8 @@
 				0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */,
 				0EE8A0D0281E685500613F0E /* RoomCommentAndRattingViewModel.swift */,
 				0EEEDC1B281FCF370036FD0D /* SoldProductCollectionManager.swift */,
+				0EDD9D1528220829003F031D /* ImagePresentingManager.swift */,
+				0E504DD328224BFD005E2386 /* CryptoManagement.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -803,6 +809,7 @@
 				0249D46527C63C040085F4A5 /* ProviderRoomSummitView.swift in Sources */,
 				0E41D13727FF13260042E14D /* CustomProgressView.swift in Sources */,
 				0249D46727C63C190085F4A5 /* ProviderBarChartView.swift in Sources */,
+				0E504DD428224BFE005E2386 /* CryptoManagement.swift in Sources */,
 				0E36B6F828066B860008A7C9 /* PaymentReceiveManager.swift in Sources */,
 				0E318078280FB591009784B9 /* RenterContractViewModel.swift in Sources */,
 				0EEEDC1A281FCB920036FD0D /* ProductSoldCollectionDataModel.swift in Sources */,
@@ -832,6 +839,7 @@
 				0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */,
 				02450AE827D2AD7100370683 /* FirestoreForContactInfo.swift in Sources */,
 				0E36B7072807EDF10008A7C9 /* ListDetailView.swift in Sources */,
+				0EDD9D1628220829003F031D /* ImagePresentingManager.swift in Sources */,
 				0E31808328113D98009784B9 /* StoreProfileViewModel.swift in Sources */,
 				0EB65BE428057D11000EAA43 /* MaintainWaitingDetailView.swift in Sources */,
 				0E31808128113C16009784B9 /* StoreProfileView.swift in Sources */,
@@ -1043,6 +1051,7 @@
 				INFOPLIST_FILE = FransiSRentalHouseProject/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Request to use face id to to unloak app.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Request to use photo library to  use photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1075,6 +1084,7 @@
 				INFOPLIST_FILE = FransiSRentalHouseProject/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Request to use face id to to unloak app.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Request to use photo library to  use photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

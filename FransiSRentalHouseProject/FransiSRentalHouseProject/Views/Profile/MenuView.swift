@@ -27,61 +27,7 @@ struct MenuView: View {
                 .foregroundColor(.white)
                 .padding(.leading, 2)
                 VStack(spacing: 30) {
-                    if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" || appViewModel.userType == "Renter" {
-                        NavigationLink {
-                            withAnimation {
-                                UserDetailInfoView()
-                            }
-                        } label: {
-                            SideBarButton(buttonName: "User Profile", systemImageName: "person.crop.circle")
-                        }
-                        NavigationLink {
-                            withAnimation {
-                                UserOrderedListView()
-                            }
-                        } label: {
-                            SideBarButton(buttonName: "Ordered", systemImageName: "filemenu.and.selection")
-                        }
-                        NavigationLink {
-                            withAnimation {
-                                FocusProductsView()
-                            }
-                        } label: {
-                            SideBarButton(buttonName: "Focusing\rProducts", systemImageName: "face.dashed.fill")
-                        }
-                    } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
-                        if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
-                            NavigationLink {
-                                withAnimation {
-                                    ContractCollectionView()
-                                }
-                            } label: {
-                                SideBarButton(buttonName: "Contracts", systemImageName: "folder")
-                            }
-                        } else if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
-                            NavigationLink {
-                                withAnimation {
-                                    StoreProfileView()
-                                }
-                            } label: {
-                                SideBarButton(buttonName: "My Store", systemImageName: "briefcase")
-                            }
-                            NavigationLink {
-                                withAnimation {
-                                    ProductCollectionView()
-                                }
-                            } label: {
-                                SideBarButton(buttonName: "Products", systemImageName: "square.stack.fill")
-                            }
-                        }
-                        NavigationLink {
-                            withAnimation {
-                                UserDetailInfoView()
-                            }
-                        } label: {
-                            SideBarButton(buttonName: "User Profile", systemImageName: "person.crop.circle")
-                        }
-                    }
+                    identifyUserType(signUpType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer, providerType: ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
                     NavigationLink {
                         withAnimation {
                             ContactView()
@@ -120,6 +66,69 @@ struct MenuView: View {
                 }
             }
             .padding()
+        }
+    }
+}
+
+extension MenuView {
+    @ViewBuilder
+    func identifyUserType(signUpType: SignUpType, providerType: ProviderTypeStatus) -> some View {
+        if signUpType == .isNormalCustomer {
+            NavigationLink {
+                withAnimation {
+                    UserDetailInfoView()
+                }
+            } label: {
+                SideBarButton(buttonName: "User Profile", systemImageName: "person.crop.circle")
+            }
+            NavigationLink {
+                withAnimation {
+                    UserOrderedListView()
+                }
+            } label: {
+                SideBarButton(buttonName: "Ordered", systemImageName: "filemenu.and.selection")
+            }
+            NavigationLink {
+                withAnimation {
+                    FocusProductsView()
+                }
+            } label: {
+                SideBarButton(buttonName: "Focusing\rProducts", systemImageName: "face.dashed.fill")
+            }
+        }
+        if signUpType == .isProvider {
+            if providerType == .roomProvider {
+                NavigationLink {
+                    withAnimation {
+                        ContractCollectionView()
+                    }
+                } label: {
+                    SideBarButton(buttonName: "Contracts", systemImageName: "folder")
+                }
+            }
+            if providerType == .productProvider {
+                NavigationLink {
+                    withAnimation {
+                        StoreProfileView()
+                    }
+                } label: {
+                    SideBarButton(buttonName: "My Store", systemImageName: "briefcase")
+                }
+                NavigationLink {
+                    withAnimation {
+                        ProductCollectionView()
+                    }
+                } label: {
+                    SideBarButton(buttonName: "Products", systemImageName: "square.stack.fill")
+                }
+            }
+            NavigationLink {
+                withAnimation {
+                    UserDetailInfoView()
+                }
+            } label: {
+                SideBarButton(buttonName: "User Profile", systemImageName: "person.crop.circle")
+            }
         }
     }
 }

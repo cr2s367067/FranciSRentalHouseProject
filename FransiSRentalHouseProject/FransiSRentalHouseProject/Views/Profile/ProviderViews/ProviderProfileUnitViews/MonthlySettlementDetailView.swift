@@ -21,7 +21,7 @@ struct MonthlySettlementDetailView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    @State private var providerStatus: UserTypeStatus = .roomProvider
+    @State private var providerStatus: ProviderTypeStatus = .roomProvider
     
     var settleData: ReceivePaymentDateModel
     
@@ -52,7 +52,7 @@ struct MonthlySettlementDetailView: View {
                             guard settleData.isFetchHistoryData == false else {
                                 throw SettlementError.historyFetchingError
                             }
-                            try await identityProviderFunc(type: UserTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
+                            try await identityProviderFunc(type: ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
                             try await paymentReceiveManager.markFetchData(uidPath: firebaseAuth.getUID(), docID: settleData.id ?? "")
                             try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
                         } catch {
@@ -91,7 +91,7 @@ struct MonthlySettlementDetailView: View {
 
 extension MonthlySettlementDetailView {
     
-    func identityProviderFunc(type: UserTypeStatus) async throws {
+    func identityProviderFunc(type: ProviderTypeStatus) async throws {
         if type == .roomProvider {
             print("provider Typd: \(type.rawValue)")
             try await settlementMonthlyPayment(currentDate: providerProfileViewModel.settlementDate, docID: settleData.id ?? "")

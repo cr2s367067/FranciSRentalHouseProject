@@ -26,7 +26,7 @@ struct AppTabView: View {
  
     var body: some View {
         ZStack {
-            tabViews()
+            tabViews(signUpType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer, providerType: ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
             tabBarItem()
         }
         .navigationTitle("")
@@ -34,23 +34,15 @@ struct AppTabView: View {
         .navigationBarBackButtonHidden(true)
         .task {
             do {
+                let userTypeWithDefault = SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer
                 try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
-                if firestoreToFetchUserinfo.fetchedUserData.userType == "Provider" {
-                    _ = try await providerProfileViewModel.fetchConfigData(uidPath: firebaseAuth.getUID())
-                    try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
-                }
-                if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
-                    try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
-                }
+                try await initTask(signUpType: userTypeWithDefault)
             } catch {
                 self.errorHandler.handle(error: error)
             }
         }
         .onAppear {
             UITabBar.appearance().barTintColor = UIColor.init(named: "background2")
-//            if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
-//                firestoreToFetchRoomsData.listeningRoomInfoOwnerSideRestruct(uidPath: firebaseAuth.getUID())
-//            }
             firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct()
             firestoreForFurniture.listeningFurnitureInfo()
         }
@@ -58,13 +50,17 @@ struct AppTabView: View {
 }
 
 
-//struct AppTabView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AppTabView()
-//    }
-//}
-
 extension AppTabView {
+    
+    func initTask(signUpType: SignUpType) async throws {
+        if signUpType == .isNormalCustomer {
+            try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
+        }
+        if signUpType == .isProvider {
+            _ = try await providerProfileViewModel.fetchConfigData(uidPath: firebaseAuth.getUID())
+            try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
+        }
+    }
     
     @ViewBuilder
     func tabBarItem() -> some View {
@@ -78,128 +74,48 @@ extension AppTabView {
             .padding(.horizontal)
             .padding(.vertical)
             .frame(width: uiScreenWidth - 50, height: 40)
-            //                .background(alignment: .center) {
-            //                    RoundedRectangle(cornerRadius: 30)
-            //                        .fill(Color("Shadow"))
-            //                }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }
     
     @ViewBuilder
-    func tabViews() -> some View {
+    func tabViews(signUpType: SignUpType, providerType: ProviderTypeStatus) -> some View {
         TabView(selection: $selecting) {
-                RenterMainView()
-//                .tabItem({
-//                    Image("TapHomeButton")
-//                })
+            RenterMainView()
                 .tag("TapHomeButton")
-                if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" || appViewModel.userType == "Renter" {
-                    PrePurchaseView()
-//                        .tabItem({
-//                            Image("TapPaymentButton")
-//
-//                        })
+            if signUpType == .isNormalCustomer {
+                PrePurchaseView()
+                    .tag("TapPaymentButton")
+            }
+            if signUpType == .isProvider {
+                if providerType == .roomProvider {
+                    ProviderRoomSummitView()
                         .tag("TapPaymentButton")
-
-                } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
-                    if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
-                        ProviderRoomSummitView()
-//                            .tabItem({
-//                                Image("TapPaymentButton")
-//                            })
-                            .tag("TapPaymentButton")
-                    } else if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
-                        ProductsProviderSummitView()
-//                            .tabItem({
-//                                Image("TapPaymentButton")
-//                            })
-                            .tag("TapPaymentButton")
-                    }
                 }
-                ProfileView()
-//                .tabItem({
-//                    Image("TapProfileButton")
-//                })
-                    .tag("TapProfileButton")
-                SearchView()
-//                .tabItem({
-//                    Image("TapSearchButton")
-//                })
-                    .tag("TapSearchButton")
-                if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
-                    if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
-                        MaintainWaitingView()
-                            .tag("FixButton")
-                    }else if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
-                        ShippingListView()
-                            .tag("FixButton")
-                    }
-                    
-                } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" || appViewModel.userType == "Renter" {
-                    MaintainView()
-//                        .tabItem({
-//                            Image("FixButton")
-//                        })
+                if providerType == .productProvider {
+                    ProductsProviderSummitView()
+                        .tag("TapPaymentButton")
+                }
+            }
+            ProfileView()
+                .tag("TapProfileButton")
+            SearchView()
+                .tag("TapSearchButton")
+            
+            if signUpType == .isNormalCustomer {
+                MaintainView()
+                    .tag("FixButton")
+            }
+            if signUpType == .isProvider {
+                if providerType == .roomProvider {
+                    MaintainWaitingView()
                         .tag("FixButton")
                 }
-            
+                if  providerType == .productProvider {
+                    ShippingListView()
+                        .tag("FixButton")
+                }
+            }
         }
     }
 }
-
-
-/*
- 
- ZStack {
-             tabViews()
-             //: Tab Views
- //            TabView(selection: $appViewModel.tagSelect) {
- //                    RenterMainView()
- //                        .tag("TapHomeButton")
- //                    if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" || appViewModel.userType == "Renter" {
- //                        PrePurchaseView()
- //                            .tag("TapPaymentButton")
- //
- //                    } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
- //                        if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
- //                            ProviderRoomSummitView()
- //                                .tag("TapPaymentButton")
- //                        } else if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
- //                            ProductsProviderSummitView()
- //                                .tag("TapPaymentButton")
- //                        }
- //                    }
- //                    ProfileView()
- //                        .tag("TapProfileButton")
- //                    SearchView()
- //                        .tag("TapSearchButton")
- //                    if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Provider" || appViewModel.userType == "Provider" {
- //                        MaintainWaitingView()
- //                            .tag("FixButton")
- //                    } else if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" || appViewModel.userType == "Renter" {
- //                        MaintainView()
- //                            .tag("FixButton")
- //                    }
- //
- //            }
-             //: Tab bar
- //            VStack {
- //                Spacer()
- //                HStack(alignment: .center, spacing: 40) {
- //                    ForEach(appViewModel.selectArray, id: \.self) { buttonName in
- //                        TabBarButton(tagSelect: $appViewModel.tagSelect, buttonImage: buttonName)
- //                    }
- //                }
- ////                .padding(.horizontal)
- ////                .padding(.vertical)
- //                .frame(width: uiScreenWidth - 50, height: 40)
- ////                .background(alignment: .center) {
- ////                    RoundedRectangle(cornerRadius: 30)
- ////                        .fill(Color("Shadow"))
- ////                }
- //            }
- //            .padding(.horizontal)
- //            .ignoresSafeArea(.keyboard, edges: .bottom)
- //        }
-*/
