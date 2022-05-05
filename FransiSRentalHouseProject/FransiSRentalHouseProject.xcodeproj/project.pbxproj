@@ -517,8 +517,8 @@
 		0259C26327CF45CF00DFDE18 /* ContractView */ = {
 			isa = PBXGroup;
 			children = (
-				02D684BD27D9EFDE00061B99 /* Renter */,
 				0259C26427CF45D800DFDE18 /* Provider */,
+				02D684BD27D9EFDE00061B99 /* Renter */,
 				02B7C43D27D0ECA000DC100E /* TermOfServiceView.swift */,
 				0292835A27D37FDA00DEF068 /* TermOfServiceForRentalManager.swift */,
 				0292835C27D3824900DEF068 /* PrivatePolicyView.swift */,
@@ -753,6 +753,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = 0249D3FC27C6351F0085F4A5;
 			packageReferences = (

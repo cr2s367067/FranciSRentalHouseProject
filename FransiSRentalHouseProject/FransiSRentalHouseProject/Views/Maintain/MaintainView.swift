@@ -193,7 +193,7 @@ struct MaintainTitleUnit: View {
     var title: String
     var body: some View {
         HStack {
-            Text(title)
+            Text(LocalizedStringKey(title))
                 .foregroundColor(.white)
                 .font(.system(size: 24, weight: .heavy))
             Spacer()

@@ -118,7 +118,7 @@ extension UserDetailInfoView {
         let uiScreenWidth = UIScreen.main.bounds.width
         VStack(alignment: .leading, spacing: 2) {
             HStack {
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .modifier(textFormateForProviderSummitView())
                 Spacer()
             }

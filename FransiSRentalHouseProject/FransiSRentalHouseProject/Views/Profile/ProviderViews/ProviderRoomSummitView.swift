@@ -353,7 +353,7 @@ struct StepsTitle: View {
     var stepsName = ""
     var body: some View {
         HStack {
-            Text(stepsName)
+            Text(LocalizedStringKey(stepsName))
                 .foregroundColor(.white)
             Spacer()
         }

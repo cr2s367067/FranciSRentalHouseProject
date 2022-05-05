@@ -33,7 +33,7 @@ struct MenuView: View {
                             ContactView()
                         }
                     } label: {
-                        SideBarButton(buttonName: "Contect Us", systemImageName: "questionmark.circle")
+                        SideBarButton(buttonName: "Contact Us", systemImageName: "questionmark.circle")
                     }
                     NavigationLink {
                         withAnimation {
@@ -141,7 +141,7 @@ struct SideBarButton: View {
             Image(systemName: systemImageName)
                 .foregroundColor(.white)
                 .font(.system(size: 24))
-            Text(buttonName)
+            Text(LocalizedStringKey(buttonName))
                 .foregroundColor(.white)
                 .font(.system(size: 18))
             Spacer()

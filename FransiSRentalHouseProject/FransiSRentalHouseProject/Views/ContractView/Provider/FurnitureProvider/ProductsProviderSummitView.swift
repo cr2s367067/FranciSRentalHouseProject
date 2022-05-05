@@ -39,7 +39,7 @@ struct ProductsProviderSummitView: View {
                 VStack(spacing: 5) {
                     ScrollView(.vertical, showsIndicators: false){
                         TitleAndDivider(title: "Ready to Post your products?")
-                        StepsTitle(stepsName: "Step1: Upload the room pic.")
+                        StepsTitle(stepsName: "Step1: Upload the product pic.")
                         Button {
                             productsProviderSummitViewModel.showSheet.toggle()
                         } label: {
@@ -55,9 +55,9 @@ struct ProductsProviderSummitView: View {
                                 if productsProviderSummitViewModel.isSummitProductPic == true {
                                     Image(uiImage: self.productsProviderSummitViewModel.image)
                                         .resizable()
+                                        .scaledToFill()
                                         .frame(width: 378, height: 304)
                                         .cornerRadius(10)
-                                        .scaledToFit()
                                 }
                             }
                         }
@@ -65,7 +65,7 @@ struct ProductsProviderSummitView: View {
                         VStack(spacing: 10) {
                             InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productName)
                             InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productFrom)
-                            InfoUnit(title: "Prodduct Price", bindingString: $productsProviderSummitViewModel.productPrice)
+                            InfoUnit(title: "Product Price", bindingString: $productsProviderSummitViewModel.productPrice)
                                 .keyboardType(.numberPad)
                             if !productsProviderSummitViewModel.productPrice.isEmpty {
                                 VStack(alignment: .leading, spacing: 2) {
@@ -273,7 +273,7 @@ extension ProductsProviderSummitView {
     @ViewBuilder
     func costInfo(title: String, contain: Double) -> some View {
         HStack {
-            Text("\(title): ")
+            Text(LocalizedStringKey("\(title): "))
             Text("\(contain, specifier: "%.3f")")
             Spacer()
         }

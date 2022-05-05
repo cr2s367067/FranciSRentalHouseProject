@@ -192,7 +192,7 @@ extension RenterProfileView {
                 }
                 //.padding(.leading, 5)
                 HStack {
-                    Text("Expired Day")
+                    Text("Expired Date")
                         .font(.system(size: 20, weight: .heavy))
                         .unredacted()
                     Spacer()

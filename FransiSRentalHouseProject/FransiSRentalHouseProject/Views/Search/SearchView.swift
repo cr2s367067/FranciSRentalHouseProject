@@ -19,6 +19,7 @@ struct SearchView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firebaseAuth: FirebaseAuth
 
+    @Environment(\.colorScheme) var colorScheme
 
     @FocusState private var isFocused: Bool
 
@@ -32,16 +33,6 @@ struct SearchView: View {
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.bottom, .top])
                 VStack(spacing: 10) {
-//                    Button {
-//                        Task {
-//                            do {
-//                            } catch {
-//                                self.errorHandler.handle(error: error)
-//                            }
-//                        }
-//                    } label: {
-//                        Text("test")
-//                    }
                     Spacer()
                     //: Search TextField For Temp
                     HStack {
@@ -70,7 +61,7 @@ struct SearchView: View {
                     .foregroundColor(.gray)
                     .background(alignment: .center) {
                         RoundedRectangle(cornerRadius: 15)
-                            .fill(Color("fieldGray").opacity(0.07))
+                            .fill(colorScheme == .dark ? .gray.opacity(0.4) : Color("fieldGray").opacity(0.07))
                     }
                     HStack(spacing: 5) {
                         Spacer()

@@ -467,7 +467,7 @@ struct TitleAndDivider: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
             HStack {
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.system(size: 24, weight: .heavy))
                     .foregroundColor(Color.white)
                 Spacer()
@@ -528,7 +528,7 @@ struct InfoUnit: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .modifier(textFormateForProviderSummitView())
                 Spacer()
             }

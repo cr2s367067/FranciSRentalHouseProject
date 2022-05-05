@@ -12,8 +12,6 @@ import Firebase
 struct FransiSRentalHouseProjectApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-//    @StateObject private var persistenceController = PersistenceController()
-//    @StateObject var firebaseStorageInGeneral = FirebaseStorageInGeneral()
     @StateObject var storageForUserProfile = StorageForUserProfile()
     @StateObject var storageForRoomsImage = StorageForRoomsImage()
     @StateObject var firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
@@ -53,12 +51,10 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var userOrderedListVM = UserOrderedListViewModel()
     @StateObject var roomCARVM = RoomCommentAndRattingViewModel()
     @StateObject var soldProCollectionM = SoldProductCollectionManager()
-//    @StateObject var cryptoM = CryptoManagement()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-//                .environmentObject(firebaseStorageInGeneral)
                 .environmentObject(storageForUserProfile)
                 .environmentObject(storageForRoomsImage)
                 .environmentObject(firestoreToFetchUserinfo)
@@ -98,9 +94,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(userOrderedListVM)
                 .environmentObject(roomCARVM)
                 .environmentObject(soldProCollectionM)
-//                .environmentObject(cryptoM)
                 .withErrorHandling()
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

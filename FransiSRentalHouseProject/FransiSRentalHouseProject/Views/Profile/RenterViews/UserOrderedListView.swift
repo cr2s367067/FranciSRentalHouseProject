@@ -122,7 +122,7 @@ extension UserOrderedListView {
     func orderTitleAndContain(header: String, body: String) -> some View {
         VStack(spacing: 1) {
             HStack {
-                Text("\(header): ")
+                Text(LocalizedStringKey("\(header): "))
                 Spacer()
             }
             .foregroundColor(.white)

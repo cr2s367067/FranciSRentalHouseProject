@@ -255,8 +255,9 @@ extension RoomsDetailView {
                     } label: {
                         WebImage(url: URL(string: image.imageURL))
                             .resizable()
-                            .cornerRadius(10)
+                            .scaledToFill()
                             .frame(width: 60, height: 60, alignment: .center)
+                            .cornerRadius(10)
                     }
                 }
             }
