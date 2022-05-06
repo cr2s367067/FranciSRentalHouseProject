@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
-  <file original="FransiSRentalHouseProject/en.lproj/InfoPlist.strings" source-language="en" target-language="zh-Hant" datatype="plaintext">
+  <file original="FransiSRentalHouseProject/en.lproj/InfoPlist.strings" datatype="plaintext" source-language="en" target-language="zh-Hant">
     <header>
       <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="13.3.1" build-num="13E500a"/>
     </header>
@@ -11,17 +11,17 @@
       </trans-unit>
       <trans-unit id="NSFaceIDUsageDescription" xml:space="preserve">
         <source>Request to use face id to to unloak app.</source>
-        <target> 需要透過Face ID 來登入解鎖 App.</target>
+        <target>請求使用Face ID來解鎖App</target>
         <note>Privacy - Face ID Usage Description</note>
       </trans-unit>
       <trans-unit id="NSPhotoLibraryUsageDescription" xml:space="preserve">
         <source>Request to use photo library to  use photo.</source>
-        <target>需要取用照片資料庫來取得照片</target>
+        <target>請求使用照片資料庫來存取找片</target>
         <note>Privacy - Photo Library Usage Description</note>
       </trans-unit>
     </body>
   </file>
-  <file original="FransiSRentalHouseProject/en.lproj/Localizable.strings" source-language="en" target-language="zh-Hant" datatype="plaintext">
+  <file original="FransiSRentalHouseProject/en.lproj/Localizable.strings" datatype="plaintext" source-language="en" target-language="zh-Hant">
     <header>
       <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="13.3.1" build-num="13E500a"/>
     </header>
@@ -63,7 +63,7 @@
       </trans-unit>
       <trans-unit id="$%@ " xml:space="preserve">
         <source>$%@ </source>
-        <target>$%@ </target>
+        <target>$%@</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="$%lld" xml:space="preserve">
@@ -103,7 +103,7 @@
       </trans-unit>
       <trans-unit id="%@: " xml:space="preserve">
         <source>%@: </source>
-        <target>%@: </target>
+        <target>%@:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="%@層 平方公尺，__層__平方公尺，__層__平方公尺共計__平方公尺，用途%@。" xml:space="preserve">
@@ -123,7 +123,7 @@
       </trans-unit>
       <trans-unit id="(Include Deposit fee 2 month)" xml:space="preserve">
         <source>(Include Deposit fee 2 month)</source>
-        <target>(包含兩個月押金)</target>
+        <target>(包括兩個月押金)</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="(一)受託人應督促承租人依照公寓大廈管理條例規定，遵守住戶規約，不得違法使用、存放有爆炸性或易燃性物品，影響公共安全、公共衛生或居住安寧。" xml:space="preserve">
@@ -673,7 +673,7 @@
       </trans-unit>
       <trans-unit id="Additional Room Images" xml:space="preserve">
         <source>Additional Room Images</source>
-        <target>新增其他房間圖片</target>
+        <target>其他室內照片</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Address" xml:space="preserve">
@@ -688,12 +688,12 @@
       </trans-unit>
       <trans-unit id="Amount" xml:space="preserve">
         <source>Amount</source>
-        <target>共</target>
+        <target>總額</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Amount: " xml:space="preserve">
         <source>Amount: </source>
-        <target>共：</target>
+        <target>總額:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Announcement" xml:space="preserve">
@@ -728,17 +728,17 @@
       </trans-unit>
       <trans-unit id="Cannot fetch the image path, please try again" xml:space="preserve">
         <source>Cannot fetch the image path, please try again</source>
-        <target>無法取得圖片，請再試一次</target>
+        <target>無法取得照片路徑，請稍後再試</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Card Holder Name" xml:space="preserve">
         <source>Card Holder Name</source>
-        <target>Card Holder Name</target>
+        <target>卡片持有人姓名</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Card Name*" xml:space="preserve">
         <source>Card Name*</source>
-        <target>卡片持有人姓名*</target>
+        <target>卡片持有人*</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Card Number" xml:space="preserve">
@@ -758,12 +758,12 @@
       </trans-unit>
       <trans-unit id="Check Contract" xml:space="preserve">
         <source>Check Contract</source>
-        <target>確認合約</target>
+        <target>檢視合約</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Check Detial" xml:space="preserve">
         <source>Check Detial</source>
-        <target>確認細節</target>
+        <target>檢視細節</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Check Out" xml:space="preserve">
@@ -773,7 +773,7 @@
       </trans-unit>
       <trans-unit id="City&amp;County" xml:space="preserve">
         <source>City&amp;County</source>
-        <target>縣市區</target>
+        <target>縣/市</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Close Account" xml:space="preserve">
@@ -783,7 +783,7 @@
       </trans-unit>
       <trans-unit id="Comfirm" xml:space="preserve">
         <source>Comfirm</source>
-        <target>確認</target>
+        <target>確定</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Comment And Ratting" xml:space="preserve">
@@ -793,17 +793,17 @@
       </trans-unit>
       <trans-unit id="Comment:" xml:space="preserve">
         <source>Comment:</source>
-        <target>Comment:</target>
+        <target>回覆:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Comment: " xml:space="preserve">
         <source>Comment: </source>
-        <target>Comment: </target>
+        <target>回覆:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Comments And Rate:" xml:space="preserve">
         <source>Comments And Rate:</source>
-        <target>回覆與評分：</target>
+        <target>回覆與評分:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Compute Amount" xml:space="preserve">
@@ -813,17 +813,17 @@
       </trans-unit>
       <trans-unit id="Confirm" xml:space="preserve">
         <source>Confirm</source>
-        <target>確認</target>
+        <target>確定</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Congrate!" xml:space="preserve">
         <source>Congrate!</source>
-        <target>恭喜！</target>
+        <target>恭喜!</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Contact provider." xml:space="preserve">
         <source>Contact provider.</source>
-        <target>合約提供者</target>
+        <target>提供商</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Contract Status" xml:space="preserve">
@@ -833,7 +833,7 @@
       </trans-unit>
       <trans-unit id="Contract: " xml:space="preserve">
         <source>Contract: </source>
-        <target>合約：</target>
+        <target>合約:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Could not be 0" xml:space="preserve">
@@ -853,12 +853,12 @@
       </trans-unit>
       <trans-unit id="Description" xml:space="preserve">
         <source>Description</source>
-        <target>介紹</target>
+        <target>簡介</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="District" xml:space="preserve">
         <source>District</source>
-        <target>鎮</target>
+        <target>區/鎮/村</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Does someone dead in this room before?" xml:space="preserve">
@@ -868,7 +868,7 @@
       </trans-unit>
       <trans-unit id="Does the room has water leak problem?" xml:space="preserve">
         <source>Does the room has water leak problem?</source>
-        <target>是否有漏水問題？</target>
+        <target>是否為漏水？</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Done" xml:space="preserve">
@@ -888,7 +888,7 @@
       </trans-unit>
       <trans-unit id="Enable Face ID" xml:space="preserve">
         <source>Enable Face ID</source>
-        <target>啟用Face ID</target>
+        <target>啟動Face ID</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Error" xml:space="preserve">
@@ -908,7 +908,7 @@
       </trans-unit>
       <trans-unit id="Expired Date: " xml:space="preserve">
         <source>Expired Date: </source>
-        <target>到期日: </target>
+        <target>到期日:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Fail to decrypt" xml:space="preserve">
@@ -928,7 +928,7 @@
       </trans-unit>
       <trans-unit id="Fixed" xml:space="preserve">
         <source>Fixed</source>
-        <target>修復</target>
+        <target>已修復</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Forget Password?" xml:space="preserve">
@@ -948,32 +948,31 @@
       </trans-unit>
       <trans-unit id="FranciS 租賃管理科技有限公司使用者授權合約 (2022 年 7 月)" xml:space="preserve">
         <source>FranciS 租賃管理科技有限公司使用者授權合約 (2022 年 7 月)</source>
-        <target>FranciS 軟體有限公司使用者授權合約 (2022 年 7 月)</target>
+        <target>FranciS 租賃管理科技有限公司使用者授權合約 (2022 年 7 月)</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="FranciS 租賃管理科技有限公司平台使用授權合約 (2022 年 7 月)" xml:space="preserve">
         <source>FranciS 租賃管理科技有限公司平台使用授權合約 (2022 年 7 月)</source>
-        <target>FranciS 軟體有限公司平台使用授權合約 (2022 年 7 月)</target>
+        <target>FranciS 租賃管理科技有限公司平台使用授權合約 (2022 年 7 月)</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Furniture Provider" xml:space="preserve">
         <source>Furniture Provider</source>
-        <target>產品供給商</target>
+        <target>產品提供商</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Gender" xml:space="preserve">
         <source>Gender</source>
-        <target>性別</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Give Comment" xml:space="preserve">
         <source>Give Comment</source>
-        <target>提供評論</target>
+        <target>提供意見</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Give some comment: " xml:space="preserve">
         <source>Give some comment: </source>
-        <target>提供評論：</target>
+        <target>提供些意見</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Got it." xml:space="preserve">
@@ -983,52 +982,52 @@
       </trans-unit>
       <trans-unit id="Hey, we need your suggestion🤓" xml:space="preserve">
         <source>Hey, we need your suggestion🤓</source>
-        <target>嗨，我們需要你的意見🤓</target>
+        <target>嗨, 我們需要你的意見🤓</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Hey, you haven't add any product.🥺" xml:space="preserve">
         <source>Hey, you haven't add any product.🥺</source>
-        <target>嗨，你還沒買任何商品哦🥺</target>
+        <target>嗨, 你還沒加入商品喔🥺</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Hi welecome, press + button to create one.🥳" xml:space="preserve">
         <source>Hi welecome, press + button to create one.🥳</source>
-        <target>嗨 歡迎，請按下＋鍵來開始吧🥳</target>
+        <target>嗨 歡迎, 按下+號鍵來新增吧</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Hi you have already fetched data." xml:space="preserve">
         <source>Hi you have already fetched data.</source>
-        <target>嗨 你已經抓取這個月的資料了呦</target>
+        <target>嗨 你已經抓取資料了</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Hi, Account is closed, you couldn't change it." xml:space="preserve">
         <source>Hi, Account is closed, you couldn't change it.</source>
-        <target>Um, 抱歉已經關帳，無法更改喔。</target>
+        <target>嗨, 已經關帳了, 沒有辦法做更改喔</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Hi, I know you love it, but you have to fill out the user infomation first.😉" xml:space="preserve">
         <source>Hi, I know you love it, but you have to fill out the user infomation first.😉</source>
-        <target>嗨, 我知道你愛這房間，但是你需要先填寫完整資料，感恩的心😉</target>
+        <target>嗨, 我知道你喜歡, 但是你需要先提供完整使用者資料😉</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Hi, Today is not settlement date." xml:space="preserve">
         <source>Hi, Today is not settlement date.</source>
-        <target>嗨，今天不是結算日喔</target>
+        <target>嗨, 今天不是結帳日</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Hi, You haven't select any product." xml:space="preserve">
         <source>Hi, You haven't select any product.</source>
-        <target>嗨，你還沒選購商品喔</target>
+        <target>嗨, 你來沒選擇任何商品</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Holder Name shouldn't be empty." xml:space="preserve">
         <source>Holder Name shouldn't be empty.</source>
-        <target>名字不能為空白喔</target>
+        <target>持有人不能空白</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="I agree and read whole policy." xml:space="preserve">
         <source>I agree and read whole policy.</source>
-        <target>我閱讀且同意所有規定</target>
+        <target>我閱讀且同意全部規則</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="I agree to the FranciS" xml:space="preserve">
@@ -1043,17 +1042,17 @@
       </trans-unit>
       <trans-unit id="I have read and agree the terms of Service." xml:space="preserve">
         <source>I have read and agree the terms of Service.</source>
-        <target>我閱讀且同意所有服務政策</target>
+        <target>我閱讀且同意服務震測</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="I read and agree these automatic payment policy." xml:space="preserve">
         <source>I read and agree these automatic payment policy.</source>
-        <target>我閱讀且同意自動付款政策</target>
+        <target>我閱讀且同意自動付款的服務規則</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="I want this!" xml:space="preserve">
         <source>I want this!</source>
-        <target>我要這個！</target>
+        <target>我要這個!</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="I'm Provider" xml:space="preserve">
@@ -1063,17 +1062,17 @@
       </trans-unit>
       <trans-unit id="I'm Renter" xml:space="preserve">
         <source>I'm Renter</source>
-        <target>我是承租者</target>
+        <target>我是消費者</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="ID Formate is not correct, please check it again." xml:space="preserve">
         <source>ID Formate is not correct, please check it again.</source>
-        <target>抱歉，ID格式有誤，請再確認</target>
+        <target>身分證字號格式錯誤，請重新確認</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="ID is invalid, please check it again." xml:space="preserve">
         <source>ID is invalid, please check it again.</source>
-        <target>ID無效，請重新確認</target>
+        <target>身分證字號無效，請重新確認</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Is Sold Out" xml:space="preserve">
@@ -1083,42 +1082,42 @@
       </trans-unit>
       <trans-unit id="It's added in our schedule, We will fix it as fast as possible." xml:space="preserve">
         <source>It's added in our schedule, We will fix it as fast as possible.</source>
-        <target>已經加入我們的行事曆，我們會盡快為您修復</target>
+        <target>已經新增到行事曆，我們會儘速修復</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Last Payment: " xml:space="preserve">
         <source>Last Payment: </source>
-        <target>前次付款</target>
+        <target>前次付款:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Let us create one" xml:space="preserve">
         <source>Let us create one</source>
-        <target>讓我們來新增一個吧</target>
+        <target>讓我們新增一個吧</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Let's do it." xml:space="preserve">
         <source>Let's do it.</source>
-        <target>我們開始吧</target>
+        <target>開始吧</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Let's get start" xml:space="preserve">
         <source>Let's get start</source>
-        <target>我們開始吧</target>
+        <target>開始吧</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Load Date" xml:space="preserve">
         <source>Load Date</source>
-        <target>讀取</target>
+        <target>讀取資料</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Maintain History: " xml:space="preserve">
         <source>Maintain History: </source>
-        <target>歷史維護：</target>
+        <target>歷史維護:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Maintain List: " xml:space="preserve">
         <source>Maintain List: </source>
-        <target>待維護項目：</target>
+        <target>待修列表:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Male" xml:space="preserve">
@@ -1128,22 +1127,22 @@
       </trans-unit>
       <trans-unit id="Mobile Number is too long or short, please check it again." xml:space="preserve">
         <source>Mobile Number is too long or short, please check it again.</source>
-        <target>手機號碼太長或太短，請重新確認</target>
+        <target>手機號碼太長或太短, 請重新確認</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Mobile Number's formate is not correct." xml:space="preserve">
         <source>Mobile Number's formate is not correct.</source>
-        <target>手機格式有誤</target>
+        <target>手機號碼格式不正確</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Monthly Rental Price: " xml:space="preserve">
         <source>Monthly Rental Price: </source>
-        <target>每月租金：</target>
+        <target>每月租金:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Next" xml:space="preserve">
         <source>Next</source>
-        <target>下一步</target>
+        <target>下一不</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="No" xml:space="preserve">
@@ -1158,7 +1157,7 @@
       </trans-unit>
       <trans-unit id="No item needs to fix🥸" xml:space="preserve">
         <source>No item needs to fix🥸</source>
-        <target>沒有待修項目🥸</target>
+        <target>無待修項目🥸</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Notice" xml:space="preserve">
@@ -1168,37 +1167,37 @@
       </trans-unit>
       <trans-unit id="OK" xml:space="preserve">
         <source>OK</source>
-        <target>OK</target>
+        <target>確定</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Okay" xml:space="preserve">
         <source>Okay</source>
-        <target>Okay</target>
+        <target>確定</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Okay!" xml:space="preserve">
         <source>Okay!</source>
-        <target>Okay!</target>
+        <target>確定!</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Order Amount" xml:space="preserve">
         <source>Order Amount</source>
-        <target>購買數</target>
+        <target>訂購數</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Order Amount: " xml:space="preserve">
         <source>Order Amount: </source>
-        <target>購買總數：</target>
+        <target>訂購數:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Order Date: " xml:space="preserve">
         <source>Order Date: </source>
-        <target>購買日：</target>
+        <target>訂購日:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Overview" xml:space="preserve">
         <source>Overview</source>
-        <target>概述</target>
+        <target>概況</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Password" xml:space="preserve">
@@ -1208,7 +1207,7 @@
       </trans-unit>
       <trans-unit id="Password should be longer then 6 character" xml:space="preserve">
         <source>Password should be longer then 6 character</source>
-        <target>密碼長度必須大於6個字母</target>
+        <target>密碼長度必須大於六個字母</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Pay" xml:space="preserve">
@@ -1218,7 +1217,7 @@
       </trans-unit>
       <trans-unit id="Pay Rental Bill: " xml:space="preserve">
         <source>Pay Rental Bill: </source>
-        <target>繳付租金帳單：</target>
+        <target>繳付租金:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Payment" xml:space="preserve">
@@ -1233,7 +1232,7 @@
       </trans-unit>
       <trans-unit id="Payment History: " xml:space="preserve">
         <source>Payment History: </source>
-        <target>付款歷史：</target>
+        <target>付款歷史:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Payment Method" xml:space="preserve">
@@ -1248,22 +1247,22 @@
       </trans-unit>
       <trans-unit id="Please check out all blank" xml:space="preserve">
         <source>Please check out all blank</source>
-        <target>請填寫所有空白處</target>
+        <target>請確認所填寫處</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please check the Term of Service" xml:space="preserve">
         <source>Please check the Term of Service</source>
-        <target>請確認服務政策</target>
+        <target>請閱讀並確認服務政策</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please check the confirm password" xml:space="preserve">
         <source>Please check the confirm password</source>
-        <target>請再次確認密碼</target>
+        <target>請確認密碼</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please check the terms of service and payment checkbox." xml:space="preserve">
         <source>Please check the terms of service and payment checkbox.</source>
-        <target>請確認服務狀態與付款項目</target>
+        <target>請閱讀並確認服務政策與付款規則</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please choose type" xml:space="preserve">
@@ -1278,17 +1277,17 @@
       </trans-unit>
       <trans-unit id="Please enter valid date of birth" xml:space="preserve">
         <source>Please enter valid date of birth</source>
-        <target>請輸入有效生日</target>
+        <target>請輸入有效的生日</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill in room area." xml:space="preserve">
         <source>Please fill in room area.</source>
-        <target>請填寫坪數</target>
+        <target>請輸入物件坪數</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill in the paassword" xml:space="preserve">
         <source>Please fill in the paassword</source>
-        <target>請輸入密碼</target>
+        <target>清輸入密碼</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill in the password" xml:space="preserve">
@@ -1303,42 +1302,42 @@
       </trans-unit>
       <trans-unit id="Please fill out an exp date." xml:space="preserve">
         <source>Please fill out an exp date.</source>
-        <target>請輸入卡片到期日</target>
+        <target>請輸入到期日</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill out payment infomation, thanks." xml:space="preserve">
         <source>Please fill out payment infomation, thanks.</source>
-        <target>請確認付款資訊，謝謝</target>
+        <target>請輸入付款資訊, 謝謝</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill out the blank" xml:space="preserve">
         <source>Please fill out the blank</source>
-        <target>請確認所有空白處</target>
+        <target>請填寫所有欄位</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill out the blank." xml:space="preserve">
         <source>Please fill out the blank.</source>
-        <target>請確認所有空白處</target>
+        <target>請填寫所有欄位</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill out the license number" xml:space="preserve">
         <source>Please fill out the license number</source>
-        <target>請填寫證照號碼</target>
+        <target>請填寫證號</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill out the maintain infomation, thanks" xml:space="preserve">
         <source>Please fill out the maintain infomation, thanks</source>
-        <target>請填寫維修資訊，謝謝</target>
+        <target>請填寫維修資料, 謝謝</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill out the user information, thanks" xml:space="preserve">
         <source>Please fill out the user information, thanks</source>
-        <target>請填寫使用者資訊，謝謝</target>
+        <target>請填寫使用者資料, 謝謝</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please fill the blank. Thanks" xml:space="preserve">
         <source>Please fill the blank. Thanks</source>
-        <target>請填寫所有空白處，謝謝</target>
+        <target>請填寫所有欄位, 謝謝</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please provide the image for user to check out" xml:space="preserve">
@@ -1348,12 +1347,12 @@
       </trans-unit>
       <trans-unit id="Please provide the room image." xml:space="preserve">
         <source>Please provide the room image.</source>
-        <target>請提供室內圖片</target>
+        <target>請提供物件照片</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please read term of service." xml:space="preserve">
         <source>Please read term of service.</source>
-        <target>請閱讀服務規則</target>
+        <target>請閱讀服務政策</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please recheck license number" xml:space="preserve">
@@ -1373,12 +1372,12 @@
       </trans-unit>
       <trans-unit id="Please select something🥸" xml:space="preserve">
         <source>Please select something🥸</source>
-        <target>Please select something🥸</target>
+        <target>請選些東西🥸</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please select the Owner/Renter" xml:space="preserve">
         <source>Please select the Owner/Renter</source>
-        <target>Please select the Owner/Renter</target>
+        <target>Please select the Owner/Rente</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please select the gender." xml:space="preserve">
@@ -1388,37 +1387,37 @@
       </trans-unit>
       <trans-unit id="Please select types for this product." xml:space="preserve">
         <source>Please select types for this product.</source>
-        <target>Please select types for this product.</target>
+        <target>請選擇產品種類</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Please, read and agree the contract." xml:space="preserve">
         <source>Please, read and agree the contract.</source>
-        <target>請閱讀與同意合約內容</target>
+        <target>請閱讀與同意合約</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Post" xml:space="preserve">
         <source>Post</source>
-        <target>發佈</target>
+        <target>過帳</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Post Amount: " xml:space="preserve">
         <source>Post Amount: </source>
-        <target>發佈總額：</target>
+        <target>過帳總額:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Post Date: " xml:space="preserve">
         <source>Post Date: </source>
-        <target>發佈日期：</target>
+        <target>過帳日期:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Privacy Policy" xml:space="preserve">
         <source>Privacy Policy</source>
-        <target>隱私權政策</target>
+        <target>隱私政策</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Product Average Rate: " xml:space="preserve">
         <source>Product Average Rate: </source>
-        <target>平均評分：</target>
+        <target>產品平均評分:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Product Cost Infomation" xml:space="preserve">
@@ -1428,7 +1427,7 @@
       </trans-unit>
       <trans-unit id="Product Description" xml:space="preserve">
         <source>Product Description</source>
-        <target>產品介紹</target>
+        <target>產品簡介</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Product Type" xml:space="preserve">
@@ -1443,47 +1442,47 @@
       </trans-unit>
       <trans-unit id="Provider" xml:space="preserve">
         <source>Provider</source>
-        <target>供給方</target>
+        <target>提供商</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Publish" xml:space="preserve">
         <source>Publish</source>
-        <target>公佈</target>
+        <target>發佈</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Published" xml:space="preserve">
         <source>Published</source>
-        <target>已公佈</target>
+        <target>已發佈</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Rate: " xml:space="preserve">
         <source>Rate: </source>
-        <target>評分：</target>
+        <target>評分:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Rating:" xml:space="preserve">
         <source>Rating:</source>
-        <target>評分：</target>
+        <target>評分:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Ratting: " xml:space="preserve">
         <source>Ratting: </source>
-        <target>評分：</target>
+        <target>評分:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Renew" xml:space="preserve">
         <source>Renew</source>
-        <target>更新合約</target>
+        <target>重新簽約</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Renew Status" xml:space="preserve">
         <source>Renew Status</source>
-        <target>合約更新狀態</target>
+        <target>重新簽約狀態</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Renew: " xml:space="preserve">
         <source>Renew: </source>
-        <target>合約更新：</target>
+        <target>重新簽約:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Rental Manager" xml:space="preserve">
@@ -1493,12 +1492,12 @@
       </trans-unit>
       <trans-unit id="Rental fee shouldn't be empty." xml:space="preserve">
         <source>Rental fee shouldn't be empty.</source>
-        <target>租金不能為空白</target>
+        <target>租金不能空白</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Renter: " xml:space="preserve">
         <source>Renter: </source>
-        <target>承租人：</target>
+        <target>承租人:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Room Address" xml:space="preserve">
@@ -1513,7 +1512,7 @@
       </trans-unit>
       <trans-unit id="Room Status: " xml:space="preserve">
         <source>Room Status: </source>
-        <target>物件狀態：</target>
+        <target>物件狀態:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Room address shouldn't be empty." xml:space="preserve">
@@ -1528,7 +1527,7 @@
       </trans-unit>
       <trans-unit id="Security Code*" xml:space="preserve">
         <source>Security Code*</source>
-        <target>安全碼</target>
+        <target>安全碼*</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Security Setting" xml:space="preserve">
@@ -1538,7 +1537,7 @@
       </trans-unit>
       <trans-unit id="Send it!" xml:space="preserve">
         <source>Send it!</source>
-        <target>傳送</target>
+        <target>傳送!</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Setting" xml:space="preserve">
@@ -1553,7 +1552,7 @@
       </trans-unit>
       <trans-unit id="Settlement Amount: " xml:space="preserve">
         <source>Settlement Amount: </source>
-        <target>結算額：</target>
+        <target>結算金額</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Shipping Method" xml:space="preserve">
@@ -1563,12 +1562,12 @@
       </trans-unit>
       <trans-unit id="Show Contain" xml:space="preserve">
         <source>Show Contain</source>
-        <target>展示內容物</target>
+        <target>展示內容</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Show Contract" xml:space="preserve">
         <source>Show Contract</source>
-        <target>閱讀合約</target>
+        <target>展示合約</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Show List" xml:space="preserve">
@@ -1593,17 +1592,17 @@
       </trans-unit>
       <trans-unit id="Sold Amount: %lld" xml:space="preserve">
         <source>Sold Amount: %lld</source>
-        <target>賣出數: %lld</target>
+        <target>已賣出總數: %lld</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Sorry, fail to access account. please type username and password try again." xml:space="preserve">
         <source>Sorry, fail to access account. please type username and password try again.</source>
-        <target>抱歉，無法登入，請重新確認帳號或密碼</target>
+        <target>抱歉, 無法登入帳號, 請重新確認使用者名稱或密碼</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Sorry, please check your device is supported bio authentication or not." xml:space="preserve">
         <source>Sorry, please check your device is supported bio authentication or not.</source>
-        <target>抱歉請確認設備是否支持生物解鎖</target>
+        <target>抱歉, 請確認您的裝置支持生物驗證</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Start to find your&#10;right place." xml:space="preserve">
@@ -1625,17 +1624,17 @@ right place.</target>
       </trans-unit>
       <trans-unit id="Summit it!" xml:space="preserve">
         <source>Summit it!</source>
-        <target>上傳！</target>
+        <target>上傳!</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Sure" xml:space="preserve">
         <source>Sure</source>
-        <target>確認</target>
+        <target>確定</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Tasks: " xml:space="preserve">
         <source>Tasks: </source>
-        <target>待修任務：</target>
+        <target>任務:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Tell Us 🤓" xml:space="preserve">
@@ -1660,17 +1659,17 @@ right place.</target>
       </trans-unit>
       <trans-unit id="The room is adding in the chart, also check out the furnitures if needing. Please see Payment session." xml:space="preserve">
         <source>The room is adding in the chart, also check out the furnitures if needing. Please see Payment session.</source>
-        <target>已經將物件加入購物車，如果需要其他商品可以一並選購，請見付款頁面</target>
+        <target>物件已經加入購物車，如果有需要可以添購一些家用商品。詳細請見付款頁面</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="This card number is not vaild" xml:space="preserve">
         <source>This card number is not vaild</source>
-        <target>卡片號碼錯誤</target>
+        <target>卡片號碼無效</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="This security code is not valid" xml:space="preserve">
         <source>This security code is not valid</source>
-        <target>安全碼錯誤</target>
+        <target>安全碼無效</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Total Price" xml:space="preserve">
@@ -1680,7 +1679,7 @@ right place.</target>
       </trans-unit>
       <trans-unit id="Town Name shouldn't be empty." xml:space="preserve">
         <source>Town Name shouldn't be empty.</source>
-        <target>區/鎮/村 不能為空白</target>
+        <target>區/鎮/村，不能空白</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Types" xml:space="preserve">
@@ -1695,7 +1694,7 @@ right place.</target>
       </trans-unit>
       <trans-unit id="Unit: %@" xml:space="preserve">
         <source>Unit: %@</source>
-        <target>單個: %@</target>
+        <target>個數: %@</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Unpaid" xml:space="preserve">
@@ -1710,12 +1709,12 @@ right place.</target>
       </trans-unit>
       <trans-unit id="Update Amount: " xml:space="preserve">
         <source>Update Amount: </source>
-        <target>更新總數：</target>
+        <target>更新總數:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Update Description: " xml:space="preserve">
         <source>Update Description: </source>
-        <target>更新介紹：</target>
+        <target>更新簡介:</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Update State" xml:space="preserve">
@@ -1725,7 +1724,7 @@ right place.</target>
       </trans-unit>
       <trans-unit id="Uploading please wait..." xml:space="preserve">
         <source>Uploading please wait...</source>
-        <target>上傳中請稍候....</target>
+        <target>上傳中請稍候.....</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="UserName" xml:space="preserve">
@@ -1735,7 +1734,7 @@ right place.</target>
       </trans-unit>
       <trans-unit id="View Detail" xml:space="preserve">
         <source>View Detail</source>
-        <target>見細節</target>
+        <target>詳細內容</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="What's new" xml:space="preserve">
@@ -1745,7 +1744,7 @@ right place.</target>
       </trans-unit>
       <trans-unit id="When you comfirm, system will sign up and use bio authtication to sign in." xml:space="preserve">
         <source>When you comfirm, system will sign up and use bio authtication to sign in.</source>
-        <target>當你確認後，系統會自動登出，再使用生物認證重新登入</target>
+        <target>當你確認後，系統會自動登出再請用生物認證重新登入</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Yes" xml:space="preserve">
@@ -1760,17 +1759,17 @@ right place.</target>
       </trans-unit>
       <trans-unit id="You haven't bought anything yet. 😉" xml:space="preserve">
         <source>You haven't bought anything yet. 😉</source>
-        <target>你尚未購買任何商品😉</target>
+        <target>你還沒買任何東西喔😉</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="You haven't rent any room." xml:space="preserve">
         <source>You haven't rent any room.</source>
-        <target>你還沒承租任何房屋喔</target>
+        <target>你還沒承租任何物件</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Zip Code shouldn't be empty." xml:space="preserve">
         <source>Zip Code shouldn't be empty.</source>
-        <target>郵號不能為空白</target>
+        <target>郵遞區號不能空白</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="and" xml:space="preserve">
@@ -1785,7 +1784,7 @@ right place.</target>
       </trans-unit>
       <trans-unit id="show" xml:space="preserve">
         <source>show</source>
-        <target>展開</target>
+        <target>展示</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="terms of Service." xml:space="preserve">
@@ -2305,12 +2304,11 @@ right place.</target>
       </trans-unit>
       <trans-unit id="有無他項權利" xml:space="preserve">
         <source>有無他項權利</source>
-        <target>有無他項權利</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="有無查封登記" xml:space="preserve">
         <source>有無查封登記</source>
-        <target>有無查封登記</target>
+        <target>有無他項權利</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="有無附屬設備" xml:space="preserve">
@@ -2676,7 +2674,7 @@ right place.</target>
       </trans-unit>
       <trans-unit id="附屬建物用途" xml:space="preserve">
         <source>附屬建物用途</source>
-        <target>附屬建物</target>
+        <target>附屬建物用途</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="除本契約另有約定外，出租人與承租人雙方相互間之通知，以郵寄為之者，應以本契約所記載之地址為準；並得以電子郵件、簡訊等方式為之(無約定通知方式者，應以郵寄為之)；如因地址變更未通知他方，致通知無法到達時（包括拒收），以他方第一次郵遞或通知之日期推定為到達日。" xml:space="preserve">

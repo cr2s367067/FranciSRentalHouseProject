@@ -39,6 +39,8 @@ struct AppTabView: View {
             do {
                 let userTypeWithDefault = SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer
                 try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
+                
+                //MARK: Bug need to fix
                 try await initTask(signUpType: userTypeWithDefault)
             } catch {
                 self.errorHandler.handle(error: error)

@@ -108,6 +108,8 @@
 		0E504DD428224BFE005E2386 /* CryptoManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E504DD328224BFD005E2386 /* CryptoManagement.swift */; };
 		0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */; };
 		0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */; };
+		0E768F7B2824FE770072D0BA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E768F792824FE770072D0BA /* InfoPlist.strings */; };
+		0E768F7E2824FE770072D0BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E768F7C2824FE770072D0BA /* Localizable.strings */; };
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
 		0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */; };
 		0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */; };
@@ -244,6 +246,9 @@
 		0E504DD328224BFD005E2386 /* CryptoManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoManagement.swift; sourceTree = "<group>"; };
 		0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDetailView.swift; sourceTree = "<group>"; };
 		0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerRepresentable.swift; sourceTree = "<group>"; };
+		0E579BB62825041400FC2EC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0E768F7A2824FE770072D0BA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		0E768F7D2824FE770072D0BA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
 		0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocationDataModel.swift; sourceTree = "<group>"; };
 		0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsLocationViewModel.swift; sourceTree = "<group>"; };
@@ -312,6 +317,8 @@
 		0249D3FC27C6351F0085F4A5 = {
 			isa = PBXGroup;
 			children = (
+				0E768F792824FE770072D0BA /* InfoPlist.strings */,
+				0E768F7C2824FE770072D0BA /* Localizable.strings */,
 				0249D40727C6351F0085F4A5 /* FransiSRentalHouseProject */,
 				0249D40627C6351F0085F4A5 /* Products */,
 			);
@@ -775,6 +782,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0249D41027C635220085F4A5 /* Preview Assets.xcassets in Resources */,
+				0E768F7B2824FE770072D0BA /* InfoPlist.strings in Resources */,
+				0E768F7E2824FE770072D0BA /* Localizable.strings in Resources */,
 				0249D40D27C635220085F4A5 /* Assets.xcassets in Resources */,
 				0249D41727C635B40085F4A5 /* GoogleService-Info.plist in Resources */,
 			);
@@ -920,6 +929,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0E768F792824FE770072D0BA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E768F7A2824FE770072D0BA /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
+			path = FransiSRentalHouseProject;
+			sourceTree = "<group>";
+		};
+		0E768F7C2824FE770072D0BA /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E768F7D2824FE770072D0BA /* zh-Hant */,
+				0E579BB62825041400FC2EC6 /* en */,
+			);
+			name = Localizable.strings;
+			path = FransiSRentalHouseProject;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0249D41127C635220085F4A5 /* Debug */ = {
