@@ -413,7 +413,7 @@
 "and" = "和";
 
 /* No comment provided by engineer. */
-"Announcement" = "公告";
+"Announcement" = "Announcement";
 
 /* No comment provided by engineer. */
 "Appointment" = "預約";
@@ -851,7 +851,7 @@
 "Product Cost Infomation" = "產品成本資訊";
 
 /* No comment provided by engineer. */
-"Product Description" = "產品簡介";
+"Product Description" = "產品簡介: ";
 
 /* No comment provided by engineer. */
 "Product Type" = "產品種類";
@@ -938,7 +938,7 @@
 "Show Contain" = "展示內容";
 
 /* No comment provided by engineer. */
-"Show Contract" = "展示合約";
+"Show Contract" = "合約";
 
 /* No comment provided by engineer. */
 "Show List" = "展示列表";
@@ -1600,3 +1600,135 @@
 /* No comment provided by engineer. */
 "面積幾平方公尺" = "面積幾平方公尺";
 
+/* No comment provided by engineer. */
+"Step1: Upload the product pic." = "Step1: 提供商品照片";
+
+/* No comment provided by engineer. */
+"Step2: Please provide the necessary information" = "Step2: 提供商品必要資訊";
+
+
+/* No comment provided by engineer. */
+"Product Name" = "產品名稱";
+
+/* No comment provided by engineer. */
+"Product From" = "產地: ";
+
+/* No comment provided by engineer. */
+"Product Price" = "產品售價: ";
+
+/* No comment provided by engineer. */
+"Service Fee (2%)" = "手續費 (2%)";
+
+/* No comment provided by engineer. */
+"Credit Card Payment Fee (2.75%)" = "信用卡手續費 (2.75%)";
+
+/* No comment provided by engineer. */
+"Total Cost" = "總成本";
+
+/* No comment provided by engineer. */
+"Product Amount" = "產品總數";
+
+/* No comment provided by engineer. */
+"Step3: Please check out the terms of service." = "Step3: 請閱讀與確認服務政策";
+
+/* No comment provided by engineer. */
+"My Store" = "我的商店";
+
+/* No comment provided by engineer. */
+"User Profile" = "使用者";
+
+/* No comment provided by engineer. */
+"Contact Us" = "聯絡我們";
+
+/* No comment provided by engineer. */
+"Security" = "安全";
+
+/* No comment provided by engineer. */
+"Name" = "名稱";
+
+/* No comment provided by engineer. */
+"Mobile Number" = "手機號碼";
+
+/* No comment provided by engineer. */
+"Shipping Address" = "運送地址";
+
+/* No comment provided by engineer. */
+"Payment Status" = "付款狀態";
+
+/* No comment provided by engineer. */
+"Shipping Method" = "運送方式";
+
+/* No comment provided by engineer. */
+"Shipping Status" = "運送狀態";
+
+/* No comment provided by engineer. */
+"ID" = "身份證字號";
+
+/* No comment provided by engineer. */
+"First Name" = "名字";
+
+/* No comment provided by engineer. */
+"Last Name" = "姓氏";
+
+/* No comment provided by engineer. */
+"Display Name" = "匿名";
+
+/* No comment provided by engineer. */
+"Town" = "區/鎮/村";
+
+/* No comment provided by engineer. */
+"City" = "縣/市";
+
+/* No comment provided by engineer. */
+"Zip Code" = "郵遞區號";
+
+/* No comment providedx by engineer. */
+"Country" = "國家";
+
+/* No comment providedx by engineer. */
+"Gender" = "性別";
+
+/* No comment providedx by engineer. */
+"Product Name" = "商品名稱: ";
+
+/* No comment providedx by engineer. */
+"Product Price" = "商品價格: ";
+
+/* No comment providedx by engineer. */
+"Ordered" = "購買清單";
+
+/* No comment providedx by engineer. */
+"Focusing\rProducts" = "關注商品";
+
+/* No comment providedx by engineer. */
+"Traffic" = "周圍交通";
+
+/* No comment providedx by engineer. */
+"Convenience" = "方便度";
+
+/* No comment providedx by engineer. */
+"Pricing" = "租金價格";
+
+/* No comment providedx by engineer. */
+"Neighbor" = "鄰居狀況";
+
+/* No comment providedx by engineer. */
+"Please describe it." = "請簡單敘述一下損壞狀況";
+
+/* No comment providedx by engineer. */
+"Upload Image" = "上傳待維修物品";
+
+/* No comment providedx by engineer. */
+"Contracts" = "合約";
+
+/* No comment providedx by engineer. */
+"Holder Name" = "持有人/公司名稱";
+
+/* No comment providedx by engineer. */
+"Step1: Upload the room pic." = "Step1: 上傳室內照片";
+
+/* No comment providedx by engineer. */
+"Room Area" = "室內坪數";
+
+/* No comment providedx by engineer. */
+"Rental Price" = "租金";

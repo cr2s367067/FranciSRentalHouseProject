@@ -108,7 +108,7 @@ extension ShippingListView {
             Spacer()
         }
         .padding()
-        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 3 + 50)
+        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 3 + 80)
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 10)
                 .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
@@ -183,9 +183,9 @@ extension ShippingListView {
     
     @ViewBuilder
     func shippingTitleAndContain(header: String, body: String) -> some View {
-        VStack(spacing: 1) {
+        VStack(spacing: 3) {
             HStack {
-                Text("\(header): ")
+                Text(LocalizedStringKey(header))
                 Spacer()
             }
             .foregroundColor(.white)
@@ -196,6 +196,8 @@ extension ShippingListView {
             }
             .foregroundColor(.white)
             .font(.body)
+            Divider()
+                .background(.white)
         }
     }
 }

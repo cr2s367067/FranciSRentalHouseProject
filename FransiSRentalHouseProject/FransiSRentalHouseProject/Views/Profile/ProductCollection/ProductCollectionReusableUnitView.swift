@@ -59,7 +59,7 @@ struct ReusableUnit: View {
     var containName: String
     var body: some View {
         HStack {
-            Text("\(title): ")
+            Text(LocalizedStringKey(title))
             Text(containName)
             Spacer()
         }
@@ -74,7 +74,7 @@ struct ReusableUnitWithCommentDescription: View {
     var body: some View {
         VStack {
             HStack {
-                Text("\(title): ")
+                Text(LocalizedStringKey(title))
                 Spacer()
             }
             HStack {

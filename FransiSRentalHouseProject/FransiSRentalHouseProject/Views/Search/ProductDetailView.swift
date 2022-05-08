@@ -200,7 +200,9 @@ struct ProductDetailView: View {
             VStack {
                 WebImage(url: URL(string: productImage))
                     .resizable()
-                    .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 3 + 60, alignment: .top)
+                    .scaledToFill()
+                    .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 3, alignment: .center)
+                    
                 Spacer()
             }
             .edgesIgnoringSafeArea(.top)
@@ -296,3 +298,25 @@ class ProductDetailViewModel: ObservableObject {
 
 
 
+struct TestView: View {
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
+    var body: some View {
+        VStack {
+            Image("test1")
+                .resizable()
+                .scaledToFill()
+                .frame(width: uiScreenWidth, height: uiScreenHeight / 3, alignment: .center)
+                .clipped()
+            Spacer()
+        }
+    }
+}
+
+struct TestView_Previews: PreviewProvider {
+    static var previews: some View {
+        TestView()
+    }
+}

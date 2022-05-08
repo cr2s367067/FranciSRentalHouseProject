@@ -143,7 +143,7 @@ extension RoomCommentAndRattingView {
             }
         } header: {
             HStack {
-                Text("\(title):")
+                Text(LocalizedStringKey(title))
                     .foregroundColor(.white)
                 Spacer()
             }
@@ -159,7 +159,7 @@ extension RoomCommentAndRattingView {
             }
         } header: {
             HStack {
-                Text("\(title):")
+                Text(LocalizedStringKey(title))
                     .foregroundColor(.white)
                 Spacer()
             }
