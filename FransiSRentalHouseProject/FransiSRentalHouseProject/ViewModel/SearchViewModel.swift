@@ -18,8 +18,8 @@ class SearchViewModel: ObservableObject {
     @Published var showTags = false
     @Published var showRooms = true
     @Published var showProducts = false
-    @Published var showStores = false
-    @Published var showProductTags = false
+//    @Published var showStores = false
+//    @Published var showProductTags = false
     
     //MARK: For rooms
     
@@ -120,11 +120,15 @@ class SearchViewModel: ObservableObject {
         return tempHolder
     }
     
-    func filterProductByTags(input: [ProductProviderDataModel], tags: String) -> [ProductProviderDataModel] {
+    func filterProductByTags(input: [ProductProviderDataModel], tags: String, searchText: String) -> [ProductProviderDataModel] {
         var sortedHolder = [ProductProviderDataModel]()
-        sortedHolder = input.filter({ tag in
-            tag.productType.contains(tags) || tag.productName.contains(tags)
-        })
+        if searchText.isEmpty {
+            sortedHolder = input
+        } else {
+            sortedHolder = input.filter({ tag in
+                tag.productType.contains(tags) || tag.productName.contains(tags) || tag.productName.contains(searchText)
+            })
+        }
         return sortedHolder
     }
     

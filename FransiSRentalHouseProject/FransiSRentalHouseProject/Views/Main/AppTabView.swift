@@ -18,6 +18,7 @@ struct AppTabView: View {
     @EnvironmentObject var firestoreForFurniture: FirestoreForProducts
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
+    @EnvironmentObject var productVM: ProductDetailViewModel
 
     @State private var selecting = "TapHomeButton"
     
@@ -37,11 +38,8 @@ struct AppTabView: View {
         .navigationBarBackButtonHidden(true)
         .task {
             do {
-                let userTypeWithDefault = SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer
                 try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
-                
-                //MARK: Bug need to fix
-                try await initTask(signUpType: userTypeWithDefault)
+                try await initTask(signUpType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -63,9 +61,12 @@ extension AppTabView {
     
     func initTask(signUpType: SignUpType) async throws {
         if signUpType == .isNormalCustomer {
+            print("Is getting custormer config data")
             try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
         }
         if signUpType == .isProvider {
+            print("Is getting provider config data")
+            try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
             _ = try await providerProfileViewModel.fetchConfigData(uidPath: firebaseAuth.getUID())
             try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
         }
@@ -77,11 +78,20 @@ extension AppTabView {
             Spacer()
             HStack(alignment: .center, spacing: 40) {
                 ForEach(appViewModel.selectArray, id: \.self) { buttonName in
-                    TabBarButton(tagSelect: $selecting, buttonImage: buttonName)
+                    ZStack {
+                        TabBarButton(tagSelect: $appViewModel.selecting, buttonImage: AppViewModel.BarItemStatus(rawValue: buttonName) ?? .homeButton)
+                        if buttonName == AppViewModel.BarItemStatus.paymentButton.rawValue {
+                            if appViewModel.isAddNewItem {
+                                Circle()
+                                    .fill(.red)
+                                    .frame(width: 15, height: 15, alignment: .center)
+                                    .offset(x: 15, y: -6)
+                            }
+                        }
+                    }
                 }
             }
-            .padding(.horizontal)
-            .padding(.vertical)
+            .padding()
             .frame(width: uiScreenWidth - 50, height: 40)
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
@@ -89,40 +99,49 @@ extension AppTabView {
     
     @ViewBuilder
     func tabViews(signUpType: SignUpType, providerType: ProviderTypeStatus) -> some View {
-        TabView(selection: $selecting) {
+        TabView(selection: $appViewModel.selecting) {
             RenterMainView()
-                .tag("TapHomeButton")
+                .tag(AppViewModel.BarItemStatus.homeButton)
+//                .tag("TapHomeButton")
             if signUpType == .isNormalCustomer {
                 PrePurchaseView()
-                    .tag("TapPaymentButton")
+                    .tag(AppViewModel.BarItemStatus.paymentButton)
+//                    .tag("TapPaymentButton")
             }
             if signUpType == .isProvider {
                 if providerType == .roomProvider {
                     ProviderRoomSummitView()
-                        .tag("TapPaymentButton")
+                        .tag(AppViewModel.BarItemStatus.paymentButton)
+//                        .tag("TapPaymentButton")
                 }
                 if providerType == .productProvider {
                     ProductsProviderSummitView()
-                        .tag("TapPaymentButton")
+                        .tag(AppViewModel.BarItemStatus.paymentButton)
+//                        .tag("TapPaymentButton")
                 }
             }
             ProfileView()
-                .tag("TapProfileButton")
+                .tag(AppViewModel.BarItemStatus.profileButton)
+//                .tag("TapProfileButton")
             SearchView()
-                .tag("TapSearchButton")
+                .tag(AppViewModel.BarItemStatus.searchButton)
+//                .tag("TapSearchButton")
             
             if signUpType == .isNormalCustomer {
                 MaintainView()
-                    .tag("FixButton")
+                    .tag(AppViewModel.BarItemStatus.fixButton)
+//                    .tag("FixButton")
             }
             if signUpType == .isProvider {
                 if providerType == .roomProvider {
                     MaintainWaitingView()
-                        .tag("FixButton")
+                        .tag(AppViewModel.BarItemStatus.fixButton)
+//                        .tag("FixButton")
                 }
                 if  providerType == .productProvider {
                     ShippingListView()
-                        .tag("FixButton")
+                        .tag(AppViewModel.BarItemStatus.fixButton)
+//                        .tag("FixButton")
                 }
             }
         }

@@ -16,6 +16,8 @@ struct ProductDetailView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var purchaseViewModel: PurchaseViewModel
+    @EnvironmentObject var appViewModel: AppViewModel
+    
     
     
 //    var productData: ProductProviderDataModel
@@ -35,38 +37,37 @@ struct ProductDetailView: View {
         let convertInt = Int(productAmount) ?? 0
         return convertInt
     }
-
+    
+    var realTimeComputeProductPrice: Int {
+        return productPrice * productDetailViewModel.orderAmount
+    }
     
     var body: some View {
         VStack {
-            HStack {
-                Spacer()
-                Button {
-                    productDetailViewModel.mark.toggle()
-                    Task {
-                        if productDetailViewModel.mark == true {
-                            await markProduct()
-                        } else {
-                            await unmarkProduct(productUID: productUID)
-                        }
-                    }
-                } label: {
-                     Image(systemName: "bookmark.circle")
-                        .resizable()
-                        .foregroundColor(productDetailViewModel.mark ? .orange : .gray)
-                        .frame(width: 35, height: 35)
-                        .padding(.trailing)
-                }
-            }
-            .onAppear {
-                checkMarked(productUID: productUID)
-            }
             Spacer()
             VStack(alignment: .center, spacing: 20) {
                 HStack {
                     Text(productName)
                         .foregroundColor(.white)
                         .font(.system(size: 35, weight: .bold))
+                    Spacer()
+                    Button {
+                        productDetailViewModel.mark.toggle()
+                        Task {
+                            if productDetailViewModel.mark == true {
+                                await markProduct()
+                            } else {
+                                await unmarkProduct(productUID: productUID)
+                            }
+                        }
+                    } label: {
+                         Image(systemName: "bookmark.circle")
+                            .resizable()
+                            .foregroundColor(productDetailViewModel.mark ? .orange : .white)
+                            .frame(width: 35, height: 35)
+                            .padding(.trailing)
+                    }
+                    
                     Spacer()
                     Group {
                         HStack {
@@ -91,11 +92,26 @@ struct ProductDetailView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
+                .onAppear {
+                    checkMarked(productUID: productUID)
+                }
+                NavigationLink {
+                    StoreView(storeData: firestoreForProducts.storesDataSet)
+                } label: {
+                    HStack {
+                        Text("Visit store")
+                        Image(systemName: "arrow.forward.circle")
+                        Spacer()
+                    }
+                    .foregroundColor(.blue)
+                    .font(.headline)
+                    .padding(.horizontal)
+                }
                 HStack {
                     Section {
                         Menu {
                             Picker("", selection: $productDetailViewModel.orderAmount) {
-                                ForEach(0..<pickerAmount + 1, id: \.self) {
+                                ForEach(1..<pickerAmount + 1, id: \.self) {
                                     Text("\($0)")
                                 }
                             }
@@ -143,38 +159,27 @@ struct ProductDetailView: View {
                 .padding(.horizontal)
                 Spacer()
                 HStack {
-                    Text("$ \(productPrice)")
+                    Text("$ \(realTimeComputeProductPrice)")
                         .foregroundColor(.white)
-                        .font(.system(size: 30, weight: .bold))
+                        .font(.system(size: 45, weight: .bold))
                     Spacer()
 
                     Button {
-                        if productDetailViewModel.orderAmount == 0 {
-                            productDetailViewModel.orderAmount = 1
-                            self.productDetailViewModel.addToCart(productName: productName,
-                                                                  productUID: productUID,
-                                                                  productPrice: productPrice,
-                                                                  productAmount: productAmount,
-                                                                  productFrom: productFrom,
-                                                                  providerUID: providerUID,
-                                                                  productImage: productImage,
-                                                                  providerName: providerName,
-                                                                  orderAmount: String(productDetailViewModel.orderAmount))
-                        } else {
-                            self.productDetailViewModel.addToCart(productName: productName,
-                                                                  productUID: productUID,
-                                                                  productPrice: productPrice,
-                                                                  productAmount: productAmount,
-                                                                  productFrom: productFrom,
-                                                                  providerUID: providerUID,
-                                                                  productImage: productImage,
-                                                                  providerName: providerName,
-                                                                  orderAmount: String(productDetailViewModel.orderAmount))
-                        }
+                        self.productDetailViewModel.addToCart(productName: productName,
+                                                              productUID: productUID,
+                                                              productPrice: productPrice,
+                                                              productAmount: productAmount,
+                                                              productFrom: productFrom,
+                                                              providerUID: providerUID,
+                                                              productImage: productImage,
+                                                              providerName: providerName,
+                                                              orderAmount: String(productDetailViewModel.orderAmount))
+                        
                         purchaseViewModel.productTotalAmount = String(pickerAmount)
                         print(productDetailViewModel.productOrderCart)
                         localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
-                        productDetailViewModel.orderAmount = 0
+                        productDetailViewModel.orderAmount = 1
+                        appViewModel.isAddNewItem = true
                     } label: {
                         Text("Add Cart")
                             .foregroundColor(.white)
@@ -211,6 +216,7 @@ struct ProductDetailView: View {
             do {
                 try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: providerUID, productID: productUID)
                 try await firestoreForProducts.updatePublicAmountData(docID: docID, providerUidPath: providerUID, productID: productUID)
+                _ = try await firestoreForProducts.fetchStore(providerUidPath: providerUID)
             } catch {
 //                self.errorHandler.handle(error: error)
                 print(error.localizedDescription)
@@ -268,7 +274,7 @@ class ProductDetailViewModel: ObservableObject {
     
     @Published var productOrderCart = [UserOrderProductsDataModel]()
     @Published var mark = false
-    @Published var orderAmount = 0
+    @Published var orderAmount = 1
     
     
     let uiScreenWidth = UIScreen.main.bounds.width

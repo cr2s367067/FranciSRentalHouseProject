@@ -328,7 +328,7 @@ extension RenterContractView {
                         }
                     }
                     
-                    if firestoreToFetchUserinfo.fetchedUserData.userType == "Renter" {
+                    if firestoreToFetchUserinfo.fetchedUserData.userType == SignUpType.isNormalCustomer.rawValue {
                         HStack(alignment: .center, spacing: 5) {
                             Button {
                                 appViewModel.rentalPolicyisAgree.toggle()
@@ -376,6 +376,7 @@ extension RenterContractView {
                                     appViewModel.isPresent = true
                                 }
                                 localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
+                                appViewModel.isAddNewItem = true
                                 print(localData.sumPrice)
                             } label: {
                                 Text("I want this!")

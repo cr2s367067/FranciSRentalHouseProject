@@ -157,12 +157,13 @@ struct RenterProfileView: View {
         }
         .task({
             do {
-//                try? await storageForUserProfile.representedProfileImageURL = storageForUserProfile.representStorageImageAsync(uidPath: firebaseAuth.getUID())
+                guard !(firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? false) else { return }
+                _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
                 //MARK: Fetch uploaded maintain tasks
-                if !firestoreToFetchUserinfo.rentedContract.docID.isEmpty {                
+                if !firestoreToFetchUserinfo.rentedContract.docID.isEmpty {
                     try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", docID: firestoreToFetchUserinfo.rentedContract.docID)
                 }
-                try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
+//                try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)
             }

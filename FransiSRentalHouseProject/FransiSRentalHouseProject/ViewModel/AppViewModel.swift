@@ -17,8 +17,22 @@ class AppViewModel: ObservableObject {
         case id ,firstName ,lastName ,displayName ,mobileNumber ,zipCode ,country, address, town, city, gender, isMale, isFemale, dob
     }
     
+    enum BarItemStatus: String, CaseIterable, Hashable {
+        case homeButton = "TapHomeButton"
+        case paymentButton = "TapPaymentButton"
+        case profileButton = "TapProfileButton"
+        case searchButton = "TapSearchButton"
+        case fixButton = "FixButton"
+    }
     
-    static let shared: AppViewModel = AppViewModel()
+    let selectArray: [String] = BarItemStatus.allCases.map({$0.rawValue})
+    
+    @Published var selecting: BarItemStatus = .homeButton
+    
+    
+    @Published var isAddNewItem = false
+    
+//    static let shared: AppViewModel = AppViewModel()
     
 //    @EnvironmentObject var localData: LocalData
 //    let firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
@@ -154,7 +168,7 @@ class AppViewModel: ObservableObject {
     
     
     
-    let selectArray = ["TapHomeButton", "TapPaymentButton", "TapProfileButton", "TapSearchButton", "FixButton"]
+    
     
     
     
@@ -430,18 +444,32 @@ extension View {
 
 struct TabBarButton: View {
     
-    @Binding var tagSelect: String
-    var buttonImage = ""
+    @EnvironmentObject var appViewModel: AppViewModel
+    
+    @Binding var tagSelect: AppViewModel.BarItemStatus
+    var buttonImage: AppViewModel.BarItemStatus = .homeButton
+    
+    
+    func isAddedCart(cart: [UserOrderProductsDataModel]) -> Bool {
+        var isAdd = false
+        if !cart.isEmpty {
+            isAdd = true
+        } else {
+            isAdd = false
+        }
+        return isAdd
+    }
     
     var body: some View {
         Button {
             tagSelect = buttonImage
+            appViewModel.isAddNewItem = false
         } label: {
             VStack(spacing: 5) {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(tagSelect == buttonImage ? .white : Color.clear)
+                    .fill(tagSelect.rawValue == buttonImage.rawValue ? .white : Color.clear)
                     .frame(width: 35, height: 3)
-                Image(buttonImage)
+                Image(buttonImage.rawValue)
             }
         }
     }

@@ -977,7 +977,7 @@
 "Sure" = "確定";
 
 /* No comment provided by engineer. */
-"Tasks: " = "任務:";
+"Tasks: " = "待修:";
 
 /* No comment provided by engineer. */
 "Tell Us 🤓" = "告訴我們🤓";
@@ -1732,3 +1732,9 @@
 
 /* No comment providedx by engineer. */
 "Rental Price" = "租金";
+
+/* No comment providedx by engineer. */
+"Lodge" = "找屋";
+
+/* No comment providedx by engineer. */
+"Goods" = "找物";

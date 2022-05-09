@@ -221,7 +221,7 @@ struct SummaryItems: View {
                         Text(product.productName)
                         Spacer()
                         Text("Unit: \(product.orderAmount)")
-                        Text("$\(product.productPrice)")
+                        Text("$\(product.productPrice * (Int(product.orderAmount) ?? 0))")
                     }
                 }
             }

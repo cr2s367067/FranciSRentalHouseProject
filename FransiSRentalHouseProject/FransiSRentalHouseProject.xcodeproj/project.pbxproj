@@ -77,6 +77,7 @@
 		0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */; };
 		0E2EDD3C27EAF394008FEF58 /* FirestoreForTextingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */; };
 		0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */; };
+		0E2EF5FA2828AB6F00BA9B2A /* CustomToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EF5F92828AB6F00BA9B2A /* CustomToggleView.swift */; };
 		0E318078280FB591009784B9 /* RenterContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E318077280FB591009784B9 /* RenterContractViewModel.swift */; };
 		0E31807A280FB60D009784B9 /* RentedPaymentHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E318079280FB60D009784B9 /* RentedPaymentHistoryView.swift */; };
 		0E31807C2810EED4009784B9 /* GroceryTypeDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E31807B2810EED4009784B9 /* GroceryTypeDataModel.swift */; };
@@ -221,6 +222,7 @@
 		0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingDataModel.swift; sourceTree = "<group>"; };
 		0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForTextingMessage.swift; sourceTree = "<group>"; };
 		0E2EDD3D27EC0296008FEF58 /* MessageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMainView.swift; sourceTree = "<group>"; };
+		0E2EF5F92828AB6F00BA9B2A /* CustomToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToggleView.swift; sourceTree = "<group>"; };
 		0E318077280FB591009784B9 /* RenterContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractViewModel.swift; sourceTree = "<group>"; };
 		0E318079280FB60D009784B9 /* RentedPaymentHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentedPaymentHistoryView.swift; sourceTree = "<group>"; };
 		0E31807B2810EED4009784B9 /* GroceryTypeDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryTypeDataModel.swift; sourceTree = "<group>"; };
@@ -477,6 +479,7 @@
 				0ED1F42D27F1DDBF0004B5CE /* FurnitureGridView.swift */,
 				0E41D13627FF13260042E14D /* CustomProgressView.swift */,
 				0EC24C7527FFCE8F00B0E0C7 /* PresentContract.swift */,
+				0E2EF5F92828AB6F00BA9B2A /* CustomToggleView.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -859,6 +862,7 @@
 				0ED1F42C27F1AA4F0004B5CE /* FirestoreForProducts.swift in Sources */,
 				02CB58EB27CDAE520035EE20 /* ProductsDataModel.swift in Sources */,
 				0E31807C2810EED4009784B9 /* GroceryTypeDataModel.swift in Sources */,
+				0E2EF5FA2828AB6F00BA9B2A /* CustomToggleView.swift in Sources */,
 				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
 				0249D43A27C639720085F4A5 /* AppTabView.swift in Sources */,
 				0249D42E27C637DA0085F4A5 /* PersistenceController.swift in Sources */,

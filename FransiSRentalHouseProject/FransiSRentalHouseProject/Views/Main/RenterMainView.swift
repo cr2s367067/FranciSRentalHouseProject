@@ -36,22 +36,13 @@ struct RenterMainView: View {
     }
     
     @State private var showRooms = true
-    @State private var showFurniture = false
+//    @State private var showFurniture = false
     
     let uiScreenWidth = UIScreen.main.bounds.width
     
     var body: some View {
         NavigationView {
             VStack {
-//                Button {
-//                    do {
-//                        try cryptoM.encryptMessage(message: "testingmessage", uidPath: firebaseAuth.getUID())
-//                    } catch {
-//                        self.errorHandler.handle(error: error)
-//                    }
-//                } label: {
-//                    Text("test")
-//                }
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Announcement Group
                     Group {
@@ -66,7 +57,7 @@ struct RenterMainView: View {
                                 } label: {
                                     Image(systemName: "message")
                                         .foregroundColor(.white)
-                                        .font(.system(size: 20))
+                                        .font(.system(size: 30))
                                 }
                             }
                             HStack {
@@ -91,32 +82,8 @@ struct RenterMainView: View {
                                     .font(.system(size: 24, weight: .heavy))
                                     .foregroundColor(Color.white)
                                 Spacer()
-                                Button {
-                                    if showFurniture == true {
-                                        showFurniture = false
-                                    }
-                                    if showRooms == false {
-                                        showRooms = true
-                                    }
-                                } label: {
-                                    Image(systemName: "house")
-                                        .resizable()
-                                        .foregroundColor(.white)
-                                        .frame(width: 28, height: 25)
-                                }
-                                Button {
-                                    if showRooms == true {
-                                        showRooms = false
-                                    }
-                                    if showFurniture == false {
-                                        showFurniture = true
-                                    }
-                                } label: {
-                                    Image(systemName: "bag")
-                                        .resizable()
-                                        .foregroundColor(.white)
-                                        .frame(width: 25, height: 26)
-                                }
+                                Toggle("", isOn: $showRooms)
+                                    .toggleStyle(CustomToggleStyle())
                             }
                             HStack {
                                 VStack {
@@ -129,7 +96,7 @@ struct RenterMainView: View {
                         //: New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
-                                elementSwitch(showRooms: showRooms, showProduct: showFurniture)
+                                elementSwitch(showRooms: showRooms)
                             }
                             .frame(height: 330)
                             .padding()
@@ -142,7 +109,7 @@ struct RenterMainView: View {
                         //: New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
-                                elementSwitch(showRooms: showRooms, showProduct: showFurniture)
+                                elementSwitch(showRooms: showRooms)
                             }
                             .frame(height: 330)
                             .padding()
@@ -206,12 +173,12 @@ extension RenterMainView {
     }
     
     @ViewBuilder
-    func elementSwitch(showRooms: Bool, showProduct: Bool) -> some View {
+    func elementSwitch(showRooms: Bool) -> some View {
         if showRooms {
             showRoomsElement()
-        }
-        if showProduct {
+        } else {
             showProductElement()
+            
         }
     }
     

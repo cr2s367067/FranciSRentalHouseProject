@@ -48,7 +48,7 @@ struct RoomsDetailView: View {
                     .frame(height: 15)
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
-                        Text("Room Name") //If it has
+                        Text(roomsData.providerDisplayName) //If it has
                             .font(.system(size: 30))
                         Spacer()
                         Group {

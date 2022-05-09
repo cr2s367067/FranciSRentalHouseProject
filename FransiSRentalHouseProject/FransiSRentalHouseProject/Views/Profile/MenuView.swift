@@ -49,6 +49,7 @@ struct MenuView: View {
                 HStack {
                     Button {
                         do {
+                            cleanUserInfoWhenSignOut()
                             try firebaseAuth.signOutAsync()
                         } catch {
                             print("unknown error")
@@ -71,6 +72,24 @@ struct MenuView: View {
 }
 
 extension MenuView {
+    
+    func cleanUserInfoWhenSignOut() {
+        appViewModel.id = ""
+        appViewModel.firstName = ""
+        appViewModel.lastName = ""
+        appViewModel.displayName = ""
+        appViewModel.mobileNumber = ""
+        appViewModel.dob = Date()
+        appViewModel.address = ""
+        appViewModel.town = ""
+        appViewModel.city = ""
+        appViewModel.zipCode = ""
+        appViewModel.country = ""
+        appViewModel.gender = ""
+        appViewModel.isMale = false
+        appViewModel.isFemale = false
+    }
+    
     @ViewBuilder
     func identifyUserType(signUpType: SignUpType, providerType: ProviderTypeStatus) -> some View {
         if signUpType == .isNormalCustomer {

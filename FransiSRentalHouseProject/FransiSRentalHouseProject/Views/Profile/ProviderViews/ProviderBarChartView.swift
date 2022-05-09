@@ -13,6 +13,8 @@ struct ProviderBarChartView: View {
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     @EnvironmentObject var providerBarChartViewModel: ProviderBarChartViewModel
     
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     var highestData: Double {
         let max = Double(providerBarChartViewModel.getMax(input: providerBarChartViewModel.tempDataCollection))
         return max
@@ -32,7 +34,7 @@ struct ProviderBarChartView: View {
             }
         }
         .padding()
-        .frame(width: 378, height: 304)
+        .frame(width: 378, height: uiScreenHeight / 3 + 50)
         .onAppear {
             providerBarChartViewModel.convertAndStore(input: paymentReceiveManager.monthlySettlement)
         }
@@ -50,20 +52,22 @@ struct BarView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            RoundedRectangle(cornerRadius: 50)
-                .fill(Color.gray.opacity(0.2))
-                .frame(width: 20, height: 304)
+//        ZStack(alignment: .bottom) {
             VStack {
                 Text("\(paymentData.settlementAmount)")
                     .foregroundColor(.white)
-                RoundedRectangle(cornerRadius: 50)
-                    .fill(Color("barChart1"))
-                    .frame(width: 20, height: height)
+                ZStack(alignment: .bottom) {
+                    RoundedRectangle(cornerRadius: 50)
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(width: 20, height: 304)
+                    RoundedRectangle(cornerRadius: 50)
+                        .fill(Color("barChart1"))
+                        .frame(width: 20, height: height)
+                }
                 Text(paymentData.settlementDate , format: Date.FormatStyle().year(.twoDigits).month(.twoDigits))
                     .foregroundColor(.white)
             }
-        }
+//        }
     }
 }
 

@@ -35,7 +35,7 @@ class FirestoreForProducts: ObservableObject {
     @Published var markedProducts = [MarkedProductsDataModel]()
     @Published var productsDataSet = [ProductProviderDataModel]()
     @Published var productUID = ""
-    @Published var storesDataSet = [StoreDataModel]()
+    @Published var storesDataSet: StoreDataModel = .empty
     @Published var storeLocalData: StoreDataModel = .empty
     @Published var storeProductsDataSet = [ProductProviderDataModel]()
     
@@ -378,21 +378,11 @@ extension FirestoreForProducts {
     
     
     @MainActor
-    func fetchStore() async throws {
-        let storeRef = db.collection("Stores")
-        let document = try await storeRef.getDocuments().documents
-        storesDataSet = document.compactMap({ queryDocumentSnapshot in
-            let result = Result {
-                try queryDocumentSnapshot.data(as: StoreDataModel.self)
-            }
-            switch result {
-            case .success(let data):
-                return data
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            return nil
-        })
+    func fetchStore(providerUidPath: String) async throws -> StoreDataModel {
+        let storeRef = db.collection("Stores").document(providerUidPath)
+        let document = try await storeRef.getDocument(as: StoreDataModel.self)
+        storesDataSet = document
+        return storesDataSet
     }
 }
 

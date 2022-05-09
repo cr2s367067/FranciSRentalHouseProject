@@ -68,7 +68,7 @@ struct RentalBillSettingView: View {
         }
         .task {
             do {
-                _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
+//                _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
                 let currentDate = Date()
                 if currentDate == firestoreToFetchUserinfo.rentedContract.rentalEndDate {
                     try await renterProfileViewModel.eraseExpiredRoomInfo(from: currentDate, to: firestoreToFetchUserinfo.rentedContract.rentalEndDate, docID: firestoreToFetchUserinfo.rentedContract.docID)
