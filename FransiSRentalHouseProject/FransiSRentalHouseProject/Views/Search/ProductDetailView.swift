@@ -10,6 +10,7 @@ import SDWebImageSwiftUI
 
 struct ProductDetailView: View {
     
+    @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @EnvironmentObject var localData: LocalData
@@ -203,11 +204,20 @@ struct ProductDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .background(alignment: .center) {
             VStack {
-                WebImage(url: URL(string: productImage))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 3, alignment: .center)
-                    
+                ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollViewReader { page in
+                        HStack {
+                            ForEach(storageForProductImage.productImageSet) { image in
+                                WebImage(url: URL(string: image.productDetialImage))
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 2 - 50, alignment: .center)
+                                    .clipped()
+                                    .id(image.id)
+                            }
+                        }
+                    }
+                }
                 Spacer()
             }
             .edgesIgnoringSafeArea(.top)
@@ -217,6 +227,7 @@ struct ProductDetailView: View {
                 try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: providerUID, productID: productUID)
                 try await firestoreForProducts.updatePublicAmountData(docID: docID, providerUidPath: providerUID, productID: productUID)
                 _ = try await firestoreForProducts.fetchStore(providerUidPath: providerUID)
+                _ = try await storageForProductImage.getProductImages(providerUidPath: providerUID, productUID: productUID)
             } catch {
 //                self.errorHandler.handle(error: error)
                 print(error.localizedDescription)

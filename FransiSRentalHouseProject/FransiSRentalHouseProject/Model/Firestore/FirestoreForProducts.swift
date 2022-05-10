@@ -37,6 +37,9 @@ class FirestoreForProducts: ObservableObject {
     @Published var productUID = ""
     @Published var storesDataSet: StoreDataModel = .empty
     @Published var storeLocalData: StoreDataModel = .empty
+    
+    @Published var uploadingHolder: ProductProviderDataModel = .empty
+    
     @Published var storeProductsDataSet = [ProductProviderDataModel]()
     
     @Published var purchasedUserDataSet = [PurchasedUserDataModel]()
@@ -69,22 +72,36 @@ class FirestoreForProducts: ObservableObject {
             "providerUID" : uidPath,
             "productAmount" : productAmount,
             "isSoldOut" : isSoldOut,
-            "productType" : productType
+            "productType" : productType,
+            "postDate" : Date()
         ])
-        
+    }
+    
+    @MainActor
+    func getUploadintData(uidPath: String, productUID: String) async throws -> ProductProviderDataModel {
+        let furnitureProviderRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID)
+        print("get uid Path: \(uidPath)")
+        print("get product uid: \(productUID)")
+        uploadingHolder = try await furnitureProviderRef.getDocument(as: ProductProviderDataModel.self)
+        print("data: \(uploadingHolder)")
+        return uploadingHolder
+    }
+    
+    func postProductOnPublic(data: ProductProviderDataModel) async throws {
         let furniturePublicRef = db.collection("ProductsPublic")
         _ = try await furniturePublicRef.addDocument(data: [
-            "productUID" : productUID,
-            "productImage" : productImage,
-            "providerName" : providerName,
-            "productPrice" : productPrice,
-            "productDescription" : productDescription,
-            "productName": productName,
-            "productFrom" : productFrom,
-            "providerUID" : uidPath,
-            "productAmount" : productAmount,
-            "isSoldOut" : isSoldOut,
-            "productType" : productType
+            "productUID" : data.productUID,
+            "productImage" : data.productImage,
+            "providerName" : data.providerName,
+            "productPrice" : data.productPrice,
+            "productDescription" : data.productDescription,
+            "productName": data.productName,
+            "productFrom" : data.productFrom,
+            "providerUID" : data.providerUID,
+            "productAmount" : data.productAmount,
+            "isSoldOut" : data.isSoldOut,
+            "productType" : data.productType,
+            "postDate" : data.postDate?.dateValue() ?? Date()
         ])
     }
     

@@ -37,6 +37,15 @@ struct ProductsProviderSummitView: View {
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.top, .bottom])
                 VStack(spacing: 5) {
+                    Button("test") {
+                        Task {
+                            do {
+                                try await firestoreForProducts.getUploadintData(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
+                        }
+                    }
                     ScrollView(.vertical, showsIndicators: false){
                         TitleAndDivider(title: "Ready to Post your products?")
                         StepsTitle(stepsName: "Step1: Upload the product pic.")
@@ -59,36 +68,27 @@ struct ProductsProviderSummitView: View {
                                         .frame(width: 378, height: 304)
                                         .cornerRadius(10)
                                 }
+                                VStack {
+                                    HStack {
+                                        Spacer()
+                                        Text("\(productsProviderSummitViewModel.images.count)")
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .frame(width: 50, height: 30, alignment: .center)
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .fill(.black.opacity(0.5))
+                                            )
+                                    }
+//                                    .frame(width: 340)
+                                    Spacer()
+                                }
+                                .frame(width: 378, height: 304)
                             }
+                            .padding()
                         }
                         StepsTitle(stepsName: "Step2: Please provide the necessary information")
                         VStack(spacing: 10) {
-                            InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productName)
-                            InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productFrom)
-                            InfoUnit(title: "Product Price", bindingString: $productsProviderSummitViewModel.productPrice)
-                                .keyboardType(.numberPad)
-                            if !productsProviderSummitViewModel.productPrice.isEmpty {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    HStack {
-                                        Text("Product Cost Infomation")
-                                            .modifier(textFormateForProviderSummitView())
-                                        Spacer()
-                                    }
-                                    costInfo(title: "Service Fee (2%)", contain: productsProviderSummitViewModel.serviceFee)
-                                    costInfo(title: "Credit Card Payment Fee (2.75%)", contain: productsProviderSummitViewModel.paymentFee)
-                                    Divider()
-                                        .foregroundColor(.white)
-                                    costInfo(title: "Total Cost", contain: productsProviderSummitViewModel.totalCost)
-                                }
-                                .padding()
-                                .frame(width: uiScreenWidth - 30)
-                                .background(alignment: .center, content: {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.white, lineWidth: 1)
-                                })
-                            }
-                            InfoUnit(title: "Product Amount", bindingString: $productsProviderSummitViewModel.productAmount)
-                                .keyboardType(.numberPad)
                             VStack(alignment: .leading, spacing: 2) {
                                 HStack {
                                     Text("Product Type")
@@ -132,6 +132,33 @@ struct ProductsProviderSummitView: View {
                                 RoundedRectangle(cornerRadius: 20)
                                     .stroke(Color.white, lineWidth: 1)
                             })
+                            InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productName)
+                            
+                            InfoUnit(title: "Product Price", bindingString: $productsProviderSummitViewModel.productPrice)
+                                .keyboardType(.numberPad)
+                            if !productsProviderSummitViewModel.productPrice.isEmpty {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    HStack {
+                                        Text("Product Cost Infomation")
+                                            .modifier(textFormateForProviderSummitView())
+                                        Spacer()
+                                    }
+                                    costInfo(title: "Service Fee (2%)", contain: productsProviderSummitViewModel.serviceFee)
+                                    costInfo(title: "Credit Card Payment Fee (2.75%)", contain: productsProviderSummitViewModel.paymentFee)
+                                    Divider()
+                                        .foregroundColor(.white)
+                                    costInfo(title: "Total Cost", contain: productsProviderSummitViewModel.totalCost)
+                                }
+                                .padding()
+                                .frame(width: uiScreenWidth - 30)
+                                .background(alignment: .center, content: {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.white, lineWidth: 1)
+                                })
+                            }
+                            InfoUnit(title: "Product Amount", bindingString: $productsProviderSummitViewModel.productAmount)
+                                .keyboardType(.numberPad)
+                            InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productFrom)
                             VStack(alignment: .leading, spacing: 2) {
                                 HStack {
                                     Text("Product Description")
@@ -177,12 +204,14 @@ struct ProductsProviderSummitView: View {
                                 Spacer()
                                 Button {
                                     do {
+                                        
                                         try productsProviderSummitViewModel.checker(productName: productsProviderSummitViewModel.productName,
                                                                                 productPrice: productsProviderSummitViewModel.productPrice,
                                                                                 productFrom: productsProviderSummitViewModel.productFrom,
                                                                                     images: productsProviderSummitViewModel.images,
                                                                                     holderTosAgree: productsProviderSummitViewModel.holderTosAgree,
                                                                                     productAmount: productsProviderSummitViewModel.productAmount, productType: productsProviderSummitViewModel.productType)
+                                         
                                         productsProviderSummitViewModel.showSummitAlert.toggle()
                                     } catch {
                                         self.errorHandler.handle(error: error)
@@ -203,11 +232,14 @@ struct ProductsProviderSummitView: View {
                                                 Task {
                                                     do {
                                                         productsProviderSummitViewModel.showProgressView = true
+                                                        
+                                                        /*
                                                         try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(),
                                                                                                             image: productsProviderSummitViewModel.image,
                                                                                                             productID: firestoreForProducts.productUID,
                                                                                                             imageUID: storageForProductImage.productImageUUID)
-                                                        try await firestoreForProducts.summitFurniture(uidPath: firebaseAuth.getUID(),
+                                                         */
+                                                         try await firestoreForProducts.summitFurniture(uidPath: firebaseAuth.getUID(),
                                                                                                        productImage: storageForProductImage.representedProductImageURL,
                                                                                                        providerName: firestoreToFetchUserinfo.fetchedUserData.displayName,
                                                                                                        productPrice: productsProviderSummitViewModel.productPrice,
@@ -218,6 +250,11 @@ struct ProductsProviderSummitView: View {
                                                                                                        productAmount: productsProviderSummitViewModel.productAmount,
                                                                                                        isSoldOut: false,
                                                                                                        productType: productsProviderSummitViewModel.productType)
+                                                        
+                                                        try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(), image: productsProviderSummitViewModel.images, productUID: firestoreForProducts.productUID)
+                                                        try await storageForProductImage.getFirstImageStringAndUpdate(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
+                                                        _ = try await firestoreForProducts.getUploadintData(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
+                                                        try await firestoreForProducts.postProductOnPublic(data: firestoreForProducts.uploadingHolder)
                                                         productsProviderSummitViewModel.resetView()
                                                         productsProviderSummitViewModel.showProgressView = false
                                                     } catch {

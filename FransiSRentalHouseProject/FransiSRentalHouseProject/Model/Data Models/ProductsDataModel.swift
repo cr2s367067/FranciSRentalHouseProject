@@ -29,6 +29,7 @@ struct UserOrderProductsDataModel: Identifiable, Codable {
 //MARK: For provider to upload their product
 struct ProductProviderDataModel: Identifiable, Codable {
     @DocumentID var id: String?
+    @ServerTimestamp var postDate: Timestamp?
     var productUID: String
     var productImage: String
     var productName: String
@@ -40,7 +41,16 @@ struct ProductProviderDataModel: Identifiable, Codable {
     var productAmount: String
     var isSoldOut: Bool
     var productType: String
-    
+}
+
+extension ProductProviderDataModel {
+    static let empty = ProductProviderDataModel(productUID: "", productImage: "", productName: "", productPrice: "", productDescription: "", productFrom: "", providerName: "", providerUID: "", productAmount: "", isSoldOut: false, productType: "")
+}
+
+struct ProductProviderImageDateModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    var productDetialImage: String
+    @ServerTimestamp var uploadTime: Timestamp?
 }
 
 //MARK: For provider to track who ordered products
