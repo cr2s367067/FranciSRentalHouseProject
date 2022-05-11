@@ -18,7 +18,7 @@ struct ProductDetailView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     @EnvironmentObject var appViewModel: AppViewModel
-    
+    @Environment(\.colorScheme) var colorScheme
     
     
 //    var productData: ProductProviderDataModel
@@ -45,13 +45,18 @@ struct ProductDetailView: View {
     
     var body: some View {
         VStack {
-            Spacer()
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack {
+                    PageView()
+                }
+            }
+            .edgesIgnoringSafeArea(.top)
             VStack(alignment: .center, spacing: 20) {
                 HStack {
                     Text(productName)
                         .foregroundColor(.white)
                         .font(.system(size: 35, weight: .bold))
-                    Spacer()
+                    
                     Button {
                         productDetailViewModel.mark.toggle()
                         Task {
@@ -66,9 +71,9 @@ struct ProductDetailView: View {
                             .resizable()
                             .foregroundColor(productDetailViewModel.mark ? .orange : .white)
                             .frame(width: 35, height: 35)
-                            .padding(.trailing)
+                            .padding(.horizontal)
                     }
-                    
+
                     Spacer()
                     Group {
                         HStack {
@@ -96,17 +101,17 @@ struct ProductDetailView: View {
                 .onAppear {
                     checkMarked(productUID: productUID)
                 }
-                NavigationLink {
-                    StoreView(storeData: firestoreForProducts.storesDataSet)
-                } label: {
-                    HStack {
+                HStack {
+                    NavigationLink {
+                        StoreView(storeData: firestoreForProducts.storesDataSet)
+                    } label: {
                         Text("Visit store")
                         Image(systemName: "arrow.forward.circle")
-                        Spacer()
                     }
-                    .foregroundColor(.blue)
+                    .foregroundColor(colorScheme == .dark ? .blue : Color("sessionBackground"))
                     .font(.headline)
                     .padding(.horizontal)
+                    Spacer()
                 }
                 HStack {
                     Section {
@@ -175,7 +180,7 @@ struct ProductDetailView: View {
                                                               productImage: productImage,
                                                               providerName: providerName,
                                                               orderAmount: String(productDetailViewModel.orderAmount))
-                        
+
                         purchaseViewModel.productTotalAmount = String(pickerAmount)
                         print(productDetailViewModel.productOrderCart)
                         localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
@@ -192,42 +197,21 @@ struct ProductDetailView: View {
                 .padding(.horizontal)
                 .padding(.bottom)
             }
-            .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 2 + 40)
-            .background(alignment: .center) {
-                Rectangle()
-                    .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                    .cornerRadius(50, corners: [.topLeft, .topRight])
-                    .edgesIgnoringSafeArea(.bottom)
-            }
+            .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 2 + 50)
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .background(alignment: .center) {
-            VStack {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    ScrollViewReader { page in
-                        HStack {
-                            ForEach(storageForProductImage.productImageSet) { image in
-                                WebImage(url: URL(string: image.productDetialImage))
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 2 - 50, alignment: .center)
-                                    .clipped()
-                                    .id(image.id)
-                            }
-                        }
-                    }
-                }
-                Spacer()
-            }
-            .edgesIgnoringSafeArea(.top)
+            Rectangle()
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
+//                    .cornerRadius(50, corners: [.topLeft, .topRight])
+                .edgesIgnoringSafeArea(.bottom)
         }
         .task {
             do {
                 try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: providerUID, productID: productUID)
                 try await firestoreForProducts.updatePublicAmountData(docID: docID, providerUidPath: providerUID, productID: productUID)
                 _ = try await firestoreForProducts.fetchStore(providerUidPath: providerUID)
-                _ = try await storageForProductImage.getProductImages(providerUidPath: providerUID, productUID: productUID)
             } catch {
 //                self.errorHandler.handle(error: error)
                 print(error.localizedDescription)
@@ -255,7 +239,7 @@ extension ProductDetailView {
             self.errorHandler.handle(error: error)
         }
     }
-    
+
     private func unmarkProduct(productUID: String) async {
         firestoreForProducts.markedProducts.forEach { mark in
             if mark.productUID == productUID {
@@ -270,7 +254,7 @@ extension ProductDetailView {
             }
         }
     }
-    
+
     private func checkMarked(productUID: String) {
         firestoreForProducts.markedProducts.forEach { mark in
             if mark.productUID == productUID {
@@ -315,25 +299,30 @@ class ProductDetailViewModel: ObservableObject {
 
 
 
-struct TestView: View {
+struct PageView: View {
+    
+    @EnvironmentObject var storageForProductImage: StorageForProductImage
+    
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
+    @State var selected = ""
+    
     var body: some View {
-        VStack {
-            Image("test1")
-                .resizable()
-                .scaledToFill()
-                .frame(width: uiScreenWidth, height: uiScreenHeight / 3, alignment: .center)
-                .clipped()
-            Spacer()
+        if storageForProductImage.productImageSet.count >= 1 {
+            TabView {
+                ForEach(storageForProductImage.productImageSet) { image in
+                    WebImage(url: URL(string: image.productDetialImage))
+                        .resizable()
+                        .scaledToFill()
+                        .clipped()
+                        .id(image.id)
+                }
+            }
+            .frame(width: uiScreenWidth, height: uiScreenHeight / 3 + 40)
+            .tabViewStyle(PageTabViewStyle())
+            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         }
-    }
-}
-
-struct TestView_Previews: PreviewProvider {
-    static var previews: some View {
-        TestView()
     }
 }

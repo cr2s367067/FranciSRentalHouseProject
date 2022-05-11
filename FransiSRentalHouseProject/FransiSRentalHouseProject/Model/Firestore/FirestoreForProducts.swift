@@ -377,6 +377,13 @@ extension FirestoreForProducts {
         ])
     }
     
+    func updateProfilePic(uidPath: String, profileImage: String) async throws {
+        let storeRef = db.collection("Stores").document(uidPath)
+        _ = try await storeRef.updateData([
+            "providerProfileImage" : profileImage
+        ])
+    }
+    
     func updateStoreInfo(uidPath: String, providerDescription: String) async throws {
         let storeRef = db.collection("Stores").document(uidPath)
         _ = try await storeRef.updateData([

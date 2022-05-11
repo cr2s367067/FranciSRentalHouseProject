@@ -48,7 +48,7 @@ extension ProductProviderDataModel {
 }
 
 struct ProductProviderImageDateModel: Identifiable, Codable {
-    @DocumentID var id: String?
+    @DocumentID var id = UUID().uuidString
     var productDetialImage: String
     @ServerTimestamp var uploadTime: Timestamp?
 }

@@ -39,6 +39,9 @@ struct StoreProfileView: View {
             }
         }
         .modifier(ViewBackgroundInitModifier())
+        .onAppear {
+            storeProfileVM.providerDescription = firestoreForProducts.storeLocalData.providerDescription
+        }
         .sheet(isPresented: $showPhPicker) {
             Task {
                 do {
@@ -142,7 +145,9 @@ extension StoreProfileView {
                         do {
                             try await firestoreForProducts.updateStoreInfo(uidPath: firebaseAuth.getUID(),
                                                                            providerDescription: storeProfileVM.providerDescription)
+                            try await firestoreForProducts.updateProfilePic(uidPath: firebaseAuth.getUID(), profileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL)
                             _ = try await firestoreForProducts.fetchStoreInLocal(uidPath: firebaseAuth.getUID())
+                            storeProfileVM.providerDescription = firestoreForProducts.storeLocalData.providerDescription
                             storeProfileVM.isUpdate = true
                         } catch {
                             self.errorHandler.handle(error: error)

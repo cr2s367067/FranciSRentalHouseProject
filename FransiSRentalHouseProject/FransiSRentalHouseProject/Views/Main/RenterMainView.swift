@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RenterMainView: View {
 
+    @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
@@ -228,12 +229,22 @@ extension RenterMainView {
             } label: {
                 FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
             }
+            .simultaneousGesture(
+                TapGesture().onEnded({ _ in
+                    Task {
+                        do {
+                            try await storageForProductImage.getProductImages(providerUidPath: product.providerUID, productUID: product.productUID)
+                        } catch {
+                            self.errorHandler.handle(error: error)
+                        }
+                    }
+                })
+            )
         }
     }
     
     
 }
-
 
 /*
  Button {

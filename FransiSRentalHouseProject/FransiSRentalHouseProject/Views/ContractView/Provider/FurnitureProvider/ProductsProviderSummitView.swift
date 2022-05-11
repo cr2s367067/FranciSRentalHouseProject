@@ -18,6 +18,7 @@ struct ProductsProviderSummitView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var searchVM: SearchViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     @FocusState private var isFocused: Bool
 
@@ -37,15 +38,6 @@ struct ProductsProviderSummitView: View {
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.top, .bottom])
                 VStack(spacing: 5) {
-                    Button("test") {
-                        Task {
-                            do {
-                                try await firestoreForProducts.getUploadintData(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
-                            } catch {
-                                self.errorHandler.handle(error: error)
-                            }
-                        }
-                    }
                     ScrollView(.vertical, showsIndicators: false){
                         TitleAndDivider(title: "Ready to Post your products?")
                         StepsTitle(stepsName: "Step1: Upload the product pic.")
@@ -114,7 +106,7 @@ struct ProductsProviderSummitView: View {
                                             .frame(width: 70 + CGFloat((productsProviderSummitViewModel.productType.count * 8)), height: 40)
                                             .background(alignment: .center) {
                                                 RoundedRectangle(cornerRadius: 10)
-                                                    .fill(.gray.opacity(0.6))
+                                                    .fill(colorScheme == .dark ? .gray.opacity(0.5) : .black.opacity(0.5))
                                             }
                                         }
                                     } header: {
