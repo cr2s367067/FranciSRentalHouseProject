@@ -101,9 +101,9 @@ struct MaintainView: View {
                                         if isSelectedImage == true {
                                             Image(uiImage: image)
                                                 .resizable()
+                                                .scaledToFill()
                                                 .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
                                                 .clipShape(RoundedRectangle(cornerRadius: 20))
-                                                .aspectRatio(contentMode: .fit)
                                         }
                                     }
                                 }

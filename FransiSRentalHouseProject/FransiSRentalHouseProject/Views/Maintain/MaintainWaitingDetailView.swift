@@ -104,9 +104,9 @@ extension MaintainTaskWaitingListUnit {
             VStack(alignment: .center) {
                 WebImage(url: URL(string: maintainTask.itemImageURL))
                     .resizable()
+                    .scaledToFill()
                     .frame(width: uiscreenWidth / 2 + 150, height: uiscreedHeight / 6 + 70, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-//                    .padding()
                 HStack {
                     VStack {
                         HStack {

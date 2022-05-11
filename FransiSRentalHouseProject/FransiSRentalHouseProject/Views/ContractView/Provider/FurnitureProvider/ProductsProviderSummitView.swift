@@ -224,13 +224,6 @@ struct ProductsProviderSummitView: View {
                                                 Task {
                                                     do {
                                                         productsProviderSummitViewModel.showProgressView = true
-                                                        
-                                                        /*
-                                                        try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(),
-                                                                                                            image: productsProviderSummitViewModel.image,
-                                                                                                            productID: firestoreForProducts.productUID,
-                                                                                                            imageUID: storageForProductImage.productImageUUID)
-                                                         */
                                                          try await firestoreForProducts.summitFurniture(uidPath: firebaseAuth.getUID(),
                                                                                                        productImage: storageForProductImage.representedProductImageURL,
                                                                                                        providerName: firestoreToFetchUserinfo.fetchedUserData.displayName,
@@ -246,7 +239,7 @@ struct ProductsProviderSummitView: View {
                                                         try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(), image: productsProviderSummitViewModel.images, productUID: firestoreForProducts.productUID)
                                                         try await storageForProductImage.getFirstImageStringAndUpdate(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
                                                         _ = try await firestoreForProducts.getUploadintData(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
-                                                        try await firestoreForProducts.postProductOnPublic(data: firestoreForProducts.uploadingHolder)
+                                                        try await firestoreForProducts.postProductOnPublic(data: firestoreForProducts.uploadingHolder, productUID: firestoreForProducts.productUID)
                                                         productsProviderSummitViewModel.resetView()
                                                         productsProviderSummitViewModel.showProgressView = false
                                                     } catch {

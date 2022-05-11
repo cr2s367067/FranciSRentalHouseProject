@@ -388,6 +388,8 @@ extension PurchaseView {
                                                           renterPhoneNumber: result.rentersContractData?.renterPhoneNumber ?? "",
                                                           renterEmailAddress: result.rentersContractData?.renterEmailAddress ?? "",
                                                           sigurtureDate: result.rentersContractData?.sigurtureDate ?? Date())
+            let rentPriceWithDiposit = String(Int(result.rentalPrice) ?? 0 * 3)
+            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: rentPriceWithDiposit)
             try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.id ?? "")
             try await firestoreToFetchUserinfo.reloadUserDataTest()
             try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providedBy,
@@ -401,7 +403,7 @@ extension PurchaseView {
     
     private func monthlyRentalFeePayment() async {
         do {
-            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "", date: Date())
+            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "")
         } catch {
             self.errorHandler.handle(error: error)
         }

@@ -284,13 +284,12 @@ extension FirestoreToFetchUserinfo {
 
 
 extension FirestoreToFetchUserinfo {
-    func summitPaidInfo(uidPath: String, rentalPrice: String, date: Date) async throws {
+    func summitPaidInfo(uidPath: String, rentalPrice: String) async throws {
         let paymentHistoryRef = db.collection("users").document(uidPath).collection("PaymentHistory")
         _ = try await paymentHistoryRef.addDocument(data: [
             "pastPaymentFee" : rentalPrice,
-            "paymentDate" : date
+            "paymentDate" : Date()
         ])
-        
     }
     
     @MainActor
@@ -784,3 +783,4 @@ extension FirestoreToFetchUserinfo {
         ])
     }
 }
+

@@ -87,9 +87,9 @@ class FirestoreForProducts: ObservableObject {
         return uploadingHolder
     }
     
-    func postProductOnPublic(data: ProductProviderDataModel) async throws {
-        let furniturePublicRef = db.collection("ProductsPublic")
-        _ = try await furniturePublicRef.addDocument(data: [
+    func postProductOnPublic(data: ProductProviderDataModel, productUID: String) async throws {
+        let furniturePublicRef = db.collection("ProductsPublic").document(productUID)
+        _ = try await furniturePublicRef.setData([
             "productUID" : data.productUID,
             "productImage" : data.productImage,
             "providerName" : data.providerName,
@@ -500,6 +500,12 @@ extension FirestoreForProducts {
     func updateProductAmountAndDesciption(uidPaht: String, productID: String, newProductAmount: String, newProductDescription: String) async throws {
         let productRef = db.collection("ProductsProvider").document(uidPaht).collection("Products").document(productID)
         try await productRef.updateData([
+            "productAmount" : newProductAmount,
+            "productDescription" : newProductDescription
+        ])
+        
+        let furniturePublicRef = db.collection("ProductsPublic").document(productID)
+        try await furniturePublicRef.updateData([
             "productAmount" : newProductAmount,
             "productDescription" : newProductDescription
         ])

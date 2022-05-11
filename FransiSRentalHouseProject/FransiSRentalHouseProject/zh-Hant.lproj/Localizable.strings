@@ -749,10 +749,10 @@
 "Please check the confirm password" = "請確認密碼";
 
 /* No comment provided by engineer. */
-"Please check the Term of Service" = "請閱讀並確認服務政策";
+"Please check the Term of Service" = "請閱讀並確認服務";
 
 /* No comment provided by engineer. */
-"Please check the terms of service and payment checkbox." = "請閱讀並確認服務政策與付款規則";
+"Please check the terms of service and payment checkbox." = "請閱讀並確認服務規則與付款規則";
 
 /* No comment provided by engineer. */
 "Please choose type" = "請選擇種類";
@@ -806,7 +806,7 @@
 "Please provide the room image." = "請提供物件照片";
 
 /* No comment provided by engineer. */
-"Please read term of service." = "請閱讀服務政策";
+"Please read term of service." = "請閱讀服務規則";
 
 /* No comment provided by engineer. */
 "Please recheck license number" = "請重新確認證號";
@@ -983,10 +983,10 @@
 "Tell Us 🤓" = "告訴我們🤓";
 
 /* No comment provided by engineer. */
-"Terms of Service" = "服務政策";
+"Terms of Service" = "服務規則";
 
 /* No comment provided by engineer. */
-"terms of Service." = "服務政策";
+"terms of Service." = "服務規則";
 
 /* No comment provided by engineer. */
 "test" = "test";
@@ -1629,7 +1629,7 @@
 "Product Amount" = "產品總數";
 
 /* No comment provided by engineer. */
-"Step3: Please check out the terms of service." = "Step3: 請閱讀與確認服務政策";
+"Step3: Please check out the terms of service." = "Step3: 請閱讀與確認服務規則";
 
 /* No comment provided by engineer. */
 "My Store" = "我的商店";

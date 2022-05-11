@@ -21,6 +21,8 @@ struct SignUpView: View {
     @State private var tosSheetShow = false
     @State private var ppSheetShow = false
     
+    @FocusState private var isFocus: Bool
+    
     private func reset() {
         appViewModel.emailAddress = ""
         appViewModel.userPassword = ""
@@ -47,7 +49,6 @@ struct SignUpView: View {
             }
             .edgesIgnoringSafeArea([.top, .bottom])
             VStack {
-                
                 Spacer()
                     .frame(height: 90)
                 HStack {
@@ -61,113 +62,103 @@ struct SignUpView: View {
                 .padding(.top, -10)
                 .padding(.bottom, -15)
                 VStack {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            TextField("", text: $appViewModel.emailAddress)
-                                .foregroundColor(.white)
-                                .placeholer(when: appViewModel.emailAddress.isEmpty) {
-                                    Text("E-mail")
-                                        .foregroundColor(.white.opacity(0.8))
-                                }
-                                .disableAutocorrection(true)
-                                .textInputAutocapitalization(.never)
-                                .padding(.leading)
-                                .keyboardType(.emailAddress)
-                        }
-                        .modifier(customTextField())
-                        Text("")
-                            .foregroundColor(.red)
-                            .font(.system(size: 12, weight: .heavy))
-                            .padding(2)
-                    }
-                    VStack {
-                        HStack {
-                            SecureField("", text: $appViewModel.userPassword)
-                                .foregroundColor(.white)
-                                .placeholer(when: appViewModel.userPassword.isEmpty) {
-                                    Text("Password")
-                                        .foregroundColor(.white.opacity(0.8))
-                                }
-                                .disableAutocorrection(true)
-                                .textInputAutocapitalization(.never)
-                                .padding(.leading)
-                        }
-                        .modifier(customTextField())
-                        Text("")
-                            .foregroundColor(.red)
-                            .font(.system(size: 12, weight: .heavy))
-                            .padding(2)
-                    }
-                    VStack {
-                        HStack {
-                            //Re-check the password
-                            SecureField("", text: $appViewModel.recheckPassword)
-                                .foregroundColor(.white)
-                                .placeholer(when: appViewModel.recheckPassword.isEmpty) {
-                                    Text("Confirm")
-                                        .foregroundColor(.white.opacity(0.8))
-                                }
-                                .disableAutocorrection(true)
-                                .textInputAutocapitalization(.never)
-                                .padding(.leading)
-                        }
-                        .modifier(customTextField())
-                        Text("")
-                            .foregroundColor(.red)
-                            .font(.system(size: 12, weight: .heavy))
-                            .padding(2)
-                    }
-                    HStack {
-                        Button {
-                            if appViewModel.isRenter == true {
-                                appViewModel.isRenter = false
-                            }
-                            if appViewModel.isProvider == false {
-                                appViewModel.isProvider = true
-                                appViewModel.userType = "Provider"
-                                
-                                //debugPrint(UserDataModel(id: "", firstName: "", lastName: "", phoneNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
-                            }
-                        } label: {
+                    VStack(spacing: 10) {
+                        VStack {
                             HStack {
-                                Text("I'm Provider")
-                                    .foregroundColor(appViewModel.isProvider ? .white : .gray)
-                                Image(systemName: appViewModel.isProvider ? "checkmark.circle.fill" : "checkmark.circle")
-                                    .foregroundColor(appViewModel.isProvider ? .green : .gray)
-                                    .padding(.leading, 10)
-                                
+                                TextField("", text: $appViewModel.emailAddress)
+                                    .foregroundColor(.white)
+                                    .placeholer(when: appViewModel.emailAddress.isEmpty) {
+                                        Text("E-mail")
+                                            .foregroundColor(.white.opacity(0.8))
+                                    }
+                                    .disableAutocorrection(true)
+                                    .textInputAutocapitalization(.never)
+                                    .padding(.leading)
+                                    .keyboardType(.emailAddress)
                             }
-                            .frame(width: 140, height: 34)
-                            .background(Color("fieldGray").opacity(0.07))
-                            .cornerRadius(5)
+                            .modifier(customTextField())
                         }
-                        Spacer()
-                            .frame(width: 85)
-                        Button {
-                            if appViewModel.isProvider == true {
-                                appViewModel.isProvider = false
-                                
-                            }
-                            if appViewModel.isRenter == false {
-                                appViewModel.isRenter = true
-                                appViewModel.userType = "Renter"
-                            }
-                            //                            appViewModel.isRenter.toggle()
-                        } label: {
+                        VStack {
                             HStack {
-                                Text("I'm Renter")
-                                    .foregroundColor(appViewModel.isRenter ? .white : .gray)
-                                Image(systemName: appViewModel.isRenter ? "checkmark.circle.fill" : "checkmark.circle")
-                                    .foregroundColor(appViewModel.isRenter ? .green : .gray)
-                                    .padding(.leading, 10)
+                                SecureField("", text: $appViewModel.userPassword)
+                                    .foregroundColor(.white)
+                                    .placeholer(when: appViewModel.userPassword.isEmpty) {
+                                        Text("Password")
+                                            .foregroundColor(.white.opacity(0.8))
+                                    }
+                                    .disableAutocorrection(true)
+                                    .textInputAutocapitalization(.never)
+                                    .padding(.leading)
                             }
-                            .frame(width: 140, height: 34)
-                            .background(Color("fieldGray").opacity(0.07))
-                            .cornerRadius(5)
+                            .modifier(customTextField())
                         }
+                        VStack {
+                            HStack {
+                                //Re-check the password
+                                SecureField("", text: $appViewModel.recheckPassword)
+                                    .foregroundColor(.white)
+                                    .placeholer(when: appViewModel.recheckPassword.isEmpty) {
+                                        Text("Confirm")
+                                            .foregroundColor(.white.opacity(0.8))
+                                    }
+                                    .disableAutocorrection(true)
+                                    .textInputAutocapitalization(.never)
+                                    .padding(.leading)
+                            }
+                            .modifier(customTextField())
+                        }
+                        HStack {
+                            Button {
+                                if appViewModel.isRenter == true {
+                                    appViewModel.isRenter = false
+                                }
+                                if appViewModel.isProvider == false {
+                                    appViewModel.isProvider = true
+                                    appViewModel.userType = "Provider"
+                                    
+                                    //debugPrint(UserDataModel(id: "", firstName: "", lastName: "", phoneNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
+                                }
+                            } label: {
+                                HStack {
+                                    Text("I'm Provider")
+                                        .foregroundColor(appViewModel.isProvider ? .white : .gray)
+                                    Image(systemName: appViewModel.isProvider ? "checkmark.circle.fill" : "checkmark.circle")
+                                        .foregroundColor(appViewModel.isProvider ? .green : .gray)
+                                        .padding(.leading, 10)
+                                    
+                                }
+                                .frame(width: 140, height: 34)
+                                .background(Color("fieldGray").opacity(0.07))
+                                .cornerRadius(5)
+                            }
+                            Spacer()
+                                .frame(width: 85)
+                            Button {
+                                if appViewModel.isProvider == true {
+                                    appViewModel.isProvider = false
+                                    
+                                }
+                                if appViewModel.isRenter == false {
+                                    appViewModel.isRenter = true
+                                    appViewModel.userType = "Renter"
+                                }
+                                //                            appViewModel.isRenter.toggle()
+                            } label: {
+                                HStack {
+                                    Text("I'm Renter")
+                                        .foregroundColor(appViewModel.isRenter ? .white : .gray)
+                                    Image(systemName: appViewModel.isRenter ? "checkmark.circle.fill" : "checkmark.circle")
+                                        .foregroundColor(appViewModel.isRenter ? .green : .gray)
+                                        .padding(.leading, 10)
+                                }
+                                .frame(width: 140, height: 34)
+                                .background(Color("fieldGray").opacity(0.07))
+                                .cornerRadius(5)
+                            }
+                        }
+                        .padding(.top, 10)
                     }
-                    .padding(.top, 10)
-                    
+                    .focused($isFocus)
                     if appViewModel.isProvider == true {
                         HStack {
                             Button {
@@ -180,7 +171,7 @@ struct SignUpView: View {
                                 }
                             } label: {
                                 HStack {
-                                    Text("Furniture Provider")
+                                    Text("Product Provider")
                                         .foregroundColor(appViewModel.isFurnitureProvider ? .white : .gray)
                                     Image(systemName: appViewModel.isFurnitureProvider ? "checkmark.circle.fill" : "checkmark.circle")
                                         .foregroundColor(appViewModel.isFurnitureProvider ? .green : .gray)
@@ -304,6 +295,9 @@ struct SignUpView: View {
                     .frame(height: 35)
                 
             }
+        }
+        .onTapGesture {
+            isFocus = false
         }
         .sheet(isPresented: $tosSheetShow, content: {
             TermOfServiceView()

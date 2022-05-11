@@ -17,6 +17,7 @@ struct BioAuthSettingView: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     
     @State private var showComfirmAlert = false
+    @FocusState private var isFocus: Bool
 
     func cancel() {
         bioAuthViewModel.userNameBioAuth = ""
@@ -36,64 +37,76 @@ struct BioAuthSettingView: View {
     
     var body: some View {
         VStack {
-            VStack {
-                Section {
-                    Toggle(isOn: $bioAuthViewModel.faceIDEnable) {
-                        Text("Enable Face ID")
-                            .foregroundColor(.primary)
-                    }
-                    if bioAuthViewModel.faceIDEnable {
-                        TextField("UserName", text: $bioAuthViewModel.userNameBioAuth)
-                            .foregroundColor(.primary)
-                        SecureField("Password", text: $bioAuthViewModel.passwordBioAuth)
-                            .foregroundColor(.primary)
-                        Button {
-                            showComfirmAlert.toggle()
-                        } label: {
-                            HStack {
-                                Spacer()
-                                Text("Comfirm")
-                                    .foregroundColor(.white)
-                                    .frame(width: 90, height: 35)
-                                    .background(Color("buttonBlue"))
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                            }
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
+                    Section {
+                        Toggle(isOn: $bioAuthViewModel.faceIDEnable) {
+                            Text("Enable Face ID")
+                                .foregroundColor(.primary)
                         }
-                        .alert("Notice", isPresented: $showComfirmAlert) {
-                            HStack {
-                                Button {
-                                    cancel()
-                                } label: {
-                                    Text("Cancel")
-                                }
-                                Button {
-                                    comfirm()
-                                } label: {
+                        if bioAuthViewModel.faceIDEnable {
+                            TextField("UserName", text: $bioAuthViewModel.userNameBioAuth)
+                                .foregroundColor(.primary)
+                                .keyboardType(.emailAddress)
+                                .disableAutocorrection(true)
+                                .textInputAutocapitalization(.never)
+                                .focused($isFocus)
+                            SecureField("Password", text: $bioAuthViewModel.passwordBioAuth)
+                                .foregroundColor(.primary)
+                                .disableAutocorrection(true)
+                                .textInputAutocapitalization(.never)
+                                .focused($isFocus)
+                            Button {
+                                showComfirmAlert.toggle()
+                            } label: {
+                                HStack {
+                                    Spacer()
                                     Text("Comfirm")
+                                        .foregroundColor(.white)
+                                        .frame(width: 90, height: 35)
+                                        .background(Color("buttonBlue"))
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
                                 }
                             }
-                        } message: {
-                            Text("When you comfirm, system will sign up and use bio authtication to sign in.")
+                            .alert("Notice", isPresented: $showComfirmAlert) {
+                                HStack {
+                                    Button {
+                                        cancel()
+                                    } label: {
+                                        Text("Cancel")
+                                    }
+                                    Button {
+                                        comfirm()
+                                    } label: {
+                                        Text("Comfirm")
+                                    }
+                                }
+                            } message: {
+                                Text("When you comfirm, system will sign up and use bio authtication to sign in.")
+                            }
+                            
                         }
-
+                    } header: {
+                        HStack {
+                            Text("Security Setting")
+                                .foregroundColor(.primary)
+                                .font(.system(size: 22, weight: .bold))
+                            Spacer()
+                        }
                     }
-                } header: {
-                    HStack {
-                        Text("Security Setting")
-                            .foregroundColor(.primary)
-                            .font(.system(size: 22, weight: .bold))
-                        Spacer()
-                    }
+                    Spacer()
                 }
-                Spacer()
+                .padding()
+                .frame(width: uiScreenWidth - 30, height: uiScreenHeight - 200 )
+                .background(alignment: .center) {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
+                }
             }
-            .padding()
-            .frame(width: uiScreenWidth - 30, height: uiScreenHeight - 200 )
-            .background(alignment: .center) {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
+            .onTapGesture {
+                isFocus = false
             }
-            Spacer()
+//            Spacer()
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -103,6 +116,7 @@ struct BioAuthSettingView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 

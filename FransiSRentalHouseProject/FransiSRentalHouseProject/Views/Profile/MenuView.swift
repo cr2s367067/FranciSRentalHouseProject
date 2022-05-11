@@ -12,6 +12,7 @@ struct MenuView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var errorHandler: ErrorHandler
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -48,13 +49,14 @@ struct MenuView: View {
                     .frame(height: UIScreen.main.bounds.height / 3)
                 HStack {
                     Button {
-                        do {
-                            cleanUserInfoWhenSignOut()
-                            try firebaseAuth.signOutAsync()
-                        } catch {
-                            print("unknown error")
+                        Task {
+                            do {
+                                cleanUserInfoWhenSignOut()
+                                try firebaseAuth.signOutAsync()
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
                         }
-                        
                     } label: {
                         Text("Sign Out")
                             .foregroundColor(.white)

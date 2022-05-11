@@ -13,6 +13,7 @@ struct ProductCollectionDetialView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
+    @EnvironmentObject var errorHandler: ErrorHandler
     @Environment(\.colorScheme) var colorScheme
     
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -88,7 +89,7 @@ struct ProductCollectionDetialView: View {
                 guard let id = productData.id else { return }
                 try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: firebaseAuth.getUID(), productID: id)
             } catch {
-                
+                self.errorHandler.handle(error: error)
             }
         }
         .onAppear {
@@ -108,7 +109,7 @@ struct ProductCollectionDetialView: View {
                                 try await firestoreForProducts.updateProductAmountAndDesciption(uidPaht: firebaseAuth.getUID(), productID: id, newProductAmount: newAmount, newProductDescription: newDescription)
                                 try await firestoreForProducts.fetchStoreProduct(uidPath: firebaseAuth.getUID())
                             } catch {
-                                
+                                self.errorHandler.handle(error: error)
                             }
                         }
                     } label: {

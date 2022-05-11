@@ -129,7 +129,7 @@ struct RenterContractEditView: View {
                                                 .foregroundColor(rentEditVM.contractDataModel.parkingStyleM ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)
                                             Text("機械式停車位")
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.primary)
                                         }
                                     }
                                     .buttonStyle(BorderlessButtonStyle())
@@ -147,7 +147,7 @@ struct RenterContractEditView: View {
                                                 .foregroundColor(rentEditVM.contractDataModel.parkingStyleN ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)
                                             Text("平面式停車位")
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.primary)
                                         }
                                     }
                                     .buttonStyle(BorderlessButtonStyle())
@@ -170,7 +170,7 @@ struct RenterContractEditView: View {
                                                 .foregroundColor(rentEditVM.contractDataModel.forAllday ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)
                                             Text("全日")
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.primary)
                                         }
                                     }
                                     .buttonStyle(BorderlessButtonStyle())
@@ -191,7 +191,7 @@ struct RenterContractEditView: View {
                                                 .foregroundColor(rentEditVM.contractDataModel.forMorning ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)
                                             Text("日間")
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.primary)
                                         }
                                     }
                                     .buttonStyle(BorderlessButtonStyle())
@@ -212,7 +212,7 @@ struct RenterContractEditView: View {
                                                 .foregroundColor(rentEditVM.contractDataModel.forNight ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)
                                             Text("夜間")
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.primary)
                                         }
                                     }
                                     .buttonStyle(BorderlessButtonStyle())

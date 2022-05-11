@@ -16,9 +16,12 @@ struct LoginView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
     @State private var emailAddress = ""
     @State private var userPassword = ""
+    
+    @FocusState private var isFocus: Bool
 //    @AppStorage(LoginStatus.saveUserName.rawValue) var saveUserName = false
     
     
@@ -59,20 +62,20 @@ struct LoginView: View {
                             .padding(.leading)
                             .padding()
                         Spacer()
-                        Button {
-                            Task {
-                                do {
-                                    try await firebaseAuth.signWithAnonymousAsync()
-                                } catch {
-                                    self.errorHandler.handle(error: error)
-                                }
-                            }
-                        } label: {
-                            Text(">>> Skip")
-                                .foregroundColor(.white)
-                                .padding(.trailing, 25)
-                            
-                        }
+//                        Button {
+//                            Task {
+//                                do {
+//                                    try await firebaseAuth.signWithAnonymousAsync()
+//                                } catch {
+//                                    self.errorHandler.handle(error: error)
+//                                }
+//                            }
+//                        } label: {
+//                            Text(">>> Skip")
+//                                .foregroundColor(.white)
+//                                .padding(.trailing, 25)
+//
+//                        }
                     }
                     .padding(.top, -10)
                     .padding(.bottom, -15)
@@ -91,6 +94,7 @@ struct LoginView: View {
                                 .disableAutocorrection(true)
                                 .textInputAutocapitalization(.never)
                                 .keyboardType(.emailAddress)
+                                .focused($isFocus)
                         }
                         .modifier(customTextField())
                         
@@ -107,6 +111,7 @@ struct LoginView: View {
                                 }
                                 .disableAutocorrection(true)
                                 .textInputAutocapitalization(.never)
+                                .focused($isFocus)
                         }
                         .modifier(customTextField())
                     }
@@ -187,6 +192,9 @@ struct LoginView: View {
                     Spacer()
                 }
                 .padding()
+                .onTapGesture {
+                    isFocus = false
+                }
             }
             .navigationBarHidden(true)
             .onAppear {

@@ -229,14 +229,14 @@ extension RoomsDetailView {
                 WebImage(url: URL(string: roomsDetailViewModel.presentingImageURL))
                     .resizable()
                     .scaledToFill()
-                    .frame(height: uiScreenHeight / 2 + 190, alignment: .top)
+                    .frame(height: uiScreenHeight / 2 + 190, alignment: .center)
                     .clipped()
                     .edgesIgnoringSafeArea(.top)
             } else {
                 WebImage(url: URL(string: roomsData.roomImage ?? ""))
                     .resizable()
                     .scaledToFill()
-                    .frame(height: uiScreenHeight / 2 + 190, alignment: .top)
+                    .frame(height: uiScreenHeight / 2 + 190, alignment: .center)
                     .clipped()
                     .edgesIgnoringSafeArea(.top)
             }
