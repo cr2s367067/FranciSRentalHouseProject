@@ -673,21 +673,31 @@ extension AppViewModel {
         }
     }
     
-    func userInfoFormatterCheckerAsync(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) throws {
-        guard id.count == 10 else {
-            throw UserInformationError.idFormateError
+    func userInfoFormatterCheckerAsync(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String, uType: SignUpType) throws {
+        if uType == .isNormalCustomer {
+            guard id.count == 10 else {
+                throw UserInformationError.idFormateError
+            }
+            guard mobileNumber.count == 10 else {
+                throw UserInformationError.mobileNumberFormateError
+            }
+            guard !gender.isEmpty else {
+                throw UserInformationError.genderIsNotSelected
+            }
+            guard formatterChecker(id: id) == true else {
+                throw UserInformationError.idFormateError
+            }
+            guard id.count == 10 && idChecker(id: id) == true else {
+                throw UserInformationError.invalidID
+            }
         }
-        guard mobileNumber.count == 10 else {
-            throw UserInformationError.mobileNumberFormateError
-        }
-        guard !gender.isEmpty else {
-            throw UserInformationError.genderIsNotSelected
-        }
-        guard formatterChecker(id: id) == true else {
-            throw UserInformationError.idFormateError
-        }
-        guard id.count == 10 && idChecker(id: id) == true else {
-            throw UserInformationError.invalidID
+        if uType == .isProvider {
+            guard id.count == 8 else {
+                throw UserInformationError.idFormateError
+            }
+            guard mobileNumber.count == 10 else {
+                throw UserInformationError.mobileNumberFormateError
+            }
         }
     }
 }

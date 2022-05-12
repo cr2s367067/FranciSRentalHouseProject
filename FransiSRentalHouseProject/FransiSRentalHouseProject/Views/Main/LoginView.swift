@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct LoginView: View {
     
     enum LoginStatus: String {
@@ -18,11 +19,12 @@ struct LoginView: View {
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
+    
     @State private var emailAddress = ""
     @State private var userPassword = ""
     
     @FocusState private var isFocus: Bool
-//    @AppStorage(LoginStatus.saveUserName.rawValue) var saveUserName = false
+
     
     
     var body: some View {
@@ -30,12 +32,12 @@ struct LoginView: View {
             ZStack {
                 Group {
                     //: Background Image
-                    Image("backgroundImage")
+                    Image("door1")
                         .resizable()
                         .blur(radius: 10)
-                        .aspectRatio(contentMode: .fill)
+                        .scaledToFill()
                         .frame(width: 428, height: 926)
-                        .offset(x: -40)
+                        .offset(x: 20)
                         .clipped()
                     Rectangle()
                         .fill(.black.opacity(0.5))
@@ -117,33 +119,11 @@ struct LoginView: View {
                     }
                     
                     HStack(spacing: 5) {
-//                        Button {
-//                            saveUserName.toggle()
-//                        } label: {
-//                            HStack {
-//                                Image(systemName: saveUserName ? "checkmark.square.fill" : "checkmark.square")
-//                                    .foregroundColor(saveUserName ? .green : .white)
-//                                    .font(.system(size: 20))
-//                                Text("Save username?")
-//                                    .foregroundColor(.white)
-//                                    .font(.system(size: 15))
-//                            }
-//                        }
                         Spacer()
-                        Button {
-                            //: Request reset password
-                            Task {
-                                do {
-                                    try await firebaseAuth.resetPasswordAsync(email: emailAddress)
-                                    bioAuthViewModel.faceIDEnable = false
-                                    bioAuthViewModel.userNameBioAuth = ""
-                                    bioAuthViewModel.passwordBioAuth = ""
-                                } catch {
-                                    self.errorHandler.handle(error: error)
-                                }
-                            }
+                        NavigationLink(isActive: $firebaseAuth.showForgotPasswordView) {
+                            ForgetPasswordView()
                         } label: {
-                            Text("Forget Password?")
+                            Text("Forgot Password?")
                                 .foregroundColor(.white)
                                 .alert(isPresented: $firebaseAuth.showAlert) {
                                     Alert(title: Text(firebaseAuth.alertTitle), message: Text(firebaseAuth.alertMessage), dismissButton: .default(Text(firebaseAuth.alertButton)))
@@ -152,28 +132,7 @@ struct LoginView: View {
                     }
                     .padding()
                     VStack {
-                        Button {
-                            Task {
-                                do {
-                                    try await firebaseAuth.signInAsync(email: emailAddress, password: userPassword)
-                                } catch {
-                                    self.errorHandler.handle(error: error)
-                                }
-                            }
-                        } label: {
-                            Text("Sign In")
-                                .font(.system(size: 15, weight: .regular))
-                                .foregroundColor(.white)
-                                .tracking(-0.5)
-                                .multilineTextAlignment(.center)
-                                .frame(width: 223, height: 34)
-                                .background(Color("buttonBlue"))
-                                .cornerRadius(5)
-                                .alert(isPresented: $firebaseAuth.showAlert) {
-                                    Alert(title: Text(firebaseAuth.alertTitle), message: Text(firebaseAuth.alertMessage), dismissButton: .default(Text(firebaseAuth.alertButton))
-                                    )
-                                }
-                        }
+                        forceResetPassord(fail: firebaseAuth.failTimes)
                         HStack {
                             Text("You don't have account?")
                                 .foregroundColor(.white)
@@ -215,4 +174,48 @@ struct LogginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
     }
+}
+
+extension LoginView {
+    
+    @ViewBuilder
+    func forceResetPassord(fail: Int) -> some View {
+        if fail < 3 {
+            Button {
+                Task {
+                    do {
+                        try await firebaseAuth.signInAsync(email: emailAddress, password: userPassword)
+                    } catch {
+                        self.errorHandler.handle(error: error) {
+                            firebaseAuth.failTimes += 1
+                            print(firebaseAuth.failTimes)
+                        }
+                    }
+                }
+            } label: {
+                Text("Sign In")
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundColor(.white)
+                    .tracking(-0.5)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 223, height: 34)
+                    .background(Color("buttonBlue"))
+                    .cornerRadius(5)
+            }
+        } else if fail >= 3 {
+            NavigationLink {
+                ForgetPasswordView()
+            } label: {
+                Text("Sign In")
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundColor(.white)
+                    .tracking(-0.5)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 223, height: 34)
+                    .background(Color("buttonBlue"))
+                    .cornerRadius(5)
+            }
+        }
+    }
+    
 }

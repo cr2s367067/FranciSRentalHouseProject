@@ -20,6 +20,7 @@ enum SignUpError: LocalizedError {
     case providerTypeError
     case licenseEnterError
     case licenseNumberLengthError
+    case passwordIsNotValid
     
     var errorDescription: String?  {
         switch self {
@@ -30,7 +31,7 @@ enum SignUpError: LocalizedError {
         case .confirmPasswordIsEmpty:
             return NSLocalizedString("Please fill in the password", comment: "")
         case .passwordIstooShort:
-            return NSLocalizedString("Password should be longer then 6 character", comment: "")
+            return NSLocalizedString("Password should be longer then 8 character", comment: "")
         case .termofServiceIsNotAgree:
             return NSLocalizedString("Please check the Term of Service", comment: "")
         case .missingUserType:
@@ -45,9 +46,22 @@ enum SignUpError: LocalizedError {
             return NSLocalizedString("Please fill out the license number", comment: "")
         case .licenseNumberLengthError:
             return NSLocalizedString("Please recheck license number", comment: "")
+        case .passwordIsNotValid:
+            return NSLocalizedString("Please recheck password.", comment: "")
         }
     }
 }
+
+//enum StarUpError: LocalizedError {
+//    case userInfoError
+//    
+//    var errorDescription: String? {
+//        switch self {
+//        case .userInfoError:
+//            return NSLocalizedString("Hi, please filling up necessary user info first thanks.", comment: "")
+//        }
+//    }
+//}
 
 enum UserInformationError: LocalizedError {
     case idFormateError
@@ -241,7 +255,8 @@ struct ErrorAlert: Identifiable {
 class ErrorHandler: ObservableObject {
     @Published var currentAlert: ErrorAlert? = nil
     
-    func handle(error: Error) {
+    func handle(error: Error, dismissAction: (() -> Void)? = nil) {
+        dismissAction?()
         currentAlert = ErrorAlert(message: error.localizedDescription)
     }
 }

@@ -122,9 +122,11 @@ struct RenterProfileView: View {
         .background(alignment: .center, content: {
             VStack {
                 Group {
-                    Image("backgroundImage")
+                    Image("door1")
                         .resizable()
                         .blur(radius: 10)
+                        .scaledToFill()
+                        .offset(x: 20)
                         .clipped()
                     Rectangle()
                         .fill(colorScheme == .dark ? .black : .white.opacity(0.5))
@@ -294,7 +296,16 @@ extension RenterProfileView {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
-                        ProfileSessionUnit(mainTainTask: task)
+                        NavigationLink(isActive: $firestoreToFetchMaintainTasks.showMaintainDetail) {
+                            MaintainDetailUnitView(providerUidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", docID: firestoreToFetchUserinfo.rentedContract.docID, taskHolder: task)
+                        } label: {
+                            ProfileSessionUnit(mainTainTask: task)
+                        }
+                        .simultaneousGesture(
+                            TapGesture().onEnded({ _ in
+                                firestoreToFetchMaintainTasks.showMaintainDetail = true
+                            })
+                        )
                     }
                 }
             }

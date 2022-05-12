@@ -26,11 +26,11 @@ class FirestoreForContactInfo: ObservableObject {
 //        }
 //    }
     
-    func summitContactInfoAsync(question description: String = "", uidPath: String) async throws {
-        _ = ContactDataModel(contactDescription: description)
-        let contactRef = db.collection(uidPath)
+    func summitContactInfoAsync(question description: String, uidPath: String) async throws {
+        let contactRef = db.collection("ContactUs").document(uidPath).collection(uidPath)
         _ = try await contactRef.addDocument(data: [
-            "contactDescription" : description
+            "contactDescription" : description,
+            "sentDate" : Date()
         ])
     }
 }

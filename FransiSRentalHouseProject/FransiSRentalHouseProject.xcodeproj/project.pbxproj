@@ -109,6 +109,9 @@
 		0E504DD428224BFE005E2386 /* CryptoManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E504DD328224BFD005E2386 /* CryptoManagement.swift */; };
 		0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */; };
 		0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */; };
+		0E6B3CF1282C8F3E00C1F039 /* MaintainDetailUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6B3CF0282C8F3E00C1F039 /* MaintainDetailUnitView.swift */; };
+		0E6B3CF3282CCD8600C1F039 /* PwdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6B3CF2282CCD8600C1F039 /* PwdManager.swift */; };
+		0E6B3CF5282CF67F00C1F039 /* ForgetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6B3CF4282CF67F00C1F039 /* ForgetPasswordView.swift */; };
 		0E768F7B2824FE770072D0BA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E768F792824FE770072D0BA /* InfoPlist.strings */; };
 		0E768F7E2824FE770072D0BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E768F7C2824FE770072D0BA /* Localizable.strings */; };
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
@@ -249,6 +252,9 @@
 		0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDetailView.swift; sourceTree = "<group>"; };
 		0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerRepresentable.swift; sourceTree = "<group>"; };
 		0E579BB62825041400FC2EC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0E6B3CF0282C8F3E00C1F039 /* MaintainDetailUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintainDetailUnitView.swift; sourceTree = "<group>"; };
+		0E6B3CF2282CCD8600C1F039 /* PwdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwdManager.swift; sourceTree = "<group>"; };
+		0E6B3CF4282CF67F00C1F039 /* ForgetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordView.swift; sourceTree = "<group>"; };
 		0E768F7A2824FE770072D0BA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		0E768F7D2824FE770072D0BA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
@@ -396,6 +402,7 @@
 				0EEEDC1B281FCF370036FD0D /* SoldProductCollectionManager.swift */,
 				0EDD9D1528220829003F031D /* ImagePresentingManager.swift */,
 				0E504DD328224BFD005E2386 /* CryptoManagement.swift */,
+				0E6B3CF2282CCD8600C1F039 /* PwdManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -463,6 +470,7 @@
 				0249D43B27C6397F0085F4A5 /* LoginView.swift */,
 				0249D43D27C639900085F4A5 /* SignUpView.swift */,
 				0249D43F27C6399D0085F4A5 /* RenterMainView.swift */,
+				0E6B3CF4282CF67F00C1F039 /* ForgetPasswordView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -559,6 +567,7 @@
 				0249D44627C639E40085F4A5 /* MaintainView.swift */,
 				0263079F27D83C7B000E3CFD /* MaintainWaitingView.swift */,
 				0EB65BE328057D11000EAA43 /* MaintainWaitingDetailView.swift */,
+				0E6B3CF0282C8F3E00C1F039 /* MaintainDetailUnitView.swift */,
 			);
 			path = Maintain;
 			sourceTree = "<group>";
@@ -812,6 +821,7 @@
 				0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */,
 				0E14BC59280D04D500CE56FE /* BioAuthSettingView.swift in Sources */,
 				02B7C43E27D0ECA000DC100E /* TermOfServiceView.swift in Sources */,
+				0E6B3CF3282CCD8600C1F039 /* PwdManager.swift in Sources */,
 				0E0CB2D127E763130096A5CE /* UnregisterCoverView.swift in Sources */,
 				0E40D46B28095C1B00695FA4 /* StorageForMessageImage.swift in Sources */,
 				0249D44D27C63A930085F4A5 /* PurchaseView.swift in Sources */,
@@ -861,6 +871,7 @@
 				0249D45327C63AF80085F4A5 /* ContactView.swift in Sources */,
 				0ED1F42C27F1AA4F0004B5CE /* FirestoreForProducts.swift in Sources */,
 				02CB58EB27CDAE520035EE20 /* ProductsDataModel.swift in Sources */,
+				0E6B3CF1282C8F3E00C1F039 /* MaintainDetailUnitView.swift in Sources */,
 				0E31807C2810EED4009784B9 /* GroceryTypeDataModel.swift in Sources */,
 				0E2EF5FA2828AB6F00BA9B2A /* CustomToggleView.swift in Sources */,
 				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
@@ -926,6 +937,7 @@
 				0EE8A0D3281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift in Sources */,
 				0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */,
 				0EB65BE0280455F1000EAA43 /* AutoPaymentSettingView.swift in Sources */,
+				0E6B3CF5282CF67F00C1F039 /* ForgetPasswordView.swift in Sources */,
 				0EC5287227F2FCC1002D2C6F /* ProductCollectionDetialView.swift in Sources */,
 				0ED1F42E27F1DDBF0004B5CE /* FurnitureGridView.swift in Sources */,
 				0E336CDE280E909C00EC91B6 /* TwDistrictDataModel.swift in Sources */,

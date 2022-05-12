@@ -48,7 +48,7 @@ struct RoomsDetailView: View {
                     .frame(height: 15)
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
-                        Text(roomsData.providerDisplayName) //If it has
+                        Text(roomsData.providerDisplayName)
                             .font(.system(size: 30))
                         Spacer()
                         Group {
@@ -107,28 +107,7 @@ struct RoomsDetailView: View {
                             }
                         }
                         HStack {
-                            if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" {
-                                NavigationLink {
-                                    MessageMainView()
-                                } label: {
-                                    Text("Contact provider.")
-                                        .foregroundColor(.white)
-                                        .frame(width: 175, height: 35)
-                                        .background(Color("buttonBlue"))
-                                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                                        .padding(.trailing)
-                                }
-                                .simultaneousGesture(TapGesture().onEnded({ _ in
-                                    roomsDetailViewModel.createNewChateRoom = true
-                                    debugPrint(roomsDetailViewModel.createNewChateRoom)
-                                    roomsDetailViewModel.providerUID = roomsData.providedBy
-                                    debugPrint("providerBy: \(roomsDetailViewModel.providerUID)")
-                                    roomsDetailViewModel.providerDisplayName = roomsData.providerDisplayName
-                                    debugPrint("providerDN: \(roomsDetailViewModel.providerDisplayName)")
-                                    roomsDetailViewModel.providerChatDodID = roomsData.providerChatDocId
-                                    debugPrint("providerChatID: \(roomsDetailViewModel.providerChatDodID)")
-                                }))
-                            }
+                            isRegist(uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
                             NavigationLink {
                                 RenterContractView(roomsData: roomsData)
                             } label: {
@@ -140,6 +119,13 @@ struct RoomsDetailView: View {
                                     .padding(.horizontal)
                             }
                             
+                        }
+                        .sheet(isPresented: $roomsDetailViewModel.showUserInfoCover) {
+                            VStack {
+                                SheetPullBar()
+                                UserDetailInfoView()
+                            }
+                            .padding()
                         }
                         Spacer()
                     }
@@ -214,10 +200,73 @@ class RoomsDetailViewModel: ObservableObject {
     @Published var providerChatDodID = ""
     
     @Published var zoomImageIn = false
+    
+    @Published var showUserInfoCover = false
+    @Published var showAlert = false
+    
+//    func userInfoChecker(id: String) throws {
+//        guard !id.isEmpty else {
+//            showUserInfoCover = true
+//            throw StarUpError.userInfoError
+//        }
+//    }
+    
 }
 
 
 extension RoomsDetailView {
+    
+    @ViewBuilder
+    func isRegist(uType: SignUpType) -> some View {
+        if uType == .isNormalCustomer {
+            if firestoreToFetchUserinfo.fetchedUserData.id.isEmpty {
+                Button {
+                    roomsDetailViewModel.showAlert.toggle()
+                } label: {
+                    Text("Contact provider.")
+                        .foregroundColor(.white)
+                        .frame(width: 175, height: 35)
+                        .background(Color("buttonBlue"))
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .padding(.trailing)
+                        .alert("Notice", isPresented: $roomsDetailViewModel.showAlert) {
+                            Button("Cancel") {
+                                roomsDetailViewModel.showAlert = false
+                            }
+                            Button("Sure") {
+                                roomsDetailViewModel.showUserInfoCover = true
+                            }
+                        } message: {
+                            let message = "Hi, please fill up necessary user info first thanks."
+                            Text(message)
+                        }
+
+                }
+            } else {
+                NavigationLink {
+                    MessageMainView()
+                } label: {
+                    Text("Contact provider.")
+                        .foregroundColor(.white)
+                        .frame(width: 175, height: 35)
+                        .background(Color("buttonBlue"))
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .padding(.trailing)
+                }
+                .simultaneousGesture(TapGesture().onEnded({ _ in
+                        roomsDetailViewModel.createNewChateRoom = true
+                        debugPrint(roomsDetailViewModel.createNewChateRoom)
+                        roomsDetailViewModel.providerUID = roomsData.providedBy
+                        debugPrint("providerBy: \(roomsDetailViewModel.providerUID)")
+                        roomsDetailViewModel.providerDisplayName = roomsData.providerDisplayName
+                        debugPrint("providerDN: \(roomsDetailViewModel.providerDisplayName)")
+                        roomsDetailViewModel.providerChatDodID = roomsData.providerChatDocId
+                        debugPrint("providerChatID: \(roomsDetailViewModel.providerChatDodID)")
+                }))
+            }
+        }
+    }
+    
     @ViewBuilder
     func mapSwitch(showMap: Bool, address: String) -> some View {
         if showMap {

@@ -16,6 +16,7 @@ struct ContactView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State var contactDes = ""
+    @State private var isSent = false
     @FocusState private var isFocused: Bool
     
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -34,6 +35,7 @@ struct ContactView: View {
                     }
                     VStack {
                         TextEditor(text: $contactDes)
+                            .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 2 + 100)
                         
@@ -46,11 +48,18 @@ struct ContactView: View {
                     }
                     HStack {
                         Spacer()
+                        if isSent {
+                            Image(systemName: "checkmark.circle")
+                                .foregroundColor(.green)
+                                .font(.system(size: 20))
+                        }
                         Button {
                             Task {
                                 do {
                                     if !contactDes.isEmpty {
+                                        isSent = true
                                         try await firestoreForContactInfo.summitContactInfoAsync(question: contactDes, uidPath: firebaseAuth.getUID())
+                                        reset()
                                     }
                                 } catch {
                                     self.errorHandler.handle(error: error)
@@ -72,8 +81,11 @@ struct ContactView: View {
     }
 }
 
-//struct ContectView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContactView()
-//    }
-//}
+extension ContactView {
+    
+    private func reset() {
+        contactDes = ""
+        isSent = false
+    }
+    
+}

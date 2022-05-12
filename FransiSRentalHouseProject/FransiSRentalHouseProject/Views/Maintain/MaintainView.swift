@@ -43,7 +43,7 @@ struct MaintainView: View {
             _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
             if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
                 try await storageForMaintainImage.uploadFixItemImage(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", image: image, roomUID: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID ?? "")
-                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", taskName: describtion, appointmentDate: appointment, docID: firestoreToFetchUserinfo.rentedContract.docID, itemImageURL: storageForMaintainImage.itemImageURL)
+                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", taskDes: describtion, appointmentDate: appointment, docID: firestoreToFetchUserinfo.rentedContract.docID, itemImageURL: storageForMaintainImage.itemImageURL)
                 showProgressView = false
                 showAlert.toggle()
             }

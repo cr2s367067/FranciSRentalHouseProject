@@ -8,11 +8,12 @@
 import Foundation
 import SwiftUI
 import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 struct ContactDataModel: Identifiable, Codable {
-    @DocumentID var docID: String?
-    var id = UUID().uuidString
-    var contactDescription: String?
+    @DocumentID var id: String?
+    var contactDescription: String
+    @ServerTimestamp var sentDate: Timestamp?
 }
 
 extension ContactDataModel {

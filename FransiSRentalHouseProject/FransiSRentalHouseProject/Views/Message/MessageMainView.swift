@@ -17,6 +17,7 @@ struct MessageMainView: View {
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var roomsDetailViewModel: RoomsDetailViewModel
+    @EnvironmentObject var appViewModel: AppViewModel
     
     var body: some View {
         ZStack {
@@ -73,6 +74,11 @@ struct MessageMainView: View {
                 try await determinProviderCreated(listUser: firestoreForTextingMessage.contactMember, providerChatID: roomsDetailViewModel.providerChatDodID, createRoom: roomsDetailViewModel.createNewChateRoom)
             } catch {
                 self.errorHandler.handle(error: error)
+            }
+        }
+        .overlay {
+            if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
             }
         }
         .navigationTitle("")
