@@ -304,7 +304,7 @@ extension PaymentSummaryView {
                 Image(systemName: "checkmark.square")
                     .foregroundColor(isCheck ? .green : .white)
                     .font(.system(size: 15))
-                Text(buttonName)
+                Text(LocalizedStringKey(buttonName))
                     .foregroundColor(.white)
                     .font(.system(size: 15))
             }

@@ -1,0 +1,6 @@
+/* Privacy - Face ID Usage Description */
+"NSFaceIDUsageDescription" = "請求使用Face ID來解鎖App";
+
+/* Privacy - Photo Library Usage Description */
+"NSPhotoLibraryUsageDescription" = "請求使用照片資料庫來存取找片";
+

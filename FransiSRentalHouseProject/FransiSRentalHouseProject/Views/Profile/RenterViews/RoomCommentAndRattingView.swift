@@ -12,7 +12,7 @@ struct RoomCommentAndRattingView: View {
     enum SectionTitle: String {
         case roomAddress = "Room Address"
         case expDate = "Expired Date"
-        case traffic = "Traffic"
+//        case traffic = "Traffic"
         case con = "Convenience"
         case pricing = "Pricing"
         case neighbor = "Neighbor"
@@ -27,6 +27,8 @@ struct RoomCommentAndRattingView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     
     @Environment(\.colorScheme) var colorScheme
+    
+    @FocusState private var isFocus: Bool
     
     var contractInfo: RentersContractDataModel
     var firestoreUserInfo: FirestoreToFetchUserinfo
@@ -52,9 +54,6 @@ struct RoomCommentAndRattingView: View {
                 sectionUnit(title: SectionTitle.roomAddress.rawValue, containt: address)
                 sectionUnit(title: SectionTitle.expDate.rawValue, containt: expDate)
                 customSection(cusParent: {
-                    RoomRattingView(comparing: $roomCARVM.trafficRate)
-                }, title: SectionTitle.traffic.rawValue)
-                customSection(cusParent: {
                     RoomRattingView(comparing: $roomCARVM.convenienceRate)
                 }, title: SectionTitle.con.rawValue)
                 customSection(cusParent: {
@@ -72,6 +71,7 @@ struct RoomCommentAndRattingView: View {
                         .onTapGesture {
                             roomCARVM.commentText = ""
                         }
+                        .focused($isFocus)
                 } header: {
                     HStack {
                         Text(SectionTitle.comment.rawValue)
@@ -90,7 +90,6 @@ struct RoomCommentAndRattingView: View {
                                                                                              neighborRate: roomCARVM.neighborRate,
                                                                                              pricingRate: roomCARVM.pricingRate,
                                                                                              convenienceRate: roomCARVM.convenienceRate,
-                                                                                             trafficRate: roomCARVM.trafficRate,
                                                                                              userDisplayName: firestoreUserInfo.fetchedUserData.displayName,
                                                                                              uidPath: firebaseAuth.getUID())
                             } catch {
@@ -113,10 +112,13 @@ struct RoomCommentAndRattingView: View {
             }
         }
         .modifier(ViewBackgroundInitModifier())
+        .onTapGesture {
+            isFocus = false
+        }
         .onAppear {
             let roomCAR = firestoreToFetchRoomsData.roomCAR
             roomCARVM.commentText = roomCAR.comment
-            roomCARVM.trafficRate = roomCAR.trafficRate
+//            roomCARVM.trafficRate = roomCAR.trafficRate
             roomCARVM.convenienceRate = roomCAR.convenienceRate
             roomCARVM.pricingRate = roomCAR.pricingRate
             roomCARVM.neighborRate = roomCAR.neighborRate

@@ -7,12 +7,24 @@
 
 import Foundation
 
+enum PaymentProcessStatus {
+    case payMonthlyRentalBill
+    case rentRoom
+    case rentRoomAndBuyProduct
+    case payProductBill
+}
+
 
 class PaymentMethodManager: ObservableObject {
+    
+    
     func computePaymentMonth(from currentDate: Date) -> Date {
         let cal = Calendar.current
         let oneMonth: Double = (60*60*24)*30
         let currentDateAddOneMonth = cal.dateComponents([.year, .month, .day], from: currentDate.addingTimeInterval(oneMonth))
         return cal.date(from: currentDateAddOneMonth) ?? Date()
     }
+    
+    
+    
 }

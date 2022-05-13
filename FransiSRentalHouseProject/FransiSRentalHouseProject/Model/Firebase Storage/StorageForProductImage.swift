@@ -11,15 +11,18 @@ import Firebase
 import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
 
 
 class StorageForProductImage: ObservableObject {
     
     let db = Firestore.firestore()
     
+    
     @Published var representedProductImageURL = ""
     @Published var productImageUUID = ""
     @Published var productImageSet = [ProductProviderImageDateModel]()
+    
     
     let productImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "productImages")
     

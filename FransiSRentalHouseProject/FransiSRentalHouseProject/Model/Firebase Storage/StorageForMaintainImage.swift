@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import SDWebImageSwiftUI
 import FirebaseFirestoreSwift
+import FirebaseStorage
 import FirebaseFirestore
 
 class StorageForMaintainImage: ObservableObject {

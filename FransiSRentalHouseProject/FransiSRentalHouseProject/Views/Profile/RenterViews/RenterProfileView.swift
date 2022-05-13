@@ -374,6 +374,7 @@ class RenterProfileViewModel: ObservableObject {
         if diff == expiredDate {
             try? await firestoreToFetchRoomsData.expiredRoom(uidPath: firebaseAuth.getUID(), docID: docID)
             try? await firestoreToFetchUserinfo.clearExpiredContract(uidPath: firebaseAuth.getUID())
+            
         }
     }
 }

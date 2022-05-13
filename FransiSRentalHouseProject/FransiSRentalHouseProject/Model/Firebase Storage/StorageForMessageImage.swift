@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Firebase
+import FirebaseStorage
 import UIKit
 
 class StorageForMessageImage: ObservableObject {

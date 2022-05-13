@@ -187,8 +187,10 @@ extension LoginView {
                         try await firebaseAuth.signInAsync(email: emailAddress, password: userPassword)
                     } catch {
                         self.errorHandler.handle(error: error) {
-                            firebaseAuth.failTimes += 1
-                            print(firebaseAuth.failTimes)
+                            if error.localizedDescription == "The password is invalid or the user does not have a password." {
+                                firebaseAuth.failTimes += 1
+                                print(firebaseAuth.failTimes)
+                            }
                         }
                     }
                 }

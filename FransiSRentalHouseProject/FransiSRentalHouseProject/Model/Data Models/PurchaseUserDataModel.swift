@@ -40,4 +40,7 @@ struct OrderedDataModel: Identifiable, Codable {
     var paymentStatus: String
     var subTotal: Int
     var shippingStatus: String
+    var providerUID: String
+    var productUID: String
+    var orderAmount: String
 }

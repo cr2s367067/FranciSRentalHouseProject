@@ -185,9 +185,20 @@ struct PurchaseView: View {
                 
                 Button {
                     let orderID = firestoreForProducts.initOrderID()
+                    Task {
+                        do {
+                            try processChanger()
+                            try await paymentIdentity(paymentProcessStatus: purchaseViewModel.paymentProcessStatus, roomData: roomsData, orderID: orderID)
+                        } catch {
+                            self.errorHandler.handle(error: error)
+                        }
+                    }
+                    print("Payment: \(localData.sumPrice)")
+                    print("test")
+                    /*
                     //: pass data to the next view
                     if !localData.summaryItemHolder.roomUID.isEmpty {
-                        //MARK: pay deposit and rent the room also pay for products if user ordered.
+                        MARK: pay deposit and rent the room also pay for products if user ordered.
                         if firestoreToFetchUserinfo.notRented() {
                             Task {
                                 await rentedRoom(result: roomsData)
@@ -208,7 +219,7 @@ struct PurchaseView: View {
                             }
                         }
                     } else {
-                        //MARK: pay for products that user ordered
+                        MARK: pay for products that user ordered
                         if !productDetailViewModel.productOrderCart.isEmpty {
                             productDetailViewModel.productOrderCart.forEach { products in
                                 Task {
@@ -223,15 +234,13 @@ struct PurchaseView: View {
                             }
                         }
                     }
-                    
-                    //MARK: pay the rental bill
-                    Task {
-                        await justPayRentBill()
-                        localData.sumPrice = 0
-                    }
-                    print("Payment: \(localData.sumPrice)")
-                    print("test")
-//                    localData.sumPrice = 0
+                     
+                     //MARK: pay the rental bill
+                     Task {
+                         await justPayRentBill()
+                         localData.sumPrice = 0
+                     }
+                    */
                 } label: {
                     Text("Pay")
                         .foregroundColor(.white)
@@ -245,8 +254,6 @@ struct PurchaseView: View {
             }
             .padding()
         }
-        //.navigationBarHidden(true)
-        //.navigationBarBackButtonHidden(true)
     }
 }
 
@@ -269,7 +276,80 @@ struct CardTextField: View {
 }
 
 extension PurchaseView {
-    private func rentedRoom(result: RoomInfoDataModel) async {
+    
+    private func processChanger() throws {
+        if !productDetailViewModel.productOrderCart.isEmpty && !localData.summaryItemHolder.roomUID.isEmpty {
+            guard firestoreToFetchUserinfo.notRented() else {
+                throw RentalError.rentedError
+            }
+            purchaseViewModel.paymentProcessStatus = .rentRoomAndBuyProduct
+        } else {
+            if !localData.summaryItemHolder.roomUID.isEmpty {
+                guard firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? true else {
+                    throw RentalError.rentedError
+                }
+                purchaseViewModel.paymentProcessStatus = .rentRoom
+            } else if !productDetailViewModel.productOrderCart.isEmpty {
+                purchaseViewModel.paymentProcessStatus = .payProductBill
+            } else {
+                purchaseViewModel.paymentProcessStatus = .payMonthlyRentalBill
+            }
+        }
+        print(purchaseViewModel.paymentProcessStatus)
+    }
+    
+    private func paymentIdentity(paymentProcessStatus: PaymentProcessStatus, roomData: RoomInfoDataModel, orderID: String) async throws{
+        print("payment process status: \(paymentProcessStatus)")
+        switch paymentProcessStatus {
+        case .rentRoom:
+            return try await rentedRoom(result: roomData)
+        case .payMonthlyRentalBill:
+            return await justPayRentBill()
+        case .rentRoomAndBuyProduct:
+            return try await rentRoomAndBuyProduct(orderID: orderID, roomData: roomData)
+        case .payProductBill:
+            return buyProduct(orderID: orderID)
+        }
+    }
+    
+    private func buyProduct(orderID: String) {
+        if !productDetailViewModel.productOrderCart.isEmpty {
+            productDetailViewModel.productOrderCart.forEach { products in
+                Task {
+                    print("subTotal: \(localData.sumPrice)")
+                    await buyProducts(products: products, orderID: orderID,
+                                      shippingStatus: firestoreForProducts.shippingStatus.rawValue,
+                                      paymentStatus: purchaseViewModel.paymentStatus.rawValue,
+                                      shippingMethod: firestoreForProducts.shippingMethod.rawValue,
+                                      subTotal: localData.sumPrice)
+                    localData.sumPrice = 0
+                }
+            }
+        }
+    }
+    
+    private func rentRoomAndBuyProduct(orderID: String, roomData: RoomInfoDataModel) async throws {
+        if firestoreToFetchUserinfo.notRented() {
+            Task {
+                try await rentedRoom(result: roomsData)
+            }
+            if !productDetailViewModel.productOrderCart.isEmpty {
+                productDetailViewModel.productOrderCart.forEach { products in
+                    Task {
+                        print("subTotal: \(localData.sumPrice)")
+                        await buyProducts(products: products.self, orderID: orderID,
+                                          shippingStatus: firestoreForProducts.shippingStatus.rawValue,
+                                          paymentStatus: purchaseViewModel.paymentStatus.rawValue,
+                                          shippingMethod: firestoreForProducts.shippingMethod.rawValue,
+                                          subTotal: localData.sumPrice)
+                        localData.sumPrice = 0
+                    }
+                }
+            }
+        }
+    }
+    
+    private func rentedRoom(result: RoomInfoDataModel) async throws {
         do {
             let roomPrice = Int(result.rentalPrice) ?? 0 / 3
             try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(),
@@ -388,8 +468,11 @@ extension PurchaseView {
                                                           renterPhoneNumber: result.rentersContractData?.renterPhoneNumber ?? "",
                                                           renterEmailAddress: result.rentersContractData?.renterEmailAddress ?? "",
                                                           sigurtureDate: result.rentersContractData?.sigurtureDate ?? Date())
-            let rentPriceWithDiposit = String(Int(result.rentalPrice) ?? 0 * 3)
-            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: rentPriceWithDiposit)
+            let converInt = Int(result.rentalPrice) ?? 0
+            let rentPriceWithDiposit = converInt * 3
+            let convertString = String(rentPriceWithDiposit)
+            print("first rent fee with diposit: \(convertString)")
+            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: convertString)
             try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.id ?? "")
             try await firestoreToFetchUserinfo.reloadUserDataTest()
             try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providedBy,
@@ -404,6 +487,7 @@ extension PurchaseView {
     private func monthlyRentalFeePayment() async {
         do {
             try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "")
+            print("rental fee: \(firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "")")
         } catch {
             self.errorHandler.handle(error: error)
         }
@@ -411,6 +495,11 @@ extension PurchaseView {
     
     private func buyProducts(products: UserOrderProductsDataModel, orderID: String, shippingStatus: String, paymentStatus: String, shippingMethod: String, subTotal: Int) async {
         do {
+            var newSub = 0
+            if purchaseViewModel.paymentProcessStatus == .rentRoomAndBuyProduct {
+                let converInt = Int(roomsData.rentalPrice) ?? 0
+                newSub = subTotal - (converInt * 3)
+            }
             var userName: String {
                 let firstName = firestoreToFetchUserinfo.fetchedUserData.firstName
                 let lastName = firestoreToFetchUserinfo.fetchedUserData.lastName
@@ -435,7 +524,7 @@ extension PurchaseView {
                                                      paymentStatus: paymentStatus,
                                                      shippingMethod: shippingMethod,
                                                      orderID: orderID,
-                                                     subTotal: subTotal)
+                                                     subTotal: newSub)
             let converInt = Int(products.orderAmount) ?? 0
             try await soldProductCollectionManager.postSoldInfo(providerUidPath: products.providerUID, proDocID: products.productUID, productName: products.productName, productPrice: products.productPrice, soldAmount: converInt)
             let netAmount = computeAmount(orderAmount: products.orderAmount, totalAmount: purchaseViewModel.productTotalAmount)
@@ -487,6 +576,8 @@ class PurchaseViewModel: ObservableObject {
     @Published var secCode = ""
     @Published var paymentStatus: PaymentStatus = .success
     @Published var productTotalAmount = ""
+    
+    @Published var paymentProcessStatus: PaymentProcessStatus = .rentRoom
     
     func blankChecker() throws {
         guard !cardName.isEmpty && !cardNumber.isEmpty && !expDate.isEmpty && !secCode.isEmpty else {

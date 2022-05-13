@@ -67,6 +67,8 @@ extension ShippingListView {
             return "Shipping"
         case .deliveried:
             return "Package Arrived"
+        case .cancel:
+            return "Cancel Order"
         }
     }
     

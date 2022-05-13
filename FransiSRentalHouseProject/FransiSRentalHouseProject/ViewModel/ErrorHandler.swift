@@ -101,6 +101,17 @@ enum UserInformationError: LocalizedError {
     }
 }
 
+enum RentalError: LocalizedError {
+    case rentedError
+    
+    var errorDescription: String? {
+        switch self {
+        case .rentedError:
+            return NSLocalizedString("Un, you havn rented one, do you need more? Contact us.", comment: "")
+        }
+    }
+}
+
 enum ProviderSummitError: LocalizedError {
     case holderNameError
     case holderMobileNumberFormateError
@@ -172,6 +183,20 @@ enum StorageUploadError: LocalizedError {
         switch self {
         case .imageURLfetchingError:
             return NSLocalizedString("Cannot fetch the image path, please try again", comment: "")
+        }
+    }
+}
+
+enum BillError: LocalizedError {
+    case shippedError
+    case cancelError
+    
+    var errorDescription: String? {
+        switch self {
+        case .shippedError:
+            return NSLocalizedString("Sorry, product is shipped out, please contact product provider, for canceling to refund.", comment: "")
+        case .cancelError:
+            return NSLocalizedString("Sorry, you have been cancel this order", comment: "")
         }
     }
 }

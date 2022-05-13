@@ -821,12 +821,12 @@ extension FirestoreToFetchRoomsData {
 extension FirestoreToFetchRoomsData {
     
     @MainActor
-    func postRoomCommetAndRatting(roomUID: String, comment: String, neighborRate: Int, pricingRate: Int, convenienceRate: Int, trafficRate: Int, userDisplayName: String, uidPath: String) async throws {
+    func postRoomCommetAndRatting(roomUID: String, comment: String, neighborRate: Int, pricingRate: Int, convenienceRate: Int, userDisplayName: String, uidPath: String) async throws {
         let roomCARRef = db.collection("RoomsCommentAndRatting").document(roomUID).collection("CommentAndRate").document(uidPath)
         _ = try await roomCARRef.setData([
             "isPost" : true,
             "userDisplayName" : userDisplayName,
-            "trafficRate" : trafficRate,
+//            "trafficRate" : trafficRate,
             "convenienceRate" : convenienceRate,
             "pricingRate" : pricingRate,
             "neighborRate" : neighborRate,
@@ -836,6 +836,8 @@ extension FirestoreToFetchRoomsData {
         let document = try await roomCARRef.getDocument(as: RoomCommentAndRattingDataModel.self)
         roomCAR = document
     }
+    
+//    func resetRoomCommentAndRatting(roomUID: String)
     
     @MainActor
     func getPostComment(roomUID: String, uidPath: String) async throws {

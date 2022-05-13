@@ -13,7 +13,7 @@ struct RoomCommentAndRattingDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var isPost: Bool
     var userDisplayName: String
-    var trafficRate: Int
+//    var trafficRate: Int
     var convenienceRate: Int
     var pricingRate: Int
     var neighborRate: Int
@@ -22,5 +22,5 @@ struct RoomCommentAndRattingDataModel: Identifiable, Codable {
 }
 
 extension RoomCommentAndRattingDataModel {
-    static let empty = RoomCommentAndRattingDataModel(isPost: false, userDisplayName: "", trafficRate: 0, convenienceRate: 0, pricingRate: 0, neighborRate: 0, comment: "")
+    static let empty = RoomCommentAndRattingDataModel(isPost: false, userDisplayName: "", convenienceRate: 0, pricingRate: 0, neighborRate: 0, comment: "")
 }

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 import FirebaseFirestore
-import FirebaseStorageSwift
+//import FirebaseStorageSwift
 import FirebaseAuth
 
 class FirestoreForContactInfo: ObservableObject {

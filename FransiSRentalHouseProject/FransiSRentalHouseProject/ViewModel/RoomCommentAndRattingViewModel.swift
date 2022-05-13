@@ -9,7 +9,7 @@ import Foundation
 
 class RoomCommentAndRattingViewModel: ObservableObject {
     
-    @Published var trafficRate = 0
+//    @Published var trafficRate = 0
     @Published var convenienceRate = 0
     @Published var pricingRate = 0
     @Published var neighborRate = 0
@@ -24,11 +24,11 @@ class RoomCommentAndRattingViewModel: ObservableObject {
             var subResult: Double = 0
             guard input.count != 0 else { return 1 }
             for input in input {
-                let tra = input.trafficRate
+//                let tra = input.trafficRate
                 let con = input.convenienceRate
                 let pri = input.pricingRate
                 let nei = input.neighborRate
-                let subtotal: Double = Double(tra + con + pri + nei) / 5
+                let subtotal: Double = Double(con + pri + nei) / 3
                 subResult += subtotal
             }
             result = subResult / Double(input.count)

@@ -14,7 +14,6 @@ struct RoomCommentAndRatePresenterView: View {
     @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
     @Environment(\.colorScheme) var colorScheme
     
-    
     var roomData: RoomInfoDataModel
     var carTitle = RoomCommentAndRattingView.SectionTitle.self
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -39,13 +38,12 @@ struct RoomCommentAndRatePresenterView: View {
                 ForEach(firestoreToFetchRoomsData.roomCARDataSet) { comment in
                     comAndRatePresentUnit(displayName: comment.userDisplayName,
                                           postDate: (comment.postTimestamp?.dateValue() ?? Date()),
-                                          traRate: $roomCARVM.trafficRate,
                                           conRate: $roomCARVM.convenienceRate,
                                           pricRate: $roomCARVM.pricingRate,
                                           neiRate: $roomCARVM.neighborRate,
                                           comments: comment.comment)
                     .onAppear {
-                        roomCARVM.trafficRate = comment.trafficRate
+//                        roomCARVM.trafficRate = comment.trafficRate
                         roomCARVM.convenienceRate = comment.convenienceRate
                         roomCARVM.neighborRate = comment.neighborRate
                         roomCARVM.pricingRate = comment.pricingRate
@@ -69,18 +67,17 @@ extension RoomCommentAndRatePresenterView {
         guard input.count != 0 else { return 1 }
         var result: Double = 0
         for input in input {
-            let tra = input.trafficRate
             let con = input.convenienceRate
             let pri = input.pricingRate
             let nei = input.neighborRate
-            let subtotal: Double = Double(tra + con + pri + nei) / 5
+            let subtotal: Double = Double(con + pri + nei) / 3
             result += subtotal
         }
         return result / Double(input.count)
     }
     
     @ViewBuilder
-    func comAndRatePresentUnit(displayName: String, postDate: Date, traRate: Binding<Int>, conRate: Binding<Int>, pricRate: Binding<Int>, neiRate: Binding<Int>, comments: String) -> some View {
+    func comAndRatePresentUnit(displayName: String, postDate: Date, conRate: Binding<Int>, pricRate: Binding<Int>, neiRate: Binding<Int>, comments: String) -> some View {
         VStack(spacing: 10) {
             HStack {
                 Text(displayName)
@@ -91,9 +88,9 @@ extension RoomCommentAndRatePresenterView {
                     .foregroundColor(.white)
                     .font(.caption)
             }
-            cusSectionUnit(cusPar: {
-                RoomRattingView(comparing: traRate)
-            }, cusHeader: .traffic)
+//            cusSectionUnit(cusPar: {
+//                RoomRattingView(comparing: traRate)
+//            }, cusHeader: .traffic)
             cusSectionUnit(cusPar: {
                 RoomRattingView(comparing: conRate)
             }, cusHeader: .con)
@@ -115,7 +112,7 @@ extension RoomCommentAndRatePresenterView {
     }
     
     @ViewBuilder
-    func cusComSection(comments: String, cusHeader: RoomCommentAndRattingView.SectionTitle = .traffic) -> some View {
+    func cusComSection(comments: String, cusHeader: RoomCommentAndRattingView.SectionTitle = .con) -> some View {
         Section {
             HStack {
                 Text(comments)
@@ -135,7 +132,7 @@ extension RoomCommentAndRatePresenterView {
     }
     
     @ViewBuilder
-    func cusSectionUnit(cusPar: (() -> RoomRattingView)? = nil, cusHeader: RoomCommentAndRattingView.SectionTitle = .traffic) -> some View {
+    func cusSectionUnit(cusPar: (() -> RoomRattingView)? = nil, cusHeader: RoomCommentAndRattingView.SectionTitle = .con) -> some View {
         Section {
             HStack {
                 cusPar?()

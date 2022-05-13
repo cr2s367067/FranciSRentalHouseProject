@@ -10,6 +10,7 @@ import Firebase
 import SDWebImageSwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
 
 class StorageForUserProfile: ObservableObject {
     

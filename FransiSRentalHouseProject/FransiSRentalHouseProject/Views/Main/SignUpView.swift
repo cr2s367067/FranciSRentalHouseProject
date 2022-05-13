@@ -27,6 +27,9 @@ struct SignUpView: View {
     
     @FocusState private var isFocus: Bool
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     private func reset() {
         appViewModel.emailAddress = ""
         appViewModel.userPassword = ""
@@ -217,9 +220,37 @@ struct SignUpView: View {
                             .padding(.top, 10)
                         }
                         if appViewModel.isRentalM == true && appViewModel.isProvider == true {
-                            InfoUnit(title: "License Number", bindingString: $appViewModel.rentalManagerLicenseNumber)
-                                .keyboardType(.numberPad)
-                                .padding(.top, 10)
+//                            InfoUnit(title: "License Number", bindingString: $appViewModel.rentalManagerLicenseNumber)
+                                
+                            VStack(alignment: .leading, spacing: 2) {
+                                HStack {
+                                    Text(LocalizedStringKey("License Number"))
+                                        .modifier(textFormateForProviderSummitView())
+                                        
+                                    Spacer()
+                                }
+                                ZStack {
+                                    TextField("", text: $appViewModel.rentalManagerLicenseNumber)
+                                        .foregroundStyle(Color.white)
+                                        .frame(height: 30)
+                                        .background(Color.clear)
+                                        .cornerRadius(5)
+                                        .keyboardType(.default)
+                                        .focused($isFocus)
+                                    HStack {
+                                        Spacer()
+                                        ScanButton(text: $appViewModel.rentalManagerLicenseNumber)
+                                            .frame(width: uiScreenWidth / 4, height: 50, alignment: .center)
+                                            
+                                    }
+                                }
+                            }
+                            .padding()
+                            .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 5 - 80)
+                            .background(alignment: .center, content: {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.white, lineWidth: 1)
+                            })
                         }
                     }
                     VStack {

@@ -1,0 +1,33 @@
+# Uncomment the next line to define a global platform for your project
+ platform :ios, '12.0'
+
+target 'FransiSRentalHouseProject' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for FransiSRentalHouseProject
+  #版本號自 1.3.1 起, SDK 僅支援 XCode13+, 停止支援 XCode12。
+  pod 'ECPayPaymentGatewayKit', '~> 1.3.1'
+  #pod 'PromiseKit' , '~> 6.8.3'
+  pod 'PromiseKit' , '~> 6.17.1'
+#  pod 'Alamofire', '~> 5.6.1'
+  pod 'Alamofire', '~> 5.2.1'
+  pod 'IQKeyboardManagerSwift'
+  pod 'KeychainSwift', '~> 20.0'
+  pod 'SwiftyJSON', '~> 5.0.1'
+  pod 'SwiftyXMLParser', :git => 'https://github.com/yahoojapan/SwiftyXMLParser.git'
+  pod 'CryptoSwift', '~> 1.5.1'
+  
+end
+
+static_frameworks = ['ECPayPaymentGatewayKit']
+pre_install do |installer|
+  installer.pod_targets.each do |pod|
+    if static_frameworks.include?(pod.name)
+      puts "#{pod.name} installed as static framework!"
+      def pod.static_framework?;
+        true
+      end
+    end
+  end
+end

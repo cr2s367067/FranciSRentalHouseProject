@@ -833,7 +833,7 @@
 "Please, read and agree the contract." = "請閱讀與同意合約";
 
 /* No comment provided by engineer. */
-"Post" = "過帳";
+"Post" = "發佈";
 
 /* No comment provided by engineer. */
 "Post Amount: " = "過帳總額:";
@@ -1738,3 +1738,13 @@
 
 /* No comment providedx by engineer. */
 "Goods" = "找物";
+
+
+/* No comment providedx by engineer. */
+"Ship to Store" = "商店取貨";
+
+/* No comment providedx by engineer. */
+"Home Delivery" = "一般宅配";
+
+/* No comment providedx by engineer. */
+"Rush Delivery" = "快速宅配";

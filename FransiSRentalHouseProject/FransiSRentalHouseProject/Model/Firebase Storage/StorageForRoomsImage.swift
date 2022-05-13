@@ -10,6 +10,7 @@ import Firebase
 import SDWebImageSwiftUI
 import FirebaseFirestoreSwift
 import FirebaseFirestore
+import FirebaseStorage
 
 class StorageForRoomsImage: ObservableObject {
     

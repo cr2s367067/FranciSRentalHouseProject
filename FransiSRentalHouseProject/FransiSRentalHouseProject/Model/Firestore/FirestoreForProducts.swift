@@ -25,6 +25,7 @@ class FirestoreForProducts: ObservableObject {
     
     
     enum ShippingStatus: String {
+        case cancel = "Cancel"
         case orderBuilt = "Order Built"
         case orderConfrim = "Order Confirm"
         case shipped = "Shipped"
@@ -142,7 +143,10 @@ extension FirestoreForProducts {
             "shippingAddress" : shippingAddress,
             "paymentStatus" : paymentStatus,
             "subTotal" : subTotal,
-            "shippingStatus" : shippingStatus
+            "shippingStatus" : shippingStatus,
+            "providerUID" : providerUID,
+            "productUID" : productUID,
+            "orderAmount" : orderAmount
         ])
         
         let productDetailRef = orderRef.collection("ProductList")
@@ -433,11 +437,13 @@ extension FirestoreForProducts {
 extension FirestoreForProducts {
     
     func updateShippingStatus(update shippingStatus: String, uidPath: String, orderID: String, userUidPath: String) async throws {
+        //MARK: Provider Side
         let shippingRef = db.collection("users").document(uidPath).collection("ShippingList").document(orderID)
         try await shippingRef.updateData([
             "shippingStatus" : shippingStatus
         ])
         
+        //MARK: Customer Side
         let userOrderRef = db.collection("users").document(userUidPath).collection("ProductOrdered").document(orderID)
         
         try await userOrderRef.updateData([
@@ -510,6 +516,41 @@ extension FirestoreForProducts {
             "productDescription" : newProductDescription
         ])
     }
+}
+
+extension FirestoreForProducts {
+    
+    //MARK: UserCancelOrder
+    func userCancelOrder(shippingStatus: ShippingStatus, providerUID: String, customerUID: String, orderID: String, productID: String, orderAmount: Int) async throws {
+        if shippingStatus == .shipped || shippingStatus == .deliveried {
+            throw BillError.shippedError
+        }
+        
+        let shippingRef = db.collection("users").document(providerUID).collection("ShippingList").document(orderID)
+        print("set bill shipping status: \(shippingStatus.rawValue)")
+        try await shippingRef.updateData([
+            "shippingStatus" : shippingStatus.rawValue
+        ])
+        let userOrderRef = db.collection("users").document(customerUID).collection("ProductOrdered").document(orderID)
+        try await userOrderRef.updateData([
+            "shippingStatus" : shippingStatus.rawValue
+        ])
+        
+        
+        //MARK: Update product Amount
+        let productRef = db.collection("ProductsProvider").document(providerUID).collection("Products").document(productID)
+        
+        let currentAmount = try await productRef.getDocument(as: ProductProviderDataModel.self).productAmount
+        print("current amount: \(currentAmount)")
+        let convertInt = Int(currentAmount) ?? 0
+        let restoreAmount = orderAmount + convertInt
+        let converString = String(restoreAmount)
+        print("new amount: \(converString)")
+        try await productRef.updateData([
+            "productAmount" : converString
+        ])
+    }
+    
 }
 
 extension FirestoreForProducts {

@@ -10,6 +10,7 @@ import SDWebImageSwiftUI
 
 struct SearchView: View {
     
+    @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
@@ -278,6 +279,17 @@ extension SearchView {
                 } label: {
                     SearchProductListItemView(productName: product.productName, productImage: product.productImage, productPrice: product.productPrice, productDes: product.productDescription)
                 }
+                .simultaneousGesture(
+                    TapGesture().onEnded({ _ in
+                        Task {
+                            do {
+                                try await storageForProductImage.getProductImages(providerUidPath: product.providerUID, productUID: product.productUID)
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
+                        }
+                    })
+                )
             }
         }
     }

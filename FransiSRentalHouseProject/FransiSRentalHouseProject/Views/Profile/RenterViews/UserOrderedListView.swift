@@ -19,6 +19,8 @@ struct UserOrderedListView: View {
     @EnvironmentObject var userOrderedListVM: UserOrderedListViewModel
     @Environment(\.colorScheme) var colorScheme
     
+    @State private var cancelStatus: FirestoreForProducts.ShippingStatus = .orderBuilt
+    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
@@ -53,8 +55,16 @@ extension UserOrderedListView {
         } else {
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreForProducts.userOrderedDataSet) { order in
-                    orderedUnit(orderedData: order) {                    
+                    orderedUnit(orderedData: order) {
                         selectedOrderData = order
+                    } cancel: {
+                        Task {
+                            do {
+                               try await refundProcess(order: order)
+                            } catch {
+                                self.errorHandler.handle(error: error)
+                            }
+                        }
                     }
                 }
                 .sheet(item: $selectedOrderData) { order in
@@ -64,6 +74,19 @@ extension UserOrderedListView {
         }
     }
 
+    private func refundProcess(order: OrderedDataModel) async throws {
+        cancelStatus = FirestoreForProducts.ShippingStatus(rawValue: order.shippingStatus) ?? .cancel
+        print(cancelStatus.rawValue)
+        guard cancelStatus != .cancel else {
+            throw BillError.cancelError
+        }
+        cancelStatus = .cancel
+        print(cancelStatus.rawValue)
+        let convertInt = Int(order.orderAmount) ?? 0
+        try await firestoreForProducts.userCancelOrder(shippingStatus: FirestoreForProducts.ShippingStatus(rawValue: cancelStatus.rawValue) ?? .cancel, providerUID: order.providerUID, customerUID: firebaseAuth.getUID(), orderID: order.orderID, productID: order.productUID, orderAmount: convertInt)
+        try await firestoreForProducts.fetchOrderedDataUserSide(uidPath: firebaseAuth.getUID())
+    }
+    
     @ViewBuilder
     func productUnit(cartItemData: UserOrderProductsDataModel) -> some View {
         HStack {
@@ -95,29 +118,6 @@ extension UserOrderedListView {
         }
     }
     
-//    @ViewBuilder
-//    func productsListUnit() -> some View {
-//        ScrollView(.vertical, showsIndicators: false) {
-//            ForEach(firestoreForProducts.fetchOrderedDataSet) { products in
-//                UserOrderedListUnitView(productName: products.productName,
-//                                        productPrice: String(products.productPrice),
-//                                        productImage: products.productImage,
-//                                        docID: products.id ?? "")
-//            }
-//        }
-//    }
-//
-//    @ViewBuilder
-//    func productsListUnitWithPlaceholder() -> some View {
-//        if firestoreForProducts.fetchOrderedDataSet.isEmpty {
-//            VStack(alignment: .center) {
-//
-//            }
-//        } else {
-//            productsListUnit()
-//        }
-//    }
-    
     @ViewBuilder
     func orderTitleAndContain(header: String, body: String) -> some View {
         VStack(spacing: 1) {
@@ -137,7 +137,7 @@ extension UserOrderedListView {
     }
     
     @ViewBuilder
-    func orderedUnit(orderedData: OrderedDataModel, action: (() -> Void)? = nil) -> some View {
+    func orderedUnit(orderedData: OrderedDataModel, action: (() -> Void)? = nil, cancel: (() -> Void)? = nil) -> some View {
         
         VStack(spacing: 10) {
             
@@ -163,6 +163,15 @@ extension UserOrderedListView {
                 orderTitleAndContain(header: "Shipping Status", body: orderedData.shippingStatus)
             }
             HStack {
+                Button {
+                    cancel?()
+                } label: {
+                    Text("Cancel")
+                        .foregroundColor(.white)
+                        .frame(width: 125, height: 35)
+                        .background(Color("buttonBlue"))
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                }
                 Spacer()
                 Button {
                     action?()
