@@ -164,10 +164,9 @@ struct TextingViewForReceiver: View {
             if !imageURL.isEmpty {
                 WebImage(url: URL(string: imageURL))
                     .resizable()
-                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                    .scaledToFill()
                     .frame(width: 200, height: 250)
-                    .aspectRatio(contentMode: .fit)
-                    .padding()
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
                     .onTapGesture {
                         textingViewModel.showImageDetail = true
                         print(textingViewModel.showImageDetail)
@@ -196,10 +195,12 @@ struct TextingViewForReceiver: View {
 }
 
 struct TextingViewForSender: View {
+    @EnvironmentObject var imgPresenterM: ImagePresentingManager
     @EnvironmentObject var textingViewModel: TextingViewModel
     @Environment(\.colorScheme) var colorScheme
     let text: String
     let imageURL: String
+
     var body: some View {
         HStack {
             Spacer()
@@ -218,10 +219,9 @@ struct TextingViewForSender: View {
             if !imageURL.isEmpty {
                 WebImage(url: URL(string: imageURL))
                     .resizable()
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .scaledToFill()
                     .frame(width: 200, height: 250)
-                    .aspectRatio(contentMode: .fit)
-                    .padding()
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
                     .onTapGesture {
                         textingViewModel.showImageDetail = true
                         print(textingViewModel.showImageDetail)
@@ -256,10 +256,9 @@ struct ShowImage: View {
             VStack {
                 WebImage(url: URL(string: imageURL))
                     .resizable()
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .scaledToFill()
                     .frame(width: uiScreenWidth - 100, height: uiScreenHeight / 2)
-                    .padding()
-                    .aspectRatio(contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
             }
             Spacer()
         }

@@ -131,6 +131,7 @@
 		0EC5287027F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC5286F27F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift */; };
 		0EC5287227F2FCC1002D2C6F /* ProductCollectionDetialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC5287127F2FCC1002D2C6F /* ProductCollectionDetialView.swift */; };
 		0EC5EB43282E057B00A9B45B /* ScanButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC5EB42282E057B00A9B45B /* ScanButtonView.swift */; };
+		0EC8905A282F919500D1DB85 /* UserPaymentHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC89059282F919500D1DB85 /* UserPaymentHistoryView.swift */; };
 		0ED1F42427F049D90004B5CE /* AnnouncementDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */; };
 		0ED1F42627F04A460004B5CE /* FirestoreFetchingAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */; };
 		0ED1F42A27F087D70004B5CE /* PastedPaymentHistoryDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */; };
@@ -276,6 +277,7 @@
 		0EC5286F27F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionReusableUnitView.swift; sourceTree = "<group>"; };
 		0EC5287127F2FCC1002D2C6F /* ProductCollectionDetialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionDetialView.swift; sourceTree = "<group>"; };
 		0EC5EB42282E057B00A9B45B /* ScanButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanButtonView.swift; sourceTree = "<group>"; };
+		0EC89059282F919500D1DB85 /* UserPaymentHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPaymentHistoryView.swift; sourceTree = "<group>"; };
 		0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementDataModel.swift; sourceTree = "<group>"; };
 		0ED1F42527F04A460004B5CE /* FirestoreFetchingAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreFetchingAnnouncement.swift; sourceTree = "<group>"; };
 		0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastedPaymentHistoryDataModel.swift; sourceTree = "<group>"; };
@@ -515,6 +517,7 @@
 				0EE8A0CE281E311300613F0E /* RoomCommentAndRattingView.swift */,
 				0EB65BDF280455F1000EAA43 /* AutoPaymentSettingView.swift */,
 				0EEEDC15281F6B340036FD0D /* RoomCommentAndRatePresenterView.swift */,
+				0EC89059282F919500D1DB85 /* UserPaymentHistoryView.swift */,
 			);
 			path = RenterViews;
 			sourceTree = "<group>";
@@ -979,6 +982,7 @@
 				0249D44727C639E40085F4A5 /* MaintainView.swift in Sources */,
 				0249D46927C63C2A0085F4A5 /* ProviderLineChartView.swift in Sources */,
 				0249D43427C638DF0085F4A5 /* ErrorHandler.swift in Sources */,
+				0EC8905A282F919500D1DB85 /* UserPaymentHistoryView.swift in Sources */,
 				024CF42127DF178600D65B2F /* RenterProfileView.swift in Sources */,
 				02CB58F127CDB31D0035EE20 /* FirestoreToFetchMaintainTasks.swift in Sources */,
 				0E36B7052807B5470008A7C9 /* MonthlySettlementDetailView.swift in Sources */,

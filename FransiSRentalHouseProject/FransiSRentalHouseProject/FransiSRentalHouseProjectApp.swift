@@ -54,6 +54,7 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var roomCARVM = RoomCommentAndRattingViewModel()
     @StateObject var soldProCollectionM = SoldProductCollectionManager()
     @StateObject var pwdM = PwdManager()
+    @StateObject var imgPresentM = ImagePresentingManager()
     
     var body: some Scene {
         WindowGroup {
@@ -98,6 +99,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(roomCARVM)
                 .environmentObject(soldProCollectionM)
                 .environmentObject(pwdM)
+                .environmentObject(imgPresentM)
                 .withErrorHandling()
         }
     }

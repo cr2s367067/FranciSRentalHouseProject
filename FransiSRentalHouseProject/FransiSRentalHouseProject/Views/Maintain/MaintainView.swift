@@ -16,15 +16,25 @@ struct MaintainView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var storageForMaintainImage: StorageForMaintainImage
+    @EnvironmentObject var imagePresentingManager: ImagePresentingManager
     
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
     @State var showAlert = false
     @FocusState private var isFocused: Bool
-    @State var image = UIImage()
+//    @State var image = UIImage()
     @State var imagePickerSheet = false
     @State var isSelectedImage = false
     @State var showProgressView = false
+    @State private var images = [UIImage]()
+    
+    var getFirstImage: UIImage {
+        var firstHolder = UIImage()
+        if let image = images.first {
+            firstHolder = image
+        }
+        return firstHolder
+    }
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -42,7 +52,7 @@ struct MaintainView: View {
             showProgressView = true
             _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
             if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-                try await storageForMaintainImage.uploadFixItemImage(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", image: image, roomUID: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID ?? "")
+                try await storageForMaintainImage.uploadFixItemImage(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", image: getFirstImage, roomUID: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID ?? "")
                 try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", taskDes: describtion, appointmentDate: appointment, docID: firestoreToFetchUserinfo.rentedContract.docID, itemImageURL: storageForMaintainImage.itemImageURL)
                 showProgressView = false
                 showAlert.toggle()
@@ -90,22 +100,24 @@ struct MaintainView: View {
                                 MaintainTitleUnit(title: "Upload Image")
                                 Button {
                                     imagePickerSheet.toggle()
+                                    
                                 } label: {
-                                    ZStack(alignment: .center) {
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .fill(Color("fieldGray"))
-                                            .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
-                                        Image(systemName: "plus.square")
-                                            .font(.system(size: 20))
-                                            .foregroundColor(.white)
-                                        if isSelectedImage == true {
-                                            Image(uiImage: image)
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
-                                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                        }
-                                    }
+//                                    ZStack(alignment: .center) {
+//                                        RoundedRectangle(cornerRadius: 20)
+//                                            .fill(Color("fieldGray"))
+//                                            .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
+//                                        Image(systemName: "plus.square")
+//                                            .font(.system(size: 20))
+//                                            .foregroundColor(.white)
+//                                        if isSelectedImage == true {
+//                                            Image(uiImage: getFirstImage)
+//                                                .resizable()
+//                                                .scaledToFill()
+//                                                .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
+//                                                .clipShape(RoundedRectangle(cornerRadius: 20))
+//                                        }
+//                                    }
+                                    imgPresenterSwitch(imgFS: imagePresentingManager.imgFrameStatus)
                                 }
                             }
                             .padding(.horizontal)
@@ -145,8 +157,10 @@ struct MaintainView: View {
             }
             .sheet(isPresented: $imagePickerSheet, onDismiss: {
                 isSelectedImage = true
+                imagePresentingManager.plIdentify(image: getFirstImage)
             }, content: {
-                ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
+//                ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
+                PHPickerRepresentable(images: $images)
             })
             .overlay(content: {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {
@@ -172,6 +186,45 @@ struct MaintainView_Previews: PreviewProvider {
 }
 
 extension MaintainView {
+
+    @ViewBuilder
+    func imgPresenterSwitch(imgFS: ImagePresentingManager.ImgFrameStatus) -> some View {
+        if imgFS == .landscape {
+            ZStack(alignment: .center) {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color("fieldGray"))
+                    .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
+                Image(systemName: "plus.square")
+                    .font(.system(size: 20))
+                    .foregroundColor(.white)
+                if isSelectedImage == true {
+                    Image(uiImage: getFirstImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                }
+            }
+        }
+        if imgFS == .portrait {
+            ZStack(alignment: .center) {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color("fieldGray"))
+                    .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 3 + 50, alignment: .center)
+                Image(systemName: "plus.square")
+                    .font(.system(size: 20))
+                    .foregroundColor(.white)
+                if isSelectedImage == true {
+                    Image(uiImage: getFirstImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 3 + 50, alignment: .center)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                }
+            }
+        }
+    }
+    
     @ViewBuilder
     func graphicalDatePicker() -> some View {
         HStack {
@@ -187,7 +240,6 @@ extension MaintainView {
     
     
 }
-
 
 struct MaintainTitleUnit: View {
     var title: String

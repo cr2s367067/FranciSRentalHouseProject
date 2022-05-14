@@ -285,13 +285,16 @@ extension RentalBillSettingView {
             }
             
             Section {
-                HStack {
-                    Text("$9000")
-                    Spacer()
-                    Text("paymnet Date")
+                NavigationLink {
+                    UserPaymentHistoryView()
+                } label: {
+                    HStack {
+                        Text("Payment History")
+                        Spacer()
+                    }
+                    .foregroundColor(.primary)
+                    .font(.system(size: 18))
                 }
-                .foregroundColor(.primary)
-                .font(.system(size: 18))
             } header: {
                 Text("Payment History")
                     .foregroundColor(.primary)
