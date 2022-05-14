@@ -351,6 +351,7 @@ extension PurchaseView {
     
     private func rentedRoom(result: RoomInfoDataModel) async throws {
         do {
+            purchaseViewModel.note = .firstRentalFeeWithDeposit
             let roomPrice = Int(result.rentalPrice) ?? 0 / 3
             try await firestoreToFetchUserinfo.updateUserInformationAsync(uidPath: firebaseAuth.getUID(),
                                                                           roomID: result.roomUID ,
@@ -472,7 +473,8 @@ extension PurchaseView {
             let rentPriceWithDiposit = converInt * 3
             let convertString = String(rentPriceWithDiposit)
             print("first rent fee with diposit: \(convertString)")
-            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: convertString)
+            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: convertString, note: purchaseViewModel.note.rawValue)
+            print("payment note: \(purchaseViewModel.note.rawValue)")
             try await firestoreToFetchRoomsData.deleteRentedRoom(docID: result.id ?? "")
             try await firestoreToFetchUserinfo.reloadUserDataTest()
             try await firestoreToFetchRoomsData.updateRentedRoom(uidPath: result.providedBy,
@@ -486,7 +488,8 @@ extension PurchaseView {
     
     private func monthlyRentalFeePayment() async {
         do {
-            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "")
+            try await firestoreToFetchUserinfo.summitPaidInfo(uidPath: firebaseAuth.getUID(), rentalPrice: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "", note: purchaseViewModel.note.rawValue)
+            print("payment note: \(purchaseViewModel.note.rawValue)")
             print("rental fee: \(firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomPrice ?? "")")
         } catch {
             self.errorHandler.handle(error: error)
@@ -556,6 +559,7 @@ extension PurchaseView {
     }
     
     private func justPayRentBill() async {
+        purchaseViewModel.note = .monthlyRentalFee
         guard !firestoreToFetchUserinfo.notRented() else { return }
         guard productDetailViewModel.productOrderCart.isEmpty else { return }
         await monthlyRentalFeePayment()
@@ -570,6 +574,11 @@ class PurchaseViewModel: ObservableObject {
         case fail = "Payment Denial"
     }
     
+    enum PaymentNote: String {
+        case monthlyRentalFee = "Monthly rental fee"
+        case firstRentalFeeWithDeposit = "First month rental fee and two months deposit"
+    }
+    
     @Published var cardName = ""
     @Published var cardNumber = ""
     @Published var expDate = ""
@@ -578,6 +587,8 @@ class PurchaseViewModel: ObservableObject {
     @Published var productTotalAmount = ""
     
     @Published var paymentProcessStatus: PaymentProcessStatus = .rentRoom
+    
+    @Published var note: PaymentNote = .firstRentalFeeWithDeposit
     
     func blankChecker() throws {
         guard !cardName.isEmpty && !cardNumber.isEmpty && !expDate.isEmpty && !secCode.isEmpty else {

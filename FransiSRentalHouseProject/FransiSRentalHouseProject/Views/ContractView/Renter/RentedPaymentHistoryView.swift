@@ -17,23 +17,28 @@ struct RentedPaymentHistoryView: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     var body: some View {
         VStack {
-            List(paymentHistory) { data in
-                HStack {
-                    Text(data.pastPaymentFee)
-                    Spacer()
-                    Text(data.paymentDate, format: Date.FormatStyle().year().month().day())
+//            List(paymentHistory) { data in
+//                HStack {
+//                    Text(data.pastPaymentFee)
+//                    Spacer()
+//                    Text(data.paymentDate, format: Date.FormatStyle().year().month().day())
+//                }
+//            }
+            ScrollView(.vertical, showsIndicators: false) {
+                ForEach(paymentHistory) { data in
+                    CusListUnit(paymentH: data)
                 }
             }
         }
         .frame(width: uiScreenWidth - 80, height: uiScreenHeight - 240)
         .padding()
-        .background(alignment: .center, content: {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.gray.opacity(0.4))
-        })
-        .onAppear(perform: {
-            UITableView.appearance().backgroundColor = .clear
-        })
+//        .background(alignment: .center, content: {
+//            RoundedRectangle(cornerRadius: 20)
+//                .fill(.gray.opacity(0.4))
+//        })
+//        .onAppear(perform: {
+//            UITableView.appearance().backgroundColor = .clear
+//        })
         .task {
             do {
                 guard roomsData.isRented == true else { return }

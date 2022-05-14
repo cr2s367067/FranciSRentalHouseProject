@@ -173,8 +173,8 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "501"
-            endingLineNumber = "501"
+            startingLineNumber = "504"
+            endingLineNumber = "504"
             landmarkName = "buyProducts(products:orderID:shippingStatus:paymentStatus:shippingMethod:subTotal:)"
             landmarkType = "7">
          </BreakpointContent>

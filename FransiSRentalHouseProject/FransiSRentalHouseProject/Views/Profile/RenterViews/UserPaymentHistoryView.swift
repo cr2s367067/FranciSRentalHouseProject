@@ -9,6 +9,9 @@ import SwiftUI
 
 struct UserPaymentHistoryView: View {
     
+    @EnvironmentObject var firebaseAuth: FirebaseAuth
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    @EnvironmentObject var errorHandler: ErrorHandler
     @Environment(\.colorScheme) var colorScheme
     
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -18,7 +21,9 @@ struct UserPaymentHistoryView: View {
         VStack {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
-                    CusListUnit(rentalPrice: "9000", paymentDate: Date())
+                    ForEach(firestoreToFetchUserinfo.paymentHistory) { paymentH in
+                        CusListUnit(paymentH: paymentH)
+                    }
                 }
             }
             .padding()
@@ -29,6 +34,13 @@ struct UserPaymentHistoryView: View {
             }
         }
         .modifier(ViewBackgroundInitModifier())
+        .task {
+            do {
+                try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+        }
     }
 }
 
@@ -43,16 +55,14 @@ struct CusListUnit: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    var rentalPrice = "9000"
-    var paymentDate = Date()
-    
+    var paymentH: PaymentHistoryDataModel
     
     var body: some View {
         VStack {
             HStack(spacing: 10) {
-                Text("$\(rentalPrice)")
+                Text("$\(paymentH.pastPaymentFee)")
                 Spacer()
-                Text("\(paymentDate, format: Date.FormatStyle().year().month().day())")
+                Text("\(paymentH.paymentDate, format: Date.FormatStyle().year().month().day())")
             }
             .foregroundColor(.white)
             .font(.body)
@@ -64,7 +74,7 @@ struct CusListUnit: View {
             }
             HStack {
                 Text("Notes:")
-                Text("Rental fee")
+                Text(paymentH.note)
                 Spacer()
             }
             .foregroundColor(.gray)

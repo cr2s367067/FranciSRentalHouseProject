@@ -54,6 +54,7 @@ struct PaymentHistoryDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var pastPaymentFee : String
     var paymentDate: Date
+    var note: String
 }
 
 extension UserDataModel {
@@ -65,5 +66,5 @@ extension RentedRoomInfo {
 }
 
 extension PaymentHistoryDataModel {
-    static let empty = PaymentHistoryDataModel(pastPaymentFee: "", paymentDate: Date())
+    static let empty = PaymentHistoryDataModel(pastPaymentFee: "", paymentDate: Date(), note: "")
 }
