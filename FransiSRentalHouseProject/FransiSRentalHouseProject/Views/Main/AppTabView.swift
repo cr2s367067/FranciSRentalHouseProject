@@ -80,6 +80,7 @@ extension AppTabView {
                 ForEach(appViewModel.selectArray, id: \.self) { buttonName in
                     ZStack {
                         TabBarButton(tagSelect: $appViewModel.selecting, buttonImage: AppViewModel.BarItemStatus(rawValue: buttonName) ?? .homeButton)
+                            .accessibilityIdentifier(buttonName)
                         if buttonName == AppViewModel.BarItemStatus.paymentButton.rawValue {
                             if appViewModel.isAddNewItem {
                                 Circle()

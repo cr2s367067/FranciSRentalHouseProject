@@ -79,6 +79,7 @@ struct ProductsProviderSummitView: View {
                             }
                             .padding()
                         }
+                        .accessibilityIdentifier("phpicker")
                         StepsTitle(stepsName: "Step2: Please provide the necessary information")
                         VStack(spacing: 10) {
                             VStack(alignment: .leading, spacing: 2) {
@@ -115,6 +116,7 @@ struct ProductsProviderSummitView: View {
                                             Spacer()
                                         }
                                     }
+                                    .accessibilityIdentifier("pickerSection")
                                 }
                                 .foregroundColor(.white)
                             }
@@ -125,8 +127,10 @@ struct ProductsProviderSummitView: View {
                                     .stroke(Color.white, lineWidth: 1)
                             })
                             InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productName)
+                                .accessibilityIdentifier("productName")
                             
                             InfoUnit(title: "Product Price", bindingString: $productsProviderSummitViewModel.productPrice)
+                                .accessibilityIdentifier("price")
                                 .keyboardType(.numberPad)
                             if !productsProviderSummitViewModel.productPrice.isEmpty {
                                 VStack(alignment: .leading, spacing: 2) {
@@ -149,8 +153,10 @@ struct ProductsProviderSummitView: View {
                                 })
                             }
                             InfoUnit(title: "Product Amount", bindingString: $productsProviderSummitViewModel.productAmount)
+                                .accessibilityIdentifier("amount")
                                 .keyboardType(.numberPad)
                             InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productFrom)
+                                .accessibilityIdentifier("from")
                             VStack(alignment: .leading, spacing: 2) {
                                 HStack {
                                     Text("Product Description")
@@ -162,6 +168,7 @@ struct ProductsProviderSummitView: View {
                                     .frame(height: 300, alignment: .center)
                                     .cornerRadius(5)
                                     .background(Color.clear)
+                                    .accessibilityIdentifier("productDes")
                             }
                             .padding()
                             .frame(width: uiScreenWidth - 30)
@@ -180,6 +187,7 @@ struct ProductsProviderSummitView: View {
                                             .foregroundColor(productsProviderSummitViewModel.holderTosAgree ? .green : .white)
                                             .padding(.trailing, 5)
                                     }
+                                    .accessibilityIdentifier("tosAgree")
                                     Text("I have read and agree the")
                                         .foregroundColor(.white)
                                         .font(.system(size: 14, weight: .medium))
@@ -250,11 +258,14 @@ struct ProductsProviderSummitView: View {
                                             } label: {
                                                 Text("Okay")
                                             }
+                                            .accessibilityIdentifier("okay")
                                         }, message: {
                                             let message = "Product's Information is waiting to summit, if you want to adjust something, please press cancel, else press okay to continue"
                                             Text(message)
+                                                .accessibilityIdentifier("alertMessage")
                                         })
                                 }
+                                .accessibilityIdentifier("summitButton")
                             }
                             .padding([.trailing, .top])
                             .frame(width: 400)

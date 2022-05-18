@@ -54,6 +54,7 @@ struct PrePurchaseView: View {
                             Group {
                                 Image(systemName: "dollarsign.circle")
                                 Text("\(localData.sumPrice)")
+                                    .accessibilityIdentifier("subTotal")
                                 if firestoreToFetchUserinfo.notRented() && !localData.summaryItemHolder.roomUID.isEmpty && !localData.tempCart.roomUID.isEmpty {
                                     Text("(Include Deposit fee 2 month)")
                                         .font(.system(size: 12, weight: .semibold))
@@ -151,6 +152,7 @@ extension PrePurchaseView {
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                         .padding(.trailing)
                 }
+                .accessibilityIdentifier("checkOut")
             }
         }
     }

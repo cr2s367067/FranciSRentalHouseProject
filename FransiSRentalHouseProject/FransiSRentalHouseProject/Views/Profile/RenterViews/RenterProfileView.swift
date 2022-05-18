@@ -51,6 +51,7 @@ struct RenterProfileView: View {
                             .resizable()
                             .frame(width: 30, height: 30)
                     }
+                    .accessibilityIdentifier("menuButton")
                     Spacer()
                 }
                 .foregroundColor(.white)

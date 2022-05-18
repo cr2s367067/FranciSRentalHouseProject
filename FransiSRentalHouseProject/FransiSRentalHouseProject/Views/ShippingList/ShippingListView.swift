@@ -23,6 +23,7 @@ struct ShippingListView: View {
     var body: some View {
         VStack {
             TitleAndDivider(title: "Shipping List")
+                .accessibilityIdentifier("shippingList")
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreForProducts.purchasedUserDataSet) { pUserData in
                     listUnit(pUserData: pUserData) {
@@ -96,6 +97,7 @@ extension ShippingListView {
                         .background(Color("buttonBlue"))
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                 }
+                .accessibilityIdentifier("updateState")
                 Spacer()
                 
                 Button {
@@ -104,6 +106,7 @@ extension ShippingListView {
                     Text("Show List")
                         .modifier(ButtonModifier())
                 }
+                .accessibilityIdentifier("showList")
             }
             
             
@@ -174,6 +177,7 @@ extension ShippingListView {
                     Text("Order Amount: ")
                         .foregroundColor(.primary)
                         .font(.body)
+                        .accessibilityIdentifier("orderAmount")
                     Text(cartItemData.orderAmount)
                         .foregroundColor(.primary)
                         .font(.body)

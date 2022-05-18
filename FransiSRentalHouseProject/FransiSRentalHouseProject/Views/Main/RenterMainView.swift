@@ -52,6 +52,7 @@ struct RenterMainView: View {
                                 Text("Announcement")
                                     .font(.system(size: 24, weight: .heavy))
                                     .foregroundColor(Color.white)
+                                    .accessibilityIdentifier("announcement")
                                 Spacer()
                                 NavigationLink(isActive: $dragCompleted) {
                                     MessageMainView()
@@ -85,6 +86,7 @@ struct RenterMainView: View {
                                 Spacer()
                                 Toggle("", isOn: $showRooms)
                                     .toggleStyle(CustomToggleStyle())
+                                    .accessibilityIdentifier("presentSwitch")
                             }
                             HStack {
                                 VStack {
@@ -110,7 +112,7 @@ struct RenterMainView: View {
                         //: New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
-                                elementSwitch(showRooms: showRooms)
+//                                elementSwitch(showRooms: showRooms)
                             }
                             .frame(height: 330)
                             .padding()
@@ -229,6 +231,7 @@ extension RenterMainView {
             } label: {
                 FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
             }
+            .accessibilityIdentifier("testProduct")
             .simultaneousGesture(
                 TapGesture().onEnded({ _ in
                     Task {

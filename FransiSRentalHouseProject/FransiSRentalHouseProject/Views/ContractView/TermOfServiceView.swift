@@ -28,6 +28,7 @@ struct TermOfServiceView: View {
                             Text("FranciS 使用者授權合約")
                                 .font(.title2)
                                 .font(.system(size: 15))
+                                .accessibilityIdentifier("tosTitle")
                         }
                         .padding(.top, 5)
                         VStack {
@@ -221,6 +222,7 @@ struct TermOfServiceView: View {
                     }
                 }
                 .frame(width: UIScreen.main.bounds.width - 20)
+                
                 .padding()
             }
             .navigationTitle("")

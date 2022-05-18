@@ -52,27 +52,34 @@ struct ProviderRoomSummitView: View {
                                 if providerRoomSummitViewModel.isSummitRoomPic == true {
                                     Image(uiImage: self.providerRoomSummitViewModel.image)
                                         .resizable()
+                                        .scaledToFill()
                                         .frame(width: 378, height: 304)
-                                        .cornerRadius(10)
-                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
                                 }
                             }
                         }
+                        .accessibilityIdentifier("coverImage")
                         StepsTitle(stepsName: "Step2: Please provide the necessary information")
                         VStack(spacing: 10) {
                             InfoUnit(title: "Holder Name", bindingString: $appViewModel.holderName)
                             InfoUnit(title: "Mobile Number", bindingString: $appViewModel.holderMobileNumber)
                             Group {
                                 InfoUnit(title: "Room Address", bindingString: $appViewModel.roomAddress)
+                                    .accessibilityIdentifier("roomAddress")
                                 InfoUnit(title: "Town", bindingString: $appViewModel.roomTown)
+                                    .accessibilityIdentifier("town")
                                 InfoUnit(title: "City", bindingString: $appViewModel.roomCity)
+                                    .accessibilityIdentifier("city")
                                 InfoUnit(title: "Zip Code", bindingString: $appViewModel.roomZipCode)
+                                    .accessibilityIdentifier("zipcode")
                             }
                             InfoUnit(title: "Room Area", bindingString: $appViewModel.roomArea)
+                                .accessibilityIdentifier("roomArea")
                             InfoUnit(title: "Rental Price", bindingString: $appViewModel.roomRentalPrice)
+                                .accessibilityIdentifier("rentalPrice")
                             VStack(alignment: .leading, spacing: 2) {
                                 HStack {
-                                    Text("Product Description")
+                                    Text("Room Description")
                                         .modifier(textFormateForProviderSummitView())
                                     Spacer()
                                 }
@@ -81,6 +88,7 @@ struct ProviderRoomSummitView: View {
                                     .frame(height: 300, alignment: .center)
                                     .cornerRadius(5)
                                     .background(Color.clear)
+                                    .accessibilityIdentifier("roomDes")
                             }
                             .padding()
                             .frame(width: uiScreenWidth - 30)
@@ -130,6 +138,7 @@ struct ProviderRoomSummitView: View {
                                         }
                                     }
                                 }
+                                .accessibilityIdentifier("addtionalPh")
                             }
                             .padding()
                             .frame(width: uiScreenWidth - 30)
@@ -169,6 +178,7 @@ struct ProviderRoomSummitView: View {
                                         Text("No")
                                             .foregroundColor(Color.white)
                                     }
+                                    .accessibilityIdentifier("no1")
                                     Spacer()
                                 }
                             }
@@ -210,6 +220,7 @@ struct ProviderRoomSummitView: View {
                                         Text("No")
                                             .foregroundColor(Color.white)
                                     }
+                                    .accessibilityIdentifier("no2")
                                     Spacer()
                                 }
                             }
@@ -228,6 +239,7 @@ struct ProviderRoomSummitView: View {
                                         .foregroundColor(providerRoomSummitViewModel.holderTosAgree ? .green : .white)
                                         .padding(.trailing, 5)
                                 }
+                                .accessibilityIdentifier("tosAgree")
                                 Text("I have read and agree the")
                                     .foregroundColor(.white)
                                     .font(.system(size: 14, weight: .medium))
@@ -302,12 +314,14 @@ struct ProviderRoomSummitView: View {
                                                     .background(Color("buttonBlue"))
                                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                             }
+                                            .accessibilityIdentifier("okay")
                                         }
                                     }, message: {
                                         let message = "Room's Information is waiting to summit, if you want to adjust something, please press cancel, else press okay to continue"
                                         Text(message)
                                     })
                             }
+                            .accessibilityIdentifier("summit")
                         }
                         .padding([.trailing, .top])
                         .frame(width: 400)

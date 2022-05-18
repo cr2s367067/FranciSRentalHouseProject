@@ -143,6 +143,7 @@ extension UserOrderedListView {
             
             VStack(spacing: 5) {
                 orderTitleAndContain(header: "Order ID", body: orderedData.orderID)
+                    .accessibilityIdentifier("orderID")
                 VStack(spacing: 1) {
                     HStack {
                         Text("Order Date: ")

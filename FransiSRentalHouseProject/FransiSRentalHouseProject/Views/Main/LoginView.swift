@@ -39,6 +39,7 @@ struct LoginView: View {
                         .frame(width: 428, height: 926)
                         .offset(x: 20)
                         .clipped()
+                        .accessibilityIdentifier("door1")
                     Rectangle()
                         .fill(.black.opacity(0.5))
                         .blendMode(.multiply)
@@ -47,9 +48,9 @@ struct LoginView: View {
                 VStack {
                     Spacer()
                         .frame(height: 190)
-                    Button("test") {
-                        firebaseAuth.failTimes = 0
-                    }
+//                    Button("test") {
+//                        firebaseAuth.failTimes = 0
+//                    }
                     HStack {
                         Text("Start to find your\nright place.")
                             .font(.custom("Work Sans", size: 34))
@@ -100,6 +101,7 @@ struct LoginView: View {
                                 .textInputAutocapitalization(.never)
                                 .keyboardType(.emailAddress)
                                 .focused($isFocus)
+                                .accessibilityIdentifier("userName")
                         }
                         .modifier(customTextField())
                         
@@ -117,6 +119,7 @@ struct LoginView: View {
                                 .disableAutocorrection(true)
                                 .textInputAutocapitalization(.never)
                                 .focused($isFocus)
+                                .accessibilityIdentifier("password")
                         }
                         .modifier(customTextField())
                     }
@@ -132,10 +135,12 @@ struct LoginView: View {
                                     Alert(title: Text(firebaseAuth.alertTitle), message: Text(firebaseAuth.alertMessage), dismissButton: .default(Text(firebaseAuth.alertButton)))
                                 }
                         }
+                        .accessibilityIdentifier("forgotPassword")
                     }
                     .padding()
                     VStack {
                         forceResetPassord(fail: firebaseAuth.failTimes)
+                            .accessibilityIdentifier("signIn")
                         HStack {
                             Text("You don't have account?")
                                 .foregroundColor(.white)
@@ -145,6 +150,7 @@ struct LoginView: View {
                                 Text("Let us create one")
                                     .foregroundColor(.blue)
                             }
+                            .accessibilityIdentifier("signUp")
                         }
                         .font(.system(size: 15, weight: .regular))
                         .shadow(radius: 5)
@@ -206,6 +212,7 @@ extension LoginView {
                     .frame(width: 223, height: 34)
                     .background(Color("buttonBlue"))
                     .cornerRadius(5)
+                    
             }
         } else if fail >= 3 {
             NavigationLink {

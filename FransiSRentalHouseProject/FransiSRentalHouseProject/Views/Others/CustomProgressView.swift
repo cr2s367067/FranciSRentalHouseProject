@@ -26,6 +26,7 @@ struct CustomProgressView: View {
                     .frame(width: uiScreenWidth / 2, height: uiScreenHeight / 6, alignment: .center)
                     .background(colorScheme == .dark ? .gray.opacity(0.5) : Color.black.opacity(0.6))
                     .cornerRadius(20)
+                    .accessibilityIdentifier("process")
             }
         }
     }

@@ -249,6 +249,7 @@ struct PurchaseView: View {
                         .background(Color("buttonBlue"))
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
+                .accessibilityIdentifier("pay")
                 
                 Spacer()
             }
@@ -502,6 +503,8 @@ extension PurchaseView {
             if purchaseViewModel.paymentProcessStatus == .rentRoomAndBuyProduct {
                 let converInt = Int(roomsData.rentalPrice) ?? 0
                 newSub = subTotal - (converInt * 3)
+            } else {
+                newSub = subTotal
             }
             var userName: String {
                 let firstName = firestoreToFetchUserinfo.fetchedUserData.firstName

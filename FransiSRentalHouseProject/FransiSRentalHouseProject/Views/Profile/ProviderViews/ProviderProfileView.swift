@@ -41,10 +41,11 @@ struct ProviderProfileView: View {
                             self.show.toggle()
                         }
                     } label: {
-                        Image(systemName: "line.3.horizontal")
+                        Image(systemName: "line.3.horizontal.circle")
                             .resizable()
                             .frame(width: 25, height: 25)
                     }
+                    .accessibilityIdentifier("menuButton")
                     Spacer()
                 }
                 .foregroundColor(.white)

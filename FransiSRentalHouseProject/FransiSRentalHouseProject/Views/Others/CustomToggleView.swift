@@ -46,6 +46,7 @@ struct CustomToggleView: View {
             .font(.headline)
             .padding()
             .frame(width: uiScreenWidth / 2, height: 30, alignment: .center)
+            .accessibilityIdentifier("presentTitle")
         }
     }
 }

@@ -9,6 +9,12 @@ import SwiftUI
 
 struct PaymentSummaryView: View {
     
+    enum ShippingMethodName: String {
+        case shipToStore = "Ship to Store"
+        case homeDelivery = "Home Delivery"
+        case rushDelivery = "Rush Delivery"
+    }
+    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
@@ -16,6 +22,7 @@ struct PaymentSummaryView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     
     @State private var testCheck = false
+    @State private var shippingMethodName: ShippingMethodName = .shipToStore
     
     var body: some View {
         ZStack {
@@ -44,7 +51,7 @@ struct PaymentSummaryView: View {
                             Spacer()
                         }
                         HStack {
-                            buttonWithText(buttonName: "Ship to Store", action: {
+                            buttonWithText(buttonName: .shipToStore, action: {
                                 if paymentSummaryVM.homeDelivery == true {
                                     paymentSummaryVM.homeDelivery = false
                                     localData.sumPrice -= 50
@@ -63,7 +70,9 @@ struct PaymentSummaryView: View {
                                 
                                 print(firestoreForProducts.shippingMethod)
                             }, isCheck: paymentSummaryVM.shipToStore)
-                            buttonWithText(buttonName: "Home Delivery", action: {
+                            .accessibilityIdentifier(ShippingMethodName.shipToStore.rawValue)
+                            
+                            buttonWithText(buttonName: .homeDelivery, action: {
                                 if paymentSummaryVM.shipToStore == true {
                                     paymentSummaryVM.shipToStore = false
                                     localData.sumPrice -= 60
@@ -81,7 +90,9 @@ struct PaymentSummaryView: View {
                                 }
                                 print(firestoreForProducts.shippingMethod)
                             }, isCheck: paymentSummaryVM.homeDelivery)
-                            buttonWithText(buttonName: "Rush Delivery", action: {
+                            .accessibilityIdentifier(ShippingMethodName.homeDelivery.rawValue)
+                            
+                            buttonWithText(buttonName: .rushDelivery, action: {
                                 if paymentSummaryVM.shipToStore == true {
                                     paymentSummaryVM.shipToStore = false
                                     localData.sumPrice -= 60
@@ -99,6 +110,7 @@ struct PaymentSummaryView: View {
                                 }
                                 print(firestoreForProducts.shippingMethod)
                             }, isCheck: paymentSummaryVM.rushDelivery)
+                            .accessibilityIdentifier(ShippingMethodName.rushDelivery.rawValue)
                         }
                         
                     }
@@ -117,6 +129,7 @@ struct PaymentSummaryView: View {
                                     .foregroundColor(appViewModel.paymentSummaryTosAgree ? .green : .white)
                                     .padding(.trailing, 5)
                             }
+                            .accessibilityIdentifier("tosAgree")
                             Text("I have read and agree the terms of Service.")
                                 .foregroundColor(.white)
                                 .font(.system(size: 14, weight: .medium))
@@ -145,6 +158,7 @@ struct PaymentSummaryView: View {
                                 .background(Color("buttonBlue"))
                                 .clipShape(RoundedRectangle(cornerRadius: 4))
                         }
+                        .accessibilityIdentifier("confrim")
                     } else {
                         Button {
                             paymentSummaryVM.showErrorAlert.toggle()
@@ -296,7 +310,7 @@ class PaymentSummaryViewModel: ObservableObject {
 
 extension PaymentSummaryView {
     @ViewBuilder
-    func buttonWithText(buttonName: String, action: @escaping () -> Void, isCheck: Bool) -> some View {
+    func buttonWithText(buttonName: ShippingMethodName, action: @escaping () -> Void, isCheck: Bool) -> some View {
         Button {
             action()
         } label: {
@@ -304,7 +318,7 @@ extension PaymentSummaryView {
                 Image(systemName: "checkmark.square")
                     .foregroundColor(isCheck ? .green : .white)
                     .font(.system(size: 15))
-                Text(LocalizedStringKey(buttonName))
+                Text(LocalizedStringKey(buttonName.rawValue))
                     .foregroundColor(.white)
                     .font(.system(size: 15))
             }

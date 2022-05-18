@@ -40,6 +40,12 @@ struct SignUpView: View {
         UINavigationBar.appearance().backgroundColor = UIColor(Color.clear)
     }
     
+    private func delayUnFocused() async {
+        //MARK: 1 second = 1_000_000_000 nanoseconds
+        try? await Task.sleep(nanoseconds: 5_000_000_000)
+        isFocus = false
+    }
+    
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
@@ -48,7 +54,7 @@ struct SignUpView: View {
                     //                    Spacer()
                     //                        .frame(height: 90)
                     HStack {
-                        Text("Sign In")
+                        Text("Sign Up")
                             .font(.system(size: 24))
                             .foregroundColor(.white)
                             .padding(.leading)
@@ -71,12 +77,20 @@ struct SignUpView: View {
                                         .textInputAutocapitalization(.never)
                                         .padding(.leading)
                                         .keyboardType(.emailAddress)
+                                        .accessibilityIdentifier("signUpUserName")
+                                        .focused($isFocus)
+                                        .onChange(of: appViewModel.emailAddress.count) { newValue in
+                                            Task {
+                                                await delayUnFocused()
+                                            }
+                                        }
                                 }
                                 .modifier(customTextField())
                             }
                             VStack(alignment: .leading) {
                                 HStack {
                                     SecureField("", text: $appViewModel.userPassword)
+                                        .accessibilityIdentifier("signUpPassword")
                                         .foregroundColor(.white)
                                         .placeholer(when: appViewModel.userPassword.isEmpty) {
                                             Text("Password")
@@ -85,10 +99,14 @@ struct SignUpView: View {
                                         .disableAutocorrection(true)
                                         .textInputAutocapitalization(.never)
                                         .padding(.leading)
+                                        .focused($isFocus)
                                         .onChange(of: appViewModel.userPassword) { newValue in
                                             pwdCheckSymbol = pwdM.symbolCheck(password: newValue)
                                             pwdCheckLength = pwdM.lengthCheck(password: newValue)
                                             pwdCheckUppercase = pwdM.upperCheck(password: newValue)
+                                            Task {
+                                                await delayUnFocused()
+                                            }
                                         }
                                 }
                                 .modifier(customTextField())
@@ -114,6 +132,13 @@ struct SignUpView: View {
                                         .disableAutocorrection(true)
                                         .textInputAutocapitalization(.never)
                                         .padding(.leading)
+                                        .accessibilityIdentifier("confirmPassword")
+                                        .focused($isFocus)
+                                        .onChange(of: appViewModel.recheckPassword) { newValue in
+                                            Task {
+                                                await delayUnFocused()
+                                            }
+                                        }
                                 }
                                 .modifier(customTextField())
                             }
@@ -125,6 +150,7 @@ struct SignUpView: View {
                                     if appViewModel.isProvider == false {
                                         appViewModel.isProvider = true
                                         appViewModel.userType = "Provider"
+                                        isFocus = false
                                         
                                         //debugPrint(UserDataModel(id: "", firstName: "", lastName: "", phoneNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
                                     }
@@ -141,6 +167,7 @@ struct SignUpView: View {
                                     .background(Color("fieldGray").opacity(0.07))
                                     .cornerRadius(5)
                                 }
+                                .accessibilityIdentifier("isProvider")
                                 Spacer()
                                     .frame(width: 85)
                                 Button {
@@ -151,6 +178,7 @@ struct SignUpView: View {
                                     if appViewModel.isRenter == false {
                                         appViewModel.isRenter = true
                                         appViewModel.userType = "Renter"
+                                        isFocus = false
                                     }
                                     //                            appViewModel.isRenter.toggle()
                                 } label: {
@@ -165,6 +193,7 @@ struct SignUpView: View {
                                     .background(Color("fieldGray").opacity(0.07))
                                     .cornerRadius(5)
                                 }
+                                .accessibilityIdentifier("isRenter")
                             }
                             .padding(.top, 10)
                         }
@@ -192,6 +221,7 @@ struct SignUpView: View {
                                     .background(Color("fieldGray").opacity(0.07))
                                     .cornerRadius(5)
                                 }
+                                .accessibilityIdentifier("productProvider")
                                 Spacer()
                                     .frame(width: 45)
                                 Button {
@@ -216,6 +246,7 @@ struct SignUpView: View {
                                     .background(Color("fieldGray").opacity(0.07))
                                     .cornerRadius(5)
                                 }
+                                .accessibilityIdentifier("rentalManager")
                             }
                             .padding(.top, 10)
                         }
@@ -237,6 +268,7 @@ struct SignUpView: View {
                                         .cornerRadius(5)
                                         .keyboardType(.default)
                                         .focused($isFocus)
+                                        .accessibilityIdentifier("licenseNumber")
                                     HStack {
                                         Spacer()
                                         ScanButton(text: $appViewModel.rentalManagerLicenseNumber)
@@ -298,6 +330,7 @@ struct SignUpView: View {
                                 .background(Color("buttonBlue"))
                                 .cornerRadius(5)
                         }
+                        .accessibilityIdentifier("signUp")
                         Spacer()
                             .frame(height: 80)
                         HStack {
@@ -308,25 +341,32 @@ struct SignUpView: View {
                                     .foregroundColor(appViewModel.isAgree ? .green : .white)
                                     .padding(.trailing, 5)
                             }
+                            .accessibilityIdentifier("tosCheckBox")
                             Group {
                                 Text("I agree to the FranciS")
                                     .foregroundColor(.white)
+                                    .accessibilityIdentifier("tosP1")
                                 Text("Terms of Service")
                                     .foregroundColor(Color.blue)
+                                    .accessibilityIdentifier("tosP2")
                                     .onTapGesture {
                                         tosSheetShow.toggle()
                                     }
                                 Text("and")
                                     .foregroundColor(.white)
+                                    .accessibilityIdentifier("tosP3")
                                 Text("Privacy Policy")
                                     .foregroundColor(Color.blue)
                                     .onTapGesture {
                                         ppSheetShow.toggle()
                                     }
+                                    .accessibilityIdentifier("tosP4")
                                 Text(".")
                                     .foregroundColor(.white)
+                                    .accessibilityIdentifier("tosP5")
                             }
                             .font(.system(size: 12, weight: .medium))
+                            
                         }
                     }
                     .padding(.top, 25)
@@ -352,9 +392,9 @@ struct SignUpView: View {
             }
             .edgesIgnoringSafeArea([.top, .bottom])
         }
-        .onTapGesture {
-            isFocus = false
-        }
+//        .onTapGesture {
+//            isFocus = false
+//        }
         .sheet(isPresented: $tosSheetShow, content: {
             TermOfServiceView()
         })

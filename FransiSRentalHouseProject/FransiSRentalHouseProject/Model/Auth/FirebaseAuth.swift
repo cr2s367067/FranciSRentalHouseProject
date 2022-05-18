@@ -50,6 +50,7 @@ extension FirebaseAuth {
     func signInAsync(email: String, password: String) async throws {
         try await auth.signIn(withEmail: email, password: password)
         self.signIn = true
+        failTimes = 0
     }
     
     func failThreeTimes(fail: Int) {

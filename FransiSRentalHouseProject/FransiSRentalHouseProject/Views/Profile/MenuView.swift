@@ -23,6 +23,7 @@ struct MenuView: View {
                 HStack {
                     Text("Setting")
                         .font(.system(size: 25, weight: .semibold))
+                        .accessibilityIdentifier("setting")
                     Spacer()
                 }
                 .foregroundColor(.white)
@@ -65,6 +66,7 @@ struct MenuView: View {
                             .clipShape(RoundedCorner(radius: 5))
                             .padding(.leading, 25)
                     }
+                    .accessibilityIdentifier("signOut")
                     Spacer()
                 }
             }
@@ -109,6 +111,7 @@ extension MenuView {
             } label: {
                 SideBarButton(buttonName: "Ordered", systemImageName: "filemenu.and.selection")
             }
+            .accessibilityIdentifier("ordered")
             NavigationLink {
                 withAnimation {
                     FocusProductsView()

@@ -14,8 +14,8 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "295"
-            endingLineNumber = "295"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
             landmarkName = "processChanger()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "processChanger()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
             landmarkName = "processChanger()"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "285"
-            endingLineNumber = "285"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
             landmarkName = "processChanger()"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "rentRoomAndBuyProduct(orderID:roomData:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,13 +94,13 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "340"
-            endingLineNumber = "340"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
             landmarkName = "rentRoomAndBuyProduct(orderID:roomData:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "A60DC334-21F8-4795-AB87-C0D6583E2A9C - bd024a3afae91c48"
+                  uuid = "A60DC334-21F8-4795-AB87-C0D6583E2A9C - bd024a3afae91c69"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -110,12 +110,12 @@
                   urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "340"
-                  endingLineNumber = "340"
+                  startingLineNumber = "341"
+                  endingLineNumber = "341"
                   offsetFromSymbolStart = "900">
                </Location>
                <Location
-                  uuid = "A60DC334-21F8-4795-AB87-C0D6583E2A9C - ade9f08b8ed40129"
+                  uuid = "A60DC334-21F8-4795-AB87-C0D6583E2A9C - ade9f08b8ed40108"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -125,12 +125,12 @@
                   urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "340"
-                  endingLineNumber = "340"
+                  startingLineNumber = "341"
+                  endingLineNumber = "341"
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "A60DC334-21F8-4795-AB87-C0D6583E2A9C - c70c7bbb9e13d84a"
+                  uuid = "A60DC334-21F8-4795-AB87-C0D6583E2A9C - c70c7bbb9e13d86b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -140,8 +140,8 @@
                   urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "340"
-                  endingLineNumber = "340"
+                  startingLineNumber = "341"
+                  endingLineNumber = "341"
                   offsetFromSymbolStart = "132">
                </Location>
             </Locations>
@@ -157,8 +157,8 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "rentRoomAndBuyProduct(orderID:roomData:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -173,9 +173,25 @@
             filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
             landmarkName = "buyProducts(products:orderID:shippingStatus:paymentStatus:shippingMethod:subTotal:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "44AAEBFE-DF59-4245-8679-10734E0E041F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProjectUITests/BusinessLogicUnitTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "test_room_provider_summits_room_process()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

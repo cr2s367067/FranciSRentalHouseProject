@@ -193,6 +193,7 @@ struct ProductDetailView: View {
                             .background(Color("buttonBlue"))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
+                    .accessibilityIdentifier("appCart")
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
