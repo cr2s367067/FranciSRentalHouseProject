@@ -155,7 +155,7 @@
 		0EEEDC1F2820D9B20036FD0D /* AppStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */; };
 		0EFA3F362817938F00DA6014 /* UserOrderedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */; };
 		0EFA3F382817E36500DA6014 /* CommentAndRattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */; };
-		C19BE12BD2A93E7F31CE1FD5 /* Pods_FransiSRentalHouseProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59030FDD340769FC4E481B78 /* Pods_FransiSRentalHouseProject.framework */; };
+		1CCDF74F2C8A5931E6F24A38 /* Pods_FransiSRentalHouseProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D834F5F56BDC31A6AC34B298 /* Pods_FransiSRentalHouseProject.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -315,9 +315,9 @@
 		0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatusModel.swift; sourceTree = "<group>"; };
 		0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListViewModel.swift; sourceTree = "<group>"; };
 		0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAndRattingView.swift; sourceTree = "<group>"; };
-		59030FDD340769FC4E481B78 /* Pods_FransiSRentalHouseProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FransiSRentalHouseProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A0E2EE009F0B4E193AC54BF2 /* Pods-FransiSRentalHouseProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FransiSRentalHouseProject.debug.xcconfig"; path = "Target Support Files/Pods-FransiSRentalHouseProject/Pods-FransiSRentalHouseProject.debug.xcconfig"; sourceTree = "<group>"; };
-		FE68DEC27BE6DA145A75ABC8 /* Pods-FransiSRentalHouseProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FransiSRentalHouseProject.release.xcconfig"; path = "Target Support Files/Pods-FransiSRentalHouseProject/Pods-FransiSRentalHouseProject.release.xcconfig"; sourceTree = "<group>"; };
+		579D17AD38E0EBDED2FD0877 /* Pods-FransiSRentalHouseProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FransiSRentalHouseProject.release.xcconfig"; path = "Target Support Files/Pods-FransiSRentalHouseProject/Pods-FransiSRentalHouseProject.release.xcconfig"; sourceTree = "<group>"; };
+		B258C2D8BAF21459E4B2C7C2 /* Pods-FransiSRentalHouseProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FransiSRentalHouseProject.debug.xcconfig"; path = "Target Support Files/Pods-FransiSRentalHouseProject/Pods-FransiSRentalHouseProject.debug.xcconfig"; sourceTree = "<group>"; };
+		D834F5F56BDC31A6AC34B298 /* Pods_FransiSRentalHouseProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FransiSRentalHouseProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,8 +329,8 @@
 				0EAAE6EA282D37F700414C08 /* SDWebImageSwiftUI in Frameworks */,
 				0E6FBF72283143AB00F4985F /* FirebaseFirestore in Frameworks */,
 				0E6FBF70283143AB00F4985F /* FirebaseAuth in Frameworks */,
-				C19BE12BD2A93E7F31CE1FD5 /* Pods_FransiSRentalHouseProject.framework in Frameworks */,
 				0E6FBF76283143AB00F4985F /* FirebaseStorage in Frameworks */,
+				1CCDF74F2C8A5931E6F24A38 /* Pods_FransiSRentalHouseProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +362,7 @@
 				0E6FBF592830DCE800F4985F /* FransiSRentalHouseProjectUITests */,
 				0249D40627C6351F0085F4A5 /* Products */,
 				EDD66D8FA63D8142F5CF80A4 /* Pods */,
-				6463BA7B87438D2E0097CADE /* Frameworks */,
+				241484A71A2946F5C495210A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -777,10 +777,10 @@
 			path = Status;
 			sourceTree = "<group>";
 		};
-		6463BA7B87438D2E0097CADE /* Frameworks */ = {
+		241484A71A2946F5C495210A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				59030FDD340769FC4E481B78 /* Pods_FransiSRentalHouseProject.framework */,
+				D834F5F56BDC31A6AC34B298 /* Pods_FransiSRentalHouseProject.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -788,8 +788,8 @@
 		EDD66D8FA63D8142F5CF80A4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A0E2EE009F0B4E193AC54BF2 /* Pods-FransiSRentalHouseProject.debug.xcconfig */,
-				FE68DEC27BE6DA145A75ABC8 /* Pods-FransiSRentalHouseProject.release.xcconfig */,
+				B258C2D8BAF21459E4B2C7C2 /* Pods-FransiSRentalHouseProject.debug.xcconfig */,
+				579D17AD38E0EBDED2FD0877 /* Pods-FransiSRentalHouseProject.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -801,11 +801,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0249D41327C635220085F4A5 /* Build configuration list for PBXNativeTarget "FransiSRentalHouseProject" */;
 			buildPhases = (
-				48F20269AB413765AEE3539B /* [CP] Check Pods Manifest.lock */,
+				0A9E2EF2508962C33A57B9F1 /* [CP] Check Pods Manifest.lock */,
 				0249D40127C6351F0085F4A5 /* Sources */,
 				0249D40227C6351F0085F4A5 /* Frameworks */,
 				0249D40327C6351F0085F4A5 /* Resources */,
-				88B278177923470709925C14 /* [CP] Embed Pods Frameworks */,
+				3EB145FA75D88D97EA8E8696 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -871,8 +871,8 @@
 			);
 			mainGroup = 0249D3FC27C6351F0085F4A5;
 			packageReferences = (
-				0EAAE6E8282D37F700414C08 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
-				0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				0EAAE6E8282D37F700414C08 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */,
+				0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
 			);
 			productRefGroup = 0249D40627C6351F0085F4A5 /* Products */;
 			projectDirPath = "";
@@ -907,7 +907,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		48F20269AB413765AEE3539B /* [CP] Check Pods Manifest.lock */ = {
+		0A9E2EF2508962C33A57B9F1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -929,7 +929,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		88B278177923470709925C14 /* [CP] Embed Pods Frameworks */ = {
+		3EB145FA75D88D97EA8E8696 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1254,7 +1254,7 @@
 		};
 		0249D41427C635220085F4A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0E2EE009F0B4E193AC54BF2 /* Pods-FransiSRentalHouseProject.debug.xcconfig */;
+			baseConfigurationReference = B258C2D8BAF21459E4B2C7C2 /* Pods-FransiSRentalHouseProject.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1288,7 +1288,7 @@
 		};
 		0249D41527C635220085F4A5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE68DEC27BE6DA145A75ABC8 /* Pods-FransiSRentalHouseProject.release.xcconfig */;
+			baseConfigurationReference = 579D17AD38E0EBDED2FD0877 /* Pods-FransiSRentalHouseProject.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1389,7 +1389,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -1397,7 +1397,7 @@
 				minimumVersion = 9.0.0;
 			};
 		};
-		0EAAE6E8282D37F700414C08 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+		0EAAE6E8282D37F700414C08 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
 			requirement = {
@@ -1410,27 +1410,27 @@
 /* Begin XCSwiftPackageProductDependency section */
 		0E6FBF6F283143AB00F4985F /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAuth;
 		};
 		0E6FBF71283143AB00F4985F /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseFirestore;
 		};
 		0E6FBF73283143AB00F4985F /* FirebaseFirestoreSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseFirestoreSwift;
 		};
 		0E6FBF75283143AB00F4985F /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 0E6FBF6E283143AB00F4985F /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseStorage;
 		};
 		0EAAE6E9282D37F700414C08 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0EAAE6E8282D37F700414C08 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			package = 0EAAE6E8282D37F700414C08 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */;
 			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */

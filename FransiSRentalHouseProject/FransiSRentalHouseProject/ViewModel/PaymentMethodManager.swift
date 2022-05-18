@@ -6,7 +6,7 @@
 //
 
 import Foundation
-//import ECPayPaymentGatewayKit
+import ECPayPaymentGatewayKit
 
 enum PaymentProcessStatus {
     case payMonthlyRentalBill
@@ -17,8 +17,8 @@ enum PaymentProcessStatus {
 
 
 class PaymentMethodManager: ObservableObject {
-    
-    
+
+    let ecp = ECPayPaymentGatewayManager()
     
     func computePaymentMonth(from currentDate: Date) -> Date {
         let cal = Calendar.current
