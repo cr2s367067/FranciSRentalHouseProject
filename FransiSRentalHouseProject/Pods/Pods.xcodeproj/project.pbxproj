@@ -16,6 +16,7 @@
 			dependencies = (
 			);
 			name = ECPayPaymentGatewayKit;
+			productName = ECPayPaymentGatewayKit;
 		};
 /* End PBXAggregateTarget section */
 
@@ -326,7 +327,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		002B1E88BA14EBF633CD66EBFBA107E9 /* PromiseKit */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PromiseKit; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		002B1E88BA14EBF633CD66EBFBA107E9 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0059BC53A972526266D51ACC3A7D5055 /* BatchedCollection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BatchedCollection.swift; path = Sources/CryptoSwift/BatchedCollection.swift; sourceTree = "<group>"; };
 		00DE1C609606BEF1CD666238C60FCB0A /* AEADChaCha20Poly1305.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AEADChaCha20Poly1305.swift; path = Sources/CryptoSwift/AEAD/AEADChaCha20Poly1305.swift; sourceTree = "<group>"; };
 		01B8F5BC4B71CD40B02ED6562BFF5B0C /* Division.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Division.swift; path = Sources/CryptoSwift/CS_BigInt/Division.swift; sourceTree = "<group>"; };
@@ -497,12 +498,12 @@
 		9B0493DE11E1E47C51E5858C4F0500AD /* IQUIView+IQKeyboardToolbar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQUIView+IQKeyboardToolbar.swift"; path = "IQKeyboardManagerSwift/IQToolbar/IQUIView+IQKeyboardToolbar.swift"; sourceTree = "<group>"; };
 		9B8772AA28BCA3FCDC836603D815D586 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		9CD1E1BE25B3D7F76B17011469557BCB /* AnyPromise.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AnyPromise.h; path = Sources/AnyPromise.h; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DB002C83E093B0EE5F586786D6530B3 /* PromiseKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PromiseKit.debug.xcconfig; sourceTree = "<group>"; };
 		9DEC2018A3249104AB9BFFAAE1A16E84 /* SwiftyJSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftyJSON.release.xcconfig; sourceTree = "<group>"; };
 		9E0FD012ADC3C7179C684035672383E5 /* KeychainSwift */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KeychainSwift; path = KeychainSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E6EDF92B3D2DF87B999918B44EB586A /* IQBarButtonItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQBarButtonItem.swift; path = IQKeyboardManagerSwift/IQToolbar/IQBarButtonItem.swift; sourceTree = "<group>"; };
-		9E767A5B56D4FCCAB8D0324376A17EE3 /* ECPayPaymentGatewayKit.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = ECPayPaymentGatewayKit.xcframework; sourceTree = "<group>"; };
+		9E767A5B56D4FCCAB8D0324376A17EE3 /* ECPayPaymentGatewayKit.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = ECPayPaymentGatewayKit.xcframework; sourceTree = "<group>"; };
 		9ED926BE4F454ECB03474F22EF6E1378 /* ECPayPaymentGatewayKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ECPayPaymentGatewayKit.debug.xcconfig; sourceTree = "<group>"; };
 		9FAFE36E9EC09AB15E2DA097759CE95B /* Rabbit+Foundation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Rabbit+Foundation.swift"; path = "Sources/CryptoSwift/Foundation/Rabbit+Foundation.swift"; sourceTree = "<group>"; };
 		A11515F5C6E50269AAAD38532145AAE8 /* IQKeyboardManagerConstants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQKeyboardManagerConstants.swift; path = IQKeyboardManagerSwift/Constants/IQKeyboardManagerConstants.swift; sourceTree = "<group>"; };
@@ -715,7 +716,7 @@
 				A8E950A16D00F649C54FFB30F81D7842 /* IQKeyboardManagerSwift */,
 				9E0FD012ADC3C7179C684035672383E5 /* KeychainSwift */,
 				E54158540BFC79D5347C33DCFC35A21A /* Pods-FransiSRentalHouseProject */,
-				002B1E88BA14EBF633CD66EBFBA107E9 /* PromiseKit */,
+				002B1E88BA14EBF633CD66EBFBA107E9 /* PromiseKit.framework */,
 				E23C076BA70925415F490FEDB215DA92 /* SwiftyJSON */,
 				4232468C2A600E06589CDB95C9D2FF29 /* SwiftyXMLParser */,
 			);
@@ -728,7 +729,6 @@
 				CA67D2B6AA52DFF7D067FD1D0330F4D9 /* Frameworks */,
 				55C097662A50572D38B5D0815B63EAE9 /* Support Files */,
 			);
-			name = ECPayPaymentGatewayKit;
 			path = ECPayPaymentGatewayKit;
 			sourceTree = "<group>";
 		};
@@ -812,7 +812,6 @@
 				85A21B6A7FE2F96D6E53D1C51143EDAB /* XML.swift */,
 				A49483CB47304C64E07A692B2E73D759 /* Support Files */,
 			);
-			name = SwiftyXMLParser;
 			path = SwiftyXMLParser;
 			sourceTree = "<group>";
 		};
@@ -852,7 +851,6 @@
 				76DD2FD3F8EC63E0894864B957A16DC1 /* SwiftyJSON.swift */,
 				926BA91B87DDA9E82E9EFDE5563D1D47 /* Support Files */,
 			);
-			name = SwiftyJSON;
 			path = SwiftyJSON;
 			sourceTree = "<group>";
 		};
@@ -923,7 +921,6 @@
 				76997BD24DC7932FF2B44DEE9250A493 /* Support Files */,
 				8A3733D33A0C95602179B5C8AD4E0539 /* UIKit */,
 			);
-			name = PromiseKit;
 			path = PromiseKit;
 			sourceTree = "<group>";
 		};
@@ -950,7 +947,6 @@
 				0334F0DFC3AF84FE8BF7ECE8E240FD7A /* TegKeychainConstants.swift */,
 				62A10715C20905AF73E436B83F186DB5 /* Support Files */,
 			);
-			name = KeychainSwift;
 			path = KeychainSwift;
 			sourceTree = "<group>";
 		};
@@ -1099,7 +1095,6 @@
 				471946438CC9FE0B8E67A2CE191BBBE2 /* ZeroPadding.swift */,
 				E2B1D614A4E8FAAD29CE78DB15A73B86 /* Support Files */,
 			);
-			name = CryptoSwift;
 			path = CryptoSwift;
 			sourceTree = "<group>";
 		};
@@ -1146,7 +1141,6 @@
 				333D7256E6972236FF174114F410F8E8 /* IQUIViewController+Additions.swift */,
 				6541885AA22294008408794BFBB6C34F /* Support Files */,
 			);
-			name = IQKeyboardManagerSwift;
 			path = IQKeyboardManagerSwift;
 			sourceTree = "<group>";
 		};
@@ -1191,7 +1185,6 @@
 				9B8772AA28BCA3FCDC836603D815D586 /* Validation.swift */,
 				77B3E494E87B8AA8B55E666860BADF90 /* Support Files */,
 			);
-			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -1327,7 +1320,7 @@
 			);
 			name = PromiseKit;
 			productName = PromiseKit;
-			productReference = 002B1E88BA14EBF633CD66EBFBA107E9 /* PromiseKit */;
+			productReference = 002B1E88BA14EBF633CD66EBFBA107E9 /* PromiseKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		99313990C1D76A6D1D017868B6975CC8 /* CryptoSwift */ = {
@@ -1453,7 +1446,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1330;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 13.0";

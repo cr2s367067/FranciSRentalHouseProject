@@ -22,7 +22,7 @@ struct RenterMainView: View {
     @EnvironmentObject var paymentMg: PaymentMethodManager
     
     //temp
-//    @EnvironmentObject var cryptoM: CryptoManagement
+    
     
     
     @State private var dragCompleted = false
@@ -46,6 +46,9 @@ struct RenterMainView: View {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Announcement Group
+//                    Button("test") {
+//                        paymentMg.createPayment(token: .token)
+//                    }
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
                             HStack {

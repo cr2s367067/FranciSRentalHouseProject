@@ -17,6 +17,9 @@ class FirebaseAuth: ObservableObject {
         self.auth = Auth.auth()
     }
     
+//    @Published var isCreated = false
+    @Published var signByApple = false
+    @Published var showSignUpView = false
     @Published var signIn = false
     @Published var signUp = false
     @Published var isSkipIt = false
@@ -66,6 +69,22 @@ extension FirebaseAuth {
 //        self.isSkipIt = true
 //    }
     
+    
+    @MainActor
+    func signInWithToken(idTokenString: String, nonce: String) async throws {
+        let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
+        try await auth.signIn(with: credential)
+        if auth.currentUser == nil {
+            showSignUpView = true
+            signByApple = true
+        } else {
+//            guard !getUID().isEmpty else {
+//                return
+//            }
+            self.signIn = true
+        }
+    }
+    
     func signOutAsync() throws {
         try auth.signOut()
         if self.signIn == true {
@@ -74,9 +93,6 @@ extension FirebaseAuth {
         if self.signUp == true {
             self.signUp = false
         }
-//        if self.isSkipIt == true {
-//            self.isSkipIt = false
-//        }
     }
     
     func resetPasswordAsync(email: String) async throws {
@@ -88,10 +104,10 @@ extension FirebaseAuth {
 }
 
 
-//MARK: Sign in with Apple
+//MARK: - Sign in with Apple
 extension FirebaseAuth {
     
-    private func randomNonceString(length: Int = 32) -> String {
+     func randomNonceString(length: Int = 32) -> String {
       precondition(length > 0)
       let charset: [Character] =
         Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
@@ -126,7 +142,7 @@ extension FirebaseAuth {
     }
 
     @available(iOS 13, *)
-    private func sha256(_ input: String) -> String {
+     func sha256(_ input: String) -> String {
       let inputData = Data(input.utf8)
       let hashedData = SHA256.hash(data: inputData)
       let hashString = hashedData.compactMap {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignUpView: View {
     
+    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
@@ -54,7 +55,7 @@ struct SignUpView: View {
                     //                    Spacer()
                     //                        .frame(height: 90)
                     HStack {
-                        Text("Sign Up")
+                        Text(firebaseAuth.signByApple ? "Please Chose User Type" : "Sign Up")
                             .font(.system(size: 24))
                             .foregroundColor(.white)
                             .padding(.leading)
@@ -65,82 +66,89 @@ struct SignUpView: View {
                     .padding(.bottom, -15)
                     VStack {
                         VStack(spacing: 10) {
-                            VStack {
-                                HStack {
-                                    TextField("", text: $appViewModel.emailAddress)
-                                        .foregroundColor(.white)
-                                        .placeholer(when: appViewModel.emailAddress.isEmpty) {
-                                            Text("E-mail")
-                                                .foregroundColor(.white.opacity(0.8))
-                                        }
-                                        .disableAutocorrection(true)
-                                        .textInputAutocapitalization(.never)
-                                        .padding(.leading)
-                                        .keyboardType(.emailAddress)
-                                        .accessibilityIdentifier("signUpUserName")
-                                        .focused($isFocus)
-                                        .onChange(of: appViewModel.emailAddress.count) { newValue in
-                                            Task {
-                                                await delayUnFocused()
-                                            }
-                                        }
-                                }
-                                .modifier(customTextField())
-                            }
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    SecureField("", text: $appViewModel.userPassword)
-                                        .accessibilityIdentifier("signUpPassword")
-                                        .foregroundColor(.white)
-                                        .placeholer(when: appViewModel.userPassword.isEmpty) {
-                                            Text("Password")
-                                                .foregroundColor(.white.opacity(0.8))
-                                        }
-                                        .disableAutocorrection(true)
-                                        .textInputAutocapitalization(.never)
-                                        .padding(.leading)
-                                        .focused($isFocus)
-                                        .onChange(of: appViewModel.userPassword) { newValue in
-                                            pwdCheckSymbol = pwdM.symbolCheck(password: newValue)
-                                            pwdCheckLength = pwdM.lengthCheck(password: newValue)
-                                            pwdCheckUppercase = pwdM.upperCheck(password: newValue)
-                                            Task {
-                                                await delayUnFocused()
-                                            }
-                                        }
-                                }
-                                .modifier(customTextField())
+                            if firebaseAuth.signByApple == false {
                                 Group {
-                                    Text("> Length greater than 8 charater")
-                                        .foregroundColor(pwdCheckLength ? .gray : .white)
-                                    Text("> Must contain symbols (!@#$%^&*)")
-                                        .foregroundColor(pwdCheckSymbol ? .gray : .white)
-                                    Text("> At least one Uppercase")
-                                        .foregroundColor(pwdCheckUppercase ? .gray : .white)
-                                }
-                                .font(.caption)
-                            }
-                            VStack {
-                                HStack {
-                                    //Re-check the password
-                                    SecureField("", text: $appViewModel.recheckPassword)
-                                        .foregroundColor(.white)
-                                        .placeholer(when: appViewModel.recheckPassword.isEmpty) {
-                                            Text("Confirm")
-                                                .foregroundColor(.white.opacity(0.8))
+                                    VStack {
+                                        //MARK: - Username
+                                        HStack {
+                                            TextField("", text: $appViewModel.emailAddress)
+                                                .foregroundColor(.white)
+                                                .placeholer(when: appViewModel.emailAddress.isEmpty) {
+                                                    Text("E-mail")
+                                                        .foregroundColor(.white.opacity(0.8))
+                                                }
+                                                .disableAutocorrection(true)
+                                                .textInputAutocapitalization(.never)
+                                                .padding(.leading)
+                                                .keyboardType(.emailAddress)
+                                                .accessibilityIdentifier("signUpUserName")
+                                                .focused($isFocus)
+                                                .onChange(of: appViewModel.emailAddress.count) { newValue in
+                                                    Task {
+                                                        await delayUnFocused()
+                                                    }
+                                                }
                                         }
-                                        .disableAutocorrection(true)
-                                        .textInputAutocapitalization(.never)
-                                        .padding(.leading)
-                                        .accessibilityIdentifier("confirmPassword")
-                                        .focused($isFocus)
-                                        .onChange(of: appViewModel.recheckPassword) { newValue in
-                                            Task {
-                                                await delayUnFocused()
-                                            }
+                                        .modifier(customTextField())
+                                    }
+                                    //MARK: - password
+                                    VStack(alignment: .leading) {
+                                        HStack {
+                                            SecureField("", text: $appViewModel.userPassword)
+                                                .accessibilityIdentifier("signUpPassword")
+                                                .foregroundColor(.white)
+                                                .placeholer(when: appViewModel.userPassword.isEmpty) {
+                                                    Text("Password")
+                                                        .foregroundColor(.white.opacity(0.8))
+                                                }
+                                                .disableAutocorrection(true)
+                                                .textInputAutocapitalization(.never)
+                                                .padding(.leading)
+                                                .focused($isFocus)
+                                                .onChange(of: appViewModel.userPassword) { newValue in
+                                                    pwdCheckSymbol = pwdM.symbolCheck(password: newValue)
+                                                    pwdCheckLength = pwdM.lengthCheck(password: newValue)
+                                                    pwdCheckUppercase = pwdM.upperCheck(password: newValue)
+                                                    Task {
+                                                        await delayUnFocused()
+                                                    }
+                                                }
                                         }
+                                        .modifier(customTextField())
+                                        Group {
+                                            Text("> Length greater than 8 charater")
+                                                .foregroundColor(pwdCheckLength ? .gray : .white)
+                                            Text("> Must contain symbols (!@#$%^&*)")
+                                                .foregroundColor(pwdCheckSymbol ? .gray : .white)
+                                            Text("> At least one Uppercase")
+                                                .foregroundColor(pwdCheckUppercase ? .gray : .white)
+                                        }
+                                        .font(.caption)
+                                    }
+                                    //MARK: - re-Password
+                                    VStack {
+                                        HStack {
+                                            //Re-check the password
+                                            SecureField("", text: $appViewModel.recheckPassword)
+                                                .foregroundColor(.white)
+                                                .placeholer(when: appViewModel.recheckPassword.isEmpty) {
+                                                    Text("Confirm")
+                                                        .foregroundColor(.white.opacity(0.8))
+                                                }
+                                                .disableAutocorrection(true)
+                                                .textInputAutocapitalization(.never)
+                                                .padding(.leading)
+                                                .accessibilityIdentifier("confirmPassword")
+                                                .focused($isFocus)
+                                                .onChange(of: appViewModel.recheckPassword) { newValue in
+                                                    Task {
+                                                        await delayUnFocused()
+                                                    }
+                                                }
+                                        }
+                                        .modifier(customTextField())
+                                    }
                                 }
-                                .modifier(customTextField())
                             }
                             HStack {
                                 Button {
@@ -289,12 +297,14 @@ struct SignUpView: View {
                         Button {
                             Task {
                                 do {
-                                    try pwdM.passwordChecker(password: appViewModel.recheckPassword)
-                                    try await appViewModel.passwordCheckAndSignUpAsync(email: appViewModel.emailAddress,
-                                                                                       password: appViewModel.userPassword,
-                                                                                       confirmPassword: appViewModel.recheckPassword)
-                                    try await firebaseAuth.signUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword)
-                                    if appViewModel.isProvider == true {
+                                    if firebaseAuth.signByApple == false {
+                                        try pwdM.passwordChecker(password: appViewModel.recheckPassword)
+                                        try await appViewModel.passwordCheckAndSignUpAsync(email: appViewModel.emailAddress,
+                                                                                           password: appViewModel.userPassword,
+                                                                                           confirmPassword: appViewModel.recheckPassword)
+                                        try await firebaseAuth.signUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword)
+                                    }
+                                    if appViewModel.isProvider {
                                         print("Create provider config")
                                         try await providerProfileViewModel.createConfig(uidPath: firebaseAuth.getUID())
                                     }
@@ -315,7 +325,11 @@ struct SignUpView: View {
                                                                                                  emailAddress: appViewModel.emailAddress,
                                                                                                  providerType: appViewModel.providerType,
                                                                                                  RLNumber: appViewModel.rentalManagerLicenseNumber)
-                                    
+                                    if firebaseAuth.signByApple {
+                                        firebaseAuth.signIn = true
+                                        firebaseAuth.showSignUpView = false
+                                        firebaseAuth.signByApple = false
+                                    }
                                 } catch {
                                     self.errorHandler.handle(error: error)
                                 }

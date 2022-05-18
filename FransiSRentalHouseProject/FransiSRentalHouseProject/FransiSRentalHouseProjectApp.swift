@@ -7,8 +7,7 @@
 
 import SwiftUI
 import Firebase
-//import Alamofire
-//import ECPayPaymentGatewayKit
+import ECPayPaymentGatewayKit
 
 @main
 struct FransiSRentalHouseProjectApp: App {
@@ -110,7 +109,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         
         FirebaseApp.configure()
-//        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
+        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
         
         return true
     }

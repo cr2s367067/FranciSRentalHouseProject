@@ -19,12 +19,13 @@ struct LoginView: View {
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     
+    let uiScreenWith = UIScreen.main.bounds.width
     
     @State private var emailAddress = ""
     @State private var userPassword = ""
     
     @FocusState private var isFocus: Bool
-
+    @State private var didTap = false
     
     
     var body: some View {
@@ -48,9 +49,9 @@ struct LoginView: View {
                 VStack {
                     Spacer()
                         .frame(height: 190)
-//                    Button("test") {
-//                        firebaseAuth.failTimes = 0
-//                    }
+                    Button("test") {
+                        firebaseAuth.failTimes = 0
+                    }
                     HStack {
                         Text("Start to find your\nright place.")
                             .font(.custom("Work Sans", size: 34))
@@ -141,10 +142,11 @@ struct LoginView: View {
                     VStack {
                         forceResetPassord(fail: firebaseAuth.failTimes)
                             .accessibilityIdentifier("signIn")
+                        SignInWithAppleButtonView()
                         HStack {
                             Text("You don't have account?")
                                 .foregroundColor(.white)
-                            NavigationLink {
+                            NavigationLink(isActive: $firebaseAuth.showSignUpView) {
                                 SignUpView()
                             } label: {
                                 Text("Let us create one")
@@ -209,7 +211,7 @@ extension LoginView {
                     .foregroundColor(.white)
                     .tracking(-0.5)
                     .multilineTextAlignment(.center)
-                    .frame(width: 223, height: 34)
+                    .frame(width: uiScreenWith / 2 + 5, height: 34)
                     .background(Color("buttonBlue"))
                     .cornerRadius(5)
                     
@@ -223,7 +225,7 @@ extension LoginView {
                     .foregroundColor(.white)
                     .tracking(-0.5)
                     .multilineTextAlignment(.center)
-                    .frame(width: 223, height: 34)
+                    .frame(width: uiScreenWith / 2 + 5, height: 34)
                     .background(Color("buttonBlue"))
                     .cornerRadius(5)
             }
