@@ -110,8 +110,8 @@
             filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "test()"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "test()"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "test()"
             landmarkType = "7">
          </BreakpointContent>
@@ -151,15 +151,95 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3ACA575D-AF7A-470A-B45B-0E169554C5B7"
+            uuid = "59215180-9232-4EA1-8E3C-8E6E74CA5051"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "callServerToken(envPath:httpMethod:httpContent:rememberCard:paymentUIT:orderInfo:cardInfo:consumerInfo:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3A2BD7D5-1258-4512-B6A4-DE50C747E737"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "callServerToken(envPath:httpMethod:httpContent:rememberCard:paymentUIT:orderInfo:cardInfo:consumerInfo:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4AF51CD5-24F7-4FBD-A6DC-BDBC66042041"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "callServerToken(envPath:httpMethod:httpContent:rememberCard:paymentUIT:orderInfo:cardInfo:consumerInfo:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4AF51CD5-24F7-4FBD-A6DC-BDBC66042041 - 3fc5e590e57744af"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for FransiSRentalHouseProject.PaymentMethodManager.callServerToken(envPath: FransiSRentalHouseProject.EnvPath, httpMethod: FransiSRentalHouseProject.HTTPMethod, httpContent: FransiSRentalHouseProject.HTTPContent, rememberCard: FransiSRentalHouseProject.RememberCard, paymentUIT: FransiSRentalHouseProject.PaymentUIType, orderInfo: FransiSRentalHouseProject.OrderInfoDM, cardInfo: FransiSRentalHouseProject.CardInfoDM, consumerInfo: FransiSRentalHouseProject.ConsumerInfoDM) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "195"
+                  endingLineNumber = "195"
+                  offsetFromSymbolStart = "2620">
+               </Location>
+               <Location
+                  uuid = "4AF51CD5-24F7-4FBD-A6DC-BDBC66042041 - cc1ecccb7ecae6ae"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for FransiSRentalHouseProject.PaymentMethodManager.callServerToken(envPath: FransiSRentalHouseProject.EnvPath, httpMethod: FransiSRentalHouseProject.HTTPMethod, httpContent: FransiSRentalHouseProject.HTTPContent, rememberCard: FransiSRentalHouseProject.RememberCard, paymentUIT: FransiSRentalHouseProject.PaymentUIType, orderInfo: FransiSRentalHouseProject.OrderInfoDM, cardInfo: FransiSRentalHouseProject.CardInfoDM, consumerInfo: FransiSRentalHouseProject.ConsumerInfoDM) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "195"
+                  endingLineNumber = "195"
+                  offsetFromSymbolStart = "268">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CE9177AD-3891-4349-A377-45609C609E60"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "getServerToken(url:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -167,15 +247,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8A0EABE1-723C-4CBF-8B5F-2BBDD27BB9B3"
-            shouldBeEnabled = "Yes"
+            uuid = "00A7D740-52A4-4EB1-95E4-6446A8375DFB"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "getServerToken(url:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -183,49 +263,97 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "90C70B2B-08D5-4BAE-AF87-1ECF298F915C"
-            shouldBeEnabled = "Yes"
+            uuid = "61D850FA-0EBC-4206-9132-53F265FF2A98"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "getServerToken(url:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "61D850FA-0EBC-4206-9132-53F265FF2A98 - 57874ba69fcdc773"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.PaymentMethodManager.getServerToken(url: Foundation.URL) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "222"
+                  endingLineNumber = "222"
+                  offsetFromSymbolStart = "1180">
+               </Location>
+               <Location
+                  uuid = "61D850FA-0EBC-4206-9132-53F265FF2A98 - eb9e0472e4e14570"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for FransiSRentalHouseProject.PaymentMethodManager.getServerToken(url: Foundation.URL) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "222"
+                  endingLineNumber = "222"
+                  offsetFromSymbolStart = "100">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2ABB70CF-DB08-43B5-8AB2-BFD86EAFEA11"
-            shouldBeEnabled = "Yes"
+            uuid = "107573A3-3153-488B-BF90-E90CC83CD0E7"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "getServerToken(url:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7BE94E58-1A9E-4DFA-9D3E-AC447FF5F9C0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "getServerToken(url:)"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "107573A3-3153-488B-BF90-E90CC83CD0E7 - 57874ba69fcdc773"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.PaymentMethodManager.getServerToken(url: Foundation.URL) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "222"
+                  endingLineNumber = "222"
+                  offsetFromSymbolStart = "1180">
+               </Location>
+               <Location
+                  uuid = "107573A3-3153-488B-BF90-E90CC83CD0E7 - eb9e0472e4e14570"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for FransiSRentalHouseProject.PaymentMethodManager.getServerToken(url: Foundation.URL) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/ViewModel/PaymentMethodManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "222"
+                  endingLineNumber = "222"
+                  offsetFromSymbolStart = "100">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

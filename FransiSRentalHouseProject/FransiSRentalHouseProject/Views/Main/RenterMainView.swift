@@ -75,6 +75,9 @@ struct RenterMainView: View {
                             }
                         }
                     }
+                    NavigationLink("test web") {
+                        WebView(text: $paymentMg.getResultHolder)
+                    }
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
                             HStack {

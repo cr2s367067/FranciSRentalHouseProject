@@ -22,6 +22,7 @@ struct ContentView: View {
                 AppTabView()
             } else  {
                 LoginView()
+//                SignInWithAppleButtonView()
             }
         }
         .task({
@@ -36,6 +37,7 @@ struct ContentView: View {
         .onAppear {
             firebaseAuth.signIn = firebaseAuth.isSignedIn
         }
+        
     }
     
 }

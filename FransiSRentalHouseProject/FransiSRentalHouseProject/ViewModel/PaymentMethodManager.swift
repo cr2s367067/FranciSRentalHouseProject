@@ -20,6 +20,8 @@ enum PaymentProcessStatus {
 class PaymentMethodManager: ObservableObject {
     
     @Published var serverToken: ReturnServerDM = .empty
+    
+    @Published var getResultHolder = ""
 
     let ecp = ECPayPaymentGatewayManager.sharedInstance()
     
@@ -171,7 +173,8 @@ class PaymentMethodManager: ObservableObject {
 //        var request = try URLRequest(url: url.asURL(), method: .post, headers: header)
         do {
             var request = URLRequest(url: url)
-            request.httpMethod = httpMethod.rawValue
+//            request.httpMethod = httpMethod.rawValue
+            request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             print("Start to encrypt data")
             let encodeData = encryptData(rememberCard: rememberCard, paymentUIT: paymentUIT, orderInfo: orderInfo, cardInfo: cardInfo, consumerInfo: consumerInfo)
@@ -180,8 +183,14 @@ class PaymentMethodManager: ObservableObject {
                                                                                Revision: currentVersion),
                                                           Data: encodeData)
             let encodeDataInJson = try encoder.encode(rawBody) 
-            print("Convert json result: \(String(data: encodeDataInJson, encoding: .utf8))")
-            request.httpBody = encodeDataInJson
+            print("Convert json result: \(String(describing: String(data: encodeDataInJson, encoding: .utf8)))")
+            let (data, response) = try await URLSession.shared.upload(for: request, from: encodeDataInJson)
+            let hResponse = response as? HTTPURLResponse
+            print(hResponse?.statusCode ?? 0)
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                throw ECpayAPIError.invalidServerResponse
+            }
+            request.httpBody = data
             print("post complete...!!")
             try await getServerToken(url: url)
         } catch {
@@ -189,18 +198,27 @@ class PaymentMethodManager: ObservableObject {
         }
     }
     
+    @MainActor
     func getServerToken(url: URL) async throws {
 //        var request = try URLRequest(url: url)
 //        request.httpMethod = httpMethod.rawValue
 //        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let (data, _) = try await URLSession.shared.data(from: url)
-        print("Start to decode json: \(data)")
-        if let decodeResponse = try? JSONDecoder().decode(ReturnServerDM.self, from: data) {
-            print("receive data: \(decodeResponse)")
-            let encryptData = decodeResponse.Data
-            let tempHolding = decryptData(inputBase64: encryptData)
-            print(tempHolding.removingPercentEncoding as? String ?? "") 
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw ECpayAPIError.invalidServerResponse
         }
+//        guard let jsonData = data else {
+//            throw ECpayAPIError.invalidFetchingJsonData
+//        }
+        print("Start to decode json: \(data)")
+        print(String(decoding: data, as: UTF8.self))
+        getResultHolder = String(decoding: data, as: UTF8.self)
+//        if let decodeResponse = try? JSONDecoder().decode(ReturnServerDM.self, from: data) {
+//            print("receive data: \(decodeResponse)")
+//            let encryptData = decodeResponse.Data
+//            let tempHolding = decryptData(inputBase64: encryptData)
+//            print(tempHolding.removingPercentEncoding ?? "")
+//        }
     }
     
     func computePaymentMonth(from currentDate: Date) -> Date {

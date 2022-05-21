@@ -116,6 +116,7 @@
 		0E6FBF5D2830DCE800F4985F /* FransiSRentalHouseProjectUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FBF5C2830DCE800F4985F /* FransiSRentalHouseProjectUITestsLaunchTests.swift */; };
 		0E768F7B2824FE770072D0BA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E768F792824FE770072D0BA /* InfoPlist.strings */; };
 		0E768F7E2824FE770072D0BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E768F7C2824FE770072D0BA /* Localizable.strings */; };
+		0E81A48D283880EA00EB7AA0 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E81A48C283880EA00EB7AA0 /* WebView.swift */; };
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
 		0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */; };
 		0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */; };
@@ -279,6 +280,7 @@
 		0E6FBF5C2830DCE800F4985F /* FransiSRentalHouseProjectUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FransiSRentalHouseProjectUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0E768F7A2824FE770072D0BA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		0E768F7D2824FE770072D0BA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		0E81A48C283880EA00EB7AA0 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
 		0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocationDataModel.swift; sourceTree = "<group>"; };
 		0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsLocationViewModel.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 		0249D44127C639AC0085F4A5 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				0E81A48B283880DC00EB7AA0 /* WebView */,
 				0E14BC57280D04C500CE56FE /* BioAuth */,
 				0E8F3ED427E9BC66008F0310 /* MapView */,
 				0263079B27D7380D000E3CFD /* AlertViews */,
@@ -729,6 +732,14 @@
 				0E56394128329B9500BEBDAE /* BusinessLogicUnitTests.swift */,
 			);
 			path = FransiSRentalHouseProjectUITests;
+			sourceTree = "<group>";
+		};
+		0E81A48B283880DC00EB7AA0 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				0E81A48C283880EA00EB7AA0 /* WebView.swift */,
+			);
+			path = WebView;
 			sourceTree = "<group>";
 		};
 		0E8F3ED427E9BC66008F0310 /* MapView */ = {
@@ -1045,6 +1056,7 @@
 				0E336CE0280EA05200EC91B6 /* SearchViewModel.swift in Sources */,
 				0E31807F28112559009784B9 /* StoreView.swift in Sources */,
 				0249D44327C639BE0085F4A5 /* SheetView.swift in Sources */,
+				0E81A48D283880EA00EB7AA0 /* WebView.swift in Sources */,
 				0E5606792834ECEB00C987FB /* SignInWithAppleButtonView.swift in Sources */,
 				0249D46327C63BF50085F4A5 /* ProviderProfileView.swift in Sources */,
 				0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */,

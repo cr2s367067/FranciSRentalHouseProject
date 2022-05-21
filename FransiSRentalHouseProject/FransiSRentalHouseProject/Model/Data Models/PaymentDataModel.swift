@@ -19,7 +19,7 @@ enum HTTPContent: String {
 
 enum EnvPath: String {
     case realEnv = "https://ecpg.ecpay.com.tw/Merchant/GetTokenbyTrade"
-    case testEnv = "https://ecpg-stage.ecpay.com.tw/Merchant/GetTokenbyTrade"
+    case testEnv = "https://ecpg-stage.ecpay.com.tw/Merchant/GetTokenbyTrade/"
 }
 
 enum RememberCard: Int {

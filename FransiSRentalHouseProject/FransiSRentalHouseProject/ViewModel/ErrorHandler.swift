@@ -271,6 +271,20 @@ enum EncryptError: LocalizedError {
     }
 }
 
+enum ECpayAPIError: LocalizedError {
+    case invalidServerResponse
+    case invalidFetchingJsonData
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidServerResponse:
+            return NSLocalizedString("Fail to connect to the target server", comment: "")
+        case .invalidFetchingJsonData:
+            return NSLocalizedString("Fail to fetch the json data from target server", comment: "")
+        }
+    }
+}
+
 struct ErrorAlert: Identifiable {
     var id = UUID()
     var message: String
