@@ -8,10 +8,13 @@
 import SwiftUI
 import FirebaseAuth
 import CryptoKit
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 class FirebaseAuth: ObservableObject {
     
     let auth: Auth
+    let db = Firestore.firestore()
     
     init() {
         self.auth = Auth.auth()
@@ -30,6 +33,8 @@ class FirebaseAuth: ObservableObject {
     @Published var showForgotPasswordView = false
     
     @AppStorage("failTimes") var failTimes = 0
+    
+    @Published var userCollectionSet = [UserDataModel]()
     
     var isSignedIn: Bool {
         return auth.currentUser != nil
@@ -73,16 +78,48 @@ extension FirebaseAuth {
     @MainActor
     func signInWithToken(idTokenString: String, nonce: String) async throws {
         let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
+        //notes: Figure out, how to identity user is new or not
         try await auth.signIn(with: credential)
-        if auth.currentUser == nil {
-            showSignUpView = true
-            signByApple = true
-        } else {
-//            guard !getUID().isEmpty else {
-//                return
-//            }
-            self.signIn = true
+        let gettingUid = auth.currentUser?.uid ?? "no data"
+        print("user uidPath: \(gettingUid)")
+        let userCollection = db.collection("users")
+        let document = try await userCollection.getDocuments().documents
+        userCollectionSet = document.compactMap({ queryDocumentSnapshot in
+            let result = Result {
+                try queryDocumentSnapshot.data(as: UserDataModel.self)
+            }
+            switch result {
+            case .success(let data):
+                print(data)
+                return data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            return nil
+        })
+        for uidPath in userCollectionSet {
+            print("current: \(String(describing: uidPath.uid))")
+            print("observed uidPaht: \(gettingUid)")
+            if gettingUid == uidPath.uid {
+                print("exist user")
+                self.signIn = true
+                showSignUpView = false
+                signByApple = false
+                break
+            } else {
+                print("new user")
+                showSignUpView = true
+                signByApple = true
+            }
         }
+//        if auth.currentUser == nil {
+//
+//        } else {
+////            guard !getUID().isEmpty else {
+////                return
+////            }
+//
+//        }
     }
     
     func signOutAsync() throws {

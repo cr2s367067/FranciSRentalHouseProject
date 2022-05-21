@@ -49,9 +49,9 @@ struct LoginView: View {
                 VStack {
                     Spacer()
                         .frame(height: 190)
-                    Button("test") {
-                        firebaseAuth.failTimes = 0
-                    }
+//                    Button("test") {
+//                        firebaseAuth.failTimes = 0
+//                    }
                     HStack {
                         Text("Start to find your\nright place.")
                             .font(.custom("Work Sans", size: 34))

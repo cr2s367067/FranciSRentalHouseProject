@@ -66,31 +66,31 @@ struct SignUpView: View {
                     .padding(.bottom, -15)
                     VStack {
                         VStack(spacing: 10) {
-                            if firebaseAuth.signByApple == false {
-                                Group {
-                                    VStack {
-                                        //MARK: - Username
-                                        HStack {
-                                            TextField("", text: $appViewModel.emailAddress)
-                                                .foregroundColor(.white)
-                                                .placeholer(when: appViewModel.emailAddress.isEmpty) {
-                                                    Text("E-mail")
-                                                        .foregroundColor(.white.opacity(0.8))
+                            Group {
+                                //MARK: - Username
+                                VStack {
+                                    HStack {
+                                        TextField("", text: $appViewModel.emailAddress)
+                                            .foregroundColor(.white)
+                                            .placeholer(when: appViewModel.emailAddress.isEmpty) {
+                                                Text("E-mail")
+                                                    .foregroundColor(.white.opacity(0.8))
+                                            }
+                                            .disableAutocorrection(true)
+                                            .textInputAutocapitalization(.never)
+                                            .padding(.leading)
+                                            .keyboardType(.emailAddress)
+                                            .accessibilityIdentifier("signUpUserName")
+                                            .focused($isFocus)
+                                            .onChange(of: appViewModel.emailAddress.count) { newValue in
+                                                Task {
+                                                    await delayUnFocused()
                                                 }
-                                                .disableAutocorrection(true)
-                                                .textInputAutocapitalization(.never)
-                                                .padding(.leading)
-                                                .keyboardType(.emailAddress)
-                                                .accessibilityIdentifier("signUpUserName")
-                                                .focused($isFocus)
-                                                .onChange(of: appViewModel.emailAddress.count) { newValue in
-                                                    Task {
-                                                        await delayUnFocused()
-                                                    }
-                                                }
-                                        }
-                                        .modifier(customTextField())
+                                            }
                                     }
+                                    .modifier(customTextField())
+                                }
+                                if firebaseAuth.signByApple == false {
                                     //MARK: - password
                                     VStack(alignment: .leading) {
                                         HStack {
@@ -297,6 +297,7 @@ struct SignUpView: View {
                         Button {
                             Task {
                                 do {
+                                    try siwAFormChecker(signWA: firebaseAuth.signByApple)
                                     if firebaseAuth.signByApple == false {
                                         try pwdM.passwordChecker(password: appViewModel.recheckPassword)
                                         try await appViewModel.passwordCheckAndSignUpAsync(email: appViewModel.emailAddress,
@@ -421,7 +422,26 @@ struct SignUpView: View {
     }
 }
 
-
+extension SignUpView {
+    func siwAFormChecker(signWA: Bool) throws {
+        if signWA {
+            guard !appViewModel.emailAddress.isEmpty else {
+                throw SignUpError.emailIsEmpty
+            }
+            guard appViewModel.isAgree == true else {
+                throw SignUpError.termofServiceIsNotAgree
+            }
+            guard appViewModel.isRenter == true || appViewModel.isProvider == true else {
+                throw SignUpError.missingUserType
+            }
+            if appViewModel.isProvider {
+                guard appViewModel.isRentalM == true || appViewModel.isFurnitureProvider == true else {
+                    throw SignUpError.providerTypeError
+                }
+            }
+        }
+    }
+}
 
 
 

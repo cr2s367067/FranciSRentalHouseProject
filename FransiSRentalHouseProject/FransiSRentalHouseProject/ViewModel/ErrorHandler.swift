@@ -41,7 +41,7 @@ enum SignUpError: LocalizedError {
         case .creationError:
             return NSLocalizedString("The account could not create", comment: "")
         case .providerTypeError:
-            return NSLocalizedString("Please select house owner/Rental Manager", comment: "")
+            return NSLocalizedString("Please select provider type", comment: "")
         case .licenseEnterError:
             return NSLocalizedString("Please fill out the license number", comment: "")
         case .licenseNumberLengthError:

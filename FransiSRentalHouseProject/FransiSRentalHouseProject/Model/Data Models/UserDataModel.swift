@@ -10,6 +10,7 @@ import SwiftUI
 import FirebaseFirestoreSwift
 
 struct UserDataModel: Identifiable, Codable {
+    @DocumentID var uid: String?
     var id: String
     var firstName: String
     var lastName: String

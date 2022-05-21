@@ -7,6 +7,8 @@
 
 import Foundation
 import ECPayPaymentGatewayKit
+import Alamofire
+import CryptoSwift
 
 enum PaymentProcessStatus {
     case payMonthlyRentalBill
@@ -15,38 +17,191 @@ enum PaymentProcessStatus {
     case payProductBill
 }
 
-
 class PaymentMethodManager: ObservableObject {
+    
+    @Published var serverToken: ReturnServerDM = .empty
 
     let ecp = ECPayPaymentGatewayManager.sharedInstance()
     
+    func test() {
+        let encodeHashKey = "pwFHCqoQZGmho4w6"
+        let hasKey: [UInt8] = Array(encodeHashKey.utf8)
+        print("hasKey: \(hasKey)")
+        let encodeHashIV = "EkRm7iFT261dpevs"
+        let hashIV: [UInt8] = Array(encodeHashIV.utf8)
+        print("hashIV: \(hashIV)")
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let testData: DataDM = DataDM(MerchantID: "3002607",
+                                  ConsumerInfo: [ConsumerInfoDM(Email: "testuser@test.com",
+                                                                Phone: "886987878787",
+                                                                Name: "test",
+                                                                CountryCode: "",
+                                                                Address: "test")])
+        let encodeData = try! encoder.encode(testData)
+//        print(String(data: encodeData, encoding: .utf8)!)
+        let convertString = String(data: encodeData, encoding: .utf8)
+        guard let convertURLencode = convertString?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            return
+        }
+//        let convertStringInData = Data(convertURLencode.utf8)
+        let convertStringInArray: [UInt8] = Array(convertURLencode.utf8)
+        guard let encryptAES = try? AES(key: hasKey, blockMode: CBC(iv: hashIV), padding: .pkcs7) else {
+            print("fail to build aes")
+            return
+        }
+        guard let encryptData = try? encryptAES.encrypt(convertStringInArray) else {
+            print("fail to encrypt")
+            return
+        }
+        print("encrypt result: \(encryptData.toBase64())")
+        let encrypt64String = encryptData.toBase64()
+        let encrypt64StringToData = Data(base64Encoded: encrypt64String) ?? Data()
+        guard let decryptData = try? encryptAES.decrypt(encrypt64StringToData.bytes) else { return }
+        let deConveretString = String(decoding: decryptData, as: UTF8.self)
+        print("decrypt result: \(deConveretString)")
+        let deConvertURL = deConveretString.removingPercentEncoding
+        print("final result: \(String(describing: deConvertURL))")
+    }
     
-//    func createPayment(token: EcPTest) {
-//        ecp.createPayment(token: token.rawValue, merchantID: token.rawValue, useResultPage: 1, appStoreName: "Test Store", language: "zh-TW") { callBack in
-//            if let state = callBack as? CreatePaymentCallbackState {
-//                print("rtnCode: \(state.RtnCode)")
-//                print(state.OrderInfo ?? "no data")
-//            }
-//            switch callBack.callbackStateStatus {
-//            case .Fail:
-//                print("fail")
-//            case .Success:
-//                print("success")
-//            case .Cancel:
-//                print("cancel")
-//            case .Exit:
-//                print("exit")
-//            case .Unknown:
-//                print("unknown issue")
-//            }
-//        }
-//    }
+    func decryptData(inputBase64: String) -> String {
+        var holdingData = ""
+        let encodeHashKey = "pwFHCqoQZGmho4w6"
+        let hasKey: [UInt8] = Array(encodeHashKey.utf8)
+        print("hasKey: \(hasKey)")
+        let encodeHashIV = "EkRm7iFT261dpevs"
+        let hashIV: [UInt8] = Array(encodeHashIV.utf8)
+        print("hashIV: \(hashIV)")
+//        let jsonDecoder = JSONDecoder()
+        do {
+            let encrypt64Data = Data(base64Encoded: inputBase64) ?? Data()
+            let aes = try AES(key: hasKey, blockMode: CBC(iv: hashIV), padding: .pkcs7)
+            let decryptData = try aes.decrypt(encrypt64Data.bytes)
+            let decryptString = String(decoding: decryptData, as: UTF8.self)
+            holdingData = decryptString.removingPercentEncoding ?? ""
+            print("get decode data: \(holdingData)")
+        } catch {
+            print("fail to decrypt")
+        }
+        return holdingData
+    }
     
-//    func test() {
-//        ecp.testToGetTestingTradeToken(paymentUIType: <#T##Int#>, is3D: <#T##Bool#>, merchantID: <#T##String#>, aesKey: <#T##String#>, aesIV: <#T##String#>, parameters: <#T##[String : Any]?#>, callback: <#T##CallbackFunction##CallbackFunction##(CallbackState) -> Void#>)
-//    }
+    func encryptData(rememberCard: RememberCard, paymentUIT: PaymentUIType, orderInfo: OrderInfoDM, cardInfo: CardInfoDM, consumerInfo: ConsumerInfoDM) -> String {
+        var base64 = ""
+        var chosePL = [String]()
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        if paymentUIT == .paymentChosingList {
+            let paymentMethod = ["1", "2", "7"]
+            chosePL = paymentMethod
+        } else {
+            chosePL = ["0"]
+        }
+        let encodeHashKey = "pwFHCqoQZGmho4w6"
+        let hasKey: [UInt8] = Array(encodeHashKey.utf8)
+        let encodeHashIV = "EkRm7iFT261dpevs"
+        let hashIV: [UInt8] = Array(encodeHashIV.utf8)
+        let currentDate = Date().getFormatterDate(format: "yyyy-mm-dd HH:mm:ss")
+        let datas: DataDM = DataDM(MerchantID: "3002607",
+                                  RememberCard: 0,
+                                  PaymentUIType: 2,
+                                  ChosePaymentList: chosePL,
+                                  OrderInfo: [OrderInfoDM(MerchantTradeDate: currentDate,
+                                                          MerchantTradeNo: "3002607",
+                                                          TotalAmount: 500,
+                                                          ReturnURL: "",
+                                                          TradeDesc: "test",
+                                                          ItemName: "test")],
+                                  CardInfo: [CardInfoDM(Redeem: "0",
+                                                        OrderResultURL: "https://www.ecpay.com.tw",
+                                                        CreditInstallment: "3")],
+                                  ConsumerInfo: [ConsumerInfoDM(Email: "testuser@test.com",
+                                                                Phone: "886987878787",
+                                                                Name: "test",
+                                                                CountryCode: "158",
+                                                                Address: "testAddress")])
+        
+        /*
+         DataDM(MerchantID: "3002607",
+                                   RememberCard: rememberCard.rawValue,
+                                   PaymentUIType: paymentUIT.rawValue,
+                                   ChosePaymentList: chosePL,
+                                   OrderInfo: [OrderInfoDM(MerchantTradeDate: orderInfo.MerchantTradeDate,
+                                                           MerchantTradeNo: orderInfo.MerchantTradeDate,
+                                                           TotalAmount: orderInfo.TotalAmount,
+                                                           ReturnURL: orderInfo.ReturnURL,
+                                                           TradeDesc: orderInfo.TradeDesc,
+                                                           ItemName: orderInfo.ItemName)],
+                                   CardInfo: [CardInfoDM(OrderResultURL: "")],
+                                   ConsumerInfo: [ConsumerInfoDM(Email: "testuser@test.com",
+                                                                 Phone: "886987878787",
+                                                                 Name: "test",
+                                                                 CountryCode: "",
+                                                                 Address: "test")])
+        */
+        do {
+            let jsonEncode = try encoder.encode(datas)
+            guard let convertJsonString = String(data: jsonEncode, encoding: .utf8) else { return ""}
+            guard let urlEncode = convertJsonString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return ""}
+            let convertStringInUint8Array: [UInt8] = Array(urlEncode.utf8)
+            let aes = try AES(key: hasKey, blockMode: CBC(iv: hashIV), padding: .pkcs7)
+            let encryptData = try aes.encrypt(convertStringInUint8Array)
+            print("base64: \(encryptData.toBase64())")
+            base64 = encryptData.toBase64()
+        } catch {
+            print("error occure")
+        }
+        return base64
+    }
     
- 
+    func callServerToken(envPath: EnvPath, httpMethod: HTTPMethod, httpContent: HTTPContent, rememberCard: RememberCard, paymentUIT: PaymentUIType, orderInfo: OrderInfoDM, cardInfo: CardInfoDM, consumerInfo: ConsumerInfoDM) async throws {
+        print("start to get server token")
+        guard let url = URL(string: envPath.rawValue) else {
+            return
+        }
+        print("getting url: \(url.absoluteString)")
+        let date = Date()
+        let unixTime: Int = Int(date.timeIntervalSince1970)
+        print("unitTimestamp: \(unixTime)")
+        let currentVersion = "1.3.24"
+        print("current version: \(currentVersion)")
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+//        let header: HTTPHeaders = ["Content-Type" : httpContent.rawValue]
+//        var request = try URLRequest(url: url.asURL(), method: .post, headers: header)
+        do {
+            var request = URLRequest(url: url)
+            request.httpMethod = httpMethod.rawValue
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            print("Start to encrypt data")
+            let encodeData = encryptData(rememberCard: rememberCard, paymentUIT: paymentUIT, orderInfo: orderInfo, cardInfo: cardInfo, consumerInfo: consumerInfo)
+            let rawBody: GerenalDataModel = GerenalDataModel(MerchantID: "3002607",
+                                                          RqHeader: RqHeaderDM(Timestamp: unixTime,
+                                                                               Revision: currentVersion),
+                                                          Data: encodeData)
+            let encodeDataInJson = try encoder.encode(rawBody) 
+            print("Convert json result: \(String(data: encodeDataInJson, encoding: .utf8))")
+            request.httpBody = encodeDataInJson
+            print("post complete...!!")
+            try await getServerToken(url: url)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func getServerToken(url: URL) async throws {
+//        var request = try URLRequest(url: url)
+//        request.httpMethod = httpMethod.rawValue
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let (data, _) = try await URLSession.shared.data(from: url)
+        print("Start to decode json: \(data)")
+        if let decodeResponse = try? JSONDecoder().decode(ReturnServerDM.self, from: data) {
+            print("receive data: \(decodeResponse)")
+            let encryptData = decodeResponse.Data
+            let tempHolding = decryptData(inputBase64: encryptData)
+            print(tempHolding.removingPercentEncoding as? String ?? "") 
+        }
+    }
     
     func computePaymentMonth(from currentDate: Date) -> Date {
         let cal = Calendar.current
@@ -57,4 +212,13 @@ class PaymentMethodManager: ObservableObject {
     
     
     
+}
+
+
+extension Date {
+    func getFormatterDate(format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
 }

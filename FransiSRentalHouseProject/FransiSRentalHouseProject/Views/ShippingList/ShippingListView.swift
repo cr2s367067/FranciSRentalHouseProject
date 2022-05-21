@@ -10,8 +10,10 @@ import SDWebImageSwiftUI
 
 struct ShippingListView: View {
     
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @Environment(\.colorScheme) var colorScheme
     
@@ -35,6 +37,11 @@ struct ShippingListView: View {
                 }
             }
         }
+        .overlay(content: {
+            if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+            }
+        })
         .modifier(ViewBackgroundInitModifier())
         .navigationBarHidden(true)
         .task {
