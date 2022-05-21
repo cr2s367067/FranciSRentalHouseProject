@@ -330,7 +330,7 @@ extension UserOrderedListView {
         } else {
             HStack {
                 TextEditor(text: $userOrderedListVM.comment)
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                     .frame(width: uiScreenWidth - 80 , height: uiScreenHeight / 3 - 50)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
             }

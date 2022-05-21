@@ -46,6 +46,9 @@ struct RenterMainView: View {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     //: Announcement Group
+//                    Button("Crash") {
+//                        fatalError("Crash was triggered")
+//                    }
                     Button("test") {
                         Task {
                             do {

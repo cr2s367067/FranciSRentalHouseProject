@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import ECPayPaymentGatewayKit
+import FirebaseCore
 
 @main
 struct FransiSRentalHouseProjectApp: App {

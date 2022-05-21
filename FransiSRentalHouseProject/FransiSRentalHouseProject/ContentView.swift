@@ -22,7 +22,6 @@ struct ContentView: View {
                 AppTabView()
             } else  {
                 LoginView()
-//                SignInWithAppleButtonView()
             }
         }
         .task({
