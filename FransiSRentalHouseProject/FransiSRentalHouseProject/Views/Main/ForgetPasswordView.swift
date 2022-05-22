@@ -17,34 +17,36 @@ struct ForgetPasswordView: View {
     @FocusState private var isFocus: Bool
     
     var body: some View {
-        VStack {
-            TitleAndDivider(title: "Forgot Password?")
+        ScrollView(.vertical, showsIndicators: false) {        
             VStack {
-                cusField(imageName: "rectangle.and.pencil.and.ellipsis", fieldName: "E-mail Address", text: $email, fieldBool: email.isEmpty)
-                HStack {
-                    Spacer()
-                    Button {
-                        Task {
-                            do {
-                                try await firebaseAuth.resetPasswordAsync(email: email)
-                                bioAuthViewModel.faceIDEnable = false
-                                bioAuthViewModel.userNameBioAuth = ""
-                                bioAuthViewModel.passwordBioAuth = ""
-                            } catch {
-                                self.errorHandler.handle(error: error)
+                TitleAndDivider(title: "Forgot Password?")
+                VStack {
+                    cusField(imageName: "rectangle.and.pencil.and.ellipsis", fieldName: "E-mail Address", text: $email, fieldBool: email.isEmpty)
+                    HStack {
+                        Spacer()
+                        Button {
+                            Task {
+                                do {
+                                    try await firebaseAuth.resetPasswordAsync(email: email)
+                                    bioAuthViewModel.faceIDEnable = false
+                                    bioAuthViewModel.userNameBioAuth = ""
+                                    bioAuthViewModel.passwordBioAuth = ""
+                                } catch {
+                                    self.errorHandler.handle(error: error)
+                                }
                             }
+                        } label: {
+                            Text("Reset")
                         }
-                    } label: {
-                        Text("Reset")
+                        .modifier(ButtonModifier())
                     }
-                    .modifier(ButtonModifier())
+                    Spacer()
                 }
+                .modifier(SubViewBackgroundInitModifier())
                 Spacer()
             }
-            .modifier(SubViewBackgroundInitModifier())
-            Spacer()
+            .modifier(ViewBackgroundInitModifier())
         }
-        .modifier(ViewBackgroundInitModifier())
     }
 }
 

@@ -49,38 +49,38 @@ struct RenterMainView: View {
 //                    Button("Crash") {
 //                        fatalError("Crash was triggered")
 //                    }
-                    Button("test") {
-                        Task {
-                            do {
-                                let currentDate = Date().getFormatterDate(format: "yyyy-mm-dd HH:mm:ss")
-                                
-                                try await paymentMg.callServerToken(envPath: .testEnv,
-                                                         httpMethod: .post,
-                                                         httpContent: .contentType,
-                                                         rememberCard: .no,
-                                                         paymentUIT: .paymentChosingList,
-                                                         orderInfo: OrderInfoDM(MerchantTradeDate: currentDate,
-                                                                                MerchantTradeNo: "3002607",
-                                                                                TotalAmount: 500,
-                                                                                ReturnURL: "",
-                                                                                TradeDesc: "test",
-                                                                                ItemName: "test"),
-                                                         cardInfo: CardInfoDM(Redeem: "0",
-                                                                              OrderResultURL: "https://www.ecpay.com.tw",
-                                                                              CreditInstallment: "3"),
-                                                         consumerInfo: ConsumerInfoDM(Email: "testuser@test.com",
-                                                                                      Phone: "886987878787",
-                                                                                      Name: "test",
-                                                                                      CountryCode: "158",
-                                                                                      Address: "testAddress"))
-                            } catch {
-                                print("error occur: \(error.localizedDescription)")
-                            }
-                        }
-                    }
-                    NavigationLink("test web") {
-                        WebView(text: $paymentMg.getResultHolder)
-                    }
+//                    Button("test") {
+//                        Task {
+//                            do {
+//                                let currentDate = Date().getFormatterDate(format: "yyyy-mm-dd HH:mm:ss")
+//                                
+//                                try await paymentMg.callServerToken(envPath: .testEnv,
+//                                                         httpMethod: .post,
+//                                                         httpContent: .contentType,
+//                                                         rememberCard: .no,
+//                                                         paymentUIT: .paymentChosingList,
+//                                                         orderInfo: OrderInfoDM(MerchantTradeDate: currentDate,
+//                                                                                MerchantTradeNo: "3002607",
+//                                                                                TotalAmount: 500,
+//                                                                                ReturnURL: "",
+//                                                                                TradeDesc: "test",
+//                                                                                ItemName: "test"),
+//                                                         cardInfo: CardInfoDM(Redeem: "0",
+//                                                                              OrderResultURL: "https://www.ecpay.com.tw",
+//                                                                              CreditInstallment: "3"),
+//                                                         consumerInfo: ConsumerInfoDM(Email: "testuser@test.com",
+//                                                                                      Phone: "886987878787",
+//                                                                                      Name: "test",
+//                                                                                      CountryCode: "158",
+//                                                                                      Address: "testAddress"))
+//                            } catch {
+//                                print("error occur: \(error.localizedDescription)")
+//                            }
+//                        }
+//                    }
+//                    NavigationLink("test web") {
+//                        WebView(text: $paymentMg.getResultHolder)
+//                    }
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
                             HStack {

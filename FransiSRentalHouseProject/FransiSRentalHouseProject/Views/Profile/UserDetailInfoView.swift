@@ -60,7 +60,7 @@ struct UserDetailInfoView: View {
                                     .foregroundColor(isSummit ? Color.green : Color.clear)
                                     .font(.system(size: 12, weight: .thin))
                             }
-                            summitButton(isEdit: userDetailInfoViewModel.isEdit)
+                            summitButton(isEdit: userDetailInfoViewModel.isEdit, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
                         }
                     }
                 }
@@ -258,46 +258,15 @@ extension UserDetailInfoView {
     }
     
     @ViewBuilder
-    func summitButton(isEdit: Bool) -> some View {
+    func summitButton(isEdit: Bool, uType: SignUpType) -> some View {
         if isEdit == true {
             Button {
                 Task {
-                    if !appViewModel.id.isEmpty, !appViewModel.firstName.isEmpty, !appViewModel.lastName.isEmpty, !appViewModel.gender.isEmpty, !appViewModel.mobileNumber.isEmpty, !appViewModel.address.isEmpty, !appViewModel.town.isEmpty, !appViewModel.city.isEmpty, !appViewModel.zipCode.isEmpty, !appViewModel.country.isEmpty == true {
-                        do {
-                            try appViewModel.userInfoFormatterCheckerAsync(id: appViewModel.id,
-                                                                           firstName: appViewModel.firstName,
-                                                                           lastName: appViewModel.lastName,
-                                                                           gender: appViewModel.gender,
-                                                                           mobileNumber: appViewModel.mobileNumber, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
-                            
-                            
-                            try await firestoreToFetchUserinfo.updateUserInfomationAsync(uidPath: firebaseAuth.getUID(),
-                                                                                         id: appViewModel.id,
-                                                                                         firstName: appViewModel.firstName,
-                                                                                         lastName: appViewModel.lastName,
-                                                                                         mobileNumber: appViewModel.mobileNumber,
-                                                                                         dob: appViewModel.dob,
-                                                                                         address: appViewModel.address,
-                                                                                         town: appViewModel.town,
-                                                                                         city: appViewModel.city,
-                                                                                         zip: appViewModel.zipCode,
-                                                                                         country: appViewModel.country,
-                                                                                         gender: appViewModel.gender,
-                                                                                         userType: appViewModel.userType,
-                                                                                         emailAddress: appViewModel.emailAddress,
-                                                                                         providerType: appViewModel.providerType,
-                                                                                         RLNumber: appViewModel.rentalManagerLicenseNumber,
-                                                                                         displayName: appViewModel.displayName)
-                            try await firestoreForTextingMessage.createAndStoreContactUser(uidPath: firebaseAuth.getUID())
-                            isSummit = true
-                            try await firestoreToFetchUserinfo.reloadUserData()
-                            appViewModel.isShowUserDetailView = false
-                            userDetailInfoViewModel.isEdit = false
-                        } catch {
-                            self.errorHandler.handle(error: error)
-                        }
-                    } else {
-                        showAlert = true
+                    if uType == .isNormalCustomer {
+                        try await forNormalUser()
+                    }
+                    if uType == .isProvider {
+                        try await forProviderUser()
                     }
                 }
             } label: {
@@ -313,6 +282,90 @@ extension UserDetailInfoView {
             .padding(.trailing)
         }
     }
+    
+    func forProviderUser() async throws {
+        guard appViewModel.id.count == 8 else {
+            throw UserInformationError.guiFormatError
+        }
+        guard !appViewModel.firstName.isEmpty, !appViewModel.displayName.isEmpty, !appViewModel.mobileNumber.isEmpty, !appViewModel.address.isEmpty, !appViewModel.town.isEmpty, !appViewModel.city.isEmpty, !appViewModel.zipCode.isEmpty, !appViewModel.country.isEmpty else {
+            throw UserInformationError.blankError
+        }
+        do {
+            try appViewModel.userInfoFormatterCheckerAsync(id: appViewModel.id,
+                                                           firstName: appViewModel.firstName,
+                                                           lastName: appViewModel.lastName,
+                                                           gender: appViewModel.gender,
+                                                           mobileNumber: appViewModel.mobileNumber, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
+            
+            
+            try await firestoreToFetchUserinfo.updateUserInfomationAsync(uidPath: firebaseAuth.getUID(),
+                                                                         id: appViewModel.id,
+                                                                         firstName: appViewModel.firstName,
+                                                                         lastName: appViewModel.lastName,
+                                                                         mobileNumber: appViewModel.mobileNumber,
+                                                                         dob: appViewModel.dob,
+                                                                         address: appViewModel.address,
+                                                                         town: appViewModel.town,
+                                                                         city: appViewModel.city,
+                                                                         zip: appViewModel.zipCode,
+                                                                         country: appViewModel.country,
+                                                                         gender: appViewModel.gender,
+                                                                         userType: appViewModel.userType,
+                                                                         emailAddress: appViewModel.emailAddress,
+                                                                         providerType: appViewModel.providerType,
+                                                                         RLNumber: appViewModel.rentalManagerLicenseNumber,
+                                                                         displayName: appViewModel.displayName)
+            try await firestoreForTextingMessage.createAndStoreContactUser(uidPath: firebaseAuth.getUID())
+            isSummit = true
+            try await firestoreToFetchUserinfo.reloadUserData()
+            appViewModel.isShowUserDetailView = false
+            userDetailInfoViewModel.isEdit = false
+        } catch {
+            self.errorHandler.handle(error: error)
+        }
+        
+    }
+    
+    func forNormalUser() async throws {
+        if !appViewModel.id.isEmpty, !appViewModel.firstName.isEmpty, !appViewModel.lastName.isEmpty, !appViewModel.gender.isEmpty, !appViewModel.mobileNumber.isEmpty, !appViewModel.address.isEmpty, !appViewModel.town.isEmpty, !appViewModel.city.isEmpty, !appViewModel.zipCode.isEmpty, !appViewModel.country.isEmpty == true {
+            do {
+                try appViewModel.userInfoFormatterCheckerAsync(id: appViewModel.id,
+                                                               firstName: appViewModel.firstName,
+                                                               lastName: appViewModel.lastName,
+                                                               gender: appViewModel.gender,
+                                                               mobileNumber: appViewModel.mobileNumber, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
+                
+                
+                try await firestoreToFetchUserinfo.updateUserInfomationAsync(uidPath: firebaseAuth.getUID(),
+                                                                             id: appViewModel.id,
+                                                                             firstName: appViewModel.firstName,
+                                                                             lastName: appViewModel.lastName,
+                                                                             mobileNumber: appViewModel.mobileNumber,
+                                                                             dob: appViewModel.dob,
+                                                                             address: appViewModel.address,
+                                                                             town: appViewModel.town,
+                                                                             city: appViewModel.city,
+                                                                             zip: appViewModel.zipCode,
+                                                                             country: appViewModel.country,
+                                                                             gender: appViewModel.gender,
+                                                                             userType: appViewModel.userType,
+                                                                             emailAddress: appViewModel.emailAddress,
+                                                                             providerType: appViewModel.providerType,
+                                                                             RLNumber: appViewModel.rentalManagerLicenseNumber,
+                                                                             displayName: appViewModel.displayName)
+                try await firestoreForTextingMessage.createAndStoreContactUser(uidPath: firebaseAuth.getUID())
+                isSummit = true
+                try await firestoreToFetchUserinfo.reloadUserData()
+                appViewModel.isShowUserDetailView = false
+                userDetailInfoViewModel.isEdit = false
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+        } else {
+            showAlert = true
+        }
+    }
+    
 }
 
 

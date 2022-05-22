@@ -36,6 +36,7 @@ struct ContactUserDataModel: Identifiable, Codable {
     var contacterPlayName: String
     var contacterProfileImage: String
     var chatRoomUID: String
+    @ServerTimestamp var lastMessageTimestamp: Timestamp?
 }
 
 

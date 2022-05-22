@@ -78,6 +78,8 @@ struct MessageView: View {
                                                                                     senderProfileImage: "",
                                                                                     senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
                                                                                     chatRoomUID: contactMember.chatRoomUID)
+                                guard let id = contactMember.id else { return }
+                                try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
                                 textingViewModel.text = ""
                             } catch {
                                 self.errorHandler.handle(error: error)

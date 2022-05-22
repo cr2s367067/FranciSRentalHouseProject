@@ -46,7 +46,8 @@ class FirestoreForTextingMessage: ObservableObject {
             "contacterMailUidPath" : contactPersonUidPath,
             "contacterPlayName" : contactWithdisplayName,
             "contacterProfileImage" : contactPersondisplayProfileImage ?? "",
-            "chatRoomUID" : chatRoomUID
+            "chatRoomUID" : chatRoomUID,
+            "lastMessageTimestamp" : Date()
         ])
     }
     
@@ -88,6 +89,13 @@ class FirestoreForTextingMessage: ObservableObject {
                 return nil
             }
         }
+    }
+    
+    func updateLastMessageTime(userDocID: String, contactPersonID: String) async throws {
+        let contactPersonRef = db.collection("ChatUserInfo").document(userDocID).collection("ContactWith").document(contactPersonID)
+        try await contactPersonRef.updateData([
+            "lastMessageTimestamp" : Date()
+        ])
     }
     
     @MainActor

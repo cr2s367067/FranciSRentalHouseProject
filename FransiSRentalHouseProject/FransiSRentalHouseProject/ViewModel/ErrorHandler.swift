@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FirebaseCrashlytics
 
 enum SignUpError: LocalizedError {
     case emailIsEmpty
@@ -74,6 +75,7 @@ enum UserInformationError: LocalizedError {
     case roomSelectedError
     case chartError
     case registeError
+    case guiFormatError
 
     var errorDescription: String? {
         switch self {
@@ -97,6 +99,8 @@ enum UserInformationError: LocalizedError {
             return NSLocalizedString("Please select something🥸", comment: "")
         case .registeError:
             return NSLocalizedString("Hi, I know you love it, but you have to fill out the user infomation first.😉", comment: "")
+        case .guiFormatError:
+            return NSLocalizedString("Hi, GUI formate is not correct", comment: "")
         }
     }
 }
@@ -296,6 +300,7 @@ class ErrorHandler: ObservableObject {
     
     func handle(error: Error, dismissAction: (() -> Void)? = nil) {
         dismissAction?()
+        Crashlytics.crashlytics().record(error: error)
         currentAlert = ErrorAlert(message: error.localizedDescription)
     }
 }

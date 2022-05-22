@@ -82,11 +82,11 @@ struct SignUpView: View {
                                             .keyboardType(.emailAddress)
                                             .accessibilityIdentifier("signUpUserName")
                                             .focused($isFocus)
-                                            .onChange(of: appViewModel.emailAddress.count) { newValue in
-                                                Task {
-                                                    await delayUnFocused()
-                                                }
-                                            }
+//                                            .onChange(of: appViewModel.emailAddress.count) { newValue in
+//                                                Task {
+//                                                    await delayUnFocused()
+//                                                }
+//                                            }
                                     }
                                     .modifier(customTextField())
                                 }
@@ -109,9 +109,9 @@ struct SignUpView: View {
                                                     pwdCheckSymbol = pwdM.symbolCheck(password: newValue)
                                                     pwdCheckLength = pwdM.lengthCheck(password: newValue)
                                                     pwdCheckUppercase = pwdM.upperCheck(password: newValue)
-                                                    Task {
-                                                        await delayUnFocused()
-                                                    }
+//                                                    Task {
+//                                                        await delayUnFocused()
+//                                                    }
                                                 }
                                         }
                                         .modifier(customTextField())
@@ -140,11 +140,11 @@ struct SignUpView: View {
                                                 .padding(.leading)
                                                 .accessibilityIdentifier("confirmPassword")
                                                 .focused($isFocus)
-                                                .onChange(of: appViewModel.recheckPassword) { newValue in
-                                                    Task {
-                                                        await delayUnFocused()
-                                                    }
-                                                }
+//                                                .onChange(of: appViewModel.recheckPassword) { newValue in
+//                                                    Task {
+//                                                        await delayUnFocused()
+//                                                    }
+//                                                }
                                         }
                                         .modifier(customTextField())
                                     }

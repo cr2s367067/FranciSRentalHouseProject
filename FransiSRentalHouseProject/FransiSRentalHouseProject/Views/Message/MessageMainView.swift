@@ -43,21 +43,23 @@ struct MessageMainView: View {
                     Spacer()
                 }
                 VStack(spacing: 10) {
-                    ForEach(firestoreForTextingMessage.contactMember) { message in
-                        if roomsDetailViewModel.createNewChateRoom == true {
-                            NavigationLink(isActive: $roomsDetailViewModel.createNewChateRoom) {
-                                MessageView(contactMember: message)
-                            } label: {
-                                MessageUserSession(userName: message.contacterPlayName, profileImage: message.contacterProfileImage)
-                            }
-
-                        } else {
-                            NavigationLink {
-                                withAnimation(.easeInOut) {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        ForEach(firestoreForTextingMessage.contactMember) { message in
+                            if roomsDetailViewModel.createNewChateRoom == true {
+                                NavigationLink(isActive: $roomsDetailViewModel.createNewChateRoom) {
                                     MessageView(contactMember: message)
+                                } label: {
+                                    MessageUserSession(userName: message.contacterPlayName, profileImage: message.contacterProfileImage)
                                 }
-                            } label: {
-                                MessageUserSession(userName: message.contacterPlayName, profileImage: message.contacterProfileImage)
+                                
+                            } else {
+                                NavigationLink {
+                                    withAnimation(.easeInOut) {
+                                        MessageView(contactMember: message)
+                                    }
+                                } label: {
+                                    MessageUserSession(userName: message.contacterPlayName, profileImage: message.contacterProfileImage)
+                                }
                             }
                         }
                     }
@@ -69,9 +71,11 @@ struct MessageMainView: View {
         }
         .task {
             do {
-                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
-                try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
-                try await determinProviderCreated(listUser: firestoreForTextingMessage.contactMember, providerChatID: roomsDetailViewModel.providerChatDodID, createRoom: roomsDetailViewModel.createNewChateRoom)
+                if !firestoreToFetchUserinfo.presentUserId().isEmpty {
+                    _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+                    try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
+                    try await determinProviderCreated(listUser: firestoreForTextingMessage.contactMember, providerChatID: roomsDetailViewModel.providerChatDodID, createRoom: roomsDetailViewModel.createNewChateRoom)
+                }
             } catch {
                 self.errorHandler.handle(error: error)
             }
