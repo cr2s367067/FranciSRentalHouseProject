@@ -38,9 +38,11 @@ struct MessageView: View {
                         VStack {
                             ForEach(firestoreForTextingMessage.messagesContainer) { textMessage in
                                 if textMessage.senderDocID == firestoreForTextingMessage.senderUIDPath.chatDocId {
+                                    //MARK: Right side
                                     TextingViewForSender(text: textMessage.text, imageURL: textMessage.sendingImage ?? "")
                                         .id(textMessage.id)
                                 } else {
+                                    //MARK: Left side
                                     TextingViewForReceiver(text: textMessage.text, imageURL: textMessage.sendingImage ?? "", receiveProfileImage: contactMember.contacterProfileImage)
                                         .id(textMessage.id)
                                 }
@@ -77,7 +79,7 @@ struct MessageView: View {
                                                                                     sendingImage: "",
                                                                                     senderProfileImage: "",
                                                                                     senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
-                                                                                    chatRoomUID: contactMember.chatRoomUID)
+                                                                                    chatRoomUID: contactMember.chatRoomUID, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId))
                                 guard let id = contactMember.id else { return }
                                 try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
                                 textingViewModel.text = ""
@@ -110,14 +112,15 @@ struct MessageView: View {
             }
         }
         .task {
-//            do {
+            do {
+                _ = try await firestoreForTextingMessage.fetchChatCenter(chatRoomUID: contactMember.chatRoomUID)
+                firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: contactMember.chatRoomUID)
 //                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
 //                _ = try await firestoreForTextingMessage.fetchChatUserInfo(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
-                 firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: contactMember.chatRoomUID)
 //                try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
-//            } catch {
-//                self.errorHandler.handle(error: error)
-//            }
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
         }
         .sheet(isPresented: $textingViewModel.showPhpicker, onDismiss: {
             Task {
@@ -159,10 +162,16 @@ struct TextingViewForReceiver: View {
     let receiveProfileImage: String
     var body: some View {
         HStack {
-            WebImage(url: URL(string: receiveProfileImage))
-                .resizable()
-                .frame(width: 50, height: 50)
-                .clipShape(Circle())
+            if receiveProfileImage.isEmpty {
+                Image(systemName: "person.crop.circle")
+                    .foregroundColor(.white)
+                    .font(.system(size: 40))
+            } else {
+                WebImage(url: URL(string: receiveProfileImage))
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+            }
             if !imageURL.isEmpty {
                 WebImage(url: URL(string: imageURL))
                     .resizable()
@@ -278,3 +287,19 @@ struct ShowImage: View {
 //        ShowImage()
 //    }
 //}
+
+
+extension MessageView {
+    
+    func getContactPerson(sender: String) -> String {
+        var holder = ""
+        if firestoreForTextingMessage.chatManager.contact1docID == sender {
+            holder = firestoreForTextingMessage.chatManager.contact2docID
+        }
+        if firestoreForTextingMessage.chatManager.contact2docID == sender {
+            holder = firestoreForTextingMessage.chatManager.contact1docID
+        }
+        return holder
+    }
+    
+}

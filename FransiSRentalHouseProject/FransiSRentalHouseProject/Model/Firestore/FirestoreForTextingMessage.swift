@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-//import simd
+import FirebaseMessaging
+
 
 class FirestoreForTextingMessage: ObservableObject {
     
@@ -17,17 +18,19 @@ class FirestoreForTextingMessage: ObservableObject {
     let db = Firestore.firestore()
     
     @Published var senderUIDPath: ChatUserUIDDataModel = .empty
-    @Published var chatManager = [ChatCenterDataModel]()
+    @Published var chatManager: ChatCenterDataModel = .empty
     @Published var chatUserData: ChatUserInfoDataModel = .empty
     @Published var messagesContainer = [MessageContainDataModel]()
     @Published var contactMember = [ContactUserDataModel]()
     
     
     func createAndStoreContactUser(uidPath: String) async throws {
+        let token = try await Messaging.messaging().token()
         let id = UUID().uuidString
-        let contactUserSetRef = db.collection("ChatUsserUIDSet").document(uidPath)
+        let contactUserSetRef = db.collection("ChatUserUIDSet").document(uidPath)
         _ = try await contactUserSetRef.setData([
-            "chatDocId" : id
+            "chatDocId" : id,
+            "userToken" : token
         ])
     }
     
@@ -59,11 +62,12 @@ class FirestoreForTextingMessage: ObservableObject {
         ])
     }
     
-    func sendingMessage(text: String, sendingImage: String?, senderProfileImage: String, senderDocID: String, sendingTimestamp: Date = Date(), chatRoomUID: String) async throws {
+    func sendingMessage(text: String, sendingImage: String?, senderProfileImage: String, senderDocID: String, sendingTimestamp: Date = Date(), chatRoomUID: String, contactWith: String) async throws {
         let messageContainRef = db.collection("ChatCenter").document(chatRoomUID).collection("MessageContain")
         _ = try await messageContainRef.addDocument(data: [
             "sendingImage" : sendingImage ?? "",
             "senderDocID" : senderDocID,
+            "contactWith": contactWith,
             "text" : text,
             "sendingTimestamp" : sendingTimestamp
         ])
@@ -127,7 +131,7 @@ class FirestoreForTextingMessage: ObservableObject {
     
     @MainActor
     func fetchStoredUserData(uidPath: String) async throws -> ChatUserUIDDataModel {
-        let contactUserSetRef = db.collection("ChatUsserUIDSet").document(uidPath)
+        let contactUserSetRef = db.collection("ChatUserUIDSet").document(uidPath)
         let data = try await contactUserSetRef.getDocument(as: ChatUserUIDDataModel.self)
         self.senderUIDPath = data
         return senderUIDPath
@@ -136,21 +140,10 @@ class FirestoreForTextingMessage: ObservableObject {
 
 extension FirestoreForTextingMessage {
     @MainActor
-    func fetchChatCenter() async throws {
-        let chatCenterRef = db.collection("ChatCenter")
-        let document = try await chatCenterRef.getDocuments().documents
-        self.chatManager = document.compactMap { queryDocumentSnapshot in
-            let result = Result {
-                try queryDocumentSnapshot.data(as: ChatCenterDataModel.self)
-            }
-            switch result {
-            case .success(let data):
-                return data
-            case .failure(let error):
-                print("some error: \(error)")
-            }
-            return nil
-        }
+    func fetchChatCenter(chatRoomUID: String) async throws -> ChatCenterDataModel {
+        let chatCenterRef = db.collection("ChatCenter").document(chatRoomUID)
+        chatManager = try await chatCenterRef.getDocument(as: ChatCenterDataModel.self)
+        return chatManager
     }
 }
 

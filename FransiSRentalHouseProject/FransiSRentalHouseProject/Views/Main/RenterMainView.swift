@@ -21,8 +21,10 @@ struct RenterMainView: View {
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     @EnvironmentObject var paymentMg: PaymentMethodManager
     
-    //temp
     
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
     
     
     @State private var dragCompleted = false
@@ -39,7 +41,7 @@ struct RenterMainView: View {
     @State private var showRooms = true
 //    @State private var showFurniture = false
     
-    let uiScreenWidth = UIScreen.main.bounds.width
+    
     
     var body: some View {
         NavigationView {
@@ -283,59 +285,3 @@ extension RenterMainView {
     
     
 }
-
-/*
- Button {
-     do {
-         try checkUserInfo()
-         if localData.tempCart.isEmpty {
-             if firestoreToFetchUserinfo.notRented() {
-                 localData.tempCart.append(result)
-                 localData.addItem(roomAddress: result.roomAddress,
-                                   roomTown: result.town,
-                                   roomCity: result.city,
-                                   itemPrice: (Int(result.rentalPrice) ?? 0) * 3,
-                                   roomUID: result.roomUID ,
-                                   roomImage: result.roomImage ?? "",
-                                   roomZipCode: result.zipCode,
-                                   docID: result.id ?? "",
-                                   providerUID: result.providedBy)
-             }
-         } else {
-             localData.tempCart.removeAll()
-             localData.summaryItemHolder.removeAll()
-             if localData.tempCart.isEmpty {
-                 localData.tempCart.append(result)
-                 if firestoreToFetchUserinfo.notRented() {
-                     localData.addItem(roomAddress: result.roomAddress,
-                                       roomTown: result.town,
-                                       roomCity: result.city,
-                                       itemPrice: (Int(result.rentalPrice) ?? 0) * 3 ,
-                                       roomUID: result.roomUID ,
-                                       roomImage: result.roomImage ?? "",
-                                       roomZipCode: result.zipCode,
-                                       docID: result.id ?? "",
-                                       providerUID: result.providedBy)
-                 }
-             }
-         }
-         if appViewModel.isPresent == false {
-             appViewModel.isPresent = true
-         }
-         localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-     } catch {
-         self.errorHandler.handle(error: error)
-     }
- } label: {
-     RoomsGridView(imageURL: result.roomImage ?? "",
-              roomTown: result.town,
-              roomCity: result.city,
-              objectPrice: Int(result.rentalPrice) ?? 0)
-     .frame(height: 160)
-     .alert(isPresented: $appViewModel.isPresent) {
-         //MARK: Throw the "Have rented error to instead"
-         Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-     }
-     
- }
-*/

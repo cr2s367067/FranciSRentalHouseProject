@@ -1,0 +1,20 @@
+{
+  "name": "profileImage/myKt4sWtJ1sCocGvBB3szxVfYcIM.jpg",
+  "bucket": "francisrentalhouseproject.appspot.com",
+  "contentType": "application/octet-stream",
+  "metageneration": 1,
+  "generation": 1653460509399,
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "2f64d3ab-aa2e-4412-adce-acaab3df2743"
+  ],
+  "etag": "4wCaQ643Xxwe8BECjdzbMI9I8ng",
+  "timeCreated": "2022-05-25T06:35:09.398Z",
+  "updated": "2022-05-25T06:35:09.414Z",
+  "size": 835716,
+  "md5Hash": "FenvR6VDkwjLLjauz1Ve+w==",
+  "crc32c": "3466098516"
+}

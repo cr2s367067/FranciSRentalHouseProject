@@ -13,9 +13,10 @@ import FirebaseFirestoreSwift
 
 struct ChatUserUIDDataModel: Codable {
     let chatDocId: String
+    let userToken: String
 }
 extension ChatUserUIDDataModel {
-    static let empty = ChatUserUIDDataModel(chatDocId: "")
+    static let empty = ChatUserUIDDataModel(chatDocId: "", userToken: "")
 }
 
 struct ChatUserInfoDataModel: Identifiable, Codable {
@@ -41,10 +42,13 @@ struct ContactUserDataModel: Identifiable, Codable {
 
 
 
-struct ChatCenterDataModel: Identifiable, Codable {
-    var id: String?
+struct ChatCenterDataModel: Codable {
     var contact1docID: String
     var contact2docID: String
+}
+
+extension ChatCenterDataModel {
+    static let empty = ChatCenterDataModel(contact1docID: "", contact2docID: "")
 }
 
 struct MessageContainDataModel:Identifiable, Codable {
@@ -52,6 +56,7 @@ struct MessageContainDataModel:Identifiable, Codable {
     var sendingImage: String?
     var senderProfileImage: String?
     var senderDocID: String
+    var contactWith: String
     var text: String
     @ServerTimestamp var sendingTimestamp: Timestamp?
 }
