@@ -5,26 +5,28 @@
 //  Created by Kuan on 2022/4/18.
 //
 
-import SwiftUI
-
+//import SwiftUI
+//
 //struct TestView: View {
-//    @EnvironmentObject var firebaseAuth: FirebaseAuth
-//    @EnvironmentObject var bioAuthvm: BioAuthViewModel
+//    
+//    @State private var test = ""
+//    
 //    var body: some View {
 //        VStack {
-//            if bioAuthvm.testlock {
-//                Text("unlocked")
-//            } else {
-//                Text("locked")
+//            ScrollView(.vertical, showsIndicators: false) {
+//                ForEach(0..<100) { data in
+//                    Text("\(data)")
+//                }
 //            }
-//            Button("test") {
-//                print("sign in status: \(firebaseAuth.signIn)")
-//                print(bioAuthvm.testlock)
+//            Spacer()
+//            HStack {
+//                Image(systemName: "paperplane")
+//                TextField("test field", text: $test)
+//                    .textFieldStyle(RoundedBorderTextFieldStyle())
 //            }
 //        }
-//        .onAppear {
-//            bioAuthvm.bioAuthentication(userNameBioAuth: bioAuthvm.userNameBioAuth, passBioAuth: bioAuthvm.passwordBioAuth)
-//        }
+//        .padding()
+//        .ignoresSafeArea(.keyboard, edges: .bottom)
 //    }
 //}
 //

@@ -7,9 +7,11 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+//import Alamofire
+import Combine
 
 struct MessageView: View {
-
+    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -18,92 +20,88 @@ struct MessageView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var storageForMessageImage: StorageForMessageImage
     
-
+    
     
     var contactMember: ContactUserDataModel
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-
+    
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                .edgesIgnoringSafeArea([.top, .bottom])
-            VStack(alignment: .center) {
-                ScrollView(.vertical, showsIndicators: false) {
-                    ScrollViewReader { item in
-                        VStack {
-                            ForEach(firestoreForTextingMessage.messagesContainer) { textMessage in
-                                if textMessage.senderDocID == firestoreForTextingMessage.senderUIDPath.chatDocId {
-                                    //MARK: Right side
-                                    TextingViewForSender(text: textMessage.text, imageURL: textMessage.sendingImage ?? "")
-                                        .id(textMessage.id)
-                                } else {
-                                    //MARK: Left side
-                                    TextingViewForReceiver(text: textMessage.text, imageURL: textMessage.sendingImage ?? "", receiveProfileImage: contactMember.contacterProfileImage)
-                                        .id(textMessage.id)
-                                }
+        VStack(alignment: .center) {
+            ScrollView(.vertical, showsIndicators: false) {
+                ScrollViewReader { item in
+                    VStack {
+                        ForEach(firestoreForTextingMessage.messagesContainer) { textMessage in
+                            if textMessage.senderDocID == firestoreForTextingMessage.senderUIDPath.chatDocId {
+                                //MARK: Right side
+                                TextingViewForSender(text: textMessage.text, imageURL: textMessage.sendingImage ?? "")
+                                    .id(textMessage.id)
+                            } else {
+                                //MARK: Left side
+                                TextingViewForReceiver(text: textMessage.text, imageURL: textMessage.sendingImage ?? "", receiveProfileImage: contactMember.contacterProfileImage)
+                                    .id(textMessage.id)
                             }
-                        }
-                        .onAppear {
-                            withAnimation(.spring()) {
-                                item.scrollTo(firestoreForTextingMessage.messagesContainer.last?.id, anchor: .bottom)
-                            }
-                        }
-                        .onChange(of: firestoreForTextingMessage.messagesContainer.count) { _ in
-                            withAnimation(.spring()) {
-                                item.scrollTo(firestoreForTextingMessage.messagesContainer.last?.id, anchor: .bottom)
-                            }
-
                         }
                     }
-                }
-                HStack {
-                    Button {
-                        textingViewModel.showPhpicker.toggle()
-                    } label: {
-                        Image(systemName: "photo")
-                            .foregroundColor(.white)
-                            .font(.system(size: 20))
-                    }
-                    TextField("", text: $textingViewModel.text)
-                        .foregroundColor(.white)
-                        .frame(height: 40, alignment: .center)
-                    Button {
-                        Task {
-                            do {
-                                try await firestoreForTextingMessage.sendingMessage(text: textingViewModel.text,
-                                                                                    sendingImage: "",
-                                                                                    senderProfileImage: "",
-                                                                                    senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
-                                                                                    chatRoomUID: contactMember.chatRoomUID, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId))
-                                guard let id = contactMember.id else { return }
-                                try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
-                                textingViewModel.text = ""
-                            } catch {
-                                self.errorHandler.handle(error: error)
-                            }
+                    .onAppear {
+                        withAnimation(.spring()) {
+                            item.scrollTo(firestoreForTextingMessage.messagesContainer.last?.id, anchor: .bottom)
                         }
-                    } label: {
-                        Image(systemName: "paperplane")
-                            .resizable()
-                            .foregroundColor(Color.white)
-                            .frame(width: 25, height: 25)
                     }
-                }
-                .padding(.horizontal)
-                .frame(width: uiScreenWidth / 2 + 185, height: 45, alignment: .center)
-                .background(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 50)
-                        .stroke(Color.white, lineWidth: 2)
-                        .foregroundColor(Color.clear)
+                    .onChange(of: firestoreForTextingMessage.messagesContainer.count) { _ in
+                        withAnimation(.spring()) {
+                            item.scrollTo(firestoreForTextingMessage.messagesContainer.last?.id, anchor: .bottom)
+                        }
+                        
+                    }
                 }
             }
-            .padding(.vertical)
+            HStack {
+                Button {
+                    textingViewModel.showPhpicker.toggle()
+                } label: {
+                    Image(systemName: "photo")
+                        .foregroundColor(.white)
+                        .font(.system(size: 20))
+                }
+                TextField("", text: $textingViewModel.text)
+                    .foregroundColor(.white)
+//                    .frame(height: 40, alignment: .center)
+                Button {
+                    Task {
+                        do {
+                            try await firestoreForTextingMessage.sendingMessage(text: textingViewModel.text,
+                                                                                sendingImage: "",
+                                                                                senderProfileImage: "",
+                                                                                senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
+                                                                                chatRoomUID: contactMember.chatRoomUID, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId))
+                            guard let id = contactMember.id else { return }
+                            try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
+                            textingViewModel.text = ""
+                        } catch {
+                            self.errorHandler.handle(error: error)
+                        }
+                    }
+                } label: {
+                    Image(systemName: "paperplane")
+                        .resizable()
+                        .foregroundColor(Color.white)
+                        .frame(width: 25, height: 25)
+                }
+            }
+            .padding(.horizontal)
+            .frame(width: uiScreenWidth - 30 , height: 45, alignment: .center)
+            .background(alignment: .center) {
+                RoundedRectangle(cornerRadius: 50)
+                    .stroke(Color.white, lineWidth: 2)
+                    .foregroundColor(Color.clear)
+            }
         }
+        .modifier(ViewBackgroundInitModifier())
+        .keyboardAdaptive()
         .overlay {
             if textingViewModel.showImageDetail == true {
                 withAnimation {
@@ -115,9 +113,6 @@ struct MessageView: View {
             do {
                 _ = try await firestoreForTextingMessage.fetchChatCenter(chatRoomUID: contactMember.chatRoomUID)
                 firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: contactMember.chatRoomUID)
-//                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
-//                _ = try await firestoreForTextingMessage.fetchChatUserInfo(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
-//                try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -169,7 +164,7 @@ struct TextingViewForReceiver: View {
             } else {
                 WebImage(url: URL(string: receiveProfileImage))
                     .resizable()
-                    .frame(width: 40, height: 40)
+                    .frame(width: 50, height: 50)
                     .clipShape(Circle())
             }
             if !imageURL.isEmpty {
@@ -188,8 +183,7 @@ struct TextingViewForReceiver: View {
             if !text.isEmpty {
                 Text(text)
                     .foregroundColor(.white)
-                    .padding(.horizontal)
-                    .padding(.vertical)
+                    .padding()
                     .background(alignment: .center, content: {
                         Color.black.opacity(0.2)
                             .cornerRadius(30)
@@ -199,7 +193,6 @@ struct TextingViewForReceiver: View {
             }
             Spacer()
         }
-        .padding(.leading)
         
         
     }
@@ -211,15 +204,14 @@ struct TextingViewForSender: View {
     @Environment(\.colorScheme) var colorScheme
     let text: String
     let imageURL: String
-
+    
     var body: some View {
         HStack {
             Spacer()
             if !text.isEmpty{
                 Text(text)
                     .foregroundColor(.white)
-                    .padding(.horizontal)
-                    .padding(.vertical)
+                    .padding()
                     .background(alignment: .center, content: {
                         Color.black.opacity(0.2)
                             .cornerRadius(30)
@@ -241,9 +233,6 @@ struct TextingViewForSender: View {
                     }
             }
         }
-        .padding(.trailing)
-        
-        
     }
 }
 
@@ -302,4 +291,60 @@ extension MessageView {
         return holder
     }
     
+}
+
+extension Notification {
+    var keyboardHeight: CGFloat {
+        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
+    }
+}
+
+extension Publishers {
+    static var keyboardHeight: AnyPublisher<CGFloat, Never> {
+        let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification).map {$0.keyboardHeight}
+        let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification).map { _ in CGFloat(0)}
+        return MergeMany(willShow, willHide).eraseToAnyPublisher()
+    }
+}
+
+extension UIResponder {
+    static var currentFirstResponder: UIResponder? {
+        _currentFirstResponder = nil
+        UIApplication.shared.sendAction(#selector(UIResponder.findFirstResponder(_:)), to: nil, from: nil, for: nil)
+        return _currentFirstResponder
+    }
+    
+    private static weak var _currentFirstResponder: UIResponder?
+    
+    @objc private func findFirstResponder(_ sender: Any) {
+        UIResponder._currentFirstResponder = self
+    }
+    
+    var globalFram: CGRect? {
+        guard let view = self as? UIView else { return nil }
+        return view.superview?.convert(view.frame, to: nil)
+    }
+}
+
+struct KeyboardAdaptive: ViewModifier {
+    @State private var bottomPadding: CGFloat = 0
+    
+    func body(content: Content) -> some View {
+        GeometryReader { geometry in
+            content
+                .padding(.bottom, self.bottomPadding)
+                .onReceive(Publishers.keyboardHeight) { keyboardHeight in
+                    let keyboardTop = geometry.frame(in: .global).height - keyboardHeight
+                    let focusedTextInputButtom = UIResponder.currentFirstResponder?.globalFram?.maxX ?? 0
+                    self.bottomPadding = max(0, focusedTextInputButtom - keyboardTop - geometry.safeAreaInsets.bottom)
+                }
+        }
+        .animation(.easeOut, value: 0.6)
+    }
+}
+
+extension View {
+    func keyboardAdaptive() -> some View {
+        ModifiedContent(content: self, modifier: KeyboardAdaptive())
+    }
 }

@@ -31,49 +31,46 @@ struct PrePurchaseView: View {
     
     var body: some View {
         NavigationView {
-                VStack {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack {
-                            if !localData.tempCart.roomUID.isEmpty {
-                                SearchListItemView(roomsData: localData.tempCart)
-                            } else {
-                                SearchListItemView(roomsData: .empty)
-                                    .redacted(reason: appViewModel.isRedacted ? .placeholder : .init())
-                            }
-                            TitleAndDivider(title: "Order List")
-                            VStack(alignment: .center) {
-                                Spacer()
-                                ScrollView(.vertical, showsIndicators: false) {
-                                    SummaryItems(roomsData: localData.summaryItemHolder)
-                                }
-                            }
-                            .padding()
+            VStack {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack {
+                        if !localData.tempCart.roomUID.isEmpty {
+                            SearchListItemView(roomsData: localData.tempCart)
+                        } else {
+                            SearchListItemView(roomsData: .empty)
+                                .redacted(reason: appViewModel.isRedacted ? .placeholder : .init())
                         }
-                        HStack {
+                        TitleAndDivider(title: "Order List")
+                        VStack(alignment: .center) {
                             Spacer()
-                            Group {
-                                Image(systemName: "dollarsign.circle")
-                                Text("\(localData.sumPrice)")
-                                    .accessibilityIdentifier("subTotal")
-                                if firestoreToFetchUserinfo.notRented() && !localData.summaryItemHolder.roomUID.isEmpty && !localData.tempCart.roomUID.isEmpty {
-                                    Text("(Include Deposit fee 2 month)")
-                                        .font(.system(size: 12, weight: .semibold))
-                                }
+                            ScrollView(.vertical, showsIndicators: false) {
+                                SummaryItems(roomsData: localData.summaryItemHolder)
                             }
-                            Spacer()
-                                .frame(width: 50)
-                            checkCartIsNotEmptyAndShowTheView()
                         }
-                        .frame(width: 400, height: 50)
-                        .foregroundColor(.white)
-                        .background(Color("fieldGray").opacity(0.5))
-                        .cornerRadius(10)
+                        .padding()
                     }
+                    HStack {
+                        Spacer()
+                        Group {
+                            Image(systemName: "dollarsign.circle")
+                            Text("\(localData.sumPrice)")
+                                .accessibilityIdentifier("subTotal")
+                            if firestoreToFetchUserinfo.notRented() && !localData.summaryItemHolder.roomUID.isEmpty && !localData.tempCart.roomUID.isEmpty {
+                                Text("(Include Deposit fee 2 month)")
+                                    .font(.system(size: 12, weight: .semibold))
+                            }
+                        }
+                        Spacer()
+                            .frame(width: 50)
+                        checkCartIsNotEmptyAndShowTheView()
+                    }
+                    .frame(width: 400, height: 50)
+                    .foregroundColor(.white)
+                    .background(Color("fieldGray").opacity(0.5))
+                    .cornerRadius(10)
                 }
-                .background {
-                    LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
-                        .edgesIgnoringSafeArea([.top, .bottom])
-                }
+            }
+            .modifier(ViewBackgroundInitModifier())
             .overlay(content: {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
