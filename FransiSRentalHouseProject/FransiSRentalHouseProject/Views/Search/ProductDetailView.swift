@@ -45,12 +45,12 @@ struct ProductDetailView: View {
     
     var body: some View {
         VStack {
-            ScrollView(.horizontal, showsIndicators: false) {
+//            ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
                     PageView()
                 }
-            }
-            .edgesIgnoringSafeArea(.top)
+                        .edgesIgnoringSafeArea(.top)
+//            }
             VStack(alignment: .center, spacing: 20) {
                 HStack {
                     Text(productName)
@@ -198,7 +198,7 @@ struct ProductDetailView: View {
                 .padding(.horizontal)
                 .padding(.bottom)
             }
-            .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 2 + 50)
+            .frame(width: productDetailViewModel.uiScreenWidth, height: productDetailViewModel.uiScreenHeight / 2 + 40)
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -317,6 +317,7 @@ struct PageView: View {
                     WebImage(url: URL(string: image.productDetialImage))
                         .resizable()
                         .scaledToFill()
+                        .frame(width: uiScreenWidth, height: uiScreenHeight / 2, alignment: .center)
                         .clipped()
                         .id(image.id)
                 }

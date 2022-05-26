@@ -132,7 +132,7 @@ struct RenterMainView: View {
                                 }
                             }
                         }
-                        .frame(width: UIScreen.main.bounds.width - 25)
+                        .frame(width: uiScreenWidth - 25)
                         //: New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
@@ -232,7 +232,7 @@ extension RenterMainView {
                               roomTown: result.town,
                               roomCity: result.city,
                               objectPrice: Int(result.rentalPrice) ?? 0)
-                .frame(height: 160)
+//                .frame(height: uiScreenHeight / 8)
                 .alert(isPresented: $appViewModel.isPresent) {
                     //MARK: Throw the "Have rented error to instead"
                     Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))

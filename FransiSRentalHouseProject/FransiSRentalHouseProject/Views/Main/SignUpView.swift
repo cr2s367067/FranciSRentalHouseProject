@@ -177,7 +177,7 @@ struct SignUpView: View {
                                 }
                                 .accessibilityIdentifier("isProvider")
                                 Spacer()
-                                    .frame(width: 85)
+                                    .frame(width: uiScreenWidth / 8 + 10)
                                 Button {
                                     if appViewModel.isProvider == true {
                                         appViewModel.isProvider = false
@@ -231,7 +231,7 @@ struct SignUpView: View {
                                 }
                                 .accessibilityIdentifier("productProvider")
                                 Spacer()
-                                    .frame(width: 45)
+                                    .frame(width: uiScreenWidth / 8 - 30)
                                 Button {
                                     if appViewModel.isFurnitureProvider == true {
                                         appViewModel.isFurnitureProvider = false

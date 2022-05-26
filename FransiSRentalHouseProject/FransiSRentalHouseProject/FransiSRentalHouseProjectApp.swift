@@ -137,6 +137,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         Firestore.firestore().settings = settings
         Storage.storage().useEmulator(withHost:"localhost", port:9199)
         Functions.functions().useEmulator(withHost: "localhost", port: 5003)
+        Performance.sharedInstance().isInstrumentationEnabled = false
+        Performance.sharedInstance().isDataCollectionEnabled = false
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
 #elseif DEBUG
         print(
         """

@@ -17,6 +17,7 @@ struct MaintainWaitingView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -27,18 +28,7 @@ struct MaintainWaitingView: View {
                 VStack {
                     TitleAndDivider(title: "Maintian List")
                     Spacer()
-                    ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { data in
-                            if data.isRented == true {
-                                NavigationLink {
-                                    MaintainWaitingDetailView(docID: data.id ?? "")
-                                } label: {
-                                    MaintainWaitingReusableUnit(roomsData: data)
-                                        .padding(.top)
-                                }
-                            }
-                        }
-                    }
+                    taskHolder(hasContain: isRented())
                 }
             }
             .navigationBarTitle("")
@@ -48,6 +38,45 @@ struct MaintainWaitingView: View {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
             })
+        }
+    }
+}
+
+extension MaintainWaitingView {
+    
+    private func isRented() -> Bool {
+        var temp = false
+        firestoreToFetchRoomsData.fetchRoomInfoFormOwner.forEach { data in
+            if data.isRented ?? false {
+                temp = true
+            } else {
+                temp = false
+            }
+        }
+        return temp
+    }
+    
+    @ViewBuilder
+    func taskHolder(hasContain: Bool) -> some View {
+        if hasContain {
+            ScrollView(.vertical, showsIndicators: false) {
+                ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { data in
+                    if data.isRented == true {
+                        NavigationLink {
+                            MaintainWaitingDetailView(docID: data.id ?? "")
+                        } label: {
+                            MaintainWaitingReusableUnit(roomsData: data)
+                                .padding(.top)
+                        }
+                    }
+                }
+            }
+        } else {
+            Text("Sorry, room has not rented.😅")
+                .foregroundColor(.white)
+                .font(.headline)
+                .fontWeight(.bold)
+            Spacer()
         }
     }
 }
@@ -83,81 +112,43 @@ struct MaintainWaitingReusableUnit: View {
         VStack {
             Spacer()
             VStack {
-                VStack {
-//                    Button {
-//                        Task {
-//                            do {
-//                                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), docID: roomsData.id ?? "")
-//                            } catch {
-//                                print("error")
-//                            }
-//                        }
-//                        print(firestoreToFetchMaintainTasks.fetchMaintainInfo)
-//                    } label: {
-//                        Text("test")
-//                    }
+                VStack(alignment: .leading) {
                     HStack {
-                        ZStack {
-                            Image(systemName: "photo")
-                                .font(.system(size: 50))
-                                .frame(width: 130, height: 100)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.brown)
-                                )
+//                        ZStack {
+//                            Image(systemName: "photo")
+//                                .font(.system(size: 50))
+//                                .frame(width: , height: 100)
+//                                .background(
+//                                    RoundedRectangle(cornerRadius: 10)
+//                                        .fill(Color.brown)
+//                                )
                             WebImage(url: URL(string: roomsData.roomImage ?? ""))
                                 .resizable()
-                                .frame(width: 130, height: 100)
+                                .frame(width: uiScreenWidth / 3 + 20, height: uiScreenHeight / 8 + 5)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                        }
+//                        }
                         Spacer()
                             .frame(width: uiScreenWidth - 200)
                     }
-                    VStack(spacing: 3) {
-                        HStack {
-                            Text("Address: ")
-                            Text(address)
-                            Spacer()
-                            Image(systemName: "chevron.forward")
-                                .foregroundColor(.black)
-                                .font(.system(size: 15))
-                        }
-                        .foregroundColor(.black)
-                        .padding(.leading)
-                        .padding(.top, 3)
-//                        HStack {
-//                            Text("Tasks: ")
-//
-//                            Text("\(firestoreToFetchMaintainTasks.fetchMaintainInfo.count)")
-//                            Spacer()
-//                        }
-//                        .padding(.leading)
+                    HStack {
+                        Text("Address: ")
+                        Text(address)
+                        Spacer()
+                        Image(systemName: "chevron.forward")
+                            .foregroundColor(.black)
+                            .font(.system(size: 15))
                     }
-//                    HStack {
-//                        Spacer()
-//                            .frame(width: uiScreenWidth - 50)
-//                        Button {
-//                            withAnimation {
-//                                showDetail.toggle()
-//                            }
-//                        } label: {
-//                            Image(systemName: "plus.circle.fill")
-//                                .resizable()
-//                                .foregroundColor(Color("buttonBlue"))
-//                                .frame(width: 25, height: 25, alignment: .trailing)
-//                                .rotationEffect(showDetail ? .degrees(45) : .degrees(0))
+                    .foregroundColor(.black)
+                    
+                }
+//                Spacer()
+//                    .frame(height: 5)
+//                VStack {
+//                    ScrollView(.vertical, showsIndicators: false) {
+//                        ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
 //                        }
 //                    }
-//                    .padding(.trailing)
-                }
-                Spacer()
-                    .frame(height: 30)
-                VStack {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
-                        }
-                    }
-                }
+//                }
             }
             .padding()
             .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 4 - 50)

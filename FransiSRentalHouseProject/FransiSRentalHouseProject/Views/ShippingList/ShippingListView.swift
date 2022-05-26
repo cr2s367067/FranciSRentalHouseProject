@@ -26,16 +26,7 @@ struct ShippingListView: View {
         VStack {
             TitleAndDivider(title: "Shipping List")
                 .accessibilityIdentifier("shippingList")
-            ScrollView(.vertical, showsIndicators: false) {
-                ForEach(firestoreForProducts.purchasedUserDataSet) { pUserData in
-                    listUnit(pUserData: pUserData) {
-                        selectedOrderData = pUserData
-                    }
-                }
-                .sheet(item: $selectedOrderData) { data in
-                    orderContain(orderData: data)
-                }
-            }
+            containPlaceholder()
         }
         .overlay(content: {
             if firestoreToFetchUserinfo.presentUserId().isEmpty {
@@ -61,6 +52,29 @@ struct ShippingListView_Previews: PreviewProvider {
 }
 
 extension ShippingListView {
+    
+    @ViewBuilder
+    func containPlaceholder() -> some View {
+        if firestoreForProducts.purchasedUserDataSet.isEmpty {
+            Spacer()
+            Text("Hi, we haven't receive any order. 👾")
+                .foregroundColor(.white)
+                .font(.headline)
+                .fontWeight(.bold)
+            Spacer()
+        } else {
+            ScrollView(.vertical, showsIndicators: false) {
+                ForEach(firestoreForProducts.purchasedUserDataSet) { pUserData in
+                    listUnit(pUserData: pUserData) {
+                        selectedOrderData = pUserData
+                    }
+                }
+                .sheet(item: $selectedOrderData) { data in
+                    orderContain(orderData: data)
+                }
+            }
+        }
+    }
     
     func stateAdjust(shippingState: FirestoreForProducts.ShippingStatus) -> String {
         switch shippingState {

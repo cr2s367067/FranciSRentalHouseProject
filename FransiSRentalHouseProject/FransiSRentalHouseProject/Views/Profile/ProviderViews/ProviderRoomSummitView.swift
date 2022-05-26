@@ -43,7 +43,7 @@ struct ProviderRoomSummitView: View {
                             ZStack(alignment: .center) {
                                 Rectangle()
                                     .fill(Color("fieldGray"))
-                                    .frame(width: 378, height: 304)
+                                    .frame(width: uiScreenWidth - 30, height: 304)
                                     .cornerRadius(10)
                                 Image(systemName: "plus.square")
                                     .resizable()
@@ -53,7 +53,7 @@ struct ProviderRoomSummitView: View {
                                     Image(uiImage: self.providerRoomSummitViewModel.image)
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(width: 378, height: 304)
+                                        .frame(width: uiScreenWidth - 30, height: 304)
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
                                 }
                             }

@@ -33,10 +33,6 @@ struct ProductsProviderSummitView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                Rectangle()
-                    .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                    .edgesIgnoringSafeArea([.top, .bottom])
                 VStack(spacing: 5) {
                     ScrollView(.vertical, showsIndicators: false){
                         TitleAndDivider(title: "Ready to Post your products?")
@@ -47,7 +43,7 @@ struct ProductsProviderSummitView: View {
                             ZStack(alignment: .center) {
                                 Rectangle()
                                     .fill(Color("fieldGray"))
-                                    .frame(width: 378, height: 304)
+                                    .frame(width: uiScreenWidth - 30, height: 304)
                                     .cornerRadius(10)
                                 Image(systemName: "plus.square")
                                     .resizable()
@@ -57,7 +53,7 @@ struct ProductsProviderSummitView: View {
                                     Image(uiImage: self.productsProviderSummitViewModel.image)
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(width: 378, height: 304)
+                                        .frame(width: uiScreenWidth - 30, height: 304)
                                         .cornerRadius(10)
                                 }
                                 VStack {
@@ -72,7 +68,7 @@ struct ProductsProviderSummitView: View {
                                                     .fill(.black.opacity(0.5))
                                             )
                                     }
-//                                    .frame(width: 340)
+
                                     Spacer()
                                 }
                                 .frame(width: 378, height: 304)
@@ -276,28 +272,28 @@ struct ProductsProviderSummitView: View {
                 .onTapGesture {
                     isFocused = false
                 }
-            }
-            .overlay(content: {
-                if firestoreToFetchUserinfo.presentUserId().isEmpty {
-                    UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+                .modifier(ViewBackgroundInitModifier())
+                .overlay(content: {
+                    if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                        UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+                    }
+                    if productsProviderSummitViewModel.showProgressView == true {
+                        CustomProgressView()
+                    }
+                })
+                .sheet(isPresented: $productsProviderSummitViewModel.tosSheetShow, content: {
+                    TermOfServiceForRentalManager()
+                })
+                .onAppear(perform: {
+                    firestoreForProducts.productUID = firestoreForProducts.productIDGenerator()
+                    storageForProductImage.productImageUUID = storageForProductImage.imagUUIDGenerator()
+                })
+                .sheet(isPresented: $productsProviderSummitViewModel.showSheet) {
+                    productsProviderSummitViewModel.isSummitProductPic = true
+                } content: {
+                    PHPickerRepresentable(images: $productsProviderSummitViewModel.images)
                 }
-                if productsProviderSummitViewModel.showProgressView == true {
-                    CustomProgressView()
-                }
-            })
-            .sheet(isPresented: $productsProviderSummitViewModel.tosSheetShow, content: {
-                TermOfServiceForRentalManager()
-            })
-            .onAppear(perform: {
-                firestoreForProducts.productUID = firestoreForProducts.productIDGenerator()
-                storageForProductImage.productImageUUID = storageForProductImage.imagUUIDGenerator()
-            })
-            .sheet(isPresented: $productsProviderSummitViewModel.showSheet) {
-                productsProviderSummitViewModel.isSummitProductPic = true
-            } content: {
-                PHPickerRepresentable(images: $productsProviderSummitViewModel.images)
-            }
-            .navigationBarHidden(true)
+                .navigationBarHidden(true)
         }
     }
 }

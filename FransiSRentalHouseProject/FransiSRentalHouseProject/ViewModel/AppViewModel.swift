@@ -390,9 +390,10 @@ class AppViewModel: ObservableObject {
 
 
 struct customTextField: ViewModifier {
+    let uiScreenWidth = UIScreen.main.bounds.width
     func body(content: Content) -> some View {
         content
-            .frame(width: 370, height: 50)
+            .frame(width: uiScreenWidth - 50, height: 50)
             .foregroundColor(.gray)
             .background(Color("fieldGray").opacity(0.07))
             .cornerRadius(10)

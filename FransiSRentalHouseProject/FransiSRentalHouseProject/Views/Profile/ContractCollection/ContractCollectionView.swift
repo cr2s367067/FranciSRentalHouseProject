@@ -94,45 +94,40 @@ struct ContractReusableUnit: View {
     var body: some View {
         VStack {
             HStack {
-                ZStack {
-                    Image(systemName: "photo")
-                        .font(.system(size: 50))
-                        .frame(width: 130, height: 100)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.brown)
-                        )
+//                ZStack {
+//                    Image(systemName: "photo")
+//                        .font(.system(size: 50))
+//                        .frame(width: uiScreenWidth / 4, height: uiScreenHeight / 6)
+//                        .background(
+//                            RoundedRectangle(cornerRadius: 10)
+//                                .fill(Color.brown)
+//                        )
                     WebImage(url: URL(string: roomsData.roomImage ?? ""))
                         .resizable()
-                        .frame(width: 130, height: 100)
+                        .frame(width: uiScreenWidth / 3 + 20, height: uiScreenHeight / 8 + 5)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .aspectRatio(contentMode: .fit)
-                }
+//                }
                 Spacer()
-                    .frame(width: uiScreenWidth - 200)
             }
-            VStack(spacing: 3) {
+            VStack(alignment: .leading, spacing: 3) {
                 HStack {
                     Text("Address: ")
                     Text("\(address)")
                     Spacer()
                 }
-                .padding(.leading)
-                .padding(.top, 3)
                 HStack {
                     Text("Renter: ")
                     Text(roomsData.rentersContractData?.renterName ?? "No Rented")
                     Spacer()
                 }
-                .padding(.leading)
             }
-            Spacer()
         }
-        .frame(width: uiScreenWidth - 20, height: uiScreenHeight - 700)
+        .padding()
+        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 4 - 20)
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color("fieldGray"))
-                .frame(width: uiScreenWidth - 30, height: uiScreenHeight - 750)
         }
     }
 }

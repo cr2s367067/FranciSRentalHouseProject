@@ -29,70 +29,54 @@ struct SearchView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                Rectangle()
-                    .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                    .edgesIgnoringSafeArea([.bottom, .top])
-                VStack(spacing: 10) {
-                    Spacer()
-                    //: Search TextField For Temp
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.white)
-                            .padding(.leading)
-                        TextField("", text: $searchVM.searchName)
-                            .foregroundColor(.white)
-                            .focused($isFocused)
-                            .placeholer(when: searchVM.searchName.isEmpty) {
-                                Text("Search")
-                                    .foregroundColor(.white.opacity(0.8))
-                            }
-                            .textInputAutocapitalization(.never)
-                        Button {
-                            searchVM.showTags.toggle()
-                        } label: {
-                            Image(systemName: "tag")
-                                .foregroundColor(.white)
-                                .font(.system(size: 20))
+            VStack(spacing: 10) {
+//                Spacer()
+                //: Search TextField For Temp
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.white)
+                        .padding(.leading)
+                    TextField("", text: $searchVM.searchName)
+                        .foregroundColor(.white)
+                        .focused($isFocused)
+                        .placeholer(when: searchVM.searchName.isEmpty) {
+                            Text("Search")
+                                .foregroundColor(.white.opacity(0.8))
                         }
-                        Spacer()
+                        .textInputAutocapitalization(.never)
+                    Button {
+                        searchVM.showTags.toggle()
+                    } label: {
+                        Image(systemName: "tag")
+                            .foregroundColor(.white)
+                            .font(.system(size: 20))
                     }
-                    .padding(.horizontal)
-                    .frame(height: 50)
-                    .foregroundColor(.gray)
-                    .background(alignment: .center) {
-                        RoundedRectangle(cornerRadius: 15)
-                            .fill(colorScheme == .dark ? .gray.opacity(0.4) : Color("fieldGray").opacity(0.07))
-                    }
-                    HStack(spacing: 5) {
-                        Spacer()
-                        Toggle("", isOn: $searchVM.showRooms)
-                            .toggleStyle(CustomToggleStyle())
-                    }
-                    showTagView(isRooms: searchVM.showRooms)
-                    //: Scroll View
-                    VStack {
-                        identityRoomsProducts(showRooms: searchVM.showRooms, showProducts: searchVM.showProducts)
-
-                    }
+                    Spacer()
                 }
-                .padding()
-                .frame(width: uiScreenWidth - 5)
-                
+                .padding(.horizontal)
+                .frame(height: 50)
+                .foregroundColor(.gray)
+                .background(alignment: .center) {
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(colorScheme == .dark ? .gray.opacity(0.4) : Color("fieldGray").opacity(0.07))
+                }
+                HStack(spacing: 5) {
+                    Spacer()
+                    Toggle("", isOn: $searchVM.showRooms)
+                        .toggleStyle(CustomToggleStyle())
+                }
+                showTagView(isRooms: searchVM.showRooms)
+                //: Scroll View
+                ScrollView(.vertical, showsIndicators: false) {
+                    identityRoomsProducts(showRooms: searchVM.showRooms, showProducts: searchVM.showProducts)
+                }
             }
+            .modifier(ViewBackgroundInitModifier())
             .onTapGesture(perform: {
                 isFocused = false
             })
-            .navigationTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-//            .task {
-//                do {
-//                    try await firestoreForProducts.fetchStore()
-//                } catch {
-//                    self.errorHandler.handle(error: error)
-//                }
-//            }
         }
     }
 }
@@ -221,7 +205,7 @@ extension SearchView {
     
     @ViewBuilder
     private func roomsUnit() -> some View {
-        ScrollView(.vertical, showsIndicators: false) {
+//        ScrollView(.vertical, showsIndicators: false) {
             //ForEach to catch the data from firebase
             ForEach(searchVM.customSearchFilter(input: firestoreToFetchRoomsData.fetchRoomInfoFormPublic, searchText: searchVM.searchName)) { result in
                 NavigationLink {
@@ -246,7 +230,7 @@ extension SearchView {
                     })
                 )
             }
-        }
+//        }
     }
     
     
@@ -263,7 +247,7 @@ extension SearchView {
 
     @ViewBuilder
     private func productsUnit() -> some View {
-        ScrollView(.vertical, showsIndicators: false) {
+//        ScrollView(.vertical, showsIndicators: false) {
             ForEach(searchVM.filterProductByTags(input: firestoreForProducts.productsDataSet, tags: searchVM.searchName, searchText: searchVM.searchName)) { product in
                 NavigationLink {
                     ProductDetailView(productName: product.productName,
@@ -291,7 +275,7 @@ extension SearchView {
                     })
                 )
             }
-        }
+//        }
     }
     
     @ViewBuilder

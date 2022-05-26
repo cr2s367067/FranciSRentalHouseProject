@@ -45,7 +45,7 @@ struct CustomToggleView: View {
             .foregroundColor(.white)
             .font(.headline)
             .padding()
-            .frame(width: uiScreenWidth / 2, height: 30, alignment: .center)
+            .frame(width: uiScreenWidth / 2 + 14, height: 30, alignment: .center)
             .accessibilityIdentifier("presentTitle")
         }
     }
