@@ -155,3 +155,13 @@ extension FirestoreForTextingMessage {
         return document.profileImageURL
     }
 }
+
+
+extension FirestoreForTextingMessage {
+    func updateToken(newToken: String, uidPath: String) async throws {
+        let contactUserSetRef = db.collection("ChatUserUIDSet").document(uidPath)
+        try await contactUserSetRef.updateData([
+            "userToken" : newToken
+        ])
+    }
+}

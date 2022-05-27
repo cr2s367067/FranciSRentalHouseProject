@@ -232,6 +232,7 @@ struct StoreTextModifier: ViewModifier {
     }
 }
 struct ViewBackgroundInitModifier: ViewModifier {
+//    @State var isFocus: Bool?
     func body(content: Content) -> some View {
         content
             .padding()
@@ -242,5 +243,13 @@ struct ViewBackgroundInitModifier: ViewModifier {
                 LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea([.top, .bottom])
             }
+//            .toolbar {
+//                ToolbarItemGroup(placement: .keyboard) {
+//                    Spacer()
+//                    Button("Done") {
+//                        isFocus = false
+//                    }
+//                }
+//            }
     }
 }

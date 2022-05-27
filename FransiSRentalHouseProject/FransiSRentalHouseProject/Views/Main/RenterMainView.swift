@@ -20,6 +20,7 @@ struct RenterMainView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     @EnvironmentObject var paymentMg: PaymentMethodManager
+    @EnvironmentObject var fireMessage: FirestoreForTextingMessage
     
     
     
@@ -82,6 +83,15 @@ struct RenterMainView: View {
 //                    }
 //                    NavigationLink("test web") {
 //                        WebView(text: $paymentMg.getResultHolder)
+//                    }
+//                    Button("test") {
+//                        Task {
+//                            do {
+//                                try await firebaseAuth.checkAndUpdateToken(oldToken: fireMessage.senderUIDPath.userToken, uidPath: firebaseAuth.getUID())
+//                            } catch {
+//                                print("error")
+//                            }
+//                        }
 //                    }
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
@@ -177,6 +187,9 @@ struct RenterMainView: View {
                 do {
                     try await firestoreFetchingAnnouncement.fetchAnnouncement()
                     try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
+                    guard !firestoreToFetchUserinfo.fetchedUserData.id.isEmpty else { return }
+                    _ = try await fireMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+                    try await firebaseAuth.checkAndUpdateToken(oldToken: fireMessage.senderUIDPath.userToken, uidPath: firebaseAuth.getUID())
                 } catch {
                     print("some error")
                 }
@@ -206,6 +219,7 @@ struct AnnouncementView: View {
 }
 
 extension RenterMainView {
+    
     private func checkUserInfo() throws {
         guard !firestoreToFetchUserinfo.fetchedUserData.id.isEmpty else {
             throw UserInformationError.registeError

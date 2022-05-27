@@ -29,7 +29,6 @@ struct MessageView: View {
     
     @FocusState private var isFocused: Bool
     
-    
     var body: some View {
         VStack(alignment: .center) {
             ScrollView(.vertical, showsIndicators: false) {
@@ -56,7 +55,13 @@ struct MessageView: View {
                         withAnimation(.spring()) {
                             item.scrollTo(firestoreForTextingMessage.messagesContainer.last?.id, anchor: .bottom)
                         }
-                        
+                    }
+                    .onChange(of: isFocused) { _ in
+                        if isFocused == true {
+                            withAnimation(.spring()) {
+                                item.scrollTo(firestoreForTextingMessage.messagesContainer.last?.id, anchor: .bottom)
+                            }
+                        }
                     }
                 }
             }
@@ -71,7 +76,6 @@ struct MessageView: View {
                 TextField("", text: $textingViewModel.text)
                     .foregroundColor(.white)
                     .focused($isFocused)
-//                    .frame(height: 40, alignment: .center)
                 Button {
                     Task {
                         do {
@@ -104,7 +108,7 @@ struct MessageView: View {
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         .modifier(ViewBackgroundInitModifier())
-//        .keyboardAdaptive()
+        .keyboardAdaptive()
         .overlay {
             if textingViewModel.showImageDetail == true {
                 withAnimation {
@@ -206,6 +210,7 @@ struct TextingViewForReceiver: View {
     }
 }
 
+
 struct TextingViewForSender: View {
     @EnvironmentObject var imgPresenterM: ImagePresentingManager
     @EnvironmentObject var textingViewModel: TextingViewModel
@@ -241,6 +246,7 @@ struct TextingViewForSender: View {
                     }
             }
         }
+        .padding(.horizontal, 1)
     }
 }
 

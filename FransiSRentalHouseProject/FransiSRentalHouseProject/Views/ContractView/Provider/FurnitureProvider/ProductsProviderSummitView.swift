@@ -25,6 +25,7 @@ struct ProductsProviderSummitView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
+    
     init() {
         UITextView.appearance().backgroundColor = .clear
     }
@@ -122,24 +123,50 @@ struct ProductsProviderSummitView: View {
                                 RoundedRectangle(cornerRadius: 20)
                                     .stroke(Color.white, lineWidth: 1)
                             })
-                            InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productName)
-                                .accessibilityIdentifier("productName")
-                            
-                            InfoUnit(title: "Product Price", bindingString: $productsProviderSummitViewModel.productPrice)
-                                .accessibilityIdentifier("price")
-                                .keyboardType(.numberPad)
-                            if !productsProviderSummitViewModel.productPrice.isEmpty {
+                            Group {
+                                InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productName)
+                                    .accessibilityIdentifier("productName")
+                                
+                                InfoUnit(title: "Product Price", bindingString: $productsProviderSummitViewModel.productPrice)
+                                    .accessibilityIdentifier("price")
+                                    .keyboardType(.numberPad)
+                                if !productsProviderSummitViewModel.productPrice.isEmpty {
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        HStack {
+                                            Text("Product Cost Infomation")
+                                                .modifier(textFormateForProviderSummitView())
+                                            Spacer()
+                                        }
+                                        costInfo(title: "Service Fee (2%)", contain: productsProviderSummitViewModel.serviceFee)
+                                        costInfo(title: "Credit Card Payment Fee (2.75%)", contain: productsProviderSummitViewModel.paymentFee)
+                                        Divider()
+                                            .foregroundColor(.white)
+                                        costInfo(title: "Total Cost", contain: productsProviderSummitViewModel.totalCost)
+                                    }
+                                    .padding()
+                                    .frame(width: uiScreenWidth - 30)
+                                    .background(alignment: .center, content: {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.white, lineWidth: 1)
+                                    })
+                                }
+                                InfoUnit(title: "Product Amount", bindingString: $productsProviderSummitViewModel.productAmount)
+                                    .accessibilityIdentifier("amount")
+                                    .keyboardType(.numberPad)
+                                InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productFrom)
+                                    .accessibilityIdentifier("from")
                                 VStack(alignment: .leading, spacing: 2) {
                                     HStack {
-                                        Text("Product Cost Infomation")
+                                        Text("Product Description")
                                             .modifier(textFormateForProviderSummitView())
                                         Spacer()
                                     }
-                                    costInfo(title: "Service Fee (2%)", contain: productsProviderSummitViewModel.serviceFee)
-                                    costInfo(title: "Credit Card Payment Fee (2.75%)", contain: productsProviderSummitViewModel.paymentFee)
-                                    Divider()
-                                        .foregroundColor(.white)
-                                    costInfo(title: "Total Cost", contain: productsProviderSummitViewModel.totalCost)
+                                    TextEditor(text: $productsProviderSummitViewModel.productDescription)
+                                        .foregroundStyle(Color.white)
+                                        .frame(height: 300, alignment: .center)
+                                        .cornerRadius(5)
+                                        .background(Color.clear)
+                                        .accessibilityIdentifier("productDes")
                                 }
                                 .padding()
                                 .frame(width: uiScreenWidth - 30)
@@ -148,30 +175,7 @@ struct ProductsProviderSummitView: View {
                                         .stroke(Color.white, lineWidth: 1)
                                 })
                             }
-                            InfoUnit(title: "Product Amount", bindingString: $productsProviderSummitViewModel.productAmount)
-                                .accessibilityIdentifier("amount")
-                                .keyboardType(.numberPad)
-                            InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productFrom)
-                                .accessibilityIdentifier("from")
-                            VStack(alignment: .leading, spacing: 2) {
-                                HStack {
-                                    Text("Product Description")
-                                        .modifier(textFormateForProviderSummitView())
-                                    Spacer()
-                                }
-                                TextEditor(text: $productsProviderSummitViewModel.productDescription)
-                                    .foregroundStyle(Color.white)
-                                    .frame(height: 300, alignment: .center)
-                                    .cornerRadius(5)
-                                    .background(Color.clear)
-                                    .accessibilityIdentifier("productDes")
-                            }
-                            .padding()
-                            .frame(width: uiScreenWidth - 30)
-                            .background(alignment: .center, content: {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(Color.white, lineWidth: 1)
-                            })
+                            
                             StepsTitle(stepsName: "Step3: Please check out the terms of service.")
                             VStack(alignment: .leading) {
                                 Spacer()
@@ -269,10 +273,15 @@ struct ProductsProviderSummitView: View {
                         .focused($isFocused)
                     }
                 }
-                .onTapGesture {
-                    isFocused = false
-                }
                 .modifier(ViewBackgroundInitModifier())
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button("Done") {
+                            isFocused = false
+                        }
+                    }
+                }
                 .overlay(content: {
                     if firestoreToFetchUserinfo.presentUserId().isEmpty {
                         UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)

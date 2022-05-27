@@ -66,9 +66,6 @@ struct UserDetailInfoView: View {
                 }
             }
         }
-        .onTapGesture(perform: {
-            isFocused = false
-        })
         .onAppear(perform: {
             if firestoreToFetchUserinfo.presentUserId().isEmpty {
                 userDetailInfoViewModel.isEdit = true
@@ -98,6 +95,13 @@ struct UserDetailInfoView: View {
                         .resizable()
                         .foregroundColor(.white)
                         .frame(width: 20, height: 20, alignment: .trailing)
+                }
+            }
+            
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    isFocused = false
                 }
             }
         }

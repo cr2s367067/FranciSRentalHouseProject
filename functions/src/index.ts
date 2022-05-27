@@ -4,7 +4,7 @@ admin.initializeApp()
 
 const db = admin.firestore()
 
-export const messageNotification2 = functions.firestore.document("ChatCenter/{chatRoomUID}/MessageContain/{id}").onCreate(async (snapshot, context) => {
+export const messageNotification2 = functions.region("asia-east1").firestore.document("ChatCenter/{chatRoomUID}/MessageContain/{id}").onCreate(async (snapshot, context) => {
     // const id = context.params.id
     // const chatRoomUID = context.params.chatRoomUID
 

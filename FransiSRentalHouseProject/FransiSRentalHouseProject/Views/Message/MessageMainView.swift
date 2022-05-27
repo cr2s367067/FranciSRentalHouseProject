@@ -72,7 +72,7 @@ struct MessageMainView: View {
         .task {
             do {
                 if !firestoreToFetchUserinfo.presentUserId().isEmpty {
-                    _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+//                    _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
                     try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
                     try await determinProviderCreated(listUser: firestoreForTextingMessage.contactMember, providerChatID: roomsDetailViewModel.providerChatDodID, createRoom: roomsDetailViewModel.createNewChateRoom)
                 }
@@ -169,7 +169,7 @@ extension MessageMainView {
     
     func initChatRoom(providerUID: String, providerName: String, providerChatDocID: String, profileImage: String) async throws {
         let chatRoomUID = UUID().uuidString
-        _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+//        _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
         try await firestoreForTextingMessage.createChatRoom(contact1docID: firestoreForTextingMessage.senderUIDPath.chatDocId, contact2docID: providerChatDocID, chatRoomUID: chatRoomUID)
         
         if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" {
@@ -208,7 +208,7 @@ extension MessageMainView {
             Task {
                 do {
                     try await initChatRoom(providerUID: roomsDetailViewModel.providerUID, providerName: roomsDetailViewModel.providerDisplayName, providerChatDocID: roomsDetailViewModel.providerChatDodID, profileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL)
-                    _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+//                    _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
                     try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
                 } catch {
                     self.errorHandler.handle(error: error)

@@ -184,6 +184,14 @@ struct LoginView: View {
                 }
                 .edgesIgnoringSafeArea([.top, .bottom])
             }
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        isFocus = false
+                    }
+                }
+            }
         }
     }
 }

@@ -50,7 +50,6 @@ struct SignUpView: View {
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
-                
                 VStack {
                     //                    Spacer()
                     //                        .frame(height: 90)
@@ -140,11 +139,6 @@ struct SignUpView: View {
                                                 .padding(.leading)
                                                 .accessibilityIdentifier("confirmPassword")
                                                 .focused($isFocus)
-//                                                .onChange(of: appViewModel.recheckPassword) { newValue in
-//                                                    Task {
-//                                                        await delayUnFocused()
-//                                                    }
-//                                                }
                                         }
                                         .modifier(customTextField())
                                     }
@@ -392,6 +386,14 @@ struct SignUpView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    isFocus = false
+                }
+            }
+        }
         .background(alignment: .center) {
             Group {
                 Image("door1")
@@ -407,9 +409,6 @@ struct SignUpView: View {
             }
             .edgesIgnoringSafeArea([.top, .bottom])
         }
-//        .onTapGesture {
-//            isFocus = false
-//        }
         .sheet(isPresented: $tosSheetShow, content: {
             TermOfServiceView()
         })

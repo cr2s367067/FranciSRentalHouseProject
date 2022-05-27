@@ -10,6 +10,7 @@ import FirebaseAuth
 import CryptoKit
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseMessaging
 
 class FirebaseAuth: ObservableObject {
     
@@ -191,4 +192,22 @@ extension FirebaseAuth {
 
         
         
+}
+
+
+//MARK: - Check Notification Token
+extension FirebaseAuth {
+    
+    func checkAndUpdateToken(oldToken: String, uidPath: String) async throws {
+        let getToken = try await Messaging.messaging().token()
+        if oldToken == getToken {
+            debugPrint("same token")
+        } else {
+            debugPrint("Dif. token and update to firestore")
+            let fireMes = FirestoreForTextingMessage()
+            try await fireMes.updateToken(newToken: getToken, uidPath: uidPath)
+            _ = try await fireMes.fetchStoredUserData(uidPath: uidPath)
+        }
+    }
+    
 }

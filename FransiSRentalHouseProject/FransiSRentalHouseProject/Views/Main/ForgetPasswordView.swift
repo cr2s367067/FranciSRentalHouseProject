@@ -17,9 +17,9 @@ struct ForgetPasswordView: View {
     @FocusState private var isFocus: Bool
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {        
-            VStack {
-                TitleAndDivider(title: "Forgot Password?")
+        VStack {
+            TitleAndDivider(title: "Forgot Password?")
+            ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     cusField(imageName: "rectangle.and.pencil.and.ellipsis", fieldName: "E-mail Address", text: $email, fieldBool: email.isEmpty)
                     HStack {
@@ -45,7 +45,15 @@ struct ForgetPasswordView: View {
                 .modifier(SubViewBackgroundInitModifier())
                 Spacer()
             }
-            .modifier(ViewBackgroundInitModifier())
+        }
+        .modifier(ViewBackgroundInitModifier())
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    isFocus = false
+                }
+            }
         }
     }
 }

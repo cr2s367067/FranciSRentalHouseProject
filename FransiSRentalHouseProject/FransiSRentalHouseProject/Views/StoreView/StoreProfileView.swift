@@ -59,7 +59,7 @@ struct StoreProfileView: View {
         .task {
             do {
                 storeProfileVM.isCreated = providerProfileViewModel.providerConfig.isCreated
-                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+//                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
                 if storeProfileVM.isCreated {
                     _ = try await firestoreForProducts.fetchStoreInLocal(uidPath: firebaseAuth.getUID())
                 }
