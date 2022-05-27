@@ -15,6 +15,7 @@ struct ContentView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
     
+    @State private var test = ""
    
     var body: some View {
         Group {
@@ -39,11 +40,24 @@ struct ContentView: View {
         
         //----------------------Test---------------------------
 //        TabView {
-//            TestView()
+//            VStack {
+//                ScrollView(.vertical, showsIndicators: false) {
+//                    ForEach(0..<100) { data in
+//                        Text("\(data)")
+//                    }
+//                }
+//                Spacer()
+//                HStack {
+//                    Image(systemName: "paperplane")
+//                    TextField("test field", text: $test)
+//                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                }
+//                .ignoresSafeArea(.keyboard, edges: .bottom)
+//            }
+//            .padding()
 //        }
 
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

@@ -113,14 +113,14 @@ struct FransiSRentalHouseProjectApp: App {
 
 
 class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
-    
+
     let gcmMessageIDKey = "gcm.message_id"
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        
-        
+
+
         FirebaseApp.configure()
-        
+
 #if EMULATORS
         print(
         """
@@ -144,17 +144,19 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         print(
         """
         *********************************
-        
+
         Testing on Live Server
-        
+
         *********************************
         """
         )
 #endif
+
+        //MARK: It will cause the keyboard that has gap upon
+//        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
         
-        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
         Messaging.messaging().delegate = self
-        
+
         if #available(iOS 10.0, *) {
                  // For iOS 10 display notification (sent via APNS)
                  UNUserNotificationCenter.current().delegate = self
@@ -170,24 +172,24 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
                }
 
                application.registerForRemoteNotifications()
-        
+
         return true
     }
-    
+
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
+
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-        
+
         print(userInfo)
-        
+
         completionHandler(UIBackgroundFetchResult.newData)
     }
-    
+
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        
+
         let deviceToken:[String: String] = ["token": fcmToken ?? ""]
         print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
     }

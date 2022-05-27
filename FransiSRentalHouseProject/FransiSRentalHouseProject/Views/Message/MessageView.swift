@@ -27,6 +27,7 @@ struct MessageView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
+    @FocusState private var isFocused: Bool
     
     
     var body: some View {
@@ -69,6 +70,7 @@ struct MessageView: View {
                 }
                 TextField("", text: $textingViewModel.text)
                     .foregroundColor(.white)
+                    .focused($isFocused)
 //                    .frame(height: 40, alignment: .center)
                 Button {
                     Task {
@@ -99,9 +101,10 @@ struct MessageView: View {
                     .stroke(Color.white, lineWidth: 2)
                     .foregroundColor(Color.clear)
             }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         .modifier(ViewBackgroundInitModifier())
-        .keyboardAdaptive()
+//        .keyboardAdaptive()
         .overlay {
             if textingViewModel.showImageDetail == true {
                 withAnimation {
@@ -144,6 +147,11 @@ struct MessageView: View {
                         .padding(.leading)
                     Spacer()
                 }
+            }
+        }
+        .onTapGesture {
+            if isFocused {
+                isFocused = false
             }
         }
     }
