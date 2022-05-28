@@ -405,7 +405,8 @@ struct textFormateForProviderSummitView: ViewModifier {
     func body(content: Content) -> some View {
         content
             .foregroundStyle(Color.white)
-            .font(.system(size: 15, weight: .regular))
+            .font(.body)
+            
     }
 }
 
@@ -508,17 +509,18 @@ struct TitleAndDivider: View {
                 }
             }
         }
-        .frame(width: uiScreenWidth - 25)
+        .frame(width: uiScreenWidth - 20)
     }
 }
 
 struct AppDivider: View {
+    let uiScreenWidth = UIScreen.main.bounds.width
     var body: some View {
         HStack {
             VStack {
                 Divider()
                     .background(Color.white)
-                    .frame(width: 400, height: 10)
+                    .frame(width: uiScreenWidth - 20, height: 10)
                     .offset(x: -10)
             }
         }

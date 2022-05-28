@@ -43,13 +43,14 @@ struct RoomsDetailView: View {
             }
             VStack {
                 roomImagesPresenterWithPlaceHolder()
-                    .frame(width: uiScreenWidth - 50)
+                    .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 7 - 72)
                 Spacer()
                     .frame(height: 15)
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .center, spacing: 10) {
                     HStack {
                         Text(roomsData.providerDisplayName)
-                            .font(.system(size: 30))
+                            .font(.title2)
+                            .fontWeight(.heavy)
                         Spacer()
                         Group {
                             HStack {
@@ -60,11 +61,12 @@ struct RoomsDetailView: View {
                                 } label: {
                                     Text("\(roomCARVM.rattingCompute(input: firestoreToFetchRoomsData.roomCARDataSet), specifier: "%.1f")")
                                         .foregroundColor(.black)
-                                        .font(.system(size: 15, weight: .bold))
+                                        .font(.body)
+                                        .fontWeight(.heavy)
                                 }
                             }
                             .padding()
-                            .frame(width: 90, height: 30, alignment: .center)
+                            .frame(width: uiScreenWidth / 4, height: 30, alignment: .center)
                             .background(alignment: .trailing) {
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(Color.white)
@@ -76,8 +78,8 @@ struct RoomsDetailView: View {
                         } label: {
                             withAnimation {
                                 Image(systemName: roomsDetailViewModel.showMap ? "photo.artframe" : "map")
-                                    .resizable()
-                                    .frame(width: 30, height: 30, alignment: .trailing)
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 30))
                             }
                         }
                     }
@@ -113,10 +115,10 @@ struct RoomsDetailView: View {
                             } label: {
                                  Text("Check Contract")
                                     .foregroundColor(.white)
-                                    .frame(width: 140, height: 35)
+                                    .frame(width: uiScreenWidth / 4 + 50, height: 35)
                                     .background(Color("buttonBlue"))
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
-                                    .padding(.horizontal)
+                                    .padding()
                             }
                             
                         }
@@ -131,8 +133,7 @@ struct RoomsDetailView: View {
                     }
                 }
                 .foregroundColor(.white)
-                .padding(.horizontal)
-                .padding(.vertical)
+                .padding()
                 .frame(width: uiScreenWidth, height: uiScreenHeight / 3)
                 .background {
                     Rectangle()
@@ -246,12 +247,12 @@ extension RoomsDetailView {
                 NavigationLink {
                     MessageMainView()
                 } label: {
-                    Text("Contact provider.")
+                    Text("Contact Provider")
                         .foregroundColor(.white)
-                        .frame(width: 175, height: 35)
+                        .frame(width: uiScreenWidth / 3 + 25, height: 35)
                         .background(Color("buttonBlue"))
                         .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .padding(.trailing)
+                        .padding()
                 }
                 .simultaneousGesture(TapGesture().onEnded({ _ in
                         roomsDetailViewModel.createNewChateRoom = true

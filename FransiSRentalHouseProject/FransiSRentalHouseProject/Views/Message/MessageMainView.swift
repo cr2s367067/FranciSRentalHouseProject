@@ -71,11 +71,12 @@ struct MessageMainView: View {
         }
         .task {
             do {
-                if !firestoreToFetchUserinfo.presentUserId().isEmpty {
+                guard !firestoreToFetchUserinfo.fetchedUserData.id.isEmpty else { return }
+//                if !firestoreToFetchUserinfo.presentUserId().isEmpty {
 //                    _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
                     try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
                     try await determinProviderCreated(listUser: firestoreForTextingMessage.contactMember, providerChatID: roomsDetailViewModel.providerChatDodID, createRoom: roomsDetailViewModel.createNewChateRoom)
-                }
+//                }
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -183,7 +184,15 @@ extension MessageMainView {
     private func fromSide(chatRoomUID: String, providerUID: String, providerName: String, providerChatDocID: String, profileImage: String) async throws {
         
         //MARK: user side
+        debugPrint(firestoreForTextingMessage.senderUIDPath.chatDocId)
+        debugPrint(firestoreToFetchUserinfo.fetchedUserData.displayName)
+        debugPrint(profileImage)
         try await firestoreForTextingMessage.storeSenderUserInfo(uidPath: firebaseAuth.getUID(), userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, displayName: firestoreToFetchUserinfo.fetchedUserData.displayName, displayProfileImage: profileImage)
+        
+        
+        debugPrint("contact person doc id: \(providerChatDocID)")
+        debugPrint("contact person uid: \(providerUID)")
+        debugPrint("sender user doc id: \(firestoreForTextingMessage.senderUIDPath.chatDocId)")
         
         //MARK: User contacting side
         try await firestoreForTextingMessage.storeContactUserInfo(contactPersonDocID: providerChatDocID, contactPersonUidPath: providerUID, senderUserDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactWithdisplayName: providerName, contactPersondisplayProfileImage: firestoreForTextingMessage.getProviderProfileImage(provideBy: providerUID), chatRoomUID: chatRoomUID)

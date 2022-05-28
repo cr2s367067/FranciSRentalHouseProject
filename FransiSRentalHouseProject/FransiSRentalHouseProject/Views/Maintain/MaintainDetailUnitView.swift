@@ -21,6 +21,7 @@ struct MaintainDetailUnitView: View {
     var docID: String
     var taskHolder: MaintainTaskHolder
     
+    
     @State private var showSheet = false
     @State private var newSelectedImage = [UIImage]()
     @State private var newDes = ""
@@ -101,6 +102,14 @@ struct MaintainDetailUnitView: View {
             Spacer()
         }
         .modifier(ViewBackgroundInitModifier())
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    isFocus = false
+                }
+            }
+        }
         .onAppear {
             newImageURL = taskHolder.itemImageURL
             newDes = taskHolder.description

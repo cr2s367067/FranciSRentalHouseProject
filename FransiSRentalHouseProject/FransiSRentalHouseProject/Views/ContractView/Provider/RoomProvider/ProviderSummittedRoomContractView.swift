@@ -653,7 +653,7 @@ struct ProviderSummittedRoomContractView: View {
                         Button {
                             isAgree.toggle()
                         } label: {
-                            Image(systemName: isAgree ? "checkmark.square.fill" : "checkmark.square")
+                            Image(systemName: isAgree ? "checkmark.square.fill" : "square")
                                 .resizable()
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(Color.green)

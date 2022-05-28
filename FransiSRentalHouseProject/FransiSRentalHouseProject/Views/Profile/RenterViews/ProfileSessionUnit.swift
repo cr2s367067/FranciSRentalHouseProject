@@ -11,12 +11,15 @@ struct ProfileSessionUnit: View {
     
     var mainTainTask: MaintainTaskHolder
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(Color("fieldGray"))
                 .cornerRadius(5)
-                .frame(width: 354, height: 51)
+                .frame(width: uiScreenWidth - 80, height: 50)
             HStack {
                 Text(mainTainTask.description)
                     .foregroundColor(Color("sessionBackground"))
@@ -27,9 +30,8 @@ struct ProfileSessionUnit: View {
                     .foregroundColor(.red)
                     .font(.system(size: 15, weight: .heavy))
             }
-            .frame(width: 350, height: 50)
-            .padding(.leading, 20)
-            .padding(.trailing, 20)
+            .padding()
+            .frame(width: uiScreenWidth - 80, height: 50)
         }
     }
 }

@@ -319,7 +319,7 @@ struct SignUpView: View {
                                                                                                  userType: appViewModel.userType,
                                                                                                  emailAddress: appViewModel.emailAddress,
                                                                                                  providerType: appViewModel.providerType,
-                                                                                                 RLNumber: appViewModel.rentalManagerLicenseNumber)
+                                                                                                 RLNumber: appViewModel.rentalManagerLicenseNumber, signByApple: firebaseAuth.signByApple)
                                     if firebaseAuth.signByApple {
                                         firebaseAuth.signIn = true
                                         firebaseAuth.showSignUpView = false
@@ -346,7 +346,7 @@ struct SignUpView: View {
                             Button {
                                 appViewModel.isAgree.toggle()
                             } label: {
-                                Image(systemName: appViewModel.isAgree ? "checkmark.square.fill" : "checkmark.square")
+                                Image(systemName: appViewModel.isAgree ? "checkmark.square.fill" : "square")
                                     .foregroundColor(appViewModel.isAgree ? .green : .white)
                                     .padding(.trailing, 5)
                             }

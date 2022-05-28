@@ -45,7 +45,7 @@ struct AutoPaymentSettingView: View {
                     Button {
                         autoPaymentSettingViewModel.checkbox.toggle()
                     } label: {
-                        Image(systemName: autoPaymentSettingViewModel.checkbox ? "checkmark.square.fill" : "checkmark.square")
+                        Image(systemName: autoPaymentSettingViewModel.checkbox ? "checkmark.square.fill" : "square")
                             .foregroundColor(autoPaymentSettingViewModel.checkbox ? .green : .white)
                             .font(.system(size: 20))
                     }

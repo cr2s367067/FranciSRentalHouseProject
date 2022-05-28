@@ -124,7 +124,7 @@ struct RenterContractEditView: View {
                                         }
                                     } label: {
                                         HStack {
-                                            Image(systemName: "checkmark.square")
+                                            Image(systemName: rentEditVM.contractDataModel.parkingStyleM ? "checkmark.square.fill" : "square")
                                                 .resizable()
                                                 .foregroundColor(rentEditVM.contractDataModel.parkingStyleM ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)
@@ -142,7 +142,7 @@ struct RenterContractEditView: View {
                                         }
                                     } label: {
                                         HStack {
-                                            Image(systemName: "checkmark.square")
+                                            Image(systemName: rentEditVM.contractDataModel.parkingStyleN ? "checkmark.square.fill" : "square")
                                                 .resizable()
                                                 .foregroundColor(rentEditVM.contractDataModel.parkingStyleN ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)
@@ -165,7 +165,7 @@ struct RenterContractEditView: View {
                                         }
                                     } label: {
                                         HStack {
-                                            Image(systemName: "checkmark.square")
+                                            Image(systemName: rentEditVM.contractDataModel.forAllday ? "checkmark.square.fill" : "square")
                                                 .resizable()
                                                 .foregroundColor(rentEditVM.contractDataModel.forAllday ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)
@@ -186,7 +186,7 @@ struct RenterContractEditView: View {
                                         }
                                     } label: {
                                         HStack {
-                                            Image(systemName: "checkmark.square")
+                                            Image(systemName: rentEditVM.contractDataModel.forMorning ? "checkmark.square.fill" : "square")
                                                 .resizable()
                                                 .foregroundColor(rentEditVM.contractDataModel.forMorning ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)
@@ -207,7 +207,7 @@ struct RenterContractEditView: View {
                                         }
                                     } label: {
                                         HStack {
-                                            Image(systemName: "checkmark.square")
+                                            Image(systemName: rentEditVM.contractDataModel.forNight ? "checkmark.square.fill" : "square")
                                                 .resizable()
                                                 .foregroundColor(rentEditVM.contractDataModel.forNight ? .green : .gray)
                                                 .frame(width: 20, height: 20, alignment: .center)

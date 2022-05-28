@@ -24,7 +24,7 @@ struct CustomToggleView: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .center) {
             RoundedRectangle(cornerRadius: 20)
                 .fill(.gray)
                 .frame(width: 68, height: 30, alignment: .center)
@@ -37,7 +37,7 @@ struct CustomToggleView: View {
                 }
                 .offset(x: isOn ? -19 : 19)
                 .animation(.linear, value: 0.1)
-            HStack {
+            HStack(alignment: .center, spacing: 20) {
                 Text(LocalizedStringKey(ToggleLabel.lodge.rawValue))
                 Spacer()
                 Text(LocalizedStringKey(ToggleLabel.goods.rawValue))
@@ -45,7 +45,7 @@ struct CustomToggleView: View {
             .foregroundColor(.white)
             .font(.headline)
             .padding()
-            .frame(width: uiScreenWidth / 2 + 14, height: 30, alignment: .center)
+            .frame(width: uiScreenWidth / 2 + 20, height: 30, alignment: .center)
             .accessibilityIdentifier("presentTitle")
         }
     }

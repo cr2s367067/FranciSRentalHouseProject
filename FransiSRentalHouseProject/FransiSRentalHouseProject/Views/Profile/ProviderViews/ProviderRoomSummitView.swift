@@ -158,7 +158,7 @@ struct ProviderRoomSummitView: View {
                                         appViewModel.someoneDeadinRoom = "Yes"
                                     }
                                 } label: {
-                                    Image(systemName: appViewModel.doesSomeDeadinRoomYes ? "checkmark.square.fill" : "checkmark.square")
+                                    Image(systemName: appViewModel.doesSomeDeadinRoomYes ? "checkmark.square.fill" : "square")
                                         .foregroundColor(appViewModel.doesSomeDeadinRoomYes ? .green : .white)
                                         .padding(.trailing, 5)
                                     Text("Yes")
@@ -173,7 +173,7 @@ struct ProviderRoomSummitView: View {
                                         appViewModel.someoneDeadinRoom = "No"
                                     }
                                 } label: {
-                                    Image(systemName: appViewModel.doesSomeDeadinRoomNo ? "checkmark.square.fill" : "checkmark.square")
+                                    Image(systemName: appViewModel.doesSomeDeadinRoomNo ? "checkmark.square.fill" : "square")
                                         .foregroundColor(appViewModel.doesSomeDeadinRoomNo ? .green : .white)
                                         .padding(.trailing, 5)
                                     Text("No")
@@ -200,7 +200,7 @@ struct ProviderRoomSummitView: View {
                                         appViewModel.waterLeakingProblem = "Yes"
                                     }
                                 } label: {
-                                    Image(systemName: appViewModel.hasWaterLeakingYes ? "checkmark.square.fill" : "checkmark.square")
+                                    Image(systemName: appViewModel.hasWaterLeakingYes ? "checkmark.square.fill" : "square")
                                         .foregroundColor(appViewModel.hasWaterLeakingYes ? .green : .white)
                                         .padding(.trailing, 5)
                                     Text("Yes")
@@ -215,7 +215,7 @@ struct ProviderRoomSummitView: View {
                                         appViewModel.waterLeakingProblem = "No"
                                     }
                                 } label: {
-                                    Image(systemName: appViewModel.hasWaterLeakingNo ? "checkmark.square.fill" : "checkmark.square")
+                                    Image(systemName: appViewModel.hasWaterLeakingNo ? "checkmark.square.fill" : "square")
                                         .foregroundColor(appViewModel.hasWaterLeakingNo ? .green : .white)
                                         .padding(.trailing, 5)
                                     Text("No")
@@ -236,7 +236,7 @@ struct ProviderRoomSummitView: View {
                             Button {
                                 providerRoomSummitViewModel.holderTosAgree.toggle()
                             } label: {
-                                Image(systemName: providerRoomSummitViewModel.holderTosAgree ? "checkmark.square.fill" : "checkmark.square")
+                                Image(systemName: providerRoomSummitViewModel.holderTosAgree ? "checkmark.square.fill" : "square")
                                     .foregroundColor(providerRoomSummitViewModel.holderTosAgree ? .green : .white)
                                     .padding(.trailing, 5)
                             }
@@ -398,7 +398,7 @@ extension ProviderRoomSummitView {
     private func roomSummit(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, providerDisplayName: String, roomDescription: String) async throws {
         
         let docID = UUID().uuidString
-//        _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
+        _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
         try await firestoreToFetchRoomsData.summitRoomInfoAsync(docID: docID, uidPath: firebaseAuth.getUID(), roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL, providerDisplayName: providerDisplayName, providerChatDocId: firestoreForTextingMessage.senderUIDPath.chatDocId, roomDescription: roomDescription)
         if !providerRoomSummitViewModel.imageSet.isEmpty {
             try await storageForRoomsImage.uploadImageSet(uidPath: firebaseAuth.getUID(), images: providerRoomSummitViewModel.imageSet, roomID: roomUID, docID: docID)

@@ -334,7 +334,7 @@ extension RenterContractView {
                             Button {
                                 appViewModel.rentalPolicyisAgree.toggle()
                             } label: {
-                                Image(systemName: appViewModel.rentalPolicyisAgree ? "checkmark.square.fill" : "checkmark.square")
+                                Image(systemName: appViewModel.rentalPolicyisAgree ? "checkmark.square.fill" : "square")
                                     .resizable()
                                     .frame(width: 15, height: 15)
                                     .foregroundColor(Color.green)

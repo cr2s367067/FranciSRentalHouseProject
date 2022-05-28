@@ -184,7 +184,8 @@ extension RenterProfileView {
             VStack {
                 HStack {
                     Text("Room Status: ")
-                        .font(.system(size: 20, weight: .heavy))
+                        .font(.headline)
+                        .fontWeight(.heavy)
                         .unredacted()
                     Spacer()
                     NavigationLink {
@@ -197,10 +198,10 @@ extension RenterProfileView {
                 //.padding(.leading, 5)
                 HStack {
                     Text("Expired Date")
-                        .font(.system(size: 20, weight: .heavy))
+                        .font(.headline)
+                        .fontWeight(.heavy)
                         .unredacted()
                     Spacer()
-                        .frame(width: 100)
                     //MARK: Add the expired date in data model
                     Text(firestoreToFetchUserinfo.rentedContract.rentalEndDate, format: Date.FormatStyle().year().month().day())
                         .font(.system(size: 15, weight: .heavy))

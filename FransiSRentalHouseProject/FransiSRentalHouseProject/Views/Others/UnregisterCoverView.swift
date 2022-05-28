@@ -13,11 +13,7 @@ struct UnregisterCoverView: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     @Binding var isShowUserDetailView: Bool
     var body: some View {
-//        ZStack {
-//            Rectangle()
-//                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-//                .ignoresSafeArea(.all)
-        VStack {
+        VStack(alignment: .center) {
             VStack {
                 Text("Notice")
                     .font(.headline)
@@ -28,6 +24,8 @@ struct UnregisterCoverView: View {
                     .frame(width: 80, height: 50, alignment: .center)
                 Text("Please fill out the user information, thanks")
                     .foregroundColor(.black)
+                    .font(.body)
+                    .fontWeight(.bold)
                 Spacer()
                 NavigationLink(isActive: $isShowUserDetailView) {
                     UserDetailInfoView()
@@ -41,7 +39,7 @@ struct UnregisterCoverView: View {
                 }
             }
             .padding()
-            .frame(width: uiScreenWidth / 2, height: uiScreenHeight / 4, alignment: .center)
+            .frame(width: uiScreenWidth / 2 + 30 , height: uiScreenHeight / 4, alignment: .center)
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.white)
@@ -52,7 +50,6 @@ struct UnregisterCoverView: View {
             LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea([.top, .bottom])
         }
-//        }
     }
 }
 

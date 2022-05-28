@@ -484,5 +484,608 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "03F62D2D-0964-4AE1-9738-BA1189A570E1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B4919B43-1E91-4453-A5E7-F82D2DB4F2EB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "16BAF7A8-3634-41E6-A690-A5EC8A35EFC7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "determinProviderCreated(listUser:providerChatID:createRoom:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "16BAF7A8-3634-41E6-A690-A5EC8A35EFC7 - ee428c580abea4c1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable () async -&gt; () in FransiSRentalHouseProject.MessageMainView.determinProviderCreated(listUser: Swift.Array&lt;FransiSRentalHouseProject.ContactUserDataModel&gt;, providerChatID: Swift.String, createRoom: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147"
+                  offsetFromSymbolStart = "180">
+               </Location>
+               <Location
+                  uuid = "16BAF7A8-3634-41E6-A690-A5EC8A35EFC7 - 6c48ccbd7e3a3bb8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for closure #1 @Sendable () async -&gt; () in FransiSRentalHouseProject.MessageMainView.determinProviderCreated(listUser: Swift.Array&lt;FransiSRentalHouseProject.ContactUserDataModel&gt;, providerChatID: Swift.String, createRoom: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "16BAF7A8-3634-41E6-A690-A5EC8A35EFC7 - 6f87e3e6b48cc87e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in FransiSRentalHouseProject.MessageMainView.determinProviderCreated(listUser: Swift.Array&lt;FransiSRentalHouseProject.ContactUserDataModel&gt;, providerChatID: Swift.String, createRoom: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DD30C528-7552-4DF7-A92E-0834A11BAE0F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
+            landmarkName = "determinProviderCreated(listUser:providerChatID:createRoom:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DD30C528-7552-4DF7-A92E-0834A11BAE0F - 253cdc7f833265ad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable () async -&gt; () in closure #2 (FransiSRentalHouseProject.ContactUserDataModel) -&gt; () in FransiSRentalHouseProject.MessageMainView.determinProviderCreated(listUser: Swift.Array&lt;FransiSRentalHouseProject.ContactUserDataModel&gt;, providerChatID: Swift.String, createRoom: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "161"
+                  endingLineNumber = "161"
+                  offsetFromSymbolStart = "180">
+               </Location>
+               <Location
+                  uuid = "DD30C528-7552-4DF7-A92E-0834A11BAE0F - 243134ec90b5c0c5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 (FransiSRentalHouseProject.ContactUserDataModel) -&gt; () in FransiSRentalHouseProject.MessageMainView.determinProviderCreated(listUser: Swift.Array&lt;FransiSRentalHouseProject.ContactUserDataModel&gt;, providerChatID: Swift.String, createRoom: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "161"
+                  endingLineNumber = "161"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "DD30C528-7552-4DF7-A92E-0834A11BAE0F - 667c064c5ab4092"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 (FransiSRentalHouseProject.ContactUserDataModel) -&gt; () in FransiSRentalHouseProject.MessageMainView.determinProviderCreated(listUser: Swift.Array&lt;FransiSRentalHouseProject.ContactUserDataModel&gt;, providerChatID: Swift.String, createRoom: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "161"
+                  endingLineNumber = "161"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BDDD8270-633C-4079-A2B5-F36DB63BD5C7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "determinProviderCreated(listUser:providerChatID:createRoom:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BDDD8270-633C-4079-A2B5-F36DB63BD5C7 - 667c064c5ab40b3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 (FransiSRentalHouseProject.ContactUserDataModel) -&gt; () in FransiSRentalHouseProject.MessageMainView.determinProviderCreated(listUser: Swift.Array&lt;FransiSRentalHouseProject.ContactUserDataModel&gt;, providerChatID: Swift.String, createRoom: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "BDDD8270-633C-4079-A2B5-F36DB63BD5C7 - 667c064c5ab40b3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 (FransiSRentalHouseProject.ContactUserDataModel) -&gt; () in FransiSRentalHouseProject.MessageMainView.determinProviderCreated(listUser: Swift.Array&lt;FransiSRentalHouseProject.ContactUserDataModel&gt;, providerChatID: Swift.String, createRoom: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "144">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9B78361C-D9F5-475C-9C7B-D6D69CE7045A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
+            landmarkName = "initChatRoom(providerUID:providerName:providerChatDocID:profileImage:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "97A4E5D6-C1C4-450E-AC76-E11659A4C01A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "initChatRoom(providerUID:providerName:providerChatDocID:profileImage:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F0EF8CE0-9214-45B4-9C01-7525C653440A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "initChatRoom(providerUID:providerName:providerChatDocID:profileImage:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F0EF8CE0-9214-45B4-9C01-7525C653440A - 191a4510ac3c08c3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.MessageMainView.initChatRoom(providerUID: Swift.String, providerName: Swift.String, providerChatDocID: Swift.String, profileImage: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "176"
+                  endingLineNumber = "176"
+                  offsetFromSymbolStart = "388">
+               </Location>
+               <Location
+                  uuid = "F0EF8CE0-9214-45B4-9C01-7525C653440A - b1aba77022ba278"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) await resume partial function for FransiSRentalHouseProject.MessageMainView.initChatRoom(providerUID: Swift.String, providerName: Swift.String, providerChatDocID: Swift.String, profileImage: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "176"
+                  endingLineNumber = "176"
+                  offsetFromSymbolStart = "92">
+               </Location>
+               <Location
+                  uuid = "F0EF8CE0-9214-45B4-9C01-7525C653440A - 1e8082f421b09f2e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(8) suspend resume partial function for FransiSRentalHouseProject.MessageMainView.initChatRoom(providerUID: Swift.String, providerName: Swift.String, providerChatDocID: Swift.String, profileImage: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "176"
+                  endingLineNumber = "176"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "24423AE3-D402-4509-9205-C3C3BFD49122"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "initChatRoom(providerUID:providerName:providerChatDocID:profileImage:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "24423AE3-D402-4509-9205-C3C3BFD49122 - b1aba77022ba297"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) await resume partial function for FransiSRentalHouseProject.MessageMainView.initChatRoom(providerUID: Swift.String, providerName: Swift.String, providerChatDocID: Swift.String, profileImage: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "156">
+               </Location>
+               <Location
+                  uuid = "24423AE3-D402-4509-9205-C3C3BFD49122 - 46422c962ffdf0a0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) await resume partial function for FransiSRentalHouseProject.MessageMainView.initChatRoom(providerUID: Swift.String, providerName: Swift.String, providerChatDocID: Swift.String, profileImage: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "24423AE3-D402-4509-9205-C3C3BFD49122 - 6f7f027a82bf538f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for FransiSRentalHouseProject.MessageMainView.initChatRoom(providerUID: Swift.String, providerName: Swift.String, providerChatDocID: Swift.String, profileImage: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  uuid = "24423AE3-D402-4509-9205-C3C3BFD49122 - b55cc2af7131bde2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for FransiSRentalHouseProject.MessageMainView.initChatRoom(providerUID: Swift.String, providerName: Swift.String, providerChatDocID: Swift.String, profileImage: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "66816411-6814-4ABA-A1F5-C241486F27C3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "fromSide(chatRoomUID:providerUID:providerName:providerChatDocID:profileImage:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "596A1F53-8F25-436A-A596-8C5B52667491"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Message/MessageMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
+            landmarkName = "fromSide(chatRoomUID:providerUID:providerName:providerChatDocID:profileImage:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8B877A34-FBF9-4C4B-9D83-722B31EF8DBA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForTextingMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "storeSenderUserInfo(uidPath:userDocID:displayName:displayProfileImage:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "39182FB7-40C7-4470-BE73-ABE42877C9D1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForTextingMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "storeSenderUserInfo(uidPath:userDocID:displayName:displayProfileImage:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F99FD58D-7CDE-4801-85F0-F17A8781FAA1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForTextingMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "storeContactUserInfo(contactPersonDocID:contactPersonUidPath:senderUserDocID:contactWithdisplayName:contactPersondisplayProfileImage:chatRoomUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "614E3F58-BCB6-480D-8023-F65B056EDB47"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForTextingMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "storeContactUserInfo(contactPersonDocID:contactPersonUidPath:senderUserDocID:contactWithdisplayName:contactPersondisplayProfileImage:chatRoomUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "049F13B3-9C09-4D39-A166-C5AA7D0AD13A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForTextingMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "storeContactUserInfo(contactPersonDocID:contactPersonUidPath:senderUserDocID:contactWithdisplayName:contactPersondisplayProfileImage:chatRoomUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F25F1C11-18CD-4C7F-BE06-893333C9E4A7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForTextingMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "storeContactUserInfo(contactPersonDocID:contactPersonUidPath:senderUserDocID:contactWithdisplayName:contactPersondisplayProfileImage:chatRoomUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F4906BE4-2B09-4205-AA84-61A014326048"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForTextingMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "storeContactUserInfo(contactPersonDocID:contactPersonUidPath:senderUserDocID:contactWithdisplayName:contactPersondisplayProfileImage:chatRoomUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D9AB50B2-7DDB-42B8-ABB2-C24A8D65F24C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForTextingMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "storeContactUserInfo(contactPersonDocID:contactPersonUidPath:senderUserDocID:contactWithdisplayName:contactPersondisplayProfileImage:chatRoomUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FE9C5238-5852-4179-B5B7-27C7ED733FF5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForTextingMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "storeContactUserInfo(contactPersonDocID:contactPersonUidPath:senderUserDocID:contactWithdisplayName:contactPersondisplayProfileImage:chatRoomUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "09573076-FADB-4B01-AB7C-B5D1CFC424DC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/RenterMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E55965BB-78FC-4715-8D5C-8B323329367C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/RenterMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4E92B9CA-703C-4846-8479-4BD545FF1123"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/RenterMainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

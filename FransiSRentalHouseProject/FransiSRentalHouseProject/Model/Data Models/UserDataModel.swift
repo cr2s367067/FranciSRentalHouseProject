@@ -29,6 +29,7 @@ struct UserDataModel: Identifiable, Codable {
     var emailAddress: String?
     var agreeAutoPay: Bool
     var profileImageURL: String
+    var isSignByApple: Bool
     var rentedRoomInfo: RentedRoomInfo?
 }
 
@@ -59,7 +60,7 @@ struct PaymentHistoryDataModel: Identifiable, Codable {
 }
 
 extension UserDataModel {
-    static let empty = UserDataModel(id: "", firstName: "", lastName: "", displayName: "", mobileNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: "", providerType: "", rentalManagerLicenseNumber: "", emailAddress: "", agreeAutoPay: false, profileImageURL: "", rentedRoomInfo: nil)
+    static let empty = UserDataModel(id: "", firstName: "", lastName: "", displayName: "", mobileNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: "", providerType: "", rentalManagerLicenseNumber: "", emailAddress: "", agreeAutoPay: false, profileImageURL: "", isSignByApple: false, rentedRoomInfo: nil)
 }
 
 extension RentedRoomInfo {

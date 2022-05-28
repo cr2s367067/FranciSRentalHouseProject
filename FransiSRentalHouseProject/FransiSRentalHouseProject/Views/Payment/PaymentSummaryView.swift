@@ -21,159 +21,167 @@ struct PaymentSummaryView: View {
     @EnvironmentObject var paymentSummaryVM: PaymentSummaryViewModel
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     @State private var testCheck = false
     @State private var shippingMethodName: ShippingMethodName = .shipToStore
+    @FocusState private var isFocus: Bool
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                .ignoresSafeArea(.all)
-            VStack {
-                TitleAndDivider(title: "Summary")
-                ListItems(roomsData: localData.summaryItemHolder)
-                AppDivider()
-                HStack {
-                    Text("Total Price")
-                    Spacer()
-                        .frame(width: 200)
-                    Text("\(localData.sumPrice)")
-                }
-                .foregroundColor(.white)
-                .font(.system(size: 20, weight: .regular))
-                .padding()
-                if !productDetailViewModel.productOrderCart.isEmpty {
-                    VStack(spacing: 10) {
-                        HStack {
-                            Text("Shipping Method")
-                                .foregroundColor(.white)
-                                .font(.headline)
-                            Spacer()
-                        }
-                        HStack {
-                            buttonWithText(buttonName: .shipToStore, action: {
-                                if paymentSummaryVM.homeDelivery == true {
-                                    paymentSummaryVM.homeDelivery = false
-                                    localData.sumPrice -= 50
-                                }
-                                
-                                if  paymentSummaryVM.rushDelivery == true {
-                                    paymentSummaryVM.rushDelivery = false
-                                    localData.sumPrice -= 40
-                                }
-                                
-                                if paymentSummaryVM.shipToStore == false {
-                                    paymentSummaryVM.shipToStore = true
-                                    localData.sumPrice += 60
-                                    firestoreForProducts.shippingMethod = .convenienceStore
-                                }
-                                
-                                print(firestoreForProducts.shippingMethod)
-                            }, isCheck: paymentSummaryVM.shipToStore)
-                            .accessibilityIdentifier(ShippingMethodName.shipToStore.rawValue)
-                            
-                            buttonWithText(buttonName: .homeDelivery, action: {
-                                if paymentSummaryVM.shipToStore == true {
-                                    paymentSummaryVM.shipToStore = false
-                                    localData.sumPrice -= 60
-                                }
-                                
-                                if paymentSummaryVM.rushDelivery == true {
-                                    paymentSummaryVM.rushDelivery = false
-                                    localData.sumPrice -= 40
-                                }
-                                
-                                if paymentSummaryVM.homeDelivery == false {
-                                    paymentSummaryVM.homeDelivery = true
-                                    localData.sumPrice += 50
-                                    firestoreForProducts.shippingMethod = .homeDelivery
-                                }
-                                print(firestoreForProducts.shippingMethod)
-                            }, isCheck: paymentSummaryVM.homeDelivery)
-                            .accessibilityIdentifier(ShippingMethodName.homeDelivery.rawValue)
-                            
-                            buttonWithText(buttonName: .rushDelivery, action: {
-                                if paymentSummaryVM.shipToStore == true {
-                                    paymentSummaryVM.shipToStore = false
-                                    localData.sumPrice -= 60
-                                }
-                                
-                                if paymentSummaryVM.homeDelivery == true {
-                                    paymentSummaryVM.homeDelivery = false
-                                    localData.sumPrice -= 50
-                                }
-                                
-                                if paymentSummaryVM.rushDelivery == false {
-                                    paymentSummaryVM.rushDelivery = true
-                                    localData.sumPrice += 40
-                                    firestoreForProducts.shippingMethod = .personalDelivery
-                                }
-                                print(firestoreForProducts.shippingMethod)
-                            }, isCheck: paymentSummaryVM.rushDelivery)
-                            .accessibilityIdentifier(ShippingMethodName.rushDelivery.rawValue)
-                        }
-                        
+        VStack {
+            TitleAndDivider(title: "Summary")
+            ListItems(roomsData: localData.summaryItemHolder)
+            AppDivider()
+            HStack {
+                Text("Total Price")
+                Spacer()
+                Text("\(localData.sumPrice)")
+            }
+            .foregroundColor(.white)
+            .font(.system(size: 20, weight: .regular))
+            .padding()
+            if !productDetailViewModel.productOrderCart.isEmpty {
+                VStack(spacing: 10) {
+                    HStack {
+                        Text("Shipping Method")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                        Spacer()
                     }
-                    .padding(.horizontal)
-                    AddressFillOut(address: $paymentSummaryVM.shippingAddress)
-                }
-                
-                VStack(alignment: .center, spacing: 30) {
-                    //: Term Agreemnet
-                    VStack(alignment: .leading, spacing: 10) {
-                        HStack {
-                            Button {
-                                appViewModel.paymentSummaryTosAgree.toggle()
-                            } label: {
-                                Image(systemName: appViewModel.paymentSummaryTosAgree ? "checkmark.square.fill" : "checkmark.square")
-                                    .foregroundColor(appViewModel.paymentSummaryTosAgree ? .green : .white)
-                                    .padding(.trailing, 5)
+                    HStack {
+                        buttonWithText(buttonName: .shipToStore, action: {
+                            if paymentSummaryVM.homeDelivery == true {
+                                paymentSummaryVM.homeDelivery = false
+                                localData.sumPrice -= 50
                             }
-                            .accessibilityIdentifier("tosAgree")
-                            Text("I have read and agree the terms of Service.")
-                                .foregroundColor(.white)
-                                .font(.system(size: 14, weight: .medium))
-                        }
-//                        HStack {
-//                            Button {
-//                                appViewModel.paymentSummaryAutoPayAgree.toggle()
-//                            } label: {
-//                                Image(systemName: appViewModel.paymentSummaryAutoPayAgree ? "checkmark.square.fill" : "checkmark.square")
-//                                    .foregroundColor(appViewModel.paymentSummaryAutoPayAgree ? .green : .white)
-//                                    .padding(.trailing, 5)
-//                            }
-//                            Text("The rent payment will automatically pay\n monthly until the expired day.")
-//                                .foregroundColor(.white)
-//                                .font(.system(size: 14, weight: .medium))
-//                        }
+                            
+                            if  paymentSummaryVM.rushDelivery == true {
+                                paymentSummaryVM.rushDelivery = false
+                                localData.sumPrice -= 40
+                            }
+                            
+                            if paymentSummaryVM.shipToStore == false {
+                                paymentSummaryVM.shipToStore = true
+                                localData.sumPrice += 60
+                                firestoreForProducts.shippingMethod = .convenienceStore
+                            }
+                            
+                            print(firestoreForProducts.shippingMethod)
+                        }, isCheck: paymentSummaryVM.shipToStore)
+                        .accessibilityIdentifier(ShippingMethodName.shipToStore.rawValue)
+                        
+                        buttonWithText(buttonName: .homeDelivery, action: {
+                            if paymentSummaryVM.shipToStore == true {
+                                paymentSummaryVM.shipToStore = false
+                                localData.sumPrice -= 60
+                            }
+                            
+                            if paymentSummaryVM.rushDelivery == true {
+                                paymentSummaryVM.rushDelivery = false
+                                localData.sumPrice -= 40
+                            }
+                            
+                            if paymentSummaryVM.homeDelivery == false {
+                                paymentSummaryVM.homeDelivery = true
+                                localData.sumPrice += 50
+                                firestoreForProducts.shippingMethod = .homeDelivery
+                            }
+                            print(firestoreForProducts.shippingMethod)
+                        }, isCheck: paymentSummaryVM.homeDelivery)
+                        .accessibilityIdentifier(ShippingMethodName.homeDelivery.rawValue)
+                        
+                        buttonWithText(buttonName: .rushDelivery, action: {
+                            if paymentSummaryVM.shipToStore == true {
+                                paymentSummaryVM.shipToStore = false
+                                localData.sumPrice -= 60
+                            }
+                            
+                            if paymentSummaryVM.homeDelivery == true {
+                                paymentSummaryVM.homeDelivery = false
+                                localData.sumPrice -= 50
+                            }
+                            
+                            if paymentSummaryVM.rushDelivery == false {
+                                paymentSummaryVM.rushDelivery = true
+                                localData.sumPrice += 40
+                                firestoreForProducts.shippingMethod = .personalDelivery
+                            }
+                            print(firestoreForProducts.shippingMethod)
+                        }, isCheck: paymentSummaryVM.rushDelivery)
+                        .accessibilityIdentifier(ShippingMethodName.rushDelivery.rawValue)
                     }
-                    if appViewModel.paymentSummaryTosAgree == true {
-                        NavigationLink {
-                            PurchaseView(roomsData: localData.summaryItemHolder)
-                        } label: {
-                            Text("Confirm")
-                                .foregroundColor(.white)
-                                .font(.system(size: 20, weight: .heavy))
-                                .frame(width: 343, height: 50)
-                                .background(Color("buttonBlue"))
-                                .clipShape(RoundedRectangle(cornerRadius: 4))
-                        }
-                        .accessibilityIdentifier("confrim")
-                    } else {
+                    
+                }
+                .frame(width: uiScreenWidth - 30)
+                AddressFillOut(address: $paymentSummaryVM.shippingAddress)
+                    .focused($isFocus)
+            }
+            
+            VStack(alignment: .center, spacing: 30) {
+                //: Term Agreemnet
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
                         Button {
-                            paymentSummaryVM.showErrorAlert.toggle()
+                            appViewModel.paymentSummaryTosAgree.toggle()
                         } label: {
-                            Text("Confirm")
-                                .foregroundColor(.white)
-                                .font(.system(size: 20, weight: .heavy))
-                                .frame(width: 343, height: 50)
-                                .background(Color.gray)
-                                .clipShape(RoundedRectangle(cornerRadius: 4))
-                                .alert(isPresented: $paymentSummaryVM.showErrorAlert) {
-                                    Alert(title: Text("Notice"), message: Text("Please check the terms of service and payment checkbox."), dismissButton: .default(Text("Sure")))
-                                }
+                            Image(systemName: appViewModel.paymentSummaryTosAgree ? "checkmark.square.fill" : "square")
+                                .foregroundColor(appViewModel.paymentSummaryTosAgree ? .green : .white)
+                                .padding(.trailing, 5)
                         }
+                        .accessibilityIdentifier("tosAgree")
+                        Text("I have read and agree the terms of Service.")
+                            .foregroundColor(.white)
+                            .font(.system(size: 14, weight: .medium))
                     }
+                    //                        HStack {
+                    //                            Button {
+                    //                                appViewModel.paymentSummaryAutoPayAgree.toggle()
+                    //                            } label: {
+                    //                                Image(systemName: appViewModel.paymentSummaryAutoPayAgree ? "checkmark.square.fill" : "square")
+                    //                                    .foregroundColor(appViewModel.paymentSummaryAutoPayAgree ? .green : .white)
+                    //                                    .padding(.trailing, 5)
+                    //                            }
+                    //                            Text("The rent payment will automatically pay\n monthly until the expired day.")
+                    //                                .foregroundColor(.white)
+                    //                                .font(.system(size: 14, weight: .medium))
+                    //                        }
+                }
+                if appViewModel.paymentSummaryTosAgree == true {
+                    NavigationLink {
+                        PurchaseView(roomsData: localData.summaryItemHolder)
+                    } label: {
+                        Text("Confirm")
+                            .foregroundColor(.white)
+                            .font(.system(size: 20, weight: .heavy))
+                            .frame(width: uiScreenWidth - 80, height: 50)
+                            .background(Color("buttonBlue"))
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                    }
+                    .accessibilityIdentifier("confrim")
+                } else {
+                    Button {
+                        paymentSummaryVM.showErrorAlert.toggle()
+                    } label: {
+                        Text("Confirm")
+                            .foregroundColor(.white)
+                            .font(.system(size: 20, weight: .heavy))
+                            .frame(width: uiScreenWidth - 80, height: 50)
+                            .background(Color.gray)
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                            .alert(isPresented: $paymentSummaryVM.showErrorAlert) {
+                                Alert(title: Text("Notice"), message: Text("Please check the terms of service and payment checkbox."), dismissButton: .default(Text("Sure")))
+                            }
+                    }
+                }
+            }
+        }
+        .modifier(ViewBackgroundInitModifier())
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    isFocus = false
                 }
             }
         }
@@ -289,9 +297,6 @@ struct AddressFillOut: View {
     var body: some View {
         VStack {
             InfoUnit(title: "Shipping Address", bindingString: $address)
-//            Text("Notice: Please provider shipping address, if you needed, otherwise will user address you provider in user information by default.")
-//                .foregroundColor(.yellow)
-//                .font(.system(size: 14, weight: .heavy))
         }
         .padding()
     }
@@ -315,12 +320,12 @@ extension PaymentSummaryView {
             action()
         } label: {
             HStack {
-                Image(systemName: "checkmark.square")
+                Image(systemName: isCheck ? "checkmark.square.fill" : "square")
                     .foregroundColor(isCheck ? .green : .white)
-                    .font(.system(size: 15))
+                    .font(.body)
                 Text(LocalizedStringKey(buttonName.rawValue))
                     .foregroundColor(.white)
-                    .font(.system(size: 15))
+                    .font(.body)
             }
         }
     }

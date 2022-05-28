@@ -19,6 +19,7 @@ struct UserDetailInfoView: View {
     @EnvironmentObject var userDetailInfoViewModel: UserDetailInfoViewModel
     
     
+    let uiScreenWidth = UIScreen.main.bounds.width
     
     
     @State var showAlert = false
@@ -36,36 +37,32 @@ struct UserDetailInfoView: View {
     //    }
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                .edgesIgnoringSafeArea([.top, .bottom])
-            VStack {
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack {
-                        TitleAndDivider(title: "User Detail Information")
-                        VStack(alignment: .leading, spacing: 10) {
-                            isEditMode(isEdit: userDetailInfoViewModel.isEdit, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
-                        }
-                        .padding()
+        VStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
+                    TitleAndDivider(title: "User Detail Information")
+                    VStack(alignment: .center, spacing: 10) {
+                        isEditMode(isEdit: userDetailInfoViewModel.isEdit, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
+                    }
+                    Spacer()
+                    HStack {
                         Spacer()
-                        HStack {
-                            Spacer()
-                            Group {
-                                Image(systemName: "checkmark.circle")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(isSummit ? Color.green : Color.clear)
-                                Text("Success")
-                                    .foregroundColor(isSummit ? Color.green : Color.clear)
-                                    .font(.system(size: 12, weight: .thin))
-                            }
-                            summitButton(isEdit: userDetailInfoViewModel.isEdit, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
+                        Group {
+                            Image(systemName: "checkmark.circle")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(isSummit ? Color.green : Color.clear)
+                            Text("Success")
+                                .foregroundColor(isSummit ? Color.green : Color.clear)
+                                .font(.system(size: 12, weight: .thin))
                         }
+                        summitButton(isEdit: userDetailInfoViewModel.isEdit, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
                     }
                 }
             }
         }
+        .frame(width: uiScreenWidth - 30)
+        .modifier(ViewBackgroundInitModifier())
         .onAppear(perform: {
             if firestoreToFetchUserinfo.presentUserId().isEmpty {
                 userDetailInfoViewModel.isEdit = true
@@ -84,8 +81,6 @@ struct UserDetailInfoView: View {
             appViewModel.country = firestoreToFetchUserinfo.fetchedUserData.country
             appViewModel.gender = firestoreToFetchUserinfo.fetchedUserData.gender
         })
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -188,9 +183,13 @@ extension UserDetailInfoView {
                         }
                     if uType == .isNormalCustomer {
                         Group {
-                            Text("Gender")
-                                .foregroundColor(.white)
-                                .font(.system(size: 13, weight: .semibold))
+                            HStack {
+                                Text("Gender")
+                                    .foregroundColor(.white)
+                                    .font(.body)
+                                Spacer()
+                            }
+                            .frame(width: uiScreenWidth - 35)
                             HStack(alignment: .center, spacing: 30) {
                                 Spacer()
                                 Button {
@@ -248,6 +247,7 @@ extension UserDetailInfoView {
                         DatePicker("Date of Birth", selection: $appViewModel.dob, in: ...Date(), displayedComponents: .date)
                             .datePickerStyle(CompactDatePickerStyle())
                             .applyTextColor(.white)
+                            .frame(width: uiScreenWidth - 35)
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                     }
                     InfoUnit(title: "Country", bindingString: $appViewModel.country) //: Picker

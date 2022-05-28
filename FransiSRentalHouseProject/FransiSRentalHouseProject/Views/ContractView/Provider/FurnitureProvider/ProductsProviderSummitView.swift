@@ -183,7 +183,7 @@ struct ProductsProviderSummitView: View {
                                     Button {
                                         productsProviderSummitViewModel.holderTosAgree.toggle()
                                     } label: {
-                                        Image(systemName: productsProviderSummitViewModel.holderTosAgree ? "checkmark.square.fill" : "checkmark.square")
+                                        Image(systemName: productsProviderSummitViewModel.holderTosAgree ? "checkmark.square.fill" : "square")
                                             .foregroundColor(productsProviderSummitViewModel.holderTosAgree ? .green : .white)
                                             .padding(.trailing, 5)
                                     }

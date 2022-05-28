@@ -24,6 +24,9 @@ struct PrePurchaseView: View {
     @State var totalPrice = "9000"
     @State private var isRented = false
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     var gridFurItemLayout = [
         GridItem(.fixed(170)),
         GridItem(.fixed(170))
@@ -64,7 +67,7 @@ struct PrePurchaseView: View {
                             .frame(width: 50)
                         checkCartIsNotEmptyAndShowTheView()
                     }
-                    .frame(width: 400, height: 50)
+                    .frame(width: uiScreenWidth - 50, height: 50)
                     .foregroundColor(.white)
                     .background(Color("fieldGray").opacity(0.5))
                     .cornerRadius(10)

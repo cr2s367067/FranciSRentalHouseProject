@@ -201,7 +201,7 @@ extension FirestoreToFetchUserinfo {
         ])
     }
     
-    func createUserInfomationAsync(uidPath: String, id: String , firstName: String, lastName: String, displayName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String, RLNumber: String? = "") async throws {
+    func createUserInfomationAsync(uidPath: String, id: String , firstName: String, lastName: String, displayName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String, RLNumber: String? = "", signByApple: Bool) async throws {
         let userRef = db.collection("users").document(uidPath)
             try await userRef.setData([
                 "id": id,
@@ -222,6 +222,7 @@ extension FirestoreToFetchUserinfo {
                 "emailAddress": emailAddress ?? "",
                 "agreeAutoPay" : false,
                 "profileImageURL" : "",
+                "isSignByApple" : signByApple,
                 "rentedRoomInfo": [
                     "roomUID" : "",
                     "roomAddress" : "",

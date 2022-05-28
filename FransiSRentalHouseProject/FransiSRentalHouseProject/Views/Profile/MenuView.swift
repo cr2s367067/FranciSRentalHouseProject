@@ -37,12 +37,14 @@ struct MenuView: View {
                     } label: {
                         SideBarButton(buttonName: "Contact Us", systemImageName: "questionmark.circle")
                     }
-                    NavigationLink {
-                        withAnimation {
-                            BioAuthSettingView()
+                    if firestoreToFetchUserinfo.fetchedUserData.isSignByApple == false {                    
+                        NavigationLink {
+                            withAnimation {
+                                BioAuthSettingView()
+                            }
+                        } label: {
+                            SideBarButton(buttonName: "Security", systemImageName: "lock.iphone")
                         }
-                    } label: {
-                        SideBarButton(buttonName: "Security", systemImageName: "lock.iphone")
                     }
                 }
                 .foregroundColor(.white)
