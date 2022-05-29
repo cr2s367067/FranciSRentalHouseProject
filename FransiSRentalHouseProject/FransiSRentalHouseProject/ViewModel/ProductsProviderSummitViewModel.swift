@@ -24,7 +24,7 @@ class ProductsProviderSummitViewModel: ObservableObject {
     @Published var isSoldOut = false
     
     @Published var showSummitAlert = false
-    @Published var images = [UIImage]()
+    @Published var images = [TextingImageDataModel]()
     @Published var showSheet = false
     @Published var tosSheetShow = false
     @Published var isSummitProductPic = false
@@ -36,7 +36,7 @@ class ProductsProviderSummitViewModel: ObservableObject {
     var image: UIImage {
         var temp = UIImage()
         if let firstImage = images.first {
-            temp = firstImage
+            temp = firstImage.image
         }
         return temp
     }
@@ -72,7 +72,7 @@ class ProductsProviderSummitViewModel: ObservableObject {
         images.removeAll()
     }
     
-    func checker(productName: String, productPrice: String, productFrom: String, images: [UIImage], holderTosAgree: Bool, productAmount: String, productType: String) throws {
+    func checker(productName: String, productPrice: String, productFrom: String, images: [TextingImageDataModel], holderTosAgree: Bool, productAmount: String, productType: String) throws {
         guard !productName.isEmpty && !productPrice.isEmpty && !productFrom.isEmpty && !images.isEmpty && holderTosAgree == true else {
             throw ProviderSummitError.blankError
         }

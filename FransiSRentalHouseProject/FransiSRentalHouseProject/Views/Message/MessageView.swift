@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
-//import Alamofire
 import Combine
 
 struct MessageView: View {
@@ -31,6 +30,9 @@ struct MessageView: View {
     
     var body: some View {
         VStack(alignment: .center) {
+//            WebImage(url: URL(string: "http://localhost:9199/v0/b/francisrentalhouseproject.appspot.com/o/messageImage%2FA0BC15D9-1FF8-481D-90DB-3B8E766562FB%2F49A70815-DC6E-4022-AF0B-3836332E6CB8%2FFCBDD200-4892-4E85-9842-D47D69867A6E.jpg?alt=media&token=994e3cfb-68d3-42d8-8129-e9723864bd6b"))
+//                .resizable()
+//                .frame(width: 100, height: 100, alignment: .center)
             ScrollView(.vertical, showsIndicators: false) {
                 ScrollViewReader { item in
                     VStack {
@@ -65,46 +67,95 @@ struct MessageView: View {
                     }
                 }
             }
-            HStack {
-                Button {
-                    textingViewModel.showPhpicker.toggle()
-                } label: {
-                    Image(systemName: "photo")
-                        .foregroundColor(.white)
-                        .font(.system(size: 20))
+            VStack(spacing: 10) {
+                if !textingViewModel.image.isEmpty {
+                    HStack {
+                        //Photo card
+                        ForEach(textingViewModel.image) { image in
+                            ZStack {
+                                Image(uiImage: image.image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: uiScreenWidth / 5 - 20, height: uiScreenHeight / 8 - 20, alignment: .center)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                VStack {
+                                    HStack {
+                                        Spacer()
+                                        Button {
+                                            textingViewModel.image.removeAll(where: {$0.id == image.id})
+                                            debugPrint(image.image)
+                                        } label: {
+                                            ZStack {
+                                                Image(systemName: "circle.fill")
+                                                    .foregroundColor(.black)
+                                                Image(systemName: "multiply.circle.fill")
+                                                    .foregroundColor(.white)
+                                            }
+                                        }
+                                    }
+                                    .padding(.top, 4)
+                                    .padding(.trailing, 4)
+                                    Spacer()
+                                }
+                                .frame(width: uiScreenWidth / 5 - 20, height: uiScreenHeight / 8 - 20, alignment: .center)
+                            }
+                        }
+                        Spacer()
+                    }
                 }
-                TextField("", text: $textingViewModel.text)
-                    .foregroundColor(.white)
-                    .focused($isFocused)
-                Button {
-                    Task {
-                        do {
-                            try await firestoreForTextingMessage.sendingMessage(text: textingViewModel.text,
-                                                                                sendingImage: "",
-                                                                                senderProfileImage: "",
-                                                                                senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
-                                                                                chatRoomUID: contactMember.chatRoomUID, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId))
-                            guard let id = contactMember.id else { return }
-                            try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
-                            textingViewModel.text = ""
-                        } catch {
-                            self.errorHandler.handle(error: error)
+                HStack {
+                    Button {
+                        textingViewModel.showPhpicker.toggle()
+                    } label: {
+                        Image(systemName: "photo")
+                            .foregroundColor(.white)
+                            .font(.system(size: 20))
+                    }
+                    HStack {
+                        TextField("", text: $textingViewModel.text)
+                            .foregroundColor(.white)
+                            .focused($isFocused)
+                        Button {
+                            Task {
+                                do {
+                                    
+                                    //MARK: Adjust message sending method, this will create two new doc in once.
+                                    if !textingViewModel.image.isEmpty {
+                                        try await storageForMessageImage.sendingImage(images: textingViewModel.image, chatRoomUID: contactMember.chatRoomUID, senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId))
+                                        textingViewModel.image.removeAll()
+                                    }
+                                    if !textingViewModel.text.isEmpty {
+                                        try await firestoreForTextingMessage.sendingMessage(text: textingViewModel.text,
+                                                                                        sendingImage: "",
+                                                                                        senderProfileImage: "",
+                                                                                        senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
+                                                                                        chatRoomUID: contactMember.chatRoomUID, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId))
+                                    }
+                                    guard let id = contactMember.id else { return }
+                                    try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
+                                    textingViewModel.text = ""
+                                } catch {
+                                    self.errorHandler.handle(error: error)
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "paperplane")
+                                .resizable()
+                                .foregroundColor(Color.white)
+                                .frame(width: 25, height: 25)
                         }
                     }
-                } label: {
-                    Image(systemName: "paperplane")
-                        .resizable()
-                        .foregroundColor(Color.white)
-                        .frame(width: 25, height: 25)
+                    .padding()
+                    .frame(width: uiScreenWidth - 70 , height: 45, alignment: .center)
+                    .background(alignment: .center) {
+                        RoundedRectangle(cornerRadius: 50)
+                            .stroke(Color.white, lineWidth: 2)
+                            .foregroundColor(Color.clear)
+                    }
                 }
             }
-            .padding(.horizontal)
-            .frame(width: uiScreenWidth - 30 , height: 45, alignment: .center)
-            .background(alignment: .center) {
-                RoundedRectangle(cornerRadius: 50)
-                    .stroke(Color.white, lineWidth: 2)
-                    .foregroundColor(Color.clear)
-            }
+            .padding()
+            .frame(width: uiScreenWidth - 30)
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         .modifier(ViewBackgroundInitModifier())
@@ -125,19 +176,10 @@ struct MessageView: View {
             }
         }
         .sheet(isPresented: $textingViewModel.showPhpicker, onDismiss: {
-            Task {
-                do {
-                    try await storageForMessageImage.sendingImage(images: textingViewModel.image, chatRoomUID: contactMember.chatRoomUID, senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
-                    textingViewModel.image.removeAll()
-                } catch {
-                    self.errorHandler.handle(error: error)
-                }
-            }
+
         }, content: {
             PHPickerRepresentable(images: $textingViewModel.image)
         })
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 HStack {
@@ -179,6 +221,9 @@ struct TextingViewForReceiver: View {
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())
             }
+//            if !textingViewModel.image.isEmpty {
+//
+//            }
             if !imageURL.isEmpty {
                 WebImage(url: URL(string: imageURL))
                     .resizable()
@@ -362,3 +407,169 @@ extension View {
         ModifiedContent(content: self, modifier: KeyboardAdaptive())
     }
 }
+
+
+/*
+ Task {
+ do {
+ try await storageForMessageImage.sendingImage(images: textingViewModel.image, chatRoomUID: contactMember.chatRoomUID, senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
+ textingViewModel.image.removeAll()
+ } catch {
+ self.errorHandler.handle(error: error)
+ }
+ }
+ 
+*/
+
+//struct PhotoPreview: View {
+//
+//    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+//    @EnvironmentObject var errorHandler: ErrorHandler
+//    @EnvironmentObject var firebaseAuth: FirebaseAuth
+//    @EnvironmentObject var textingViewModel: TextingViewModel
+//    @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
+//    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+//    @EnvironmentObject var storageForMessageImage: StorageForMessageImage
+//
+//    var contactMember: ContactUserDataModel
+//
+//    let uiScreenWidth = UIScreen.main.bounds.width
+//    let uiScreenHeight = UIScreen.main.bounds.height
+//
+//    @FocusState var isFocused: Bool
+//
+//    @Binding var showPicker: Bool
+//    @Binding var text: String
+//    @State var photoArray: [UIImage]
+//
+//
+//    var body: some View {
+//        VStack(spacing: 10) {
+//            if !textingViewModel.image.isEmpty {
+//                HStack {
+//                    //Photo card
+//                    ForEach(textingViewModel.image, id: \.self) { image in
+//                        ZStack {
+//                            Image(uiImage: image)
+//                                .resizable()
+//                                .scaledToFill()
+//                                .frame(width: uiScreenWidth / 5 - 20, height: uiScreenHeight / 8 - 20, alignment: .center)
+//                                .clipShape(RoundedRectangle(cornerRadius: 10))
+//                            VStack {
+//                                HStack {
+//                                    Spacer()
+//                                    Button {
+//
+//                                    } label: {
+//                                        Image(systemName: "multiply.circle.fill")
+//                                            .foregroundColor(.gray)
+//                                    }
+//                                }
+//                                .padding(.top, 4)
+//                                .padding(.trailing, 4)
+//                                Spacer()
+//                            }
+//                            .frame(width: uiScreenWidth / 5 - 20, height: uiScreenHeight / 8 - 20, alignment: .center)
+//                        }
+//                    }
+//                    Spacer()
+//                }
+//            }
+//            HStack {
+//                Button {
+//                    textingViewModel.showPhpicker.toggle()
+//                } label: {
+//                    Image(systemName: "photo")
+//                        .foregroundColor(.white)
+//                        .font(.system(size: 20))
+//                }
+//                HStack {
+//                    TextField("", text: $text)
+//                        .foregroundColor(.white)
+//                        .focused($isFocused)
+//                    Button {
+//                        Task {
+//                            do {
+//                                try await firestoreForTextingMessage.sendingMessage(text: textingViewModel.text,
+//                                                                                    sendingImage: "",
+//                                                                                    senderProfileImage: "",
+//                                                                                    senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
+//                                                                                    chatRoomUID: contactMember.chatRoomUID, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId))
+//                                guard let id = contactMember.id else { return }
+//                                try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
+//                                textingViewModel.text = ""
+//                            } catch {
+//                                self.errorHandler.handle(error: error)
+//                            }
+//                        }
+//                    } label: {
+//                        Image(systemName: "paperplane")
+//                            .resizable()
+//                            .foregroundColor(Color.white)
+//                            .frame(width: 25, height: 25)
+//                    }
+//                }
+//                .padding()
+//                .frame(width: uiScreenWidth - 70 , height: 45, alignment: .center)
+//                .background(alignment: .center) {
+//                    RoundedRectangle(cornerRadius: 50)
+//                        .stroke(Color.white, lineWidth: 2)
+//                        .foregroundColor(Color.clear)
+//                }
+//            }
+//        }
+//        .padding()
+//        .frame(width: uiScreenWidth - 30)
+//    }
+//}
+
+//struct PhotoPreview_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PhotoPreview()
+//            .preferredColorScheme(.dark)
+//    }
+//}
+
+
+
+//HStack {
+//                Button {
+//                    textingViewModel.showPhpicker.toggle()
+//                } label: {
+//                    Image(systemName: "photo")
+//                        .foregroundColor(.white)
+//                        .font(.system(size: 20))
+//                }
+//                TextField("", text: $textingViewModel.text)
+//                    .foregroundColor(.white)
+//                    .focused($isFocused)
+//                Button {
+//                    Task {
+//                        do {
+//                            try await firestoreForTextingMessage.sendingMessage(text: textingViewModel.text,
+//                                                                                sendingImage: "",
+//                                                                                senderProfileImage: "",
+//                                                                                senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
+//                                                                                chatRoomUID: contactMember.chatRoomUID, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId))
+//                            guard let id = contactMember.id else { return }
+//                            try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
+//                            textingViewModel.text = ""
+//                        } catch {
+//                            self.errorHandler.handle(error: error)
+//                        }
+//                    }
+//                } label: {
+//                    Image(systemName: "paperplane")
+//                        .resizable()
+//                        .foregroundColor(Color.white)
+//                        .frame(width: 25, height: 25)
+//                }
+//            }
+//            .padding(.horizontal)
+//            .frame(width: uiScreenWidth - 30 , height: 45, alignment: .center)
+//            .background(alignment: .center) {
+//                RoundedRectangle(cornerRadius: 50)
+//                    .stroke(Color.white, lineWidth: 2)
+//                    .foregroundColor(Color.clear)
+//            }
+//            .ignoresSafeArea(.keyboard, edges: .bottom)

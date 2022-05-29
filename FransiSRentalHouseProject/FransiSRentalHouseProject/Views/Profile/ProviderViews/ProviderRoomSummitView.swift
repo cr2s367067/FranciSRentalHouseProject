@@ -439,7 +439,7 @@ extension ProviderRoomSummitView {
 class ProviderRoomSummitViewModel: ObservableObject {
     @Published var holderTosAgree = false
     @Published var image = UIImage()
-    @Published var imageSet = [UIImage]()
+    @Published var imageSet = [TextingImageDataModel]()
     @Published var showSheet = false
     @Published var showPHPicker = false
     @Published var tosSheetShow = false
@@ -448,10 +448,10 @@ class ProviderRoomSummitViewModel: ObservableObject {
     @Published var showSummitAlert = false
     @Published var showProgressView = false
     
-    func presentImage(input: [UIImage]) -> UIImage {
+    func presentImage(input: [TextingImageDataModel]) -> UIImage {
         var image = UIImage()
         if let firstImage = input.first {
-            image = firstImage
+            image = firstImage.image
         }
         return image
     }

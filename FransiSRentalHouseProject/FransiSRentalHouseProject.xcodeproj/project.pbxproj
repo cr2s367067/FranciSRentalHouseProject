@@ -118,6 +118,7 @@
 		0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */; };
 		0E5606792834ECEB00C987FB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5606782834ECEB00C987FB /* LoginView.swift */; };
 		0E56394228329B9500BEBDAE /* BusinessLogicUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E56394128329B9500BEBDAE /* BusinessLogicUnitTests.swift */; };
+		0E6176EB28436B4A002D51F7 /* TextingImageDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6176EA28436B4A002D51F7 /* TextingImageDataModel.swift */; };
 		0E6B3CF1282C8F3E00C1F039 /* MaintainDetailUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6B3CF0282C8F3E00C1F039 /* MaintainDetailUnitView.swift */; };
 		0E6B3CF3282CCD8600C1F039 /* PwdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6B3CF2282CCD8600C1F039 /* PwdManager.swift */; };
 		0E6B3CF5282CF67F00C1F039 /* ForgetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6B3CF4282CF67F00C1F039 /* ForgetPasswordView.swift */; };
@@ -284,6 +285,7 @@
 		0E5606782834ECEB00C987FB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0E56394128329B9500BEBDAE /* BusinessLogicUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessLogicUnitTests.swift; sourceTree = "<group>"; };
 		0E579BB62825041400FC2EC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0E6176EA28436B4A002D51F7 /* TextingImageDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingImageDataModel.swift; sourceTree = "<group>"; };
 		0E6B3CF0282C8F3E00C1F039 /* MaintainDetailUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintainDetailUnitView.swift; sourceTree = "<group>"; };
 		0E6B3CF2282CCD8600C1F039 /* PwdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwdManager.swift; sourceTree = "<group>"; };
 		0E6B3CF4282CF67F00C1F039 /* ForgetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordView.swift; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				0E31807B2810EED4009784B9 /* GroceryTypeDataModel.swift */,
 				0E31808728128265009784B9 /* PurchaseUserDataModel.swift */,
 				0EE8A0D2281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift */,
+				0E6176EA28436B4A002D51F7 /* TextingImageDataModel.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -1057,6 +1060,7 @@
 				0E304DC5283912E7000E2D35 /* CustomCrashlyticsKey.swift in Sources */,
 				0249D46727C63C190085F4A5 /* ProviderBarChartView.swift in Sources */,
 				0E504DD428224BFE005E2386 /* CryptoManagement.swift in Sources */,
+				0E6176EB28436B4A002D51F7 /* TextingImageDataModel.swift in Sources */,
 				0E36B6F828066B860008A7C9 /* PaymentReceiveManager.swift in Sources */,
 				0E318078280FB591009784B9 /* RenterContractViewModel.swift in Sources */,
 				0EEEDC1A281FCB920036FD0D /* ProductSoldCollectionDataModel.swift in Sources */,

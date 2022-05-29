@@ -11,7 +11,7 @@ import UIKit
 class TextingViewModel: ObservableObject {
 
     @Published var text = ""
-    @Published var image = [UIImage]()
+    @Published var image = [TextingImageDataModel]()
     
     @Published var showPhpicker = false
     

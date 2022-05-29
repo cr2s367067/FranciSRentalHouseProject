@@ -18,10 +18,10 @@ class StorageForMessageImage: ObservableObject {
     
     let messageImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "messageImage")
     
-    func sendingImage(images: [UIImage], chatRoomUID: String, senderDocID: String, sendingTimestamp: Date = Date()) async throws {
+    func sendingImage(images: [TextingImageDataModel], chatRoomUID: String, senderDocID: String, sendingTimestamp: Date = Date(), contactWith: String) async throws {
         guard !images.isEmpty else { return }
         for image in images {
-            guard let messageImageData = image.jpegData(compressionQuality: 0.4) else { return }
+            guard let messageImageData = image.image.jpegData(compressionQuality: 0.4) else { return }
             let imageUID = UUID().uuidString
             let messageImageRef = messageImageStorageAddress.child("\(chatRoomUID)/\(senderDocID)/\(imageUID).jpg")
             _ = try await messageImageRef.putDataAsync(messageImageData)
@@ -30,6 +30,7 @@ class StorageForMessageImage: ObservableObject {
             _ = try await messageContainRef.addDocument(data: [
                 "sendingImage" : url,
                 "senderDocID" : senderDocID,
+                "contactWith" : contactWith,
                 "text" : "",
                 "sendingTimestamp" : sendingTimestamp
             ])

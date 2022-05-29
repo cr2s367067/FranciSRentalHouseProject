@@ -44,9 +44,9 @@ class StorageForProductImage: ObservableObject {
 //        self.representedProductImageURL = url.absoluteString
 //    }
     
-    func uploadProductImage(uidPath: String, image: [UIImage], productUID: String) async throws {
+    func uploadProductImage(uidPath: String, image: [TextingImageDataModel], productUID: String) async throws {
         for image in image {
-            guard let proImageData = image.jpegData(compressionQuality: 0.5) else { return }
+            guard let proImageData = image.image.jpegData(compressionQuality: 0.5) else { return }
             let imageUID = UUID().uuidString
             let imageRef = productImageStorageAddress.child("\(uidPath)/\(productUID)/\(imageUID).jpg")
             _ = try await imageRef.putDataAsync(proImageData)
@@ -86,9 +86,9 @@ class StorageForProductImage: ObservableObject {
     }
     
     @MainActor
-    func uploadAndUpdateStoreImage(uidPath: String, images: [UIImage], imageID: String) async throws {
+    func uploadAndUpdateStoreImage(uidPath: String, images: [TextingImageDataModel], imageID: String) async throws {
         if let image = images.first {
-            guard let bkImageData = image.jpegData(compressionQuality: 0.5) else { return }
+            guard let bkImageData = image.image.jpegData(compressionQuality: 0.5) else { return }
             let backgroundImageRef = backgroundImageStorageAddress.child("\(uidPath)/\(imageID).jpg")
             _ = try await backgroundImageRef.putDataAsync(bkImageData)
             let url = try await backgroundImageRef.downloadURL().absoluteString

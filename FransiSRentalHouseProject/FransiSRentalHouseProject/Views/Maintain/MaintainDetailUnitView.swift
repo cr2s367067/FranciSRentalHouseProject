@@ -23,7 +23,7 @@ struct MaintainDetailUnitView: View {
     
     
     @State private var showSheet = false
-    @State private var newSelectedImage = [UIImage]()
+    @State private var newSelectedImage = [TextingImageDataModel]()
     @State private var newDes = ""
     @State private var newDate = Date()
     @State private var newImageURL = ""
@@ -34,7 +34,7 @@ struct MaintainDetailUnitView: View {
     var presentingImage: UIImage {
         var firstHolder = UIImage()
         if let firstImage = newSelectedImage.first {
-            firstHolder = firstImage
+            firstHolder = firstImage.image
         }
         return firstHolder
     }

@@ -300,7 +300,7 @@ class ErrorHandler: ObservableObject {
     
     func handle(error: Error, dismissAction: (() -> Void)? = nil) {
         dismissAction?()
-        Crashlytics.crashlytics().record(error: error)
+//        Crashlytics.crashlytics().record(error: error)
         currentAlert = ErrorAlert(message: error.localizedDescription)
     }
 }

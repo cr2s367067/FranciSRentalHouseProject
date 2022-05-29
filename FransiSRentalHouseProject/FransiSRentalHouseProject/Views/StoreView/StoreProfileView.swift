@@ -23,7 +23,7 @@ struct StoreProfileView: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     
     @State private var showPhPicker = false
-    @State private var images = [UIImage]()
+    @State private var images = [TextingImageDataModel]()
     @State private var showImage = false
     @State private var showProgress = false
     

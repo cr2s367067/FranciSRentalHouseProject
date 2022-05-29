@@ -11,7 +11,7 @@ import PhotosUI
 struct PHPickerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = PHPickerViewController
     
-    @Binding var images: [UIImage]
+    @Binding var images: [TextingImageDataModel]
 //    @Binding var isPresented: Bool
     var itemProviders = [NSItemProvider]()
     
@@ -60,7 +60,7 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
                     itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                         DispatchQueue.main.async {                        
                             if let image = image as? UIImage {
-                                self.parent.images.append(image)
+                                self.parent.images.append(TextingImageDataModel(image: image))
                             } else {
                                 print("Could not load image", error?.localizedDescription ?? "")
                             }

@@ -26,12 +26,12 @@ struct MaintainView: View {
     @State var imagePickerSheet = false
     @State var isSelectedImage = false
     @State var showProgressView = false
-    @State private var images = [UIImage]()
+    @State private var images = [TextingImageDataModel]()
     
     var getFirstImage: UIImage {
         var firstHolder = UIImage()
         if let image = images.first {
-            firstHolder = image
+            firstHolder = image.image
         }
         return firstHolder
     }

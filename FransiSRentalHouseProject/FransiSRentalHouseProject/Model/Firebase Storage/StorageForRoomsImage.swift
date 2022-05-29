@@ -42,10 +42,10 @@ extension StorageForRoomsImage {
 }
 
 extension StorageForRoomsImage {
-    func uploadImageSet(uidPath: String, images: [UIImage], roomID: String, docID: String) async throws {
+    func uploadImageSet(uidPath: String, images: [TextingImageDataModel], roomID: String, docID: String) async throws {
         guard !images.isEmpty else { return }
         for image in images {
-            guard let roomImageData = image.jpegData(compressionQuality: 0.5) else { return }
+            guard let roomImageData = image.image.jpegData(compressionQuality: 0.5) else { return }
             let imageUID = UUID().uuidString
             let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(roomID)/\(imageUID).jpg")
             _ = try await roomImageRef.putDataAsync(roomImageData)
