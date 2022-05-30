@@ -15,26 +15,24 @@ import UIKit
 class StorageForMessageImage: ObservableObject {
     
     let db = Firestore.firestore()
+    let fireMessage = FirestoreForTextingMessage()
     
     let messageImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "messageImage")
     
-    func sendingImage(images: [TextingImageDataModel], chatRoomUID: String, senderDocID: String, sendingTimestamp: Date = Date(), contactWith: String) async throws {
-        guard !images.isEmpty else { return }
-        for image in images {
-            guard let messageImageData = image.image.jpegData(compressionQuality: 0.4) else { return }
-            let imageUID = UUID().uuidString
-            let messageImageRef = messageImageStorageAddress.child("\(chatRoomUID)/\(senderDocID)/\(imageUID).jpg")
-            _ = try await messageImageRef.putDataAsync(messageImageData)
-            let url = try await messageImageRef.downloadURL().absoluteString
-            let messageContainRef = db.collection("ChatCenter").document(chatRoomUID).collection("MessageContain")
-            _ = try await messageContainRef.addDocument(data: [
-                "sendingImage" : url,
-                "senderDocID" : senderDocID,
-                "contactWith" : contactWith,
-                "text" : "",
-                "sendingTimestamp" : sendingTimestamp
-            ])
+    func sendingImageAndMessage(images: [TextingImageDataModel], chatRoomUID: String, senderDocID: String, sendingTimestamp: Date = Date(), contactWith: String, text: String, senderProfileImage: String) async throws {
+        var tempUrlHolder = [String]()
+        if !images.isEmpty {
+            for image in images {
+                guard let messageImageData = image.image.jpegData(compressionQuality: 0.4) else { return }
+                let imageUID = UUID().uuidString
+                let messageImageRef = messageImageStorageAddress.child("\(chatRoomUID)/\(senderDocID)/\(imageUID).jpg")
+                _ = try await messageImageRef.putDataAsync(messageImageData)
+                let url = try await messageImageRef.downloadURL().absoluteString
+                tempUrlHolder.append(url)
+            }
         }
+        try await fireMessage.sendingMessage(text: text, sendingImage: tempUrlHolder, senderProfileImage: senderProfileImage, senderDocID: senderDocID, chatRoomUID: chatRoomUID, contactWith: contactWith)
+        tempUrlHolder.removeAll()
     }
     
 }

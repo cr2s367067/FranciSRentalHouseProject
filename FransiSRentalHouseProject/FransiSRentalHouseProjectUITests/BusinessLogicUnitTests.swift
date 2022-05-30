@@ -137,7 +137,7 @@ class app_business_logic_test: BusinessLogicUnitTests {
     func test_product_provider_summit_new_product() {
 //        let message = "Product's Information is waiting to summit, if you want to adjust something, please press cancel, else press okay to continue"
         let testUserName = "testp@test.com"
-        let testPassword = "321321A!"
+        let testPassword = "123321A!"
         test_user_login(userName: testUserName, password: testPassword)
         checkButtonExitAndTap(acesID: "TapPaymentButton")
         checkButtonExitAndTap(acesID: "phpicker")
@@ -191,17 +191,17 @@ class app_business_logic_test: BusinessLogicUnitTests {
     
     func test_room_provider_summits_room_process() {
         let testUserName = "testr@test.com"
-        let testPassword = "123321A!"
+        let testPassword = "321321A!"
         test_user_login(userName: testUserName, password: testPassword)
         checkButtonExitAndTap(acesID: "TapPaymentButton")
         let coverImage = app.scrollViews.otherElements.buttons["coverImage"]
         coverImage.tap()
         let imageSelection = app.scrollViews.otherElements.images["Photo, August 09, 2012, 5:29 AM"]
         imageSelection.tap()
-        scrollText(acesID: "roomAddress", contain: "建國四路26號")
-        scrollText(acesID: "town", contain: "竹山鎮")
-        scrollText(acesID: "city", contain: "南投縣")
-        scrollText(acesID: "zipcode", contain: "557")
+        scrollText(acesID: "roomAddress", contain: "天祥一街9號")
+        scrollText(acesID: "town", contain: "桃園區")
+        scrollText(acesID: "city", contain: "桃園市")
+        scrollText(acesID: "zipcode", contain: "330")
         scrollText(acesID: "roomArea", contain: "12")
         scrollText(acesID: "rentalPrice", contain: "5000")
         let textEdit = app.scrollViews.otherElements.textViews["roomDes"]

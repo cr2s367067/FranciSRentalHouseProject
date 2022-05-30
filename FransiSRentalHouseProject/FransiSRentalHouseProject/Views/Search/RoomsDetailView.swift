@@ -49,6 +49,7 @@ struct RoomsDetailView: View {
                 VStack(alignment: .center, spacing: 10) {
                     HStack {
                         Text(roomsData.providerDisplayName)
+                            .foregroundColor(.white)
                             .font(.title2)
                             .fontWeight(.heavy)
                         Spacer()

@@ -62,10 +62,10 @@ class FirestoreForTextingMessage: ObservableObject {
         ])
     }
     
-    func sendingMessage(text: String, sendingImage: String?, senderProfileImage: String, senderDocID: String, sendingTimestamp: Date = Date(), chatRoomUID: String, contactWith: String) async throws {
+    func sendingMessage(text: String, sendingImage: [String]?, senderProfileImage: String, senderDocID: String, sendingTimestamp: Date = Date(), chatRoomUID: String, contactWith: String) async throws {
         let messageContainRef = db.collection("ChatCenter").document(chatRoomUID).collection("MessageContain")
         _ = try await messageContainRef.addDocument(data: [
-            "sendingImage" : sendingImage ?? "",
+            "sendingImage" : sendingImage ?? [String](),
             "senderDocID" : senderDocID,
             "contactWith": contactWith,
             "text" : text,

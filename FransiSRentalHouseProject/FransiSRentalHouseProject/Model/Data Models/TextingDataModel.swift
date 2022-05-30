@@ -53,7 +53,7 @@ extension ChatCenterDataModel {
 
 struct MessageContainDataModel:Identifiable, Codable {
     @DocumentID var id: String?
-    var sendingImage: String?
+    var sendingImage: [String]?
     var senderProfileImage: String?
     var senderDocID: String
     var contactWith: String

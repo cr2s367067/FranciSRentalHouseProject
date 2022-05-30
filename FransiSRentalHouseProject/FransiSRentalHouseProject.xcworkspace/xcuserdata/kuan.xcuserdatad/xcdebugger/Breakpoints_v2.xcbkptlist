@@ -392,7 +392,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "16F4DB05-D21E-4DB5-8152-97A6239678C1"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProjectUITests/BusinessLogicUnitTests.swift"
@@ -440,7 +440,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "7DC453DC-52E7-4E90-9B91-563DF7B1E332"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProjectUITests/BusinessLogicUnitTests.swift"
@@ -1090,240 +1090,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BEB0B0EA-9336-4960-85BA-0FB22AC18F16"
+            uuid = "AD000CE8-C68B-498B-AB83-044059392579"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForMessageImage.swift"
+            filePath = "FransiSRentalHouseProjectUITests/BusinessLogicUnitTests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "sendingImage(images:chatRoomUID:senderDocID:sendingTimestamp:)"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "test_room_provider_summits_room_process()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "BEB0B0EA-9336-4960-85BA-0FB22AC18F16 - 490c36dda9839b78"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FransiSRentalHouseProject.StorageForMessageImage.sendingImage(images: Swift.Array&lt;__C.UIImage&gt;, chatRoomUID: Swift.String, senderDocID: Swift.String, sendingTimestamp: Foundation.Date) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForMessageImage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26"
-                  offsetFromSymbolStart = "1268">
-               </Location>
-               <Location
-                  uuid = "BEB0B0EA-9336-4960-85BA-0FB22AC18F16 - b989bec2462aa05e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) await resume partial function for FransiSRentalHouseProject.StorageForMessageImage.sendingImage(images: Swift.Array&lt;__C.UIImage&gt;, chatRoomUID: Swift.String, senderDocID: Swift.String, sendingTimestamp: Foundation.Date) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForMessageImage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26"
-                  offsetFromSymbolStart = "712">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CDC162B2-FDA2-4DA5-B7BC-5C372F72C25D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForMessageImage.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "sendingImage(images:chatRoomUID:senderDocID:sendingTimestamp:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "CDC162B2-FDA2-4DA5-B7BC-5C372F72C25D - 490c36dda9839b27"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FransiSRentalHouseProject.StorageForMessageImage.sendingImage(images: Swift.Array&lt;__C.UIImage&gt;, chatRoomUID: Swift.String, senderDocID: Swift.String, sendingTimestamp: Foundation.Date) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForMessageImage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "1796">
-               </Location>
-               <Location
-                  uuid = "CDC162B2-FDA2-4DA5-B7BC-5C372F72C25D - 9939eeb1101c5c1f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) await resume partial function for FransiSRentalHouseProject.StorageForMessageImage.sendingImage(images: Swift.Array&lt;__C.UIImage&gt;, chatRoomUID: Swift.String, senderDocID: Swift.String, sendingTimestamp: Foundation.Date) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForMessageImage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "132">
-               </Location>
-               <Location
-                  uuid = "CDC162B2-FDA2-4DA5-B7BC-5C372F72C25D - b989bec2462aa001"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) await resume partial function for FransiSRentalHouseProject.StorageForMessageImage.sendingImage(images: Swift.Array&lt;__C.UIImage&gt;, chatRoomUID: Swift.String, senderDocID: Swift.String, sendingTimestamp: Foundation.Date) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForMessageImage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "1240">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "54BA3581-6049-47BC-AC12-B8BD9C69AF8E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForMessageImage.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "sendingImage(images:chatRoomUID:senderDocID:sendingTimestamp:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "AE2C5591-B030-4FAD-B22D-DF83F24AA584"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForMessageImage.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "sendingImage(images:chatRoomUID:senderDocID:sendingTimestamp:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "AE2C5591-B030-4FAD-B22D-DF83F24AA584 - 9939eeb1101c5dfe"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) await resume partial function for FransiSRentalHouseProject.StorageForMessageImage.sendingImage(images: Swift.Array&lt;__C.UIImage&gt;, chatRoomUID: Swift.String, senderDocID: Swift.String, sendingTimestamp: Foundation.Date) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForMessageImage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "28"
-                  endingLineNumber = "28"
-                  offsetFromSymbolStart = "236">
-               </Location>
-               <Location
-                  uuid = "AE2C5591-B030-4FAD-B22D-DF83F24AA584 - 89f196fab907ffe1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for FransiSRentalHouseProject.StorageForMessageImage.sendingImage(images: Swift.Array&lt;__C.UIImage&gt;, chatRoomUID: Swift.String, senderDocID: Swift.String, sendingTimestamp: Foundation.Date) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForMessageImage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "28"
-                  endingLineNumber = "28"
-                  offsetFromSymbolStart = "184">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "956DD79E-90B7-46AE-AA6B-0F8B1DB157F4"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForMessageImage.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "sendingImage(images:chatRoomUID:senderDocID:sendingTimestamp:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "38CAD1D1-8D3C-4B32-9A85-5F5E960B6F7E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForMessageImage.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "sendingImage(images:chatRoomUID:senderDocID:sendingTimestamp:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "38CAD1D1-8D3C-4B32-9A85-5F5E960B6F7E - 490c36dda9839b59"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FransiSRentalHouseProject.StorageForMessageImage.sendingImage(images: Swift.Array&lt;__C.UIImage&gt;, chatRoomUID: Swift.String, senderDocID: Swift.String, sendingTimestamp: Foundation.Date) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForMessageImage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25"
-                  offsetFromSymbolStart = "1148">
-               </Location>
-               <Location
-                  uuid = "38CAD1D1-8D3C-4B32-9A85-5F5E960B6F7E - b989bec2462aa07f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) await resume partial function for FransiSRentalHouseProject.StorageForMessageImage.sendingImage(images: Swift.Array&lt;__C.UIImage&gt;, chatRoomUID: Swift.String, senderDocID: Swift.String, sendingTimestamp: Foundation.Date) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForMessageImage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25"
-                  offsetFromSymbolStart = "592">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

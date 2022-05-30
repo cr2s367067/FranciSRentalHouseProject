@@ -15,6 +15,8 @@ class TextingViewModel: ObservableObject {
     
     @Published var showPhpicker = false
     
+    @Published var imageArray = [String]()
+    
     @Published var showImageDetail = false
-    @Published var imageURL = ""
+//    @Published var imageURL = ""
 }
