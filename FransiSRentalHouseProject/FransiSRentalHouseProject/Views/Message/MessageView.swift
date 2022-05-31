@@ -117,18 +117,7 @@ struct MessageView: View {
                             Task {
                                 do {
                                     try await storageForMessageImage.sendingImageAndMessage(images: textingViewModel.image, chatRoomUID: contactMember.chatRoomUID, senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId), text: textingViewModel.text, senderProfileImage: "")
-                                    //MARK: Adjust message sending method, this will create two new doc in once.
-//                                    if !textingViewModel.image.isEmpty {
-//                                    try await storageForMessageImage.sendingImage(images: textingViewModel.image, chatRoomUID: contactMember.chatRoomUID, senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId), text: textingViewModel.text, senderProfileImage: "")
                                         textingViewModel.image.removeAll()
-//                                    }
-//                                    if !textingViewModel.text.isEmpty {
-//                                        try await firestoreForTextingMessage.sendingMessage(text: textingViewModel.text,
-//                                                                                        sendingImage: "",
-//                                                                                        senderProfileImage: "",
-//                                                                                        senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
-//                                                                                        chatRoomUID: contactMember.chatRoomUID, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId))
-//                                    }
                                     guard let id = contactMember.id else { return }
                                     try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
                                     textingViewModel.text = ""
@@ -207,10 +196,13 @@ struct TextingViewForReceiver: View {
     
     let receiveProfileImage: String
     
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     var message: MessageContainDataModel
     
     var body: some View {
-        HStack {
+        HStack(spacing: 5) {
             if receiveProfileImage.isEmpty {
                 Image(systemName: "person.crop.circle")
                     .foregroundColor(.white)
@@ -221,7 +213,7 @@ struct TextingViewForReceiver: View {
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())
             }
-            VStack {
+            VStack(spacing: 15) {
                 HStack {
                     if !message.text.isEmpty {
                         Text(message.text)
@@ -238,24 +230,94 @@ struct TextingViewForReceiver: View {
                 }
                 HStack {
                     if let imageArray = message.sendingImage {
-                        ForEach(imageArray, id: \.self) { image in
-                            WebImage(url: URL(string: image))
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 200, height: 250)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .onTapGesture {
-                                    textingViewModel.showImageDetail = true
-                                    print(textingViewModel.showImageDetail)
-                                    textingViewModel.imageArray = imageArray
-                                }
-                        }
+                        idenImageArray(imageArray: imageArray)
+                            .padding(.leading, 1)
                     }
                     Spacer()
                 }
             }
             Spacer()
         }
+    }
+}
+
+extension TextingViewForReceiver {
+    @ViewBuilder
+    func idenImageArray(imageArray: [String]) -> some View {
+        if imageArray.count > 1 {
+            moreThenFour(imageArray: imageArray)
+        } else {
+            ForEach(imageArray, id: \.self) { image in
+                WebImage(url: URL(string: image))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: uiScreenWidth / 4 + 50, height: uiScreenHeight / 6 + 20)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .onTapGesture {
+                        textingViewModel.showImageDetail = true
+                        print(textingViewModel.showImageDetail)
+                        textingViewModel.imageArray = imageArray
+                    }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func moreThenFour(imageArray: [String]) -> some View {
+        if imageArray.count >= 5 {
+            let arraySlice = imageArray.prefix(4)
+            VStack {
+                HStack {
+                    WaterfallGrid(arraySlice, id: \.self) { image in
+                        WebImage(url: URL(string: image))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: uiScreenWidth / 5, height: uiScreenHeight / 7 - 50)
+                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                            .onTapGesture {
+                                textingViewModel.showImageDetail = true
+                                print(textingViewModel.showImageDetail)
+                                textingViewModel.imageArray = imageArray
+                            }
+                    }
+                    .gridStyle(spacing: 5, animation: .easeInOut)
+                }
+                HStack {
+                    Text("+\(adjustArray(imageArray: imageArray).count)")
+                        .foregroundColor(.white)
+                        .font(.body)
+                        .fontWeight(.bold)
+                    Spacer()
+                }
+            }
+            .frame(width: uiScreenWidth / 3 + 40, height: uiScreenHeight / 5, alignment: .center)
+            
+        } else {
+            HStack {
+                WaterfallGrid(imageArray, id: \.self) { image in
+                    WebImage(url: URL(string: image))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: uiScreenWidth / 5, height: uiScreenHeight / 7 - 50)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .onTapGesture {
+                            textingViewModel.showImageDetail = true
+                            print(textingViewModel.showImageDetail)
+                            textingViewModel.imageArray = imageArray
+                        }
+                }
+                .gridStyle(spacing: 5, animation: .easeInOut)
+            }
+            .frame(width: uiScreenWidth / 3 + 40, height: uiScreenHeight / 5, alignment: .center)
+        }
+    }
+    
+   private func adjustArray(imageArray: [String]) -> [String] {
+        var origin = imageArray
+        let range = 0...3
+        origin.removeSubrange(range)
+        print(origin)
+        return origin
     }
 }
 
@@ -273,7 +335,7 @@ struct TextingViewForSender: View {
     var body: some View {
         HStack {
             Spacer()
-            VStack {
+            VStack(spacing: 15) {
                 HStack {
                     Spacer()
                     if !message.text.isEmpty {
