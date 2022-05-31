@@ -32,8 +32,29 @@ struct CustomProgressView: View {
     }
 }
 
+
+
+
+struct UploadProgressView: View {
+    var body: some View {
+        VStack {
+            ProgressView("Uploading...")
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                .foregroundColor(.white)
+                .font(.system(size: 15))
+                .background(alignment: .center) {
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(.black.opacity(0.4))
+                }
+        }
+        .padding()
+    }
+}
+
+
 struct CustomProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomProgressView()
+        UploadProgressView()
+            .preferredColorScheme(.dark)
     }
 }

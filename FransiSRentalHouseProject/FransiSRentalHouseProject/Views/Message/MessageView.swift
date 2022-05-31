@@ -67,38 +67,45 @@ struct MessageView: View {
             }
             VStack(spacing: 10) {
                 if !textingViewModel.image.isEmpty {
-                    HStack {
-                        //Photo card
-                        ForEach(textingViewModel.image) { image in
-                            ZStack {
-                                Image(uiImage: image.image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: uiScreenWidth / 5 - 20, height: uiScreenHeight / 8 - 20, alignment: .center)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                                VStack {
-                                    HStack {
-                                        Spacer()
-                                        Button {
-                                            textingViewModel.image.removeAll(where: {$0.id == image.id})
-                                            debugPrint(image.image)
-                                        } label: {
-                                            ZStack {
-                                                Image(systemName: "circle.fill")
-                                                    .foregroundColor(.black)
-                                                Image(systemName: "multiply.circle.fill")
-                                                    .foregroundColor(.white)
+                    ZStack {
+                        HStack {
+                            //Photo card
+                            ScrollView(.horizontal, showsIndicators: true) {
+                                HStack {
+                                    ForEach(textingViewModel.image) { image in
+                                        ZStack {
+                                            Image(uiImage: image.image)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: uiScreenWidth / 5 - 20, height: uiScreenHeight / 8 - 20, alignment: .center)
+                                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                            VStack {
+                                                HStack {
+                                                    Spacer()
+                                                    Button {
+                                                        textingViewModel.image.removeAll(where: {$0.id == image.id})
+                                                        debugPrint(image.image)
+                                                    } label: {
+                                                        ZStack {
+                                                            Image(systemName: "circle.fill")
+                                                                .foregroundColor(.black)
+                                                            Image(systemName: "multiply.circle.fill")
+                                                                .foregroundColor(.white)
+                                                        }
+                                                    }
+                                                }
+                                                .padding(.top, 4)
+                                                .padding(.trailing, 4)
+                                                Spacer()
                                             }
+                                            .frame(width: uiScreenWidth / 5 - 20, height: uiScreenHeight / 8 - 20, alignment: .center)
                                         }
                                     }
-                                    .padding(.top, 4)
-                                    .padding(.trailing, 4)
-                                    Spacer()
                                 }
-                                .frame(width: uiScreenWidth / 5 - 20, height: uiScreenHeight / 8 - 20, alignment: .center)
                             }
+                            Spacer()
                         }
-                        Spacer()
+                        isUploadImage(isUploading: storageForMessageImage.isUploading)
                     }
                 }
                 HStack {
@@ -354,6 +361,7 @@ struct TextingViewForSender: View {
                     Spacer()
                     if let imageArray = message.sendingImage {
                         idenImageArray(imageArray: imageArray)
+                            .padding()
                     }
                 }
             }
@@ -447,7 +455,6 @@ extension TextingViewForSender {
 struct ShowImage: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-//    var imageURL: String
     var imageArray: [String]
     @Binding var showImageDetail: Bool
     var body: some View {
@@ -462,14 +469,6 @@ struct ShowImage: View {
                         .font(.system(size: 25))
                 }
             }
-//            VStack {
-//                WebImage(url: URL(string: imageURL))
-//                    .resizable()
-//                    .scaledToFill()
-//                    .frame(width: uiScreenWidth - 100, height: uiScreenHeight / 2)
-//                    .clipShape(RoundedRectangle(cornerRadius: 20))
-//            }
-//            Spacer()
             sigleGroupSwitch(imageArray: imageArray)
         }
         .padding()
@@ -512,6 +511,16 @@ extension MessageView {
             holder = firestoreForTextingMessage.chatManager.contact1docID
         }
         return holder
+    }
+    
+    @ViewBuilder
+    func isUploadImage(isUploading: Bool) -> some View {
+        if isUploading {
+            HStack {
+                Spacer()
+                UploadProgressView()
+            }
+        }
     }
     
 }

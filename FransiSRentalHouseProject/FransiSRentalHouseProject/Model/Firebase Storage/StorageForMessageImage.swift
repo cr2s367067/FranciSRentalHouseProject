@@ -14,14 +14,18 @@ import UIKit
 
 class StorageForMessageImage: ObservableObject {
     
+    @Published var isUploading = false
+    
     let db = Firestore.firestore()
     let fireMessage = FirestoreForTextingMessage()
     
     let messageImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "messageImage")
     
+    @MainActor
     func sendingImageAndMessage(images: [TextingImageDataModel], chatRoomUID: String, senderDocID: String, sendingTimestamp: Date = Date(), contactWith: String, text: String, senderProfileImage: String) async throws {
         var tempUrlHolder = [String]()
         if !images.isEmpty {
+            isUploading = true
             for image in images {
                 guard let messageImageData = image.image.jpegData(compressionQuality: 0.4) else { return }
                 let imageUID = UUID().uuidString
@@ -30,6 +34,7 @@ class StorageForMessageImage: ObservableObject {
                 let url = try await messageImageRef.downloadURL().absoluteString
                 tempUrlHolder.append(url)
             }
+            isUploading = false
         }
         try await fireMessage.sendingMessage(text: text, sendingImage: tempUrlHolder, senderProfileImage: senderProfileImage, senderDocID: senderDocID, chatRoomUID: chatRoomUID, contactWith: contactWith)
         tempUrlHolder.removeAll()
