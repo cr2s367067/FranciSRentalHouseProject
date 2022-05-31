@@ -304,22 +304,7 @@ extension TextingViewForSender {
     @ViewBuilder
     func idenImageArray(imageArray: [String]) -> some View {
         if imageArray.count > 1 {
-            HStack {
-                WaterfallGrid(imageArray, id: \.self) { image in
-                    WebImage(url: URL(string: image))
-                        .resizable()
-                        .scaledToFit()
-//                        .frame(width: uiScreenWidth / 6, height: uiScreenHeight / 8)
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .onTapGesture {
-                            textingViewModel.showImageDetail = true
-                            print(textingViewModel.showImageDetail)
-                            textingViewModel.imageArray = imageArray
-                        }
-                }
-                .gridStyle(columnsInPortrait: imageArray.count - 2, columnsInLandscape: 1, spacing: CGFloat(imageArray.count + 1), animation: .easeInOut)
-            }
-            .frame(width: uiScreenWidth / 3, height: uiScreenHeight / 4, alignment: .center)
+            moreThenFour(imageArray: imageArray)
         } else {
             ForEach(imageArray, id: \.self) { image in
                 WebImage(url: URL(string: image))
@@ -334,6 +319,64 @@ extension TextingViewForSender {
                     }
             }
         }
+    }
+    
+    @ViewBuilder
+    func moreThenFour(imageArray: [String]) -> some View {
+        if imageArray.count >= 5 {
+            let arraySlice = imageArray.prefix(4)
+            VStack {
+                HStack {
+                    WaterfallGrid(arraySlice, id: \.self) { image in
+                        WebImage(url: URL(string: image))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: uiScreenWidth / 5, height: uiScreenHeight / 7 - 50)
+                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                            .onTapGesture {
+                                textingViewModel.showImageDetail = true
+                                print(textingViewModel.showImageDetail)
+                                textingViewModel.imageArray = imageArray
+                            }
+                    }
+                    .gridStyle(spacing: 5, animation: .easeInOut)
+                }
+                HStack {
+                    Spacer()
+                    Text("+\(adjustArray(imageArray: imageArray).count)")
+                        .foregroundColor(.white)
+                        .font(.body)
+                        .fontWeight(.bold)
+                }
+            }
+            .frame(width: uiScreenWidth / 3 + 40, height: uiScreenHeight / 5, alignment: .center)
+            
+        } else {
+            HStack {
+                WaterfallGrid(imageArray, id: \.self) { image in
+                    WebImage(url: URL(string: image))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: uiScreenWidth / 5, height: uiScreenHeight / 7 - 50)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .onTapGesture {
+                            textingViewModel.showImageDetail = true
+                            print(textingViewModel.showImageDetail)
+                            textingViewModel.imageArray = imageArray
+                        }
+                }
+                .gridStyle(spacing: 5, animation: .easeInOut)
+            }
+            .frame(width: uiScreenWidth / 3 + 40, height: uiScreenHeight / 5, alignment: .center)
+        }
+    }
+    
+   private func adjustArray(imageArray: [String]) -> [String] {
+        var origin = imageArray
+        let range = 0...3
+        origin.removeSubrange(range)
+        print(origin)
+        return origin
     }
 }
 

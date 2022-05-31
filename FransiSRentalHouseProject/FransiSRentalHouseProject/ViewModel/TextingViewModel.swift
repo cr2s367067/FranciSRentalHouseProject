@@ -18,5 +18,5 @@ class TextingViewModel: ObservableObject {
     @Published var imageArray = [String]()
     
     @Published var showImageDetail = false
-//    @Published var imageURL = ""
+
 }
