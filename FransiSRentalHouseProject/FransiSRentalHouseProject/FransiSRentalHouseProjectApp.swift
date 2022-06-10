@@ -140,6 +140,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         Performance.sharedInstance().isInstrumentationEnabled = false
         Performance.sharedInstance().isDataCollectionEnabled = false
         Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
+        
+        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
+        
 #elseif DEBUG
         print(
         """
@@ -150,6 +153,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         *********************************
         """
         )
+        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
 #endif
 
         //MARK: It will cause the keyboard that has gap upon

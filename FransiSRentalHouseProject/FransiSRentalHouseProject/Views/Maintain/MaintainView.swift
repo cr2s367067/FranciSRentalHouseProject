@@ -28,6 +28,8 @@ struct MaintainView: View {
     @State var showProgressView = false
     @State private var images = [TextingImageDataModel]()
     
+    @State private var selectLimit = 1
+    
     var getFirstImage: UIImage {
         var firstHolder = UIImage()
         if let image = images.first {
@@ -160,7 +162,7 @@ struct MaintainView: View {
                 imagePresentingManager.plIdentify(image: getFirstImage)
             }, content: {
 //                ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
-                PHPickerRepresentable(images: $images)
+                PHPickerRepresentable(selectLimit: $selectLimit, images: $images, video: Binding.constant(nil))
             })
             .overlay(content: {
                 if firestoreToFetchUserinfo.presentUserId().isEmpty {

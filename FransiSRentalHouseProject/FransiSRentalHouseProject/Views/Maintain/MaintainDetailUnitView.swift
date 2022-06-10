@@ -30,6 +30,7 @@ struct MaintainDetailUnitView: View {
     @State private var isEdit = false
     @State private var isProgressing = false
     @FocusState private var isFocus: Bool
+    @State private var selectLimit = 1
     
     var presentingImage: UIImage {
         var firstHolder = UIImage()
@@ -116,7 +117,7 @@ struct MaintainDetailUnitView: View {
             newDate = taskHolder.appointmentDate
         }
         .sheet(isPresented: $showSheet) {
-            PHPickerRepresentable(images: $newSelectedImage)
+            PHPickerRepresentable(selectLimit: $selectLimit, images: $newSelectedImage, video: Binding.constant(nil))
         }
         .overlay {
             if isProgressing {

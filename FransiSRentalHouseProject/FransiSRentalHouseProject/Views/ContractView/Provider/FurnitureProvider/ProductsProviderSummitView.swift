@@ -21,6 +21,7 @@ struct ProductsProviderSummitView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @FocusState private var isFocused: Bool
+    @State private var selectLimit = 5
 
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -300,7 +301,7 @@ struct ProductsProviderSummitView: View {
                 .sheet(isPresented: $productsProviderSummitViewModel.showSheet) {
                     productsProviderSummitViewModel.isSummitProductPic = true
                 } content: {
-                    PHPickerRepresentable(images: $productsProviderSummitViewModel.images)
+                    PHPickerRepresentable(selectLimit: $selectLimit, images: $productsProviderSummitViewModel.images, video: Binding.constant(nil))
                 }
                 .navigationBarHidden(true)
         }

@@ -11,14 +11,14 @@ import PhotosUI
 struct PHPickerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = PHPickerViewController
     
+    @Binding var selectLimit: Int
     @Binding var images: [TextingImageDataModel]
-//    @Binding var isPresented: Bool
+    @Binding var video: URL?
     var itemProviders = [NSItemProvider]()
-    
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 5
-        configuration.filter = .images
+        configuration.selectionLimit = selectLimit
+        configuration.filter = .any(of: [.images, .videos])
         configuration.preferredAssetRepresentationMode = .automatic
         
         let controller = PHPickerViewController(configuration: configuration)
@@ -50,20 +50,28 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
                 parent.itemProviders = []
             }
             parent.itemProviders = results.map(\.itemProvider)
-            loadImages()
-//            parent.isPresented = false
+            loadItems()
         }
         
-        private func loadImages() {
+        private func loadItems() {
             for itemProvider in parent.itemProviders {
                 if itemProvider.canLoadObject(ofClass: UIImage.self) {
                     itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                        print("Is image: \(String(describing: image?.description))")
                         DispatchQueue.main.async {                        
                             if let image = image as? UIImage {
                                 self.parent.images.append(TextingImageDataModel(image: image))
                             } else {
                                 print("Could not load image", error?.localizedDescription ?? "")
                             }
+                        }
+                    }
+                } else {
+                    itemProvider.loadItem(forTypeIdentifier: UTType.movie.identifier) { videoURL, error in
+                        DispatchQueue.main.async {                        
+                            guard let videoURL = videoURL as? URL else { return }
+                            print("video result:  \(videoURL)")
+                            self.parent.video = videoURL
                         }
                     }
                 }
@@ -73,4 +81,14 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
    
     
     
+}
+
+extension Binding {
+    static func ??(lhs: Binding<Optional<Value>>, rhs: Value) -> Binding<Value> {
+        return Binding {
+            lhs.wrappedValue ?? rhs
+        } set: {
+            lhs.wrappedValue = $0
+        }
+    }
 }

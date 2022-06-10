@@ -37,12 +37,11 @@ struct LoginView: View {
                 
                 Group {
                     HStack {
-                        Text("Start to find your\nright place.")
-                            .font(.custom("Work Sans", size: 34))
-                            .fontWeight(.heavy)
+                        Text("Door, What's Next")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
                             .foregroundColor(.white)
                             .tracking(-0.68)
-                            .padding(.leading)
                             .padding()
                         Spacer()
                     }
@@ -50,7 +49,6 @@ struct LoginView: View {
                         Text("Sign In")
                             .font(.system(size: 24))
                             .foregroundColor(.white)
-                            .padding(.leading)
                             .padding()
                         Spacer()
                     }

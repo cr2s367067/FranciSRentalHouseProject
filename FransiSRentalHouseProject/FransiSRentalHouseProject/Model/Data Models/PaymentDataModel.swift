@@ -13,6 +13,12 @@ enum HTTPMethod: String {
     case post = "POST"
 }
 
+enum Language: String {
+    case zh = "zh-TW"
+    case en = "en-US"
+}
+
+
 enum HTTPContent: String {
     case contentType = "application/json"
 }

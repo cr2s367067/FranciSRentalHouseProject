@@ -13,7 +13,6 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
 
-
 class StorageForProductImage: ObservableObject {
     
     let db = Firestore.firestore()
@@ -118,3 +117,13 @@ class StorageForProductImage: ObservableObject {
     }
     
 }
+
+
+//extension StorageForProductImage {
+//
+//    func uploadProductVideo(movie: URL) async throws {
+//        
+//        
+//    }
+//
+//}

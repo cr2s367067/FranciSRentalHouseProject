@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseFirestoreSwift
+import AVKit
 
 struct ProviderRoomSummitView: View {
     
@@ -23,6 +24,7 @@ struct ProviderRoomSummitView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
+    @State private var selectlimit = 5
     @FocusState private var isFocus: Bool
     
     init() {
@@ -143,6 +145,52 @@ struct ProviderRoomSummitView: View {
                         }
                         .padding()
                         .frame(width: uiScreenWidth - 30)
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack {
+                                Text("Additional Room Intro Video")
+                                    .modifier(textFormateForProviderSummitView())
+                                Spacer()
+                            }
+                            .padding(.bottom)
+                            Button {
+                                providerRoomSummitViewModel.showPHPicker.toggle()
+                            } label: {
+                                ZStack(alignment: .center) {
+                                    Rectangle()
+                                        .fill(Color("fieldGray"))
+                                        .frame(width: uiScreenWidth / 2, height: uiScreenHeight / 6, alignment: .center)
+                                        .cornerRadius(10)
+                                    Image(systemName: "plus.square")
+                                        .resizable()
+                                        .frame(width: 25, height: 25)
+                                        .foregroundColor(Color.gray)
+                                    if providerRoomSummitViewModel.isSelectedRoomSet == true && !(providerRoomSummitViewModel.roomIntroVideoURL?.pathComponents.isEmpty ?? false) {
+                                        if let videoURL = providerRoomSummitViewModel.roomIntroVideoURL {
+                                            VideoPlayer(player: AVPlayer(url: videoURL))
+                                        }
+                                    }
+//                                    VStack(alignment: .trailing) {
+//                                        HStack {
+//                                            Spacer()
+//                                            Text("\(providerRoomSummitViewModel.imageSet.count)")
+//                                                .foregroundColor(.white)
+//                                                .padding()
+//                                                .frame(width: 50, height: 40, alignment: .center)
+//                                                .background {
+//                                                    RoundedRectangle(cornerRadius: 10)
+//                                                        .fill(colorScheme == .dark ? .gray.opacity(0.5) : Color.black.opacity(0.4))
+//                                                }
+//                                        }
+//                                        Spacer()
+//                                    }
+                                }
+                            }
+                            .accessibilityIdentifier("addtionalPh")
+                        }
+                        .padding()
+                        .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 6)
+                        
                         Group {
                             HStack {
                                 Text("Does someone dead in this room before?")
@@ -358,11 +406,11 @@ struct ProviderRoomSummitView: View {
             })
             .sheet(isPresented: $providerRoomSummitViewModel.showPHPicker) {
                 providerRoomSummitViewModel.isSelectedRoomSet = true
+                print("getting video url: \(String(describing: providerRoomSummitViewModel.roomIntroVideoURL ?? URL(string: "")))")
             } content: {
-                PHPickerRepresentable(images: self.$providerRoomSummitViewModel.imageSet)
+                PHPickerRepresentable(selectLimit: $selectlimit, images: self.$providerRoomSummitViewModel.imageSet, video: $providerRoomSummitViewModel.roomIntroVideoURL)
             }
             .sheet(isPresented: $providerRoomSummitViewModel.showSheet) {
-                
                 providerRoomSummitViewModel.isSummitRoomPic = true
             } content: {
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$providerRoomSummitViewModel.image)
@@ -447,6 +495,7 @@ class ProviderRoomSummitViewModel: ObservableObject {
     @Published var isSelectedRoomSet = false
     @Published var showSummitAlert = false
     @Published var showProgressView = false
+    @Published var roomIntroVideoURL: URL?
     
     func presentImage(input: [TextingImageDataModel]) -> UIImage {
         var image = UIImage()

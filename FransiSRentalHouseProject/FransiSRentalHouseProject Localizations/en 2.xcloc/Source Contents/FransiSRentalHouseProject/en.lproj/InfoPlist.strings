@@ -1,6 +1,0 @@
-/* Bundle name */
-"CFBundleName" = "FransiSRentalHouseProject";
-/* Privacy - Face ID Usage Description */
-"NSFaceIDUsageDescription" = "Request to use face id to to unloak app.";
-/* Privacy - Photo Library Usage Description */
-"NSPhotoLibraryUsageDescription" = "Request to use photo library to  use photo.";

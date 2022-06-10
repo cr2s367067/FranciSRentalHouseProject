@@ -53,10 +53,11 @@ struct RenterMainView: View {
 //                        fatalError("Crash was triggered")
 //                    }
 //                    Button("test") {
+//                        paymentMg.testapi()
 //                        Task {
 //                            do {
 //                                let currentDate = Date().getFormatterDate(format: "yyyy-mm-dd HH:mm:ss")
-//                                
+//
 //                                try await paymentMg.callServerToken(envPath: .testEnv,
 //                                                         httpMethod: .post,
 //                                                         httpContent: .contentType,

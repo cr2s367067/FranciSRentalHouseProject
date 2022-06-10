@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import AVKit
 
 struct ProductDetailView: View {
     
@@ -328,3 +329,13 @@ struct PageView: View {
         }
     }
 }
+
+
+
+//struct TestVideoView: View {
+//    var body: some View {
+//        VStack {
+//            VideoPlayer(player: AVPlayer(url: <#T##URL#>))
+//        }
+//    }
+//}

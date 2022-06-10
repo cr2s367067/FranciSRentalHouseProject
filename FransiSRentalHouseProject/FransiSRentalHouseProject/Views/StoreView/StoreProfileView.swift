@@ -27,6 +27,8 @@ struct StoreProfileView: View {
     @State private var showImage = false
     @State private var showProgress = false
     
+    @State private var selectLimit = 1
+    
     @FocusState private var isFocused: Bool
     
     var body: some View {
@@ -54,7 +56,7 @@ struct StoreProfileView: View {
                 }
             }
         } content: {
-            PHPickerRepresentable(images: $images)
+            PHPickerRepresentable(selectLimit: $selectLimit, images: $images, video: Binding.constant(nil))
         }
         .task {
             do {

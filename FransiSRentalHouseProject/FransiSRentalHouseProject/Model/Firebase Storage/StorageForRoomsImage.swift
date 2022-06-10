@@ -23,6 +23,8 @@ class StorageForRoomsImage: ObservableObject {
     
     let roomImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "roomImage")
     
+    let roomVideoStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "roomVideo")
+    
     func imagUUIDGenerator() -> String {
         let _imageUUID = UUID().uuidString
         imageUUID = _imageUUID
@@ -57,4 +59,16 @@ extension StorageForRoomsImage {
             ])
         }
     }
+}
+
+
+extension StorageForRoomsImage {
+    
+    func uploadRoomVideo(movie: URL, uidPath: String, roomID: String, docID: String) async throws {
+        let videoID = UUID().uuidString
+        let videoRef = roomVideoStorageAddress.child("\(uidPath)/\(roomID)/\(videoID).mp4")
+        guard let convertVideoToData = try? Data(contentsOf: movie) else { return }
+        _ = try await videoRef.putDataAsync(convertVideoToData)
+    }
+    
 }

@@ -31,11 +31,11 @@ struct MessageMainView: View {
                             .resizable()
                             .foregroundColor(.white)
                             .clipShape(Circle())
-                            .frame(width: 45, height: 45)
+                            .frame(width: 30, height: 30)
                         WebImage(url: URL(string: firestoreToFetchUserinfo.fetchedUserData.profileImageURL))
                             .resizable()
                             .clipShape(Circle())
-                            .frame(width: 45, height: 45)
+                            .frame(width: 30, height: 30)
                     }
                     Text(firestoreToFetchUserinfo.fetchedUserData.displayName)
                         .foregroundColor(.white)
@@ -111,11 +111,11 @@ struct MessageUserSession: View {
                     .resizable()
                     .foregroundColor(.white)
                     .clipShape(Circle())
-                    .frame(width: 60, height: 60)
+                    .frame(width: 30, height: 30)
                 WebImage(url: URL(string: profileImage))
                     .resizable()
                     .clipShape(Circle())
-                    .frame(width: 60, height: 60)
+                    .frame(width: 30, height: 30)
             }
             VStack(alignment: .leading, spacing: 3) {
                 Text(userName)
@@ -126,7 +126,7 @@ struct MessageUserSession: View {
             Spacer()
         }
         .padding()
-        .frame(width: uiScreenWidth - 50, height: 80)
+        .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 8 - 60)
         .frame(maxWidth: .infinity)
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 10)

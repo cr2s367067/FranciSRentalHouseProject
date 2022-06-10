@@ -19,6 +19,8 @@ enum PaymentProcessStatus {
 
 class PaymentMethodManager: ObservableObject {
     
+    @Published var testToken = ""
+    
     @Published var serverToken: ReturnServerDM = .empty
     
     @Published var getResultHolder = ""
@@ -197,6 +199,61 @@ class PaymentMethodManager: ObservableObject {
             print(error.localizedDescription)
         }
     }
+    
+    func testapi() {
+        ecp.testToGetTestingUserToken(merchantID: "3002607", aesKey: "pwFHCqoQZGmho4w6", aesIV: "EkRm7iFT261dpevs") { state in
+            let callState = state.callbackStateStatus
+            let state_ = state as! TestingTokenCallbackState
+            
+            switch callState {
+            case .Fail:
+                print(state.callbackStateMessage)
+            case .Success:
+                self.testToken = state_.Token
+                print(self.testToken)
+                if let state2 = state as? CreatePaymentCallbackState {
+                    print("state2: \(state2)")
+                }
+            case .Cancel:
+                print("Cancel")
+            case .Exit:
+                print("Exit")
+            case .Unknown:
+                print("unknow error")
+            @unknown default:
+                print("unknow error")
+            }
+        }
+    }
+    
+    func createPayment(token: String, merchantID: String, language: Language) {
+        ecp.createPayment(token: token, merchantID: merchantID, useResultPage: 1, appStoreName: "Testing Store", language: language.rawValue) { callback in
+            let callbackStatus = callback.callbackStateStatus
+            let state_ = callback as? CreatePaymentCallbackState
+            if let card = state_?.CardInfo {
+                print("\(card)")
+            }
+            switch callbackStatus {
+            case .Success:
+                print("success")
+//                CreatePaymentCallbackState_CardInfoResponseModel(MerchantTradeNo: "", TradeNo)
+                
+            case .Fail:
+                print("fail")
+            case .Cancel:
+                print("cancel")
+            case .Exit:
+                print("exit")
+            case .Unknown:
+                print("unkown")
+            @unknown default:
+                fatalError("Unknown fatal error")
+            }
+        }
+    }
+    
+    
+    
     
     @MainActor
     func getServerToken(url: URL) async throws {

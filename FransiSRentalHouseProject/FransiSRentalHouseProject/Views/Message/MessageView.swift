@@ -29,6 +29,8 @@ struct MessageView: View {
     
     @FocusState private var isFocused: Bool
     
+    @State private var selectLimit = 10
+    
     var body: some View {
         VStack(alignment: .center) {
             ScrollView(.vertical, showsIndicators: false) {
@@ -172,7 +174,7 @@ struct MessageView: View {
         .sheet(isPresented: $textingViewModel.showPhpicker, onDismiss: {
 
         }, content: {
-            PHPickerRepresentable(images: $textingViewModel.image)
+            PHPickerRepresentable(selectLimit: $selectLimit, images: $textingViewModel.image, video: Binding.constant(nil))
         })
         .toolbar {
             ToolbarItem(placement: .principal) {
