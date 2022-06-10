@@ -244,7 +244,7 @@ extension FirestoreToFetchUserinfo {
         try await fetchUploadUserDataAsync()
     }
     
-    
+    @MainActor
     func fetchUploadUserDataAsync() async throws {
         fetchedUserData = try await fetchUploadedUserDataAsync(uidPath: firebaseAuth.getUID())
         self.userLastName = self.getUserLastName(lastName: self.fetchedUserData)

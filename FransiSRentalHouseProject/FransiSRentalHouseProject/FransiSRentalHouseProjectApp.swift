@@ -16,6 +16,7 @@ import FirebaseFirestoreSwift
 import FirebaseStorage
 import FirebaseFunctions
 
+//@available(iOS 16, *)
 @main
 struct FransiSRentalHouseProjectApp: App {
     
@@ -61,6 +62,7 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var soldProCollectionM = SoldProductCollectionManager()
     @StateObject var pwdM = PwdManager()
     @StateObject var imgPresentM = ImagePresentingManager()
+//    @StateObject var rentalPC = RentalPaymentChartViewModel()
 
     var body: some Scene {
         WindowGroup {
@@ -106,6 +108,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(soldProCollectionM)
                 .environmentObject(pwdM)
                 .environmentObject(imgPresentM)
+//                .environmentObject(rentalPC)
                 .withErrorHandling()
         }
     }

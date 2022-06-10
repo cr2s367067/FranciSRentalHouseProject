@@ -8,6 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
+
 struct ProviderProfileView: View {
     
     @EnvironmentObject var appViewModel: AppViewModel
@@ -24,6 +25,8 @@ struct ProviderProfileView: View {
 
     
     let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
     @State private var isLoading = false
     @State private var image = UIImage()
     @State private var showSheet = false
@@ -105,7 +108,15 @@ struct ProviderProfileView: View {
 //                        .frame(width: 25, height: 25)
                 }
                 .padding(.trailing)
-                isContainDataInBarChart()
+                
+                if #available(iOS 16, *) {
+                    RentalPaymentChartView()
+                        .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 3)
+                } else {
+                    isContainDataInBarChart()
+                }
+                
+                
                 VStack {
                     HStack {
                         Spacer()

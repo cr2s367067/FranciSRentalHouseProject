@@ -156,6 +156,7 @@
 		0ED1F42E27F1DDBF0004B5CE /* FurnitureGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F42D27F1DDBF0004B5CE /* FurnitureGridView.swift */; };
 		0ED1F43227F1F0970004B5CE /* ProductsProviderSummitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F43127F1F0970004B5CE /* ProductsProviderSummitView.swift */; };
 		0ED1F43427F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */; };
+		0ED740B32853105C0017E351 /* RentalPaymentChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED740B22853105C0017E351 /* RentalPaymentChartView.swift */; };
 		0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */; };
 		0EDD9D1628220829003F031D /* ImagePresentingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDD9D1528220829003F031D /* ImagePresentingManager.swift */; };
 		0EE447F227F5867C001DC4DF /* FocusProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F127F5867C001DC4DF /* FocusProductsView.swift */; };
@@ -323,6 +324,7 @@
 		0ED1F42D27F1DDBF0004B5CE /* FurnitureGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureGridView.swift; sourceTree = "<group>"; };
 		0ED1F43127F1F0970004B5CE /* ProductsProviderSummitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsProviderSummitView.swift; sourceTree = "<group>"; };
 		0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsProviderSummitViewModel.swift; sourceTree = "<group>"; };
+		0ED740B22853105C0017E351 /* RentalPaymentChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalPaymentChartView.swift; sourceTree = "<group>"; };
 		0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractEditView.swift; sourceTree = "<group>"; };
 		0EDD9D1528220829003F031D /* ImagePresentingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePresentingManager.swift; sourceTree = "<group>"; };
 		0EE447F127F5867C001DC4DF /* FocusProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusProductsView.swift; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 		0249D42527C637490085F4A5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0ED740B128530FF80017E351 /* ChartView */,
 				0EC5EB41282E055300A9B45B /* RepresentableView */,
 				0E31808428125412009784B9 /* ShippingList */,
 				0E31807D2811253E009784B9 /* StoreView */,
@@ -822,6 +825,14 @@
 			path = RoomProvider;
 			sourceTree = "<group>";
 		};
+		0ED740B128530FF80017E351 /* ChartView */ = {
+			isa = PBXGroup;
+			children = (
+				0ED740B22853105C0017E351 /* RentalPaymentChartView.swift */,
+			);
+			path = ChartView;
+			sourceTree = "<group>";
+		};
 		0EEEDC1D2820D9960036FD0D /* Status */ = {
 			isa = PBXGroup;
 			children = (
@@ -1109,6 +1120,7 @@
 				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
 				0249D43A27C639720085F4A5 /* AppTabView.swift in Sources */,
 				0249D42E27C637DA0085F4A5 /* PersistenceController.swift in Sources */,
+				0ED740B32853105C0017E351 /* RentalPaymentChartView.swift in Sources */,
 				024172AB27DE1342002BF2F2 /* RoomDetailSheetView.swift in Sources */,
 				02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */,
 				0E31808828128265009784B9 /* PurchaseUserDataModel.swift in Sources */,
