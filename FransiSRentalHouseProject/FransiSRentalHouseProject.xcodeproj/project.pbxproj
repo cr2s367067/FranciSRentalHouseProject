@@ -169,6 +169,8 @@
 		0EEEDC1F2820D9B20036FD0D /* AppStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */; };
 		0EFA3F362817938F00DA6014 /* UserOrderedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */; };
 		0EFA3F382817E36500DA6014 /* CommentAndRattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */; };
+		0EFDB2E128546CC800E6E2BB /* The 30-Second Video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0EFDB2E028546CC800E6E2BB /* The 30-Second Video.mp4 */; };
+		0EFDB2E42856337200E6E2BB /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFDB2E32856337200E6E2BB /* VideoView.swift */; };
 		9512FD8141BFE6D187CD0E32 /* Pods_FransiSRentalHouseProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAAA5D570B3BEA1C98A43CC /* Pods_FransiSRentalHouseProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -336,6 +338,8 @@
 		0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatusModel.swift; sourceTree = "<group>"; };
 		0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListViewModel.swift; sourceTree = "<group>"; };
 		0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAndRattingView.swift; sourceTree = "<group>"; };
+		0EFDB2E028546CC800E6E2BB /* The 30-Second Video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "The 30-Second Video.mp4"; sourceTree = "<group>"; };
+		0EFDB2E32856337200E6E2BB /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		2FF071E3C0289EAB22C03DE7 /* Pods-FransiSRentalHouseProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FransiSRentalHouseProject.debug.xcconfig"; path = "Target Support Files/Pods-FransiSRentalHouseProject/Pods-FransiSRentalHouseProject.debug.xcconfig"; sourceTree = "<group>"; };
 		59C15764E2539D57351E3BAC /* Pods-FransiSRentalHouseProject.emulators.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FransiSRentalHouseProject.emulators.xcconfig"; path = "Target Support Files/Pods-FransiSRentalHouseProject/Pods-FransiSRentalHouseProject.emulators.xcconfig"; sourceTree = "<group>"; };
 		8FAAA5D570B3BEA1C98A43CC /* Pods_FransiSRentalHouseProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FransiSRentalHouseProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -417,6 +421,7 @@
 				0249D42327C637330085F4A5 /* Model */,
 				0249D40A27C6351F0085F4A5 /* ContentView.swift */,
 				0249D40C27C635220085F4A5 /* Assets.xcassets */,
+				0EFDB2E028546CC800E6E2BB /* The 30-Second Video.mp4 */,
 				0249D40E27C635220085F4A5 /* Preview Content */,
 			);
 			path = FransiSRentalHouseProject;
@@ -547,6 +552,7 @@
 		0249D44127C639AC0085F4A5 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				0EFDB2E22856336400E6E2BB /* VideoView */,
 				0E81A48B283880DC00EB7AA0 /* WebView */,
 				0E14BC57280D04C500CE56FE /* BioAuth */,
 				0E8F3ED427E9BC66008F0310 /* MapView */,
@@ -830,6 +836,14 @@
 			path = Status;
 			sourceTree = "<group>";
 		};
+		0EFDB2E22856336400E6E2BB /* VideoView */ = {
+			isa = PBXGroup;
+			children = (
+				0EFDB2E32856337200E6E2BB /* VideoView.swift */,
+			);
+			path = VideoView;
+			sourceTree = "<group>";
+		};
 		CF9051B121AFC688432D18E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -956,6 +970,7 @@
 				0249D41027C635220085F4A5 /* Preview Assets.xcassets in Resources */,
 				0E768F7B2824FE770072D0BA /* InfoPlist.strings in Resources */,
 				0E768F7E2824FE770072D0BA /* Localizable.strings in Resources */,
+				0EFDB2E128546CC800E6E2BB /* The 30-Second Video.mp4 in Resources */,
 				0E304DC7283942B6000E2D35 /* LaunchScreen.storyboard in Resources */,
 				0249D40D27C635220085F4A5 /* Assets.xcassets in Resources */,
 				0E257A52283DDA24004F58DA /* GoogleService-Info.plist in Resources */,
@@ -1124,6 +1139,7 @@
 				0E36B6FF2806BEA30008A7C9 /* ProviderProfileViewModel.swift in Sources */,
 				0249D42C27C637CC0085F4A5 /* LocalDataModel.swift in Sources */,
 				0E336CE0280EA05200EC91B6 /* SearchViewModel.swift in Sources */,
+				0EFDB2E42856337200E6E2BB /* VideoView.swift in Sources */,
 				0EA78798283B224300E82F75 /* NotificationManager.swift in Sources */,
 				0E31807F28112559009784B9 /* StoreView.swift in Sources */,
 				0249D44327C639BE0085F4A5 /* SheetView.swift in Sources */,

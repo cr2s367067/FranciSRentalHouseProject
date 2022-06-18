@@ -25,6 +25,7 @@ class ProductsProviderSummitViewModel: ObservableObject {
     
     @Published var showSummitAlert = false
     @Published var images = [TextingImageDataModel]()
+    @Published var productVideo: URL?
     @Published var showSheet = false
     @Published var tosSheetShow = false
     @Published var isSummitProductPic = false

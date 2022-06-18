@@ -37,25 +37,10 @@ struct ContentView: View {
         .onAppear {
             firebaseAuth.signIn = firebaseAuth.isSignedIn
         }
-        
+
         //----------------------Test---------------------------
-//        TabView {
-//            VStack {
-//                ScrollView(.vertical, showsIndicators: false) {
-//                    ForEach(0..<100) { data in
-//                        Text("\(data)")
-//                    }
-//                }
-//                Spacer()
-//                HStack {
-//                    Image(systemName: "paperplane")
-//                    TextField("test field", text: $test)
-//                        .textFieldStyle(RoundedBorderTextFieldStyle())
-//                }
-//                .ignoresSafeArea(.keyboard, edges: .bottom)
-//            }
-//            .padding()
-//        }
+        
+//        TestView()
 
     }
 }

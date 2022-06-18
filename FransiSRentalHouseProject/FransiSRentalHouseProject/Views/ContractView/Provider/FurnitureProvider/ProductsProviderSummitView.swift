@@ -6,13 +6,13 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct ProductsProviderSummitView: View {
 
     @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
-//    @EnvironmentObject var storageForRoomsImage: StorageForRoomsImage
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var productsProviderSummitViewModel: ProductsProviderSummitViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
@@ -22,6 +22,8 @@ struct ProductsProviderSummitView: View {
     
     @FocusState private var isFocused: Bool
     @State private var selectLimit = 5
+    
+    @State private var getVideo = false
 
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -38,6 +40,7 @@ struct ProductsProviderSummitView: View {
                 VStack(spacing: 5) {
                     ScrollView(.vertical, showsIndicators: false){
                         TitleAndDivider(title: "Ready to Post your products?")
+                        //MARK: - Product images
                         StepsTitle(stepsName: "Step1: Upload the product pic.")
                         Button {
                             productsProviderSummitViewModel.showSheet.toggle()
@@ -78,7 +81,31 @@ struct ProductsProviderSummitView: View {
                             .padding()
                         }
                         .accessibilityIdentifier("phpicker")
-                        StepsTitle(stepsName: "Step2: Please provide the necessary information")
+                        //MARK: - Product Video
+                        HStack {
+                            Text("Step2: Upload intro video.")
+                            Button {
+                                productsProviderSummitViewModel.showSheet.toggle()
+                            } label: {
+                                Image(systemName: getVideo ? "checkmark.square.fill" : "plus.square")
+                                    .font(.system(size: 25))
+                                    .foregroundColor(getVideo ? Color.green : Color.white)
+                            }
+                            Spacer()
+                        }
+                        .padding()
+                        if !(productsProviderSummitViewModel.productVideo?.pathComponents.isEmpty ?? false) {
+                            if let url = productsProviderSummitViewModel.productVideo {
+                                VStack {
+                                    VideoPlayer(player: AVPlayer(url: url))
+                                }
+                                .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 3, alignment: .center)
+                                .padding()
+                                .cornerRadius(10)
+                            }
+                        }
+                        //MARK: - Product necessary info
+                        StepsTitle(stepsName: "Step3: Please provide the necessary information")
                         VStack(spacing: 10) {
                             VStack(alignment: .leading, spacing: 2) {
                                 HStack {
@@ -246,6 +273,11 @@ struct ProductsProviderSummitView: View {
                                                                                                        productType: productsProviderSummitViewModel.productType)
                                                         
                                                         try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(), image: productsProviderSummitViewModel.images, productUID: firestoreForProducts.productUID)
+                                                        if !(productsProviderSummitViewModel.productVideo?.pathComponents.isEmpty ?? false) {
+                                                            if let url = productsProviderSummitViewModel.productVideo {
+                                                                try await storageForProductImage.uploadProductVideo(movie: url, uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
+                                                            }
+                                                        }
                                                         try await storageForProductImage.getFirstImageStringAndUpdate(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
                                                         _ = try await firestoreForProducts.getUploadintData(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
                                                         try await firestoreForProducts.postProductOnPublic(data: firestoreForProducts.uploadingHolder, productUID: firestoreForProducts.productUID)
@@ -300,8 +332,11 @@ struct ProductsProviderSummitView: View {
                 })
                 .sheet(isPresented: $productsProviderSummitViewModel.showSheet) {
                     productsProviderSummitViewModel.isSummitProductPic = true
+                    if !(productsProviderSummitViewModel.productVideo?.pathComponents.isEmpty ?? true) {
+                        getVideo = true
+                    }
                 } content: {
-                    PHPickerRepresentable(selectLimit: $selectLimit, images: $productsProviderSummitViewModel.images, video: Binding.constant(nil))
+                    PHPickerRepresentable(selectLimit: $selectLimit, images: $productsProviderSummitViewModel.images, video: $productsProviderSummitViewModel.productVideo)
                 }
                 .navigationBarHidden(true)
         }

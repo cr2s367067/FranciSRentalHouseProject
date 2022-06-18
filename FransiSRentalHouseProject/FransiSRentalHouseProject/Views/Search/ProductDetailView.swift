@@ -53,6 +53,11 @@ struct ProductDetailView: View {
                         .edgesIgnoringSafeArea(.top)
 //            }
             VStack(alignment: .center, spacing: 20) {
+//                Button("test") {
+//                    Task {
+//                        try await storageForProductImage.getVideo(uidPath: providerUID, productUID: productUID)
+//                    }
+//                }
                 HStack {
                     Text(productName)
                         .foregroundColor(.white)
@@ -209,14 +214,24 @@ struct ProductDetailView: View {
 //                    .cornerRadius(50, corners: [.topLeft, .topRight])
                 .edgesIgnoringSafeArea(.bottom)
         }
+        .toolbar {
+            NavigationLink {
+                VideoView(urlString: storageForProductImage.productVideo.videoURL)
+            } label: {
+                Image(systemName: "film")
+                    .foregroundColor(.white)
+                    .font(.system(size: 18))
+            }
+        }
         .task {
             do {
+                try await storageForProductImage.getVideo(uidPath: providerUID, productUID: productUID)
                 try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: providerUID, productID: productUID)
                 try await firestoreForProducts.updatePublicAmountData(docID: docID, providerUidPath: providerUID, productID: productUID)
                 _ = try await firestoreForProducts.fetchStore(providerUidPath: providerUID)
             } catch {
-//                self.errorHandler.handle(error: error)
-                print(error.localizedDescription)
+                self.errorHandler.handle(error: error)
+//                print(error.localizedDescription)
             }
         }
     }

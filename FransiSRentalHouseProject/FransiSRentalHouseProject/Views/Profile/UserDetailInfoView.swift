@@ -17,6 +17,8 @@ struct UserDetailInfoView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     @EnvironmentObject var userDetailInfoViewModel: UserDetailInfoViewModel
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
+    @EnvironmentObject var storeProfileVM: StoreProfileViewModel
     
     
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -322,6 +324,15 @@ extension UserDetailInfoView {
             try await firestoreForTextingMessage.createAndStoreContactUser(uidPath: firebaseAuth.getUID())
             isSummit = true
             try await firestoreToFetchUserinfo.reloadUserData()
+            if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
+                //MARK: (BUG) Doesn't create store after provider info update
+                try await firestoreForProducts.createStore(uidPath: firebaseAuth.getUID(),
+                                                           provideBy: firebaseAuth.getUID(),
+                                                           providerDisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName,
+                                                           providerProfileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL,
+                                                           providerDescription: storeProfileVM.providerDescription, storeChatDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
+                storeProfileVM.isCreated = true
+            }
             appViewModel.isShowUserDetailView = false
             userDetailInfoViewModel.isEdit = false
         } catch {

@@ -53,6 +53,14 @@ struct ProductProviderImageDateModel: Identifiable, Codable {
     @ServerTimestamp var uploadTime: Timestamp?
 }
 
+struct ProductProviderIntroVideoDataModel: Codable {
+    var videoURL: String
+}
+
+extension ProductProviderIntroVideoDataModel {
+    static let empty = ProductProviderIntroVideoDataModel(videoURL: "")
+}
+
 //MARK: For provider to track who ordered products
 //struct ProductsOrderedDataModel: Identifiable, Codable {
 //    @DocumentID var id: String?
