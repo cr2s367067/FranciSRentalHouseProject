@@ -163,6 +163,15 @@ struct RoomsDetailView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            NavigationLink {
+                VideoView(urlString: firestoreToFetchRoomsData.roomVideoPath.videoURL)
+            } label: {
+                Image(systemName: "film")
+                    .foregroundColor(.white)
+                    .font(.system(size: 18))
+            }
+        }
         .overlay(content: {
             if roomsDetailViewModel.zoomImageIn {
                 ShowImageSets(roomImages: firestoreToFetchRoomsData.fetchRoomImages, zoomImageIn: $roomsDetailViewModel.zoomImageIn)
@@ -171,6 +180,7 @@ struct RoomsDetailView: View {
         .task {
             do {
                 try await firestoreToFetchRoomsData.fetchRoomImages(uidPath: roomsData.providedBy, docID: roomsData.id ?? "")
+                try await firestoreToFetchRoomsData.fetchRoomVideo(uidPath: roomsData.providedBy, docID: roomsData.id ?? "")
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -181,6 +191,7 @@ struct RoomsDetailView: View {
         }
     }
 }
+
 
 struct RoomsInfoUnit: View {
     var title: String

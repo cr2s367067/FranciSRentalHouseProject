@@ -27,15 +27,21 @@ struct ProviderRoomSummitView: View {
     @State private var selectlimit = 5
     @FocusState private var isFocus: Bool
     
+    @State private var getVideo = false
+    
     init() {
         UITextView.appearance().backgroundColor = .clear
     }
+    
+    let testURL = "gs://francisrentalhouseproject.appspot.com/roomVideo/The 30-Second Video.mp4"
     
     var body: some View {
         NavigationView {
             VStack(spacing: 5) {
                 ScrollView(.vertical, showsIndicators: false){
                     TitleAndDivider(title: "Ready to Post your Room?")
+                    
+                    //MARK: - Room Cover photo
                     StepsTitle(stepsName: "Step1: Upload the room pic.")
                     Button {
                         providerRoomSummitViewModel.showSheet.toggle()
@@ -59,6 +65,7 @@ struct ProviderRoomSummitView: View {
                         }
                     }
                     .accessibilityIdentifier("coverImage")
+                    //MARK: - Room infos
                     StepsTitle(stepsName: "Step2: Please provide the necessary information")
                     VStack(spacing: 10) {
                         Group {
@@ -99,6 +106,8 @@ struct ProviderRoomSummitView: View {
                             })
                         }
                         .focused($isFocus)
+                        
+                        //MARK: - Additional Room Images
                         VStack(alignment: .leading, spacing: 2) {
                             HStack {
                                 Text("Additional Room Images")
@@ -146,51 +155,37 @@ struct ProviderRoomSummitView: View {
                         .padding()
                         .frame(width: uiScreenWidth - 30)
                         
+                        //MARK: - Addtional Room Intro Video
                         VStack(alignment: .leading, spacing: 2) {
                             HStack {
                                 Text("Additional Room Intro Video")
                                     .modifier(textFormateForProviderSummitView())
+                                Button {
+                                    providerRoomSummitViewModel.showPHPicker.toggle()
+                                } label: {
+                                    Image(systemName: getVideo ? "checkmark.square.fill" : "plus.square")
+                                        .resizable()
+                                        .frame(width: 25, height: 25)
+                                        .foregroundColor(getVideo ? Color.green : Color.gray)
+                                }
+                                .accessibilityIdentifier("addtionalPh")
                                 Spacer()
                             }
                             .padding(.bottom)
-                            Button {
-                                providerRoomSummitViewModel.showPHPicker.toggle()
-                            } label: {
-                                ZStack(alignment: .center) {
-                                    Rectangle()
-                                        .fill(Color("fieldGray"))
-                                        .frame(width: uiScreenWidth / 2, height: uiScreenHeight / 6, alignment: .center)
-                                        .cornerRadius(10)
-                                    Image(systemName: "plus.square")
-                                        .resizable()
-                                        .frame(width: 25, height: 25)
-                                        .foregroundColor(Color.gray)
-                                    if providerRoomSummitViewModel.isSelectedRoomSet == true && !(providerRoomSummitViewModel.roomIntroVideoURL?.pathComponents.isEmpty ?? false) {
-                                        if let videoURL = providerRoomSummitViewModel.roomIntroVideoURL {
-                                            VideoPlayer(player: AVPlayer(url: videoURL))
-                                        }
+                            if providerRoomSummitViewModel.isSelectedRoomSet == true && !(providerRoomSummitViewModel.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
+                                if let url = providerRoomSummitViewModel.roomIntroVideoURL {
+                                    VStack {
+                                        VideoPlayer(player: AVPlayer(url: url))
                                     }
-//                                    VStack(alignment: .trailing) {
-//                                        HStack {
-//                                            Spacer()
-//                                            Text("\(providerRoomSummitViewModel.imageSet.count)")
-//                                                .foregroundColor(.white)
-//                                                .padding()
-//                                                .frame(width: 50, height: 40, alignment: .center)
-//                                                .background {
-//                                                    RoundedRectangle(cornerRadius: 10)
-//                                                        .fill(colorScheme == .dark ? .gray.opacity(0.5) : Color.black.opacity(0.4))
-//                                                }
-//                                        }
-//                                        Spacer()
-//                                    }
+                                    .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 3, alignment: .center)
+                                    .padding()
                                 }
                             }
-                            .accessibilityIdentifier("addtionalPh")
                         }
                         .padding()
                         .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 6)
                         
+                        //MARK: - Require Questions
                         Group {
                             HStack {
                                 Text("Does someone dead in this room before?")
@@ -406,7 +401,11 @@ struct ProviderRoomSummitView: View {
             })
             .sheet(isPresented: $providerRoomSummitViewModel.showPHPicker) {
                 providerRoomSummitViewModel.isSelectedRoomSet = true
-                print("getting video url: \(String(describing: providerRoomSummitViewModel.roomIntroVideoURL ?? URL(string: "")))")
+                //MARK: Fix the presenting bug
+                if !(providerRoomSummitViewModel.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
+                    getVideo = true
+                }
+                debugPrint("getting video url: \(String(describing: providerRoomSummitViewModel.roomIntroVideoURL))")
             } content: {
                 PHPickerRepresentable(selectLimit: $selectlimit, images: self.$providerRoomSummitViewModel.imageSet, video: $providerRoomSummitViewModel.roomIntroVideoURL)
             }
@@ -450,6 +449,16 @@ extension ProviderRoomSummitView {
         try await firestoreToFetchRoomsData.summitRoomInfoAsync(docID: docID, uidPath: firebaseAuth.getUID(), roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL, providerDisplayName: providerDisplayName, providerChatDocId: firestoreForTextingMessage.senderUIDPath.chatDocId, roomDescription: roomDescription)
         if !providerRoomSummitViewModel.imageSet.isEmpty {
             try await storageForRoomsImage.uploadImageSet(uidPath: firebaseAuth.getUID(), images: providerRoomSummitViewModel.imageSet, roomID: roomUID, docID: docID)
+        }
+        if !(providerRoomSummitViewModel.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
+            guard let videoURL = providerRoomSummitViewModel.roomIntroVideoURL else { return }
+            debugPrint("uploading vieo url: \(videoURL)")
+            try await storageForRoomsImage.uploadRoomVideo(
+                movie: videoURL,
+                uidPath: firebaseAuth.getUID(),
+                roomID: roomUID,
+                docID: docID
+            )
         }
     }
     

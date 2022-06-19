@@ -11,6 +11,8 @@ import PhotosUI
 struct PHPickerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = PHPickerViewController
     
+   
+    
     @Binding var selectLimit: Int
     @Binding var images: [TextingImageDataModel]
     @Binding var video: URL?
@@ -44,34 +46,73 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
         }
         
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            picker.dismiss(animated: true)
-            if !results.isEmpty {
-                parent.images = []
-                parent.itemProviders = []
+            picker.dismiss(animated: true) {
+                //Thread is in main thread
+                print(Thread.isMainThread)
+                //Make sure the contain is not empty
+                guard let result = results.first else { return }
+                let assetid = result.assetIdentifier
+                print(assetid as Any)
+                
+                let prov = result.itemProvider
+                let types = prov.registeredTypeIdentifiers
+                print("get type \(types)")
+                if prov.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+                    self.parent.video = URL(string: "")
+                    self.loadMovie(result: result)
+                } else {
+                    self.parent.images = []
+                    self.parent.itemProviders = results.map(\.itemProvider)
+                    self.loadImage()
+                }
             }
-            parent.itemProviders = results.map(\.itemProvider)
-            loadItems()
         }
         
-        private func loadItems() {
+        private func loadMovie(result: PHPickerResult){
+            let movie = UTType.movie.identifier
+            let prov = result.itemProvider
+            prov.loadFileRepresentation(forTypeIdentifier: movie) { url, error in
+                if let url = url {
+                    DispatchQueue.main.async {
+                        print("get movie url: \(url.absoluteString)")
+                        self.duplicateItem(url: url)
+                    }
+                }
+            }
+        }
+        
+        private func duplicateItem(url: URL) {
+            let fileid = UUID().uuidString
+            let fileName = "\(fileid).mp4"
+            let newURL = URL(fileURLWithPath: NSTemporaryDirectory() + fileName)
+            try? FileManager.default.copyItem(at: url, to: newURL)
+            print("new url: \(newURL)")
+            self.parent.video = newURL
+        }
+        
+        private func dealImage(result: PHPickerResult) {
+            let prov = result.itemProvider
+            prov.loadObject(ofClass: UIImage.self) { images, error in
+                DispatchQueue.main.async {
+                    if let image = images as? UIImage {
+                        self.parent.images.append(TextingImageDataModel(image: image))
+                    }
+                }
+            }
+        }
+        
+        
+        private func loadImage() {
             for itemProvider in parent.itemProviders {
                 if itemProvider.canLoadObject(ofClass: UIImage.self) {
                     itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                         print("Is image: \(String(describing: image?.description))")
-                        DispatchQueue.main.async {                        
+                        DispatchQueue.main.async {
                             if let image = image as? UIImage {
                                 self.parent.images.append(TextingImageDataModel(image: image))
                             } else {
                                 print("Could not load image", error?.localizedDescription ?? "")
                             }
-                        }
-                    }
-                } else {
-                    itemProvider.loadItem(forTypeIdentifier: UTType.movie.identifier) { videoURL, error in
-                        DispatchQueue.main.async {                        
-                            guard let videoURL = videoURL as? URL else { return }
-                            print("video result:  \(videoURL)")
-                            self.parent.video = videoURL
                         }
                     }
                 }

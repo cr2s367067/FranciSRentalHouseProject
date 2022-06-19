@@ -134,7 +134,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         )
         Auth.auth().useEmulator(withHost:"localhost", port:9099)
         let settings = Firestore.firestore().settings
-        settings.host = "localhost:8081"
+        settings.host = "localhost:8083"
         settings.isPersistenceEnabled = false
         settings.isSSLEnabled = false
         Firestore.firestore().settings = settings
@@ -144,7 +144,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         Performance.sharedInstance().isDataCollectionEnabled = false
         Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
         
-        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
+//        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
         
 #elseif DEBUG
         print(
@@ -156,7 +156,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         *********************************
         """
         )
-        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
+//        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
 #endif
 
         //MARK: It will cause the keyboard that has gap upon

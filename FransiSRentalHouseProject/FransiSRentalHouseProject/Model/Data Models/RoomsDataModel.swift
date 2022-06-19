@@ -263,6 +263,14 @@ struct RoomImageDataModel: Identifiable, Codable {
     var imageURL: String
 }
 
+struct RoomVideoDataModel: Codable {
+    var videoURL: String
+}
+
+extension RoomVideoDataModel {
+    static let empty = RoomVideoDataModel(videoURL: "")
+}
+
 struct RoomInfoDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var isPublished: Bool

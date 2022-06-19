@@ -65,10 +65,17 @@ extension StorageForRoomsImage {
 extension StorageForRoomsImage {
     
     func uploadRoomVideo(movie: URL, uidPath: String, roomID: String, docID: String) async throws {
+        debugPrint("comming url: \(movie)")
         let videoID = UUID().uuidString
         let videoRef = roomVideoStorageAddress.child("\(uidPath)/\(roomID)/\(videoID).mp4")
+        debugPrint("video Ref: \(videoRef.fullPath)")
         guard let convertVideoToData = try? Data(contentsOf: movie) else { return }
         _ = try await videoRef.putDataAsync(convertVideoToData)
+        let url = try await videoRef.downloadURL()
+        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID).collection("RoomVideo").document("video")
+        _ = try await roomOwerRef.setData([
+            "videoURL" : url.absoluteString
+        ])
     }
     
 }

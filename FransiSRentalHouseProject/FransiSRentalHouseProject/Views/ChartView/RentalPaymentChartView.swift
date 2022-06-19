@@ -27,11 +27,9 @@ struct RentalPaymentChartView: View {
                     x: .value("Monthly", data.receiveMonth),
                     y: .value("Payment Amount", data.receiveAmount)
                 )
-                .foregroundStyle(.white)
+                .foregroundStyle(Color("barChart1"))
             }
         }
-        .tint(.white)
-//        Text("test")
     }
 }
 
@@ -46,19 +44,6 @@ struct RentalPaymentChartView_Previews: PreviewProvider {
 @available(iOS 16, *)
 class RentalPaymentChartViewModel: ObservableObject {
     @Published var rentalPaymentChartData = [RentalPaymentChartDataModel]()
-    
-    #if EMULATORS
-    init() {
-        rentalPaymentChartData = [
-            .init(receiveMonth: "1", receiveAmount: 10),
-            .init(receiveMonth: "2", receiveAmount: 20),
-            .init(receiveMonth: "3", receiveAmount: 50),
-            .init(receiveMonth: "4", receiveAmount: 40),
-            .init(receiveMonth: "5", receiveAmount: 50)
-        ]
-    }
-    #endif
-    
 }
 
 

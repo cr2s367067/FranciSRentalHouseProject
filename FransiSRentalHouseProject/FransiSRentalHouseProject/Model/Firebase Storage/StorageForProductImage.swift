@@ -21,9 +21,12 @@ class StorageForProductImage: ObservableObject {
     @Published var representedProductImageURL = ""
     @Published var productImageUUID = ""
     @Published var productImageSet = [ProductProviderImageDateModel]()
+    @Published var productVideo: ProductProviderIntroVideoDataModel = .empty
     
     
     let productImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "productImages")
+    
+    let productVideoStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "productVideo")
     
     let backgroundImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "backgroundImage")
     
@@ -119,11 +122,25 @@ class StorageForProductImage: ObservableObject {
 }
 
 
-//extension StorageForProductImage {
-//
-//    func uploadProductVideo(movie: URL) async throws {
-//        
-//        
-//    }
-//
-//}
+extension StorageForProductImage {
+    
+    func uploadProductVideo(movie: URL, uidPath: String, productUID: String) async throws {
+        let videoID = UUID().uuidString
+        let videoRef = productVideoStorageAddress.child("\(uidPath)/\(videoID).mp4")
+        guard let convertVideoToData = try? Data(contentsOf: movie) else { return }
+        _ = try await videoRef.putDataAsync(convertVideoToData)
+        let url = try await videoRef.downloadURL()
+        let productVideoRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID).collection("ProductVideo").document("video")
+        _ = try await productVideoRef.setData([
+            "videoURL" : url.absoluteString
+        ])
+    }
+    
+    @MainActor
+    func getVideo(uidPath: String, productUID: String) async throws {
+        debugPrint("provider uid: \(uidPath)")
+        debugPrint("productUID: \(productUID)")
+        let productVideoRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID).collection("ProductVideo").document("video")
+        productVideo  = try await productVideoRef.getDocument(as: ProductProviderIntroVideoDataModel.self)
+    }
+}

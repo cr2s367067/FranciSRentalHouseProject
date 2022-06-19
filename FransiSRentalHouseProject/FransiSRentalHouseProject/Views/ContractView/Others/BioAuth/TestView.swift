@@ -6,28 +6,28 @@
 //
 
 import SwiftUI
+import AVKit
+
 
 struct TestView: View {
     
-    @State private var test = ""
+    private let source = AVPlayer(url: URL(string: "http://localhost:9199/v0/b/francisrentalhouseproject.appspot.com/o/roomVideo%2F06AB3CBD-BD0E-4FA1-94CE-9F5CF96F535B.mp4?alt=media&token=732581aa-d889-4d68-9aa0-98cff5d189c2") ?? URL(string: "")!)
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
     
     var body: some View {
-        TabView {        
-            VStack {
-                ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(0..<100) { data in
-                        Text("\(data)")
-                    }
+//        if let url = url {
+//            video(url: url)
+//                .onAppear {
+//                    print("video url: \(url.absoluteString)")
+//                }
+//        }
+        VStack {
+            VideoPlayer(player: source)
+                .onAppear {
+                    print("av player status: \(source.debugDescription)")
                 }
-                Spacer()
-                HStack {
-                    Image(systemName: "paperplane")
-                    TextField("test field", text: $test)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                .ignoresSafeArea(.keyboard, edges: .bottom)
-            }
-            .padding()
         }
     }
 }
@@ -35,5 +35,15 @@ struct TestView: View {
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
         TestView()
+    }
+}
+
+
+extension TestView {
+    @ViewBuilder
+    func video(url: URL) -> some View {
+        VStack {
+            VideoPlayer(player: AVPlayer(url: url))
+        }
     }
 }

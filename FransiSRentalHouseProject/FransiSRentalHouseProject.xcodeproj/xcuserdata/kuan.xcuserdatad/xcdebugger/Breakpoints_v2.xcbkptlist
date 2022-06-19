@@ -507,8 +507,8 @@
             filePath = "FransiSRentalHouseProject/ViewModel/ProductsProviderSummitViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "paymentFee"
             landmarkType = "24">
          </BreakpointContent>
@@ -539,8 +539,8 @@
             filePath = "FransiSRentalHouseProject/Views/Search/ProductDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -697,8 +697,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchRoomsData.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "804"
-            endingLineNumber = "804"
+            startingLineNumber = "814"
+            endingLineNumber = "814"
             landmarkName = "loopTofetchPaymentData(renterUidPath:)"
             landmarkType = "7">
             <Locations>
@@ -760,8 +760,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchRoomsData.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "814"
-            endingLineNumber = "814"
+            startingLineNumber = "824"
+            endingLineNumber = "824"
             landmarkName = "loopTofetchPaymentData(renterUidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -776,8 +776,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchRoomsData.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "806"
-            endingLineNumber = "806"
+            startingLineNumber = "816"
+            endingLineNumber = "816"
             landmarkName = "loopTofetchPaymentData(renterUidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -808,8 +808,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -824,8 +824,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -840,8 +840,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -856,8 +856,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -872,8 +872,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
+            startingLineNumber = "283"
+            endingLineNumber = "283"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>

@@ -24,6 +24,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
     @Published var receivePaymentDataSet = [PaymentHistoryDataModel]()
     @Published var roomCAR: RoomCommentAndRattingDataModel = .empty
     @Published var roomCARDataSet = [RoomCommentAndRattingDataModel]()
+    @Published var roomVideoPath: RoomVideoDataModel = .empty
     
     func roomIdGenerator() -> String {
         let roomId = UUID().uuidString
@@ -506,6 +507,15 @@ extension FirestoreToFetchRoomsData {
             }
             return nil
         })
+    }
+}
+
+extension FirestoreToFetchRoomsData {
+    @MainActor
+    func fetchRoomVideo(uidPath: String, docID: String) async throws {
+        let roomVideoRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
+            .collection("RoomVideo").document("video")
+        roomVideoPath = try await roomVideoRef.getDocument(as: RoomVideoDataModel.self)
     }
 }
 
