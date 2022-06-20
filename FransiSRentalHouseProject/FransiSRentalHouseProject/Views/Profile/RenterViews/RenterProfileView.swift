@@ -41,22 +41,7 @@ struct RenterProfileView: View {
         ZStack {
             //: Tool bar
             VStack {
-                HStack {
-                    Button {
-                        withAnimation {
-                            self.show.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "line.3.horizontal.circle")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                    }
-                    .accessibilityIdentifier("menuButton")
-                    Spacer()
-                }
-                .foregroundColor(.white)
-                .padding(.leading)
-                .padding(.top)
+                menuBar()
                 Spacer()
                 ZStack {
                     VStack {
@@ -378,5 +363,34 @@ class RenterProfileViewModel: ObservableObject {
             try? await firestoreToFetchUserinfo.clearExpiredContract(uidPath: firebaseAuth.getUID())
             
         }
+    }
+}
+
+
+extension RenterProfileView {
+    @ViewBuilder
+    func menuBar() -> some View {
+        HStack {
+            Button {
+                withAnimation {
+                    self.show.toggle()
+                }
+            } label: {
+                Image(systemName: "line.3.horizontal.circle")
+                    .font(.system(size: 30))
+            }
+            .accessibilityIdentifier("menuButton")
+            Spacer()
+            NavigationLink {
+                MaintainView()
+            } label: {
+                Image(systemName: "paintbrush.fill")
+                    .font(.system(size: 25))
+            }
+        }
+        .foregroundColor(.white)
+        .padding(.horizontal)
+        .padding(.top)
+        
     }
 }

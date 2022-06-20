@@ -18,29 +18,29 @@ struct ContentView: View {
     @State private var test = ""
    
     var body: some View {
-//        Group {
-//            if firebaseAuth.signIn == true || firebaseAuth.signUp == true || firebaseAuth.isSkipIt == true || bioAuthViewModel.isUnlocked == true {
-//                AppTabView()
-//            } else  {
-//                LoginView()
-//            }
-//        }
-//        .task({
-//            if firebaseAuth.auth.currentUser != nil {
-//                do {
-//                    try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
-//                } catch {
-//                    self.errorHandler.handle(error: error)
-//                }
-//            }
-//        })
-//        .onAppear {
-//            firebaseAuth.signIn = firebaseAuth.isSignedIn
-//        }
+        Group {
+            if firebaseAuth.signIn == true || firebaseAuth.signUp == true || firebaseAuth.isSkipIt == true || bioAuthViewModel.isUnlocked == true {
+                AppTabView()
+            } else  {
+                LoginView()
+            }
+        }
+        .task({
+            if firebaseAuth.auth.currentUser != nil {
+                do {
+                    try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
+                } catch {
+                    self.errorHandler.handle(error: error)
+                }
+            }
+        })
+        .onAppear {
+            firebaseAuth.signIn = firebaseAuth.isSignedIn
+        }
 
         //----------------------Test---------------------------
         
-        VideoView(urlString: "")
+//        VideoView(urlString: "")
 
     }
 }

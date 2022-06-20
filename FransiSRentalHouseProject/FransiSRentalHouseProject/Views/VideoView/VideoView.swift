@@ -7,14 +7,25 @@
 
 import SwiftUI
 import AVKit
+import SDWebImageSwiftUI
 
 struct VideoView: View {
     
-//    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
+    @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
+    @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
+    @EnvironmentObject var firestoreForProducts: FirestoreForProducts
+    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
+    
     
     enum SideImageName: String, CaseIterable {
         case docTextImage = "doc.text.image"
         case message = "message"
+    }
+    
+    enum RattingID: String {
+        case isRoom
+        case isProduct
     }
     
     let sideImageName: [String] = SideImageName.allCases.map({$0.rawValue})
@@ -26,13 +37,6 @@ struct VideoView: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     
     var body: some View {
-//        VStack {
-//            //MARK: data fail to catch bug
-//            if let url = URL(string: urlString) {
-//                VideoPlayer(player: AVPlayer(url: url))
-//            }
-//        }
-        
         if #available(iOS 16.0, *) {
             NavigationView {
                 Grid {
@@ -47,23 +51,8 @@ struct VideoView: View {
                             }
                             Spacer()
                             VStack {
-                                Button {
-                                    
-                                } label: {
-                                    HStack {
-                                        Image(systemName: "star.fill")
-                                            .foregroundColor(.yellow)
-                                        Text("1.4")
-                                            .foregroundColor(.white)
-                                    }
-                                    .frame(width: 40, height: 30)
-                                    .font(.system(size: 12))
-                                    .padding(.horizontal)
-                                    .background {
-                                        Capsule()
-                                            .fill(.gray)
-                                    }
-                                }
+                                showRatting()
+                                    .fontWeight(.bold)
                                 ForEach(sideImageName, id: \.self) { imageName in
                                     GridRow {
                                         cusButton(sideImageName: SideImageName(rawValue: imageName) ?? .docTextImage)
@@ -87,31 +76,14 @@ struct VideoView: View {
             VStack {
                 Spacer()
                 HStack(alignment:.bottom) {
-                    Image(systemName: "person.circle")
-                        .font(.system(size: 30))
+                    profileImage(provider: firestoreToFetchUserinfo.fetchedUserData.profileImageURL)
                     VStack(alignment: .leading) {
                         Text("Provider Name")
                         Text("Provider Des.")
                     }
                     Spacer()
                     VStack {
-                        Button {
-                            
-                        } label: {
-                            HStack {
-                                Image(systemName: "star.fill")
-                                    .foregroundColor(.yellow)
-                                Text("1.4")
-                                    .foregroundColor(.white)
-                            }
-                            .frame(width: 40, height: 30)
-                            .font(.system(size: 12))
-                            .padding(.horizontal)
-                            .background {
-                                Capsule()
-                                    .fill(.gray)
-                            }
-                        }
+                        showRatting()
                         ForEach(sideImageName, id: \.self) { imageName in
                             HStack {
                                 cusButton(sideImageName: SideImageName(rawValue: imageName) ?? .docTextImage)
@@ -141,6 +113,21 @@ struct VideoView_Previews: PreviewProvider {
 
 
 extension VideoView {
+    
+    //MARK: - Profile Image
+    @ViewBuilder
+    func profileImage(provider image: String) -> some View {
+        if image.isEmpty {
+            Image(systemName: "person.circle")
+                .font(.system(size: 30))
+        } else {
+            WebImage(url: URL(string: image))
+                .resizable()
+                .frame(width: 30, height: 30)
+        }
+    }
+    
+    //MARK: - Video Player
     @ViewBuilder
     func videoPlayer(url: String) -> some View {
         if let url = URL(string: url) {
@@ -152,14 +139,16 @@ extension VideoView {
         }
     }
     
+    
+    //MARK: - Side Button
     @ViewBuilder
     func cusButton(sideImageName: SideImageName) -> some View {
         Button {
             switch sideImageName {
             case .docTextImage:
-                return print("Is doc text image")
+                presentContainDetail()
             case .message:
-                return print("Is message")
+                createMessage()
             }
         } label: {
             Image(systemName: sideImageName.rawValue)
@@ -167,4 +156,59 @@ extension VideoView {
                 .font(.system(size: 25))
         }
     }
+    
+    private func presentContainDetail() {
+        print("Is doc text image")
+    }
+    
+    private func createMessage() {
+        print("Is message")
+    }
+    
+    //MARK: - Ratting Score
+    @ViewBuilder
+    func showRatting() -> some View {
+        Button {
+            
+        } label: {
+            HStack {
+                Image(systemName: "star.fill")
+                    .foregroundColor(.yellow)
+                rattingPresenter(source: RattingID(rawValue: "") ?? .isRoom, product: firestoreForProducts.productCommentAndRatting, room: firestoreToFetchRoomsData.roomCARDataSet)
+                    .foregroundColor(.white)
+                //BUG, wait official fix.
+//                    .fontWeight(.bold)
+            }
+            .frame(width: 60, height: 40)
+            .font(.system(size: 18))
+            .padding(.horizontal)
+            .background {
+                Capsule()
+                    .fill(.gray)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func rattingPresenter(source: RattingID, product inputP: [ProductCommentRattingDataModel], room inputR: [RoomCommentAndRattingDataModel]) -> some View {
+        switch source {
+        case .isProduct:
+            productRatting(product: inputP)
+        case .isRoom:
+            roomRatting(room: inputR)
+        }
+    }
+    
+    @ViewBuilder
+    private func productRatting(product input: [ProductCommentRattingDataModel]) -> some View {
+        Text("\(productDetailViewModel.computeRattingAvg(commentAndRatting: input), specifier: "%.1f")")
+    }
+    
+    @ViewBuilder
+    private func roomRatting(room input: [RoomCommentAndRattingDataModel]) -> some View {
+        Text("\(roomCARVM.rattingCompute(input: input), specifier: "%.1f")")
+    }
+    
+    
+   
 }

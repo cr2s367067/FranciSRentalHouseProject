@@ -73,6 +73,7 @@
 		0E19C8CB27F6CAEB00FD23D8 /* RentalContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E19C8CA27F6CAEB00FD23D8 /* RentalContractViewModel.swift */; };
 		0E1EEA44280C572500976F9D /* BioAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EEA43280C572500976F9D /* BioAuthViewModel.swift */; };
 		0E257A52283DDA24004F58DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E257A4E283CD1BA004F58DA /* GoogleService-Info.plist */; };
+		0E27C33B286027A0001DD768 /* ProviderVideoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E27C33A286027A0001DD768 /* ProviderVideoDataModel.swift */; };
 		0E2EDD3827EAF307008FEF58 /* TextingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */; };
 		0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */; };
 		0E2EDD3C27EAF394008FEF58 /* FirestoreForTextingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */; };
@@ -252,6 +253,7 @@
 		0E19C8CA27F6CAEB00FD23D8 /* RentalContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalContractViewModel.swift; sourceTree = "<group>"; };
 		0E1EEA43280C572500976F9D /* BioAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioAuthViewModel.swift; sourceTree = "<group>"; };
 		0E257A4E283CD1BA004F58DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0E27C33A286027A0001DD768 /* ProviderVideoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderVideoDataModel.swift; sourceTree = "<group>"; };
 		0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingViewModel.swift; sourceTree = "<group>"; };
 		0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingDataModel.swift; sourceTree = "<group>"; };
 		0E2EDD3B27EAF394008FEF58 /* FirestoreForTextingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreForTextingMessage.swift; sourceTree = "<group>"; };
@@ -680,6 +682,7 @@
 				0E31808728128265009784B9 /* PurchaseUserDataModel.swift */,
 				0EE8A0D2281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift */,
 				0E6176EA28436B4A002D51F7 /* TextingImageDataModel.swift */,
+				0E27C33A286027A0001DD768 /* ProviderVideoDataModel.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -1068,6 +1071,7 @@
 				0EC5287027F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift in Sources */,
 				0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */,
 				0249D45527C63B0B0085F4A5 /* UserDetailInfoView.swift in Sources */,
+				0E27C33B286027A0001DD768 /* ProviderVideoDataModel.swift in Sources */,
 				0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */,
 				0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */,
 				0E14BC59280D04D500CE56FE /* BioAuthSettingView.swift in Sources */,

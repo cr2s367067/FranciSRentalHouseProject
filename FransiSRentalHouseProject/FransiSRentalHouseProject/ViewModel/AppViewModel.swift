@@ -17,15 +17,16 @@ class AppViewModel: ObservableObject {
         case id ,firstName ,lastName ,displayName ,mobileNumber ,zipCode ,country, address, town, city, gender, isMale, isFemale, dob
     }
     
-    enum BarItemStatus: String, CaseIterable, Hashable {
+    enum BarItemStatus: String, CaseIterable {
         case homeButton = "TapHomeButton"
         case paymentButton = "TapPaymentButton"
-        case profileButton = "TapProfileButton"
+        case videoButton = "TapVideoButton"
         case searchButton = "TapSearchButton"
-        case fixButton = "FixButton"
+        case profileButton = "TapProfileButton"
+        case fixButton = "TapFixButton"
     }
     
-    let selectArray: [String] = BarItemStatus.allCases.map({$0.rawValue})
+//    let selectArray: [String] = BarItemStatus.allCases.map({$0.rawValue})
     
     @Published var selecting: BarItemStatus = .homeButton
     
@@ -187,59 +188,7 @@ class AppViewModel: ObservableObject {
         rentalManagerLicenseNumber = ""
     }
     
-    // MARK: remove after testing
-//    func providerSummitChecker(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String) throws {
-//        if holderName.isEmpty && holderMobileNumber.isEmpty && roomAddress.isEmpty && roomTown.isEmpty && roomCity.isEmpty && roomZipCode.isEmpty && roomArea.isEmpty && roomRentalPrice.isEmpty && tosAgreement == false && isSummitRoomImage == false {
-//            throw ProviderSummitError.blankError
-//        }
-//        if holderName.isEmpty {
-//            throw ProviderSummitError.holderNameError
-//        }
-//        if holderMobileNumber.count != 10 {
-//            throw ProviderSummitError.holderMobileNumberFormateError
-//        }
-//        if roomAddress.isEmpty {
-//            throw ProviderSummitError.roomAddressError
-//        }
-//        if roomTown.isEmpty {
-//            throw ProviderSummitError.roomTownError
-//        }
-//        if roomCity.isEmpty {
-//            throw ProviderSummitError.roomCityError
-//        }
-//        if roomZipCode.isEmpty {
-//            throw ProviderSummitError.roomZipCodeError
-//        }
-//        if roomArea.isEmpty {
-//            throw ProviderSummitError.roomAreaError
-//        }
-//        if roomRentalPrice.isEmpty {
-//            throw ProviderSummitError.roomRentalPriceError
-//        }
-//        if tosAgreement == false {
-//            throw ProviderSummitError.tosAgreementError
-//        }
-//        if isSummitRoomImage == false {
-//            throw ProviderSummitError.roomImageError
-//        }
-//
-//        //        localData.addRoomDataToArray(roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice)
-//    }
-    
-    // MARK: remove after testing
-//    func userInfoFormatterChecker(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) throws {
-//        if id.count > 10 || id.count < 10 {
-//            throw UserInformationError.idFormateError
-//        } else if mobileNumber.count > 10 || mobileNumber.count < 10 {
-//            throw UserInformationError.mobileNumberFormateError
-//        } else if gender.isEmpty {
-//            throw UserInformationError.genderIsNotSelected
-//        } else if formatterChecker(id: id) == false {
-//            throw UserInformationError.idFormateError
-//        } else if id.count == 10 && idChecker(id: id) == false {
-//            throw UserInformationError.invalidID
-//        }
-//    }
+
     
     private func convertString(input: String) -> String {
         let tempHolder = input
@@ -445,13 +394,13 @@ extension View {
 
 
 struct TabBarButton: View {
-    
+
     @EnvironmentObject var appViewModel: AppViewModel
-    
+
     @Binding var tagSelect: AppViewModel.BarItemStatus
     var buttonImage: AppViewModel.BarItemStatus = .homeButton
-    
-    
+
+
     func isAddedCart(cart: [UserOrderProductsDataModel]) -> Bool {
         var isAdd = false
         if !cart.isEmpty {
@@ -461,7 +410,7 @@ struct TabBarButton: View {
         }
         return isAdd
     }
-    
+
     var body: some View {
         Button {
             tagSelect = buttonImage

@@ -65,118 +65,91 @@ struct MaintainView: View {
     }
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
-                    .edgesIgnoringSafeArea([.top, .bottom])
+        VStack(alignment: .center) {
+            ScrollView(.vertical, showsIndicators: false) {
+                //: Title Group
+                TitleAndDivider(title: "Fix Something?")
                 VStack(alignment: .center) {
+                    VStack(alignment: .center, spacing: 5) {
+                        MaintainTitleUnit(title: "Please describe it.")
+                        TextEditor(text: $describtion)
+                            .padding()
+                            .frame(width: uiScreenWidth - 30, height: 200)
+                            .focused($isFocused)
+                            .background(alignment: .center, content: {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(lineWidth: 1)
+                                    .fill(.white)
+                            })
+                            .onTapGesture {
+                                if describtion == "Please describe what stuff needs to fix." {
+                                    describtion = ""
+                                }
+                            }
+                    }
+                    .padding(.horizontal)
+                    VStack(alignment: .center, spacing: 5) {
+                        graphicalDatePicker()
+                    }
+                    VStack(spacing: 5) {
+                        MaintainTitleUnit(title: "Upload Image")
+                        Button {
+                            imagePickerSheet.toggle()
+                            
+                        } label: {
+                            imgPresenterSwitch(imgFS: imagePresentingManager.imgFrameStatus)
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+                
+                HStack {
                     Spacer()
-                    ScrollView(.vertical, showsIndicators: false) {
-                        //: Title Group
-                        TitleAndDivider(title: "Fix Something?")
-                        VStack(alignment: .center) {
-                            VStack(alignment: .center, spacing: 5) {
-                                MaintainTitleUnit(title: "Please describe it.")
-                                TextEditor(text: $describtion)
-//                                    .background(.blue)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                                    .padding()
-                                    .frame(width: uiScreenWidth - 30, height: 200)
-                                    .focused($isFocused)
-                                    .background(alignment: .center, content: {
-                                        RoundedRectangle(cornerRadius: 15)
-                                            .stroke(lineWidth: 1)
-                                            .fill(.white)
-                                    })
-                                    .onTapGesture {
-                                        if describtion == "Please describe what stuff needs to fix." {
-                                            describtion = ""
-                                        }
-                                    }
-                            }
-                            .padding(.horizontal)
-                            VStack(alignment: .center, spacing: 5) {
-                                graphicalDatePicker()
-                            }
-                            VStack(spacing: 5) {
-                                MaintainTitleUnit(title: "Upload Image")
+                    Button {
+                        Task {
+                            try await checkRoomStatus(describtion: describtion, appointmentDate: appointment)
+                        }
+                    } label: {
+                        Text("Summit it!")
+                            .foregroundColor(.white)
+                            .frame(width: 108, height: 35)
+                            .background(Color("buttonBlue"))
+                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                            .alert("Notice", isPresented: $showAlert, actions: {
                                 Button {
-                                    imagePickerSheet.toggle()
-                                    
+                                    reset()
                                 } label: {
-//                                    ZStack(alignment: .center) {
-//                                        RoundedRectangle(cornerRadius: 20)
-//                                            .fill(Color("fieldGray"))
-//                                            .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
-//                                        Image(systemName: "plus.square")
-//                                            .font(.system(size: 20))
-//                                            .foregroundColor(.white)
-//                                        if isSelectedImage == true {
-//                                            Image(uiImage: getFirstImage)
-//                                                .resizable()
-//                                                .scaledToFill()
-//                                                .frame(width: uiScreenWidth / 2 + 100, height: uiScreenHeight / 4, alignment: .center)
-//                                                .clipShape(RoundedRectangle(cornerRadius: 20))
-//                                        }
-//                                    }
-                                    imgPresenterSwitch(imgFS: imagePresentingManager.imgFrameStatus)
+                                    Text(describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? "Okay!" : "Got it.")
                                 }
-                            }
-                            .padding(.horizontal)
-                        }
-                        
-                        HStack {
-                            Spacer()
-                            Button {
-                                Task {
-                                    try await checkRoomStatus(describtion: describtion, appointmentDate: appointment)
-                                }
-                            } label: {
-                                Text("Summit it!")
-                                    .foregroundColor(.white)
-                                    .frame(width: 108, height: 35)
-                                    .background(Color("buttonBlue"))
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                    .alert("Notice", isPresented: $showAlert, actions: {
-                                        Button {
-                                            reset()
-                                        } label: {
-                                            Text(describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? "Okay!" : "Got it.")
-                                        }
-                                    }, message: {
-                                        describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("It's added in our schedule, We will fix it as fast as possible.") : Text("Please fill the blank. Thanks")
-                                    })
-                            }
-                        }
-                        .padding()
+                            }, message: {
+                                describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("It's added in our schedule, We will fix it as fast as possible.") : Text("Please fill the blank. Thanks")
+                            })
                     }
                 }
                 .padding()
-                .frame(width: uiScreenWidth - 30, alignment: .center)
-                .onTapGesture(perform: {
-                    isFocused = false
-                })
+                Spacer()
             }
-            .sheet(isPresented: $imagePickerSheet, onDismiss: {
-                isSelectedImage = true
-                imagePresentingManager.plIdentify(image: getFirstImage)
-            }, content: {
-//                ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
-                PHPickerRepresentable(selectLimit: $selectLimit, images: $images, video: Binding.constant(nil))
-            })
-            .overlay(content: {
-                if firestoreToFetchUserinfo.presentUserId().isEmpty {
-                    UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
-                }
-                if showProgressView == true {
-                    CustomProgressView()
-                }
-            })
-            .onAppear {
-                firestoreToFetchUserinfo.userRentedRoomInfo()
+        }
+        .modifier(ViewBackgroundInitModifier())
+        .onTapGesture(perform: {
+            isFocused = false
+        })
+        .sheet(isPresented: $imagePickerSheet, onDismiss: {
+            isSelectedImage = true
+            imagePresentingManager.plIdentify(image: getFirstImage)
+        }, content: {
+            PHPickerRepresentable(selectLimit: $selectLimit, images: $images, video: Binding.constant(nil))
+        })
+        .overlay(content: {
+            if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
             }
-            .navigationTitle("")
-            .navigationBarHidden(true)
+            if showProgressView == true {
+                CustomProgressView()
+            }
+        })
+        .onAppear {
+            firestoreToFetchUserinfo.userRentedRoomInfo()
         }
     }
 }
