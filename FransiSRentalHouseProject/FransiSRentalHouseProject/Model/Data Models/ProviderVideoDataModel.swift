@@ -16,4 +16,5 @@ struct ProviderVideoDataModel: Identifiable, Codable {
     var providerUID: String
     var providerProfileImageURL: String
     var providerDisplayName: String
+    var providerChatDocID: String
 }

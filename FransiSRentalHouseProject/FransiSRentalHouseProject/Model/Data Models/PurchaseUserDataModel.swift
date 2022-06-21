@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 
+//MARK: - User make, cancel, update order
 struct PurchasedUserDataModel:Identifiable, Codable {
     @DocumentID var id: String?
     var userName: String
@@ -22,6 +23,7 @@ struct PurchasedUserDataModel:Identifiable, Codable {
     @ServerTimestamp var createTimestamp: Timestamp?
 }
 
+//MARK: - fetch order data provider side
 struct PurchasedOrdedProductDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var productImageURL: String
@@ -32,6 +34,7 @@ struct PurchasedOrdedProductDataModel: Identifiable, Codable {
 }
 
 
+//MARK: - fetch order data user side
 struct OrderedDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var orderID: String

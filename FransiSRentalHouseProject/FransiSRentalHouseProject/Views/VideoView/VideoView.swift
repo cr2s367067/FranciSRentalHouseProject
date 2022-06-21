@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 
 struct VideoView: View {
     
+    @EnvironmentObject var roomsDetailViewModel: RoomsDetailViewModel
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
@@ -38,7 +39,7 @@ struct VideoView: View {
     
     var body: some View {
         if #available(iOS 16.0, *) {
-            NavigationView {
+            NavigationStack {
                 Grid {
                     Spacer()
                     GridRow {
@@ -73,35 +74,36 @@ struct VideoView: View {
             }
         } else {
             // Fallback on earlier versions
-            VStack {
-                Spacer()
-                HStack(alignment:.bottom) {
-                    profileImage(provider: firestoreToFetchUserinfo.fetchedUserData.profileImageURL)
-                    VStack(alignment: .leading) {
-                        Text("Provider Name")
-                        Text("Provider Des.")
-                    }
+            NavigationView {
+                VStack {
                     Spacer()
-                    VStack {
-                        showRatting()
-                        ForEach(sideImageName, id: \.self) { imageName in
-                            HStack {
-                                cusButton(sideImageName: SideImageName(rawValue: imageName) ?? .docTextImage)
+                    HStack(alignment:.bottom) {
+                        profileImage(provider: firestoreToFetchUserinfo.fetchedUserData.profileImageURL)
+                        VStack(alignment: .leading) {
+                            Text("Provider Name")
+                            Text("Provider Des.")
+                        }
+                        Spacer()
+                        VStack {
+                            showRatting()
+                            ForEach(sideImageName, id: \.self) { imageName in
+                                HStack {
+                                    cusButton(sideImageName: SideImageName(rawValue: imageName) ?? .docTextImage)
+                                }
+                                .padding()
                             }
-                            .padding()
                         }
                     }
                 }
-            }
-            .padding()
-            .navigationTitle("DSIntro")
-            .navigationBarTitleDisplayMode(.inline)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background {
-                videoPlayer(url: urlString)
+                .padding()
+                .navigationTitle("DSIntro")
+                .navigationBarTitleDisplayMode(.inline)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background {
+                    videoPlayer(url: urlString)
+                }
             }
         }
-        
     }
 }
 

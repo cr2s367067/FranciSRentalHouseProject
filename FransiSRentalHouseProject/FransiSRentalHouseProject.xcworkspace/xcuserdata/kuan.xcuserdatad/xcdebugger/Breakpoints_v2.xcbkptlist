@@ -444,5 +444,726 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "10787618-FC73-40F3-99B5-CFA2EE447E01"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Search/RoomsDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "isRegist(uType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9327932B-C5E0-4EE2-B55A-F05AD1EB256F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Search/RoomsDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
+            landmarkName = "isRegist(uType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D2B64BC8-B936-42C1-A6BB-7F8C4B742C6F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Search/RoomsDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
+            landmarkName = "isRegist(uType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2CB492C6-8159-4ADA-B261-02F1756FAECD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Search/RoomsDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
+            landmarkName = "isRegist(uType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "45C478F2-68C6-49CC-845C-DE115C8C68B1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Search/RoomsDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
+            landmarkName = "isRegist(uType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "29FA9794-1D92-4AA0-8469-96945803E76B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Search/RoomsDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
+            landmarkName = "isRegist(uType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E83B7475-808E-44B5-9637-E9DF8BD14F8B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Search/RoomsDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
+            landmarkName = "isRegist(uType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DD820B5A-5A26-4B1E-8070-4645530C9331"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "makeOrder(uidPath:productName:productPrice:providerUID:productUID:orderAmount:productImage:buyDate:comment:ratting:userName:userMobileNumber:shippingAddress:shippingStatus:paymentStatus:shippingMethod:orderID:subTotal:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DD820B5A-5A26-4B1E-8070-4645530C9331 - 3163e0bb1f7a1e90"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 7 of FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "8">
+               </Location>
+               <Location
+                  uuid = "DD820B5A-5A26-4B1E-8070-4645530C9331 - d5b8dd7fd37acd8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "1064">
+               </Location>
+               <Location
+                  uuid = "DD820B5A-5A26-4B1E-8070-4645530C9331 - a666df013725f248"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "240">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EC33E90E-4274-4A7F-98B9-AFFD56BBFEAE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "makeOrder(uidPath:productName:productPrice:providerUID:productUID:orderAmount:productImage:buyDate:comment:ratting:userName:userMobileNumber:shippingAddress:shippingStatus:paymentStatus:shippingMethod:orderID:subTotal:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EC33E90E-4274-4A7F-98B9-AFFD56BBFEAE - 46ca0d7857286571"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "500">
+               </Location>
+               <Location
+                  uuid = "EC33E90E-4274-4A7F-98B9-AFFD56BBFEAE - d6e02463e7311177"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "228">
+               </Location>
+               <Location
+                  uuid = "EC33E90E-4274-4A7F-98B9-AFFD56BBFEAE - 6d8fea3f6fc861ce"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(12) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "196">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2F11ECA8-15CF-4353-8633-D15D35E470A9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "makeOrder(uidPath:productName:productPrice:providerUID:productUID:orderAmount:productImage:buyDate:comment:ratting:userName:userMobileNumber:shippingAddress:shippingStatus:paymentStatus:shippingMethod:orderID:subTotal:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2F11ECA8-15CF-4353-8633-D15D35E470A9 - 36bcf60cc722a785"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "428">
+               </Location>
+               <Location
+                  uuid = "2F11ECA8-15CF-4353-8633-D15D35E470A9 - d6bad8a50342d839"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(11) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "184">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "54348C87-E0C1-48FB-92B0-8549AA293393"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "makeOrder(uidPath:productName:productPrice:providerUID:productUID:orderAmount:productImage:buyDate:comment:ratting:userName:userMobileNumber:shippingAddress:shippingStatus:paymentStatus:shippingMethod:orderID:subTotal:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "54348C87-E0C1-48FB-92B0-8549AA293393 - 36bcf60cc722a7a6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "153"
+                  endingLineNumber = "153"
+                  offsetFromSymbolStart = "536">
+               </Location>
+               <Location
+                  uuid = "54348C87-E0C1-48FB-92B0-8549AA293393 - b5032b00492da550"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) await resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "153"
+                  endingLineNumber = "153"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "54348C87-E0C1-48FB-92B0-8549AA293393 - 46ca0d7857286a59"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
+                  offsetFromSymbolStart = "252">
+               </Location>
+               <Location
+                  uuid = "54348C87-E0C1-48FB-92B0-8549AA293393 - 46ca0d7857286ba4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "153"
+                  endingLineNumber = "153"
+                  offsetFromSymbolStart = "460">
+               </Location>
+               <Location
+                  uuid = "54348C87-E0C1-48FB-92B0-8549AA293393 - d6bad8a50342d839"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(11) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "184">
+               </Location>
+               <Location
+                  uuid = "54348C87-E0C1-48FB-92B0-8549AA293393 - d6bad8a50342d81a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(11) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "153"
+                  endingLineNumber = "153"
+                  offsetFromSymbolStart = "208">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "54CEDD51-A908-4FC1-B179-18F81E33C3AF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "makeOrder(uidPath:productName:productPrice:providerUID:productUID:orderAmount:productImage:buyDate:comment:ratting:userName:userMobileNumber:shippingAddress:shippingStatus:paymentStatus:shippingMethod:orderID:subTotal:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "54CEDD51-A908-4FC1-B179-18F81E33C3AF - a666df013725f206"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "139"
+                  endingLineNumber = "139"
+                  offsetFromSymbolStart = "412">
+               </Location>
+               <Location
+                  uuid = "54CEDD51-A908-4FC1-B179-18F81E33C3AF - 36bcf60cc722a5f8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "139"
+                  endingLineNumber = "139"
+                  offsetFromSymbolStart = "248">
+               </Location>
+               <Location
+                  uuid = "54CEDD51-A908-4FC1-B179-18F81E33C3AF - bfb5c52ba6c4b743"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(10) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "139"
+                  endingLineNumber = "139"
+                  offsetFromSymbolStart = "180">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EBAD2E9E-4C71-4B9A-A7C0-DA781332E1AF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "makeOrder(uidPath:productName:productPrice:providerUID:productUID:orderAmount:productImage:buyDate:comment:ratting:userName:userMobileNumber:shippingAddress:shippingStatus:paymentStatus:shippingMethod:orderID:subTotal:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EBAD2E9E-4C71-4B9A-A7C0-DA781332E1AF - a666df013725f1e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "860">
+               </Location>
+               <Location
+                  uuid = "EBAD2E9E-4C71-4B9A-A7C0-DA781332E1AF - e8cce837914ce4ed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "EBAD2E9E-4C71-4B9A-A7C0-DA781332E1AF - 36bcf60cc722a619"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "396">
+               </Location>
+               <Location
+                  uuid = "EBAD2E9E-4C71-4B9A-A7C0-DA781332E1AF - bfb5c52ba6c4b743"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(10) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "139"
+                  endingLineNumber = "139"
+                  offsetFromSymbolStart = "180">
+               </Location>
+               <Location
+                  uuid = "EBAD2E9E-4C71-4B9A-A7C0-DA781332E1AF - bfb5c52ba6c4b4a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(10) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "200">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7C60E7A0-DB8E-4C6C-A4F1-73C0362AE94E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "makeOrder(uidPath:productName:productPrice:providerUID:productUID:orderAmount:productImage:buyDate:comment:ratting:userName:userMobileNumber:shippingAddress:shippingStatus:paymentStatus:shippingMethod:orderID:subTotal:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7C60E7A0-DB8E-4C6C-A4F1-73C0362AE94E - d6e02463e7311304"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "179"
+                  endingLineNumber = "179"
+                  offsetFromSymbolStart = "384">
+               </Location>
+               <Location
+                  uuid = "7C60E7A0-DB8E-4C6C-A4F1-73C0362AE94E - 653e3b6f773ecf06"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "179"
+                  endingLineNumber = "179"
+                  offsetFromSymbolStart = "192">
+               </Location>
+               <Location
+                  uuid = "7C60E7A0-DB8E-4C6C-A4F1-73C0362AE94E - 849cfdb8cc51febe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(13) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "179"
+                  endingLineNumber = "179"
+                  offsetFromSymbolStart = "196">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "668971B4-166F-4E5B-AB82-2B4CB3CD7292"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "makeOrder(uidPath:productName:productPrice:providerUID:productUID:orderAmount:productImage:buyDate:comment:ratting:userName:userMobileNumber:shippingAddress:shippingStatus:paymentStatus:shippingMethod:orderID:subTotal:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "668971B4-166F-4E5B-AB82-2B4CB3CD7292 - d6e02463e7311346"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "181"
+                  endingLineNumber = "181"
+                  offsetFromSymbolStart = "488">
+               </Location>
+               <Location
+                  uuid = "668971B4-166F-4E5B-AB82-2B4CB3CD7292 - 3980b1b0986029b8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(8) await resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "181"
+                  endingLineNumber = "181"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "668971B4-166F-4E5B-AB82-2B4CB3CD7292 - 653e3b6f773ecf06"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "179"
+                  endingLineNumber = "179"
+                  offsetFromSymbolStart = "192">
+               </Location>
+               <Location
+                  uuid = "668971B4-166F-4E5B-AB82-2B4CB3CD7292 - 653e3b6f773ecf44"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "181"
+                  endingLineNumber = "181"
+                  offsetFromSymbolStart = "240">
+               </Location>
+               <Location
+                  uuid = "668971B4-166F-4E5B-AB82-2B4CB3CD7292 - 849cfdb8cc51febe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(13) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "179"
+                  endingLineNumber = "179"
+                  offsetFromSymbolStart = "196">
+               </Location>
+               <Location
+                  uuid = "668971B4-166F-4E5B-AB82-2B4CB3CD7292 - 849cfdb8cc51fefc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(13) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.makeOrder(uidPath: Swift.String, productName: Swift.String, productPrice: Swift.Int, providerUID: Swift.String, productUID: Swift.String, orderAmount: Swift.String, productImage: Swift.String, buyDate: Foundation.Date, comment: Swift.Optional&lt;Swift.String&gt;, ratting: Swift.Optional&lt;Swift.Int&gt;, userName: Swift.String, userMobileNumber: Swift.String, shippingAddress: Swift.String, shippingStatus: Swift.String, paymentStatus: Swift.String, shippingMethod: Swift.String, orderID: Swift.String, subTotal: Swift.Int) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "181"
+                  endingLineNumber = "181"
+                  offsetFromSymbolStart = "236">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

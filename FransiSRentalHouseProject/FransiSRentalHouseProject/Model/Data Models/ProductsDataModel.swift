@@ -10,7 +10,7 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-//MARK: For user to order products
+//MARK: For user to add the product in loacl cart
 struct UserOrderProductsDataModel: Identifiable, Codable {
     @DocumentID var id = UUID().uuidString
     var productImage: String
