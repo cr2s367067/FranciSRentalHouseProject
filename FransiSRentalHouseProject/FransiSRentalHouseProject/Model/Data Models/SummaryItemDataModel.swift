@@ -22,4 +22,3 @@ struct SummaryItemHolder: Identifiable, Codable {
     var providerUID: String
 }
 
-

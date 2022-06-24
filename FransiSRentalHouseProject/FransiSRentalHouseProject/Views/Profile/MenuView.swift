@@ -13,6 +13,7 @@ struct MenuView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var userInfoVM: UserInfoVM
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -80,20 +81,20 @@ struct MenuView: View {
 extension MenuView {
     
     func cleanUserInfoWhenSignOut() {
-        appViewModel.id = ""
-        appViewModel.firstName = ""
-        appViewModel.lastName = ""
-        appViewModel.displayName = ""
-        appViewModel.mobileNumber = ""
-        appViewModel.dob = Date()
-        appViewModel.address = ""
-        appViewModel.town = ""
-        appViewModel.city = ""
-        appViewModel.zipCode = ""
-        appViewModel.country = ""
-        appViewModel.gender = ""
-        appViewModel.isMale = false
-        appViewModel.isFemale = false
+        userInfoVM.id = ""
+        userInfoVM.firstName = ""
+        userInfoVM.lastName = ""
+        userInfoVM.displayName = ""
+        userInfoVM.mobileNumber = ""
+        userInfoVM.dob = Date()
+        userInfoVM.address = ""
+        userInfoVM.town = ""
+        userInfoVM.city = ""
+        userInfoVM.zipCode = ""
+        userInfoVM.country = ""
+        userInfoVM.gender = ""
+        userInfoVM.isMale = false
+        userInfoVM.isFemale = false
     }
     
     @ViewBuilder

@@ -71,22 +71,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "071203A6-4745-4411-B03E-5715EB2AD081"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Views/Profile/UserDetailInfoView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
-            landmarkName = "forProviderUser()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "E0CC39F4-FA04-48A7-97CB-97625D97E591"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -98,6 +82,53 @@
             endingLineNumber = "373"
             landmarkName = "createStore(uidPath:provideBy:providerDisplayName:providerProfileImage:providerDescription:storeChatDocID:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E0CC39F4-FA04-48A7-97CB-97625D97E591 - 89035bcf230eee1a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.createStore(uidPath: Swift.String, provideBy: Swift.String, providerDisplayName: Swift.String, providerProfileImage: Swift.String, providerDescription: Swift.String, storeChatDocID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "373"
+                  endingLineNumber = "373"
+                  offsetFromSymbolStart = "256">
+               </Location>
+               <Location
+                  uuid = "E0CC39F4-FA04-48A7-97CB-97625D97E591 - c2fdc2a754f7e218"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.createStore(uidPath: Swift.String, provideBy: Swift.String, providerDisplayName: Swift.String, providerProfileImage: Swift.String, providerDescription: Swift.String, storeChatDocID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "373"
+                  endingLineNumber = "373"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "E0CC39F4-FA04-48A7-97CB-97625D97E591 - a6d776d37d806419"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.createStore(uidPath: Swift.String, provideBy: Swift.String, providerDisplayName: Swift.String, providerProfileImage: Swift.String, providerDescription: Swift.String, storeChatDocID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "373"
+                  endingLineNumber = "373"
+                  offsetFromSymbolStart = "92">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -114,6 +145,68 @@
             endingLineNumber = "374"
             landmarkName = "createStore(uidPath:provideBy:providerDisplayName:providerProfileImage:providerDescription:storeChatDocID:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D6A29D8F-4DBE-4405-990F-F4824873CBD9 - 89035bcf230eee3b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.createStore(uidPath: Swift.String, provideBy: Swift.String, providerDisplayName: Swift.String, providerProfileImage: Swift.String, providerDescription: Swift.String, storeChatDocID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "374"
+                  endingLineNumber = "374"
+                  offsetFromSymbolStart = "496">
+               </Location>
+               <Location
+                  uuid = "D6A29D8F-4DBE-4405-990F-F4824873CBD9 - 533df44a9712bae5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for FransiSRentalHouseProject.FirestoreForProducts.createStore(uidPath: Swift.String, provideBy: Swift.String, providerDisplayName: Swift.String, providerProfileImage: Swift.String, providerDescription: Swift.String, storeChatDocID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "374"
+                  endingLineNumber = "374"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "D6A29D8F-4DBE-4405-990F-F4824873CBD9 - a6d776d37d806419"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.createStore(uidPath: Swift.String, provideBy: Swift.String, providerDisplayName: Swift.String, providerProfileImage: Swift.String, providerDescription: Swift.String, storeChatDocID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "373"
+                  endingLineNumber = "373"
+                  offsetFromSymbolStart = "92">
+               </Location>
+               <Location
+                  uuid = "D6A29D8F-4DBE-4405-990F-F4824873CBD9 - a6d776d37d806438"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for FransiSRentalHouseProject.FirestoreForProducts.createStore(uidPath: Swift.String, provideBy: Swift.String, providerDisplayName: Swift.String, providerProfileImage: Swift.String, providerDescription: Swift.String, storeChatDocID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "374"
+                  endingLineNumber = "374"
+                  offsetFromSymbolStart = "112">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -75,7 +75,7 @@ struct PrePurchaseView: View {
             }
             .modifier(ViewBackgroundInitModifier())
             .overlay(content: {
-                if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                if firestoreToFetchUserinfo.userIDisEmpty() {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
             })

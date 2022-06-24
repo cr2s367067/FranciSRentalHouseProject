@@ -14,6 +14,7 @@ struct LoginView: View {
         case saveUserName
     }
     
+    @EnvironmentObject var loginVM: LoginVM
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
@@ -21,14 +22,13 @@ struct LoginView: View {
     
     let uiScreenWith = UIScreen.main.bounds.width
     
-    @State private var emailAddress = ""
-    @State private var userPassword = ""
+//    @State private var emailAddress = ""
+//    @State private var userPassword = ""tes
     
     @FocusState private var isFocus: Bool
-    @State private var didTap = false
     
     
-    @State private var currentNonce: String?
+//    @State private var currentNonce: String?
     
     var body: some View {
         NavigationView {
@@ -58,9 +58,9 @@ struct LoginView: View {
                     HStack {
                         Image(systemName: "person.fill")
                             .padding(.leading)
-                        TextField("", text: $emailAddress)
+                        TextField("", text: $loginVM.emailAddress)
                             .foregroundColor(.white)
-                            .placeholer(when: emailAddress.isEmpty) {
+                            .placeholer(when: loginVM.emailAddress.isEmpty) {
                                 Text("E-mail")
                                     .foregroundColor(.white.opacity(0.8))
                             }
@@ -74,9 +74,9 @@ struct LoginView: View {
                     HStack {
                         Image(systemName: "lock.fill")
                             .padding(.leading)
-                        SecureField("", text: $userPassword)
+                        SecureField("", text: $loginVM.userPassword)
                             .foregroundColor(.white)
-                            .placeholer(when: userPassword.isEmpty) {
+                            .placeholer(when: loginVM.userPassword.isEmpty) {
                                 Text("Password")
                                     .foregroundColor(.white.opacity(0.8))
                             }
@@ -105,7 +105,7 @@ struct LoginView: View {
                     .accessibilityIdentifier("signIn")
                 SignInWithAppleButton(.continue) { request in
                     let nonce = firebaseAuth.randomNonceString()
-                    currentNonce = nonce
+                    loginVM.currentNonce = nonce
                     request.requestedScopes = [.fullName, .email]
                     request.nonce = firebaseAuth.sha256(nonce)
                 } onCompletion: { result in
@@ -113,7 +113,7 @@ struct LoginView: View {
                     case .success(let authResult):
                         switch authResult.credential {
                         case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                            guard let nonce = currentNonce else {
+                            guard let nonce = loginVM.currentNonce else {
                                 fatalError("Invaild State: login callback was received, but no login request was sent.")
                             }
                             guard let appleIdToken = appleIDCredential.identityToken else {
@@ -207,7 +207,7 @@ extension LoginView {
             Button {
                 Task {
                     do {
-                        try await firebaseAuth.signInAsync(email: emailAddress, password: userPassword)
+                        try await firebaseAuth.signInAsync(email: loginVM.emailAddress, password: loginVM.userPassword)
                     } catch {
                         self.errorHandler.handle(error: error) {
                             if error.localizedDescription == "The password is invalid or the user does not have a password." {

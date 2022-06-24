@@ -19,223 +19,117 @@ class FirestoreToFetchUserinfo: ObservableObject {
     let db = Firestore.firestore()
     
     
-    @Published var rentedContract: RentersContractDataModel = .empty
-    @Published var fetchedUserData: UserDataModel = .empty
-    @Published var rentingRoomInfo: RentedRoomInfo = .empty
-    @Published var userLastName = ""
-    @Published var paymentHistory = [PaymentHistoryDataModel]()
+    //MARK: - User data
+    @Published var fetchedUserData: UserDM = .empty
+    //MARK: - User rented room
+    @Published var rentedRoom: RentedRoom = .empty
+    //MARK: - User could have room contract
+    @Published var rentedContract: HouseContract = .empty
+    //MARK: - Payment history for each month
+    @Published var paymentHistory = [RentedRoomPaymentHistory]()
     
-    private func getUserLastName(lastName: UserDataModel) -> String{
-        var tempLastNameHolder = ""
-        tempLastNameHolder = lastName.displayName
-        return tempLastNameHolder
+
+
+    func userIDisEmpty() -> Bool {
+        return fetchedUserData.id.isEmpty
     }
     
-    func getUserType(input: UserDataModel) -> String {
-        var tempHolder = ""
-        tempHolder = input.userType 
-        return tempHolder
-    }
-    
-    
-    
-    func evaluateProviderType() -> String {
-        var tempHoler = ""
-        tempHoler = evaluateProviderType(input: fetchedUserData)
-        return tempHoler
-    }
-    
-    private func evaluateProviderType(input: UserDataModel) -> String {
-        var tempHolder = ""
-        tempHolder = input.providerType
-        return tempHolder
-    }
-    
-    func presentUserName() -> String {
-        var userName = ""
-        userName = presentUserName(input: fetchedUserData)
-        return userName
-    }
-    
-    private func presentUserName(input: UserDataModel) -> String {
-        var tempFirstName = ""
-        var tempLastName = ""
-        tempFirstName = input.firstName
-        tempLastName = input.lastName
-        return tempFirstName + tempLastName
-    }
-    
-    func presentUserId() -> String {
-        var userId = ""
-        userId = presentUserId(input: fetchedUserData)
-        return userId
-    }
-    
-    private func presentUserId(input: UserDataModel) -> String {
-        var tempIdholder = ""
-        tempIdholder = input.id
-        return tempIdholder
-    }
-    
-    func presentAddress() -> String {
-        var tempAddressHolder = ""
-        tempAddressHolder = presentAddress(input: fetchedUserData)
-        return tempAddressHolder
-    }
-    
-    private func presentAddress(input: UserDataModel) -> String {
-        var tempAddressHolder = ""
-        var tempTownHolder = ""
-        var tempCityHolder = ""
-        var tempZipCodeHolder = ""
-        tempAddressHolder = input.address
-        tempTownHolder = input.town
-        tempCityHolder = input.city
-        tempZipCodeHolder = input.zip
-        return tempZipCodeHolder + tempCityHolder + tempTownHolder + tempAddressHolder
-    }
-    
-    func presentMobileNumber() -> String {
-        var tempMobileNumberHolder = ""
-        tempMobileNumberHolder = presentMobileNumber(input: fetchedUserData)
-        return tempMobileNumberHolder
-    }
-    
-    private func presentMobileNumber(input: UserDataModel) -> String {
-        var tempMobileNumberHolder = ""
-        tempMobileNumberHolder = input.mobileNumber
-        return tempMobileNumberHolder
-    }
-    
-    func presentEmailAddress() -> String {
-        var tempEmailAddress = ""
-        tempEmailAddress = presentEmailAddress(input: fetchedUserData)
-        return tempEmailAddress
-    }
-    
-    private func presentEmailAddress(input: UserDataModel) -> String {
-        var tempEmailAddress = ""
-        tempEmailAddress = input.emailAddress ?? ""
-        return tempEmailAddress
-    }
     
     func notRented() -> Bool {
-        return fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? false
-    }
-    
-    
-}
-
-extension FirestoreToFetchUserinfo {
-    func userRentedRoomInfo() {
-        rentingRoomInfo = dataInLocalRentedRoomInfo(input: fetchedUserData)
-    }
-    private func dataInLocalRentedRoomInfo(input: UserDataModel) -> RentedRoomInfo {
-        let roomUID = input.rentedRoomInfo?.roomUID
-        let roomAddress = input.rentedRoomInfo?.roomAddress
-        let roomTown = input.rentedRoomInfo?.roomTown
-        let roomCity = input.rentedRoomInfo?.roomCity
-        let roomPrice = input.rentedRoomInfo?.roomPrice
-        let roomZipCode = input.rentedRoomInfo?.roomZipCode
-        let roomImageCover = input.rentedRoomInfo?.roomImageCover
-        let providerUID = input.rentedRoomInfo?.providerUID
-        self.rentingRoomInfo = RentedRoomInfo(roomUID: roomUID,
-                                                roomAddress: roomAddress,
-                                                roomTown: roomTown,
-                                                roomCity: roomCity,
-                                                roomPrice: roomPrice,
-                                                roomZipCode: roomZipCode,
-                                              roomImageCover: roomImageCover,
-                                              providerUID: providerUID
-                                               )
-        return rentingRoomInfo
-    }
-    
-    func getRoomUID() -> String {
-        var holderRoomUID = ""
-            holderRoomUID = getRoomUID(input: rentingRoomInfo)
-        return holderRoomUID
-    }
-    func getRoomUID(input: RentedRoomInfo) -> String {
-        var rentedRoomUID = ""
-        rentedRoomUID = input.roomUID ?? ""
-        return rentedRoomUID
-    }
-    
-    func checkRoosStatus(roomUID: String) throws {
-        guard !roomUID.isEmpty else {
-            throw UserInformationError.userRentalError
-        }
-    }
-    func checkMaintainFilled(description: String, appointmentDate: Date) throws {
-        guard description.isEmpty || description != "Please describe what stuff needs to fix." else {
-            throw MaintainError.maintianFillingError
-        }
+        return rentedRoom.rentedRoomUID.isEmpty
     }
 }
 
+
+
 extension FirestoreToFetchUserinfo {
     
-    func updateDisplayName(uidPath: String, displayName: String) async throws {
-        let userRef = db.collection("users").document(uidPath)
+    func updateDisplayName(uidPath: String, nickName: String) async throws {
+        let userRef = db.collection("User").document(uidPath)
         try await userRef.updateData([
-            "displayName" : displayName
+            "nickName" : nickName
         ])
     }
     
-    func updateUserInfomationAsync(uidPath: String, id: String , firstName: String, lastName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String = "House Owner", RLNumber: String? = "", displayName: String) async throws {
-        let userRef = db.collection("users").document(uidPath)
+    func updateUserInfomationAsync(
+        uidPath: String,
+//        id: String ,
+//        firstName: String,
+//        lastName: String,
+//        mobileNumber: String,
+//        dob: Date,
+//        address: String,
+//        town: String,
+//        city: String,
+//        zipCode: String,
+//        country: String,
+//        gender: String,
+//        userType: String,
+////        emailAddress: String?,
+////        providerType: String = "",
+//        nickName: String
+        userDM: UserDM
+    ) async throws {
+        let userRef = db.collection("User").document(uidPath)
         try await userRef.updateData([
-            "id": id,
-            "firstName": firstName,
-            "lastName": lastName,
-            "displayName" : displayName,
-            "mobileNumber": mobileNumber,
-            "dob": dob,
-            "address": address,
-            "town": town,
-            "city": city,
-            "zip": zip,
-            "country": country,
-            "gender": gender
+            "id": userDM.id,
+            "firstName": userDM.firstName,
+            "lastName": userDM.lastName,
+            "nickName" : userDM.nickName,
+            "mobileNumber": userDM.mobileNumber,
+            "zipCode": userDM.zipCode,
+            "city": userDM.city,
+            "town": userDM.town,
+            "address": userDM.address,
+            "dob": userDM.dob,
+//            "country": country,
+            "gender": userDM.gender
         ])
     }
     
-    func createUserInfomationAsync(uidPath: String, id: String , firstName: String, lastName: String, displayName: String, mobileNumber: String, dob: Date, address: String, town: String, city: String, zip: String, country: String, gender: String, userType: String, emailAddress: String?, providerType: String, RLNumber: String? = "", signByApple: Bool) async throws {
-        let userRef = db.collection("users").document(uidPath)
+    func createUserInfomationAsync(
+        uidPath: String,
+//        id: String ,
+//        firstName: String,
+//        lastName: String,
+//        displayName: String,
+//        mobileNumber: String,
+//        dob: Date,
+//        address: String,
+//        town: String,
+//        city: String,
+//        zipCode: String,
+////        country: String,
+//        gender: String,
+//        userType: String,
+//        email: String?,
+//        providerType: String,
+//        isFounder: Bool,
+//        providerGUI: String?,
+//        isSignByApple: Bool
+        userDM: UserDM
+    ) async throws {
+        let userRef = db.collection("User").document(uidPath)
             try await userRef.setData([
-                "id": id,
-                "firstName": firstName,
-                "lastName": lastName,
-                "displayName" : displayName,
-                "mobileNumber": mobileNumber,
-                "dob": dob,
-                "address": address,
-                "town": town,
-                "city": city,
-                "zip": zip,
-                "country": country,
-                "gender": gender,
-                "userType": userType,
-                "providerType": providerType,
-                "rentalManagerLicenseNumber": RLNumber ?? "",
-                "emailAddress": emailAddress ?? "",
+                "id": userDM.id,
+                "firstName": userDM.firstName,
+                "lastName": userDM.lastName,
+                "nickName" : userDM.nickName,
+                "mobileNumber": userDM.mobileNumber,
+                "zipCode": userDM.zipCode,
+                "city": userDM.city,
+                "town": userDM.town,
+                "address": userDM.address,
+                "email": userDM.email,
+                "dob": userDM.dob,
+//                "country": country,
+                "gender": userDM.gender,
+                "userType": userDM.userType,
+                "providerType": userDM.providerType,
+                "isFounder" : userDM.isFounder ?? false,
                 "agreeAutoPay" : false,
                 "profileImageURL" : "",
-                "isSignByApple" : signByApple,
-                "rentedRoomInfo": [
-                    "roomUID" : "",
-                    "roomAddress" : "",
-                    "roomTown" : "",
-                    "roomCity" : "",
-                    "roomPrice" : "",
-                    "roomImageCover" : "",
-                    "providerUID" : "",
-                    "rentalDepositFee": [
-                        "paymentDate": Date(),
-                        "depositFee": ""
-                    ]
-                ]
+                "isSignByApple" : userDM.isSignByApple
             ])
     }
     
@@ -244,63 +138,285 @@ extension FirestoreToFetchUserinfo {
         try await fetchUploadUserDataAsync()
     }
     
-    
+    @MainActor
     func fetchUploadUserDataAsync() async throws {
         fetchedUserData = try await fetchUploadedUserDataAsync(uidPath: firebaseAuth.getUID())
-        self.userLastName = self.getUserLastName(lastName: self.fetchedUserData)
+//        self.userLastName = self.getUserLastName(lastName: self.fetchedUserData)
     }
     
     @MainActor
-    private func fetchUploadedUserDataAsync(uidPath: String) async throws -> UserDataModel {
-        let userRef = db.collection("users").document(uidPath)
-        let userData = try await userRef.getDocument(as: UserDataModel.self)
+    private func fetchUploadedUserDataAsync(uidPath: String) async throws -> UserDM {
+        let userRef = db.collection("User").document(uidPath)
+        let userData = try await userRef.getDocument(as: UserDM.self)
         self.fetchedUserData = userData
         return fetchedUserData
     }
     
-    func updateUserInformationAsync(uidPath: String, roomID: String = "", roomImage: String, roomAddress: String, roomTown: String, roomCity: String, roomPrice: String, roomZipCode: String, providerUID: String, depositFee: String, paymentDate: Date) async throws {
-        let userRef = db.collection("users").document(uidPath)
-        try await userRef.updateData([
-            "rentedRoomInfo.roomUID" : roomID,
-            "rentedRoomInfo.roomAddress" : roomAddress,
-            "rentedRoomInfo.roomTown" : roomTown,
-            "rentedRoomInfo.roomCity" : roomCity,
-            "rentedRoomInfo.roomPrice" : roomPrice,
-            "rentedRoomInfo.roomZipCode" : roomZipCode,
-            "rentedRoomInfo.roomImageCover" : roomImage,
-            "rentedRoomInfo.providerUID" : providerUID,
-            "rentedRoomInfo.rentalDepositFee.depositFee" : depositFee,
-            "rentedRoomInfo.rentalDepositFee.paymentDate" : paymentDate
+    //MARK: - Create and store information
+    func registertRentedContract(
+        uidPath: String,
+        rentedRoom: RentedRoom,
+        house contract: HouseContract
+    ) async throws {
+        let rentedRoomRef = db.collection("RentedRoom").document(uidPath)
+        try await rentedRoomRef.setData([
+            "rentedRoomUID" : rentedRoom.rentedRoomUID,
+             "rentedProvderUID" : rentedRoom.rentedProvderUID,
+             "contract" : contract,
+             "depositFee" : rentedRoom.depositFee,
+             "paymentDate" : Date()
         ])
+    }
+    
+    func summitRentedContractToUserData(uidPath: String,
+//                                        docID: String,
+//                                        isSummitContract: Bool,
+//                                        contractBuildDate: Date,
+//                                        contractReviewDays:String,
+//                                        providerSignurture: String,
+//                                        renterSignurture: String,
+//                                        companyTitle: String,
+//                                        roomAddress: String,
+//                                        roomTown: String,
+//                                        roomCity: String,
+//                                        roomZipCode: String,
+//                                        specificBuildingNumber: String,
+//                                        specificBuildingRightRange: String,
+//                                        specificBuildingArea: String,
+//                                        mainBuildArea: String,
+//                                        mainBuildingPurpose: String,
+//                                        subBuildingPurpose: String,
+//                                        subBuildingArea: String,
+//                                        publicBuildingNumber: String,
+//                                        publicBuildingRightRange: String,
+//                                        publicBuildingArea: String,
+//                                        hasParkinglot: Bool,
+//                                        isSettingTheRightForThirdPerson: Bool,
+//                                        settingTheRightForThirdPersonForWhatKind: String,
+//                                        isBlockByBank: Bool,
+//                                        provideForAll: Bool,
+//                                        provideForPart: Bool,
+//                                        provideFloor: String,
+//                                        provideRooms: String,
+//                                        provideRoomNumber: String,
+//                                        provideRoomArea: String,
+//                                        isVehicle: Bool,
+//                                        isMorto: Bool,
+//                                        parkingUGFloor: String,
+//                                        parkingStyleN: Bool,
+//                                        parkingStyleM: Bool,
+//                                        parkingNumberForVehicle: String,
+//                                        parkingNumberForMortor: String,
+//                                        forAllday: Bool,
+//                                        forMorning: Bool,
+//                                        forNight: Bool,
+//                                        havingSubFacility: Bool,
+//                                        rentalStartDate: Date,
+//                                        rentalEndDate: Date,
+//                                        roomRentalPrice: String,
+//                                        paymentdays: String,
+//                                        paybyCash: Bool,
+//                                        paybyTransmission: Bool,
+//                                        paybyCreditDebitCard: Bool,
+//                                        bankName: String,
+//                                        bankOwnerName: String,
+//                                        bankAccount: String,
+//                                        payByRenterForManagementPart: Bool,
+//                                        payByProviderForManagementPart: Bool,
+//                                        managementFeeMonthly: String,
+//                                        parkingFeeMonthly: String,
+//                                        additionalReqForManagementPart: String,
+//                                        payByRenterForWaterFee: Bool,
+//                                        payByProviderForWaterFee: Bool,
+//                                        additionalReqForWaterFeePart: String,
+//                                        payByRenterForEletricFee: Bool,
+//                                        payByProviderForEletricFee: Bool,
+//                                        additionalReqForEletricFeePart: String,
+//                                        payByRenterForGasFee: Bool,
+//                                        payByProviderForGasFee: Bool,
+//                                        additionalReqForGasFeePart: String,
+//                                        additionalReqForOtherPart: String,
+//                                        contractSigurtureProxyFee: String,
+//                                        payByRenterForProxyFee: Bool,
+//                                        payByProviderForProxyFee: Bool,
+//                                        separateForBothForProxyFee: Bool,
+//                                        contractIdentitificationFee: String,
+//                                        payByRenterForIDFFee: Bool,
+//                                        payByProviderForIDFFee: Bool,
+//                                        separateForBothForIDFFee: Bool,
+//                                        contractIdentitificationProxyFee: String,
+//                                        payByRenterForIDFProxyFee: Bool,
+//                                        payByProviderForIDFProxyFee: Bool,
+//                                        separateForBothForIDFProxyFee: Bool,
+//                                        subLeaseAgreement: Bool,
+//                                        doCourtIDF: Bool,
+//                                        courtIDFDoc: Bool,
+//                                        providerName: String,
+//                                        providerID: String,
+//                                        providerResidenceAddress: String,
+//                                        providerMailingAddress: String,
+//                                        providerPhoneNumber: String,
+//                                        providerPhoneChargeName: String,
+//                                        providerPhoneChargeID: String,
+//                                        providerPhoneChargeEmailAddress: String,
+//                                        renterName: String,
+//                                        renterID: String,
+//                                        renterResidenceAddress: String,
+//                                        renterMailingAddress: String,
+//                                        renterPhoneNumber: String,
+//                                        renterEmailAddress: String,
+//                                        sigurtureDate: Date
+                                        hose contract: HouseContract
+    ) async throws {
+        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document("contractDetail")
+        try await rentedRoomContractRef.setData([
+            "contractBuildDate": contract.contractBuildDate,
+            "contractReviewDays": contract.contractReviewDays,
+            "providerSignurture": contract.providerSignurture,
+            "renterSignurture": contract.renterSignurture,
+            "companyTitle": contract.companyTitle,
+            "roomAddress": contract.roomAddress,
+            "roomTown": contract.roomTown,
+            "roomCity": contract.roomCity,
+            "roomZipCode": contract.roomZipCode,
+            "specificBuildingNumber": contract.specificBuildingNumber,
+            "specificBuildingRightRange": contract.specificBuildingRightRange,
+            "specificBuildingArea": contract.specificBuildingArea,
+            "mainBuildArea": contract.mainBuildArea,
+            "mainBuildingPurpose": contract.mainBuildingPurpose,
+            "subBuildingPurpose": contract.subBuildingPurpose,
+            "subBuildingArea": contract.subBuildingArea,
+            "publicBuildingNumber": contract.publicBuildingNumber,
+            "publicBuildingRightRange": contract.publicBuildingRightRange,
+            "publicBuildingArea": contract.publicBuildingArea,
+            "hasParkinglot": contract.hasParkinglot,
+            "isSettingTheRightForThirdPerson": contract.isSettingTheRightForThirdPerson,
+            "settingTheRightForThirdPersonForWhatKind": contract.settingTheRightForThirdPersonForWhatKind,
+            "isBlockByBank": contract.isBlockByBank,
+            "provideForAll": contract.provideForAll,
+            "provideForPart": contract.provideForPart,
+            "provideFloor": contract.provideFloor,
+            "provideRooms": contract.provideRooms,
+            "provideRoomNumber": contract.provideRoomNumber,
+            "provideRoomArea": contract.provideRoomArea,
+            "isVehicle": contract.isVehicle,
+            "isMorto": contract.isMorto,
+            "parkingUGFloor": contract.parkingUGFloor,
+            "parkingStyleN": contract.parkingStyleN,
+            "parkingStyleM": contract.parkingStyleM,
+            "parkingNumberForVehicle": contract.parkingNumberForVehicle,
+            "parkingNumberForMortor": contract.parkingNumberForMortor,
+            "forAllday": contract.forAllday,
+            "forMorning": contract.forMorning,
+            "forNight": contract.forNight,
+            "havingSubFacility": contract.havingSubFacility,
+            "rentalStartDate": contract.rentalStartDate,
+            "rentalEndDate": contract.rentalEndDate,
+            "roomRentalPrice": contract.roomRentalPrice,
+            "paymentdays": contract.paymentdays,
+            "paybyCash": contract.paybyCash,
+            "paybyTransmission": contract.paybyTransmission,
+            "paybyCreditDebitCard": contract.paybyCreditDebitCard,
+            "bankName": contract.bankName,
+            "bankOwnerName": contract.bankOwnerName,
+            "bankAccount": contract.bankAccount,
+            "payByRenterForManagementPart": contract.payByRenterForManagementPart,
+            "payByProviderForManagementPart": contract.payByProviderForManagementPart,
+            "managementFeeMonthly": contract.managementFeeMonthly,
+            "parkingFeeMonthly": contract.parkingFeeMonthly,
+            "additionalReqForManagementPart": contract.additionalReqForManagementPart,
+            "payByRenterForWaterFee": contract.payByRenterForWaterFee,
+            "payByProviderForWaterFee": contract.payByProviderForWaterFee,
+            "additionalReqForWaterFeePart": contract.additionalReqForWaterFeePart,
+            "payByRenterForEletricFee": contract.payByRenterForEletricFee,
+            "payByProviderForEletricFee": contract.payByProviderForEletricFee,
+            "additionalReqForEletricFeePart": contract.additionalReqForEletricFeePart,
+            "payByRenterForGasFee": contract.payByRenterForGasFee,
+            "payByProviderForGasFee": contract.payByProviderForGasFee,
+            "additionalReqForGasFeePart": contract.additionalReqForGasFeePart,
+            "additionalReqForOtherPart": contract.additionalReqForOtherPart,
+            "contractSigurtureProxyFee": contract.contractSigurtureProxyFee,
+            "payByRenterForProxyFee": contract.payByRenterForProxyFee,
+            "payByProviderForProxyFee": contract.payByProviderForProxyFee,
+            "separateForBothForProxyFee": contract.separateForBothForProxyFee,
+            "contractIdentitificationFee": contract.contractIdentitificationFee,
+            "payByRenterForIDFFee": contract.payByRenterForIDFFee,
+            "payByProviderForIDFFee": contract.payByProviderForIDFFee,
+            "separateForBothForIDFFee": contract.separateForBothForIDFFee,
+            "contractIdentitificationProxyFee": contract.contractIdentitificationProxyFee,
+            "payByRenterForIDFProxyFee": contract.payByRenterForIDFProxyFee,
+            "payByProviderForIDFProxyFee": contract.payByProviderForIDFProxyFee,
+            "separateForBothForIDFProxyFee": contract.separateForBothForIDFProxyFee,
+            "subLeaseAgreement": contract.subLeaseAgreement,
+            "doCourtIDF": contract.doCourtIDF,
+            "courtIDFDoc": contract.courtIDFDoc,
+            "providerName": contract.providerName,
+            "providerID": contract.providerID,
+            "providerResidenceAddress": contract.providerResidenceAddress,
+            "providerMailingAddress": contract.providerMailingAddress,
+            "providerPhoneNumber": contract.providerPhoneNumber,
+            "providerPhoneChargeName": contract.providerPhoneChargeName,
+            "providerPhoneChargeID": contract.providerPhoneChargeID,
+            "providerPhoneChargeEmailAddress": contract.providerPhoneChargeEmailAddress,
+            "renterName": contract.renterName,
+            "renterID": contract.renterID,
+            "renterResidenceAddress": contract.renterResidenceAddress,
+            "renterMailingAddress": contract.renterMailingAddress,
+            "renterPhoneNumber": contract.renterPhoneNumber,
+            "renterEmailAddress": contract.renterEmailAddress,
+            "sigurtureDate": contract.sigurtureDate
+        ])
+    }
+    
+    @MainActor
+    func getSummittedContract(uidPath: String) async throws -> HouseContract {
+        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document("contractDetail")
+        rentedContract = try await rentedRoomContractRef.getDocument(as: HouseContract.self)
+        return rentedContract
+    }
+    
+    func clearExpiredContract(uidPath: String) async throws {
+        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document("contractDetail")
+        try await rentedRoomContractRef.delete()
     }
     
 }
 
 extension FirestoreToFetchUserinfo {
-    func reloadUserDataTest() async throws {
-        try await fetchUploadUserDataAsync()
-        userRentedRoomInfo()
+    //MARK: - Reload rented contract Data.
+    func reloadUserDataTest(renterUID uidPath: String) async throws {
+//        try await fetchUploadUserDataAsync()
+//        userRentedRoomInfo()
+        
+        //MARK: "New Method" Reload rented contract
+        let rentedRoomRef = db.collection("RentedRoom").document(uidPath)
+        rentedRoom = try await rentedRoomRef.getDocument(as: RentedRoom.self)
+        
     }
 }
 
 
 extension FirestoreToFetchUserinfo {
-    func summitPaidInfo(uidPath: String, rentalPrice: String, note: String) async throws {
-        let paymentHistoryRef = db.collection("users").document(uidPath).collection("PaymentHistory")
+    func summitPaidInfo(uidPath: String,
+//                        rentalPrice: String,
+//                        note: String
+                        rentalPayment: RentedRoomPaymentHistory
+    ) async throws {
+        let paymentHistoryRef = db.collection("RentedRoom").document(uidPath).collection("PaymentHistory")
         _ = try await paymentHistoryRef.addDocument(data: [
-            "pastPaymentFee" : rentalPrice,
+            "pastPaymentFee" : rentalPayment.rentalFee,
             "paymentDate" : Date(),
-            "note": note
+            "note": rentalPayment.note ?? ""
         ])
     }
     
     @MainActor
     func fetchPaymentHistory(uidPath: String) async throws {
-        let paymentHistoryRef = db.collection("users").document(uidPath).collection("PaymentHistory").order(by: "paymentDate", descending: false)
+        let paymentHistoryRef = db.collection("User").document(uidPath).collection("PaymentHistory").order(by: "paymentDate", descending: false)
         let document = try await paymentHistoryRef.getDocuments().documents
         self.paymentHistory = document.compactMap { queryDocumentSnapshot in
             let result = Result {
-                try queryDocumentSnapshot.data(as: PaymentHistoryDataModel.self)
+                try queryDocumentSnapshot.data(as: RentedRoomPaymentHistory.self)
             }
             switch result {
             case .success(let data):
@@ -314,18 +430,78 @@ extension FirestoreToFetchUserinfo {
 }
 
 extension FirestoreToFetchUserinfo {
-    func uploadOrder(uidPath: String, furnitureName: String, furniturePrice: String, orderName: String, orderShippingAddress: String) async throws {
-        let furnitureOrderRef = db.collection("FurnitureOrderList").document(uidPath).collection(uidPath)
-        _ = try await furnitureOrderRef.addDocument(data: [
-            "furnitureName" : furnitureName,
-            "furniturePrice" : furniturePrice,
-            "orderName" : orderName,
-            "orderShippingAddress" : orderShippingAddress
+    func updateAutoPayAgreement(uidPath: String, agreement: Bool) async throws {
+        let userRef = db.collection("User").document(uidPath)
+        try await userRef.updateData([
+            "agreeAutoPay" : agreement
         ])
     }
 }
 
-extension FirestoreToFetchUserinfo {
+
+//extension FirestoreToFetchUserinfo {
+    //MARK: - User rented room
+//    func userRentedRoomInfo() {
+//        rentingRoomInfo = dataInLocalRentedRoomInfo(input: fetchedUserData)
+//    }
+//    private func dataInLocalRentedRoomInfo(input: RentedRoom) {
+//        let contractData = input.contract ?? nil
+//        let roomUID = input.rentedRoomUID
+//        let roomAddress = contractData?.roomAddress
+//        let roomTown = contractData?.roomTown
+//        let roomCity = contractData?.roomCity
+//        let roomPrice = contractData?.roomRentalPrice
+//        let roomZipCode = contractData?.roomZipCode
+//        let providerUID = input.rentedProvderUID
+//        self.rentingRoomInfo = RentedRoomInfo(roomUID: roomUID,
+//                                                roomAddress: roomAddress,
+//                                                roomTown: roomTown,
+//                                                roomCity: roomCity,
+//                                                roomPrice: roomPrice,
+//                                                roomZipCode: roomZipCode,
+//                                              roomImageCover: roomImageCover,
+//                                              providerUID: providerUID
+//                                               )
+//    }
+    
+//    func getRoomUID() -> String {
+//        var holderRoomUID = ""
+//            holderRoomUID = getRoomUID(input: rentingRoomInfo)
+//        return holderRoomUID
+//    }
+//    func getRoomUID(input: RentedRoomInfo) -> String {
+//        var rentedRoomUID = ""
+//        rentedRoomUID = input.roomUID ?? ""
+//        return rentedRoomUID
+//    }
+//
+//    func checkRoosStatus(roomUID: String) throws {
+//        guard !roomUID.isEmpty else {
+//            throw UserInformationError.userRentalError
+//        }
+//    }
+//    func checkMaintainFilled(description: String, appointmentDate: Date) throws {
+//        guard description.isEmpty || description != "Please describe what stuff needs to fix." else {
+//            throw MaintainError.maintianFillingError
+//        }
+//    }
+//}
+
+
+//extension FirestoreToFetchUserinfo {
+    //"Notice": haven't update method
+//    func uploadOrder(uidPath: String, furnitureName: String, furniturePrice: String, orderName: String, orderShippingAddress: String) async throws {
+//        let furnitureOrderRef = db.collection("FurnitureOrderList").document(uidPath).collection(uidPath)
+//        _ = try await furnitureOrderRef.addDocument(data: [
+//            "furnitureName" : furnitureName,
+//            "furniturePrice" : furniturePrice,
+//            "orderName" : orderName,
+//            "orderShippingAddress" : orderShippingAddress
+//        ])
+//    }
+//}
+
+//extension FirestoreToFetchUserinfo {
     /*
     //MARK: Upload the contact data to user's data set
     func uploadRentedRoomInfo(uidPath: String,
@@ -424,7 +600,7 @@ extension FirestoreToFetchUserinfo {
                               renterPhoneNumber: String,
                               renterEmailAddress: String,
                               sigurtureDate: Date) async throws {
-        let userRentedContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
+        let userRentedContractRef = db.collection("User").document(uidPath).collection("MyRoomContract").document(uidPath)
         try await userRentedContractRef.setData([
             "isSummitContract" : isSummitContract,
             //MARK: Contract's Data Model
@@ -557,232 +733,100 @@ extension FirestoreToFetchUserinfo {
         ])
     }
      */
-}
+//}
 
-extension FirestoreToFetchUserinfo {
-    func summitRentedContractToUserData(uidPath: String,
-                                        docID: String,
-                                        isSummitContract: Bool,
-                                        contractBuildDate: Date,
-                                        contractReviewDays:String,
-                                        providerSignurture: String,
-                                        renterSignurture: String,
-                                        companyTitle: String,
-                                        roomAddress: String,
-                                        roomTown: String,
-                                        roomCity: String,
-                                        roomZipCode: String,
-                                        specificBuildingNumber: String,
-                                        specificBuildingRightRange: String,
-                                        specificBuildingArea: String,
-                                        mainBuildArea: String,
-                                        mainBuildingPurpose: String,
-                                        subBuildingPurpose: String,
-                                        subBuildingArea: String,
-                                        publicBuildingNumber: String,
-                                        publicBuildingRightRange: String,
-                                        publicBuildingArea: String,
-                                        hasParkinglot: Bool,
-                                        isSettingTheRightForThirdPerson: Bool,
-                                        settingTheRightForThirdPersonForWhatKind: String,
-                                        isBlockByBank: Bool,
-                                        provideForAll: Bool,
-                                        provideForPart: Bool,
-                                        provideFloor: String,
-                                        provideRooms: String,
-                                        provideRoomNumber: String,
-                                        provideRoomArea: String,
-                                        isVehicle: Bool,
-                                        isMorto: Bool,
-                                        parkingUGFloor: String,
-                                        parkingStyleN: Bool,
-                                        parkingStyleM: Bool,
-                                        parkingNumberForVehicle: String,
-                                        parkingNumberForMortor: String,
-                                        forAllday: Bool,
-                                        forMorning: Bool,
-                                        forNight: Bool,
-                                        havingSubFacility: Bool,
-                                        rentalStartDate: Date,
-                                        rentalEndDate: Date,
-                                        roomRentalPrice: String,
-                                        paymentdays: String,
-                                        paybyCash: Bool,
-                                        paybyTransmission: Bool,
-                                        paybyCreditDebitCard: Bool,
-                                        bankName: String,
-                                        bankOwnerName: String,
-                                        bankAccount: String,
-                                        payByRenterForManagementPart: Bool,
-                                        payByProviderForManagementPart: Bool,
-                                        managementFeeMonthly: String,
-                                        parkingFeeMonthly: String,
-                                        additionalReqForManagementPart: String,
-                                        payByRenterForWaterFee: Bool,
-                                        payByProviderForWaterFee: Bool,
-                                        additionalReqForWaterFeePart: String,
-                                        payByRenterForEletricFee: Bool,
-                                        payByProviderForEletricFee: Bool,
-                                        additionalReqForEletricFeePart: String,
-                                        payByRenterForGasFee: Bool,
-                                        payByProviderForGasFee: Bool,
-                                        additionalReqForGasFeePart: String,
-                                        additionalReqForOtherPart: String,
-                                        contractSigurtureProxyFee: String,
-                                        payByRenterForProxyFee: Bool,
-                                        payByProviderForProxyFee: Bool,
-                                        separateForBothForProxyFee: Bool,
-                                        contractIdentitificationFee: String,
-                                        payByRenterForIDFFee: Bool,
-                                        payByProviderForIDFFee: Bool,
-                                        separateForBothForIDFFee: Bool,
-                                        contractIdentitificationProxyFee: String,
-                                        payByRenterForIDFProxyFee: Bool,
-                                        payByProviderForIDFProxyFee: Bool,
-                                        separateForBothForIDFProxyFee: Bool,
-                                        subLeaseAgreement: Bool,
-                                        doCourtIDF: Bool,
-                                        courtIDFDoc: Bool,
-                                        providerName: String,
-                                        providerID: String,
-                                        providerResidenceAddress: String,
-                                        providerMailingAddress: String,
-                                        providerPhoneNumber: String,
-                                        providerPhoneChargeName: String,
-                                        providerPhoneChargeID: String,
-                                        providerPhoneChargeEmailAddress: String,
-                                        renterName: String,
-                                        renterID: String,
-                                        renterResidenceAddress: String,
-                                        renterMailingAddress: String,
-                                        renterPhoneNumber: String,
-                                        renterEmailAddress: String,
-                                        sigurtureDate: Date
-    ) async throws {
-        let userRentedContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
-        try await userRentedContractRef.setData([
-            "docID" : docID,
-            "isSummitContract" : isSummitContract,
-            "contractBuildDate": contractBuildDate,
-            "contractReviewDays": contractReviewDays,
-            "providerSignurture": providerSignurture,
-            "renterSignurture": renterSignurture,
-            "companyTitle": companyTitle,
-            "roomAddress": roomAddress,
-            "roomTown": roomTown,
-            "roomCity": roomCity,
-            "roomZipCode": roomZipCode,
-            "specificBuildingNumber": specificBuildingNumber,
-            "specificBuildingRightRange": specificBuildingRightRange,
-            "specificBuildingArea": specificBuildingArea,
-            "mainBuildArea": mainBuildArea,
-            "mainBuildingPurpose": mainBuildingPurpose,
-            "subBuildingPurpose": subBuildingPurpose,
-            "subBuildingArea": subBuildingArea,
-            "publicBuildingNumber": publicBuildingNumber,
-            "publicBuildingRightRange": publicBuildingRightRange,
-            "publicBuildingArea": publicBuildingArea,
-            "hasParkinglot": hasParkinglot,
-            "isSettingTheRightForThirdPerson": isSettingTheRightForThirdPerson,
-            "settingTheRightForThirdPersonForWhatKind": settingTheRightForThirdPersonForWhatKind,
-            "isBlockByBank": isBlockByBank,
-            "provideForAll": provideForAll,
-            "provideForPart": provideForPart,
-            "provideFloor": provideFloor,
-            "provideRooms": provideRooms,
-            "provideRoomNumber": provideRoomNumber,
-            "provideRoomArea": provideRoomArea,
-            "isVehicle": isVehicle,
-            "isMorto": isMorto,
-            "parkingUGFloor": parkingUGFloor,
-            "parkingStyleN": parkingStyleN,
-            "parkingStyleM": parkingStyleM,
-            "parkingNumberForVehicle": parkingNumberForVehicle,
-            "parkingNumberForMortor": parkingNumberForMortor,
-            "forAllday": forAllday,
-            "forMorning": forMorning,
-            "forNight": forNight,
-            "havingSubFacility": havingSubFacility,
-            "rentalStartDate": rentalStartDate,
-            "rentalEndDate": rentalEndDate,
-            "roomRentalPrice": roomRentalPrice,
-            "paymentdays": paymentdays,
-            "paybyCash": paybyCash,
-            "paybyTransmission": paybyTransmission,
-            "paybyCreditDebitCard": paybyCreditDebitCard,
-            "bankName": bankName,
-            "bankOwnerName": bankOwnerName,
-            "bankAccount": bankAccount,
-            "payByRenterForManagementPart": payByRenterForManagementPart,
-            "payByProviderForManagementPart": payByProviderForManagementPart,
-            "managementFeeMonthly": managementFeeMonthly,
-            "parkingFeeMonthly": parkingFeeMonthly,
-            "additionalReqForManagementPart": additionalReqForManagementPart,
-            "payByRenterForWaterFee": payByRenterForWaterFee,
-            "payByProviderForWaterFee": payByProviderForWaterFee,
-            "additionalReqForWaterFeePart": additionalReqForWaterFeePart,
-            "payByRenterForEletricFee": payByRenterForEletricFee,
-            "payByProviderForEletricFee": payByProviderForEletricFee,
-            "additionalReqForEletricFeePart": additionalReqForEletricFeePart,
-            "payByRenterForGasFee": payByRenterForGasFee,
-            "payByProviderForGasFee": payByProviderForGasFee,
-            "additionalReqForGasFeePart": additionalReqForGasFeePart,
-            "additionalReqForOtherPart": additionalReqForOtherPart,
-            "contractSigurtureProxyFee": contractSigurtureProxyFee,
-            "payByRenterForProxyFee": payByRenterForProxyFee,
-            "payByProviderForProxyFee": payByProviderForProxyFee,
-            "separateForBothForProxyFee": separateForBothForProxyFee,
-            "contractIdentitificationFee": contractIdentitificationFee,
-            "payByRenterForIDFFee": payByRenterForIDFFee,
-            "payByProviderForIDFFee": payByProviderForIDFFee,
-            "separateForBothForIDFFee": separateForBothForIDFFee,
-            "contractIdentitificationProxyFee": contractIdentitificationProxyFee,
-            "payByRenterForIDFProxyFee": payByRenterForIDFProxyFee,
-            "payByProviderForIDFProxyFee": payByProviderForIDFProxyFee,
-            "separateForBothForIDFProxyFee": separateForBothForIDFProxyFee,
-            "subLeaseAgreement": subLeaseAgreement,
-            "doCourtIDF": doCourtIDF,
-            "courtIDFDoc": courtIDFDoc,
-            "providerName": providerName,
-            "providerID": providerID,
-            "providerResidenceAddress": providerResidenceAddress,
-            "providerMailingAddress": providerMailingAddress,
-            "providerPhoneNumber": providerPhoneNumber,
-            "providerPhoneChargeName": providerPhoneChargeName,
-            "providerPhoneChargeID": providerPhoneChargeID,
-            "providerPhoneChargeEmailAddress": providerPhoneChargeEmailAddress,
-            "renterName": renterName,
-            "renterID": renterID,
-            "renterResidenceAddress": renterResidenceAddress,
-            "renterMailingAddress": renterMailingAddress,
-            "renterPhoneNumber": renterPhoneNumber,
-            "renterEmailAddress": renterEmailAddress,
-            "sigurtureDate": sigurtureDate
-        ])
-    }
+
+
+//    func presentUserId() -> String {
+//        var userId = ""
+//        userId = presentUserId(input: fetchedUserData)
+//        return userId
+//    }
+//
+//    private func presentUserId(input: UserDataModel) -> String {
+//        var tempIdholder = ""
+//        tempIdholder = input.id
+//        return tempIdholder
+//    }
+//
+//    func presentAddress() -> String {
+//        var tempAddressHolder = ""
+//        tempAddressHolder = presentAddress(input: fetchedUserData)
+//        return tempAddressHolder
+//    }
+//
+//    private func presentAddress(input: UserDataModel) -> String {
+//        var tempAddressHolder = ""
+//        var tempTownHolder = ""
+//        var tempCityHolder = ""
+//        var tempZipCodeHolder = ""
+//        tempAddressHolder = input.address
+//        tempTownHolder = input.town
+//        tempCityHolder = input.city
+//        tempZipCodeHolder = input.zip
+//        return tempZipCodeHolder + tempCityHolder + tempTownHolder + tempAddressHolder
+//    }
+//
+//    func presentMobileNumber() -> String {
+//        var tempMobileNumberHolder = ""
+//        tempMobileNumberHolder = presentMobileNumber(input: fetchedUserData)
+//        return tempMobileNumberHolder
+//    }
+//
+//    private func presentMobileNumber(input: UserDataModel) -> String {
+//        var tempMobileNumberHolder = ""
+//        tempMobileNumberHolder = input.mobileNumber
+//        return tempMobileNumberHolder
+//    }
+//
+//    func presentEmailAddress() -> String {
+//        var tempEmailAddress = ""
+//        tempEmailAddress = presentEmailAddress(input: fetchedUserData)
+//        return tempEmailAddress
+//    }
+//
+//    private func presentEmailAddress(input: UserDataModel) -> String {
+//        var tempEmailAddress = ""
+//        tempEmailAddress = input.emailAddress ?? ""
+//        return tempEmailAddress
+//    }
+
+//    private func getUserLastName(lastName: UserDataModel) -> String{
+//        var tempLastNameHolder = ""
+//        tempLastNameHolder = lastName.displayName
+//        return tempLastNameHolder
+//    }
+//
+//    func getUserType(input: UserDataModel) -> String {
+//        var tempHolder = ""
+//        tempHolder = input.userType
+//        return tempHolder
+//    }
     
-    @MainActor
-    func getSummittedContract(uidPath: String) async throws -> RentersContractDataModel {
-        let userContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
-        rentedContract = try await userContractRef.getDocument(as: RentersContractDataModel.self)
-        return rentedContract
-    }
-}
-
-extension FirestoreToFetchUserinfo {
-    func clearExpiredContract(uidPath: String) async throws {
-        let userContractRef = db.collection("users").document(uidPath).collection("MyRoomContract").document(uidPath)
-        try await userContractRef.delete()
-    }
-}
-
-
-extension FirestoreToFetchUserinfo {
-    func updateAutoPayAgreement(uidPath: String, agreement: Bool) async throws {
-        let userRef = db.collection("users").document(uidPath)
-        try await userRef.updateData([
-            "agreeAutoPay" : agreement
-        ])
-    }
-}
-
+    
+    
+//    func evaluateProviderType() -> String {
+//        var tempHoler = ""
+//        tempHoler = evaluateProviderType(input: fetchedUserData)
+//        return tempHoler
+//    }
+//
+//    private func evaluateProviderType(input: UserDataModel) -> String {
+//        var tempHolder = ""
+//        tempHolder = input.providerType
+//        return tempHolder
+//    }
+//
+//    func presentUserName() -> String {
+//        var userName = ""
+//        userName = presentUserName(input: fetchedUserData)
+//        return userName
+//    }
+    
+//    private func presentUserName(input: UserDataModel) -> String {
+//        var tempFirstName = ""
+//        var tempLastName = ""
+//        tempFirstName = input.firstName
+//        tempLastName = input.lastName
+//        return tempFirstName + tempLastName
+//    }

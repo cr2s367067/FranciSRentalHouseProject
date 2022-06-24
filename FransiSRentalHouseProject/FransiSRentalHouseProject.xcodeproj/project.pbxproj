@@ -90,6 +90,12 @@
 		0E31808828128265009784B9 /* PurchaseUserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E31808728128265009784B9 /* PurchaseUserDataModel.swift */; };
 		0E336CDE280E909C00EC91B6 /* TwDistrictDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E336CDD280E909C00EC91B6 /* TwDistrictDataModel.swift */; };
 		0E336CE0280EA05200EC91B6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E336CDF280EA05200EC91B6 /* SearchViewModel.swift */; };
+		0E33A54E286410C00001B567 /* VideoDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33A54D286410C00001B567 /* VideoDM.swift */; };
+		0E33A550286412600001B567 /* ProductDMForExternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33A54F286412600001B567 /* ProductDMForExternal.swift */; };
+		0E33A55228641A090001B567 /* OrderProductDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33A55128641A090001B567 /* OrderProductDM.swift */; };
+		0E33A555286480CE0001B567 /* MaintainDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33A554286480CE0001B567 /* MaintainDM.swift */; };
+		0E33A558286481E30001B567 /* ContactDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33A557286481E30001B567 /* ContactDM.swift */; };
+		0E33A55D2864A4950001B567 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E33A55C2864A4950001B567 /* LoginVM.swift */; };
 		0E36982027F2962E00AA7E88 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */; };
 		0E36B6F828066B860008A7C9 /* PaymentReceiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B6F728066B860008A7C9 /* PaymentReceiveManager.swift */; };
 		0E36B6FA28066CC30008A7C9 /* ReceivePaymentDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36B6F928066CC30008A7C9 /* ReceivePaymentDateModel.swift */; };
@@ -129,6 +135,10 @@
 		0E768F7B2824FE770072D0BA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E768F792824FE770072D0BA /* InfoPlist.strings */; };
 		0E768F7E2824FE770072D0BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E768F7C2824FE770072D0BA /* Localizable.strings */; };
 		0E81A48D283880EA00EB7AA0 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E81A48C283880EA00EB7AA0 /* WebView.swift */; };
+		0E8AE23828620C89005733EE /* UserDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AE23728620C89005733EE /* UserDM.swift */; };
+		0E8AE23C28636609005733EE /* houseDMForInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AE23B28636609005733EE /* houseDMForInternal.swift */; };
+		0E8AE23E28636617005733EE /* productDMForInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AE23D28636617005733EE /* productDMForInternal.swift */; };
+		0E8AE240286401DA005733EE /* HouseRentalForExternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AE23F286401DA005733EE /* HouseRentalForExternal.swift */; };
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
 		0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */; };
 		0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */; };
@@ -167,9 +177,10 @@
 		0EEEDC1A281FCB920036FD0D /* ProductSoldCollectionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC19281FCB920036FD0D /* ProductSoldCollectionDataModel.swift */; };
 		0EEEDC1C281FCF370036FD0D /* SoldProductCollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC1B281FCF370036FD0D /* SoldProductCollectionManager.swift */; };
 		0EEEDC1F2820D9B20036FD0D /* AppStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */; };
+		0EEFCBD62864A65A00D07F73 /* gAppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEFCBD52864A65A00D07F73 /* gAppVM.swift */; };
+		0EEFCBD92864A98A00D07F73 /* userInfoVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEFCBD82864A98A00D07F73 /* userInfoVM.swift */; };
 		0EFA3F362817938F00DA6014 /* UserOrderedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */; };
 		0EFA3F382817E36500DA6014 /* CommentAndRattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */; };
-		0EFDB2E128546CC800E6E2BB /* The 30-Second Video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0EFDB2E028546CC800E6E2BB /* The 30-Second Video.mp4 */; };
 		0EFDB2E42856337200E6E2BB /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFDB2E32856337200E6E2BB /* VideoView.swift */; };
 		9512FD8141BFE6D187CD0E32 /* Pods_FransiSRentalHouseProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAAA5D570B3BEA1C98A43CC /* Pods_FransiSRentalHouseProject.framework */; };
 /* End PBXBuildFile section */
@@ -269,6 +280,12 @@
 		0E31808728128265009784B9 /* PurchaseUserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseUserDataModel.swift; sourceTree = "<group>"; };
 		0E336CDD280E909C00EC91B6 /* TwDistrictDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwDistrictDataModel.swift; sourceTree = "<group>"; };
 		0E336CDF280EA05200EC91B6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		0E33A54D286410C00001B567 /* VideoDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDM.swift; sourceTree = "<group>"; };
+		0E33A54F286412600001B567 /* ProductDMForExternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDMForExternal.swift; sourceTree = "<group>"; };
+		0E33A55128641A090001B567 /* OrderProductDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProductDM.swift; sourceTree = "<group>"; };
+		0E33A554286480CE0001B567 /* MaintainDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintainDM.swift; sourceTree = "<group>"; };
+		0E33A557286481E30001B567 /* ContactDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDM.swift; sourceTree = "<group>"; };
+		0E33A55C2864A4950001B567 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		0E36981F27F2962E00AA7E88 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		0E36B6F728066B860008A7C9 /* PaymentReceiveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentReceiveManager.swift; sourceTree = "<group>"; };
 		0E36B6F928066CC30008A7C9 /* ReceivePaymentDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivePaymentDateModel.swift; sourceTree = "<group>"; };
@@ -298,6 +315,10 @@
 		0E768F7A2824FE770072D0BA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		0E768F7D2824FE770072D0BA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		0E81A48C283880EA00EB7AA0 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		0E8AE23728620C89005733EE /* UserDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDM.swift; sourceTree = "<group>"; };
+		0E8AE23B28636609005733EE /* houseDMForInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = houseDMForInternal.swift; sourceTree = "<group>"; };
+		0E8AE23D28636617005733EE /* productDMForInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = productDMForInternal.swift; sourceTree = "<group>"; };
+		0E8AE23F286401DA005733EE /* HouseRentalForExternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseRentalForExternal.swift; sourceTree = "<group>"; };
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
 		0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocationDataModel.swift; sourceTree = "<group>"; };
 		0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsLocationViewModel.swift; sourceTree = "<group>"; };
@@ -336,9 +357,10 @@
 		0EEEDC19281FCB920036FD0D /* ProductSoldCollectionDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSoldCollectionDataModel.swift; sourceTree = "<group>"; };
 		0EEEDC1B281FCF370036FD0D /* SoldProductCollectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoldProductCollectionManager.swift; sourceTree = "<group>"; };
 		0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatusModel.swift; sourceTree = "<group>"; };
+		0EEFCBD52864A65A00D07F73 /* gAppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gAppVM.swift; sourceTree = "<group>"; };
+		0EEFCBD82864A98A00D07F73 /* userInfoVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfoVM.swift; sourceTree = "<group>"; };
 		0EFA3F352817938F00DA6014 /* UserOrderedListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrderedListViewModel.swift; sourceTree = "<group>"; };
 		0EFA3F372817E36500DA6014 /* CommentAndRattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAndRattingView.swift; sourceTree = "<group>"; };
-		0EFDB2E028546CC800E6E2BB /* The 30-Second Video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "The 30-Second Video.mp4"; sourceTree = "<group>"; };
 		0EFDB2E32856337200E6E2BB /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		2FF071E3C0289EAB22C03DE7 /* Pods-FransiSRentalHouseProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FransiSRentalHouseProject.debug.xcconfig"; path = "Target Support Files/Pods-FransiSRentalHouseProject/Pods-FransiSRentalHouseProject.debug.xcconfig"; sourceTree = "<group>"; };
 		59C15764E2539D57351E3BAC /* Pods-FransiSRentalHouseProject.emulators.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FransiSRentalHouseProject.emulators.xcconfig"; path = "Target Support Files/Pods-FransiSRentalHouseProject/Pods-FransiSRentalHouseProject.emulators.xcconfig"; sourceTree = "<group>"; };
@@ -421,7 +443,6 @@
 				0249D42327C637330085F4A5 /* Model */,
 				0249D40A27C6351F0085F4A5 /* ContentView.swift */,
 				0249D40C27C635220085F4A5 /* Assets.xcassets */,
-				0EFDB2E028546CC800E6E2BB /* The 30-Second Video.mp4 */,
 				0249D40E27C635220085F4A5 /* Preview Content */,
 			);
 			path = FransiSRentalHouseProject;
@@ -438,6 +459,7 @@
 		0249D42327C637330085F4A5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0E33A55A2864A38A0001B567 /* EnumDatas */,
 				0E304DC3283912CC000E2D35 /* Crashlytics */,
 				0EEEDC1D2820D9960036FD0D /* Status */,
 				0259C26027CDF3CA00DFDE18 /* Auth */,
@@ -454,6 +476,9 @@
 		0249D42427C6373B0085F4A5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				0EEFCBD72864A97400D07F73 /* UserInfoViewModel */,
+				0EEFCBD42864A63B00D07F73 /* GeneralAppViewModel */,
+				0E33A55B2864A4530001B567 /* LoginViewModel */,
 				0249D43127C638C00085F4A5 /* AppViewModel.swift */,
 				0249D43327C638DF0085F4A5 /* ErrorHandler.swift */,
 				022A84F327C7288C0063FF05 /* ImagePicker.swift */,
@@ -661,6 +686,13 @@
 		02CB58E527CDAD5E0035EE20 /* Data Models */ = {
 			isa = PBXGroup;
 			children = (
+				0E33A5592864A2980001B567 /* Texting */,
+				0E33A556286481D30001B567 /* Contact */,
+				0E33A553286480C10001B567 /* Maintain */,
+				0E33A54C286410B10001B567 /* Video */,
+				0E8AE23A286365E1005733EE /* Products */,
+				0E8AE239286365D7005733EE /* House Rental */,
+				0E8AE23628620C12005733EE /* User */,
 				02CB58E327CDAD2C0035EE20 /* SummaryItemDataModel.swift */,
 				0EEEDC19281FCB920036FD0D /* ProductSoldCollectionDataModel.swift */,
 				02CB58E627CDAD960035EE20 /* MaintainTaskDataModel.swift */,
@@ -669,17 +701,13 @@
 				02CB58EC27CDAE730035EE20 /* UserDataModel.swift */,
 				02450AE527D2AC7000370683 /* ContactDataModel.swift */,
 				0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */,
-				0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */,
 				0ED1F42327F049D90004B5CE /* AnnouncementDataModel.swift */,
 				0ED1F42927F087D70004B5CE /* PastedPaymentHistoryDataModel.swift */,
 				0EB65BDB28042DA1000EAA43 /* PaymentDataModel.swift */,
 				0E36B6F928066CC30008A7C9 /* ReceivePaymentDateModel.swift */,
 				0E36B7002806BEF80008A7C9 /* ProviderConfigurationDateModel.swift */,
-				0E336CDD280E909C00EC91B6 /* TwDistrictDataModel.swift */,
-				0E31807B2810EED4009784B9 /* GroceryTypeDataModel.swift */,
 				0E31808728128265009784B9 /* PurchaseUserDataModel.swift */,
 				0EE8A0D2281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift */,
-				0E6176EA28436B4A002D51F7 /* TextingImageDataModel.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -756,6 +784,56 @@
 			path = ShippingList;
 			sourceTree = "<group>";
 		};
+		0E33A54C286410B10001B567 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				0E33A54D286410C00001B567 /* VideoDM.swift */,
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
+		0E33A553286480C10001B567 /* Maintain */ = {
+			isa = PBXGroup;
+			children = (
+				0E33A554286480CE0001B567 /* MaintainDM.swift */,
+			);
+			path = Maintain;
+			sourceTree = "<group>";
+		};
+		0E33A556286481D30001B567 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				0E33A557286481E30001B567 /* ContactDM.swift */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
+		0E33A5592864A2980001B567 /* Texting */ = {
+			isa = PBXGroup;
+			children = (
+				0E6176EA28436B4A002D51F7 /* TextingImageDataModel.swift */,
+				0E2EDD3927EAF344008FEF58 /* TextingDataModel.swift */,
+			);
+			path = Texting;
+			sourceTree = "<group>";
+		};
+		0E33A55A2864A38A0001B567 /* EnumDatas */ = {
+			isa = PBXGroup;
+			children = (
+				0E336CDD280E909C00EC91B6 /* TwDistrictDataModel.swift */,
+				0E31807B2810EED4009784B9 /* GroceryTypeDataModel.swift */,
+			);
+			path = EnumDatas;
+			sourceTree = "<group>";
+		};
+		0E33A55B2864A4530001B567 /* LoginViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0E33A55C2864A4950001B567 /* LoginVM.swift */,
+			);
+			path = LoginViewModel;
+			sourceTree = "<group>";
+		};
 		0E36B6FB2806AF860008A7C9 /* ProviderProfileUnitViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -783,6 +861,33 @@
 				0E81A48C283880EA00EB7AA0 /* WebView.swift */,
 			);
 			path = WebView;
+			sourceTree = "<group>";
+		};
+		0E8AE23628620C12005733EE /* User */ = {
+			isa = PBXGroup;
+			children = (
+				0E8AE23728620C89005733EE /* UserDM.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		0E8AE239286365D7005733EE /* House Rental */ = {
+			isa = PBXGroup;
+			children = (
+				0E8AE23B28636609005733EE /* houseDMForInternal.swift */,
+				0E8AE23F286401DA005733EE /* HouseRentalForExternal.swift */,
+			);
+			path = "House Rental";
+			sourceTree = "<group>";
+		};
+		0E8AE23A286365E1005733EE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E8AE23D28636617005733EE /* productDMForInternal.swift */,
+				0E33A54F286412600001B567 /* ProductDMForExternal.swift */,
+				0E33A55128641A090001B567 /* OrderProductDM.swift */,
+			);
+			path = Products;
 			sourceTree = "<group>";
 		};
 		0E8F3ED427E9BC66008F0310 /* MapView */ = {
@@ -834,6 +939,22 @@
 				0EEEDC1E2820D9B20036FD0D /* AppStatusModel.swift */,
 			);
 			path = Status;
+			sourceTree = "<group>";
+		};
+		0EEFCBD42864A63B00D07F73 /* GeneralAppViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0EEFCBD52864A65A00D07F73 /* gAppVM.swift */,
+			);
+			path = GeneralAppViewModel;
+			sourceTree = "<group>";
+		};
+		0EEFCBD72864A97400D07F73 /* UserInfoViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0EEFCBD82864A98A00D07F73 /* userInfoVM.swift */,
+			);
+			path = UserInfoViewModel;
 			sourceTree = "<group>";
 		};
 		0EFDB2E22856336400E6E2BB /* VideoView */ = {
@@ -970,7 +1091,6 @@
 				0249D41027C635220085F4A5 /* Preview Assets.xcassets in Resources */,
 				0E768F7B2824FE770072D0BA /* InfoPlist.strings in Resources */,
 				0E768F7E2824FE770072D0BA /* Localizable.strings in Resources */,
-				0EFDB2E128546CC800E6E2BB /* The 30-Second Video.mp4 in Resources */,
 				0E304DC7283942B6000E2D35 /* LaunchScreen.storyboard in Resources */,
 				0249D40D27C635220085F4A5 /* Assets.xcassets in Resources */,
 				0E257A52283DDA24004F58DA /* GoogleService-Info.plist in Resources */,
@@ -1060,6 +1180,7 @@
 				0249D44B27C63A850085F4A5 /* PaymentSummaryView.swift in Sources */,
 				0EC5287027F2EA97002D2C6F /* ProductCollectionReusableUnitView.swift in Sources */,
 				0E2EDD3E27EC0296008FEF58 /* MessageMainView.swift in Sources */,
+				0E33A55D2864A4950001B567 /* LoginVM.swift in Sources */,
 				0249D45527C63B0B0085F4A5 /* UserDetailInfoView.swift in Sources */,
 				0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */,
 				0249D40B27C6351F0085F4A5 /* ContentView.swift in Sources */,
@@ -1077,6 +1198,7 @@
 				0249D46527C63C040085F4A5 /* ProviderRoomSummitView.swift in Sources */,
 				0E41D13727FF13260042E14D /* CustomProgressView.swift in Sources */,
 				0E304DC5283912E7000E2D35 /* CustomCrashlyticsKey.swift in Sources */,
+				0EEFCBD62864A65A00D07F73 /* gAppVM.swift in Sources */,
 				0249D46727C63C190085F4A5 /* ProviderBarChartView.swift in Sources */,
 				0E504DD428224BFE005E2386 /* CryptoManagement.swift in Sources */,
 				0E6176EB28436B4A002D51F7 /* TextingImageDataModel.swift in Sources */,
@@ -1088,6 +1210,8 @@
 				0292835B27D37FDA00DEF068 /* TermOfServiceForRentalManager.swift in Sources */,
 				026307A027D83C7B000E3CFD /* MaintainWaitingView.swift in Sources */,
 				02677E0627D8638900AA7049 /* ContractCollectionView.swift in Sources */,
+				0E33A550286412600001B567 /* ProductDMForExternal.swift in Sources */,
+				0E33A55228641A090001B567 /* OrderProductDM.swift in Sources */,
 				0249D45B27C63B660085F4A5 /* MaintainDetailView.swift in Sources */,
 				0259C26227CDF41E00DFDE18 /* FirebaseAuth.swift in Sources */,
 				0EFA3F382817E36500DA6014 /* CommentAndRattingView.swift in Sources */,
@@ -1096,9 +1220,11 @@
 				0249D45727C63B460085F4A5 /* ProfileView.swift in Sources */,
 				0EC5286B27F2DDBB002D2C6F /* SearchProductListItemView.swift in Sources */,
 				02CB58F727CDB5230035EE20 /* StorageForUserProfile.swift in Sources */,
+				0E8AE23E28636617005733EE /* productDMForInternal.swift in Sources */,
 				02CB58EF27CDB1470035EE20 /* FirestoreToFetchUserInfo.swift in Sources */,
 				0E36B709280809130008A7C9 /* ProviderBarChartViewModel.swift in Sources */,
 				0E31807A280FB60D009784B9 /* RentedPaymentHistoryView.swift in Sources */,
+				0E8AE23C28636609005733EE /* houseDMForInternal.swift in Sources */,
 				0249D43227C638C00085F4A5 /* AppViewModel.swift in Sources */,
 				0E19C8CB27F6CAEB00FD23D8 /* RentalContractViewModel.swift in Sources */,
 				0EEEDC1F2820D9B20036FD0D /* AppStatusModel.swift in Sources */,
@@ -1120,6 +1246,7 @@
 				02CB58EB27CDAE520035EE20 /* ProductsDataModel.swift in Sources */,
 				0E6B3CF1282C8F3E00C1F039 /* MaintainDetailUnitView.swift in Sources */,
 				0E31807C2810EED4009784B9 /* GroceryTypeDataModel.swift in Sources */,
+				0E33A54E286410C00001B567 /* VideoDM.swift in Sources */,
 				0E2EF5FA2828AB6F00BA9B2A /* CustomToggleView.swift in Sources */,
 				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
 				0249D43A27C639720085F4A5 /* AppTabView.swift in Sources */,
@@ -1141,12 +1268,14 @@
 				0E336CE0280EA05200EC91B6 /* SearchViewModel.swift in Sources */,
 				0EFDB2E42856337200E6E2BB /* VideoView.swift in Sources */,
 				0EA78798283B224300E82F75 /* NotificationManager.swift in Sources */,
+				0E8AE23828620C89005733EE /* UserDM.swift in Sources */,
 				0E31807F28112559009784B9 /* StoreView.swift in Sources */,
 				0249D44327C639BE0085F4A5 /* SheetView.swift in Sources */,
 				0E81A48D283880EA00EB7AA0 /* WebView.swift in Sources */,
 				0E5606792834ECEB00C987FB /* LoginView.swift in Sources */,
 				0249D46327C63BF50085F4A5 /* ProviderProfileView.swift in Sources */,
 				0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */,
+				0E33A558286481E30001B567 /* ContactDM.swift in Sources */,
 				0E36982027F2962E00AA7E88 /* ProductDetailView.swift in Sources */,
 				0EEEDC1C281FCF370036FD0D /* SoldProductCollectionManager.swift in Sources */,
 				0ED1F43227F1F0970004B5CE /* ProductsProviderSummitView.swift in Sources */,
@@ -1179,8 +1308,10 @@
 				0E36B6FD2806AFA40008A7C9 /* SettlementUnitView.swift in Sources */,
 				0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */,
 				0249D43027C637EA0085F4A5 /* FirebaseStorage.swift in Sources */,
+				0E8AE240286401DA005733EE /* HouseRentalForExternal.swift in Sources */,
 				0EB65BDA28042725000EAA43 /* PaymentMethodManager.swift in Sources */,
 				0249D44527C639CA0085F4A5 /* RoomsGridView.swift in Sources */,
+				0E33A555286480CE0001B567 /* MaintainDM.swift in Sources */,
 				0EC0018527F42597007AB488 /* UserOrderedListUnitView.swift in Sources */,
 				0249D40927C6351F0085F4A5 /* FransiSRentalHouseProjectApp.swift in Sources */,
 				02CB58F327CDB3950035EE20 /* FirestoreToFetchRoomsData.swift in Sources */,
@@ -1188,6 +1319,7 @@
 				0E31808628125438009784B9 /* ShippingListView.swift in Sources */,
 				0EE8A0D3281EB4A900613F0E /* RoomCommentAndRattingDataModel.swift in Sources */,
 				0E2EDD3A27EAF344008FEF58 /* TextingDataModel.swift in Sources */,
+				0EEFCBD92864A98A00D07F73 /* userInfoVM.swift in Sources */,
 				0EB65BE0280455F1000EAA43 /* AutoPaymentSettingView.swift in Sources */,
 				0E6B3CF5282CF67F00C1F039 /* ForgetPasswordView.swift in Sources */,
 				0EC5287227F2FCC1002D2C6F /* ProductCollectionDetialView.swift in Sources */,

@@ -41,7 +41,6 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var userOrderedListViewModel = UserOrderedListUnitViewModel()
     @StateObject var renterContractEditViewModel = RenterContractEditViewModel()
     @StateObject var renterContractViewModel = RenterContractViewModel()
-    @StateObject var userDetailInfoViewModel = UserDetailInfoViewModel()
     @StateObject var roomsDetailViewModel = RoomsDetailViewModel()
     @StateObject var providerRoomSummitViewModel = ProviderRoomSummitViewModel()
     @StateObject var purchaseViewModel = PurchaseViewModel()
@@ -61,6 +60,7 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var soldProCollectionM = SoldProductCollectionManager()
     @StateObject var pwdM = PwdManager()
     @StateObject var imgPresentM = ImagePresentingManager()
+    @StateObject var loginVM = LoginVM(emailAddress: .init(), userPassword: .init())
 
     var body: some Scene {
         WindowGroup {
@@ -86,7 +86,6 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(userOrderedListViewModel)
                 .environmentObject(renterContractEditViewModel)
                 .environmentObject(renterContractViewModel)
-                .environmentObject(userDetailInfoViewModel)
                 .environmentObject(roomsDetailViewModel)
                 .environmentObject(providerRoomSummitViewModel)
                 .environmentObject(purchaseViewModel)
@@ -106,6 +105,7 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(soldProCollectionM)
                 .environmentObject(pwdM)
                 .environmentObject(imgPresentM)
+                .environmentObject(loginVM)
                 .withErrorHandling()
         }
     }
@@ -131,7 +131,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         )
         Auth.auth().useEmulator(withHost:"localhost", port:9099)
         let settings = Firestore.firestore().settings
-        settings.host = "localhost:8084"
+        settings.host = "localhost:8083"
         settings.isPersistenceEnabled = false
         settings.isSSLEnabled = false
         Firestore.firestore().settings = settings
