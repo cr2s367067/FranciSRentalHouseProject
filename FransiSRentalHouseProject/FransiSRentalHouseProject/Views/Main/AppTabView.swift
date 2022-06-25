@@ -46,7 +46,7 @@ struct AppTabView: View {
         }
         .onAppear {
             UITabBar.appearance().barTintColor = UIColor.init(named: "background2")
-            firestoreToFetchRoomsData.listeningRoomInfoForPublicRestruct()
+            firestoreToFetchRoomsData.listeningRoomInfoForPublic()
             firestoreForFurniture.listeningFurnitureInfo()
             userHodler = SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer
             if userHodler == .isProvider {

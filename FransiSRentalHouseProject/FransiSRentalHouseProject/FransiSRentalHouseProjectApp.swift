@@ -61,6 +61,8 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var pwdM = PwdManager()
     @StateObject var imgPresentM = ImagePresentingManager()
     @StateObject var loginVM = LoginVM(emailAddress: .init(), userPassword: .init())
+    @StateObject var signUpVM = SignUpVM()
+    @StateObject var renterMainVM = RenterMainVM()
 
     var body: some Scene {
         WindowGroup {
@@ -106,6 +108,8 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(pwdM)
                 .environmentObject(imgPresentM)
                 .environmentObject(loginVM)
+                .environmentObject(signUpVM)
+                .environmentObject(renterMainVM)
                 .withErrorHandling()
         }
     }

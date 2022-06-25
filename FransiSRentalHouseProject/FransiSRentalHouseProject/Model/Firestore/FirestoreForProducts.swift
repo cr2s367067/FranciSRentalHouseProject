@@ -12,6 +12,9 @@ import FirebaseFirestoreSwift
 
 class FirestoreForProducts: ObservableObject {
     
+    let db = Firestore.firestore()
+    
+    //MARK: - Name Enum
     enum PaymentMethodStatus {
         case creditCard
     }
@@ -22,8 +25,6 @@ class FirestoreForProducts: ObservableObject {
         case personalDelivery = "Personal Delivery"
     }
     
-    
-    
     enum ShippingStatus: String {
         case cancel = "Cancel"
         case orderBuilt = "Order Built"
@@ -32,6 +33,7 @@ class FirestoreForProducts: ObservableObject {
         case deliveried = "Deliveried"
     }
     
+    
     @Published var fetchOrderedDataSet = [UserOrderProductsDataModel]()
     @Published var markedProducts = [MarkedProductsDataModel]()
     @Published var productsDataSet = [ProductProviderDataModel]()
@@ -39,7 +41,7 @@ class FirestoreForProducts: ObservableObject {
     @Published var storesDataSet: StoreDataModel = .empty
     @Published var storeLocalData: StoreDataModel = .empty
     
-    @Published var uploadingHolder: ProductProviderDataModel = .empty
+//    @Published var uploadingHolder: ProductProviderDataModel = .empty
     
     @Published var storeProductsDataSet = [ProductProviderDataModel]()
     
@@ -53,40 +55,36 @@ class FirestoreForProducts: ObservableObject {
     @Published var shippingMethod: ShippingMethod = .convenienceStore
     @Published var shippingStatus: ShippingStatus = .orderBuilt
     
-    let db = Firestore.firestore()
+   
     
     func productIDGenerator() -> String {
-        let productID = UUID().uuidString
-        return productID
+        return UUID().uuidString
     }
     
-    func summitFurniture(uidPath: String, productImage: String, providerName: String, productPrice: String, productDescription: String, productUID: String, productName: String, productFrom: String, productAmount: String, isSoldOut: Bool, productType: String) async throws {
-        let furnitureProviderRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID)
+    func summitProduct(
+        uidPath: String,
+        product config: ProductDM
+    ) async throws {
+        let furnitureProviderRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(config.productUID)
         _ = try await furnitureProviderRef.setData([
-            "productUID" : productUID,
-            "productImage" : productImage,
-            "providerName" : providerName,
-            "productPrice" : productPrice,
-            "productDescription" : productDescription,
-            "productName": productName,
-            "productFrom" : productFrom,
-            "providerUID" : uidPath,
-            "productAmount" : productAmount,
-            "isSoldOut" : isSoldOut,
-            "productType" : productType,
+            "provderUID" : config.provderUID,
+            "productUID" : config.productUID,
+            "productName" : config.productName,
+            "productPrice" : config.productPrice,
+            "productDescription" : config.productDescription,
+            "productFrom" : config.productFrom,
+            "productAmount" : config.productAmount,
+            "isSoldOut" : config.isSoldOut,
+            "productType" : config.productType,
             "postDate" : Date()
         ])
     }
     
-    @MainActor
-    func getUploadintData(uidPath: String, productUID: String) async throws -> ProductProviderDataModel {
-        let furnitureProviderRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID)
-        print("get uid Path: \(uidPath)")
-        print("get product uid: \(productUID)")
-        uploadingHolder = try await furnitureProviderRef.getDocument(as: ProductProviderDataModel.self)
-        print("data: \(uploadingHolder)")
-        return uploadingHolder
-    }
+//    @MainActor
+//    func getUploadintData(uidPath: String, productUID: String) async throws {
+//        let furnitureProviderRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID)
+//        uploadingHolder = try await furnitureProviderRef.getDocument(as: ProductProviderDataModel.self)
+//    }
     
     func postProductOnPublic(data: ProductProviderDataModel, productUID: String) async throws {
         let furniturePublicRef = db.collection("ProductsPublic").document(productUID)

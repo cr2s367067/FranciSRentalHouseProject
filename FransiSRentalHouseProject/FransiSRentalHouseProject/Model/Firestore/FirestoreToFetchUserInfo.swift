@@ -102,7 +102,7 @@ extension FirestoreToFetchUserinfo {
 ////        country: String,
 //        gender: String,
 //        userType: String,
-//        email: String?,
+//        email: String?, 0
 //        providerType: String,
 //        isFounder: Bool,
 //        providerGUI: String?,
@@ -155,120 +155,23 @@ extension FirestoreToFetchUserinfo {
     //MARK: - Create and store information
     func registertRentedContract(
         uidPath: String,
-        rentedRoom: RentedRoom,
-        house contract: HouseContract
+        rentedRoom: RentedRoom
     ) async throws {
         let rentedRoomRef = db.collection("RentedRoom").document(uidPath)
         try await rentedRoomRef.setData([
             "rentedRoomUID" : rentedRoom.rentedRoomUID,
              "rentedProvderUID" : rentedRoom.rentedProvderUID,
-             "contract" : contract,
              "depositFee" : rentedRoom.depositFee,
              "paymentDate" : Date()
         ])
     }
     
-    func summitRentedContractToUserData(uidPath: String,
-//                                        docID: String,
-//                                        isSummitContract: Bool,
-//                                        contractBuildDate: Date,
-//                                        contractReviewDays:String,
-//                                        providerSignurture: String,
-//                                        renterSignurture: String,
-//                                        companyTitle: String,
-//                                        roomAddress: String,
-//                                        roomTown: String,
-//                                        roomCity: String,
-//                                        roomZipCode: String,
-//                                        specificBuildingNumber: String,
-//                                        specificBuildingRightRange: String,
-//                                        specificBuildingArea: String,
-//                                        mainBuildArea: String,
-//                                        mainBuildingPurpose: String,
-//                                        subBuildingPurpose: String,
-//                                        subBuildingArea: String,
-//                                        publicBuildingNumber: String,
-//                                        publicBuildingRightRange: String,
-//                                        publicBuildingArea: String,
-//                                        hasParkinglot: Bool,
-//                                        isSettingTheRightForThirdPerson: Bool,
-//                                        settingTheRightForThirdPersonForWhatKind: String,
-//                                        isBlockByBank: Bool,
-//                                        provideForAll: Bool,
-//                                        provideForPart: Bool,
-//                                        provideFloor: String,
-//                                        provideRooms: String,
-//                                        provideRoomNumber: String,
-//                                        provideRoomArea: String,
-//                                        isVehicle: Bool,
-//                                        isMorto: Bool,
-//                                        parkingUGFloor: String,
-//                                        parkingStyleN: Bool,
-//                                        parkingStyleM: Bool,
-//                                        parkingNumberForVehicle: String,
-//                                        parkingNumberForMortor: String,
-//                                        forAllday: Bool,
-//                                        forMorning: Bool,
-//                                        forNight: Bool,
-//                                        havingSubFacility: Bool,
-//                                        rentalStartDate: Date,
-//                                        rentalEndDate: Date,
-//                                        roomRentalPrice: String,
-//                                        paymentdays: String,
-//                                        paybyCash: Bool,
-//                                        paybyTransmission: Bool,
-//                                        paybyCreditDebitCard: Bool,
-//                                        bankName: String,
-//                                        bankOwnerName: String,
-//                                        bankAccount: String,
-//                                        payByRenterForManagementPart: Bool,
-//                                        payByProviderForManagementPart: Bool,
-//                                        managementFeeMonthly: String,
-//                                        parkingFeeMonthly: String,
-//                                        additionalReqForManagementPart: String,
-//                                        payByRenterForWaterFee: Bool,
-//                                        payByProviderForWaterFee: Bool,
-//                                        additionalReqForWaterFeePart: String,
-//                                        payByRenterForEletricFee: Bool,
-//                                        payByProviderForEletricFee: Bool,
-//                                        additionalReqForEletricFeePart: String,
-//                                        payByRenterForGasFee: Bool,
-//                                        payByProviderForGasFee: Bool,
-//                                        additionalReqForGasFeePart: String,
-//                                        additionalReqForOtherPart: String,
-//                                        contractSigurtureProxyFee: String,
-//                                        payByRenterForProxyFee: Bool,
-//                                        payByProviderForProxyFee: Bool,
-//                                        separateForBothForProxyFee: Bool,
-//                                        contractIdentitificationFee: String,
-//                                        payByRenterForIDFFee: Bool,
-//                                        payByProviderForIDFFee: Bool,
-//                                        separateForBothForIDFFee: Bool,
-//                                        contractIdentitificationProxyFee: String,
-//                                        payByRenterForIDFProxyFee: Bool,
-//                                        payByProviderForIDFProxyFee: Bool,
-//                                        separateForBothForIDFProxyFee: Bool,
-//                                        subLeaseAgreement: Bool,
-//                                        doCourtIDF: Bool,
-//                                        courtIDFDoc: Bool,
-//                                        providerName: String,
-//                                        providerID: String,
-//                                        providerResidenceAddress: String,
-//                                        providerMailingAddress: String,
-//                                        providerPhoneNumber: String,
-//                                        providerPhoneChargeName: String,
-//                                        providerPhoneChargeID: String,
-//                                        providerPhoneChargeEmailAddress: String,
-//                                        renterName: String,
-//                                        renterID: String,
-//                                        renterResidenceAddress: String,
-//                                        renterMailingAddress: String,
-//                                        renterPhoneNumber: String,
-//                                        renterEmailAddress: String,
-//                                        sigurtureDate: Date
-                                        hose contract: HouseContract
+    func summitRentedContractToUserData(
+        uidPath: String,
+        rented roomUID: String,
+        hose contract: HouseContract
     ) async throws {
-        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document("contractDetail")
+        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document(roomUID)
         try await rentedRoomContractRef.setData([
             "contractBuildDate": contract.contractBuildDate,
             "contractReviewDays": contract.contractReviewDays,
@@ -369,14 +272,14 @@ extension FirestoreToFetchUserinfo {
     }
     
     @MainActor
-    func getSummittedContract(uidPath: String) async throws -> HouseContract {
-        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document("contractDetail")
+    func getSummittedContract(uidPath: String, rented roomUID: String) async throws -> HouseContract {
+        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document(roomUID)
         rentedContract = try await rentedRoomContractRef.getDocument(as: HouseContract.self)
         return rentedContract
     }
     
-    func clearExpiredContract(uidPath: String) async throws {
-        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document("contractDetail")
+    func clearExpiredContract(uidPath: String, rented roomUID: String) async throws {
+        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document(roomUID)
         try await rentedRoomContractRef.delete()
     }
     
@@ -397,10 +300,9 @@ extension FirestoreToFetchUserinfo {
 
 
 extension FirestoreToFetchUserinfo {
-    func summitPaidInfo(uidPath: String,
-//                        rentalPrice: String,
-//                        note: String
-                        rentalPayment: RentedRoomPaymentHistory
+    func summitPaidInfo(
+        uidPath: String,
+        rentalPayment: RentedRoomPaymentHistory
     ) async throws {
         let paymentHistoryRef = db.collection("RentedRoom").document(uidPath).collection("PaymentHistory")
         _ = try await paymentHistoryRef.addDocument(data: [

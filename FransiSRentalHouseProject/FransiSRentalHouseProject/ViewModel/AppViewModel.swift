@@ -49,23 +49,15 @@ class AppViewModel: ObservableObject {
     
     
     
-    @Published var isProvider = false
-    @Published var isFurnitureProvider = false
-    @Published var isRentalM = false
-    @Published var isRenter = false
-    @Published var isAgree = false
+    
+    
     @Published var checked = false
     @Published var showAlert = false
     
 //    @Published var tagSelect = "TapHomeButton"
-    @Published var isPresent = false
-    @Published var userType = ""
     @Published var tempUserType = ""
     @Published var userDetailForSignUp = false
-    @Published var emailAddress = ""
-    @Published var userPassword = ""
-    @Published var recheckPassword = ""
-    
+//    @Published var isPresent = false
     
     //:~ Sign up view fields
 //    @Published var id = ""
@@ -83,8 +75,7 @@ class AppViewModel: ObservableObject {
 //    @AppStorage(UserInfoStatus.zipCode.rawValue) var zipCode = ""
 //    @AppStorage(UserInfoStatus.country.rawValue) var country = "Taiwan"
 //    @AppStorage(UserInfoStatus.gender.rawValue) var gender = ""
-    @Published var providerType = ""
-    @Published var rentalManagerLicenseNumber = ""
+    
     
     //:~Provider summit fields (RentalManager)
     @Published var holderName = ""
@@ -639,42 +630,42 @@ extension AppViewModel {
         }
     }
     
-    func passwordCheckAndSignUpAsync(email: String, password: String, confirmPassword: String) async throws {
-        guard !email.isEmpty else {
-            throw SignUpError.emailIsEmpty
-        }
-        guard !password.isEmpty else {
-            throw SignUpError.passwordIsEmpty
-        }
-        guard !confirmPassword.isEmpty else {
-            throw SignUpError.confirmPasswordIsEmpty
-        }
-        guard password.count >= 6 else {
-            throw SignUpError.passwordIstooShort
-        }
-        guard isProvider == true || isRenter == true else {
-            throw SignUpError.missingUserType
-        }
-        guard password == confirmPassword else {
-            throw SignUpError.passwordAndConfirmIsNotMatch
-        }
-        if isProvider == true {
-            guard isFurnitureProvider == true || isRentalM == true else {
-                throw SignUpError.providerTypeError
-            }
-            if isRentalM == true {
-                guard !rentalManagerLicenseNumber.isEmpty else {
-                    throw SignUpError.licenseEnterError
-                }
-                guard rentalManagerLicenseNumber.count == 9 else {
-                    throw SignUpError.licenseNumberLengthError
-                }
-            }
-        }
-        guard isAgree == true else {
-            throw SignUpError.termofServiceIsNotAgree
-        }
-    }
+//    func passwordCheckAndSignUpAsync(email: String, password: String, confirmPassword: String) async throws {
+//        guard !email.isEmpty else {
+//            throw SignUpError.emailIsEmpty
+//        }
+//        guard !password.isEmpty else {
+//            throw SignUpError.passwordIsEmpty
+//        }
+//        guard !confirmPassword.isEmpty else {
+//            throw SignUpError.confirmPasswordIsEmpty
+//        }
+//        guard password.count >= 6 else {
+//            throw SignUpError.passwordIstooShort
+//        }
+//        guard isProvider == true || isRenter == true else {
+//            throw SignUpError.missingUserType
+//        }
+//        guard password == confirmPassword else {
+//            throw SignUpError.passwordAndConfirmIsNotMatch
+//        }
+//        if isProvider == true {
+//            guard isFurnitureProvider == true || isRentalM == true else {
+//                throw SignUpError.providerTypeError
+//            }
+//            if isRentalM == true {
+//                guard !rentalManagerLicenseNumber.isEmpty else {
+//                    throw SignUpError.licenseEnterError
+//                }
+//                guard rentalManagerLicenseNumber.count == 9 else {
+//                    throw SignUpError.licenseNumberLengthError
+//                }
+//            }
+//        }
+//        guard isAgree == true else {
+//            throw SignUpError.termofServiceIsNotAgree
+//        }
+//    }
     
 //    func userInfoFormatterCheckerAsync(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String, uType: SignUpType) throws {
 //        if uType == .isNormalCustomer {

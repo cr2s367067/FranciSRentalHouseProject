@@ -81,25 +81,36 @@ struct MenuView: View {
 extension MenuView {
     
     func cleanUserInfoWhenSignOut() {
-        userInfoVM.id = ""
-        userInfoVM.firstName = ""
-        userInfoVM.lastName = ""
-        userInfoVM.displayName = ""
-        userInfoVM.mobileNumber = ""
-        userInfoVM.dob = Date()
-        userInfoVM.address = ""
-        userInfoVM.town = ""
-        userInfoVM.city = ""
-        userInfoVM.zipCode = ""
-        userInfoVM.country = ""
-        userInfoVM.gender = ""
-        userInfoVM.isMale = false
-        userInfoVM.isFemale = false
+//        userInfoVM.id = ""
+//        userInfoVM.firstName = ""
+//        userInfoVM.lastName = ""
+//        userInfoVM.displayName = ""
+//        userInfoVM.mobileNumber = ""
+//        userInfoVM.dob = Date()
+//        userInfoVM.address = ""
+//        userInfoVM.town = ""
+//        userInfoVM.city = ""
+//        userInfoVM.zipCode = ""
+//        userInfoVM.country = ""
+//        userInfoVM.gender = ""
+//        userInfoVM.isMale = false
+//        userInfoVM.isFemale = false
+        userInfoVM.userInfo = .empty
     }
     
     @ViewBuilder
     func identifyUserType(signUpType: SignUpType, providerType: ProviderTypeStatus) -> some View {
-        if signUpType == .isNormalCustomer {
+        switch signUpType {
+        case .isNormalCustomer:
+            normalCustormerMenuView()
+        case .isProvider:
+            providerMenuView(providerType: providerType)
+        }
+    }
+    
+    @ViewBuilder
+    private func normalCustormerMenuView() -> some View {
+        Group {
             NavigationLink {
                 withAnimation {
                     UserDetailInfoView()
@@ -123,7 +134,11 @@ extension MenuView {
                 SideBarButton(buttonName: "Focusing\rProducts", systemImageName: "face.dashed.fill")
             }
         }
-        if signUpType == .isProvider {
+    }
+    
+    @ViewBuilder
+    private func providerMenuView(providerType: ProviderTypeStatus) -> some View {
+        Group {
             if providerType == .roomProvider {
                 NavigationLink {
                     withAnimation {

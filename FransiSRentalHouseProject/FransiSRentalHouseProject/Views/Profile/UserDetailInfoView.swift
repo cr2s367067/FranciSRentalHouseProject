@@ -190,42 +190,42 @@ extension UserDetailInfoView {
                         HStack(alignment: .center, spacing: 30) {
                             Spacer()
                             Button {
-                                userInfoVM.userInfo.isMale.toggle()
-                                if userInfoVM.userInfo.isMale == true {
+                                userInfoVM.isMale.toggle()
+                                if userInfoVM.isMale == true {
                                     userInfoVM.userInfo.gender = "Male"
                                     debugPrint(userInfoVM.userInfo.gender)
                                 }
-                                if userInfoVM.userInfo.isFemale == true {
-                                    userInfoVM.userInfo.isFemale = false
+                                if userInfoVM.isFemale == true {
+                                    userInfoVM.isFemale = false
                                 }
                             } label: {
                                 HStack {
                                     Text("Male")
-                                        .foregroundColor(userInfoVM.userInfo.isMale ? .white : .white)
-                                    Image(systemName: userInfoVM.userInfo.isMale ? "checkmark.circle.fill" : "checkmark.circle")
-                                        .foregroundColor(userInfoVM.userInfo.isMale ? .green : .white)
+                                        .foregroundColor(userInfoVM.isMale ? .white : .white)
+                                    Image(systemName: userInfoVM.isMale ? "checkmark.circle.fill" : "checkmark.circle")
+                                        .foregroundColor(userInfoVM.isMale ? .green : .white)
                                         .padding(.leading, 10)
-                                    
+
                                 }
                                 .frame(width: 140, height: 30)
                                 .background(Color("fieldGray").opacity(0.07))
                                 .cornerRadius(5)
                             }
                             Button {
-                                userInfoVM.userInfo.isFemale.toggle()
-                                if userInfoVM.userInfo.isFemale == true {
+                                userInfoVM.isFemale.toggle()
+                                if userInfoVM.isFemale == true {
                                     userInfoVM.userInfo.gender = "Female"
                                     debugPrint(userInfoVM.userInfo.gender)
                                 }
-                                if userInfoVM.userInfo.isMale == true {
-                                    userInfoVM.userInfo.isMale = false
+                                if userInfoVM.isMale == true {
+                                    userInfoVM.isMale = false
                                 }
                             } label: {
                                 HStack {
                                     Text("Female")
-                                        .foregroundColor(userInfoVM.userInfo.isFemale ? .white : .white)
-                                    Image(systemName: userInfoVM.userInfo.isFemale ? "checkmark.circle.fill" : "checkmark.circle")
-                                        .foregroundColor(userInfoVM.userInfo.isFemale ? .green : .white)
+                                        .foregroundColor(userInfoVM.isFemale ? .white : .white)
+                                    Image(systemName: userInfoVM.isFemale ? "checkmark.circle.fill" : "checkmark.circle")
+                                        .foregroundColor(userInfoVM.isFemale ? .green : .white)
                                         .padding(.leading, 10)
                                 }
                                 .frame(width: 140, height: 30)
@@ -262,9 +262,9 @@ extension UserDetailInfoView {
         if isEdit == true {
             Button {
                 Task {
-                    if uType == .isNormalCustomer {
+//                    if uType == .isNormalCustomer {
                         try await forNormalUser()
-                    }
+//                    }
 //                    if uType == .isProvider {
 //                        try await forProviderUser()
 //                    }
@@ -332,7 +332,15 @@ extension UserDetailInfoView {
 //    }
     
     func forNormalUser() async throws {
-        if !userInfoVM.userInfo.id.isEmpty, !userInfoVM.userInfo.firstName.isEmpty, !userInfoVM.userInfo.lastName.isEmpty, !userInfoVM.userInfo.gender.isEmpty, !userInfoVM.userInfo.mobileNumber.isEmpty, !userInfoVM.userInfo.address.isEmpty, !userInfoVM.userInfo.town.isEmpty, !userInfoVM.userInfo.city.isEmpty, !userInfoVM.userInfo.zipCode.isEmpty {
+        if !userInfoVM.userInfo.id.isEmpty,
+            !userInfoVM.userInfo.firstName.isEmpty,
+            !userInfoVM.userInfo.lastName.isEmpty,
+            !userInfoVM.userInfo.gender.isEmpty,
+            !userInfoVM.userInfo.mobileNumber.isEmpty,
+            !userInfoVM.userInfo.address.isEmpty,
+            !userInfoVM.userInfo.town.isEmpty,
+            !userInfoVM.userInfo.city.isEmpty,
+            !userInfoVM.userInfo.zipCode.isEmpty {
             do {
                 try userInfoVM.userInfoFormatterCheckerAsync(id: userInfoVM.userInfo.id,
                                                                firstName: userInfoVM.userInfo.firstName,

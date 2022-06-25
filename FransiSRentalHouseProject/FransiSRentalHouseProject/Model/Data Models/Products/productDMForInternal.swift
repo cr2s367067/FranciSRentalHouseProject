@@ -10,7 +10,8 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 
-struct ProductDMInternal: Codable {
+struct ProductDM: Identifiable, Codable {
+    @DocumentID var id: String?
     var provderUID: String
     var productUID: String
     var productName: String
@@ -20,10 +21,10 @@ struct ProductDMInternal: Codable {
     var productAmount: Int
     var isSoldOut: Bool
     var productType: String
-    var productImageSet: [ProductImageSet]
     @ServerTimestamp var postDate: Timestamp?
 }
 
+//    var productImageSet: [ProductImageSet]
 
 struct ProductCommentRatting: Identifiable, Codable {
     @DocumentID var id: String?
@@ -35,15 +36,16 @@ struct ProductCommentRatting: Identifiable, Codable {
     @ServerTimestamp var uploadTimestamp: Timestamp?
 }
 
-struct ProductImageSet: Codable {
-    var id = UUID().uuidString
+struct ProductImageSet: Identifiable, Codable {
+    @DocumentID var id: String?
     var productImageURL: String
 }
 
-//struct CustomerMarkedProduct: Codable {
-//    @DocumentID var id: String?
-//    var isMark: Bool
-//    var uidPath: String
-//    var providerUID: String
-//    var productUID: String
-//}
+
+struct CustomerMarkedProduct: Codable {
+    @DocumentID var id: String?
+    var isMark: Bool
+    var uidPath: String
+    var providerUID: String
+    var productUID: String
+}

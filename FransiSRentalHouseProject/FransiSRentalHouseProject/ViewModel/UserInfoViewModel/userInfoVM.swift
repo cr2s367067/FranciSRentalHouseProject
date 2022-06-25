@@ -24,8 +24,8 @@ class UserInfoVM: ObservableObject {
 //    @AppStorage(UserInfoStatus.displayName.rawValue) var nickName = ""
 //    @AppStorage(UserInfoStatus.mobileNumber.rawValue) var mobileNumber = ""
 //    @AppStorage(UserInfoStatus.dob.rawValue) var dob = Date()
-//    @AppStorage(UserInfoStatus.isMale.rawValue) var isMale = false
-//    @AppStorage(UserInfoStatus.isFemale.rawValue) var isFemale = false
+    @AppStorage(UserInfoStatus.isMale.rawValue) var isMale = false
+    @AppStorage(UserInfoStatus.isFemale.rawValue) var isFemale = false
 //    @AppStorage(UserInfoStatus.address.rawValue) var address = ""
 //    @AppStorage(UserInfoStatus.town.rawValue) var town = ""
 //    @AppStorage(UserInfoStatus.city.rawValue) var city = ""

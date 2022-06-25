@@ -58,6 +58,35 @@ struct UserDM: Codable {
 
 extension UserDM {
     static let empty = UserDM(id: "", firstName: "", lastName: "", nickName: "", mobileNumber: "", zipCode: "", city: "", town: "", address: "", email: "", dob: Date(), gender: "", profileImageURL: "", userType: "", providerType: "", isFounder: false, providerGUI: "", isSignByApple: false, agreeAutoPay: false)
+    static func signUpInit(
+        userType: String,
+        providerType: String,
+        isFounder: Bool,
+        providerGUI: String,
+        isSignByApple: Bool
+    ) -> UserDM {
+        return UserDM(
+            id: "",
+            firstName: "",
+            lastName: "",
+            nickName: "",
+            mobileNumber: "",
+            zipCode: "",
+            city: "",
+            town: "",
+            address: "",
+            email: "",
+            dob: Date(),
+            gender: "",
+            profileImageURL: "",
+            userType: userType,
+            providerType: providerType,
+            isFounder: isFounder,
+            providerGUI: providerGUI,
+            isSignByApple: isSignByApple,
+            agreeAutoPay: false
+        )
+    }
 }
 
 //MARK: - If User type is provider then create it

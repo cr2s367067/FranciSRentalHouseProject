@@ -10,7 +10,7 @@ import SwiftUI
 struct SignUpView: View {
     
     
-    @EnvironmentObject var appViewModel: AppViewModel
+//    @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -18,6 +18,7 @@ struct SignUpView: View {
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     @EnvironmentObject var pwdM: PwdManager
+    @EnvironmentObject var signUpVM: SignUpVM
     
     @State private var tosSheetShow = false
     @State private var ppSheetShow = false
@@ -32,12 +33,12 @@ struct SignUpView: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     
     private func reset() {
-        appViewModel.emailAddress = ""
-        appViewModel.userPassword = ""
-        appViewModel.recheckPassword = ""
-        appViewModel.isRenter = false
-        appViewModel.isProvider = false
-        appViewModel.isAgree = false
+        signUpVM.emailAddress = ""
+        signUpVM.userPassword = ""
+        signUpVM.recheckPassword = ""
+        signUpVM.isRenter = false
+        signUpVM.isProvider = false
+        signUpVM.isAgree = false
         UINavigationBar.appearance().backgroundColor = UIColor(Color.clear)
     }
     
@@ -69,9 +70,9 @@ struct SignUpView: View {
                                 //MARK: - Username
                                 VStack {
                                     HStack {
-                                        TextField("", text: $appViewModel.emailAddress)
+                                        TextField("", text: $signUpVM.emailAddress)
                                             .foregroundColor(.white)
-                                            .placeholer(when: appViewModel.emailAddress.isEmpty) {
+                                            .placeholer(when: signUpVM.emailAddress.isEmpty) {
                                                 Text("E-mail")
                                                     .foregroundColor(.white.opacity(0.8))
                                             }
@@ -81,11 +82,6 @@ struct SignUpView: View {
                                             .keyboardType(.emailAddress)
                                             .accessibilityIdentifier("signUpUserName")
                                             .focused($isFocus)
-//                                            .onChange(of: appViewModel.emailAddress.count) { newValue in
-//                                                Task {
-//                                                    await delayUnFocused()
-//                                                }
-//                                            }
                                     }
                                     .modifier(customTextField())
                                 }
@@ -93,10 +89,10 @@ struct SignUpView: View {
                                     //MARK: - password
                                     VStack(alignment: .leading) {
                                         HStack {
-                                            SecureField("", text: $appViewModel.userPassword)
+                                            SecureField("", text: $signUpVM.userPassword)
                                                 .accessibilityIdentifier("signUpPassword")
                                                 .foregroundColor(.white)
-                                                .placeholer(when: appViewModel.userPassword.isEmpty) {
+                                                .placeholer(when: signUpVM.userPassword.isEmpty) {
                                                     Text("Password")
                                                         .foregroundColor(.white.opacity(0.8))
                                                 }
@@ -104,13 +100,10 @@ struct SignUpView: View {
                                                 .textInputAutocapitalization(.never)
                                                 .padding(.leading)
                                                 .focused($isFocus)
-                                                .onChange(of: appViewModel.userPassword) { newValue in
+                                                .onChange(of: signUpVM.userPassword) { newValue in
                                                     pwdCheckSymbol = pwdM.symbolCheck(password: newValue)
                                                     pwdCheckLength = pwdM.lengthCheck(password: newValue)
                                                     pwdCheckUppercase = pwdM.upperCheck(password: newValue)
-//                                                    Task {
-//                                                        await delayUnFocused()
-//                                                    }
                                                 }
                                         }
                                         .modifier(customTextField())
@@ -128,9 +121,9 @@ struct SignUpView: View {
                                     VStack {
                                         HStack {
                                             //Re-check the password
-                                            SecureField("", text: $appViewModel.recheckPassword)
+                                            SecureField("", text: $signUpVM.recheckPassword)
                                                 .foregroundColor(.white)
-                                                .placeholer(when: appViewModel.recheckPassword.isEmpty) {
+                                                .placeholer(when: signUpVM.recheckPassword.isEmpty) {
                                                     Text("Confirm")
                                                         .foregroundColor(.white.opacity(0.8))
                                                 }
@@ -146,24 +139,24 @@ struct SignUpView: View {
                             }
                             HStack {
                                 Button {
-                                    if appViewModel.isRenter == true {
-                                        appViewModel.isRenter = false
+                                    if signUpVM.isRenter == true {
+                                        signUpVM.isRenter = false
                                     }
-                                    if appViewModel.isProvider == false {
-                                        appViewModel.isProvider = true
-                                        appViewModel.userType = "Provider"
+                                    if signUpVM.isProvider == false {
+                                        signUpVM.isProvider = true
+                                        signUpVM.userType = "Provider"
                                         isFocus = false
-                                        
+
                                         //debugPrint(UserDataModel(id: "", firstName: "", lastName: "", phoneNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
                                     }
                                 } label: {
                                     HStack {
                                         Text("I'm Provider")
-                                            .foregroundColor(appViewModel.isProvider ? .white : .gray)
-                                        Image(systemName: appViewModel.isProvider ? "checkmark.circle.fill" : "checkmark.circle")
-                                            .foregroundColor(appViewModel.isProvider ? .green : .gray)
+                                            .foregroundColor(signUpVM.isProvider ? .white : .gray)
+                                        Image(systemName: signUpVM.isProvider ? "checkmark.circle.fill" : "checkmark.circle")
+                                            .foregroundColor(signUpVM.isProvider ? .green : .gray)
                                             .padding(.leading, 10)
-                                        
+
                                     }
                                     .frame(width: 140, height: 34)
                                     .background(Color("fieldGray").opacity(0.07))
@@ -173,22 +166,22 @@ struct SignUpView: View {
                                 Spacer()
                                     .frame(width: uiScreenWidth / 8 + 10)
                                 Button {
-                                    if appViewModel.isProvider == true {
-                                        appViewModel.isProvider = false
-                                        
+                                    if signUpVM.isProvider == true {
+                                        signUpVM.isProvider = false
+
                                     }
-                                    if appViewModel.isRenter == false {
-                                        appViewModel.isRenter = true
-                                        appViewModel.userType = "Renter"
+                                    if signUpVM.isRenter == false {
+                                        signUpVM.isRenter = true
+                                        signUpVM.userType = "Renter"
                                         isFocus = false
                                     }
                                     //                            appViewModel.isRenter.toggle()
                                 } label: {
                                     HStack {
                                         Text("I'm Renter")
-                                            .foregroundColor(appViewModel.isRenter ? .white : .gray)
-                                        Image(systemName: appViewModel.isRenter ? "checkmark.circle.fill" : "checkmark.circle")
-                                            .foregroundColor(appViewModel.isRenter ? .green : .gray)
+                                            .foregroundColor(signUpVM.isRenter ? .white : .gray)
+                                        Image(systemName: signUpVM.isRenter ? "checkmark.circle.fill" : "checkmark.circle")
+                                            .foregroundColor(signUpVM.isRenter ? .green : .gray)
                                             .padding(.leading, 10)
                                     }
                                     .frame(width: 140, height: 34)
@@ -200,22 +193,22 @@ struct SignUpView: View {
                             .padding(.top, 10)
                         }
                         .focused($isFocus)
-                        if appViewModel.isProvider == true {
+                        if signUpVM.isProvider == true {
                             HStack {
                                 Button {
-                                    if appViewModel.isRentalM == true {
-                                        appViewModel.isRentalM = false
+                                    if signUpVM.isRentalM == true {
+                                        signUpVM.isRentalM = false
                                     }
-                                    if appViewModel.isFurnitureProvider == false {
-                                        appViewModel.isFurnitureProvider = true
-                                        appViewModel.providerType = "Furniture Provider"
+                                    if signUpVM.isFurnitureProvider == false {
+                                        signUpVM.isFurnitureProvider = true
+                                        signUpVM.providerType = "Furniture Provider"
                                     }
                                 } label: {
                                     HStack {
                                         Text("Product Provider")
-                                            .foregroundColor(appViewModel.isFurnitureProvider ? .white : .gray)
-                                        Image(systemName: appViewModel.isFurnitureProvider ? "checkmark.circle.fill" : "checkmark.circle")
-                                            .foregroundColor(appViewModel.isFurnitureProvider ? .green : .gray)
+                                            .foregroundColor(signUpVM.isFurnitureProvider ? .white : .gray)
+                                        Image(systemName: signUpVM.isFurnitureProvider ? "checkmark.circle.fill" : "checkmark.circle")
+                                            .foregroundColor(signUpVM.isFurnitureProvider ? .green : .gray)
                                             .padding(.leading, 10)
                                         
                                     }
@@ -227,21 +220,21 @@ struct SignUpView: View {
                                 Spacer()
                                     .frame(width: uiScreenWidth / 8 - 30)
                                 Button {
-                                    if appViewModel.isFurnitureProvider == true {
-                                        appViewModel.isFurnitureProvider = false
+                                    if signUpVM.isFurnitureProvider == true {
+                                        signUpVM.isFurnitureProvider = false
                                         
                                     }
-                                    if appViewModel.isRentalM == false {
-                                        appViewModel.isRentalM = true
-                                        appViewModel.providerType = "Rental Manager"
+                                    if signUpVM.isRentalM == false {
+                                        signUpVM.isRentalM = true
+                                        signUpVM.providerType = "Rental Manager"
                                     }
                                     
                                 } label: {
                                     HStack {
                                         Text("Rental Manager")
-                                            .foregroundColor(appViewModel.isRentalM ? .white : .gray)
-                                        Image(systemName: appViewModel.isRentalM ? "checkmark.circle.fill" : "checkmark.circle")
-                                            .foregroundColor(appViewModel.isRentalM ? .green : .gray)
+                                            .foregroundColor(signUpVM.isRentalM ? .white : .gray)
+                                        Image(systemName: signUpVM.isRentalM ? "checkmark.circle.fill" : "checkmark.circle")
+                                            .foregroundColor(signUpVM.isRentalM ? .green : .gray)
                                             .padding(.leading, 10)
                                     }
                                     .frame(width: 160, height: 34)
@@ -252,7 +245,7 @@ struct SignUpView: View {
                             }
                             .padding(.top, 10)
                         }
-                        if appViewModel.isRentalM == true && appViewModel.isProvider == true {
+                        if signUpVM.isRentalM == true && signUpVM.isProvider == true {
 //                            InfoUnit(title: "License Number", bindingString: $appViewModel.rentalManagerLicenseNumber)
                                 
                             VStack(alignment: .leading, spacing: 2) {
@@ -263,7 +256,7 @@ struct SignUpView: View {
                                     Spacer()
                                 }
                                 ZStack {
-                                    TextField("", text: $appViewModel.rentalManagerLicenseNumber)
+                                    TextField("", text: $signUpVM.rentalManagerLicenseNumber)
                                         .foregroundStyle(Color.white)
                                         .frame(height: 30)
                                         .background(Color.clear)
@@ -273,7 +266,7 @@ struct SignUpView: View {
                                         .accessibilityIdentifier("licenseNumber")
                                     HStack {
                                         Spacer()
-                                        ScanButton(text: $appViewModel.rentalManagerLicenseNumber)
+                                        ScanButton(text: $signUpVM.rentalManagerLicenseNumber)
                                             .frame(width: uiScreenWidth / 4, height: 50, alignment: .center)
                                             
                                     }
@@ -293,33 +286,28 @@ struct SignUpView: View {
                                 do {
                                     try siwAFormChecker(signWA: firebaseAuth.signByApple)
                                     if firebaseAuth.signByApple == false {
-                                        try pwdM.passwordChecker(password: appViewModel.recheckPassword)
-                                        try await appViewModel.passwordCheckAndSignUpAsync(email: appViewModel.emailAddress,
-                                                                                           password: appViewModel.userPassword,
-                                                                                           confirmPassword: appViewModel.recheckPassword)
-                                        try await firebaseAuth.signUpAsync(email: appViewModel.emailAddress, password: appViewModel.userPassword)
+                                        try pwdM.passwordChecker(password: signUpVM.recheckPassword)
+                                        try await signUpVM.passwordCheckAndSignUpAsync(
+                                            email: signUpVM.emailAddress,
+                                            password: signUpVM.userPassword,
+                                            confirmPassword: signUpVM.recheckPassword
+                                        )
+                                        try await firebaseAuth.signUpAsync(email: signUpVM.emailAddress, password: signUpVM.userPassword)
                                     }
-                                    if appViewModel.isProvider {
+                                    if signUpVM.isProvider {
                                         print("Create provider config")
                                         try await providerProfileViewModel.createConfig(uidPath: firebaseAuth.getUID())
                                     }
-                                    try await firestoreToFetchUserinfo.createUserInfomationAsync(uidPath: firebaseAuth.getUID(),
-                                                                                                 id: appViewModel.id,
-                                                                                                 firstName: appViewModel.firstName,
-                                                                                                 lastName: appViewModel.lastName,
-                                                                                                 displayName: appViewModel.displayName,
-                                                                                                 mobileNumber: appViewModel.mobileNumber,
-                                                                                                 dob: appViewModel.dob,
-                                                                                                 address: appViewModel.address,
-                                                                                                 town: appViewModel.town,
-                                                                                                 city: appViewModel.city,
-                                                                                                 zip: appViewModel.zipCode,
-                                                                                                 country: appViewModel.country,
-                                                                                                 gender: appViewModel.gender,
-                                                                                                 userType: appViewModel.userType,
-                                                                                                 emailAddress: appViewModel.emailAddress,
-                                                                                                 providerType: appViewModel.providerType,
-                                                                                                 RLNumber: appViewModel.rentalManagerLicenseNumber, signByApple: firebaseAuth.signByApple)
+                                    try await firestoreToFetchUserinfo.createUserInfomationAsync(
+                                        uidPath: firebaseAuth.getUID(),
+                                        userDM: .signUpInit(
+                                            userType: "",
+                                            providerType: "",
+                                            isFounder: false,
+                                            providerGUI: "",
+                                            isSignByApple: firebaseAuth.signByApple
+                                        )
+                                    )
                                     if firebaseAuth.signByApple {
                                         firebaseAuth.signIn = true
                                         firebaseAuth.showSignUpView = false
@@ -344,10 +332,10 @@ struct SignUpView: View {
                             .frame(height: 80)
                         HStack {
                             Button {
-                                appViewModel.isAgree.toggle()
+                                signUpVM.isAgree.toggle()
                             } label: {
-                                Image(systemName: appViewModel.isAgree ? "checkmark.square.fill" : "square")
-                                    .foregroundColor(appViewModel.isAgree ? .green : .white)
+                                Image(systemName: signUpVM.isAgree ? "checkmark.square.fill" : "square")
+                                    .foregroundColor(signUpVM.isAgree ? .green : .white)
                                     .padding(.trailing, 5)
                             }
                             .accessibilityIdentifier("tosCheckBox")
@@ -424,17 +412,17 @@ struct SignUpView: View {
 extension SignUpView {
     func siwAFormChecker(signWA: Bool) throws {
         if signWA {
-            guard !appViewModel.emailAddress.isEmpty else {
+            guard !signUpVM.emailAddress.isEmpty else {
                 throw SignUpError.emailIsEmpty
             }
-            guard appViewModel.isAgree == true else {
+            guard signUpVM.isAgree == true else {
                 throw SignUpError.termofServiceIsNotAgree
             }
-            guard appViewModel.isRenter == true || appViewModel.isProvider == true else {
+            guard signUpVM.isRenter == true || signUpVM.isProvider == true else {
                 throw SignUpError.missingUserType
             }
-            if appViewModel.isProvider {
-                guard appViewModel.isRentalM == true || appViewModel.isFurnitureProvider == true else {
+            if signUpVM.isProvider {
+                guard signUpVM.isRentalM == true || signUpVM.isFurnitureProvider == true else {
                     throw SignUpError.providerTypeError
                 }
             }

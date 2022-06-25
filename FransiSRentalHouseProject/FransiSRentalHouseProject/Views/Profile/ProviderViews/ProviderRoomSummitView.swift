@@ -383,7 +383,7 @@ struct ProviderRoomSummitView: View {
             }
             .navigationBarHidden(true)
             .overlay(content: {
-                if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                if firestoreToFetchUserinfo.userIDisEmpty() {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
                 if providerRoomSummitViewModel.showProgressView == true {

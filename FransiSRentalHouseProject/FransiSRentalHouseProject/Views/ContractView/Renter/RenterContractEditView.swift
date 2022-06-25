@@ -18,7 +18,7 @@ struct RenterContractEditView: View {
     
     
     var docID: String
-    var contractData: RentersContractDataModel
+    var contractData: HouseContract
     
     var body: some View {
         VStack {
@@ -444,99 +444,14 @@ struct RenterContractEditView: View {
             Button {
                 Task {
                     do {
-                        rentEditVM.contractDataModel.isSummitContract = true
+//                        rentEditVM.contractDataModel.isSummitContract = true
                         try await firestoreToFetchRoomsData.updataRentalPrice(uidPath: firebaseAuth.getUID(), docID: docID, rentalPrice: rentEditVM.contractDataModel.roomRentalPrice)
-                        try await firestoreToFetchRoomsData.updateContractData(uidPath: firebaseAuth.getUID(),
-                                                                               docID: docID,
-                                                                               isSummitContract: rentEditVM.contractDataModel.isSummitContract,
-                                                                               contractBuildDate: rentEditVM.contractDataModel.contractBuildDate,
-                                                                               contractReviewDays: rentEditVM.contractDataModel.contractReviewDays,
-                                                                               providerSignurture: rentEditVM.contractDataModel.providerSignurture,
-                                                                               renterSignurture: rentEditVM.contractDataModel.renterSignurture,
-                                                                               companyTitle: rentEditVM.contractDataModel.companyTitle,
-                                                                               roomAddress: rentEditVM.contractDataModel.roomAddress,
-                                                                               roomTown: rentEditVM.contractDataModel.roomTown,
-                                                                               roomCity: rentEditVM.contractDataModel.roomCity,
-                                                                               roomZipCode: rentEditVM.contractDataModel.roomZipCode,
-                                                                               specificBuildingNumber: rentEditVM.contractDataModel.specificBuildingNumber,
-                                                                               specificBuildingRightRange: rentEditVM.contractDataModel.specificBuildingRightRange,
-                                                                               specificBuildingArea: rentEditVM.contractDataModel.specificBuildingArea,
-                                                                               mainBuildArea: rentEditVM.contractDataModel.mainBuildArea,
-                                                                               mainBuildingPurpose: rentEditVM.contractDataModel.mainBuildingPurpose,
-                                                                               subBuildingPurpose: rentEditVM.contractDataModel.subBuildingPurpose,
-                                                                               subBuildingArea: rentEditVM.contractDataModel.subBuildingArea,
-                                                                               publicBuildingNumber: rentEditVM.contractDataModel.publicBuildingNumber,
-                                                                               publicBuildingRightRange: rentEditVM.contractDataModel.publicBuildingRightRange,
-                                                                               publicBuildingArea: rentEditVM.contractDataModel.publicBuildingArea,
-                                                                               hasParkinglot: rentEditVM.contractDataModel.hasParkinglot,
-                                                                               isSettingTheRightForThirdPerson: rentEditVM.contractDataModel.isSettingTheRightForThirdPerson,
-                                                                               settingTheRightForThirdPersonForWhatKind: rentEditVM.contractDataModel.settingTheRightForThirdPersonForWhatKind,
-                                                                               isBlockByBank: rentEditVM.contractDataModel.isBlockByBank,
-                                                                               provideForAll: rentEditVM.contractDataModel.provideForAll,
-                                                                               provideForPart: rentEditVM.contractDataModel.provideForPart,
-                                                                               provideFloor: rentEditVM.contractDataModel.provideFloor,
-                                                                               provideRooms: rentEditVM.contractDataModel.provideRooms,
-                                                                               provideRoomNumber: rentEditVM.contractDataModel.provideRoomNumber,
-                                                                               provideRoomArea: rentEditVM.contractDataModel.provideRoomArea,
-                                                                               isVehicle: rentEditVM.contractDataModel.isVehicle,
-                                                                               isMorto: rentEditVM.contractDataModel.isMorto,
-                                                                               parkingUGFloor: rentEditVM.contractDataModel.parkingUGFloor,
-                                                                               parkingStyleN: rentEditVM.contractDataModel.parkingStyleN,
-                                                                               parkingStyleM: rentEditVM.contractDataModel.parkingStyleM,
-                                                                               parkingNumberForVehicle: rentEditVM.contractDataModel.parkingNumberForVehicle,
-                                                                               parkingNumberForMortor: rentEditVM.contractDataModel.parkingNumberForMortor,
-                                                                               forAllday: rentEditVM.contractDataModel.forAllday,
-                                                                               forMorning: rentEditVM.contractDataModel.forMorning,
-                                                                               forNight: rentEditVM.contractDataModel.forNight,
-                                                                               havingSubFacility: rentEditVM.contractDataModel.havingSubFacility,
-                                                                               rentalStartDate: rentEditVM.contractDataModel.rentalStartDate,
-                                                                               rentalEndDate: rentEditVM.contractDataModel.rentalEndDate,
-                                                                               roomRentalPrice: rentEditVM.contractDataModel.roomRentalPrice,
-                                                                               paymentdays: rentEditVM.contractDataModel.paymentdays,
-                                                                               paybyCash: rentEditVM.contractDataModel.paybyCash,
-                                                                               paybyTransmission: rentEditVM.contractDataModel.paybyTransmission,
-                                                                               paybyCreditDebitCard: rentEditVM.contractDataModel.paybyCreditDebitCard,
-                                                                               bankName: rentEditVM.contractDataModel.bankName,
-                                                                               bankOwnerName: rentEditVM.contractDataModel.bankOwnerName,
-                                                                               bankAccount: rentEditVM.contractDataModel.bankAccount,
-                                                                               payByRenterForManagementPart: rentEditVM.contractDataModel.payByRenterForManagementPart,
-                                                                               payByProviderForManagementPart: rentEditVM.contractDataModel.payByProviderForManagementPart,
-                                                                               managementFeeMonthly: rentEditVM.contractDataModel.managementFeeMonthly,
-                                                                               parkingFeeMonthly: rentEditVM.contractDataModel.parkingFeeMonthly,
-                                                                               additionalReqForManagementPart: rentEditVM.contractDataModel.additionalReqForManagementPart,
-                                                                               payByRenterForWaterFee: rentEditVM.contractDataModel.payByRenterForWaterFee,
-                                                                               payByProviderForWaterFee: rentEditVM.contractDataModel.payByProviderForWaterFee,
-                                                                               additionalReqForWaterFeePart: rentEditVM.contractDataModel.additionalReqForWaterFeePart,
-                                                                               payByRenterForEletricFee: rentEditVM.contractDataModel.payByRenterForEletricFee,
-                                                                               payByProviderForEletricFee: rentEditVM.contractDataModel.payByProviderForEletricFee,
-                                                                               additionalReqForEletricFeePart: rentEditVM.contractDataModel.additionalReqForEletricFeePart,
-                                                                               payByRenterForGasFee: rentEditVM.contractDataModel.payByRenterForGasFee,
-                                                                               payByProviderForGasFee: rentEditVM.contractDataModel.payByProviderForGasFee,
-                                                                               additionalReqForGasFeePart: rentEditVM.contractDataModel.additionalReqForGasFeePart,
-                                                                               additionalReqForOtherPart: rentEditVM.contractDataModel.additionalReqForOtherPart,
-                                                                               contractSigurtureProxyFee: rentEditVM.contractDataModel.contractSigurtureProxyFee,
-                                                                               payByRenterForProxyFee: rentEditVM.contractDataModel.payByRenterForProxyFee,
-                                                                               payByProviderForProxyFee: rentEditVM.contractDataModel.payByProviderForProxyFee,
-                                                                               separateForBothForProxyFee: rentEditVM.contractDataModel.separateForBothForProxyFee,
-                                                                               contractIdentitificationFee: rentEditVM.contractDataModel.contractIdentitificationFee,
-                                                                               payByRenterForIDFFee: rentEditVM.contractDataModel.payByRenterForIDFFee,
-                                                                               payByProviderForIDFFee: rentEditVM.contractDataModel.payByProviderForIDFFee,
-                                                                               separateForBothForIDFFee: rentEditVM.contractDataModel.separateForBothForIDFFee,
-                                                                               contractIdentitificationProxyFee: rentEditVM.contractDataModel.contractIdentitificationProxyFee,
-                                                                               payByRenterForIDFProxyFee: rentEditVM.contractDataModel.payByRenterForIDFProxyFee,
-                                                                               payByProviderForIDFProxyFee: rentEditVM.contractDataModel.payByProviderForIDFProxyFee,
-                                                                               separateForBothForIDFProxyFee: rentEditVM.contractDataModel.separateForBothForIDFProxyFee,
-                                                                               subLeaseAgreement: rentEditVM.contractDataModel.subLeaseAgreement,
-                                                                               doCourtIDF: rentEditVM.contractDataModel.doCourtIDF,
-                                                                               courtIDFDoc: rentEditVM.contractDataModel.courtIDFDoc,
-                                                                               providerName: rentEditVM.contractDataModel.providerName,
-                                                                               providerID: rentEditVM.contractDataModel.providerID,
-                                                                               providerResidenceAddress: rentEditVM.contractDataModel.providerResidenceAddress,
-                                                                               providerMailingAddress: rentEditVM.contractDataModel.providerMailingAddress,
-                                                                               providerPhoneNumber: rentEditVM.contractDataModel.providerPhoneNumber,
-                                                                               providerPhoneChargeName: rentEditVM.contractDataModel.providerPhoneChargeName,
-                                                                               providerPhoneChargeID: rentEditVM.contractDataModel.providerPhoneChargeID,
-                                                                               providerPhoneChargeEmailAddress: rentEditVM.contractDataModel.providerPhoneChargeEmailAddress)
+                        try await firestoreToFetchRoomsData.updateContractData(
+                            uidPath: firebaseAuth.getUID(),
+                            room: docID,
+                            roomDM: .empty, //roomdm's data didn't send
+                            house: rentEditVM.contractDataModel
+                        )
 
                         try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
                         renterContractVM.showEditMode = false

@@ -23,18 +23,24 @@ import FirebaseFirestoreSwift
 //}
 
 //MARK: - Rooms data model and provider could publish or modify contract
-struct RoomDMInternal: Codable {
+struct RoomDM: Identifiable, Codable {
+    @DocumentID var id: String?
     var isPublish: Bool
     var roomUID: String
     var renterUID: String
     var roomsCoverImageURL: String
     var roomDescription: String
-    var contractData: HouseContract
+    var someoneDeadInRoom: Bool
+    var waterLeakingProblem: Bool
+}
+
+extension RoomDM {
+    static let empty = RoomDM(isPublish: false, roomUID: "", renterUID: "", roomsCoverImageURL: "", roomDescription: "", someoneDeadInRoom: false, waterLeakingProblem: false)
 }
 
 //MARK: - Room's image set
-struct RoomImageSetInternal: Codable {
-    var id = UUID().uuidString
+struct RoomImageSet: Identifiable, Codable {
+    @DocumentID var id: String?
     var roomImageSet: String
 }
 
@@ -393,4 +399,8 @@ struct RoomCommentRatting: Identifiable, Codable {
     var userDisplayName: String
     var isPost: Bool
     @ServerTimestamp var postTimestamp: Timestamp?
+}
+
+extension RoomCommentRatting {
+    static let empty = RoomCommentRatting(roomUID: "", providerUID: "", comment: "", convenienceRate: 0, pricingRate: 0, neighborRate: 0, userDisplayName: "", isPost: false)
 }

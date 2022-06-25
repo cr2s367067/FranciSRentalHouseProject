@@ -142,7 +142,9 @@
 		0E8F3ED627E9BC90008F0310 /* RoomLocateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */; };
 		0E8F3ED827E9C104008F0310 /* RoomLocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */; };
 		0E8F3EDA27EA014C008F0310 /* RoomsLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */; };
+		0EA2EE122865DFEE002B3210 /* renterMainVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2EE112865DFEE002B3210 /* renterMainVM.swift */; };
 		0EA78798283B224300E82F75 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA78797283B224300E82F75 /* NotificationManager.swift */; };
+		0EAB43212865C49C0013CD6B /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB43202865C49C0013CD6B /* SignUpVM.swift */; };
 		0EB65BD828040799000EAA43 /* RentalBillSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB65BD728040799000EAA43 /* RentalBillSettingView.swift */; };
 		0EB65BDA28042725000EAA43 /* PaymentMethodManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB65BD928042725000EAA43 /* PaymentMethodManager.swift */; };
 		0EB65BDC28042DA1000EAA43 /* PaymentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB65BDB28042DA1000EAA43 /* PaymentDataModel.swift */; };
@@ -322,7 +324,9 @@
 		0E8F3ED527E9BC90008F0310 /* RoomLocateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocateMapView.swift; sourceTree = "<group>"; };
 		0E8F3ED727E9C104008F0310 /* RoomLocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLocationDataModel.swift; sourceTree = "<group>"; };
 		0E8F3ED927EA014C008F0310 /* RoomsLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsLocationViewModel.swift; sourceTree = "<group>"; };
+		0EA2EE112865DFEE002B3210 /* renterMainVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = renterMainVM.swift; sourceTree = "<group>"; };
 		0EA78797283B224300E82F75 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		0EAB43202865C49C0013CD6B /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
 		0EB65BD728040799000EAA43 /* RentalBillSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalBillSettingView.swift; sourceTree = "<group>"; };
 		0EB65BD928042725000EAA43 /* PaymentMethodManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodManager.swift; sourceTree = "<group>"; };
 		0EB65BDB28042DA1000EAA43 /* PaymentDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDataModel.swift; sourceTree = "<group>"; };
@@ -476,6 +480,8 @@
 		0249D42427C6373B0085F4A5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				0EA2EE102865DFDB002B3210 /* RenterMainViewModel */,
+				0EAB431F2865C48C0013CD6B /* SignUpViewModel */,
 				0EEFCBD72864A97400D07F73 /* UserInfoViewModel */,
 				0EEFCBD42864A63B00D07F73 /* GeneralAppViewModel */,
 				0E33A55B2864A4530001B567 /* LoginViewModel */,
@@ -898,6 +904,22 @@
 			path = MapView;
 			sourceTree = "<group>";
 		};
+		0EA2EE102865DFDB002B3210 /* RenterMainViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0EA2EE112865DFEE002B3210 /* renterMainVM.swift */,
+			);
+			path = RenterMainViewModel;
+			sourceTree = "<group>";
+		};
+		0EAB431F2865C48C0013CD6B /* SignUpViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0EAB43202865C49C0013CD6B /* SignUpVM.swift */,
+			);
+			path = SignUpViewModel;
+			sourceTree = "<group>";
+		};
 		0EC5286C27F2E91B002D2C6F /* ProductCollection */ = {
 			isa = PBXGroup;
 			children = (
@@ -1294,6 +1316,7 @@
 				0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */,
 				0EC5286E27F2E930002D2C6F /* ProductCollectionView.swift in Sources */,
 				02CB58ED27CDAE730035EE20 /* UserDataModel.swift in Sources */,
+				0EA2EE122865DFEE002B3210 /* renterMainVM.swift in Sources */,
 				0259C26627CF460800DFDE18 /* ProviderSummittedRoomContractView.swift in Sources */,
 				02CB58E427CDAD2C0035EE20 /* SummaryItemDataModel.swift in Sources */,
 				0EB65BDC28042DA1000EAA43 /* PaymentDataModel.swift in Sources */,
@@ -1304,6 +1327,7 @@
 				0ED1F42427F049D90004B5CE /* AnnouncementDataModel.swift in Sources */,
 				0E36B7012806BEF80008A7C9 /* ProviderConfigurationDateModel.swift in Sources */,
 				0EE8A0CF281E311300613F0E /* RoomCommentAndRattingView.swift in Sources */,
+				0EAB43212865C49C0013CD6B /* SignUpVM.swift in Sources */,
 				0249D46127C63B960085F4A5 /* RoomStatusView.swift in Sources */,
 				0E36B6FD2806AFA40008A7C9 /* SettlementUnitView.swift in Sources */,
 				0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */,

@@ -260,7 +260,7 @@ struct ProductsProviderSummitView: View {
                                                 Task {
                                                     do {
                                                         productsProviderSummitViewModel.showProgressView = true
-                                                         try await firestoreForProducts.summitFurniture(uidPath: firebaseAuth.getUID(),
+                                                         try await firestoreForProducts.summitProduct(uidPath: firebaseAuth.getUID(),
                                                                                                        productImage: storageForProductImage.representedProductImageURL,
                                                                                                        providerName: firestoreToFetchUserinfo.fetchedUserData.displayName,
                                                                                                        productPrice: productsProviderSummitViewModel.productPrice,

@@ -11,7 +11,7 @@ struct RenterMainView: View {
 
     @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    @EnvironmentObject var appViewModel: AppViewModel
+//    @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
@@ -21,6 +21,7 @@ struct RenterMainView: View {
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     @EnvironmentObject var paymentMg: PaymentMethodManager
     @EnvironmentObject var fireMessage: FirestoreForTextingMessage
+    @EnvironmentObject var renterMainVM: RenterMainVM
     
     
     
@@ -34,10 +35,7 @@ struct RenterMainView: View {
         GridItem(.fixed(170)),
         GridItem(.fixed(170))
     ]
-    
-    private func notRented() -> Bool {
-        return firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? false
-    }
+
     
     @State private var showRooms = true
 //    @State private var showFurniture = false
@@ -48,52 +46,7 @@ struct RenterMainView: View {
         NavigationView {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
-                    //: Announcement Group
-//                    Button("Crash") {
-//                        fatalError("Crash was triggered")
-//                    }
-//                    Button("test") {
-//                        paymentMg.testapi()
-//                        Task {
-//                            do {
-//                                let currentDate = Date().getFormatterDate(format: "yyyy-mm-dd HH:mm:ss")
-//
-//                                try await paymentMg.callServerToken(envPath: .testEnv,
-//                                                         httpMethod: .post,
-//                                                         httpContent: .contentType,
-//                                                         rememberCard: .no,
-//                                                         paymentUIT: .paymentChosingList,
-//                                                         orderInfo: OrderInfoDM(MerchantTradeDate: currentDate,
-//                                                                                MerchantTradeNo: "3002607",
-//                                                                                TotalAmount: 500,
-//                                                                                ReturnURL: "",
-//                                                                                TradeDesc: "test",
-//                                                                                ItemName: "test"),
-//                                                         cardInfo: CardInfoDM(Redeem: "0",
-//                                                                              OrderResultURL: "https://www.ecpay.com.tw",
-//                                                                              CreditInstallment: "3"),
-//                                                         consumerInfo: ConsumerInfoDM(Email: "testuser@test.com",
-//                                                                                      Phone: "886987878787",
-//                                                                                      Name: "test",
-//                                                                                      CountryCode: "158",
-//                                                                                      Address: "testAddress"))
-//                            } catch {
-//                                print("error occur: \(error.localizedDescription)")
-//                            }
-//                        }
-//                    }
-//                    NavigationLink("test web") {
-//                        WebView(text: $paymentMg.getResultHolder)
-//                    }
-//                    Button("test") {
-//                        Task {
-//                            do {
-//                                try await firebaseAuth.checkAndUpdateToken(oldToken: fireMessage.senderUIDPath.userToken, uidPath: firebaseAuth.getUID())
-//                            } catch {
-//                                print("error")
-//                            }
-//                        }
-//                    }
+                    //MARK: - Announcement Group
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
                             HStack {
@@ -124,7 +77,7 @@ struct RenterMainView: View {
                             }
                         }
                     }
-                    //: New rooms Group
+                    //MARK: - New rooms Group
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
                             HStack {
@@ -144,7 +97,7 @@ struct RenterMainView: View {
                             }
                         }
                         .frame(width: uiScreenWidth - 25)
-                        //: New publish scrill view
+                        //MARK: - New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
                                 elementSwitch(showRooms: showRooms)
@@ -154,10 +107,10 @@ struct RenterMainView: View {
                         }
                     }
                     
-                    //: Everybody's facorite
+                    //MARK: - Everybody's facorite
                     Group {
                         TitleAndDivider(title: "What's Everybody Favorite")
-                        //: New publish scrill view
+                        //MARK: - New publish scrill view
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
 //                                elementSwitch(showRooms: showRooms)
@@ -188,7 +141,7 @@ struct RenterMainView: View {
                 do {
                     try await firestoreFetchingAnnouncement.fetchAnnouncement()
                     try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
-                    guard !firestoreToFetchUserinfo.fetchedUserData.id.isEmpty else { return }
+                    guard !firestoreToFetchUserinfo.userIDisEmpty() else { return }
                     _ = try await fireMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
                     try await firebaseAuth.checkAndUpdateToken(oldToken: fireMessage.senderUIDPath.userToken, uidPath: firebaseAuth.getUID())
                 } catch {
@@ -248,7 +201,7 @@ extension RenterMainView {
                               roomCity: result.city,
                               objectPrice: Int(result.rentalPrice) ?? 0)
 //                .frame(height: uiScreenHeight / 8)
-                .alert(isPresented: $appViewModel.isPresent) {
+                .alert(isPresented: $renterMainVM.isPresent) {
                     //MARK: Throw the "Have rented error to instead"
                     Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
                 }

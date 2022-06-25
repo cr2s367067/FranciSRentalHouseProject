@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct VideoDM: Codable {
+struct VideoDM: Identifiable, Codable {
     @DocumentID var id: String?
     
     //MARK: Could fetch provider data by providerUID
