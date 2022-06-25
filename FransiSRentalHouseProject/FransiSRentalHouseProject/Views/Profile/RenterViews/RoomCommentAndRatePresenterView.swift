@@ -14,21 +14,21 @@ struct RoomCommentAndRatePresenterView: View {
     @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
     @Environment(\.colorScheme) var colorScheme
     
-    var roomData: RoomInfoDataModel
+//    var commentAndRatting: RoomCommentRatting
+    var roomsData: RoomDM
     var carTitle = RoomCommentAndRattingView.SectionTitle.self
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
     var address: String {
-        let zipCode = roomData.zipCode
-        let city = roomData.city
-        let town = roomData.town
-        let roomAddress = roomData.roomAddress
-        return zipCode + city + town + roomAddress
+        let city = roomsData.city
+        let town = roomsData.town
+        let roomAddress = roomsData.address
+        return city + town + roomAddress
     }
     
     var roomImage: String {
-        return roomData.roomImage ?? ""
+        return roomsData.roomsCoverImageURL
     }
     
     var body: some View {
@@ -63,7 +63,7 @@ struct RoomCommentAndRatePresenterView: View {
 
 extension RoomCommentAndRatePresenterView {
     
-    func rattingCompute(input: [RoomCommentAndRattingDataModel]) -> Double {
+    func rattingCompute(input: [RoomCommentRatting]) -> Double {
         guard input.count != 0 else { return 1 }
         var result: Double = 0
         for input in input {

@@ -13,14 +13,15 @@ import FirebaseFirestoreSwift
 //MARK: - User have one order list that could contain different item
 struct OrderedListUserSide: Identifiable, Codable {
     @DocumentID var id: String?
-    var orderUID: String
     @ServerTimestamp var orderDate: Timestamp?
-    var paymentMetho: String
+    var orderUID: String
+    var paymentMethod: String
     var subTotal: Int
 }
 
 //MARK: - Present item in list
-struct OrderedItem: Codable {
+struct OrderedItem: Identifiable, Codable {
+    @DocumentID var id: String?
     var shippingStatus: String
     var providerUID: String
     var productUID: String
@@ -32,7 +33,19 @@ struct OrderedItem: Codable {
 struct OrderedListProviderSide: Identifiable, Codable {
     @DocumentID var id: String?
     var orderUID: String
-    var productUID: String
     var orderAmount: String
     var shippingStatus: String
+    var shippingAddress: String
+    var orderName: String
+    var personUID: String
+    var shippingMethod: String
+    @ServerTimestamp var createTimestamp: Timestamp?
+}
+
+struct OrderListContain: Identifiable, Codable {
+    @DocumentID var id: String?
+    var productUID: String
+    var productImageURL: String
+    var productOrderAmount: Int
+    var isPrepare: Bool
 }

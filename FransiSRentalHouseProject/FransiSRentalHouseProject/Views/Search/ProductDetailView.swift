@@ -226,7 +226,7 @@ struct ProductDetailView: View {
         .task {
             do {
                 try await storageForProductImage.getVideo(uidPath: providerUID, productUID: productUID)
-                try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: providerUID, productID: productUID)
+                try await firestoreForProducts.fetchProductCommentAndRatting(providerUidPath: providerUID, productID: productUID)
                 try await firestoreForProducts.updatePublicAmountData(docID: docID, providerUidPath: providerUID, productID: productUID)
                 _ = try await firestoreForProducts.fetchStore(providerUidPath: providerUID)
             } catch {
@@ -284,7 +284,7 @@ extension ProductDetailView {
 }
 class ProductDetailViewModel: ObservableObject {
     
-    @Published var productOrderCart = [UserOrderProductsDataModel]()
+    @Published var productOrderCart = [ProductDM]()
     @Published var mark = false
     @Published var orderAmount = 1
     
@@ -292,11 +292,11 @@ class ProductDetailViewModel: ObservableObject {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    func addToCart(productName: String, productUID: String, productPrice: Int, productAmount: String, productFrom: String, providerUID: String, productImage: String, providerName: String, orderAmount: String) {
-        self.productOrderCart.append(UserOrderProductsDataModel(productImage: productImage, productName: productName, productPrice: productPrice, providerUID: providerUID, productUID: productUID, orderAmount: orderAmount, comment: "", isUploadComment: false, ratting: 0))
+    func addToCart(cart product: ProductDM) {
+        self.productOrderCart.append(product)
     }
     
-    func computeRattingAvg(commentAndRatting: [ProductCommentRattingDataModel]) -> Double {
+    func computeRattingAvg(commentAndRatting: [ProductCommentRatting]) -> Double {
         var numerator = 0
         let denominator = commentAndRatting.count
         var result: Double = 0

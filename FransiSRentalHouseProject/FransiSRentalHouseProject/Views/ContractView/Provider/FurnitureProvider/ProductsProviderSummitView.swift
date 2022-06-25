@@ -280,7 +280,7 @@ struct ProductsProviderSummitView: View {
                                                         }
                                                         try await storageForProductImage.getFirstImageStringAndUpdate(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
                                                         _ = try await firestoreForProducts.getUploadintData(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
-                                                        try await firestoreForProducts.postProductOnPublic(data: firestoreForProducts.uploadingHolder, productUID: firestoreForProducts.productUID)
+                                                        try await firestoreForProducts.productPublishOnPublic(data: firestoreForProducts.uploadingHolder, productUID: firestoreForProducts.productUID)
                                                         productsProviderSummitViewModel.resetView()
                                                         productsProviderSummitViewModel.showProgressView = false
                                                     } catch {
@@ -316,7 +316,7 @@ struct ProductsProviderSummitView: View {
                     }
                 }
                 .overlay(content: {
-                    if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                    if firestoreToFetchUserinfo.userIDisEmpty() {
                         UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                     }
                     if productsProviderSummitViewModel.showProgressView == true {

@@ -55,7 +55,7 @@ struct CusListUnit: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    var paymentH: PaymentHistoryDataModel
+    var paymentH: RentedRoomPaymentHistory
     
     var body: some View {
         VStack {
@@ -74,7 +74,7 @@ struct CusListUnit: View {
             }
             HStack {
                 Text("Notes:")
-                Text(paymentH.note)
+                Text(paymentH.note ?? "")
                 Spacer()
             }
             .foregroundColor(.gray)

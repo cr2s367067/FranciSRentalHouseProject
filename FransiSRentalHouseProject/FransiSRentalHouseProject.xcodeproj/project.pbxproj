@@ -112,6 +112,7 @@
 		0E504DD428224BFE005E2386 /* CryptoManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E504DD328224BFD005E2386 /* CryptoManagement.swift */; };
 		0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */; };
 		0E5270EC27FC6FD3009645C2 /* PHPickerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */; };
+		0E55AC862867365C0085A9B0 /* ContractCollectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E55AC852867365C0085A9B0 /* ContractCollectionVM.swift */; };
 		0E5606792834ECEB00C987FB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5606782834ECEB00C987FB /* LoginView.swift */; };
 		0E56394228329B9500BEBDAE /* BusinessLogicUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E56394128329B9500BEBDAE /* BusinessLogicUnitTests.swift */; };
 		0E6176EB28436B4A002D51F7 /* TextingImageDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6176EA28436B4A002D51F7 /* TextingImageDataModel.swift */; };
@@ -170,6 +171,7 @@
 		0ED1F43427F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */; };
 		0ED9875327F88D5A00AD57F4 /* RenterContractEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */; };
 		0EDD9D1628220829003F031D /* ImagePresentingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDD9D1528220829003F031D /* ImagePresentingManager.swift */; };
+		0EE15B522866E8DC00BB7E31 /* ProviderStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE15B512866E8DC00BB7E31 /* ProviderStoreManager.swift */; };
 		0EE447F227F5867C001DC4DF /* FocusProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F127F5867C001DC4DF /* FocusProductsView.swift */; };
 		0EE447F427F59378001DC4DF /* UserDetailInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */; };
 		0EE8A0CF281E311300613F0E /* RoomCommentAndRattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE8A0CE281E311300613F0E /* RoomCommentAndRattingView.swift */; };
@@ -303,6 +305,7 @@
 		0E504DD328224BFD005E2386 /* CryptoManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoManagement.swift; sourceTree = "<group>"; };
 		0E5270E927FBC7A9009645C2 /* RoomsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsDetailView.swift; sourceTree = "<group>"; };
 		0E5270EB27FC6FD3009645C2 /* PHPickerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerRepresentable.swift; sourceTree = "<group>"; };
+		0E55AC852867365C0085A9B0 /* ContractCollectionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCollectionVM.swift; sourceTree = "<group>"; };
 		0E5606772834C82500C987FB /* FransiSRentalHouseProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FransiSRentalHouseProject.entitlements; sourceTree = "<group>"; };
 		0E5606782834ECEB00C987FB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0E56394128329B9500BEBDAE /* BusinessLogicUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessLogicUnitTests.swift; sourceTree = "<group>"; };
@@ -352,6 +355,7 @@
 		0ED1F43327F1F34B0004B5CE /* ProductsProviderSummitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsProviderSummitViewModel.swift; sourceTree = "<group>"; };
 		0ED9875227F88D5A00AD57F4 /* RenterContractEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterContractEditView.swift; sourceTree = "<group>"; };
 		0EDD9D1528220829003F031D /* ImagePresentingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePresentingManager.swift; sourceTree = "<group>"; };
+		0EE15B512866E8DC00BB7E31 /* ProviderStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderStoreManager.swift; sourceTree = "<group>"; };
 		0EE447F127F5867C001DC4DF /* FocusProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusProductsView.swift; sourceTree = "<group>"; };
 		0EE447F327F59378001DC4DF /* UserDetailInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailInfoViewModel.swift; sourceTree = "<group>"; };
 		0EE8A0CE281E311300613F0E /* RoomCommentAndRattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCommentAndRattingView.swift; sourceTree = "<group>"; };
@@ -463,6 +467,7 @@
 		0249D42327C637330085F4A5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0EE15B502866E8BF00BB7E31 /* Provider */,
 				0E33A55A2864A38A0001B567 /* EnumDatas */,
 				0E304DC3283912CC000E2D35 /* Crashlytics */,
 				0EEEDC1D2820D9960036FD0D /* Status */,
@@ -480,6 +485,7 @@
 		0249D42427C6373B0085F4A5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				0E55AC84286732B40085A9B0 /* ContractCollectionViewModel */,
 				0EA2EE102865DFDB002B3210 /* RenterMainViewModel */,
 				0EAB431F2865C48C0013CD6B /* SignUpViewModel */,
 				0EEFCBD72864A97400D07F73 /* UserInfoViewModel */,
@@ -851,6 +857,14 @@
 			path = ProviderProfileUnitViews;
 			sourceTree = "<group>";
 		};
+		0E55AC84286732B40085A9B0 /* ContractCollectionViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0E55AC852867365C0085A9B0 /* ContractCollectionVM.swift */,
+			);
+			path = ContractCollectionViewModel;
+			sourceTree = "<group>";
+		};
 		0E6FBF592830DCE800F4985F /* FransiSRentalHouseProjectUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -953,6 +967,14 @@
 				0259C26527CF460800DFDE18 /* ProviderSummittedRoomContractView.swift */,
 			);
 			path = RoomProvider;
+			sourceTree = "<group>";
+		};
+		0EE15B502866E8BF00BB7E31 /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				0EE15B512866E8DC00BB7E31 /* ProviderStoreManager.swift */,
+			);
+			path = Provider;
 			sourceTree = "<group>";
 		};
 		0EEEDC1D2820D9960036FD0D /* Status */ = {
@@ -1326,11 +1348,13 @@
 				0263079D27D7382A000E3CFD /* SummitAlertView.swift in Sources */,
 				0ED1F42427F049D90004B5CE /* AnnouncementDataModel.swift in Sources */,
 				0E36B7012806BEF80008A7C9 /* ProviderConfigurationDateModel.swift in Sources */,
+				0EE15B522866E8DC00BB7E31 /* ProviderStoreManager.swift in Sources */,
 				0EE8A0CF281E311300613F0E /* RoomCommentAndRattingView.swift in Sources */,
 				0EAB43212865C49C0013CD6B /* SignUpVM.swift in Sources */,
 				0249D46127C63B960085F4A5 /* RoomStatusView.swift in Sources */,
 				0E36B6FD2806AFA40008A7C9 /* SettlementUnitView.swift in Sources */,
 				0E5270EA27FBC7A9009645C2 /* RoomsDetailView.swift in Sources */,
+				0E55AC862867365C0085A9B0 /* ContractCollectionVM.swift in Sources */,
 				0249D43027C637EA0085F4A5 /* FirebaseStorage.swift in Sources */,
 				0E8AE240286401DA005733EE /* HouseRentalForExternal.swift in Sources */,
 				0EB65BDA28042725000EAA43 /* PaymentMethodManager.swift in Sources */,

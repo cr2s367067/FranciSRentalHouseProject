@@ -28,7 +28,8 @@ class FirestoreToFetchUserinfo: ObservableObject {
     //MARK: - Payment history for each month
     @Published var paymentHistory = [RentedRoomPaymentHistory]()
     
-
+    //MARK: - For user get provider info
+    @Published var providerInfo: ProviderDM = .empty
 
     func userIDisEmpty() -> Bool {
         return fetchedUserData.id.isEmpty
@@ -53,21 +54,6 @@ extension FirestoreToFetchUserinfo {
     
     func updateUserInfomationAsync(
         uidPath: String,
-//        id: String ,
-//        firstName: String,
-//        lastName: String,
-//        mobileNumber: String,
-//        dob: Date,
-//        address: String,
-//        town: String,
-//        city: String,
-//        zipCode: String,
-//        country: String,
-//        gender: String,
-//        userType: String,
-////        emailAddress: String?,
-////        providerType: String = "",
-//        nickName: String
         userDM: UserDM
     ) async throws {
         let userRef = db.collection("User").document(uidPath)
@@ -337,6 +323,18 @@ extension FirestoreToFetchUserinfo {
         try await userRef.updateData([
             "agreeAutoPay" : agreement
         ])
+    }
+}
+
+extension FirestoreToFetchUserinfo {
+    func presentUserName() -> String {
+        return presentUserName(input: fetchedUserData)
+    }
+    
+    private func presentUserName(input: UserDM) -> String {
+        let tempFirstName = input.firstName
+        let tempLastName = input.lastName
+        return tempFirstName + tempLastName
     }
 }
 
@@ -719,16 +717,4 @@ extension FirestoreToFetchUserinfo {
 //        return tempHolder
 //    }
 //
-//    func presentUserName() -> String {
-//        var userName = ""
-//        userName = presentUserName(input: fetchedUserData)
-//        return userName
-//    }
-    
-//    private func presentUserName(input: UserDataModel) -> String {
-//        var tempFirstName = ""
-//        var tempLastName = ""
-//        tempFirstName = input.firstName
-//        tempLastName = input.lastName
-//        return tempFirstName + tempLastName
-//    }
+//

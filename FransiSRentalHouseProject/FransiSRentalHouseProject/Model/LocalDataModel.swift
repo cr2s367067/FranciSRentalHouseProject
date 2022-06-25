@@ -14,8 +14,8 @@ class LocalData: ObservableObject {
     
     //: Payment Holder
     @Published var sumPrice = 0
-    @Published var tempCart: RoomInfoDataModel = .empty
-    @Published var summaryItemHolder: RoomInfoDataModel = .empty
+    @Published var tempCart: RoomDM = .empty
+    @Published var summaryItemHolder: HouseContract = .empty
     
     //: Maintain Task
     @Published var maintainTaskHolder: [MaintainTaskHolder] = []
@@ -24,21 +24,21 @@ class LocalData: ObservableObject {
 //    @Published var localRoomsHolder: RoomInfoDataModel = .empty
     
     
-    func addItem(roomsInfo: RoomInfoDataModel) {
+    func addItem(roomsInfo: HouseContract) {
         self.summaryItemHolder = roomsInfo
     }
     
-    func compute(source: RoomInfoDataModel) -> Int {
+    func compute(source: HouseContract) -> Int {
         var newElement = 0
-        let convertInt = Int(source.rentalPrice) ?? 0
+        let convertInt = Int(source.roomRentalPrice) ?? 0
         newElement = convertInt * 3
         return newElement
     }
     
-    func computeProductsPrice(source: [UserOrderProductsDataModel]) -> Int {
+    func computeProductsPrice(source: [ProductDM]) -> Int {
         var newElemet = 0
         for item in source {
-            let selectedAmount = Int(item.orderAmount) ?? 0
+            let selectedAmount = item.productAmount
             let multiResult = item.productPrice * selectedAmount
             newElemet += multiResult
         }
@@ -46,7 +46,7 @@ class LocalData: ObservableObject {
         return newElemet
     }
     
-    func sum(productSource: [UserOrderProductsDataModel]) -> Int {
+    func sum(productSource: [ProductDM]) -> Int {
         var newValue = 0
         newValue = sum(value1: compute(source: summaryItemHolder), value2: computeProductsPrice(source: productSource))
         return newValue

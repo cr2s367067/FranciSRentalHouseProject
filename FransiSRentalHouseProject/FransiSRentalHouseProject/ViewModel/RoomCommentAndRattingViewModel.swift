@@ -16,7 +16,7 @@ class RoomCommentAndRattingViewModel: ObservableObject {
     
     @Published var commentText = "Give some comment....."
     
-    func rattingCompute(input: [RoomCommentAndRattingDataModel]) -> Double {
+    func rattingCompute(input: [RoomCommentRatting]) -> Double {
         var result: Double = 0.0
         if input.isEmpty {
             result = 0.0

@@ -14,9 +14,9 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
-            landmarkName = "fetchOrdedDataInCartList(uidPath:docID:)"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "fetchOrdedDataInCartList(provider:orderUID:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -77,9 +77,9 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
-            landmarkName = "fetchOrdedDataInCartList(uidPath:docID:)"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
+            landmarkName = "fetchOrdedDataInCartList(provider:orderUID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -93,9 +93,9 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
-            landmarkName = "fetchOrdedDataInCartList(uidPath:docID:)"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
+            landmarkName = "fetchOrdedDataInCartList(provider:orderUID:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -173,8 +173,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
             landmarkType = "7">
             <Locations>
@@ -236,8 +236,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
             landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -252,8 +252,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
             landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -427,8 +427,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "fetchOrderedDataUserSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -443,8 +443,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "fetchOrderedDataUserSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -459,8 +459,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "fetchOrderedDataUserSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -475,8 +475,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
             landmarkName = "fetchOrderedData(uidPath:docID:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -491,8 +491,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
             landmarkName = "fetchOrderedData(uidPath:docID:)"
             landmarkType = "7">
          </BreakpointContent>

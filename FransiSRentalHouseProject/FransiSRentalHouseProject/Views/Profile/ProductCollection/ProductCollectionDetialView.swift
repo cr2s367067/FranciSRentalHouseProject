@@ -87,7 +87,7 @@ struct ProductCollectionDetialView: View {
         .task {
             do {
                 guard let id = productData.id else { return }
-                try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: firebaseAuth.getUID(), productID: id)
+                try await firestoreForProducts.fetchProductCommentAndRatting(providerUidPath: firebaseAuth.getUID(), productID: id)
             } catch {
                 self.errorHandler.handle(error: error)
             }

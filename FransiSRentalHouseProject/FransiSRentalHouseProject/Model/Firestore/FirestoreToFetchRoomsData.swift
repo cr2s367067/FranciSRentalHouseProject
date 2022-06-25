@@ -23,7 +23,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
     @Published var fetchRoomInfoFormOwner = [RoomDM]()
     @Published var fetchRoomImages = [RoomImageSet]()
     @Published var receivePaymentDataSet = [RentedRoomPaymentHistory]()
-    
+    @Published var roomContract: HouseContract = .empty
 //    @Published var roomID = ""
     @Published var roomCAR: RoomCommentRatting = .empty
     @Published var roomCARDataSet = [RoomCommentRatting]()
@@ -193,6 +193,41 @@ extension FirestoreToFetchRoomsData {
                 "sigurtureDate" : Date()
         ])
     }
+    
+    func fetchRoomContract(provider uidPath: String, docID: String, roomUID: String) async throws {
+        let roomContractRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(docID).collection("RoomContractAndImage").document(roomUID)
+        roomContract = try await roomContractRef.getDocument(as: HouseContract.self)
+    }
+
+    //MARK: - Fetch rooms address
+//    func fetchRoomAddress(uidPath: String, docID: String, roomUID: String) async throws -> String {
+//        let roomContractRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(docID).collection("RoomContractAndImage").document(roomUID)
+//        let getDoc = try await roomContractRef.getDocument(as: HouseContract.self)
+//        let zipCode = getDoc.roomZipCode
+//        let city =  getDoc.roomCity
+//        let town = getDoc.roomTown
+//        let address = getDoc.roomAddress
+//        return zipCode + city + town + address
+//    }
+    
+    //MARK: - Get first Image
+//    func fetchFirstImage(uidPath: String, docID: String) async throws {
+//        let roomImagesRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
+//            .collection("RoomImages").limit(to: 1)
+//        let document = try await roomImagesRef.getDocuments().documents
+//        self.fetchRoomImages = document.compactMap ({ queryDocumentSnapshot in
+//            let result = Result {
+//                try queryDocumentSnapshot.data(as: RoomImageSet.self)
+//            }
+//            switch result {
+//            case .success(let data):
+//                return data
+//            case .failure(let error):
+//                print("error: \(error.localizedDescription)")
+//            }
+//            return nil
+//        })
+//    }
 }
 
 extension FirestoreToFetchRoomsData {
@@ -670,6 +705,7 @@ extension FirestoreToFetchRoomsData {
         })
     }
 }
+
 
 
 /*

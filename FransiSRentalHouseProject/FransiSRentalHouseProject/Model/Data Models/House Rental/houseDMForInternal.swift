@@ -27,21 +27,26 @@ struct RoomDM: Identifiable, Codable {
     @DocumentID var id: String?
     var isPublish: Bool
     var roomUID: String
+    var providerUID: String
     var renterUID: String
     var roomsCoverImageURL: String
+    var rentalPrice: String
+    var city: String
+    var town: String
+    var address: String
     var roomDescription: String
     var someoneDeadInRoom: Bool
     var waterLeakingProblem: Bool
 }
 
 extension RoomDM {
-    static let empty = RoomDM(isPublish: false, roomUID: "", renterUID: "", roomsCoverImageURL: "", roomDescription: "", someoneDeadInRoom: false, waterLeakingProblem: false)
+    static let empty = RoomDM(isPublish: false, roomUID: "", renterUID: "", providerUID: "", roomsCoverImageURL: "", rentalPrice: "", city: "", town: "", address: "", roomDescription: "", someoneDeadInRoom: false, waterLeakingProblem: false)
 }
 
 //MARK: - Room's image set
 struct RoomImageSet: Identifiable, Codable {
     @DocumentID var id: String?
-    var roomImageSet: String
+    var roomImageURL: String
 }
 
 //MARK: - Contract data model

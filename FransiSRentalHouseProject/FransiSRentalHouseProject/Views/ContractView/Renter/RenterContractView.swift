@@ -26,7 +26,7 @@ struct RenterContractView: View {
         }
     }
     
-    var roomsData: RoomInfoDataModel
+    var roomsData: RoomDM
     
     var body: some View {
         ZStack {
@@ -38,7 +38,7 @@ struct RenterContractView: View {
                     .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
                     .frame(width: UIScreen.main.bounds.width - 15)
             }
-            viewSwitch(paymentH: renterContractVM.showPaymentHistory, contractData: roomsData.rentersContractData ?? .empty)
+            viewSwitch(paymentH: renterContractVM.showPaymentHistory, contractData: firestoreToFetchRoomsData.roomContract)
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -46,7 +46,7 @@ struct RenterContractView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
                         HStack {
-                            if roomsData.isRented == true {
+                            if !roomsData.renterUID.isEmpty {
                                 Button {
                                     renterContractVM.showPaymentHistory.toggle()
                                 } label: {
@@ -83,16 +83,16 @@ struct SpacerAtRightOfText: View {
 extension RenterContractView {
     
     @ViewBuilder
-    func viewSwitch(paymentH: Bool, contractData: RentersContractDataModel = .empty) -> some View {
+    func viewSwitch(paymentH: Bool, contractData: HouseContract = .empty) -> some View {
         if paymentH {
             RentedPaymentHistoryView(paymentHistory: firestoreToFetchUserinfo.paymentHistory, roomsData: roomsData)
         } else {
-            idfEditMode(showEditMode: renterContractVM.showEditMode, docID: roomsData.id ?? "", contractData: contractData)
+            idfEditMode(showEditMode: renterContractVM.showEditMode, docID: roomsData.id ?? "" , contractData: contractData)
         }
     }
     
     @ViewBuilder
-    func idfEditMode(showEditMode: Bool, docID: String, contractData: RentersContractDataModel) -> some View {
+    func idfEditMode(showEditMode: Bool, docID: String, contractData: HouseContract) -> some View {
         if showEditMode == true {
             RenterContractEditView(docID: docID, contractData: contractData)
         } else {
@@ -103,122 +103,7 @@ extension RenterContractView {
                         Button {
                             Task {
                                 do {
-                                    try await firestoreToFetchRoomsData.roomPublish(docID: roomsData.id ?? "",
-                                                                                    uidPath: firebaseAuth.getUID(),
-                                                                                    isPublished: true,
-                                                                                    roomUID: roomsData.roomUID,
-                                                                                    holderName: roomsData.holderName,
-                                                                                    mobileNumber: roomsData.mobileNumber,
-                                                                                    address: roomsData.roomAddress,
-                                                                                    town: roomsData.town,
-                                                                                    city: roomsData.city,
-                                                                                    zipCode: roomsData.zipCode,
-                                                                                    roomArea: roomsData.roomArea,
-                                                                                    rentalPrice: roomsData.rentalPrice,
-                                                                                    someoneDeadInRoom: roomsData.someoneDeadInRoom,
-                                                                                    waterLeakingProblem: roomsData.waterLeakingProblem,
-                                                                                    roomImageURL: roomsData.roomImage ?? "",
-                                                                                    isRented: roomsData.isRented ?? false,
-                                                                                    rentedBy: roomsData.rentedBy ?? "",
-                                                                                    providerDisplayName: roomsData.providerDisplayName,
-                                                                                    providerChatDocId: roomsData.providerChatDocId,
-                                                                                    roomDescription: roomsData.roomDescription,
-                                                                                    isSummitContract: roomsData.rentersContractData?.isSummitContract ?? false,
-                                                                                    contractBuildDate: roomsData.rentersContractData?.contractBuildDate ?? Date(),
-                                                                                    contractReviewDays: roomsData.rentersContractData?.contractReviewDays ?? "",
-                                                                                    providerSignurture: roomsData.rentersContractData?.providerSignurture ?? "",
-                                                                                    renterSignurture: roomsData.rentersContractData?.renterSignurture ?? "",
-                                                                                    companyTitle: roomsData.rentersContractData?.companyTitle ?? "",
-                                                                                    roomAddress: roomsData.rentersContractData?.roomAddress ?? "",
-                                                                                    roomTown: roomsData.rentersContractData?.roomTown ?? "",
-                                                                                    roomCity: roomsData.rentersContractData?.roomCity ?? "",
-                                                                                    roomZipCode: roomsData.rentersContractData?.roomZipCode ?? "",
-                                                                                    specificBuildingNumber: roomsData.rentersContractData?.specificBuildingNumber ?? "",
-                                                                                    specificBuildingRightRange: roomsData.rentersContractData?.specificBuildingRightRange ?? "",
-                                                                                    specificBuildingArea: roomsData.rentersContractData?.specificBuildingArea ?? "",
-                                                                                    mainBuildArea: roomsData.rentersContractData?.mainBuildArea ?? "",
-                                                                                    mainBuildingPurpose: roomsData.rentersContractData?.mainBuildingPurpose ?? "",
-                                                                                    subBuildingPurpose: roomsData.rentersContractData?.subBuildingPurpose ?? "",
-                                                                                    subBuildingArea: roomsData.rentersContractData?.subBuildingArea ?? "",
-                                                                                    publicBuildingNumber: roomsData.rentersContractData?.publicBuildingNumber ?? "",
-                                                                                    publicBuildingRightRange: roomsData.rentersContractData?.publicBuildingRightRange ?? "",
-                                                                                    publicBuildingArea: roomsData.rentersContractData?.publicBuildingArea ?? "",
-                                                                                    hasParkinglot: roomsData.rentersContractData?.hasParkinglot ?? false,
-                                                                                    isSettingTheRightForThirdPerson: roomsData.rentersContractData?.isSettingTheRightForThirdPerson ?? false,
-                                                                                    settingTheRightForThirdPersonForWhatKind: roomsData.rentersContractData?.settingTheRightForThirdPersonForWhatKind ?? "",
-                                                                                    isBlockByBank: roomsData.rentersContractData?.isBlockByBank ?? false,
-                                                                                    provideForAll: roomsData.rentersContractData?.provideForAll ?? false,
-                                                                                    provideForPart: roomsData.rentersContractData?.provideForPart ?? false,
-                                                                                    provideFloor: roomsData.rentersContractData?.provideFloor ?? "",
-                                                                                    provideRooms: roomsData.rentersContractData?.provideRooms ?? "",
-                                                                                    provideRoomNumber: roomsData.rentersContractData?.provideRoomNumber ?? "",
-                                                                                    provideRoomArea: roomsData.rentersContractData?.provideRoomArea ?? "",
-                                                                                    isVehicle: roomsData.rentersContractData?.isVehicle ?? false,
-                                                                                    isMorto: roomsData.rentersContractData?.isMorto ?? false,
-                                                                                    parkingUGFloor: roomsData.rentersContractData?.parkingUGFloor ?? "",
-                                                                                    parkingStyleN: roomsData.rentersContractData?.parkingStyleN ?? false,
-                                                                                    parkingStyleM: roomsData.rentersContractData?.parkingStyleM ?? false,
-                                                                                    parkingNumberForVehicle: roomsData.rentersContractData?.parkingNumberForVehicle ?? "",
-                                                                                    parkingNumberForMortor: roomsData.rentersContractData?.parkingNumberForMortor ?? "",
-                                                                                    forAllday: roomsData.rentersContractData?.forAllday ?? false,
-                                                                                    forMorning: roomsData.rentersContractData?.forMorning ?? false,
-                                                                                    forNight: roomsData.rentersContractData?.forNight ?? false,
-                                                                                    havingSubFacility: roomsData.rentersContractData?.havingSubFacility ?? false,
-                                                                                    rentalStartDate: roomsData.rentersContractData?.rentalStartDate ?? Date(),
-                                                                                    rentalEndDate: roomsData.rentersContractData?.rentalEndDate ?? Date(),
-                                                                                    roomRentalPrice: roomsData.rentersContractData?.roomRentalPrice ?? "",
-                                                                                    paymentdays: roomsData.rentersContractData?.paymentdays ?? "",
-                                                                                    paybyCash: roomsData.rentersContractData?.paybyCash ?? false,
-                                                                                    paybyTransmission: roomsData.rentersContractData?.paybyTransmission ?? false,
-                                                                                    paybyCreditDebitCard: roomsData.rentersContractData?.paybyCreditDebitCard ?? false,
-                                                                                    bankName: roomsData.rentersContractData?.bankName ?? "",
-                                                                                    bankOwnerName: roomsData.rentersContractData?.bankOwnerName ?? "",
-                                                                                    bankAccount: roomsData.rentersContractData?.bankAccount ?? "",
-                                                                                    payByRenterForManagementPart: roomsData.rentersContractData?.payByRenterForManagementPart ?? false,
-                                                                                    payByProviderForManagementPart: roomsData.rentersContractData?.payByProviderForManagementPart ?? false,
-                                                                                    managementFeeMonthly: roomsData.rentersContractData?.managementFeeMonthly ?? "",
-                                                                                    parkingFeeMonthly: roomsData.rentersContractData?.parkingFeeMonthly ?? "",
-                                                                                    additionalReqForManagementPart: roomsData.rentersContractData?.additionalReqForManagementPart ?? "",
-                                                                                    payByRenterForWaterFee: roomsData.rentersContractData?.payByRenterForWaterFee ?? false,
-                                                                                    payByProviderForWaterFee: roomsData.rentersContractData?.payByProviderForWaterFee ?? false,
-                                                                                    additionalReqForWaterFeePart: roomsData.rentersContractData?.additionalReqForWaterFeePart ?? "",
-                                                                                    payByRenterForEletricFee: roomsData.rentersContractData?.payByRenterForEletricFee ?? false,
-                                                                                    payByProviderForEletricFee: roomsData.rentersContractData?.payByProviderForEletricFee ?? false,
-                                                                                    additionalReqForEletricFeePart: roomsData.rentersContractData?.additionalReqForEletricFeePart ?? "",
-                                                                                    payByRenterForGasFee: roomsData.rentersContractData?.payByRenterForGasFee ?? false,
-                                                                                    payByProviderForGasFee: roomsData.rentersContractData?.payByProviderForGasFee ?? false,
-                                                                                    additionalReqForGasFeePart: roomsData.rentersContractData?.additionalReqForGasFeePart ?? "",
-                                                                                    additionalReqForOtherPart: roomsData.rentersContractData?.additionalReqForOtherPart ?? "",
-                                                                                    contractSigurtureProxyFee: roomsData.rentersContractData?.contractSigurtureProxyFee ?? "",
-                                                                                    payByRenterForProxyFee: roomsData.rentersContractData?.payByRenterForProxyFee ?? false,
-                                                                                    payByProviderForProxyFee: roomsData.rentersContractData?.payByProviderForProxyFee ?? false,
-                                                                                    separateForBothForProxyFee: roomsData.rentersContractData?.separateForBothForProxyFee ?? false,
-                                                                                    contractIdentitificationFee: roomsData.rentersContractData?.contractIdentitificationFee ?? "",
-                                                                                    payByRenterForIDFFee: roomsData.rentersContractData?.payByRenterForIDFFee ?? false,
-                                                                                    payByProviderForIDFFee: roomsData.rentersContractData?.payByProviderForIDFFee ?? false,
-                                                                                    separateForBothForIDFFee: roomsData.rentersContractData?.separateForBothForIDFFee ?? false,
-                                                                                    contractIdentitificationProxyFee: roomsData.rentersContractData?.contractIdentitificationProxyFee ?? "",
-                                                                                    payByRenterForIDFProxyFee: roomsData.rentersContractData?.payByRenterForIDFProxyFee ?? false,
-                                                                                    payByProviderForIDFProxyFee: roomsData.rentersContractData?.payByProviderForIDFProxyFee ?? false,
-                                                                                    separateForBothForIDFProxyFee: roomsData.rentersContractData?.separateForBothForIDFProxyFee ?? false,
-                                                                                    subLeaseAgreement: roomsData.rentersContractData?.subLeaseAgreement ?? false,
-                                                                                    doCourtIDF: roomsData.rentersContractData?.doCourtIDF ?? false,
-                                                                                    courtIDFDoc: roomsData.rentersContractData?.courtIDFDoc ?? false,
-                                                                                    providerName: roomsData.rentersContractData?.providerName ?? "",
-                                                                                    providerID: roomsData.rentersContractData?.providerID ?? "",
-                                                                                    providerResidenceAddress: roomsData.rentersContractData?.providerResidenceAddress ?? "",
-                                                                                    providerMailingAddress: roomsData.rentersContractData?.providerMailingAddress ?? "",
-                                                                                    providerPhoneNumber: roomsData.rentersContractData?.providerPhoneNumber ?? "",
-                                                                                    providerPhoneChargeName: roomsData.rentersContractData?.providerPhoneChargeName ?? "",
-                                                                                    providerPhoneChargeID: roomsData.rentersContractData?.providerPhoneChargeID ?? "",
-                                                                                    providerPhoneChargeEmailAddress: roomsData.rentersContractData?.providerPhoneChargeEmailAddress ?? "",
-                                                                                    renterName: roomsData.rentersContractData?.renterName ?? "",
-                                                                                    renterID: roomsData.rentersContractData?.renterID ?? "",
-                                                                                    renterResidenceAddress: roomsData.rentersContractData?.renterResidenceAddress ?? "",
-                                                                                    renterMailingAddress: roomsData.rentersContractData?.renterMailingAddress ?? "",
-                                                                                    renterPhoneNumber: roomsData.rentersContractData?.renterPhoneNumber ?? "",
-                                                                                    renterEmailAddress: roomsData.rentersContractData?.renterEmailAddress ?? "",
-                                                                                    sigurtureDate: roomsData.rentersContractData?.sigurtureDate ?? Date())
+                                    try await firestoreToFetchRoomsData.roomPublish(docID: roomsData.id ?? "", uidPath: firebaseAuth.getUID(), roomDM: roomsData, house: contractData)
                                     try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
                                 } catch {
                                     self.errorHandler.handle(error: error)
@@ -227,11 +112,11 @@ extension RenterContractView {
                         } label: {
                             withAnimation {
                                 HStack(alignment: .center, spacing: 5) {
-                                    Image(systemName: roomsData.isPublished ? "checkmark.circle.fill" : "checkmark.circle")
+                                    Image(systemName: roomsData.isPublish ? "checkmark.circle.fill" : "checkmark.circle")
                                         .resizable()
-                                        .foregroundColor(roomsData.isPublished ? Color.green : Color.gray)
+                                        .foregroundColor(roomsData.isPublish ? Color.green : Color.gray)
                                         .frame(width: 25, height: 25)
-                                    Text(roomsData.isPublished ? "Published" : "Publish")
+                                    Text(roomsData.isPublish ? "Published" : "Publish")
                                         .foregroundColor(.white)
                                         .frame(width: 108, height: 35)
                                         .background(Color("buttonBlue"))
@@ -244,19 +129,19 @@ extension RenterContractView {
                 ScrollView(.vertical, showsIndicators: true) {
                     Group {
                         Group {
-                            titleAndAbstract()
-                            firstParagraphAndFirstSubThenOne()
-                            firstParagraphAndFirstSubThenTwo()
+                            titleAndAbstract(contractData: contractData)
+                            firstParagraphAndFirstSubThenOne(contractData: contractData)
+                            firstParagraphAndFirstSubThenTwo(contractData: contractData)
                         }
                         Group {
-                            firstParagraphAndSecondSub()
-                            firstParagraphAndThirdSub()
-                            firstParagraphAndFourthSub()
+                            firstParagraphAndSecondSub(contractData: contractData)
+                            firstParagraphAndThirdSub(contractData: contractData)
+                            firstParagraphAndFourthSub(contractData: contractData)
                         }
                         Group {
-                            firstParagraphAndFivthSub()
-                            firstParagraphAndSixthSub()
-                            firstParagraphAndSeventhSub()
+                            firstParagraphAndFivthSub(contractData: contractData)
+                            firstParagraphAndSixthSub(contractData: contractData)
+                            firstParagraphAndSeventhSub(contractData: contractData)
                         }
                     }
                     Group {
@@ -274,7 +159,7 @@ extension RenterContractView {
                             fitstParagraphAndSixteenth()
                             fitstParagraphAndSeventeenth()
                             fitstParagraphAndEighteenth()
-                            fitstParagraphAndNineteenth()
+                            fitstParagraphAndNineteenth(contractData: contractData)
                             fitstParagraphAndtwentyth()
                             fitstParagraphAndtwentyFirst()
                             fitstParagraphAndtwentySecond()
@@ -286,14 +171,14 @@ extension RenterContractView {
                                     Group {
                                         VStack {
                                             LineWithSpacer(contain: "出租人：")
-                                            signatureContainer(containerName: "姓名(名稱)：", containHolder: roomsData.rentersContractData?.providerName ?? "")
-                                            signatureContainer(containerName: "統一編號：", containHolder: roomsData.rentersContractData?.providerID ?? "")
-                                            signatureContainer(containerName: "戶籍地址：", containHolder: roomsData.rentersContractData?.providerResidenceAddress ?? "")
-                                            signatureContainer(containerName: "通訊地址：", containHolder: roomsData.rentersContractData?.providerMailingAddress ?? "")
-                                            signatureContainer(containerName: "聯絡電話：", containHolder: roomsData.rentersContractData?.providerPhoneNumber ?? "")
-                                            signatureHolder(signatureTitle: "負責人：", signString: roomsData.rentersContractData?.providerPhoneChargeName ?? "")
-                                            signatureContainer(containerName: "統一編號：", containHolder: roomsData.rentersContractData?.providerPhoneChargeID ?? "")
-                                            signatureContainer(containerName: "電子郵件信箱：", containHolder: roomsData.rentersContractData?.providerPhoneChargeEmailAddress ?? "")
+                                            signatureContainer(containerName: "姓名(名稱)：", containHolder: contractData.providerName )
+                                            signatureContainer(containerName: "統一編號：", containHolder: contractData.providerID )
+                                            signatureContainer(containerName: "戶籍地址：", containHolder: contractData.providerResidenceAddress )
+                                            signatureContainer(containerName: "通訊地址：", containHolder: contractData.providerMailingAddress )
+                                            signatureContainer(containerName: "聯絡電話：", containHolder: contractData.providerPhoneNumber )
+                                            signatureHolder(signatureTitle: "負責人：", signString: contractData.providerPhoneChargeName )
+                                            signatureContainer(containerName: "統一編號：", containHolder: contractData.providerPhoneChargeID )
+                                            signatureContainer(containerName: "電子郵件信箱：", containHolder: contractData.providerPhoneChargeEmailAddress )
                                         }
                                     }
                                     .font(.system(size: 14, weight: .regular))
@@ -307,14 +192,14 @@ extension RenterContractView {
                                     Group {
                                         VStack {
                                             LineWithSpacer(contain: "承租人：")
-                                            signatureHolder(signatureTitle: "姓名(名稱)：", signString: roomsData.rentersContractData?.renterName ?? "")
-                                            signatureContainer(containerName: "統一編號：", containHolder: roomsData.rentersContractData?.renterID ?? "")
-                                            signatureContainer(containerName: "戶籍地址：", containHolder: roomsData.rentersContractData?.renterResidenceAddress ?? "")
-                                            signatureContainer(containerName: "通訊地址：", containHolder: roomsData.rentersContractData?.renterMailingAddress ?? "")
-                                            signatureContainer(containerName: "聯絡電話：", containHolder: roomsData.rentersContractData?.renterPhoneNumber ?? "")
-                                            signatureContainer(containerName: "電子郵件信箱：", containHolder: roomsData.rentersContractData?.renterEmailAddress ?? "")
+                                            signatureHolder(signatureTitle: "姓名(名稱)：", signString: contractData.renterName )
+                                            signatureContainer(containerName: "統一編號：", containHolder: contractData.renterID )
+                                            signatureContainer(containerName: "戶籍地址：", containHolder: contractData.renterResidenceAddress )
+                                            signatureContainer(containerName: "通訊地址：", containHolder: contractData.renterMailingAddress )
+                                            signatureContainer(containerName: "聯絡電話：", containHolder: contractData.renterPhoneNumber )
+                                            signatureContainer(containerName: "電子郵件信箱：", containHolder: contractData.renterEmailAddress )
                                             HStack {
-                                                Text("\(roomsData.rentersContractData?.sigurtureDate ?? Date(), format: Date.FormatStyle().year().month(.twoDigits).day())")
+                                                Text("\(contractData.sigurtureDate, format: Date.FormatStyle().year().month(.twoDigits).day())")
                                                 Spacer()
                                             }
                                         }
@@ -363,7 +248,7 @@ extension RenterContractView {
                             Button {
 //                                if localData.tempCart.roomUID.isEmpty {
                                     localData.tempCart = roomsData
-                                    localData.addItem(roomsInfo: roomsData)
+                                    localData.addItem(roomsInfo: contractData)
 //                                } else {
 //                                    localData.tempCart.removeAll()
 //                                    localData.summaryItemHolder = .empty
@@ -402,7 +287,7 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func titleAndAbstract() -> some View {
+    func titleAndAbstract(contractData: HouseContract) -> some View {
         Group {
             VStack(spacing: 2) {
                 Group {
@@ -415,12 +300,12 @@ extension RenterContractView {
                         .font(.system(size: 12))
                     HStack {
                         Spacer()
-                        Text("本契約於\n\(roomsData.rentersContractData?.contractBuildDate ?? Date(), format: Date.FormatStyle().year().month(.twoDigits).day())經承租人\n攜回審閱\(roomsData.rentersContractData?.contractReviewDays ?? "")日\n(契約審閱期間至少三日)")
+                        Text("本契約於\n\(contractData.contractBuildDate, format: Date.FormatStyle().year().month(.twoDigits).day())經承租人\n攜回審閱\(contractData.contractReviewDays )日\n(契約審閱期間至少三日)")
                     }
                     .font(.system(size: 12))
-                    SpacerAtRightOfText(contain: "承租人簽章：", optionContain: roomsData.rentersContractData?.renterSignurture ?? "")
+                    SpacerAtRightOfText(contain: "承租人簽章：", optionContain: contractData.renterSignurture)
                         .font(.system(size: 12))
-                    SpacerAtRightOfText(contain: "出租人簽章：", optionContain: roomsData.rentersContractData?.providerSignurture ?? "")
+                    SpacerAtRightOfText(contain: "出租人簽章：", optionContain: contractData.providerSignurture)
                         .font(.system(size: 12))
                 }
                 Text("房屋租賃契約書")
@@ -434,7 +319,7 @@ extension RenterContractView {
             }
             .padding(.top, 5)
             VStack {
-                Text("\t立契約書人承租人__，出租人\(roomsData.rentersContractData?.companyTitle ?? "")【為□所有權人□轉租人(應提示經原所有權人同意轉租之證明文件)】茲為房屋租賃事宜，雙方同意本契約條款如下：")
+                Text("\t立契約書人承租人__，出租人\(contractData.companyTitle )【為□所有權人□轉租人(應提示經原所有權人同意轉租之證明文件)】茲為房屋租賃事宜，雙方同意本契約條款如下：")
                     .font(.system(size: 15, weight: .regular))
             }
             .padding(.top, 5)
@@ -443,22 +328,22 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func firstParagraphAndFirstSubThenOne() -> some View {
+    func firstParagraphAndFirstSubThenOne(contractData: HouseContract) -> some View {
         //:~ paragraph 1
         VStack(alignment: .leading, spacing: 5) {
             TitleView(titleName: "第一條   委託管理標的")
             SubTitleView(subTitleName: "一、房屋標示：")
             VStack(spacing: 6) {
                 Group {
-                    LineWithSpacer(contain: "(一)門牌：\(roomsData.zipCode)\(roomsData.city)\(roomsData.town)\(roomsData.roomAddress)。")
-                    LineWithSpacer(contain: "(二)專有部分建號\(roomsData.rentersContractData?.specificBuildingNumber ?? "")，權利範圍\(roomsData.rentersContractData?.specificBuildingRightRange ?? "")，面積共計\(roomsData.rentersContractData?.specificBuildingArea ?? "")平方公尺。")
+                    LineWithSpacer(contain: "(一)門牌：\(contractData.roomZipCode)\(contractData.roomCity)\(contractData.roomTown)\(contractData.roomAddress)。")
+                    LineWithSpacer(contain: "(二)專有部分建號\(contractData.specificBuildingNumber )，權利範圍\(contractData.specificBuildingRightRange )，面積共計\(contractData.specificBuildingArea )平方公尺。")
                     LineWithSpacer(contain: "1.主建物面積：")
-                    Text("\(roomsData.rentersContractData?.mainBuildArea ?? "")層 平方公尺，用途\(roomsData.rentersContractData?.mainBuildingPurpose ?? "")。")
-                    LineWithSpacer(contain: "2.附屬建物用途\(roomsData.rentersContractData?.subBuildingPurpose ?? "")，面積\(roomsData.rentersContractData?.subBuildingArea ?? "")平方公尺。")
-                    LineWithSpacer(contain: "(三)共有部分建號:\(roomsData.rentersContractData?.publicBuildingNumber ?? "")，權利範圍:\(roomsData.rentersContractData?.publicBuildingRightRange ?? "")，持分面積\(roomsData.rentersContractData?.publicBuildingArea ?? "")平方公尺。")
-                    settingTheRightForThirdPerson(_isSettingTheRightForThirdPerson: roomsData.rentersContractData?.isSettingTheRightForThirdPerson ?? false,          _SettingTheRightForThirdPersonForWhatKind: roomsData.rentersContractData?.settingTheRightForThirdPersonForWhatKind ?? "")
+                    Text("\(contractData.mainBuildArea )層 平方公尺，用途\(contractData.mainBuildingPurpose )。")
+                    LineWithSpacer(contain: "2.附屬建物用途\(contractData.subBuildingPurpose )，面積\(contractData.subBuildingArea )平方公尺。")
+                    LineWithSpacer(contain: "(三)共有部分建號:\(contractData.publicBuildingNumber )，權利範圍:\(contractData.publicBuildingRightRange )，持分面積\(contractData.publicBuildingArea )平方公尺。")
+                    settingTheRightForThirdPerson(_isSettingTheRightForThirdPerson: contractData.isSettingTheRightForThirdPerson ,          _SettingTheRightForThirdPersonForWhatKind: contractData.settingTheRightForThirdPersonForWhatKind )
                      //有無設定他項權利
-                    blockByBankCheck(_isBlockByBank: roomsData.rentersContractData?.isBlockByBank ?? false)  //有無查封登記
+                    blockByBankCheck(_isBlockByBank: contractData.isBlockByBank )  //有無查封登記
                 }
                 .font(.system(size: 14, weight: .regular))
             }
@@ -478,20 +363,20 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func firstParagraphAndFirstSubThenTwo() -> some View {
+    func firstParagraphAndFirstSubThenTwo(contractData: HouseContract) -> some View {
         VStack(alignment: .leading, spacing: 5) {
             SubTitleView(subTitleName: "二、租賃範圍：")
             
             VStack(spacing: 6) {
                 Group {
-                    buildProvidePart(_entire: roomsData.rentersContractData?.provideForAll ?? false,
-                                     _part: roomsData.rentersContractData?.provideForPart ?? false) //租賃住宅全部
-                    haveParkingLot(_hasParkingLot: roomsData.rentersContractData?.hasParkinglot ?? false,
-                                   _all: roomsData.rentersContractData?.forAllday ?? false,
-                                   _morning: roomsData.rentersContractData?.forMorning ?? false,
-                                   _night: roomsData.rentersContractData?.forNight ?? false, isVehicle: roomsData.rentersContractData?.isVehicle ?? false, isMorto: roomsData.rentersContractData?.isMorto ?? false)
+                    buildProvidePart(_entire: contractData.provideForAll ,
+                                     _part: contractData.provideForPart, contractData: contractData) //租賃住宅全部
+                    haveParkingLot(_hasParkingLot: contractData.hasParkinglot ,
+                                   _all: contractData.forAllday ,
+                                   _morning: contractData.forMorning ,
+                                   _night: contractData.forNight , isVehicle: contractData.isVehicle , isMorto: contractData.isMorto, contractData: contractData)
                     LineWithSpacer(contain: "(三)租賃附屬設備：")
-                    idfSubFacility(_havingSubFacility: roomsData.rentersContractData?.havingSubFacility ?? false)////租賃附屬設備有無
+                    idfSubFacility(_havingSubFacility: contractData.havingSubFacility )////租賃附屬設備有無
                 }
                 .font(.system(size: 14, weight: .regular))
             }
@@ -501,13 +386,13 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func firstParagraphAndSecondSub() -> some View {
+    func firstParagraphAndSecondSub(contractData: HouseContract) -> some View {
         //:~ paragraph 2
         VStack(alignment: .leading, spacing: 5) {
             TitleView(titleName: "第二條 租賃期間")
             VStack(spacing: 6) {
                 Group {
-                    Text("租賃期間自\(roomsData.rentersContractData?.rentalStartDate ?? Date(), format: Date.FormatStyle().year().month(.twoDigits).day())起至\(roomsData.rentersContractData?.rentalEndDate ?? Date(), format: Date.FormatStyle().year().month(.twoDigits).day())止。") //租賃期間
+                    Text("租賃期間自\(contractData.rentalStartDate, format: Date.FormatStyle().year().month(.twoDigits).day())起至\(contractData.rentalEndDate, format: Date.FormatStyle().year().month(.twoDigits).day())止。") //租賃期間
                 }
                 .font(.system(size: 14, weight: .regular))
             }
@@ -517,16 +402,16 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func firstParagraphAndThirdSub() -> some View {
+    func firstParagraphAndThirdSub(contractData: HouseContract) -> some View {
         //:~ paragraph 3
         VStack(alignment: .leading, spacing: 5) {
             TitleView(titleName: "第三條 租金約定及支付")
             VStack(spacing: 6) {
                 Group {
-                    Text("承租人每月租金為新臺幣(下同)\(roomsData.rentalPrice)元整，每期應繳納1個月租金，並於每月\(roomsData.rentersContractData?.paymentdays ?? "")日前支付，不得藉任何理由拖延或拒絕；出租人亦不得任意要求調整租金。") //每月租金
-                    idfPaymentMethod(_paybyCash: roomsData.rentersContractData?.paybyCash ?? false,
-                                     _paybyTransmission: roomsData.rentersContractData?.paybyTransmission ?? false,
-                                     _paybyCreditDebitCard: roomsData.rentersContractData?.paybyCreditDebitCard ?? false) //報酬約定及給付-轉帳繳付
+                    Text("承租人每月租金為新臺幣(下同)\(contractData.roomRentalPrice)元整，每期應繳納1個月租金，並於每月\(contractData.paymentdays )日前支付，不得藉任何理由拖延或拒絕；出租人亦不得任意要求調整租金。") //每月租金
+                    idfPaymentMethod(_paybyCash: contractData.paybyCash ,
+                                     _paybyTransmission: contractData.paybyTransmission ,
+                                     _paybyCreditDebitCard: contractData.paybyCreditDebitCard, contractData: contractData) //報酬約定及給付-轉帳繳付
                 }
                 .font(.system(size: 14, weight: .regular))
             }
@@ -536,9 +421,9 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func firstParagraphAndFourthSub() -> some View {
+    func firstParagraphAndFourthSub(contractData: HouseContract) -> some View {
         
-        let convertIntPrice: Int = Int(roomsData.rentalPrice) ?? 0
+        let convertIntPrice: Int = Int(contractData.roomRentalPrice) ?? 0
         let multipleTwo = convertIntPrice * 2
         VStack(alignment: .leading, spacing: 5) {
             TitleView(titleName: "第四條 擔保金（押金）約定及返還")
@@ -555,7 +440,7 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func firstParagraphAndFivthSub() -> some View {
+    func firstParagraphAndFivthSub(contractData: HouseContract) -> some View {
         //:~ paragraph 5
         VStack(alignment: .leading, spacing: 5) {
             TitleView(titleName: "第五條 租賃期間相關費用之支付")
@@ -564,33 +449,33 @@ extension RenterContractView {
                     SubTitleView(subTitleName: "租賃期間，使用房屋所生之相關費用：")
                     Group {
                         SubTitleView(subTitleName: "一、管理費：")
-                        idfPaymentSideMF(_payByRenterForManagementPart: roomsData.rentersContractData?.payByRenterForManagementPart ?? false,
-                                         _payByProviderForManagementPart: roomsData.rentersContractData?.payByProviderForManagementPart ?? false)
-                        LineWithSpacer(contain: "房屋每月\(roomsData.rentersContractData?.managementFeeMonthly ?? "")元整。")
-                        LineWithSpacer(contain: "停車位每月\(roomsData.rentersContractData?.parkingFeeMonthly ?? "")元整。")
+                        idfPaymentSideMF(_payByRenterForManagementPart: contractData.payByRenterForManagementPart ,
+                                         _payByProviderForManagementPart: contractData.payByProviderForManagementPart )
+                        LineWithSpacer(contain: "房屋每月\(contractData.managementFeeMonthly )元整。")
+                        LineWithSpacer(contain: "停車位每月\(contractData.parkingFeeMonthly )元整。")
                         Text("租賃期間因不可歸責於雙方當事人之事由，致本費用增加者，承租人就增加部分之金額，以負擔百分之十為限；如本費用減少者，承租人負擔減少後之金額。")
-                        LineWithSpacer(contain: "其他：\(roomsData.rentersContractData?.additionalReqForManagementPart ?? "")。")
+                        LineWithSpacer(contain: "其他：\(contractData.additionalReqForManagementPart )。")
                     }
                     Group {
                         SubTitleView(subTitleName: "二、水費：")
-                        idfPaymentSideWF(_payByRenterForWaterFee: roomsData.rentersContractData?.payByRenterForWaterFee ?? false,
-                                         _payByProviderForWaterFee: roomsData.rentersContractData?.payByProviderForWaterFee ?? false)
-                        LineWithSpacer(contain: "其他：\(roomsData.rentersContractData?.additionalReqForWaterFeePart ?? "")。(例如每度  元整)")
+                        idfPaymentSideWF(_payByRenterForWaterFee: contractData.payByRenterForWaterFee ,
+                                         _payByProviderForWaterFee: contractData.payByProviderForWaterFee )
+                        LineWithSpacer(contain: "其他：\(contractData.additionalReqForWaterFeePart )。(例如每度  元整)")
                     }
                     Group {
                         SubTitleView(subTitleName: "三、電費：")
-                        idfPaymentSideEF(_payByRenterForEletricFee: roomsData.rentersContractData?.payByRenterForEletricFee ?? false,
-                                         _payByProviderForEletricFee: roomsData.rentersContractData?.payByProviderForEletricFee ?? false)
-                        LineWithSpacer(contain: "其他：\(roomsData.rentersContractData?.additionalReqForEletricFeePart ?? "")。(例如每度  元整)")
+                        idfPaymentSideEF(_payByRenterForEletricFee: contractData.payByRenterForEletricFee ,
+                                         _payByProviderForEletricFee: contractData.payByProviderForEletricFee )
+                        LineWithSpacer(contain: "其他：\(contractData.additionalReqForEletricFeePart )。(例如每度  元整)")
                     }
                     Group {
                         SubTitleView(subTitleName: "四、瓦斯：")
-                        idfPaymentSideGF(_payByRenterForGasFee: roomsData.rentersContractData?.payByRenterForGasFee ?? false,
-                                         _payByProviderForGasFee: roomsData.rentersContractData?.payByProviderForGasFee ?? false)
-                        LineWithSpacer(contain: "其他：\(roomsData.rentersContractData?.additionalReqForGasFeePart ?? "")。")
+                        idfPaymentSideGF(_payByRenterForGasFee: contractData.payByRenterForGasFee ,
+                                         _payByProviderForGasFee: contractData.payByProviderForGasFee )
+                        LineWithSpacer(contain: "其他：\(contractData.additionalReqForGasFeePart )。")
                     }
                     Group {
-                        LineWithSpacer(contain: "五、其他費用及其支付方式：\(roomsData.rentersContractData?.additionalReqForOtherPart ?? "")。")
+                        LineWithSpacer(contain: "五、其他費用及其支付方式：\(contractData.additionalReqForOtherPart )。")
                     }
                 }
                 .font(.system(size: 14, weight: .regular))
@@ -601,7 +486,7 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func firstParagraphAndSixthSub() -> some View {
+    func firstParagraphAndSixthSub(contractData: HouseContract) -> some View {
         //:~ paragraph 6
         VStack(alignment: .leading, spacing: 5) {
             TitleView(titleName: "第六條 稅費負擔之約定")
@@ -611,22 +496,22 @@ extension RenterContractView {
                     LineWithSpacer(contain: "一、房屋稅、地價稅由出租人負擔。")
                     LineWithSpacer(contain: "二、銀錢收據之印花稅由出租人負擔。")
                     Group {
-                        LineWithSpacer(contain: "三、簽約代辦費\(roomsData.rentersContractData?.contractSigurtureProxyFee ?? "")元")
-                        idfcontractSigurtureProxyFee(_payByRenterForProxyFee: roomsData.rentersContractData?.payByRenterForProxyFee ?? false,
-                                                     _payByProviderForProxyFee: roomsData.rentersContractData?.payByProviderForProxyFee ?? false,
-                                                     _separateForBothForProxyFee: roomsData.rentersContractData?.separateForBothForProxyFee ?? false)
+                        LineWithSpacer(contain: "三、簽約代辦費\(contractData.contractSigurtureProxyFee )元")
+                        idfcontractSigurtureProxyFee(_payByRenterForProxyFee: contractData.payByRenterForProxyFee ,
+                                                     _payByProviderForProxyFee: contractData.payByProviderForProxyFee ,
+                                                     _separateForBothForProxyFee: contractData.separateForBothForProxyFee )
                     }
                     Group {
-                        LineWithSpacer(contain: "四、公證費\(roomsData.rentersContractData?.contractIdentitificationFee ?? "")元")
-                        idfcontractIdentitificationFee(_payByRenterForIDFFee: roomsData.rentersContractData?.payByRenterForIDFFee ?? false,
-                                                       _payByProviderForIDFFee: roomsData.rentersContractData?.payByProviderForIDFFee ?? false,
-                                                       _separateForBothForIDFFee: roomsData.rentersContractData?.separateForBothForIDFFee ?? false)
+                        LineWithSpacer(contain: "四、公證費\(contractData.contractIdentitificationFee )元")
+                        idfcontractIdentitificationFee(_payByRenterForIDFFee: contractData.payByRenterForIDFFee ,
+                                                       _payByProviderForIDFFee: contractData.payByProviderForIDFFee ,
+                                                       _separateForBothForIDFFee: contractData.separateForBothForIDFFee )
                     }
                     Group {
-                        LineWithSpacer(contain: "五、公證代辦費\(roomsData.rentersContractData?.contractIdentitificationProxyFee ?? "")元")
-                        idfcontractIdentitificationProxyFee(_payByRenterForIDFProxyFee: roomsData.rentersContractData?.payByRenterForIDFProxyFee ?? false,
-                                                            _payByProviderForIDFProxyFee: roomsData.rentersContractData?.payByProviderForIDFProxyFee ?? false,
-                                                            _separateForBothForIDFProxyFee: roomsData.rentersContractData?.separateForBothForIDFProxyFee ?? false)
+                        LineWithSpacer(contain: "五、公證代辦費\(contractData.contractIdentitificationProxyFee )元")
+                        idfcontractIdentitificationProxyFee(_payByRenterForIDFProxyFee: contractData.payByRenterForIDFProxyFee ,
+                                                            _payByProviderForIDFProxyFee: contractData.payByProviderForIDFProxyFee ,
+                                                            _separateForBothForIDFProxyFee: contractData.separateForBothForIDFProxyFee )
                     }
                 }
                 .font(.system(size: 14, weight: .regular))
@@ -637,14 +522,14 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func firstParagraphAndSeventhSub() -> some View {
+    func firstParagraphAndSeventhSub(contractData: HouseContract) -> some View {
         //:~ paragraph 7
         VStack(alignment: .leading, spacing: 5) {
             TitleView(titleName: "第七條 使用房屋之限制")
             VStack(spacing: 6) {
                 Group {
                     Text("本房屋係供住宅使用。非經出租人同意，不得變更用途。承租人同意遵守住戶規約，不得違法使用，或存放有爆炸性或易燃性物品，影響公共安全。")
-                    subLeaseAgreement(_subLeaseAgreement: roomsData.rentersContractData?.subLeaseAgreement ?? false)
+                    subLeaseAgreement(_subLeaseAgreement: contractData.subLeaseAgreement )
                 }
                 .font(.system(size: 14, weight: .regular))
             }
@@ -842,14 +727,14 @@ extension RenterContractView {
         .padding(.horizontal)
     }
     @ViewBuilder
-    func fitstParagraphAndNineteenth() -> some View {
+    func fitstParagraphAndNineteenth(contractData: HouseContract) -> some View {
         //:~ paragraph 19
         VStack(alignment: .leading, spacing: 5) {
             TitleView(titleName: "第十九條 其他約定")
             VStack(spacing: 6) {
                 Group {
-                    doCourtIDF(_doCourtIDF: roomsData.rentersContractData?.doCourtIDF ?? false)
-                    doCourtIDFDoc(_courtIDFDoc: roomsData.rentersContractData?.courtIDFDoc ?? false)
+                    doCourtIDF(_doCourtIDF: contractData.doCourtIDF )
+                    doCourtIDFDoc(_courtIDFDoc: contractData.courtIDFDoc )
                     LineWithSpacer(contain: "一、承租人如於租期屆滿後不返還房屋。")
                     Text("二、承租人未依約給付之欠繳租金、出租人代繳之管理費，或違約時應支付之金額。")
                     Text("三、出租人如於租期屆滿或租賃契約終止時，應返還之全部或一部擔保金（押金）。")
@@ -926,11 +811,11 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func buildProvidePart(_entire: Bool, _part: Bool) -> some View {
+    func buildProvidePart(_entire: Bool, _part: Bool, contractData: HouseContract) -> some View {
         if _entire == true {
-            LineWithSpacer(contain: "(一)租賃住宅全部：第\(roomsData.rentersContractData?.provideFloor ?? "")層, 房間\(roomsData.rentersContractData?.provideRooms ?? "")間, 第\(roomsData.rentersContractData?.provideRoomNumber ?? "")室，面積\(roomsData.rentersContractData?.provideFloor ?? "")平方公尺。")
+            LineWithSpacer(contain: "(一)租賃住宅全部：第\(contractData.provideFloor)層, 房間\(contractData.provideRooms )間, 第\(contractData.provideRoomNumber )室，面積\(contractData.provideFloor )平方公尺。")
         } else if _part == true {
-            LineWithSpacer(contain: "(一)租賃住宅部分：第\(roomsData.rentersContractData?.provideFloor ?? "")層□房間\(roomsData.rentersContractData?.provideRooms ?? "")間□第\(roomsData.rentersContractData?.provideRoomNumber ?? "")室，面積\(roomsData.rentersContractData?.provideFloor ?? "")平方公尺。")
+            LineWithSpacer(contain: "(一)租賃住宅部分：第\(contractData.provideFloor )層□房間\(contractData.provideRooms )間□第\(contractData.provideRoomNumber )室，面積\(contractData.provideFloor )平方公尺。")
         }
     }
     
@@ -956,36 +841,36 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func idfParkingLotStyle(parkingStyleN: Bool, parkingStyleM: Bool) -> some View {
+    func idfParkingLotStyle(parkingStyleN: Bool, parkingStyleM: Bool, contractData: HouseContract) -> some View {
         if parkingStyleM == true {
-            Text("地上(下)第\(roomsData.rentersContractData?.parkingUGFloor ?? "")層機械式停車位，編號第\(roomsData.rentersContractData?.parkingNumberForVehicle ?? "")號。") //平面式停車位, 機械式停車位
+            Text("地上(下)第\(contractData.parkingUGFloor )層機械式停車位，編號第\(contractData.parkingNumberForVehicle )號。") //平面式停車位, 機械式停車位
         }
         if parkingStyleN == true {
-            Text("地上(下)第\(roomsData.rentersContractData?.parkingUGFloor ?? "")層平面式停車位，編號第\(roomsData.rentersContractData?.parkingNumberForVehicle ?? "")號。") //平面式停車位, 機械式停車位
+            Text("地上(下)第\(contractData.parkingUGFloor )層平面式停車位，編號第\(contractData.parkingNumberForVehicle )號。") //平面式停車位, 機械式停車位
         }
     }
     
     @ViewBuilder
-    func vehicleType(isVehicle: Bool, isMorto: Bool) -> some View {
+    func vehicleType(isVehicle: Bool, isMorto: Bool, contractData: HouseContract) -> some View {
         if isVehicle == true {
             LineWithSpacer(contain: "1.汽車停車位種類及編號：")
-            idfParkingLotStyle(parkingStyleN: roomsData.rentersContractData?.parkingStyleN ?? false, parkingStyleM: roomsData.rentersContractData?.parkingStyleM ?? false)
+            idfParkingLotStyle(parkingStyleN: contractData.parkingStyleN , parkingStyleM: contractData.parkingStyleM, contractData: contractData)
         }
         if isMorto == true {
             LineWithSpacer(contain: "2.機車停車位：")
             HStack {
-                Text("地上(下)第\(roomsData.rentersContractData?.parkingNumberForMortor ?? "")或其位置示意圖。")
+                Text("地上(下)第\(contractData.parkingNumberForMortor )或其位置示意圖。")
                 Spacer()
             }
         }
     }
     
     @ViewBuilder
-    func haveParkingLot(_hasParkingLot: Bool, _all: Bool, _morning: Bool, _night: Bool, isVehicle: Bool, isMorto: Bool) -> some View {
+    func haveParkingLot(_hasParkingLot: Bool, _all: Bool, _morning: Bool, _night: Bool, isVehicle: Bool, isMorto: Bool, contractData: HouseContract) -> some View {
         if _hasParkingLot == true {
             Group {
                 LineWithSpacer(contain: "(二)車位：(如無則免填)")//汽車停車位, 機車停車位
-                vehicleType(isVehicle: isVehicle, isMorto: isMorto)
+                vehicleType(isVehicle: isVehicle, isMorto: isMorto, contractData: contractData)
                 LineWithSpacer(contain: "3.使用時間：")
                 forUsingDay(_all: _all, _morning: _morning, _night: _night)
             }
@@ -1019,18 +904,18 @@ extension RenterContractView {
     }
     
     @ViewBuilder
-    func idfPaymentMethod(_paybyCash: Bool, _paybyTransmission: Bool, _paybyCreditDebitCard: Bool) -> some View {
+    func idfPaymentMethod(_paybyCash: Bool, _paybyTransmission: Bool, _paybyCreditDebitCard: Bool, contractData: HouseContract) -> some View {
         if _paybyCash == true {
             Text("租金支付方式：現金繳付。") //報酬約定及給付-轉帳繳付
         }
         if _paybyTransmission == true {
-            Text("租金支付方式：轉帳繳付：金融機構：\(roomsData.rentersContractData?.bankName ?? "")，戶名：\(roomsData.rentersContractData?.bankOwnerName ?? "")，帳號：\(roomsData.rentersContractData?.bankAccount ?? "")。")
+            Text("租金支付方式：轉帳繳付：金融機構：\(contractData.bankName )，戶名：\(contractData.bankOwnerName )，帳號：\(contractData.bankAccount )。")
         }
         if _paybyCreditDebitCard == true {
             Text("租金支付方式：信用/簽帳卡繳付。")
         }
         if _paybyCash == true && _paybyTransmission == true && _paybyCreditDebitCard == true {
-            Text("租金支付方式：現金繳付/轉帳繳付信用/簽帳卡繳付皆可：金融機構：\(roomsData.rentersContractData?.bankName ?? "")，戶名：\(roomsData.rentersContractData?.bankOwnerName ?? "")，帳號：\(roomsData.rentersContractData?.bankAccount ?? "")。")
+            Text("租金支付方式：現金繳付/轉帳繳付信用/簽帳卡繳付皆可：金融機構：\(contractData.bankName )，戶名：\(contractData.bankOwnerName )，帳號：\(contractData.bankAccount )。")
         }
     }
     

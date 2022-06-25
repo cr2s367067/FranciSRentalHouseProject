@@ -7,6 +7,8 @@
 
 import Foundation
 import AuthenticationServices
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 
 //MARK: - Basic User Information
@@ -101,22 +103,30 @@ struct ProviderDM: Codable {
     var companyProfileImageURL: String
 }
 
+extension ProviderDM {
+    static let empty = ProviderDM(gui: "", companyName: "", chargeName: "", city: "", town: "", address: "", email: "", companyProfileImageURL: "")
+}
+
 //MARK: - Product provider and Rental House Provider Store interface and setting configuration
-struct ProviderStore: Codable {
+struct ProviderStore: Identifiable, Codable {
+    @DocumentID var id: String?
     var isCreateGroup: Bool
     var isSetConfig: Bool
     var settlementDate: Date
     var isCreateStore: Bool
     var groupMemberAmount: Int
-    var RentalManagerLicenseNumber: String?
-    var empSet: EmpDataSet
+    var rentalManagerLicenseNumber: String?
     var storeChatDocID: String
     var storeBackgroundImage: String
     var storeDescription: String
 }
 
-struct EmpDataSet: Codable {
-    var id = UUID().uuidString
+extension ProviderStore {
+    static let empty = ProviderStore(isCreateGroup: false, isSetConfig: false, settlementDate: Date(), isCreateStore: false, groupMemberAmount: 0, rentalManagerLicenseNumber: "", storeChatDocID: "", storeBackgroundImage: "", storeDescription: "")
+}
+
+struct EmpDataSet: Identifiable, Codable {
+    @DocumentID var id: String?
     var empUID: String
 }
 

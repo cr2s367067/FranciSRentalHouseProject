@@ -196,10 +196,7 @@ extension RenterMainView {
             NavigationLink {
                 RoomsDetailView(roomsData: result)
             } label: {
-                RoomsGridView(imageURL: result.roomImage ?? "",
-                              roomTown: result.town,
-                              roomCity: result.city,
-                              objectPrice: Int(result.rentalPrice) ?? 0)
+                RoomsGridView(roomsData: result)
 //                .frame(height: uiScreenHeight / 8)
                 .alert(isPresented: $renterMainVM.isPresent) {
                     //MARK: Throw the "Have rented error to instead"
@@ -221,7 +218,7 @@ extension RenterMainView {
     
     @ViewBuilder
     func showProductElement() -> some View {
-        ForEach(firestoreForProducts.productsDataSet) { product in
+        ForEach(firestoreForProducts.publicProductDataSet) { product in
             NavigationLink {
                 ProductDetailView(productName: product.productName,
                                   productPrice: Int(product.productPrice) ?? 0,
@@ -234,7 +231,7 @@ extension RenterMainView {
                                   providerName: product.providerName,
                                   productDescription: product.productDescription, docID: product.id ?? "")
             } label: {
-                FurnitureGridView(productIamge: product.productImage, productName: product.productName, productPrice: Int(product.productPrice) ?? 0)
+                FurnitureGridView(productDM: product)
             }
             .accessibilityIdentifier("testProduct")
             .simultaneousGesture(

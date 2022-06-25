@@ -48,7 +48,7 @@ class AppViewModel: ObservableObject {
     @Published var isRedacted = true
     
     
-    
+    @Published var isPresent = false
     
     
     @Published var checked = false

@@ -21,6 +21,7 @@ struct ProductDM: Identifiable, Codable {
     var productAmount: Int
     var isSoldOut: Bool
     var productType: String
+    var coverImage: String
     @ServerTimestamp var postDate: Timestamp?
 }
 

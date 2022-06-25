@@ -16,68 +16,54 @@ struct RoomsGridView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    var imageURL: String
-    var roomTown: String
-    var roomCity: String
-    var objectPrice: Int
+    var roomsData: RoomDM
     
     func cityAndTown() -> String {
-        var tempHolder = ""
-        tempHolder = cityAndTown(roomCity: roomCity, roomTown: roomTown)
-        return tempHolder
-    }
-    
-    private func cityAndTown(roomCity: String, roomTown: String) -> String {
-        return roomCity + roomTown
+        let city = roomsData.city
+        let town = roomsData.town
+        return city + town
     }
     
     var body: some View {
-//        ZStack {
-//            WebImage(url: URL(string: imageURL))
-//                .resizable()
-//                .frame(width: 160, height: 100)
-//                .clipShape(RoundedRectangle(cornerRadius: 10))
-            VStack {
-                Spacer()
-                HStack {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(cityAndTown())
-                            Spacer()
-                        }
-                        HStack {
-                            Text("$\(objectPrice)/mo")
-                                .padding(.horizontal, 3)
-                                .background(alignment: .center) {
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .fill(Color("Shadow").opacity(0.8))
-                                }
-                            Spacer()
-                        }
+        VStack {
+            Spacer()
+            HStack {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(cityAndTown())
+                        Spacer()
                     }
-                    .foregroundColor(.white)
-                    .font(.system(size: 16, weight: .regular))
-                    .multilineTextAlignment(.leading)
-                    .padding(.leading, 5)
-                    Image(systemName: "plus.circle")
-                        .resizable()
-                        .foregroundColor(Color.white)
-                        .frame(width: 20, height: 20)
-                        .padding(.leading, 10)
+                    HStack {
+                        Text("$\(roomsData.rentalPrice)/mo")
+                            .padding(.horizontal, 3)
+                            .background(alignment: .center) {
+                                RoundedRectangle(cornerRadius: 5)
+                                    .fill(Color("Shadow").opacity(0.8))
+                            }
+                        Spacer()
+                    }
                 }
-                .padding()
-            }
-//            .frame(width: 300, height: 160)
-            .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
-            .background(alignment: .center) {
-                WebImage(url: URL(string: imageURL))
+                .foregroundColor(.white)
+                .font(.system(size: 16, weight: .regular))
+                .multilineTextAlignment(.leading)
+                .padding(.leading, 5)
+                Image(systemName: "plus.circle")
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.black.opacity(0.5))
+                    .foregroundColor(Color.white)
+                    .frame(width: 20, height: 20)
+                    .padding(.leading, 10)
             }
-//        }
+            .padding()
+        }
+        .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
+        .background(alignment: .center) {
+            WebImage(url: URL(string: roomsData.roomsCoverImageURL))
+                .resizable()
+                .scaledToFill()
+                .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.black.opacity(0.5))
+        }
     }
 }
