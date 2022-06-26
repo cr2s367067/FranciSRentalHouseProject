@@ -7,6 +7,8 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct RoomsDetailView: View {
     
@@ -224,6 +226,9 @@ class RoomsDetailViewModel: ObservableObject {
 //        }
 //    }
     
+    
+    
+    
 }
 
 
@@ -269,11 +274,11 @@ extension RoomsDetailView {
                 .simultaneousGesture(TapGesture().onEnded({ _ in
                         roomsDetailViewModel.createNewChateRoom = true
                         debugPrint(roomsDetailViewModel.createNewChateRoom)
-                        roomsDetailViewModel.providerUID = roomsData.providedBy
+                    roomsDetailViewModel.providerUID = roomsData.providerUID
                         debugPrint("providerBy: \(roomsDetailViewModel.providerUID)")
-                        roomsDetailViewModel.providerDisplayName = roomsData.providerDisplayName
+                    roomsDetailViewModel.providerDisplayName = firestoreToFetchUserinfo.providerInfo.companyName
                         debugPrint("providerDN: \(roomsDetailViewModel.providerDisplayName)")
-                        roomsDetailViewModel.providerChatDodID = roomsData.providerChatDocId
+                    roomsDetailViewModel.providerChatDodID = firestoreToFetchUserinfo.providerStoreConfig.storeChatDocID
                         debugPrint("providerChatID: \(roomsDetailViewModel.providerChatDodID)")
                 }))
             }

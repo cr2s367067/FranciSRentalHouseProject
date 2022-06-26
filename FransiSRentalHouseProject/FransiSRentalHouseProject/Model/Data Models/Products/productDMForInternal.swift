@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 
 struct ProductDM: Identifiable, Codable {
     @DocumentID var id: String?
-    var provderUID: String
+    var providerUID: String
     var productUID: String
     var productName: String
     var productPrice: Int
@@ -46,7 +46,6 @@ struct ProductImageSet: Identifiable, Codable {
 struct CustomerMarkedProduct: Codable {
     @DocumentID var id: String?
     var isMark: Bool
-    var uidPath: String
     var providerUID: String
     var productUID: String
 }

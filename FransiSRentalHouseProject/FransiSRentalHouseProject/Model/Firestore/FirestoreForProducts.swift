@@ -78,7 +78,7 @@ class FirestoreForProducts: ObservableObject {
     ) async throws {
         let productRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(config.productUID)
         _ = try await productRef.setData([
-            "provderUID" : config.provderUID,
+            "provderUID" : config.providerUID,
             "productUID" : config.productUID,
             "productName" : config.productName,
             "productPrice" : config.productPrice,
@@ -103,7 +103,7 @@ class FirestoreForProducts: ObservableObject {
     ) async throws {
         let productPublicRef = db.collection("ProductsPublic").document(config.productUID)
         _ = try await productPublicRef.setData([
-            "provderUID" : config.provderUID,
+            "provderUID" : config.providerUID,
             "productUID" : config.productUID,
             "productName" : config.productName,
             "productPrice" : config.productPrice,
@@ -204,7 +204,7 @@ extension FirestoreForProducts {
     func updateAmount(
         product config: ProductDM
     ) async throws {
-        let productRef = db.collection("ProductsProvider").document(config.provderUID).collection("Products").document(productUID)
+        let productRef = db.collection("ProductsProvider").document(config.providerUID).collection("Products").document(productUID)
         try await productRef.updateData([
             "productAmount" : config.productAmount
         ])
@@ -320,7 +320,6 @@ extension FirestoreForProducts {
         let bookMarkRef = db.collection("users").document(uidPath).collection("MarkedProducts")
         _ = try await bookMarkRef.addDocument(data: [
             "isMark": product.isMark,
-            "uidPath": product.uidPath,
             "providerUID": product.providerUID,
             "productUID": product.productUID
         ])
@@ -348,7 +347,10 @@ extension FirestoreForProducts {
     }
     
     //MARK: - User unmarked their focued products
-    func unSignBookMarked(uidPath: String, id: String) async throws {
+    func unSignBookMarked(
+        uidPath: String,
+        id: String
+    ) async throws {
         let bookMarkRef = db.collection("users").document(uidPath).collection("MarkedProducts").document(id)
         try await bookMarkRef.delete()
     }
@@ -444,7 +446,7 @@ extension FirestoreForProducts {
         uidPaht: String,
         product config: ProductDM
     ) async throws {
-        let productRef = db.collection("ProductsProvider").document(config.provderUID).collection("Products").document(config.productUID)
+        let productRef = db.collection("ProductsProvider").document(config.providerUID).collection("Products").document(config.productUID)
         try await productRef.updateData([
             "productAmount" : config.productAmount,
             "productDescription" : config.productDescription

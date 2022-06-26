@@ -63,10 +63,12 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var loginVM = LoginVM(emailAddress: .init(), userPassword: .init())
     @StateObject var signUpVM = SignUpVM()
     @StateObject var renterMainVM = RenterMainVM()
+    @StateObject var providerStoreM = ProviderStoreM()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(providerStoreM)
                 .environmentObject(storageForUserProfile)
                 .environmentObject(storageForRoomsImage)
                 .environmentObject(firestoreToFetchUserinfo)

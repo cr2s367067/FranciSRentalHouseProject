@@ -28,8 +28,12 @@ class FirestoreToFetchUserinfo: ObservableObject {
     //MARK: - Payment history for each month
     @Published var paymentHistory = [RentedRoomPaymentHistory]()
     
-    //MARK: - For user get provider info
+    //MARK: - For user get provider info <Haven't create func>
     @Published var providerInfo: ProviderDM = .empty
+    
+    //MARK: - Present provider config <Haven't create func>
+    @Published var providerStoreConfig: ProviderStore = .empty
+    
 
     func userIDisEmpty() -> Bool {
         return fetchedUserData.id.isEmpty
@@ -75,24 +79,6 @@ extension FirestoreToFetchUserinfo {
     
     func createUserInfomationAsync(
         uidPath: String,
-//        id: String ,
-//        firstName: String,
-//        lastName: String,
-//        displayName: String,
-//        mobileNumber: String,
-//        dob: Date,
-//        address: String,
-//        town: String,
-//        city: String,
-//        zipCode: String,
-////        country: String,
-//        gender: String,
-//        userType: String,
-//        email: String?, 0
-//        providerType: String,
-//        isFounder: Bool,
-//        providerGUI: String?,
-//        isSignByApple: Bool
         userDM: UserDM
     ) async throws {
         let userRef = db.collection("User").document(uidPath)
@@ -108,7 +94,6 @@ extension FirestoreToFetchUserinfo {
                 "address": userDM.address,
                 "email": userDM.email,
                 "dob": userDM.dob,
-//                "country": country,
                 "gender": userDM.gender,
                 "userType": userDM.userType,
                 "providerType": userDM.providerType,
@@ -335,6 +320,10 @@ extension FirestoreToFetchUserinfo {
         let tempFirstName = input.firstName
         let tempLastName = input.lastName
         return tempFirstName + tempLastName
+    }
+    
+    func presentProviderName() {
+        
     }
 }
 

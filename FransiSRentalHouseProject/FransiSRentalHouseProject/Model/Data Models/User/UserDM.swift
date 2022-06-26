@@ -109,6 +109,7 @@ extension ProviderDM {
 
 //MARK: - Product provider and Rental House Provider Store interface and setting configuration
 struct ProviderStore: Identifiable, Codable {
+    //MARK: id is uidPath
     @DocumentID var id: String?
     var isCreateGroup: Bool
     var isSetConfig: Bool
@@ -116,6 +117,7 @@ struct ProviderStore: Identifiable, Codable {
     var isCreateStore: Bool
     var groupMemberAmount: Int
     var rentalManagerLicenseNumber: String?
+//    var providerProfileImage: String
     var storeChatDocID: String
     var storeBackgroundImage: String
     var storeDescription: String

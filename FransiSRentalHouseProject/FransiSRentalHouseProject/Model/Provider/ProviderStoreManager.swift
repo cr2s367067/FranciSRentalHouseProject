@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 
-class PrivderStoreM: ObservableObject {
+class ProviderStoreM: ObservableObject {
     
     let db = Firestore.firestore()
     
