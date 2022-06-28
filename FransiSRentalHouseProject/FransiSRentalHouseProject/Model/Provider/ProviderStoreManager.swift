@@ -33,6 +33,8 @@ class ProviderStoreM: ObservableObject {
             "isCreateStore" : store.isCreateStore,
             "groupMemberAmount" : store.groupMemberAmount,
             "RentalManagerLicenseNumber" : store.rentalManagerLicenseNumber ?? "",
+            "companyName" : store.companyName,
+            "companyProfileImage" : store.companyProfileImage,
             "storeChatDocID" : store.storeChatDocID,
             "storeBackgroundImage" : store.storeBackgroundImage,
             "storeDescription" : store.storeDescription

@@ -80,7 +80,7 @@ struct ProviderProfileView: View {
                                 }
                             }
                         }
-                        Text(firestoreToFetchUserinfo.fetchedUserData.displayName)
+                        Text(firestoreToFetchUserinfo.fetchedUserData.nickName)
                             .font(.system(size: 24, weight: .heavy))
                             .foregroundColor(Color.white)
                         Spacer()

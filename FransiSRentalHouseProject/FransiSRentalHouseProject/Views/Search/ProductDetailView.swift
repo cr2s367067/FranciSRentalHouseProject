@@ -25,11 +25,13 @@ struct ProductDetailView: View {
     var productDM: ProductDM
     
     var pickerAmount: Int {
-        return productDM.productAmount
+        let productAmountConvertInt = Int(productDM.productAmount) ?? 0
+        return productAmountConvertInt
     }
     
     var realTimeComputeProductPrice: Int {
-        return productDM.productPrice * productDetailViewModel.orderAmount
+        let productPriceConvertInt = Int(productDM.productPrice) ?? 0
+        return productPriceConvertInt * productDetailViewModel.orderAmount
     }
     
     var body: some View {
@@ -110,7 +112,7 @@ struct ProductDetailView: View {
                             }
                         } label: {
                             HStack {
-                                Text("\(productDetailViewModel.orderAmount)")
+                                Text("\(productDetailViewModel.productOrder.orderAmount)")
                                 Image(systemName: "chevron.down")
                                     .foregroundColor(.white)
                                     .font(.system(size: 20))
@@ -158,7 +160,8 @@ struct ProductDetailView: View {
                     Spacer()
                     
                     Button {
-                        self.productDetailViewModel.addToCart(cart: productDM)
+                        productDetailViewModel.productOrder.product = productDM
+                        self.productDetailViewModel.addToCart(cart: productDetailViewModel.productOrder)
                         
                         purchaseViewModel.productTotalAmount = String(pickerAmount)
                         print(productDetailViewModel.productOrderCart)
@@ -255,16 +258,18 @@ extension ProductDetailView {
 }
 class ProductDetailViewModel: ObservableObject {
     
-    @Published var productOrderCart = [ProductDM]()
+    @Published var productOrder: ProductCartDM = .empty
+    @Published var productOrderCart = [ProductCartDM]()
     @Published var mark = false
     @Published var orderAmount = 1
     
+    @Published var updatingProductData: ProductDM = .empty
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    func addToCart(cart product: ProductDM) {
-        self.productOrderCart.append(product)
+    func addToCart(cart: ProductCartDM) {
+        self.productOrderCart.append(cart)
     }
     
     func computeRattingAvg(commentAndRatting: [ProductCommentRatting]) -> Double {
@@ -287,6 +292,8 @@ class ProductDetailViewModel: ObservableObject {
 
 
 
+
+
 struct PageView: View {
     
     @EnvironmentObject var storageForProductImage: StorageForProductImage
@@ -301,7 +308,7 @@ struct PageView: View {
         if storageForProductImage.productImageSet.count >= 1 {
             TabView {
                 ForEach(storageForProductImage.productImageSet) { image in
-                    WebImage(url: URL(string: image.productDetialImage))
+                    WebImage(url: URL(string: image.productImageURL))
                         .resizable()
                         .scaledToFill()
                         .frame(width: uiScreenWidth, height: uiScreenHeight / 2, alignment: .center)

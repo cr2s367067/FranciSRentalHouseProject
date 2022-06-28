@@ -14,15 +14,17 @@ class ProductsProviderSummitViewModel: ObservableObject {
     let firestoreForFurniture = FirestoreForProducts()
     let storageForProductImage = StorageForProductImage()
     
+    @Published var productInfo: ProductDM = .empty
+    
     @Published var productName = ""
     @Published var productPrice = ""
     @Published var productDescription = ""
     @Published var productFrom = ""
-    @Published var holderTosAgree = false
     @Published var productAmount = ""
     @Published var productType = ""
     @Published var isSoldOut = false
     
+    @Published var holderTosAgree = false
     @Published var showSummitAlert = false
     @Published var images = [TextingImageDataModel]()
     @Published var productVideo: URL?
@@ -43,13 +45,13 @@ class ProductsProviderSummitViewModel: ObservableObject {
     }
     
     var serviceFee: Double {
-        let convertDou = Double(productPrice) ?? 0
+        let convertDou = Double(productInfo.productPrice) ?? 0
         let multiTwoPercent = convertDou * 0.02
         return multiTwoPercent
     }
     
     var paymentFee: Double {
-        let convertDou = Double(productPrice) ?? 0
+        let convertDou = Double(productInfo.productPrice) ?? 0
         let multiResult = convertDou * 0.0275
         return multiResult
     }
@@ -61,11 +63,7 @@ class ProductsProviderSummitViewModel: ObservableObject {
     }
     
     func resetView() {
-        productFrom = ""
-        productName = ""
-        productPrice = ""
-        productDescription = ""
-        productAmount = ""
+        productInfo = .empty
         firestoreForFurniture.productUID = firestoreForFurniture.productIDGenerator()
         storageForProductImage.productImageUUID = storageForProductImage.imagUUIDGenerator()
         holderTosAgree = false

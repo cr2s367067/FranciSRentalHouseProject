@@ -21,4 +21,7 @@ class StoreProfileViewModel: ObservableObject {
     @AppStorage(StoreProfileStatus.providerDisplayName.rawValue) var providerDisplayName = ""
     @AppStorage(StoreProfileStatus.providerDescription.rawValue) var providerDescription = ""
     
+    
+    @Published var store: ProviderStore = .empty
+    
 }

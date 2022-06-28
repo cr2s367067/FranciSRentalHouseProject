@@ -17,9 +17,8 @@ struct MaintainDetailUnitView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    var providerUidPath: String
-    var docID: String
-    var taskHolder: MaintainTaskHolder
+    var rentedRoom: RentedRoom
+    var taskHolder: MaintainDM
     
     
     @State private var showSheet = false
@@ -64,15 +63,34 @@ struct MaintainDetailUnitView: View {
                             } else {
                                 print("update data")
                                 do {
-                                    guard let id = taskHolder.id else { return }
-                                    print(id)
-                                    print(providerUidPath)
-                                    print(docID)
+//                                    guard let id = taskHolder.id else { return }
+//                                    print(id)
+//                                    print(providerUidPath)
+//                                    print(docID)
                                     isProgressing = true
-                                    try await storageForMaintainImage.uploadFixItemImage(uidPath: providerUidPath, image: presentingImage, roomUID: docID)
+                                    try await storageForMaintainImage.uploadFixItemImage(
+                                        uidPath: rentedRoom.rentedProvderUID,
+                                        image: presentingImage,
+                                        roomUID: rentedRoom.rentedRoomUID
+                                    )
                                     newImageURL = storageForMaintainImage.itemImageURL
-                                    try await firestoreToFetchMaintainTasks.updateMaintainTaskInfo(uidPath: providerUidPath, docID: docID, maintainDocID: id, newTaskDes: newDes, newAppointDate: newDate, newImageURL: newImageURL)
-                                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: providerUidPath, docID: docID)
+                                    try await firestoreToFetchMaintainTasks.updateMaintainTaskInfo(
+                                        provider: rentedRoom.rentedProvderUID,
+                                        rented: rentedRoom.rentedRoomUID,
+                                        update: taskHolder
+//                                        maintainDocID: taskHolder.id
+//                                        uidPath: providerUidPath,
+//                                        docID: docID,
+//                                        maintainDocID: id,
+//                                        newTaskDes: newDes,
+//                                        newAppointDate: newDate,
+//                                        newImageURL: newImageURL
+                                        
+                                    )
+                                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
+                                        uidPath: rentedRoom.rentedProvderUID,
+                                        roomUID: rentedRoom.rentedRoomUID
+                                    )
                                     isProgressing = false
                                 } catch {
                                     self.errorHandler.handle(error: error)
@@ -86,8 +104,11 @@ struct MaintainDetailUnitView: View {
                     Button {
                         Task {
                             do {
-                                guard let id = taskHolder.id else { return }
-                                try await firestoreToFetchMaintainTasks.deleteFixedItem(uidPath: providerUidPath, docID: docID, maintainDocID: id)
+                                try await firestoreToFetchMaintainTasks.deleteFixedItem(
+                                    uidPath: rentedRoom.rentedProvderUID,
+                                    roomUID: rentedRoom.rentedRoomUID,
+                                    maintainDocID: taskHolder.id ?? ""
+                                )
                                 firestoreToFetchMaintainTasks.showMaintainDetail = false
                             } catch {
                                 self.errorHandler.handle(error: error)
@@ -113,7 +134,7 @@ struct MaintainDetailUnitView: View {
         }
         .onAppear {
             newImageURL = taskHolder.itemImageURL
-            newDes = taskHolder.description
+            newDes = taskHolder.maintainDescription
             newDate = taskHolder.appointmentDate
         }
         .sheet(isPresented: $showSheet) {
@@ -194,7 +215,7 @@ extension MaintainDetailUnitView {
             .frame(width: uiScreenWidth - 50, alignment: .center)
             .disabled(true)
             HStack {
-                Text(taskHolder.description)
+                Text(taskHolder.maintainDescription)
                     .foregroundColor(.white)
                     .font(.body)
                 Spacer()

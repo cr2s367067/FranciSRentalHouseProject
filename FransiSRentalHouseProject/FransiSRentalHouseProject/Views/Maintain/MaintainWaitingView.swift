@@ -34,7 +34,7 @@ struct MaintainWaitingView: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .overlay(content: {
-                if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                if firestoreToFetchUserinfo.userIDisEmpty() {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
             })
@@ -47,7 +47,7 @@ extension MaintainWaitingView {
     private func isRented() -> Bool {
         var temp = false
         firestoreToFetchRoomsData.fetchRoomInfoFormOwner.forEach { data in
-            if data.isRented ?? false {
+            if data.renterUID.isEmpty {
                 temp = true
             } else {
                 temp = false
@@ -61,7 +61,7 @@ extension MaintainWaitingView {
         if hasContain {
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { data in
-                    if data.isRented == true {
+                    if !data.renterUID.isEmpty {
                         NavigationLink {
                             MaintainWaitingDetailView(docID: data.id ?? "")
                         } label: {
@@ -86,14 +86,13 @@ struct MaintainWaitingReusableUnit: View {
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     
-    var roomsData: RoomInfoDataModel
+    var roomsData: RoomDM
     
     var address: String {
-        let zipCode = roomsData.zipCode
         let city = roomsData.city
         let town = roomsData.town
-        let roomAddress = roomsData.roomAddress
-        return zipCode + city + town + roomAddress
+        let roomAddress = roomsData.address
+        return city + town + roomAddress
     }
     
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -122,7 +121,7 @@ struct MaintainWaitingReusableUnit: View {
 //                                    RoundedRectangle(cornerRadius: 10)
 //                                        .fill(Color.brown)
 //                                )
-                            WebImage(url: URL(string: roomsData.roomImage ?? ""))
+                            WebImage(url: URL(string: roomsData.roomsCoverImageURL))
                                 .resizable()
                                 .frame(width: uiScreenWidth / 3 + 20, height: uiScreenHeight / 8 + 5)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))

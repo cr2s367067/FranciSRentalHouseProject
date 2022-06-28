@@ -60,9 +60,9 @@ struct CusListUnit: View {
     var body: some View {
         VStack {
             HStack(spacing: 10) {
-                Text("$\(paymentH.pastPaymentFee)")
+                Text("$\(paymentH.rentalFee)")
                 Spacer()
-                Text("\(paymentH.paymentDate, format: Date.FormatStyle().year().month().day())")
+                Text("\(paymentH.paymentDate?.dateValue() ?? Date(), format: Date.FormatStyle().year().month().day())")
             }
             .foregroundColor(.white)
             .font(.body)

@@ -12,6 +12,7 @@ struct ProductCollectionView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var providerStoreM: ProviderStoreM
     
     var body: some View {
         VStack {
@@ -22,7 +23,7 @@ struct ProductCollectionView: View {
         .modifier(ViewBackgroundInitModifier())
         .task {
             do {
-                try await firestoreForProducts.fetchStoreProduct(uidPath: firebaseAuth.getUID())
+                try await providerStoreM.fetchStoreProduct(provder: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -33,7 +34,7 @@ struct ProductCollectionView: View {
 extension ProductCollectionView {
     @ViewBuilder
     func containHolder() -> some View {
-        if firestoreForProducts.storeProductsDataSet.isEmpty {
+        if providerStoreM.storeProductsDataSet.isEmpty {
             Spacer()
             Text("Hi, you haven't provide any product.🥺")
                 .foregroundColor(.white)
@@ -41,7 +42,7 @@ extension ProductCollectionView {
                 .fontWeight(.bold)
         } else {
             ScrollView(.vertical, showsIndicators: false) {
-                ForEach(firestoreForProducts.storeProductsDataSet) { product in
+                ForEach(providerStoreM.storeProductsDataSet) { product in
                     NavigationLink {
                         ProductCollectionDetialView(productData: product)
                     } label: {

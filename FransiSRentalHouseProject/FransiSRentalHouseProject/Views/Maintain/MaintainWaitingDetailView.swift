@@ -59,7 +59,10 @@ struct MaintainWaitingDetailView: View {
         }
         .task {
             do {
-                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), docID: docID)
+                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
+                    uidPath: firebaseAuth.getUID(),
+                    roomUID: docID
+                )
             } catch {
                 print("error")
             }
@@ -74,7 +77,7 @@ struct MaintainTaskWaitingListUnit: View {
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     
-    var maintainTask: MaintainTaskHolder
+    var maintainTask: MaintainDM
     var docID: String
     
     let uiscreenWidth = UIScreen.main.bounds.width
@@ -110,7 +113,7 @@ extension MaintainTaskWaitingListUnit {
                 HStack {
                     VStack {
                         HStack {
-                            Text(maintainTask.description)
+                            Text(maintainTask.maintainDescription)
                             Spacer()
                         }
                         HStack{
@@ -121,9 +124,20 @@ extension MaintainTaskWaitingListUnit {
                     Button {
                         Task {
                             do {
-                                try await firestoreToFetchMaintainTasks.updateFixedInfo(uidPath: firebaseAuth.getUID(), docID: docID, maintainDocID: maintainTask.id ?? "")
-                                try await firestoreToFetchMaintainTasks.deleteFixedItem(uidPath: firebaseAuth.getUID(), docID: docID, maintainDocID: maintainTask.id ?? "")
-                                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), docID: docID)
+                                try await firestoreToFetchMaintainTasks.updateFixedInfo(
+                                    uidPath: firebaseAuth.getUID(),
+                                    roomUID: docID,
+                                    maintainDocID: maintainTask.id ?? ""
+                                )
+                                try await firestoreToFetchMaintainTasks.deleteFixedItem(
+                                    uidPath: firebaseAuth.getUID(),
+                                    roomUID: docID,
+                                    maintainDocID: maintainTask.id ?? ""
+                                )
+                                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
+                                    uidPath: firebaseAuth.getUID(),
+                                    roomUID: docID
+                                )
                             } catch {
                                 print("error")
                             }

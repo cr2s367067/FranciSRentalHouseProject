@@ -23,7 +23,7 @@ struct RentalBillSettingView: View {
     @State private var showPaymentMethod = false
     
     var rentalPrice: String {
-        firestoreToFetchUserinfo.rentingRoomInfo.roomPrice ?? ""
+        return firestoreToFetchUserinfo.rentedContract.roomRentalPrice
     }
     
     var upComingPaymentDate: Date {
@@ -31,10 +31,10 @@ struct RentalBillSettingView: View {
     }
     
     var address: String {
-        let zipCode = firestoreToFetchUserinfo.rentingRoomInfo.roomZipCode ?? ""
-        let city = firestoreToFetchUserinfo.rentingRoomInfo.roomCity ?? ""
-        let town = firestoreToFetchUserinfo.rentingRoomInfo.roomTown ?? ""
-        let roomAddress = firestoreToFetchUserinfo.rentingRoomInfo.roomAddress ?? ""
+        let zipCode = firestoreToFetchUserinfo.rentedContract.roomZipCode
+        let city = firestoreToFetchUserinfo.rentedContract.roomCity
+        let town = firestoreToFetchUserinfo.rentedContract.roomTown
+        let roomAddress = firestoreToFetchUserinfo.rentedContract.roomAddress
         return zipCode + city + town + roomAddress
     }
     
@@ -68,13 +68,21 @@ struct RentalBillSettingView: View {
         }
         .task {
             do {
-                _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
+                _ = try await firestoreToFetchUserinfo.getRentedContract(
+                    uidPath: firebaseAuth.getUID()
+                )
                 let currentDate = Date()
                 if currentDate == firestoreToFetchUserinfo.rentedContract.rentalEndDate {
-                    try await renterProfileViewModel.eraseExpiredRoomInfo(from: currentDate, to: firestoreToFetchUserinfo.rentedContract.rentalEndDate, docID: firestoreToFetchUserinfo.rentedContract.docID)
+                    try await renterProfileViewModel.eraseExpiredRoomInfo(
+                        from: currentDate,
+                        to: firestoreToFetchUserinfo.rentedContract.rentalEndDate,
+                        roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID
+                    )
                 }
-                
-                try await firestoreToFetchRoomsData.getPostComment(roomUID: firestoreToFetchUserinfo.rentedContract.docID, uidPath: firebaseAuth.getUID())
+                try await firestoreToFetchRoomsData.getPostComment(
+                    roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID,
+                    uidPath: firebaseAuth.getUID()
+                )
             } catch {
 //                self.errorHandler.handle(error: error)
                 print(error)
@@ -178,7 +186,9 @@ extension RentalBillSettingView {
     func CommentAndRate() -> some View {
         Section {
             NavigationLink {
-                RoomCommentAndRattingView(contractInfo: firestoreToFetchUserinfo.rentedContract, firestoreUserInfo: firestoreToFetchUserinfo)
+                RoomCommentAndRattingView(
+                    contractInfo: firestoreToFetchUserinfo.rentedContract
+                )
             } label: {
                 Text("Give Comment")
                     .foregroundColor(.primary)
@@ -202,7 +212,9 @@ extension RentalBillSettingView {
                         .foregroundColor(.primary)
                 }
                 NavigationLink {
-                    PurchaseView(roomsData: localData.summaryItemHolder)
+                    PurchaseView(
+                        roomsData: localData.roomRenting
+                    )
                 } label: {
                     Text("Unpaid")
                         .foregroundColor(.blue)

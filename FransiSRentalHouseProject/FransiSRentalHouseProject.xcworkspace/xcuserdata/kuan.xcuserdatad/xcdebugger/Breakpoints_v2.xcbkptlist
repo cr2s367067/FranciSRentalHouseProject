@@ -23,54 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3379DE28-C12F-4E0C-A767-EECE9E9A5554"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Views/Profile/ProviderViews/ProviderRoomSummitView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "456"
-            endingLineNumber = "456"
-            landmarkName = "roomSummit(holderName:holderMobileNumber:roomAddress:roomTown:roomCity:roomZipCode:roomArea:roomRentalPrice:tosAgreement:isSummitRoomImage:roomUID:someoneDeadInRoom:waterLeakingProblem:roomImageURL:providerDisplayName:roomDescription:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "3379DE28-C12F-4E0C-A767-EECE9E9A5554 - 9e17af8041c97109"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(5) suspend resume partial function for FransiSRentalHouseProject.ProviderRoomSummitView.roomSummit(holderName: Swift.String, holderMobileNumber: Swift.String, roomAddress: Swift.String, roomTown: Swift.String, roomCity: Swift.String, roomZipCode: Swift.String, roomArea: Swift.String, roomRentalPrice: Swift.String, tosAgreement: Swift.Bool, isSummitRoomImage: Swift.Bool, roomUID: Swift.String, someoneDeadInRoom: Swift.String, waterLeakingProblem: Swift.String, roomImageURL: Swift.String, providerDisplayName: Swift.String, roomDescription: Swift.String) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Profile/ProviderViews/ProviderRoomSummitView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "448"
-                  endingLineNumber = "448"
-                  offsetFromSymbolStart = "2544">
-               </Location>
-               <Location
-                  uuid = "3379DE28-C12F-4E0C-A767-EECE9E9A5554 - 112c923a537cbd17"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(7) suspend resume partial function for FransiSRentalHouseProject.ProviderRoomSummitView.roomSummit(holderName: Swift.String, holderMobileNumber: Swift.String, roomAddress: Swift.String, roomTown: Swift.String, roomCity: Swift.String, roomZipCode: Swift.String, roomArea: Swift.String, roomRentalPrice: Swift.String, tosAgreement: Swift.Bool, isSummitRoomImage: Swift.Bool, roomUID: Swift.String, someoneDeadInRoom: Swift.String, waterLeakingProblem: Swift.String, roomImageURL: Swift.String, providerDisplayName: Swift.String, roomDescription: Swift.String) async throws -&gt; ()"
-                  moduleName = "FransiSRentalHouseProject"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kuan/Desktop/Business%20Project/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Profile/ProviderViews/ProviderRoomSummitView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "448"
-                  endingLineNumber = "448"
-                  offsetFromSymbolStart = "1876">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "4044E699-3045-4707-89FF-F9B3A8B667B5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -82,6 +34,22 @@
             endingLineNumber = "349"
             landmarkName = "updateContractData(uidPath:room:roomDM:house:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F89EA88-6F35-4843-887A-C1C24E0B94B7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
+            landmarkName = "FirestoreForProducts"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

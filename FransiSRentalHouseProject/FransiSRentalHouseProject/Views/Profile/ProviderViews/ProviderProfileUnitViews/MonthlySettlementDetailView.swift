@@ -120,12 +120,17 @@ extension MonthlySettlementDetailView {
         _ = firestoreToFetchRoomsData.receivePaymentDataSet.map { pay in
             let cal = Calendar.current
             let convertDate = cal.dateComponents([.year, .month], from: currentDate)
-            let convertReceivePaymentDate = cal.dateComponents([.year, .month], from: pay.paymentDate )
+            let convertReceivePaymentDate = cal.dateComponents([.year, .month], from: pay.paymentDate?.dateValue() ?? Date())
             if convertReceivePaymentDate.year == convertDate.year && convertReceivePaymentDate.month == convertDate.month {
                 debugPrint("first step: \(pay)")
                 Task(priority: .high) {
                     debugPrint("upload data...")
-                    try await paymentReceiveManager.summitMonthlyIncome(uidPath: firebaseAuth.getUID(), docID: docID, pastPaymentFee: pay.pastPaymentFee, paymentDate: pay.paymentDate)
+                    try await paymentReceiveManager.summitMonthlyIncome(
+                        uidPath: firebaseAuth.getUID(),
+                        docID: docID,
+                        pastPaymentFee: pay.rentalFee,
+                        paymentDate: pay.paymentDate?.dateValue() ?? Date()
+                    )
                 }
             }
         }
@@ -136,10 +141,10 @@ extension MonthlySettlementDetailView {
         firestoreToFetchRoomsData.fetchRoomInfoFormOwner.forEach { data in
             Task(priority: .high) {
                 do {
-                    guard let userUID = data.rentedBy else { return }
+                    let userUID = data.renterUID
                     if !userUID.isEmpty{
                         print("user uid: \(userUID)")
-                        try await firestoreToFetchRoomsData.loopTofetchPaymentData(renterUidPath: data.rentedBy ?? "")
+                        try await firestoreToFetchRoomsData.loopTofetchPaymentData(renter: data.renterUID)
                         try await loopDate(currentDate: currentDate, docID: docID)
                     }
                 } catch {
@@ -149,16 +154,24 @@ extension MonthlySettlementDetailView {
         }
     }
     
-    func loopDate(currentDate: Date, docID: String) async throws {
+    func loopDate(
+        currentDate: Date,
+        docID: String
+    ) async throws {
         _ = firestoreToFetchRoomsData.receivePaymentDataSet.map { pay in
             let cal = Calendar.current
             let convertDate = cal.dateComponents([.year, .month], from: currentDate)
-            let convertReceivePaymentDate = cal.dateComponents([.year, .month], from: pay.paymentDate )
+            let convertReceivePaymentDate = cal.dateComponents([.year, .month], from: pay.paymentDate?.dateValue() ?? Date())
             if convertReceivePaymentDate.year == convertDate.year && convertReceivePaymentDate.month == convertDate.month {
                 debugPrint("first step: \(pay)")
                 Task(priority: .high) {
                     debugPrint("upload data...")
-                    try await paymentReceiveManager.summitMonthlyIncome(uidPath: firebaseAuth.getUID(), docID: docID, pastPaymentFee: pay.pastPaymentFee, paymentDate: pay.paymentDate)
+                    try await paymentReceiveManager.summitMonthlyIncome(
+                        uidPath: firebaseAuth.getUID(),
+                        docID: docID,
+                        pastPaymentFee: pay.rentalFee,
+                        paymentDate: pay.paymentDate?.dateValue() ?? Date()
+                    )
                 }
             }
         }

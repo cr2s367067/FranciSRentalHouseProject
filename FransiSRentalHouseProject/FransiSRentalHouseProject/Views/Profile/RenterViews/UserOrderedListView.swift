@@ -26,7 +26,7 @@ struct UserOrderedListView: View {
     
     let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map({$0.rawValue})
     
-    @State private var selectedOrderData: OrderedDataModel?
+    @State private var selectedOrderData: OrderedListUserSide?
     
     var body: some View {
         VStack {
@@ -55,40 +55,57 @@ extension UserOrderedListView {
         } else {
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreForProducts.userOrderedDataSet) { order in
-                    orderedUnit(orderedData: order) {
-                        selectedOrderData = order
-                    } cancel: {
-                        Task {
-                            do {
-                               try await refundProcess(order: order)
-                            } catch {
-                                self.errorHandler.handle(error: error)
+                    ForEach(firestoreForProducts.fetchOrderedDataSet) { orderItem in
+                        orderedUnit(orderedData: order) {
+                            selectedOrderData = order
+                        } cancel: {
+                            Task {
+                                do {
+                                    try await refundProcess(
+                                        orderItem: orderItem,
+                                        order: order
+                                    )
+                                } catch {
+                                    self.errorHandler.handle(error: error)
+                                }
                             }
                         }
                     }
                 }
                 .sheet(item: $selectedOrderData) { order in
-                    customSheetList(orderID: order.orderID)
+                    customSheetList(order: order)
                 }
             }
         }
     }
 
-    private func refundProcess(order: OrderedDataModel) async throws {
-        cancelStatus = FirestoreForProducts.ShippingStatus(rawValue: order.shippingStatus) ?? .cancel
+    private func refundProcess(orderItem: OrderedItem, order: OrderedListUserSide) async throws {
+        cancelStatus = FirestoreForProducts.ShippingStatus(rawValue: orderItem.shippingStatus) ?? .cancel
         print(cancelStatus.rawValue)
         guard cancelStatus != .cancel else {
             throw BillError.cancelError
         }
         cancelStatus = .cancel
         print(cancelStatus.rawValue)
-        let convertInt = Int(order.orderAmount) ?? 0
-        try await firestoreForProducts.userCancelOrder(shippingStatus: FirestoreForProducts.ShippingStatus(rawValue: cancelStatus.rawValue) ?? .cancel, providerUID: order.providerUID, customerUID: firebaseAuth.getUID(), orderID: order.orderID, productID: order.productUID, orderAmount: convertInt)
+//        let convertInt = Int(order.orderAmount) ?? 0
+        try await firestoreForProducts.userCancelOrder(
+//            shippingStatus: FirestoreForProducts.ShippingStatus(rawValue: cancelStatus.rawValue) ?? .cancel,
+//            providerUID: order.providerUID, customerUID: firebaseAuth.getUID(),
+//            orderID: order.orderID,
+//            productUID: order.productUID,
+//            orderAmount: convertInt
+            shippingStatus: FirestoreForProducts.ShippingStatus(rawValue: cancelStatus.rawValue) ?? .cancel,
+            providerUID: orderItem.providerUID,
+            customerUID: firebaseAuth.getUID(),
+            orderID: order.orderUID,
+            productUID: orderItem.productUID,
+            orderAmount: orderItem.orderAmount
+        )
         try await firestoreForProducts.fetchOrderedDataUserSide(uidPath: firebaseAuth.getUID())
     }
     
     @ViewBuilder
-    func productUnit(cartItemData: UserOrderProductsDataModel) -> some View {
+    func productUnit(cartItemData: OrderedItem) -> some View {
         HStack {
             WebImage(url: URL(string: cartItemData.productImage))
                 .resizable()
@@ -100,7 +117,7 @@ extension UserOrderedListView {
                         .foregroundColor(.primary)
                         .font(.body)
                     Spacer()
-                    Text("$\(cartItemData.productPrice)")
+                    Text("$\(cartItemData.orderProductPrice)")
                         .foregroundColor(.primary)
                         .font(.title3)
                         .fontWeight(.bold)
@@ -109,7 +126,7 @@ extension UserOrderedListView {
                     Text("Order Amount: ")
                         .foregroundColor(.primary)
                         .font(.body)
-                    Text(cartItemData.orderAmount)
+                    Text("\(cartItemData.orderAmount)")
                         .foregroundColor(.primary)
                         .font(.body)
                     Spacer()
@@ -137,12 +154,12 @@ extension UserOrderedListView {
     }
     
     @ViewBuilder
-    func orderedUnit(orderedData: OrderedDataModel, action: (() -> Void)? = nil, cancel: (() -> Void)? = nil) -> some View {
+    func orderedUnit(orderedData: OrderedListUserSide, action: (() -> Void)? = nil, cancel: (() -> Void)? = nil) -> some View {
         
         VStack(spacing: 10) {
             
             VStack(spacing: 5) {
-                orderTitleAndContain(header: "Order ID", body: orderedData.orderID)
+                orderTitleAndContain(header: "Order ID", body: orderedData.orderUID)
                     .accessibilityIdentifier("orderID")
                 VStack(spacing: 1) {
                     HStack {
@@ -152,16 +169,17 @@ extension UserOrderedListView {
                     .foregroundColor(.white)
                     .font(.headline)
                     HStack {
-                        Text(orderedData.orderDate, format: Date.FormatStyle().year().month().day())
+                        Text(orderedData.orderDate?.dateValue() ?? Date(), format: Date.FormatStyle().year().month().day())
                         Spacer()
                     }
                     .foregroundColor(.white)
                     .font(.body)
                 }
                 orderTitleAndContain(header: "Shipping Address", body: orderedData.shippingAddress)
-                orderTitleAndContain(header: "Payment Sataus", body: orderedData.paymentStatus)
+                orderTitleAndContain(header: "Shipping Method", body: orderedData.shippingMethod)
+                orderTitleAndContain(header: "Payment Method", body: orderedData.paymentMethod)
                 orderTitleAndContain(header: "Subtotal", body: String(orderedData.subTotal))
-                orderTitleAndContain(header: "Shipping Status", body: orderedData.shippingStatus)
+                //                orderTitleAndContain(header: "Shipping Status", body: orderedData.shippingStatus)
             }
             HStack {
                 Button {
@@ -206,16 +224,22 @@ extension UserOrderedListView {
     }
     
     @ViewBuilder
-    func customSheetList(orderID: String) -> some View {
+    func customSheetList(order: OrderedListUserSide) -> some View {
         NavigationView {
             VStack {
                 SheetPullBar()
                 List {
                     ForEach(firestoreForProducts.fetchOrderedDataSet) { item in
-                        NavigationLink {
-                            orderedListDetailView(productsData: item, orderID: orderID)
-                        } label: {
-                            productUnit(cartItemData: item)
+                        ForEach(firestoreForProducts.productCommentAndRatting) { comment in
+                            NavigationLink {
+                                orderedListDetailView(
+                                    productsData: item,
+                                    order: order,
+                                    ratting: comment
+                                )
+                            } label: {
+                                productUnit(cartItemData: item)
+                            }
                         }
                     }
                 }
@@ -227,7 +251,10 @@ extension UserOrderedListView {
             .navigationBarHidden(true)
             .task {
                 do {
-                    try await firestoreForProducts.fetchOrderedData(uidPath: firebaseAuth.getUID(), docID: orderID)
+                    try await firestoreForProducts.fetchOrderedData(
+                        uidPath: firebaseAuth.getUID(),
+                        orderID: order.orderUID
+                    )
                 } catch {
                     self.errorHandler.handle(error: error)
                 }
@@ -236,7 +263,11 @@ extension UserOrderedListView {
     }
     
     @ViewBuilder
-    func orderedListDetailView(productsData: UserOrderProductsDataModel, orderID: String) -> some View {
+    func orderedListDetailView(
+        productsData: OrderedItem,
+        order: OrderedListUserSide,
+        ratting: ProductCommentRatting
+    ) -> some View {
         VStack {
             VStack(spacing: 10) {
                 HStack {
@@ -253,7 +284,10 @@ extension UserOrderedListView {
                 }
                 HStack {
                     Text("Rate: ")
-                    showRattedResult(isSummit: productsData.isUploadComment, ratted: productsData.ratting)
+                    showRattedResult(
+                        isSummit: ratting.uploadUserID.isEmpty,
+                        ratted: ratting.ratting
+                    )
                     Spacer()
                 }
                 .foregroundColor(.white)
@@ -263,27 +297,46 @@ extension UserOrderedListView {
                     Spacer()
                 }
                 
-                showComment(isSummit: productsData.isUploadComment, text: productsData.comment)
-                
+                showComment(
+                    isSummit: ratting.uploadUserID.isEmpty,
+                    text: ratting.comment
+                )
                 HStack {
                     Spacer()
                     Button {
                         Task {
                             do {
-                                guard let id = productsData.id else { return }
-                                try await firestoreForProducts.userToSummitProductComment(uidPath: firebaseAuth.getUID(), comment: userOrderedListVM.comment, ratting: userOrderedListVM.rating, docID: orderID, isUploadComment: true, listID: id)
-                                try await firestoreForProducts.summitCommentAndRatting(providerUidPath: productsData.providerUID, productID: productsData.productUID, ratting: userOrderedListVM.rating, comment: userOrderedListVM.comment, summitUserDisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName)
-                                try await firestoreForProducts.fetchOrderedData(uidPath: firebaseAuth.getUID(), docID: orderID)
+//                                guard let id = productsData.id else { return }
+                                try await firestoreForProducts.userToSummitProductComment(
+//                                    uidPath: firebaseAuth.getUID(),
+//                                    comment: userOrderedListVM.comment,
+//                                    ratting: userOrderedListVM.rating,
+//                                    docID: orderID,
+//                                    isUploadComment: true,
+//                                    listID: id
+                                    product: ratting
+                                )
+//                                try await firestoreForProducts.summitCommentAndRatting(
+//                                    providerUidPath: productsData.providerUID,
+//                                    productID: productsData.productUID,
+//                                    ratting: userOrderedListVM.rating,
+//                                    comment: userOrderedListVM.comment,
+//                                    summitUserDisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName
+//                                )
+                                try await firestoreForProducts.fetchOrderedData(
+                                    uidPath: firebaseAuth.getUID(),
+                                    orderID: order.orderUID
+                                )
                                 userOrderedListVM.reset()
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }
                         }
                     } label: {
-                        Text(productsData.isUploadComment ? "Thanks" : "Summit")
+                        Text(ratting.uploadUserID.isEmpty ? "Summit" : "Thanks")
                             .modifier(ButtonModifier())
                     }
-                    .disabled(productsData.isUploadComment ? true : false)
+                    .disabled(ratting.uploadUserID.isEmpty ? false : true)
                 }
                 Spacer()
             }
@@ -298,7 +351,10 @@ extension UserOrderedListView {
     }
     
     @ViewBuilder
-    func showRattedResult(isSummit: Bool, ratted result: Int) -> some View {
+    func showRattedResult(
+        isSummit: Bool,
+        ratted result: Int
+    ) -> some View {
         if isSummit {
             HStack {
                 ForEach(1..<result + 1, id: \.self) { _ in

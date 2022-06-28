@@ -43,27 +43,27 @@ struct RenterContractView: View {
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
-                        HStack {
-                            if !roomsData.renterUID.isEmpty {
-                                Button {
-                                    renterContractVM.showPaymentHistory.toggle()
-                                } label: {
-                                    Image(systemName: renterContractVM.showPaymentHistory ? "list.bullet.rectangle.portrait.fill" : "list.bullet.rectangle.portrait")
-                                        .foregroundColor(.white)
-                                        .frame(width: 25, height: 25)
-                                }
-                            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if firestoreToFetchUserinfo.fetchedUserData.providerType == "Rental Manager" {
+                    HStack {
+                        if !roomsData.renterUID.isEmpty {
                             Button {
-                                renterContractVM.showEditMode.toggle()
+                                renterContractVM.showPaymentHistory.toggle()
                             } label: {
-                                Image(systemName: "gearshape")
+                                Image(systemName: renterContractVM.showPaymentHistory ? "list.bullet.rectangle.portrait.fill" : "list.bullet.rectangle.portrait")
                                     .foregroundColor(.white)
                                     .frame(width: 25, height: 25)
                             }
                         }
+                        Button {
+                            renterContractVM.showEditMode.toggle()
+                        } label: {
+                            Image(systemName: "gearshape")
+                                .foregroundColor(.white)
+                                .frame(width: 25, height: 25)
+                        }
                     }
+                }
             }
         }
     }
@@ -103,7 +103,10 @@ extension RenterContractView {
                         Button {
                             Task {
                                 do {
-                                    try await firestoreToFetchRoomsData.roomPublish(docID: roomsData.id ?? "", uidPath: firebaseAuth.getUID(), roomDM: roomsData, house: contractData)
+                                    try await firestoreToFetchRoomsData.roomPublish(
+                                        uidPath: firebaseAuth.getUID(),
+                                        roomDM: roomsData,
+                                        house: contractData)
                                     try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
                                 } catch {
                                     self.errorHandler.handle(error: error)
@@ -244,25 +247,26 @@ extension RenterContractView {
                             }
                             .padding(.top, 10)
                             .padding(.horizontal)
-                        } else if appViewModel.rentalPolicyisAgree == true {
+                        } else if appViewModel.rentalPolicyisAgree {
                             Button {
-//                                if localData.tempCart.roomUID.isEmpty {
-                                    localData.tempCart = roomsData
-                                    localData.addItem(roomsInfo: contractData)
-//                                } else {
-//                                    localData.tempCart.removeAll()
-//                                    localData.summaryItemHolder = .empty
-//                                    if localData.tempCart.isEmpty {
-//                                        localData.tempCart.append(roomsData)
-//                                        localData.addItem(roomsInfo: roomsData)
-//                                    }
-//                                }
+                                //                                if localData.tempCart.roomUID.isEmpty {
+                                localData.roomRenting = roomsData
+                                localData.rentingContractHolder = contractData
+//                                localData.addItem(roomsInfo: contractData)
+                                //                                } else {
+                                //                                    localData.tempCart.removeAll()
+                                //                                    localData.summaryItemHolder = .empty
+                                //                                    if localData.tempCart.isEmpty {
+                                //                                        localData.tempCart.append(roomsData)
+                                //                                        localData.addItem(roomsInfo: roomsData)
+                                //                                    }
+                                //                                }
                                 
                                 if appViewModel.isPresent == false {
                                     appViewModel.isPresent = true
                                 }
-                                localData.sumPrice = localData.compute(source: localData.summaryItemHolder)
-                                if !productDetailViewModel.productOrderCart.isEmpty {                                
+                                localData.sumPrice = localData.compute(source: localData.rentingContractHolder)
+                                if !productDetailViewModel.productOrderCart.isEmpty {
                                     localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
                                 }
                                 appViewModel.isAddNewItem = true
@@ -342,7 +346,7 @@ extension RenterContractView {
                     LineWithSpacer(contain: "2.附屬建物用途\(contractData.subBuildingPurpose )，面積\(contractData.subBuildingArea )平方公尺。")
                     LineWithSpacer(contain: "(三)共有部分建號:\(contractData.publicBuildingNumber )，權利範圍:\(contractData.publicBuildingRightRange )，持分面積\(contractData.publicBuildingArea )平方公尺。")
                     settingTheRightForThirdPerson(_isSettingTheRightForThirdPerson: contractData.isSettingTheRightForThirdPerson ,          _SettingTheRightForThirdPersonForWhatKind: contractData.settingTheRightForThirdPersonForWhatKind )
-                     //有無設定他項權利
+                    //有無設定他項權利
                     blockByBankCheck(_isBlockByBank: contractData.isBlockByBank )  //有無查封登記
                 }
                 .font(.system(size: 14, weight: .regular))

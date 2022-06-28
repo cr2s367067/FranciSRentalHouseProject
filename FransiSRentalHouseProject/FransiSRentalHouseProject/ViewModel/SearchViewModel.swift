@@ -96,23 +96,23 @@ class SearchViewModel: ObservableObject {
         }
     }
     
-    func address(input: RoomInfoDataModel) -> String {
+    func address(input: RoomDM) -> String {
         let zipCode = input.zipCode
         let city = input.city
         let town = input.town
-        let address = input.roomAddress
+        let address = input.address
         return zipCode + city + town + address
     }
     
-    func customSearchFilter(input: [RoomInfoDataModel], searchText: String) -> [RoomInfoDataModel] {
-        var tempHolder = [RoomInfoDataModel]()
+    func customSearchFilter(input: [RoomDM], searchText: String) -> [RoomDM] {
+        var tempHolder = [RoomDM]()
         if searchText.isEmpty {
             tempHolder = input
         } else {
             tempHolder = input.filter({ search in
                 let city = search.city
                 let town = search.town
-                let address = search.roomAddress
+                let address = search.address
                 let fullAddress = city + town + address
                 return fullAddress.contains(searchText)
             })
@@ -120,8 +120,8 @@ class SearchViewModel: ObservableObject {
         return tempHolder
     }
     
-    func filterProductByTags(input: [ProductProviderDataModel], tags: String, searchText: String) -> [ProductProviderDataModel] {
-        var sortedHolder = [ProductProviderDataModel]()
+    func filterProductByTags(input: [ProductDM], tags: String, searchText: String) -> [ProductDM] {
+        var sortedHolder = [ProductDM]()
         if searchText.isEmpty {
             sortedHolder = input
         } else {

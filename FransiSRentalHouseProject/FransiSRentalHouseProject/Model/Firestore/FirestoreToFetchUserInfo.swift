@@ -137,6 +137,17 @@ extension FirestoreToFetchUserinfo {
         ])
     }
     
+    //MARK: - Get user rented contract detail and provider info
+    @MainActor
+    func getRentedContract(
+        uidPath: String
+    ) async throws {
+        let rentedRoomRef = db.collection("RentedRoom").document(uidPath)
+        rentedRoom = try await rentedRoomRef.getDocument(as: RentedRoom.self)
+        let rentedRoomContractRef = rentedRoomRef.collection("Contract").document(rentedRoom.rentedRoomUID)
+        rentedContract = try await rentedRoomContractRef.getDocument(as: HouseContract.self)
+    }
+    
     func summitRentedContractToUserData(
         uidPath: String,
         rented roomUID: String,
@@ -242,12 +253,12 @@ extension FirestoreToFetchUserinfo {
         ])
     }
     
-    @MainActor
-    func getSummittedContract(uidPath: String, rented roomUID: String) async throws -> HouseContract {
-        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document(roomUID)
-        rentedContract = try await rentedRoomContractRef.getDocument(as: HouseContract.self)
-        return rentedContract
-    }
+//    @MainActor
+//    func getSummittedContract(uidPath: String, rented roomUID: String) async throws -> HouseContract {
+//        let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document(roomUID)
+//        rentedContract = try await rentedRoomContractRef.getDocument(as: HouseContract.self)
+//        return rentedContract
+//    }
     
     func clearExpiredContract(uidPath: String, rented roomUID: String) async throws {
         let rentedRoomContractRef = db.collection("RentedRoom").document(uidPath).collection("Contract").document(roomUID)
@@ -322,9 +333,18 @@ extension FirestoreToFetchUserinfo {
         return tempFirstName + tempLastName
     }
     
-    func presentProviderName() {
-        
+    func checkRoosStatus(roomUID: String) throws {
+        guard !roomUID.isEmpty else {
+            throw UserInformationError.userRentalError
+        }
     }
+    
+    func checkMaintainFilled(description: String, appointmentDate: Date) throws {
+        guard description.isEmpty || description != "Please describe what stuff needs to fix." else {
+            throw MaintainError.maintianFillingError
+        }
+    }
+    
 }
 
 
@@ -364,16 +384,8 @@ extension FirestoreToFetchUserinfo {
 //        return rentedRoomUID
 //    }
 //
-//    func checkRoosStatus(roomUID: String) throws {
-//        guard !roomUID.isEmpty else {
-//            throw UserInformationError.userRentalError
-//        }
-//    }
-//    func checkMaintainFilled(description: String, appointmentDate: Date) throws {
-//        guard description.isEmpty || description != "Please describe what stuff needs to fix." else {
-//            throw MaintainError.maintianFillingError
-//        }
-//    }
+//
+//    
 //}
 
 

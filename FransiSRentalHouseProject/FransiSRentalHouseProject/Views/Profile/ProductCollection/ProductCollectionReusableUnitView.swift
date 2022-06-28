@@ -16,12 +16,12 @@ struct ProductCollectionReusableUnitView: View {
     let uiScreenHeight = UIScreen.main.bounds.height
     
     
-    var productData: ProductProviderDataModel
+    var productData: ProductDM
     
     var body: some View {
         VStack {
             HStack {
-                WebImage(url: URL(string: productData.productImage))
+                WebImage(url: URL(string: productData.coverImage))
                     .resizable()
                     .frame(width: 140, height: 120, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 10))

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/*
 struct ProviderSummittedRoomContractView: View {
     
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
@@ -683,72 +684,13 @@ struct ProviderSummittedRoomContractView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+*/
 
 
 
-struct TitleView: View {
-    var titleName: String
-    var body: some View {
-        HStack {
-            Text(titleName)
-                .font(.system(size: 15, weight: .regular))
-            Spacer()
-            //                .frame(width: UIScreen.main.bounds.width / 2)
-        }
-    }
-}
 
-struct SubTitleView: View {
-    var subTitleName: String
-    var body: some View {
-        HStack {
-            Text(subTitleName)
-                .font(.system(size: 15, weight: .regular))
-            Spacer()
-            //                .frame(width: UIScreen.main.bounds.width / 2 + 33)
-        }
-    }
-}
-
-struct LineWithSpacer: View {
-    var contain: String
-    var body: some View {
-        HStack {
-            Text(contain)
-            Spacer()
-        }
-    }
-}
-
-struct signatureContainer: View {
-    var containerName: String
-    var containHolder: String
-    var body: some View {
-        HStack {
-            Text(containerName)
-            Text(containHolder)
-            Spacer()
-        }
-    }
-}
-
-struct signatureHolder: View {
-    var signatureTitle: String
-    var signString: String
-    var body: some View {
-        HStack {
-            Text(signatureTitle)
-            Text(signString)
-                .padding(.leading, 2)
-            Text("簽章")
-            Spacer()
-        }
-//        .foregroundColor(Color.black)
-    }
-}
-
-struct ProviderSummittedRoomContractView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProviderSummittedRoomContractView()
-    }
-}
+//struct ProviderSummittedRoomContractView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProviderSummittedRoomContractView()
+//    }
+//}

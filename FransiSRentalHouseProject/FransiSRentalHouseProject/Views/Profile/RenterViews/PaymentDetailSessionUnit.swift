@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PaymentDetailSessionUnit: View {
     
-    var rentalPrice: String
+    var rentalPrice: Int
     var paymentDate: Date
     
     var body: some View {

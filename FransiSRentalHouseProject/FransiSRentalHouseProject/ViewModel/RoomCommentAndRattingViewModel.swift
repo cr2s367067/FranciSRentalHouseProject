@@ -9,6 +9,8 @@ import Foundation
 
 class RoomCommentAndRattingViewModel: ObservableObject {
     
+    @Published var roomCAR: RoomCommentRatting = .empty
+    
 //    @Published var trafficRate = 0
     @Published var convenienceRate = 0
     @Published var pricingRate = 0

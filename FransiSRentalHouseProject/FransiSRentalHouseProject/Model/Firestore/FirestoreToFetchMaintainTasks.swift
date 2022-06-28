@@ -16,29 +16,37 @@ class FirestoreToFetchMaintainTasks: ObservableObject {
     
     let db = Firestore.firestore()
     
-    @Published var fetchMaintainInfo = [MaintainTaskHolder]()
+    @Published var fetchMaintainInfo = [MaintainDM]()
     @Published var showMaintainDetail = false
     
 }
 
 extension FirestoreToFetchMaintainTasks {
-    func uploadMaintainInfoAsync(uidPath: String, taskDes: String, appointmentDate: Date, docID: String, itemImageURL: String) async throws {
-        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID).collection("MaintainTasks")
+    func uploadMaintainInfoAsync(
+        uidPath: String,
+        roomUID: String,
+        maintain task: MaintainDM
+    ) async throws {
+        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks")
         _ = try await maintainRef.addDocument(data: [
-            "description": taskDes,
-            "appointmentDate": appointmentDate,
-            "isFixed": false,
-            "itemImageURL" : itemImageURL
+            "maintainDescription" : task.maintainDescription,
+            "appointmentDate" : task.appointmentDate,
+            "itemImageURL" : task.itemImageURL,
+            "isFixed" : task.isFixed,
+            "publishDate" : Date()
         ])
     }
     
     @MainActor
-    func fetchMaintainInfoAsync(uidPath: String, docID: String) async throws {
-        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID).collection("MaintainTasks").order(by: "appointmentDate", descending: false)
+    func fetchMaintainInfoAsync(
+        uidPath: String,
+        roomUID: String
+    ) async throws {
+        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks").order(by: "appointmentDate", descending: false)
         let document = try await maintainRef.getDocuments().documents
         self.fetchMaintainInfo = document.compactMap { queryDocumentSnapshot in
             let result = Result {
-                try queryDocumentSnapshot.data(as: MaintainTaskHolder.self)
+                try queryDocumentSnapshot.data(as: MaintainDM.self)
             }
             switch result {
             case .success(let data):
@@ -53,25 +61,43 @@ extension FirestoreToFetchMaintainTasks {
 
 
 extension FirestoreToFetchMaintainTasks {
-    func updateFixedInfo(uidPath: String, docID: String, maintainDocID: String) async throws {
-        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID).collection("MaintainTasks").document(maintainDocID)
+    func updateFixedInfo(
+        uidPath: String,
+        roomUID: String,
+        maintainDocID: String
+    ) async throws {
+        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks").document(maintainDocID)
         try await maintainRef.updateData([
             "isFixed" : true
         ])
     }
     
-    func deleteFixedItem(uidPath: String, docID: String, maintainDocID: String) async throws {
-        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID).collection("MaintainTasks").document(maintainDocID)
+    func deleteFixedItem(
+        uidPath: String,
+        roomUID: String,
+        maintainDocID: String
+    ) async throws {
+        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks").document(maintainDocID)
         try await maintainRef.delete()
     }
     
-    func updateMaintainTaskInfo(uidPath: String, docID: String, maintainDocID: String, newTaskDes: String, newAppointDate: Date, newImageURL: String) async throws {
-        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID).collection("MaintainTasks").document(maintainDocID)
+    func updateMaintainTaskInfo(
+        provider uidPath: String,
+        rented roomUID: String,
+        update task: MaintainDM
+//        maintainDocID: String
+    ) async throws {
+        let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks").document(task.id ?? "")
         try await maintainRef.updateData([
-            "description": newTaskDes,
-            "appointmentDate": newAppointDate,
-            "isFixed": false,
-            "itemImageURL" : newImageURL
+//            "description": newTaskDes,
+//            "appointmentDate": newAppointDate,
+//            "isFixed": false,
+//            "itemImageURL" : newImageURL
+            "maintainDescription" : task.maintainDescription,
+            "appointmentDate" : task.appointmentDate,
+            "itemImageURL" : task.itemImageURL,
+            "isFixed" : task.isFixed,
+            "publishDate" : Date()
         ])
     }
 }

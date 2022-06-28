@@ -15,15 +15,17 @@ struct SearchProductListItemView: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
-    var productName: String = "productName"
-    var productImage: String = ""
-    var productPrice: String = "100"
-    var productDes: String = "test description"
+//    var productName: String = "productName"
+//    var productImage: String = ""
+//    var productPrice: String = "100"
+//    var productDes: String = "test description"
+    
+    var productData: ProductDM
     
     var body: some View {
         HStack {
             VStack {
-                WebImage(url: URL(string: productImage))
+                WebImage(url: URL(string: productData.coverImage))
                     .resizable()
                     .scaledToFill()
                     .frame(width: uiScreenWidth / 4 + 40, height: uiScreenHeight / 7 + 20, alignment: .center)
@@ -32,13 +34,13 @@ struct SearchProductListItemView: View {
             }
             VStack {
                 HStack {
-                    Text(productName)
+                    Text(productData.productName)
                         .foregroundColor(.white)
                         .font(.headline)
                     Spacer()
                 }
                 HStack {
-                    Text(productDes)
+                    Text(productData.productDescription)
                         .foregroundColor(.white)
                         .font(.body)
                     Spacer()
@@ -46,7 +48,7 @@ struct SearchProductListItemView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Text("$ \(productPrice)")
+                    Text("$ \(productData.productPrice)")
                         .foregroundColor(.white)
                         .font(.system(size: 20, weight: .bold))
                 }
@@ -63,8 +65,8 @@ struct SearchProductListItemView: View {
     }
 }
 
-struct SearchProductListItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchProductListItemView()
-    }
-}
+//struct SearchProductListItemView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SearchProductListItemView()
+//    }
+//}

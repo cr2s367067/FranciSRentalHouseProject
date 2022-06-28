@@ -49,13 +49,32 @@ struct MaintainView: View {
     
     private func checkRoomStatus(describtion: String, appointmentDate: Date) async throws {
         do {
-            try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
-            try firestoreToFetchUserinfo.checkMaintainFilled(description: describtion, appointmentDate: appointmentDate)
+            try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID)
+            try firestoreToFetchUserinfo.checkMaintainFilled(
+                description: describtion,
+                appointmentDate: appointmentDate
+            )
             showProgressView = true
-            _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
+            _ = try await firestoreToFetchUserinfo.getRentedContract(uidPath: firebaseAuth.getUID())
             if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-                try await storageForMaintainImage.uploadFixItemImage(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", image: getFirstImage, roomUID: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID ?? "")
-                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", taskDes: describtion, appointmentDate: appointment, docID: firestoreToFetchUserinfo.rentedContract.docID, itemImageURL: storageForMaintainImage.itemImageURL)
+                try await storageForMaintainImage.uploadFixItemImage(
+                    uidPath: firestoreToFetchUserinfo.rentedRoom.rentedProvderUID,
+                    image: getFirstImage,
+                    roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID
+                )
+                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(
+                    uidPath: firestoreToFetchUserinfo.rentedRoom.rentedProvderUID,
+                    roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID,
+//                    taskDes: describtion,
+//                    appointmentDate: appointment,
+//                    itemImageURL: storageForMaintainImage.itemImageURL
+                    maintain: MaintainDM(
+                        maintainDescription: describtion,
+                        appointmentDate: appointmentDate,
+                        itemImageURL: storageForMaintainImage.itemImageURL,
+                        isFixed: false
+                    )
+                )
                 showProgressView = false
                 showAlert.toggle()
             }
@@ -165,15 +184,19 @@ struct MaintainView: View {
                 PHPickerRepresentable(selectLimit: $selectLimit, images: $images, video: Binding.constant(nil))
             })
             .overlay(content: {
-                if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                if firestoreToFetchUserinfo.userIDisEmpty() {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
                 if showProgressView == true {
                     CustomProgressView()
                 }
             })
-            .onAppear {
-                firestoreToFetchUserinfo.userRentedRoomInfo()
+            .task {
+                do {
+                    try await firestoreToFetchUserinfo.getRentedContract(uidPath: firebaseAuth.getUID())
+                } catch {
+                    self.errorHandler.handle(error: error)
+                }
             }
             .navigationTitle("")
             .navigationBarHidden(true)

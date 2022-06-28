@@ -10,7 +10,7 @@ import SwiftUI
 struct PresentContract: View {
     @EnvironmentObject var firestoreUser: FirestoreToFetchUserinfo
     @Environment(\.colorScheme) var colorScheme
-    var contractData: RentersContractDataModel
+    var contractData: HouseContract
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     

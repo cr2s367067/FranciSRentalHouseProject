@@ -87,7 +87,12 @@ class PaymentReceiveManager: ObservableObject {
         }
     }
     
-    func summitMonthlyIncome(uidPath: String, docID: String, pastPaymentFee: String, paymentDate: Date) async throws {
+    func summitMonthlyIncome(
+        uidPath: String,
+        docID: String,
+        pastPaymentFee: Int,
+        paymentDate: Date
+    ) async throws {
         let settlementMonthlyIncomeRef = db.collection("users").document(uidPath).collection("MonthlySettlement").document(docID).collection("MonthlyIncome")
         _ = try await settlementMonthlyIncomeRef.addDocument(data: [
             "pastPaymentFee" : pastPaymentFee,

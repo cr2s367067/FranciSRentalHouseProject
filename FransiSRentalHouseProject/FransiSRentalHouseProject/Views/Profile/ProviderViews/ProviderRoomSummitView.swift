@@ -18,7 +18,7 @@ struct ProviderRoomSummitView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
-    @EnvironmentObject var providerRoomSummitViewModel: ProviderRoomSummitViewModel
+    @EnvironmentObject var providerRoomSummitVM: ProviderRoomSummitViewModel
     @Environment(\.colorScheme) var colorScheme
 
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -44,7 +44,7 @@ struct ProviderRoomSummitView: View {
                     //MARK: - Room Cover photo
                     StepsTitle(stepsName: "Step1: Upload the room pic.")
                     Button {
-                        providerRoomSummitViewModel.showSheet.toggle()
+                        providerRoomSummitVM.showSheet.toggle()
                     } label: {
                         ZStack(alignment: .center) {
                             Rectangle()
@@ -55,8 +55,8 @@ struct ProviderRoomSummitView: View {
                                 .resizable()
                                 .frame(width: 25, height: 25)
                                 .foregroundColor(Color.gray)
-                            if providerRoomSummitViewModel.isSummitRoomPic == true {
-                                Image(uiImage: self.providerRoomSummitViewModel.image)
+                            if providerRoomSummitVM.isSummitRoomPic == true {
+                                Image(uiImage: self.providerRoomSummitVM.image)
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: uiScreenWidth - 30, height: 304)
@@ -69,21 +69,33 @@ struct ProviderRoomSummitView: View {
                     StepsTitle(stepsName: "Step2: Please provide the necessary information")
                     VStack(spacing: 10) {
                         Group {
-                            InfoUnit(title: "Holder Name", bindingString: $appViewModel.holderName)
-                            InfoUnit(title: "Mobile Number", bindingString: $appViewModel.holderMobileNumber)
+//                            InfoUnit(title: "Holder Name", bindingString: $appViewModel.holderName)
+//                            InfoUnit(title: "Mobile Number", bindingString: $appViewModel.holderMobileNumber)
                             Group {
-                                InfoUnit(title: "Room Address", bindingString: $appViewModel.roomAddress)
-                                    .accessibilityIdentifier("roomAddress")
-                                InfoUnit(title: "Town", bindingString: $appViewModel.roomTown)
-                                    .accessibilityIdentifier("town")
-                                InfoUnit(title: "City", bindingString: $appViewModel.roomCity)
-                                    .accessibilityIdentifier("city")
-                                InfoUnit(title: "Zip Code", bindingString: $appViewModel.roomZipCode)
-                                    .accessibilityIdentifier("zipcode")
+                                InfoUnit(
+                                    title: "Zip Code",
+                                    bindingString: $providerRoomSummitVM.roomZipCode
+                                )
+                                .accessibilityIdentifier("zipcode")
+                                InfoUnit(
+                                    title: "City",
+                                    bindingString: $providerRoomSummitVM.roomCity
+                                )
+                                .accessibilityIdentifier("city")
+                                InfoUnit(
+                                    title: "Town",
+                                    bindingString: $providerRoomSummitVM.roomTown
+                                )
+                                .accessibilityIdentifier("town")
+                                InfoUnit(
+                                    title: "Room Address",
+                                    bindingString: $providerRoomSummitVM.roomAddress
+                                )
+                                .accessibilityIdentifier("roomAddress")
                             }
-                            InfoUnit(title: "Room Area", bindingString: $appViewModel.roomArea)
+                            InfoUnit(title: "Room Area", bindingString: $providerRoomSummitVM.roomArea)
                                 .accessibilityIdentifier("roomArea")
-                            InfoUnit(title: "Rental Price", bindingString: $appViewModel.roomRentalPrice)
+                            InfoUnit(title: "Rental Price", bindingString: $providerRoomSummitVM.roomRentalPrice)
                                 .accessibilityIdentifier("rentalPrice")
                             VStack(alignment: .leading, spacing: 2) {
                                 HStack {
@@ -91,7 +103,7 @@ struct ProviderRoomSummitView: View {
                                         .modifier(textFormateForProviderSummitView())
                                     Spacer()
                                 }
-                                TextEditor(text: $appViewModel.roomDescription)
+                                TextEditor(text: $providerRoomSummitVM.roomDescription)
                                     .foregroundStyle(Color.white)
                                     .frame(height: 300, alignment: .center)
                                     .cornerRadius(5)
@@ -116,7 +128,7 @@ struct ProviderRoomSummitView: View {
                             }
                             .padding(.bottom)
                             Button {
-                                providerRoomSummitViewModel.showPHPicker.toggle()
+                                providerRoomSummitVM.showPHPicker.toggle()
                             } label: {
                                 ZStack(alignment: .center) {
                                     Rectangle()
@@ -127,8 +139,8 @@ struct ProviderRoomSummitView: View {
                                         .resizable()
                                         .frame(width: 25, height: 25)
                                         .foregroundColor(Color.gray)
-                                    if providerRoomSummitViewModel.isSelectedRoomSet == true {
-                                        Image(uiImage: providerRoomSummitViewModel.presentImage(input: providerRoomSummitViewModel.imageSet))
+                                    if providerRoomSummitVM.isSelectedRoomSet == true {
+                                        Image(uiImage: providerRoomSummitVM.presentImage(input: providerRoomSummitVM.imageSet))
                                             .resizable()
                                             .frame(width: uiScreenWidth / 2, height: uiScreenHeight / 6, alignment: .center)
                                             .cornerRadius(10)
@@ -137,7 +149,7 @@ struct ProviderRoomSummitView: View {
                                     VStack(alignment: .trailing) {
                                         HStack {
                                             Spacer()
-                                            Text("\(providerRoomSummitViewModel.imageSet.count)")
+                                            Text("\(providerRoomSummitVM.imageSet.count)")
                                                 .foregroundColor(.white)
                                                 .padding()
                                                 .frame(width: 50, height: 40, alignment: .center)
@@ -161,7 +173,7 @@ struct ProviderRoomSummitView: View {
                                 Text("Additional Room Intro Video")
                                     .modifier(textFormateForProviderSummitView())
                                 Button {
-                                    providerRoomSummitViewModel.showPHPicker.toggle()
+                                    providerRoomSummitVM.showPHPicker.toggle()
                                 } label: {
                                     Image(systemName: getVideo ? "checkmark.square.fill" : "plus.square")
                                         .resizable()
@@ -172,8 +184,8 @@ struct ProviderRoomSummitView: View {
                                 Spacer()
                             }
                             .padding(.bottom)
-                            if providerRoomSummitViewModel.isSelectedRoomSet == true && !(providerRoomSummitViewModel.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
-                                if let url = providerRoomSummitViewModel.roomIntroVideoURL {
+                            if providerRoomSummitVM.isSelectedRoomSet == true && !(providerRoomSummitVM.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
+                                if let url = providerRoomSummitVM.roomIntroVideoURL {
                                     VStack {
                                         VideoPlayer(player: AVPlayer(url: url))
                                     }
@@ -193,31 +205,31 @@ struct ProviderRoomSummitView: View {
                             }
                             HStack {
                                 Button {
-                                    if appViewModel.doesSomeDeadinRoomNo == true {
-                                        appViewModel.doesSomeDeadinRoomNo = false
+                                    if providerRoomSummitVM.doesSomeDeadinRoomNo == true {
+                                        providerRoomSummitVM.doesSomeDeadinRoomNo = false
                                     }
-                                    if appViewModel.doesSomeDeadinRoomYes == false {
-                                        appViewModel.doesSomeDeadinRoomYes = true
-                                        appViewModel.someoneDeadinRoom = "Yes"
+                                    if providerRoomSummitVM.doesSomeDeadinRoomYes == false {
+                                        providerRoomSummitVM.doesSomeDeadinRoomYes = true
+                                        providerRoomSummitVM.someoneDeadinRoom = true
                                     }
                                 } label: {
-                                    Image(systemName: appViewModel.doesSomeDeadinRoomYes ? "checkmark.square.fill" : "square")
-                                        .foregroundColor(appViewModel.doesSomeDeadinRoomYes ? .green : .white)
+                                    Image(systemName: providerRoomSummitVM.doesSomeDeadinRoomYes ? "checkmark.square.fill" : "square")
+                                        .foregroundColor(providerRoomSummitVM.doesSomeDeadinRoomYes ? .green : .white)
                                         .padding(.trailing, 5)
                                     Text("Yes")
                                         .foregroundColor(Color.white)
                                 }
                                 Button {
-                                    if appViewModel.doesSomeDeadinRoomYes == true {
-                                        appViewModel.doesSomeDeadinRoomYes = false
+                                    if providerRoomSummitVM.doesSomeDeadinRoomYes == true {
+                                        providerRoomSummitVM.doesSomeDeadinRoomYes = false
                                     }
-                                    if appViewModel.doesSomeDeadinRoomNo == false {
-                                        appViewModel.doesSomeDeadinRoomNo = true
-                                        appViewModel.someoneDeadinRoom = "No"
+                                    if providerRoomSummitVM.doesSomeDeadinRoomNo == false {
+                                        providerRoomSummitVM.doesSomeDeadinRoomNo = true
+                                        providerRoomSummitVM.someoneDeadinRoom = false
                                     }
                                 } label: {
-                                    Image(systemName: appViewModel.doesSomeDeadinRoomNo ? "checkmark.square.fill" : "square")
-                                        .foregroundColor(appViewModel.doesSomeDeadinRoomNo ? .green : .white)
+                                    Image(systemName: providerRoomSummitVM.doesSomeDeadinRoomNo ? "checkmark.square.fill" : "square")
+                                        .foregroundColor(providerRoomSummitVM.doesSomeDeadinRoomNo ? .green : .white)
                                         .padding(.trailing, 5)
                                     Text("No")
                                         .foregroundColor(Color.white)
@@ -235,31 +247,31 @@ struct ProviderRoomSummitView: View {
                             }
                             HStack {
                                 Button {
-                                    if appViewModel.hasWaterLeakingNo == true {
-                                        appViewModel.hasWaterLeakingNo = false
+                                    if providerRoomSummitVM.hasWaterLeakingNo == true {
+                                        providerRoomSummitVM.hasWaterLeakingNo = false
                                     }
-                                    if appViewModel.hasWaterLeakingYes == false {
-                                        appViewModel.hasWaterLeakingYes = true
-                                        appViewModel.waterLeakingProblem = "Yes"
+                                    if providerRoomSummitVM.hasWaterLeakingYes == false {
+                                        providerRoomSummitVM.hasWaterLeakingYes = true
+                                        providerRoomSummitVM.waterLeakingProblem = true
                                     }
                                 } label: {
-                                    Image(systemName: appViewModel.hasWaterLeakingYes ? "checkmark.square.fill" : "square")
-                                        .foregroundColor(appViewModel.hasWaterLeakingYes ? .green : .white)
+                                    Image(systemName: providerRoomSummitVM.hasWaterLeakingYes ? "checkmark.square.fill" : "square")
+                                        .foregroundColor(providerRoomSummitVM.hasWaterLeakingYes ? .green : .white)
                                         .padding(.trailing, 5)
                                     Text("Yes")
                                         .foregroundColor(Color.white)
                                 }
                                 Button {
-                                    if appViewModel.hasWaterLeakingYes == true {
-                                        appViewModel.hasWaterLeakingYes = false
+                                    if providerRoomSummitVM.hasWaterLeakingYes == true {
+                                        providerRoomSummitVM.hasWaterLeakingYes = false
                                     }
-                                    if appViewModel.hasWaterLeakingNo == false {
-                                        appViewModel.hasWaterLeakingNo = true
-                                        appViewModel.waterLeakingProblem = "No"
+                                    if providerRoomSummitVM.hasWaterLeakingNo == false {
+                                        providerRoomSummitVM.hasWaterLeakingNo = true
+                                        providerRoomSummitVM.waterLeakingProblem = false
                                     }
                                 } label: {
-                                    Image(systemName: appViewModel.hasWaterLeakingNo ? "checkmark.square.fill" : "square")
-                                        .foregroundColor(appViewModel.hasWaterLeakingNo ? .green : .white)
+                                    Image(systemName: providerRoomSummitVM.hasWaterLeakingNo ? "checkmark.square.fill" : "square")
+                                        .foregroundColor(providerRoomSummitVM.hasWaterLeakingNo ? .green : .white)
                                         .padding(.trailing, 5)
                                     Text("No")
                                         .foregroundColor(Color.white)
@@ -277,10 +289,10 @@ struct ProviderRoomSummitView: View {
                         Spacer()
                         HStack {
                             Button {
-                                providerRoomSummitViewModel.holderTosAgree.toggle()
+                                providerRoomSummitVM.holderTosAgree.toggle()
                             } label: {
-                                Image(systemName: providerRoomSummitViewModel.holderTosAgree ? "checkmark.square.fill" : "square")
-                                    .foregroundColor(providerRoomSummitViewModel.holderTosAgree ? .green : .white)
+                                Image(systemName: providerRoomSummitVM.holderTosAgree ? "checkmark.square.fill" : "square")
+                                    .foregroundColor(providerRoomSummitVM.holderTosAgree ? .green : .white)
                                     .padding(.trailing, 5)
                             }
                             .accessibilityIdentifier("tosAgree")
@@ -291,7 +303,7 @@ struct ProviderRoomSummitView: View {
                                 .foregroundColor(.blue)
                                 .font(.system(size: 14, weight: .medium))
                                 .onTapGesture {
-                                    providerRoomSummitViewModel.tosSheetShow.toggle()
+                                    providerRoomSummitVM.tosSheetShow.toggle()
                                 }
                         }
                         Spacer()
@@ -301,7 +313,22 @@ struct ProviderRoomSummitView: View {
                         Button {
                             Task {
                                 do {
-                                    try await checker(holderName: appViewModel.holderName, holderMobileNumber: appViewModel.holderMobileNumber, roomAddress: appViewModel.roomAddress, roomTown: appViewModel.roomTown, roomCity: appViewModel.roomCity, roomZipCode: appViewModel.roomZipCode, roomArea: appViewModel.roomArea, roomRentalPrice: appViewModel.roomRentalPrice, tosAgreement: providerRoomSummitViewModel.holderTosAgree, isSummitRoomImage: providerRoomSummitViewModel.isSummitRoomPic, roomUID: firestoreToFetchRoomsData.roomID, someoneDeadInRoom: appViewModel.someoneDeadinRoom, waterLeakingProblem: appViewModel.waterLeakingProblem, roomImageURL: storageForRoomsImage.representedRoomImageURL, providerDisplayName: appViewModel.displayName)
+                                    try await checker(
+                                        holderName: providerRoomSummitVM.holderName,
+                                        holderMobileNumber: providerRoomSummitVM.holderMobileNumber,
+                                        roomAddress: providerRoomSummitVM.roomAddress,
+                                        roomTown: providerRoomSummitVM.roomTown,
+                                        roomCity: providerRoomSummitVM.roomCity,
+                                        roomZipCode: providerRoomSummitVM.roomZipCode,
+                                        roomArea: providerRoomSummitVM.roomArea,
+                                        roomRentalPrice: providerRoomSummitVM.roomRentalPrice,
+                                        tosAgreement: providerRoomSummitVM.holderTosAgree,
+                                        isSummitRoomImage: providerRoomSummitVM.isSummitRoomPic,
+                                        roomUID: firestoreToFetchRoomsData.roomID,
+                                        someoneDeadInRoom: providerRoomSummitVM.someoneDeadinRoom,
+                                        waterLeakingProblem: providerRoomSummitVM.waterLeakingProblem,
+                                        roomImageURL: storageForRoomsImage.representedRoomImageURL
+                                    )
                                 } catch {
                                     self.errorHandler.handle(error: error)
                                 }
@@ -312,40 +339,43 @@ struct ProviderRoomSummitView: View {
                                 .frame(width: 108, height: 35)
                                 .background(Color("buttonBlue"))
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
-                                .alert("Notice", isPresented: $providerRoomSummitViewModel.showSummitAlert, actions: {
+                                .alert("Notice", isPresented: $providerRoomSummitVM.showSummitAlert, actions: {
                                     HStack {
                                         Button {
-                                            providerRoomSummitViewModel.showSummitAlert = false
+                                            providerRoomSummitVM.showSummitAlert = false
                                         } label: {
                                             Text("Cancel")
                                         }
                                         Button {
                                             Task {
                                                 do {
-                                                    providerRoomSummitViewModel.showProgressView = true
-                                                    try await storageForRoomsImage.uploadRoomCoverImage(uidPath: firebaseAuth.getUID(),
-                                                                                                        image: providerRoomSummitViewModel.image,
-                                                                                                        roomID: firestoreToFetchRoomsData.roomID,
-                                                                                                        imageUID: storageForRoomsImage.imageUUID)
-                                                    try await roomSummit(holderName: appViewModel.holderName,
-                                                                         holderMobileNumber: appViewModel.holderMobileNumber,
-                                                                         roomAddress: appViewModel.roomAddress,
-                                                                         roomTown: appViewModel.roomTown,
-                                                                         roomCity: appViewModel.roomCity,
-                                                                         roomZipCode: appViewModel.roomZipCode,
-                                                                         roomArea: appViewModel.roomArea,
-                                                                         roomRentalPrice: appViewModel.roomRentalPrice,
-                                                                         tosAgreement: providerRoomSummitViewModel.holderTosAgree,
-                                                                         isSummitRoomImage: providerRoomSummitViewModel.isSummitRoomPic,
-                                                                         roomUID: firestoreToFetchRoomsData.roomID,
-                                                                         someoneDeadInRoom: appViewModel.someoneDeadinRoom,
-                                                                         waterLeakingProblem: appViewModel.waterLeakingProblem,
-                                                                         roomImageURL: storageForRoomsImage.representedRoomImageURL,
-                                                                         providerDisplayName: appViewModel.displayName, roomDescription: appViewModel.roomDescription)
-                                                    
+                                                    providerRoomSummitVM.showProgressView = true
+                                                    try await storageForRoomsImage.uploadRoomCoverImage(
+                                                        uidPath: firebaseAuth.getUID(),
+                                                        image: providerRoomSummitVM.image,
+                                                        roomID: firestoreToFetchRoomsData.roomID,
+                                                        imageUID: storageForRoomsImage.imageUUID
+                                                    )
+                                                    try await roomSummit(
+                                                        rentalRoom: RoomDM(
+                                                            isPublish: false,
+                                                            roomUID: firestoreToFetchRoomsData.roomID,
+                                                            providerUID: firebaseAuth.getUID(),
+                                                            renterUID: "",
+                                                            roomsCoverImageURL: storageForRoomsImage.representedRoomImageURL,
+                                                            rentalPrice: providerRoomSummitVM.roomRentalPrice,
+                                                            zipCode: providerRoomSummitVM.roomZipCode,
+                                                            city: providerRoomSummitVM.roomCity,
+                                                            town: providerRoomSummitVM.roomTown,
+                                                            address: providerRoomSummitVM.roomAddress,
+                                                            roomDescription: providerRoomSummitVM.roomDescription,
+                                                            someoneDeadInRoom: providerRoomSummitVM.someoneDeadinRoom,
+                                                            waterLeakingProblem: providerRoomSummitVM.waterLeakingProblem
+                                                        )
+                                                    )
                                                     resetView()
-                                                    providerRoomSummitViewModel.showProgressView = false
-                                                    providerRoomSummitViewModel.showSummitAlert = false
+                                                    providerRoomSummitVM.showProgressView = false
+                                                    providerRoomSummitVM.showSummitAlert = false
                                                 } catch {
                                                     self.errorHandler.handle(error: error)
                                                 }
@@ -370,7 +400,7 @@ struct ProviderRoomSummitView: View {
                     .padding([.trailing, .top])
                     .frame(width: 400)
                 }
-                .disabled(providerRoomSummitViewModel.showProgressView ? true : false)
+                .disabled(providerRoomSummitVM.showProgressView ? true : false)
             }
             .modifier(ViewBackgroundInitModifier())
             .toolbar {
@@ -386,33 +416,33 @@ struct ProviderRoomSummitView: View {
                 if firestoreToFetchUserinfo.userIDisEmpty() {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
-                if providerRoomSummitViewModel.showProgressView == true {
+                if providerRoomSummitVM.showProgressView == true {
                     CustomProgressView()
                 }
             })
             .onAppear(perform: {
                 firestoreToFetchRoomsData.roomID = firestoreToFetchRoomsData.roomIdGenerator()
                 storageForRoomsImage.imageUUID = storageForRoomsImage.imagUUIDGenerator()
-                appViewModel.holderMobileNumber = firestoreToFetchUserinfo.fetchedUserData.mobileNumber
-                appViewModel.holderName = firestoreToFetchUserinfo.fetchedUserData.lastName + firestoreToFetchUserinfo.fetchedUserData.firstName
+                providerRoomSummitVM.holderMobileNumber = firestoreToFetchUserinfo.fetchedUserData.mobileNumber
+                providerRoomSummitVM.holderName = firestoreToFetchUserinfo.fetchedUserData.lastName + firestoreToFetchUserinfo.fetchedUserData.firstName
             })
-            .sheet(isPresented: $providerRoomSummitViewModel.tosSheetShow, content: {
+            .sheet(isPresented: $providerRoomSummitVM.tosSheetShow, content: {
                 TermOfServiceForRentalManager()
             })
-            .sheet(isPresented: $providerRoomSummitViewModel.showPHPicker) {
-                providerRoomSummitViewModel.isSelectedRoomSet = true
+            .sheet(isPresented: $providerRoomSummitVM.showPHPicker) {
+                providerRoomSummitVM.isSelectedRoomSet = true
                 //MARK: Fix the presenting bug
-                if !(providerRoomSummitViewModel.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
+                if !(providerRoomSummitVM.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
                     getVideo = true
                 }
-                debugPrint("getting video url: \(String(describing: providerRoomSummitViewModel.roomIntroVideoURL))")
+                debugPrint("getting video url: \(String(describing: providerRoomSummitVM.roomIntroVideoURL))")
             } content: {
-                PHPickerRepresentable(selectLimit: $selectlimit, images: self.$providerRoomSummitViewModel.imageSet, video: $providerRoomSummitViewModel.roomIntroVideoURL)
+                PHPickerRepresentable(selectLimit: $selectlimit, images: self.$providerRoomSummitVM.imageSet, video: $providerRoomSummitVM.roomIntroVideoURL)
             }
-            .sheet(isPresented: $providerRoomSummitViewModel.showSheet) {
-                providerRoomSummitViewModel.isSummitRoomPic = true
+            .sheet(isPresented: $providerRoomSummitVM.showSheet) {
+                providerRoomSummitVM.isSummitRoomPic = true
             } content: {
-                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$providerRoomSummitViewModel.image)
+                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$providerRoomSummitVM.image)
             }
         }
     }
@@ -442,75 +472,110 @@ struct BlurView: UIViewRepresentable {
 
 extension ProviderRoomSummitView {
     
-    private func roomSummit(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, providerDisplayName: String, roomDescription: String) async throws {
-        
-        let docID = UUID().uuidString
+//    @ViewBuilder
+//    func someOneDeadInThisRoom(
+//        config: Bool,
+//        name: String,
+//        void: @autoclosure ()->Void
+//    ) -> some View {
+//        if config {
+//            Button {
+//                void()
+//            } label: {
+//                Image(systemName: config ? "checkmark.square.fill" : "square")
+//                    .foregroundColor(config ? .green : .white)
+//                    .padding(.trailing, 5)
+//                Text(name)
+//                    .foregroundColor(Color.white)
+//            }
+//        }
+//    }
+    
+    private func roomSummit(
+        rentalRoom config: RoomDM
+    ) async throws {
         _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
-        try await firestoreToFetchRoomsData.summitRoomInfoAsync(docID: docID, uidPath: firebaseAuth.getUID(), roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL, providerDisplayName: providerDisplayName, providerChatDocId: firestoreForTextingMessage.senderUIDPath.chatDocId, roomDescription: roomDescription)
-        if !providerRoomSummitViewModel.imageSet.isEmpty {
-            try await storageForRoomsImage.uploadImageSet(uidPath: firebaseAuth.getUID(), images: providerRoomSummitViewModel.imageSet, roomID: roomUID, docID: docID)
-        }
-        if !(providerRoomSummitViewModel.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
-            guard let videoURL = providerRoomSummitViewModel.roomIntroVideoURL else { return }
-            debugPrint("uploading vieo url: \(videoURL)")
-            try await storageForRoomsImage.uploadRoomVideo(
-                movie: videoURL,
+        try await firestoreToFetchRoomsData.summitRoomInfoAsync(
+            uidPath: firebaseAuth.getUID(),
+            roomDM: config,
+            house: .roomCreate(zipCode: config.zipCode, city: config.city, town: config.town, address: config.address, rentalPrice: config.rentalPrice)
+        )
+        if !providerRoomSummitVM.imageSet.isEmpty {
+            try await storageForRoomsImage.uploadImageSet(
                 uidPath: firebaseAuth.getUID(),
-                roomID: roomUID,
-                docID: docID
+                images: providerRoomSummitVM.imageSet,
+                roomID: config.roomUID
             )
         }
+        
+        //MARK: Modify video ref, include room and product
+//        if !(providerRoomSummitVM.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
+//            guard let videoURL = providerRoomSummitVM.roomIntroVideoURL else { return }
+//            debugPrint("uploading vieo url: \(videoURL)")
+//            try await storageForRoomsImage.uploadRoomVideo(
+//                movie: videoURL,
+//                uidPath: firebaseAuth.getUID(),
+//                roomID: config.roomUID,
+//                docID: docID
+//            )
+//        }
     }
     
-    private func checker(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, providerDisplayName: String) async throws {
-        try await appViewModel.providerSummitCheckerAsync(holderName: holderName, holderMobileNumber: holderMobileNumber, roomAddress: roomAddress, roomTown: roomTown, roomCity: roomCity, roomZipCode: roomZipCode, roomArea: roomArea, roomRentalPrice: roomRentalPrice, tosAgreement: tosAgreement, isSummitRoomImage: isSummitRoomImage, roomUID: roomUID)
+    private func checker(
+        holderName: String,
+        holderMobileNumber: String,
+        roomAddress: String,
+        roomTown: String,
+        roomCity: String,
+        roomZipCode: String,
+        roomArea: String,
+        roomRentalPrice: String,
+        tosAgreement: Bool,
+        isSummitRoomImage: Bool,
+        roomUID: String,
+        someoneDeadInRoom: Bool,
+        waterLeakingProblem: Bool,
+        roomImageURL: String
+    ) async throws {
+        try await appViewModel.providerSummitCheckerAsync(
+            holderName: holderName,
+            holderMobileNumber: holderMobileNumber,
+            roomAddress: roomAddress,
+            roomTown: roomTown,
+            roomCity: roomCity,
+            roomZipCode: roomZipCode,
+            roomArea: roomArea,
+            roomRentalPrice: roomRentalPrice,
+            tosAgreement: tosAgreement,
+            isSummitRoomImage: isSummitRoomImage,
+            roomUID: roomUID
+        )
         
-        providerRoomSummitViewModel.showSummitAlert = true
+        providerRoomSummitVM.showSummitAlert = true
     }
     
     private func resetView() {
-        appViewModel.holderName = ""
-        appViewModel.holderMobileNumber = ""
-        appViewModel.roomAddress = ""
-        appViewModel.roomTown = ""
-        appViewModel.roomCity = ""
-        appViewModel.roomArea = ""
-        appViewModel.roomRentalPrice = ""
-        appViewModel.roomZipCode = ""
+        providerRoomSummitVM.holderName = ""
+        providerRoomSummitVM.holderMobileNumber = ""
+        providerRoomSummitVM.roomAddress = ""
+        providerRoomSummitVM.roomTown = ""
+        providerRoomSummitVM.roomCity = ""
+        providerRoomSummitVM.roomArea = ""
+        providerRoomSummitVM.roomRentalPrice = ""
+        providerRoomSummitVM.roomZipCode = ""
         firestoreToFetchRoomsData.roomID = firestoreToFetchRoomsData.roomIdGenerator()
         storageForRoomsImage.imageUUID = storageForRoomsImage.imagUUIDGenerator()
-        providerRoomSummitViewModel.isSummitRoomPic = false
-        providerRoomSummitViewModel.isSelectedRoomSet = false
-        providerRoomSummitViewModel.holderTosAgree = false
-        appViewModel.doesSomeDeadinRoomYes = false
-        appViewModel.doesSomeDeadinRoomNo = false
-        appViewModel.hasWaterLeakingNo = false
-        appViewModel.hasWaterLeakingYes = false
-        appViewModel.someoneDeadinRoom = ""
-        appViewModel.waterLeakingProblem = ""
-        providerRoomSummitViewModel.imageSet.removeAll()
-        appViewModel.roomDescription = ""
+        providerRoomSummitVM.isSummitRoomPic = false
+        providerRoomSummitVM.isSelectedRoomSet = false
+        providerRoomSummitVM.holderTosAgree = false
+        providerRoomSummitVM.doesSomeDeadinRoomYes = false
+        providerRoomSummitVM.doesSomeDeadinRoomNo = false
+        providerRoomSummitVM.hasWaterLeakingNo = false
+        providerRoomSummitVM.hasWaterLeakingYes = false
+        providerRoomSummitVM.someoneDeadinRoom = false
+        providerRoomSummitVM.waterLeakingProblem = false
+        providerRoomSummitVM.imageSet.removeAll()
+        providerRoomSummitVM.roomDescription = ""
     }
 }
 
-class ProviderRoomSummitViewModel: ObservableObject {
-    @Published var holderTosAgree = false
-    @Published var image = UIImage()
-    @Published var imageSet = [TextingImageDataModel]()
-    @Published var showSheet = false
-    @Published var showPHPicker = false
-    @Published var tosSheetShow = false
-    @Published var isSummitRoomPic = false
-    @Published var isSelectedRoomSet = false
-    @Published var showSummitAlert = false
-    @Published var showProgressView = false
-    @Published var roomIntroVideoURL: URL?
-    
-    func presentImage(input: [TextingImageDataModel]) -> UIImage {
-        var image = UIImage()
-        if let firstImage = input.first {
-            image = firstImage.image
-        }
-        return image
-    }
-}

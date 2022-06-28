@@ -16,6 +16,8 @@ struct OrderedListUserSide: Identifiable, Codable {
     @ServerTimestamp var orderDate: Timestamp?
     var orderUID: String
     var paymentMethod: String
+    var shippingMethod: String
+    var shippingAddress: String
     var subTotal: Int
 }
 
@@ -26,6 +28,8 @@ struct OrderedItem: Identifiable, Codable {
     var providerUID: String
     var productUID: String
     var orderProductPrice: Int
+    var productImage: String
+    var productName: String
     var orderAmount: Int
 }
 
@@ -37,7 +41,8 @@ struct OrderedListProviderSide: Identifiable, Codable {
     var shippingStatus: String
     var shippingAddress: String
     var orderName: String
-    var personUID: String
+    var orderMobileNumber: String
+    var orderPersonUID: String
     var shippingMethod: String
     @ServerTimestamp var createTimestamp: Timestamp?
 }
@@ -45,6 +50,8 @@ struct OrderedListProviderSide: Identifiable, Codable {
 struct OrderListContain: Identifiable, Codable {
     @DocumentID var id: String?
     var productUID: String
+    var productName: String
+    var productPrice: String
     var productImageURL: String
     var productOrderAmount: Int
     var isPrepare: Bool

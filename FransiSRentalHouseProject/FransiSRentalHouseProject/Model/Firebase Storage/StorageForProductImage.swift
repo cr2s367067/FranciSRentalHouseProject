@@ -20,7 +20,7 @@ class StorageForProductImage: ObservableObject {
     
     @Published var representedProductImageURL = ""
     @Published var productImageUUID = ""
-    @Published var productImageSet = [ProductProviderImageDateModel]()
+    @Published var productImageSet = [ProductImageSet]()
     @Published var productVideo: ProductProviderIntroVideoDataModel = .empty
     
     
@@ -68,7 +68,7 @@ class StorageForProductImage: ObservableObject {
         let document = try await productImageRef.getDocuments().documents
         productImageSet = document.compactMap { queryDocumentSnapshot in
             let result = Result {
-                try queryDocumentSnapshot.data(as: ProductProviderImageDateModel.self)
+                try queryDocumentSnapshot.data(as: ProductImageSet.self)
             }
             switch result {
             case .success(let data):
@@ -79,11 +79,11 @@ class StorageForProductImage: ObservableObject {
             return nil
         }
         if let first = productImageSet.first {
-            firstUrl = first.productDetialImage
+            firstUrl = first.productImageURL
         }
         let productRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID)
         _ = try await productRef.updateData([
-            "productImage" : firstUrl
+            "coverImage" : firstUrl
         ])
     }
     
@@ -107,7 +107,7 @@ class StorageForProductImage: ObservableObject {
         let document = try await imageRef.getDocuments().documents
         productImageSet = document.compactMap({ queryDocumentSnapshot in
             let result = Result {
-                try queryDocumentSnapshot.data(as: ProductProviderImageDateModel.self)
+                try queryDocumentSnapshot.data(as: ProductImageSet.self)
             }
             switch result {
             case .success(let data):

@@ -220,16 +220,18 @@ extension RenterMainView {
     func showProductElement() -> some View {
         ForEach(firestoreForProducts.publicProductDataSet) { product in
             NavigationLink {
-                ProductDetailView(productName: product.productName,
-                                  productPrice: Int(product.productPrice) ?? 0,
-                                  productImage: product.productImage,
-                                  productUID: product.productUID,
-                                  productAmount: product.productAmount,
-                                  productFrom: product.productFrom,
-                                  providerUID: product.providerUID,
-                                  isSoldOut: product.isSoldOut,
-                                  providerName: product.providerName,
-                                  productDescription: product.productDescription, docID: product.id ?? "")
+//                ProductDetailView(
+//                    productName: product.productName,
+//                    productPrice: Int(product.productPrice) ?? 0,
+//                    productImage: product.productImage,
+//                    productUID: product.productUID,
+//                    productAmount: product.productAmount,
+//                    productFrom: product.productFrom,
+//                    providerUID: product.providerUID,
+//                    isSoldOut: product.isSoldOut,
+//                    providerName: product.providerName,
+//                    productDescription: product.productDescription, docID: product.id ?? ""
+//                )
             } label: {
                 FurnitureGridView(productDM: product)
             }

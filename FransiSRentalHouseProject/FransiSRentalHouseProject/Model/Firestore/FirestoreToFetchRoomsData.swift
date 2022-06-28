@@ -24,7 +24,7 @@ class FirestoreToFetchRoomsData: ObservableObject {
     @Published var fetchRoomImages = [RoomImageSet]()
     @Published var receivePaymentDataSet = [RentedRoomPaymentHistory]()
     @Published var roomContract: HouseContract = .empty
-//    @Published var roomID = ""
+    @Published var roomID = ""
     @Published var roomCAR: RoomCommentRatting = .empty
     @Published var roomCARDataSet = [RoomCommentRatting]()
     @Published var roomVideoPath = [VideoDM]()
@@ -37,12 +37,12 @@ class FirestoreToFetchRoomsData: ObservableObject {
 
 extension FirestoreToFetchRoomsData {
     func summitRoomInfoAsync(
-        room docID: String,
+//        room rUid: String,
         uidPath: String,
         roomDM config: RoomDM,
         house contract: HouseContract
     ) async throws {
-        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(docID)
+        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(config.roomUID)
         _ = try await roomOwerRef.setData([
             "isPublish" : config.isPublish,
             "roomUID" : config.roomUID,
@@ -194,8 +194,8 @@ extension FirestoreToFetchRoomsData {
         ])
     }
     
-    func fetchRoomContract(provider uidPath: String, docID: String, roomUID: String) async throws {
-        let roomContractRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(docID).collection("RoomContractAndImage").document(roomUID)
+    func fetchRoomContract(provider uidPath: String, roomUID: String) async throws {
+        let roomContractRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("RoomContractAndImage").document(roomUID)
         roomContract = try await roomContractRef.getDocument(as: HouseContract.self)
     }
 
@@ -231,17 +231,17 @@ extension FirestoreToFetchRoomsData {
 }
 
 extension FirestoreToFetchRoomsData {
-    func deleteRentedRoom(room docID: String) async throws {
+    func deleteRentedRoom(roomUID: String) async throws {
         let roomPublicRef = db.collection("RoomsForPublic")
-        try await roomPublicRef.document(docID).delete()
+        try await roomPublicRef.document(roomUID).delete()
     }
     
     func updateRentedRoom(
         uidPath: String,
-        room docID: String,
+        roomUID: String,
         renterUID: String
     ) async throws {
-        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(docID)
+        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID)
         try await roomOwerRef.updateData([
             "renterUID" : renterUID
         ])
@@ -464,20 +464,21 @@ extension FirestoreToFetchRoomsData {
 extension FirestoreToFetchRoomsData {
     //MARK: - Sign renter data in contract
     func summitRenter(
-        uidPath: String,
-        docID: String,
+        provider uidPath: String,
         roomDM config: RoomDM,
-        house contract: HouseContract
+        renter user: UserDM
     ) async throws {
-        let roomContractRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(docID).collection("RoomContractAndImage").document(config.roomUID)
+        let roomContractRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(config.roomUID).collection("RoomContractAndImage").document(config.roomUID)
+        let renterName = user.firstName + user.lastName
+        let resisdenceAddress = user.zipCode + user.city + user.town + user.address
         try await roomContractRef.updateData([
-            "renterName" : contract.renterName,
-            "renterID" : contract.renterID,
-            "renterResidenceAddress" : contract.renterResidenceAddress,
-            "renterMailingAddress" : contract.renterMailingAddress,
-            "renterPhoneNumber" : contract.renterPhoneNumber,
-            "renterEmailAddress" : contract.renterEmailAddress,
-            "sigurtureDate" : contract.sigurtureDate
+            "renterName" : renterName,
+            "renterID" : user.id,
+            "renterResidenceAddress" : resisdenceAddress,
+            "renterMailingAddress" : resisdenceAddress,
+            "renterPhoneNumber" : user.mobileNumber,
+            "renterEmailAddress" : user.email,
+            "sigurtureDate" : Date()
         ])
     }
     
@@ -495,18 +496,17 @@ extension FirestoreToFetchRoomsData {
 
 extension FirestoreToFetchRoomsData {
     func roomPublish(
-        docID: String,
         uidPath: String,
         roomDM config: RoomDM,
         house contract: HouseContract
     ) async throws {
         
-        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(docID)
+        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(config.roomUID)
         try await roomOwerRef.updateData([
             "isPublished" : true
         ])
         
-        let roomPublicRef = db.collection("RoomsForOwner").document(docID)
+        let roomPublicRef = db.collection("RoomsForOwner").document(config.roomUID)
         _ = try await roomPublicRef.setData([
             "isPublish" : config.isPublish,
             "roomUID" : config.roomUID,
@@ -622,8 +622,8 @@ extension FirestoreToFetchRoomsData {
 
 extension FirestoreToFetchRoomsData {
     //erase user rented info when it's expired
-    func expiredRoom(uidPath: String, docID: String) async throws {
-        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(docID)
+    func expiredRoom(uidPath: String, roomUID: String) async throws {
+        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID)
         try await roomOwerRef.updateData([
             "renterUID" : "",
             "isPublished" : false

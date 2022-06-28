@@ -40,10 +40,10 @@ extension CommentAndRattingView {
     }
     
     @ViewBuilder
-    func commentRattingUnit(commentAndRatting: ProductCommentRattingDataModel) -> some View {
+    func commentRattingUnit(commentAndRatting: ProductCommentRatting) -> some View {
         VStack(alignment: .center) {
             HStack {
-                Text(commentAndRatting.summitUserDisplayName)
+                Text(commentAndRatting.customerDisplayName)
                     .foregroundColor(.white)
                 Spacer()
             }

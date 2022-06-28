@@ -31,6 +31,7 @@ struct RoomDM: Identifiable, Codable {
     var renterUID: String
     var roomsCoverImageURL: String
     var rentalPrice: String
+    var zipCode: String
     var city: String
     var town: String
     var address: String
@@ -40,7 +41,7 @@ struct RoomDM: Identifiable, Codable {
 }
 
 extension RoomDM {
-    static let empty = RoomDM(isPublish: false, roomUID: "", renterUID: "", providerUID: "", roomsCoverImageURL: "", rentalPrice: "", city: "", town: "", address: "", roomDescription: "", someoneDeadInRoom: false, waterLeakingProblem: false)
+    static let empty = RoomDM(isPublish: false, roomUID: "", providerUID: "", renterUID: "", roomsCoverImageURL: "", rentalPrice: "", zipCode: "", city: "", town: "", address: "", roomDescription: "", someoneDeadInRoom: false, waterLeakingProblem: false)
 }
 
 //MARK: - Room's image set
@@ -390,6 +391,105 @@ extension HouseContract {
         renterEmailAddress: "",
         sigurtureDate: Date()
     )
+    static func roomCreate(zipCode: String, city: String, town: String, address: String, rentalPrice: String) -> HouseContract {
+        return HouseContract(
+            contractBuildDate: Date(),
+            contractReviewDays: "",
+            providerSignurture: "",
+            renterSignurture: "",
+            companyTitle: "",
+            roomAddress: address,
+            roomTown: town,
+            roomCity: city,
+            roomZipCode: zipCode,
+            specificBuildingNumber: "",
+            specificBuildingRightRange: "",
+            specificBuildingArea: "",
+            mainBuildArea: "",
+            mainBuildingPurpose: "",
+            subBuildingPurpose: "",
+            subBuildingArea: "",
+            publicBuildingNumber: "",
+            publicBuildingRightRange: "",
+            publicBuildingArea: "",
+            hasParkinglot: false,
+            isSettingTheRightForThirdPerson: false,
+            settingTheRightForThirdPersonForWhatKind: "",
+            isBlockByBank: false,
+            provideForAll: false,
+            provideForPart: false,
+            provideFloor: "",
+            provideRooms: "",
+            provideRoomNumber: "",
+            provideRoomArea: "",
+            isVehicle: false,
+            isMorto: false,
+            parkingUGFloor: "",
+            parkingStyleN: false,
+            parkingStyleM: false,
+            parkingNumberForVehicle: "",
+            parkingNumberForMortor: "",
+            forAllday: false,
+            forMorning: false,
+            forNight: false,
+            havingSubFacility: false,
+            rentalStartDate: Date(),
+            rentalEndDate: Date(),
+            roomRentalPrice: rentalPrice,
+            paymentdays: "",
+            paybyCash: false,
+            paybyTransmission: false,
+            paybyCreditDebitCard: false,
+            bankName: "",
+            bankOwnerName: "",
+            bankAccount: "",
+            payByRenterForManagementPart: false,
+            payByProviderForManagementPart: false,
+            managementFeeMonthly: "",
+            parkingFeeMonthly: "",
+            additionalReqForManagementPart: "",
+            payByRenterForWaterFee: false,
+            payByProviderForWaterFee: false,
+            additionalReqForWaterFeePart: "",
+            payByRenterForEletricFee: false,
+            payByProviderForEletricFee: false,
+            additionalReqForEletricFeePart: "",
+            payByRenterForGasFee: false,
+            payByProviderForGasFee: false,
+            additionalReqForGasFeePart: "",
+            additionalReqForOtherPart: "",
+            contractSigurtureProxyFee: "",
+            payByRenterForProxyFee: false,
+            payByProviderForProxyFee: false,
+            separateForBothForProxyFee: false,
+            contractIdentitificationFee: "",
+            payByRenterForIDFFee: false,
+            payByProviderForIDFFee: false,
+            separateForBothForIDFFee: false,
+            contractIdentitificationProxyFee: "",
+            payByRenterForIDFProxyFee: false,
+            payByProviderForIDFProxyFee: false,
+            separateForBothForIDFProxyFee: false,
+            subLeaseAgreement: false,
+            doCourtIDF: false,
+            courtIDFDoc: false,
+            providerName: "",
+            providerID: "",
+            providerResidenceAddress: "",
+            providerMailingAddress: "",
+            providerPhoneNumber: "",
+            providerPhoneChargeName: "",
+            providerPhoneChargeID: "",
+            providerPhoneChargeEmailAddress: "",
+            renterName: "",
+            renterID: "",
+            renterResidenceAddress: "",
+            renterMailingAddress: "",
+            renterPhoneNumber: "",
+            renterEmailAddress: "",
+            sigurtureDate: Date()
+        )
+    }
 }
 
 
@@ -407,5 +507,32 @@ struct RoomCommentRatting: Identifiable, Codable {
 }
 
 extension RoomCommentRatting {
-    static let empty = RoomCommentRatting(roomUID: "", providerUID: "", comment: "", convenienceRate: 0, pricingRate: 0, neighborRate: 0, userDisplayName: "", isPost: false)
+    static let empty = RoomCommentRatting(
+        roomUID: "",
+        providerUID: "",
+        comment: "",
+        convenienceRate: 0,
+        pricingRate: 0,
+        neighborRate: 0,
+        userDisplayName: "",
+        isPost: false
+    )
+    
+    static func postCAR(
+        roomUID: String,
+        providerUID: String,
+        user nickeName: String,
+        room commentRatting: RoomCommentRatting
+    ) -> RoomCommentRatting {
+        return RoomCommentRatting(
+            roomUID: roomUID,
+            providerUID: providerUID,
+            comment: commentRatting.comment,
+            convenienceRate: commentRatting.convenienceRate,
+            pricingRate: commentRatting.pricingRate,
+            neighborRate: commentRatting.neighborRate,
+            userDisplayName: nickeName,
+            isPost: true
+        )
+    }
 }

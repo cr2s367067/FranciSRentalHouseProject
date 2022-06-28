@@ -248,20 +248,16 @@ extension SearchView {
     @ViewBuilder
     private func productsUnit() -> some View {
 //        ScrollView(.vertical, showsIndicators: false) {
-            ForEach(searchVM.filterProductByTags(input: firestoreForProducts.productsDataSet, tags: searchVM.searchName, searchText: searchVM.searchName)) { product in
+            ForEach(searchVM.filterProductByTags(
+                input: firestoreForProducts.publicProductDataSet,
+                tags: searchVM.searchName, searchText: searchVM.searchName
+            )) { product in
                 NavigationLink {
-                    ProductDetailView(productName: product.productName,
-                                      productPrice: Int(product.productPrice) ?? 0,
-                                      productImage: product.productImage,
-                                      productUID: product.productUID,
-                                      productAmount: product.productAmount,
-                                      productFrom: product.productFrom,
-                                      providerUID: product.providerUID,
-                                      isSoldOut: product.isSoldOut,
-                                      providerName: product.providerName,
-                                      productDescription: product.productDescription, docID: product.id ?? "")
+                    ProductDetailView(productDM: product)
                 } label: {
-                    SearchProductListItemView(productName: product.productName, productImage: product.productImage, productPrice: product.productPrice, productDes: product.productDescription)
+                    SearchProductListItemView(
+                        productData: product
+                    )
                 }
                 .simultaneousGesture(
                     TapGesture().onEnded({ _ in
@@ -280,7 +276,7 @@ extension SearchView {
     
     @ViewBuilder
     func productsUnitWithPlaceHolder() -> some View {
-        if firestoreForProducts.productsDataSet.isEmpty {
+        if firestoreForProducts.publicProductDataSet.isEmpty {
             productsUnit()
                 .disabled(true)
                 .redacted(reason: .placeholder)

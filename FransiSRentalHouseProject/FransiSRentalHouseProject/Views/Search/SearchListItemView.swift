@@ -10,21 +10,21 @@ import SDWebImageSwiftUI
 
 struct SearchListItemView: View {
     
-    var roomsData: RoomInfoDataModel
+    var roomsData: RoomDM
     
     let uiScreenWith = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
     var address: String {
-        let roomAddress = roomsData.roomAddress
-        let town = roomsData.town
         let city = roomsData.city
+        let town = roomsData.town
+        let roomAddress = roomsData.address
         return city + town + roomAddress
     }
     
     var body: some View {
         VStack {
-            WebImage(url: URL(string: roomsData.roomImage ?? ""))
+            WebImage(url: URL(string: roomsData.roomsCoverImageURL))
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: uiScreenWith - 30, height: uiScreenHeight / 3 + 20)

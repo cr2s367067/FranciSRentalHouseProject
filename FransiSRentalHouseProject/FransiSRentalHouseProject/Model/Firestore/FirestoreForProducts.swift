@@ -15,8 +15,8 @@ class FirestoreForProducts: ObservableObject {
     let db = Firestore.firestore()
     
     //MARK: - Name Enum
-    enum PaymentMethodStatus {
-        case creditCard
+    enum PaymentMethodStatus: String {
+        case creditCard = "Credit Card"
     }
     
     enum ShippingMethod: String {
@@ -36,6 +36,8 @@ class FirestoreForProducts: ObservableObject {
     //MARK: - Public product collectino
     @Published var publicProductDataSet = [ProductDM]()
     
+    @Published var uploadingHolder: ProductDM = .empty
+    
     //MARK: - Fetch user order data
     @Published var userOrderedDataSet = [OrderedListUserSide]()
     
@@ -52,19 +54,21 @@ class FirestoreForProducts: ObservableObject {
     //MARK: - User marked their focusing product
     @Published var markedProducts = [CustomerMarkedProduct]()
     
+    @Published var getMarkedProductDetail = [ProductDM]()
     
+    //MARK: - Holder creating product's uid
     @Published var productUID = ""
-    @Published var storesDataSet: StoreDataModel = .empty
+//    @Published var storesDataSet: StoreDataModel = .empty
     
     
-//    @Published var uploadingHolder: ProductProviderDataModel = .empty
+   
     
     //MARK: - Products comments and ratting
     @Published var productCommentAndRatting = [ProductCommentRatting]()
     
     @Published var shippingMethod: ShippingMethod = .convenienceStore
     @Published var shippingStatus: ShippingStatus = .orderBuilt
-    
+    @Published var paymentMethod: PaymentMethodStatus = .creditCard
    
     
     func productIDGenerator() -> String {
@@ -78,7 +82,7 @@ class FirestoreForProducts: ObservableObject {
     ) async throws {
         let productRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(config.productUID)
         _ = try await productRef.setData([
-            "provderUID" : config.providerUID,
+            "providerUID" : config.providerUID,
             "productUID" : config.productUID,
             "productName" : config.productName,
             "productPrice" : config.productPrice,
@@ -87,15 +91,17 @@ class FirestoreForProducts: ObservableObject {
             "productAmount" : config.productAmount,
             "isSoldOut" : config.isSoldOut,
             "productType" : config.productType,
+            "coverImage" : config.coverImage,
             "postDate" : Date()
         ])
     }
     
-//    @MainActor
-//    func getUploadintData(uidPath: String, productUID: String) async throws {
-//        let furnitureProviderRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID)
-//        uploadingHolder = try await furnitureProviderRef.getDocument(as: ProductProviderDataModel.self)
-//    }
+    //MARK: - Get uploading data then publish whole data to public
+    @MainActor
+    func getUploadintData(uidPath: String, productUID: String) async throws {
+        let productRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID)
+        uploadingHolder = try await productRef.getDocument(as: ProductDM.self)
+    }
     
     //MARK: - Publish product in public collection
     func productPublishOnPublic(
@@ -103,7 +109,7 @@ class FirestoreForProducts: ObservableObject {
     ) async throws {
         let productPublicRef = db.collection("ProductsPublic").document(config.productUID)
         _ = try await productPublicRef.setData([
-            "provderUID" : config.providerUID,
+            "providerUID" : config.providerUID,
             "productUID" : config.productUID,
             "productName" : config.productName,
             "productPrice" : config.productPrice,
@@ -112,6 +118,7 @@ class FirestoreForProducts: ObservableObject {
             "productAmount" : config.productAmount,
             "isSoldOut" : config.isSoldOut,
             "productType" : config.productType,
+            "coverImage" : config.coverImage,
             "postDate" : Date()
         ])
     }
@@ -148,7 +155,7 @@ extension FirestoreForProducts {
     //MARK: - User make order
     func makeOrder(
         uidPath: String,
-        product config: ProductDM,
+//        product config: ProductDM,
         userMake order: OrderedListUserSide,
         list item: OrderedItem,
         provider shippingList: OrderedListProviderSide,
@@ -184,7 +191,7 @@ extension FirestoreForProducts {
             "shippingStatus" : shippingList.shippingStatus,
             "shippingAddress" : shippingList.shippingAddress,
             "orderName" : shippingList.orderName,
-            "personUID" : uidPath,
+            "orderPersonUID" : uidPath,
             "shippingMethod" : shippingList.shippingMethod
         ])
         
@@ -193,6 +200,8 @@ extension FirestoreForProducts {
         //auto doc id with products info
         _ = try await cartRef.setData([
             "productUID" : contain.productUID,
+            "productName" : contain.productName,
+            "productPrice" : contain.productPrice,
             "productImageURL" : contain.productImageURL,
             "productOrderAmount" : contain.productOrderAmount,
             "isPrepare" : contain.isPrepare
@@ -202,11 +211,13 @@ extension FirestoreForProducts {
     
     //MARK: - When user made order that will update product amount
     func updateAmount(
-        product config: ProductDM
+        providerUID: String,
+        productUID: String,
+        netAmount: String
     ) async throws {
-        let productRef = db.collection("ProductsProvider").document(config.providerUID).collection("Products").document(productUID)
+        let productRef = db.collection("ProductsProvider").document(providerUID).collection("Products").document(productUID)
         try await productRef.updateData([
-            "productAmount" : config.productAmount
+            "productAmount" : netAmount
         ])
     }
     
@@ -276,8 +287,8 @@ extension FirestoreForProducts {
     
     //MARK: - Fetch User's orderList contain
     @MainActor
-    func fetchOrderedData(uidPath: String, docID: String) async throws {
-        let orderRef = db.collection("users").document(uidPath).collection("ProductOrdered").document(docID).collection("ProductList")
+    func fetchOrderedData(uidPath: String, orderID: String) async throws {
+        let orderRef = db.collection("users").document(uidPath).collection("ProductOrdered").document(orderID).collection("ProductList")
         let document = try await orderRef.getDocuments().documents
         self.fetchOrderedDataSet = document.compactMap({ queryDocumentSnapshot in
             let result = Result {
@@ -344,6 +355,29 @@ extension FirestoreForProducts {
             }
             return nil
         })
+    }
+    
+    //MARK: -  Try to get marked product from public newest data
+    @MainActor
+    func getMarkedProductFromPublish(
+        marked productUIDSet: [String]
+    ) async throws {
+        for productUID in productUIDSet {
+            let productPublicRef = db.collection("ProductsPublic").whereField(productUID, isEqualTo: productUID)
+            let document = try await productPublicRef.getDocuments().documents
+            getMarkedProductDetail = document.compactMap({ queryDocumentSnapshot in
+                let result = Result {
+                    try queryDocumentSnapshot.data(as: ProductDM.self)
+                }
+                switch result {
+                case .success(let data):
+                    return data
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                return nil
+            })
+        }
     }
     
     //MARK: - User unmarked their focued products
@@ -443,19 +477,36 @@ extension FirestoreForProducts {
 extension FirestoreForProducts {
     //MARK: For provider update product description and product amount
     func updateProductAmountAndDesciption(
-        uidPaht: String,
         product config: ProductDM
     ) async throws {
         let productRef = db.collection("ProductsProvider").document(config.providerUID).collection("Products").document(config.productUID)
         try await productRef.updateData([
+            "providerUID" : config.providerUID,
+            "productUID" : config.productUID,
+            "productName" : config.productName,
+            "productPrice" : config.productPrice,
+            "productDescription" : config.productDescription,
+            "productFrom" : config.productFrom,
             "productAmount" : config.productAmount,
-            "productDescription" : config.productDescription
+            "isSoldOut" : config.isSoldOut,
+            "productType" : config.productType,
+            "coverImage" : config.coverImage,
+            "postDate" : Date()
         ])
         
         let furniturePublicRef = db.collection("ProductsPublic").document(config.productUID)
         try await furniturePublicRef.updateData([
+            "providerUID" : config.providerUID,
+            "productUID" : config.productUID,
+            "productName" : config.productName,
+            "productPrice" : config.productPrice,
+            "productDescription" : config.productDescription,
+            "productFrom" : config.productFrom,
             "productAmount" : config.productAmount,
-            "productDescription" : config.productDescription
+            "isSoldOut" : config.isSoldOut,
+            "productType" : config.productType,
+            "coverImage" : config.coverImage,
+            "postDate" : Date()
         ])
     }
 }
@@ -463,7 +514,14 @@ extension FirestoreForProducts {
 extension FirestoreForProducts {
     
     //MARK: UserCancelOrder
-    func userCancelOrder(shippingStatus: ShippingStatus, providerUID: String, customerUID: String, orderID: String, productUID: String, orderAmount: Int) async throws {
+    func userCancelOrder(
+        shippingStatus: ShippingStatus,
+        providerUID: String,
+        customerUID: String,
+        orderID: String,
+        productUID: String,
+        orderAmount: Int
+    ) async throws {
         if shippingStatus == .shipped || shippingStatus == .deliveried {
             throw BillError.shippedError
         }
@@ -488,7 +546,8 @@ extension FirestoreForProducts {
         
         let currentAmount = try await productRef.getDocument(as: ProductDM.self).productAmount
         print("current amount: \(currentAmount)")
-        let restoreAmount = orderAmount + currentAmount
+        let currentAmountConvertInt = Int(currentAmount) ?? 0
+        let restoreAmount = orderAmount + currentAmountConvertInt
         print("new amount: \(restoreAmount)")
         try await productRef.updateData([
             "productAmount" : restoreAmount
@@ -498,7 +557,8 @@ extension FirestoreForProducts {
         let productPublicRef = db.collection("ProductsPublic").document(productUID)
         
         let currentAmountP = try await productPublicRef.getDocument(as: ProductDM.self).productAmount
-        let restoreAmountP = orderAmount + currentAmountP
+        let currentAmountPConvertInt = Int(currentAmountP) ?? 0
+        let restoreAmountP = orderAmount + currentAmountPConvertInt
         try await productPublicRef.updateData([
             "productAmount" : restoreAmountP
         ])

@@ -47,6 +47,8 @@ class AppViewModel: ObservableObject {
     
     @Published var isRedacted = true
     
+    //MARK: - For showing cover view
+    @Published var isShowUserDetailView = false
     
     @Published var isPresent = false
     
@@ -78,21 +80,21 @@ class AppViewModel: ObservableObject {
     
     
     //:~Provider summit fields (RentalManager)
-    @Published var holderName = ""
-    @Published var holderMobileNumber = ""
-    @Published var roomAddress = ""
-    @Published var roomTown = ""
-    @Published var roomCity = ""
-    @Published var roomZipCode = ""
-    @Published var roomArea = ""
-    @Published var roomRentalPrice = ""
-    @Published var doesSomeDeadinRoomYes = false
-    @Published var doesSomeDeadinRoomNo = false
-    @Published var someoneDeadinRoom = ""
-    @Published var hasWaterLeakingYes = false
-    @Published var hasWaterLeakingNo = false
-    @Published var waterLeakingProblem = ""
-    @Published var roomDescription = ""
+//    @Published var holderName = ""
+//    @Published var holderMobileNumber = ""
+//    @Published var roomAddress = ""
+//    @Published var roomTown = ""
+//    @Published var roomCity = ""
+//    @Published var roomZipCode = ""
+//    @Published var roomArea = ""
+//    @Published var roomRentalPrice = ""
+//    @Published var doesSomeDeadinRoomYes = false
+//    @Published var doesSomeDeadinRoomNo = false
+//    @Published var someoneDeadinRoom = ""
+//    @Published var hasWaterLeakingYes = false
+//    @Published var hasWaterLeakingNo = false
+//    @Published var waterLeakingProblem = ""
+//    @Published var roomDescription = ""
     
     //:~Provider summit fields (HouseOwner)
     @Published var specificBuildingNumber = "" //專有部分建號
@@ -721,5 +723,64 @@ extension Date: RawRepresentable {
     
     public init?(rawValue: String) {
         self = Date.formmater.date(from: rawValue) ?? Date()
+    }
+}
+
+//MARK: - Contract Form
+struct TitleView: View {
+    var titleName: String
+    var body: some View {
+        HStack {
+            Text(titleName)
+                .font(.system(size: 15, weight: .regular))
+            Spacer()
+        }
+    }
+}
+
+struct SubTitleView: View {
+    var subTitleName: String
+    var body: some View {
+        HStack {
+            Text(subTitleName)
+                .font(.system(size: 15, weight: .regular))
+            Spacer()
+        }
+    }
+}
+
+struct LineWithSpacer: View {
+    var contain: String
+    var body: some View {
+        HStack {
+            Text(contain)
+            Spacer()
+        }
+    }
+}
+
+struct signatureContainer: View {
+    var containerName: String
+    var containHolder: String
+    var body: some View {
+        HStack {
+            Text(containerName)
+            Text(containHolder)
+            Spacer()
+        }
+    }
+}
+
+struct signatureHolder: View {
+    var signatureTitle: String
+    var signString: String
+    var body: some View {
+        HStack {
+            Text(signatureTitle)
+            Text(signString)
+                .padding(.leading, 2)
+            Text("簽章")
+            Spacer()
+        }
     }
 }

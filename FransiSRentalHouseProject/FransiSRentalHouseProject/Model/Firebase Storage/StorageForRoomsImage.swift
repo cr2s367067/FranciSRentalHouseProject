@@ -44,7 +44,7 @@ extension StorageForRoomsImage {
 }
 
 extension StorageForRoomsImage {
-    func uploadImageSet(uidPath: String, images: [TextingImageDataModel], roomID: String, docID: String) async throws {
+    func uploadImageSet(uidPath: String, images: [TextingImageDataModel], roomID: String) async throws {
         guard !images.isEmpty else { return }
         for image in images {
             guard let roomImageData = image.image.jpegData(compressionQuality: 0.5) else { return }
@@ -52,7 +52,7 @@ extension StorageForRoomsImage {
             let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(roomID)/\(imageUID).jpg")
             _ = try await roomImageRef.putDataAsync(roomImageData)
             let url = try await roomImageRef.downloadURL()
-            let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID)
+            let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomID)
                 .collection("RoomImages")
             _ = try await roomOwerRef.addDocument(data: [
                 "imageURL" : url.absoluteString

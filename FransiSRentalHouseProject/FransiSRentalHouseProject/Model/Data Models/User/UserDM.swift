@@ -117,14 +117,47 @@ struct ProviderStore: Identifiable, Codable {
     var isCreateStore: Bool
     var groupMemberAmount: Int
     var rentalManagerLicenseNumber: String?
-//    var providerProfileImage: String
+    var companyName: String
+    var companyProfileImage: String
     var storeChatDocID: String
     var storeBackgroundImage: String
     var storeDescription: String
 }
 
 extension ProviderStore {
-    static let empty = ProviderStore(isCreateGroup: false, isSetConfig: false, settlementDate: Date(), isCreateStore: false, groupMemberAmount: 0, rentalManagerLicenseNumber: "", storeChatDocID: "", storeBackgroundImage: "", storeDescription: "")
+    static let empty = ProviderStore(
+        isCreateGroup: false,
+        isSetConfig: false,
+        settlementDate: Date(),
+        isCreateStore: false,
+        groupMemberAmount: 0,
+        rentalManagerLicenseNumber: "",
+        companyName: "",
+        companyProfileImage: "",
+        storeChatDocID: "",
+        storeBackgroundImage: "",
+        storeDescription: ""
+    )
+    
+    static func createStore(
+        companyName: String,
+        companyProfileImage: String,
+        store data: ProviderStore
+    ) -> ProviderStore {
+        return ProviderStore(
+            isCreateGroup: data.isCreateGroup,
+            isSetConfig: data.isSetConfig,
+            settlementDate: data.settlementDate,
+            isCreateStore: true,
+            groupMemberAmount: data.groupMemberAmount,
+            rentalManagerLicenseNumber: data.rentalManagerLicenseNumber ?? "",
+            companyName: companyName,
+            companyProfileImage: companyProfileImage,
+            storeChatDocID: data.storeChatDocID,
+            storeBackgroundImage: data.storeBackgroundImage,
+            storeDescription: data.storeDescription
+        )
+    }
 }
 
 struct EmpDataSet: Identifiable, Codable {

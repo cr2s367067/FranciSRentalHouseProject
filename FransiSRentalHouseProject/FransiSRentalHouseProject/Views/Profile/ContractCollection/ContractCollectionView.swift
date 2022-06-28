@@ -101,16 +101,10 @@ struct ContractReusableUnit: View {
     }
     
     func address() -> String {
-        var temp = ""
-        Task {
-            do {
-                temp = try await firestoreRoom.fetchRoomAddress(uidPath: firebaseAuth.getUID(), docID: docID, roomUID: roomsData.roomUID)
-            } catch {
-                print("Fail to get address")
-            }
-        }
-        debugPrint("Room address: \(temp)")
-        return temp
+        let city = roomsData.city
+        let town = roomsData.town
+        let roomAddress = roomsData.address
+        return city + town + roomAddress
     }
     
     
@@ -118,7 +112,7 @@ struct ContractReusableUnit: View {
     var body: some View {
         VStack {
             HStack {
-                WebImage(url: URL(string: findFirstImage()))
+                WebImage(url: URL(string: roomsData.roomsCoverImageURL))
                     .resizable()
                     .frame(width: uiScreenWidth / 3 + 20, height: uiScreenHeight / 8 + 5)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -143,13 +137,6 @@ struct ContractReusableUnit: View {
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color("fieldGray"))
-        }
-        .task {
-            do {
-                try await firestoreRoom.fetchFirstImage(uidPath: firebaseAuth.getUID(), docID: docID)
-            } catch {
-                print("Fail to load rooms data")
-            }
         }
     }
 }

@@ -37,8 +37,8 @@ struct PrePurchaseView: View {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
-                        if !localData.tempCart.roomUID.isEmpty {
-                            SearchListItemView(roomsData: localData.tempCart)
+                        if !localData.roomRenting.roomUID.isEmpty {
+                            SearchListItemView(roomsData: localData.roomRenting)
                         } else {
                             SearchListItemView(roomsData: .empty)
                                 .redacted(reason: appViewModel.isRedacted ? .placeholder : .init())
@@ -47,7 +47,7 @@ struct PrePurchaseView: View {
                         VStack(alignment: .center) {
                             Spacer()
                             ScrollView(.vertical, showsIndicators: false) {
-                                SummaryItems(roomsData: localData.summaryItemHolder)
+                                SummaryItems(roomsData: localData.roomRenting)
                             }
                         }
                         .padding()
@@ -58,7 +58,7 @@ struct PrePurchaseView: View {
                             Image(systemName: "dollarsign.circle")
                             Text("\(localData.sumPrice)")
                                 .accessibilityIdentifier("subTotal")
-                            if firestoreToFetchUserinfo.notRented() && !localData.summaryItemHolder.roomUID.isEmpty && !localData.tempCart.roomUID.isEmpty {
+                            if firestoreToFetchUserinfo.notRented() && !localData.roomRenting.roomUID.isEmpty {
                                 Text("(Include Deposit fee 2 month)")
                                     .font(.system(size: 12, weight: .semibold))
                             }
@@ -140,7 +140,7 @@ struct FurnitureItemView: View {
 extension PrePurchaseView {
     @ViewBuilder
     private func checkCartIsNotEmptyAndShowTheView() -> some View {
-        if !localData.summaryItemHolder.roomUID.isEmpty || !productDetailViewModel.productOrderCart.isEmpty {
+        if !localData.roomRenting.roomUID.isEmpty || !productDetailViewModel.productOrderCart.isEmpty {
             withAnimation(.easeInOut) {
                 NavigationLink {
                     PaymentSummaryView()

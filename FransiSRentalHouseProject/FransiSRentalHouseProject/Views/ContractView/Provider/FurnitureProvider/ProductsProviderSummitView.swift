@@ -124,7 +124,7 @@ struct ProductsProviderSummitView: View {
                                             }
                                         } label: {
                                             HStack {
-                                                Text(productsProviderSummitViewModel.productType)
+                                                Text(productsProviderSummitViewModel.productInfo.productType)
                                                 Image(systemName: "chevron.down")
                                                     .foregroundColor(.white)
                                                     .font(.system(size: 15))
@@ -152,13 +152,13 @@ struct ProductsProviderSummitView: View {
                                     .stroke(Color.white, lineWidth: 1)
                             })
                             Group {
-                                InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productName)
+                                InfoUnit(title: "Product Name", bindingString: $productsProviderSummitViewModel.productInfo.productName)
                                     .accessibilityIdentifier("productName")
                                 
-                                InfoUnit(title: "Product Price", bindingString: $productsProviderSummitViewModel.productPrice)
+                                InfoUnit(title: "Product Price", bindingString: $productsProviderSummitViewModel.productInfo.productPrice)
                                     .accessibilityIdentifier("price")
                                     .keyboardType(.numberPad)
-                                if !productsProviderSummitViewModel.productPrice.isEmpty {
+                                if !productsProviderSummitViewModel.productInfo.productPrice.isEmpty {
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
                                             Text("Product Cost Infomation")
@@ -178,10 +178,10 @@ struct ProductsProviderSummitView: View {
                                             .stroke(Color.white, lineWidth: 1)
                                     })
                                 }
-                                InfoUnit(title: "Product Amount", bindingString: $productsProviderSummitViewModel.productAmount)
+                                InfoUnit(title: "Product Amount", bindingString: $productsProviderSummitViewModel.productInfo.productAmount)
                                     .accessibilityIdentifier("amount")
                                     .keyboardType(.numberPad)
-                                InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productFrom)
+                                InfoUnit(title: "Product From", bindingString: $productsProviderSummitViewModel.productInfo.productFrom)
                                     .accessibilityIdentifier("from")
                                 VStack(alignment: .leading, spacing: 2) {
                                     HStack {
@@ -189,7 +189,7 @@ struct ProductsProviderSummitView: View {
                                             .modifier(textFormateForProviderSummitView())
                                         Spacer()
                                     }
-                                    TextEditor(text: $productsProviderSummitViewModel.productDescription)
+                                    TextEditor(text: $productsProviderSummitViewModel.productInfo.productDescription)
                                         .foregroundStyle(Color.white)
                                         .frame(height: 300, alignment: .center)
                                         .cornerRadius(5)
@@ -232,14 +232,15 @@ struct ProductsProviderSummitView: View {
                                 Spacer()
                                 Button {
                                     do {
-                                        
-                                        try productsProviderSummitViewModel.checker(productName: productsProviderSummitViewModel.productName,
-                                                                                productPrice: productsProviderSummitViewModel.productPrice,
-                                                                                productFrom: productsProviderSummitViewModel.productFrom,
-                                                                                    images: productsProviderSummitViewModel.images,
-                                                                                    holderTosAgree: productsProviderSummitViewModel.holderTosAgree,
-                                                                                    productAmount: productsProviderSummitViewModel.productAmount, productType: productsProviderSummitViewModel.productType)
-                                         
+                                        try productsProviderSummitViewModel.checker(
+                                            productName: productsProviderSummitViewModel.productName,
+                                            productPrice: productsProviderSummitViewModel.productPrice,
+                                            productFrom: productsProviderSummitViewModel.productFrom,
+                                            images: productsProviderSummitViewModel.images,
+                                            holderTosAgree: productsProviderSummitViewModel.holderTosAgree,
+                                            productAmount: productsProviderSummitViewModel.productAmount,
+                                            productType: productsProviderSummitViewModel.productType
+                                        )
                                         productsProviderSummitViewModel.showSummitAlert.toggle()
                                     } catch {
                                         self.errorHandler.handle(error: error)
@@ -260,27 +261,28 @@ struct ProductsProviderSummitView: View {
                                                 Task {
                                                     do {
                                                         productsProviderSummitViewModel.showProgressView = true
-                                                         try await firestoreForProducts.summitProduct(uidPath: firebaseAuth.getUID(),
-                                                                                                       productImage: storageForProductImage.representedProductImageURL,
-                                                                                                       providerName: firestoreToFetchUserinfo.fetchedUserData.displayName,
-                                                                                                       productPrice: productsProviderSummitViewModel.productPrice,
-                                                                                                       productDescription: productsProviderSummitViewModel.productDescription,
-                                                                                                       productUID: firestoreForProducts.productUID,
-                                                                                                       productName: productsProviderSummitViewModel.productName,
-                                                                                                       productFrom: productsProviderSummitViewModel.productFrom, 
-                                                                                                       productAmount: productsProviderSummitViewModel.productAmount,
-                                                                                                       isSoldOut: false,
-                                                                                                       productType: productsProviderSummitViewModel.productType)
+                                                        //MARK: - Summit product and store in provider side
+                                                        try await firestoreForProducts.summitProduct(
+                                                            uidPath: firebaseAuth.getUID(),
+                                                            product: .productPublish(
+                                                                defaultWithInput: productsProviderSummitViewModel.productInfo,
+                                                                providerUID: firebaseAuth.getUID(),
+                                                                productUID: firestoreForProducts.productUID
+                                                            )
+                                                        )
                                                         
+                                                        //MARK: - Store products image
                                                         try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(), image: productsProviderSummitViewModel.images, productUID: firestoreForProducts.productUID)
+                                                        //MARK: - Is provider has video
                                                         if !(productsProviderSummitViewModel.productVideo?.pathComponents.isEmpty ?? false) {
                                                             if let url = productsProviderSummitViewModel.productVideo {
                                                                 try await storageForProductImage.uploadProductVideo(movie: url, uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
                                                             }
                                                         }
+                                                        
                                                         try await storageForProductImage.getFirstImageStringAndUpdate(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
                                                         _ = try await firestoreForProducts.getUploadintData(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
-                                                        try await firestoreForProducts.productPublishOnPublic(data: firestoreForProducts.uploadingHolder, productUID: firestoreForProducts.productUID)
+                                                        try await firestoreForProducts.productPublishOnPublic(procut: firestoreForProducts.uploadingHolder)
                                                         productsProviderSummitViewModel.resetView()
                                                         productsProviderSummitViewModel.showProgressView = false
                                                     } catch {

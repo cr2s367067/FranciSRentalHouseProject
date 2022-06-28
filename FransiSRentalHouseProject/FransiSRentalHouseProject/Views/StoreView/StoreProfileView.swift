@@ -18,6 +18,7 @@ struct StoreProfileView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
+    @EnvironmentObject var providerStoreM: ProviderStoreM
     
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -42,14 +43,14 @@ struct StoreProfileView: View {
         }
         .modifier(ViewBackgroundInitModifier())
         .onAppear {
-            storeProfileVM.providerDescription = firestoreForProducts.storeLocalData.providerDescription
+            storeProfileVM.providerDescription = providerStoreM.storesData.storeDescription
         }
         .sheet(isPresented: $showPhPicker) {
             Task {
                 do {
                     showProgress = true
                     try await storageForProductImage.uploadAndUpdateStoreImage(uidPath: firebaseAuth.getUID(), images: images, imageID: storageForProductImage.imagUUIDGenerator())
-                    _ = try await firestoreForProducts.fetchStoreInLocal(uidPath: firebaseAuth.getUID())
+                    _ = try await providerStoreM.fetchStore(provider: firebaseAuth.getUID())
                     showProgress = false
                 } catch {
                     self.errorHandler.handle(error: error)
@@ -63,7 +64,7 @@ struct StoreProfileView: View {
                 storeProfileVM.isCreated = providerProfileViewModel.providerConfig.isCreated
 //                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
                 if storeProfileVM.isCreated {
-                    _ = try await firestoreForProducts.fetchStoreInLocal(uidPath: firebaseAuth.getUID())
+                    _ = try await providerStoreM.fetchStore(provider: firebaseAuth.getUID())
                 }
             } catch {
                 self.errorHandler.handle(error: error)
@@ -92,7 +93,7 @@ extension StoreProfileView {
                     ZStack {
                         Image(systemName: "person")
                             .modifier(StoreProfileImageModifier())
-                        WebImage(url: URL(string: firestoreForProducts.storeLocalData.providerProfileImage))
+                        WebImage(url: URL(string: firestoreToFetchUserinfo.providerInfo.companyProfileImageURL))
                             .resizable()
                             .frame(width: 80, height: 80)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -100,7 +101,7 @@ extension StoreProfileView {
                     Spacer()
                 }
                 HStack {
-                    Text(firestoreForProducts.storeLocalData.providerDisplayName)
+                    Text(firestoreToFetchUserinfo.providerInfo.companyName)
                         .modifier(StoreTextModifier())
                         .font(.headline)
                     Spacer()
@@ -112,7 +113,7 @@ extension StoreProfileView {
                     Spacer()
                 }
                 HStack {
-                    Text(firestoreForProducts.storeLocalData.providerDescription)
+                    Text(providerStoreM.storesData.storeDescription)
                         .modifier(StoreTextModifier())
                         .font(.body)
                     Spacer()
@@ -121,7 +122,7 @@ extension StoreProfileView {
             .padding(.horizontal)
             .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 5 + 60)
             .background(alignment: .center) {
-                WebImage(url: URL(string: firestoreForProducts.storeLocalData.storeBackgroundImage))
+                WebImage(url: URL(string: providerStoreM.storesData.storeBackgroundImage))
                     .resizable()
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                 RoundedRectangle(cornerRadius: 20)
@@ -145,11 +146,18 @@ extension StoreProfileView {
                 Button {
                     Task {
                         do {
-                            try await firestoreForProducts.updateStoreInfo(uidPath: firebaseAuth.getUID(),
-                                                                           providerDescription: storeProfileVM.providerDescription)
-                            try await firestoreForProducts.updateProfilePic(uidPath: firebaseAuth.getUID(), profileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL)
-                            _ = try await firestoreForProducts.fetchStoreInLocal(uidPath: firebaseAuth.getUID())
-                            storeProfileVM.providerDescription = firestoreForProducts.storeLocalData.providerDescription
+                            try await providerStoreM.updateStoreInfo(
+                                uidPath: firebaseAuth.getUID(),
+                                providerDescription: storeProfileVM.providerDescription
+                            )
+                            try await providerStoreM.updateProfilePic(
+                                uidPath: firebaseAuth.getUID(),
+                                profileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL
+                            )
+                            _ = try await providerStoreM.fetchStore(
+                                provider: firebaseAuth.getUID()
+                            )
+                            storeProfileVM.providerDescription = providerStoreM.storesData.storeDescription
                             storeProfileVM.isUpdate = true
                         } catch {
                             self.errorHandler.handle(error: error)
@@ -167,11 +175,14 @@ extension StoreProfileView {
                 Button {
                     Task {
                         do {
-                            try await firestoreForProducts.createStore(uidPath: firebaseAuth.getUID(),
-                                                                       provideBy: firebaseAuth.getUID(),
-                                                                       providerDisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName,
-                                                                       providerProfileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL,
-                                                                       providerDescription: storeProfileVM.providerDescription, storeChatDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
+                            try await providerStoreM.createStore(
+                                uidPath: firebaseAuth.getUID(),
+                                provider: .createStore(
+                                    companyName: firestoreToFetchUserinfo.providerInfo.companyName,
+                                    companyProfileImage: firestoreToFetchUserinfo.providerInfo.companyProfileImageURL,
+                                    store: storeProfileVM.store
+                                )
+                            )
                             try await providerProfileViewModel.updateCreated(uidPath: firebaseAuth.getUID(), isCreated: true)
                             storeProfileVM.isCreated = true
                         } catch {

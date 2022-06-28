@@ -12,10 +12,13 @@ import FirebaseFirestoreSwift
 class LocalData: ObservableObject {
 
     
+    //MARK: - Rooms Rented Holder
+    @Published var roomRenting: RoomDM = .empty
+    @Published var rentingContractHolder: HouseContract = .empty
+    
     //: Payment Holder
     @Published var sumPrice = 0
     @Published var tempCart: RoomDM = .empty
-    @Published var summaryItemHolder: HouseContract = .empty
     
     //: Maintain Task
     @Published var maintainTaskHolder: [MaintainTaskHolder] = []
@@ -25,7 +28,7 @@ class LocalData: ObservableObject {
     
     
     func addItem(roomsInfo: HouseContract) {
-        self.summaryItemHolder = roomsInfo
+        self.rentingContractHolder = roomsInfo
     }
     
     func compute(source: HouseContract) -> Int {
@@ -35,20 +38,21 @@ class LocalData: ObservableObject {
         return newElement
     }
     
-    func computeProductsPrice(source: [ProductDM]) -> Int {
+    func computeProductsPrice(source: [ProductCartDM]) -> Int {
         var newElemet = 0
         for item in source {
-            let selectedAmount = item.productAmount
-            let multiResult = item.productPrice * selectedAmount
+            let selectedAmount = item.orderAmount
+            let priceConvertInt = Int(item.product.productPrice) ?? 0
+            let multiResult = priceConvertInt * selectedAmount
             newElemet += multiResult
         }
         debugPrint(newElemet)
         return newElemet
     }
     
-    func sum(productSource: [ProductDM]) -> Int {
+    func sum(productSource: [ProductCartDM]) -> Int {
         var newValue = 0
-        newValue = sum(value1: compute(source: summaryItemHolder), value2: computeProductsPrice(source: productSource))
+        newValue = sum(value1: compute(source: rentingContractHolder), value2: computeProductsPrice(source: productSource))
         return newValue
     }
     

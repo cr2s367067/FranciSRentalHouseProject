@@ -31,7 +31,7 @@ struct PaymentSummaryView: View {
     var body: some View {
         VStack {
             TitleAndDivider(title: "Summary")
-            ListItems(roomsData: localData.summaryItemHolder)
+            ListItems(roomsData: localData.roomRenting)
             AppDivider()
             HStack {
                 Text("Total Price")
@@ -149,7 +149,7 @@ struct PaymentSummaryView: View {
                 }
                 if appViewModel.paymentSummaryTosAgree == true {
                     NavigationLink {
-                        PurchaseView(roomsData: localData.summaryItemHolder)
+                        PurchaseView(roomsData: localData.roomRenting)
                     } label: {
                         Text("Confirm")
                             .foregroundColor(.white)
@@ -204,7 +204,7 @@ struct SummaryItems: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     
-    var roomsData: RoomInfoDataModel
+    var roomsData: RoomDM
     
     var checkOutItem = "No Data"
     var checkOutPrice = "0"
@@ -212,19 +212,19 @@ struct SummaryItems: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
-                if !localData.summaryItemHolder.roomUID.isEmpty {                
+                if !localData.roomRenting.roomUID.isEmpty {
                     HStack {
                         Button {
-                            localData.summaryItemHolder = .empty
+                            localData.rentingContractHolder = .empty
                             localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
-                            localData.tempCart = .empty
+                            localData.roomRenting = .empty
                             appViewModel.isRedacted = true
                         } label: {
                             Image(systemName: "xmark.circle")
                                 .resizable()
                                 .frame(width: 22, height: 22)
                         }
-                        Text(roomsData.roomAddress)
+                        Text(roomsData.address)
                         Spacer()
                         Text("$\(roomsData.rentalPrice)")
                     }
@@ -240,10 +240,10 @@ struct SummaryItems: View {
                                 .resizable()
                                 .frame(width: 22, height: 22)
                         }
-                        Text(product.productName)
+                        Text(product.product.productName)
                         Spacer()
-                        Text("Unit: \(product.orderAmount)")
-                        Text("$\(product.productPrice * (Int(product.orderAmount) ?? 0))")
+                        Text("Unit: \(product.product.productAmount)")
+                        Text("$\((Int(product.product.productPrice) ?? 0) * (Int(product.product.productAmount) ?? 0))")
                     }
                 }
             }
@@ -260,23 +260,23 @@ struct ListItems: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     
-    var roomsData: RoomInfoDataModel
+    var roomsData: RoomDM
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
-                if !localData.summaryItemHolder.roomUID.isEmpty {
+                if !localData.roomRenting.roomUID.isEmpty {
                     HStack {
-                        Text(roomsData.roomAddress)
+                        Text(roomsData.address)
                         Spacer()
                         Text("$\(roomsData.rentalPrice)")
                     }
                 }
                 ForEach(productDetailViewModel.productOrderCart) { product in
                     HStack {
-                        Text(product.productName)
+                        Text(product.product.productName)
                         Spacer()
-                        Text("$\(product.productPrice)")
+                        Text("$\(product.product.productPrice)")
                     }
                 }
             }

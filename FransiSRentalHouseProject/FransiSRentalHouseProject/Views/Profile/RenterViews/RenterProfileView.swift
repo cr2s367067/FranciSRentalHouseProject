@@ -27,14 +27,14 @@ struct RenterProfileView: View {
         self._show = show
     }
     
-    func lastPaymentDate(input: [PaymentHistoryDataModel]) -> Date {
-        let lastDate = input.map({$0.paymentDate}).last
-        return (lastDate ?? Date()) 
+    func lastPaymentDate(input: [RentedRoomPaymentHistory]) -> Date {
+        let lastDate = input.map({$0.paymentDate?.dateValue() ?? Date()}).last
+        return (lastDate ?? Date())
     }
     
-    func lastPayment(input: [PaymentHistoryDataModel]) -> String {
-        let payment = input.map({$0.pastPaymentFee}).last
-        return (payment ?? "") 
+    func lastPayment(input: [RentedRoomPaymentHistory]) -> String {
+        let payment = input.map({$0.rentalFee.description}).last
+        return (payment ?? "")
     }
     
     var body: some View {
@@ -103,7 +103,7 @@ struct RenterProfileView: View {
                                     }
                                 }
                             }
-                            Text("\(firestoreToFetchUserinfo.fetchedUserData.displayName)")
+                            Text("\(firestoreToFetchUserinfo.fetchedUserData.nickName)")
                                 .foregroundColor(.white)
                                 .font(.system(size: 30, weight: .heavy))
                                 .padding(.leading, 20)
@@ -155,22 +155,23 @@ struct RenterProfileView: View {
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
-        .onAppear {
-            firestoreToFetchUserinfo.userRentedRoomInfo()
-        }
-        .task({
+        .task {
             do {
-                guard !(firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? false) else { return }
-                _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
+                //MARK: - Get Rented Contract
+                try await firestoreToFetchUserinfo.getRentedContract(uidPath: firebaseAuth.getUID())
+                guard !firestoreToFetchUserinfo.rentedRoom.rentedRoomUID.isEmpty else { return }
+//                _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
                 //MARK: Fetch uploaded maintain tasks
-                if !firestoreToFetchUserinfo.rentedContract.docID.isEmpty {
-                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", docID: firestoreToFetchUserinfo.rentedContract.docID)
-                }
+                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
+                        uidPath: firestoreToFetchUserinfo.rentedRoom.rentedProvderUID,
+                        roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID
+                    )
+                
 //                try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)
             }
-        })
+        }
     }
 }
 
@@ -223,7 +224,7 @@ extension RenterProfileView {
     
     @ViewBuilder
     func roomStatusSessionWithPlaceHolder() -> some View {
-        if !(firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? true) {
+        if !firestoreToFetchUserinfo.rentedRoom.rentedRoomUID.isEmpty {
             roomStatusSession()
         } else {
             roomStatusSession()
@@ -299,7 +300,13 @@ extension RenterProfileView {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
                         NavigationLink(isActive: $firestoreToFetchMaintainTasks.showMaintainDetail) {
-                            MaintainDetailUnitView(providerUidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", docID: firestoreToFetchUserinfo.rentedContract.docID, taskHolder: task)
+                            MaintainDetailUnitView(
+//                                providerUidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "",
+//                                docID: firestoreToFetchUserinfo.rentedContract.docID,
+//                                taskHolder: task
+                                rentedRoom: firestoreToFetchUserinfo.rentedRoom,
+                                taskHolder: task
+                            )
                         } label: {
                             ProfileSessionUnit(mainTainTask: task)
                         }
@@ -365,7 +372,11 @@ class RenterProfileViewModel: ObservableObject {
         
     }
     
-    func eraseExpiredRoomInfo(from fromDate: Date, to endDate: Date, docID: String) async throws {
+    func eraseExpiredRoomInfo(
+        from fromDate: Date,
+        to endDate: Date,
+        roomUID: String
+    ) async throws {
         let calendar = Calendar.current
         let fromDateInDateCom = calendar.dateComponents([.year, .month, .day], from: fromDate)
         let endDateInDateCom = calendar.dateComponents([.year, .month, .day], from: endDate)
@@ -374,9 +385,14 @@ class RenterProfileViewModel: ObservableObject {
         //Push notification for user to let them know the rental is expired
         //and delete the old version contract or renew new contract
         if diff == expiredDate {
-            try? await firestoreToFetchRoomsData.expiredRoom(uidPath: firebaseAuth.getUID(), docID: docID)
-            try? await firestoreToFetchUserinfo.clearExpiredContract(uidPath: firebaseAuth.getUID())
-            
+            try? await firestoreToFetchRoomsData.expiredRoom(
+                uidPath: firebaseAuth.getUID(),
+                roomUID: roomUID
+            )
+            try? await firestoreToFetchUserinfo.clearExpiredContract(
+                uidPath: firebaseAuth.getUID(),
+                rented: roomUID
+            )
         }
     }
 }
