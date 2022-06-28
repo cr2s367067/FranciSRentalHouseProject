@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct ProfileSessionUnit: View {
-    
     var mainTainTask: MaintainDM
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         ZStack {
             Rectangle()

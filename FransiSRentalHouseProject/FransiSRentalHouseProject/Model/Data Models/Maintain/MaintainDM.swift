@@ -5,9 +5,9 @@
 //  Created by Kuan on 2022/6/23.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Foundation
 
 struct MaintainDM: Identifiable, Codable {
     @DocumentID var id: String?

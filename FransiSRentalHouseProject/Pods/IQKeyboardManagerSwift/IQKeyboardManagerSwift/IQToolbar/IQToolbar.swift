@@ -26,24 +26,21 @@ import UIKit
 /** @abstract   IQToolbar for IQKeyboardManager.    */
 @available(iOSApplicationExtension, unavailable)
 @objc open class IQToolbar: UIToolbar, UIInputViewAudioFeedback {
-
     private static var _classInitialize: Void = classInitialize()
 
     private class func classInitialize() {
-
-        let  appearanceProxy = self.appearance()
+        let appearanceProxy = appearance()
 
         appearanceProxy.barTintColor = nil
 
         let positions: [UIBarPosition] = [.any, .bottom, .top, .topAttached]
 
         for position in positions {
-
             appearanceProxy.setBackgroundImage(nil, forToolbarPosition: position, barMetrics: .default)
             appearanceProxy.setShadowImage(nil, forToolbarPosition: .any)
         }
 
-        //Background color
+        // Background color
         appearanceProxy.backgroundColor = nil
     }
 
@@ -59,7 +56,7 @@ import UIKit
             return privatePreviousBarButton!
         }
 
-        set (newValue) {
+        set(newValue) {
             privatePreviousBarButton = newValue
         }
     }
@@ -76,7 +73,7 @@ import UIKit
             return privateNextBarButton!
         }
 
-        set (newValue) {
+        set(newValue) {
             privateNextBarButton = newValue
         }
     }
@@ -95,7 +92,7 @@ import UIKit
             return privateTitleBarButton!
         }
 
-        set (newValue) {
+        set(newValue) {
             privateTitleBarButton = newValue
         }
     }
@@ -112,7 +109,7 @@ import UIKit
             return privateDoneBarButton!
         }
 
-        set (newValue) {
+        set(newValue) {
             privateDoneBarButton = newValue
         }
     }
@@ -137,7 +134,7 @@ import UIKit
             return privateFixedSpaceBarButton!
         }
 
-        set (newValue) {
+        set(newValue) {
             privateFixedSpaceBarButton = newValue
         }
     }
@@ -149,17 +146,17 @@ import UIKit
         sizeToFit()
 
         autoresizingMask = .flexibleWidth
-        self.isTranslucent = true
+        isTranslucent = true
     }
 
-    @objc required public init?(coder aDecoder: NSCoder) {
+    @objc public required init?(coder aDecoder: NSCoder) {
         _ = IQToolbar._classInitialize
         super.init(coder: aDecoder)
 
         sizeToFit()
 
         autoresizingMask = .flexibleWidth
-        self.isTranslucent = true
+        isTranslucent = true
     }
 
     @objc override open func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -169,7 +166,6 @@ import UIKit
     }
 
     @objc override open var tintColor: UIColor! {
-
         didSet {
             if let unwrappedItems = items {
                 for item in unwrappedItems {
@@ -180,7 +176,6 @@ import UIKit
     }
 
     @objc override open func layoutSubviews() {
-
         super.layoutSubviews()
 
         if #available(iOS 11, *) {
@@ -190,7 +185,7 @@ import UIKit
             var rightRect = CGRect.null
             var isTitleBarButtonFound = false
 
-            let sortedSubviews = self.subviews.sorted(by: { (view1: UIView, view2: UIView) -> Bool in
+            let sortedSubviews = subviews.sorted(by: { (view1: UIView, view2: UIView) -> Bool in
                 if view1.frame.minX != view2.frame.minX {
                     return view1.frame.minX < view2.frame.minX
                 } else {
@@ -199,13 +194,12 @@ import UIKit
             })
 
             for barButtonItemView in sortedSubviews {
-
                 if isTitleBarButtonFound {
                     rightRect = barButtonItemView.frame
                     break
                 } else if barButtonItemView === customTitleView {
                     isTitleBarButtonFound = true
-                    //If it's UIToolbarButton or UIToolbarTextButton (which actually UIBarButtonItem)
+                    // If it's UIToolbarButton or UIToolbarTextButton (which actually UIBarButtonItem)
                 } else if barButtonItemView.isKind(of: UIControl.self) {
                     leftRect = barButtonItemView.frame
                 }
@@ -213,8 +207,8 @@ import UIKit
 
             let titleMargin: CGFloat = 16
 
-            let maxWidth: CGFloat = self.frame.width - titleMargin*2 - (leftRect.isNull ? 0 : leftRect.maxX) - (rightRect.isNull ? 0 : self.frame.width - rightRect.minX)
-            let maxHeight = self.frame.height
+            let maxWidth: CGFloat = frame.width - titleMargin * 2 - (leftRect.isNull ? 0 : leftRect.maxX) - (rightRect.isNull ? 0 : frame.width - rightRect.minX)
+            let maxHeight = frame.height
 
             let sizeThatFits = customTitleView.sizeThatFits(CGSize(width: maxWidth, height: maxHeight))
 
@@ -227,16 +221,15 @@ import UIKit
                 var xPosition: CGFloat
 
                 if !leftRect.isNull {
-                    xPosition = titleMargin + leftRect.maxX + ((maxWidth - width)/2)
+                    xPosition = titleMargin + leftRect.maxX + ((maxWidth - width) / 2)
                 } else {
                     xPosition = titleMargin
                 }
 
-                let yPosition = (maxHeight - height)/2
+                let yPosition = (maxHeight - height) / 2
 
                 titleRect = CGRect(x: xPosition, y: yPosition, width: width, height: height)
             } else {
-
                 var xPosition: CGFloat
 
                 if !leftRect.isNull {
@@ -245,7 +238,7 @@ import UIKit
                     xPosition = titleMargin
                 }
 
-                let width: CGFloat = self.frame.width - titleMargin*2 - (leftRect.isNull ? 0 : leftRect.maxX) - (rightRect.isNull ? 0 : self.frame.width - rightRect.minX)
+                let width: CGFloat = frame.width - titleMargin * 2 - (leftRect.isNull ? 0 : leftRect.maxX) - (rightRect.isNull ? 0 : frame.width - rightRect.minX)
 
                 titleRect = CGRect(x: xPosition, y: 0, width: width, height: maxHeight)
             }
@@ -259,7 +252,6 @@ import UIKit
     }
 
     deinit {
-
         items = nil
         privatePreviousBarButton = nil
         privateNextBarButton = nil

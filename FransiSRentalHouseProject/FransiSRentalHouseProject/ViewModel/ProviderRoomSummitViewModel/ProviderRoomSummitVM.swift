@@ -8,10 +8,9 @@
 import Foundation
 import SwiftUI
 
-
 class ProviderRoomSummitViewModel: ObservableObject {
-    
-    //MARK: - Room basic data
+    // MARK: - Room basic data
+
     @Published var holderName = ""
     @Published var holderMobileNumber = ""
     @Published var roomAddress = ""
@@ -27,8 +26,9 @@ class ProviderRoomSummitViewModel: ObservableObject {
     @Published var hasWaterLeakingNo = false
     @Published var waterLeakingProblem = false
     @Published var roomDescription = ""
-    
-    //MARK: - Submit config
+
+    // MARK: - Submit config
+
     @Published var holderTosAgree = false
     @Published var image = UIImage()
     @Published var imageSet = [TextingImageDataModel]()
@@ -40,9 +40,9 @@ class ProviderRoomSummitViewModel: ObservableObject {
     @Published var showSummitAlert = false
     @Published var showProgressView = false
     @Published var roomIntroVideoURL: URL?
-    
+
 //    @Published var roomData: RoomDM = .empty
-    
+
     func presentImage(input: [TextingImageDataModel]) -> UIImage {
         var image = UIImage()
         if let firstImage = input.first {

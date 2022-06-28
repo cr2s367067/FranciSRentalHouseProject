@@ -7,8 +7,8 @@
 //
 
 extension CS.BigUInt {
-    //MARK: Addition
-    
+    // MARK: Addition
+
     /// Add `word` to this integer in place.
     /// `word` is shifted `shift` words to the left before being added.
     ///
@@ -51,8 +51,7 @@ extension CS.BigUInt {
                 let (d2, c2) = d.addingReportingOverflow(1)
                 self[ai] = d2
                 carry = c || c2
-            }
-            else {
+            } else {
                 self[ai] = d
                 carry = c
             }
@@ -75,27 +74,27 @@ extension CS.BigUInt {
     ///
     /// - Complexity: O(count + shift)
     internal mutating func increment(shiftedBy shift: Int = 0) {
-        self.addWord(1, shiftedBy: shift)
+        addWord(1, shiftedBy: shift)
     }
 
     /// Add `a` and `b` together and return the result.
     ///
     /// - Complexity: O(max(a.count, b.count))
-    public static func +(a: CS.BigUInt, b: CS.BigUInt) -> CS.BigUInt {
+    public static func + (a: CS.BigUInt, b: CS.BigUInt) -> CS.BigUInt {
         return a.adding(b)
     }
 
     /// Add `a` and `b` together, and store the sum in `a`.
     ///
     /// - Complexity: O(max(a.count, b.count))
-    public static func +=(a: inout CS.BigUInt, b: CS.BigUInt) {
+    public static func += (a: inout CS.BigUInt, b: CS.BigUInt) {
         a.add(b, shiftedBy: 0)
     }
 }
 
-extension CS.BigInt {
+public extension CS.BigInt {
     /// Add `a` to `b` and return the result.
-    public static func +(a: CS.BigInt, b: CS.BigInt) -> CS.BigInt {
+    static func + (a: CS.BigInt, b: CS.BigInt) -> CS.BigInt {
         switch (a.sign, b.sign) {
         case (.plus, .plus):
             return CS.BigInt(sign: .plus, magnitude: a.magnitude + b.magnitude)
@@ -104,23 +103,20 @@ extension CS.BigInt {
         case (.plus, .minus):
             if a.magnitude >= b.magnitude {
                 return CS.BigInt(sign: .plus, magnitude: a.magnitude - b.magnitude)
-            }
-            else {
+            } else {
                 return CS.BigInt(sign: .minus, magnitude: b.magnitude - a.magnitude)
             }
         case (.minus, .plus):
             if b.magnitude >= a.magnitude {
                 return CS.BigInt(sign: .plus, magnitude: b.magnitude - a.magnitude)
-            }
-            else {
+            } else {
                 return CS.BigInt(sign: .minus, magnitude: a.magnitude - b.magnitude)
             }
         }
     }
 
     /// Add `b` to `a` in place.
-    public static func +=(a: inout CS.BigInt, b: CS.BigInt) {
+    static func += (a: inout CS.BigInt, b: CS.BigInt) {
         a = a + b
     }
 }
-

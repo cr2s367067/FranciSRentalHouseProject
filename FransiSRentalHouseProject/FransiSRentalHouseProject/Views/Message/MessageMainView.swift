@@ -5,11 +5,10 @@
 //  Created by Kuan on 2022/3/24.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MessageMainView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -18,7 +17,7 @@ struct MessageMainView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var roomsDetailViewModel: RoomsDetailViewModel
     @EnvironmentObject var appViewModel: AppViewModel
-    
+
     var body: some View {
         VStack(alignment: .leading) {
 //            HStack {
@@ -82,13 +81,13 @@ struct MessageMainView: View {
     }
 }
 
-//struct MessageMainView_Previews: PreviewProvider {
+// struct MessageMainView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        MessageMainView()
 //    }
-//}
+// }
 
-//struct MessageUserSession: View {
+// struct MessageUserSession: View {
 //
 //    let userName: String
 //    let profileImage: String
@@ -124,10 +123,9 @@ struct MessageMainView: View {
 //                .fill(Color("sessionBackground").opacity(0.9))
 //        }
 //    }
-//}
+// }
 
-
-//extension MessageMainView {
+// extension MessageMainView {
 //
 //    func determinProviderCreated(listUser: [ContactUserDataModel], providerChatID: String, createRoom: Bool) async throws {
 //        print("Call this function 1")
@@ -219,5 +217,5 @@ struct MessageMainView: View {
 //            }
 //        }
 //    }
-//}
+// }
 //

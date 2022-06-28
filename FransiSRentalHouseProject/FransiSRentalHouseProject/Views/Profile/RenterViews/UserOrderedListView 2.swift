@@ -5,27 +5,25 @@
 //  Created by Kuan on 2022/3/30.
 //
 
-import SwiftUI
-import SDWebImageSwiftUI
 import LocalAuthentication
+import SDWebImageSwiftUI
+import SwiftUI
 
 struct UserOrderedListView: View {
-    
-   
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var userOrderedListVM: UserOrderedListViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map({$0.rawValue})
-    
+
+    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map { $0.rawValue }
+
     @State private var selectedOrderData: OrderedDataModel?
-    
+
     var body: some View {
         VStack {
             arrayEmptyHolder()
@@ -42,7 +40,6 @@ struct UserOrderedListView: View {
 }
 
 extension UserOrderedListView {
-    
     @ViewBuilder
     func arrayEmptyHolder() -> some View {
         if firestoreForProducts.userOrderedDataSet.isEmpty {
@@ -53,7 +50,7 @@ extension UserOrderedListView {
         } else {
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreForProducts.userOrderedDataSet) { order in
-                    orderedUnit(orderedData: order) {                    
+                    orderedUnit(orderedData: order) {
                         selectedOrderData = order
                     }
                 }
@@ -94,7 +91,7 @@ extension UserOrderedListView {
             }
         }
     }
-    
+
 //    @ViewBuilder
 //    func productsListUnit() -> some View {
 //        ScrollView(.vertical, showsIndicators: false) {
@@ -117,7 +114,7 @@ extension UserOrderedListView {
 //            productsListUnit()
 //        }
 //    }
-    
+
     @ViewBuilder
     func orderTitleAndContain(header: String, body: String) -> some View {
         VStack(spacing: 1) {
@@ -135,12 +132,10 @@ extension UserOrderedListView {
             .font(.body)
         }
     }
-    
+
     @ViewBuilder
     func orderedUnit(orderedData: OrderedDataModel, action: (() -> Void)? = nil) -> some View {
-        
         VStack(spacing: 10) {
-            
             VStack(spacing: 5) {
                 orderTitleAndContain(header: "Order ID", body: orderedData.orderID)
                 VStack(spacing: 1) {
@@ -184,7 +179,7 @@ extension UserOrderedListView {
 //                }
 //            }
 //            .clipShape(RoundedRectangle(cornerRadius: 20))
-            
+
             Spacer()
         }
         .padding()
@@ -194,7 +189,7 @@ extension UserOrderedListView {
                 .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
         }
     }
-    
+
     @ViewBuilder
     func customSheetList(orderID: String) -> some View {
         NavigationView {
@@ -224,7 +219,7 @@ extension UserOrderedListView {
             }
         }
     }
-    
+
     @ViewBuilder
     func orderedListDetailView(productsData: UserOrderProductsDataModel, orderID: String) -> some View {
         VStack {
@@ -252,9 +247,9 @@ extension UserOrderedListView {
                         .foregroundColor(.white)
                     Spacer()
                 }
-                
+
                 showComment(isSummit: productsData.isUploadComment, text: productsData.comment)
-                
+
                 HStack {
                     Spacer()
                     Button {
@@ -286,12 +281,12 @@ extension UserOrderedListView {
         }
         .modifier(ViewBackgroundInitModifier())
     }
-    
+
     @ViewBuilder
     func showRattedResult(isSummit: Bool, ratted result: Int) -> some View {
         if isSummit {
             HStack {
-                ForEach(1..<result + 1, id: \.self) { _ in
+                ForEach(1 ..< result + 1, id: \.self) { _ in
                     Image(systemName: "star.fill")
                         .foregroundColor(.yellow)
                 }
@@ -300,7 +295,7 @@ extension UserOrderedListView {
             RantingView()
         }
     }
-    
+
     @ViewBuilder
     func showComment(isSummit: Bool, text: String) -> some View {
         if isSummit {
@@ -310,40 +305,36 @@ extension UserOrderedListView {
                 Spacer()
             }
             .padding()
-            .frame(width: uiScreenWidth - 80 , height: uiScreenHeight / 6 - 80)
+            .frame(width: uiScreenWidth - 80, height: uiScreenHeight / 6 - 80)
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(lineWidth: 1)
                     .fill(.white)
-                    
             }
         } else {
             HStack {
                 TextEditor(text: $userOrderedListVM.comment)
                     .foregroundColor(.black)
-                    .frame(width: uiScreenWidth - 80 , height: uiScreenHeight / 3 - 50)
+                    .frame(width: uiScreenWidth - 80, height: uiScreenHeight / 3 - 50)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
             }
         }
     }
 }
 
-
-
 struct RantingView: View {
-    
     @EnvironmentObject var userOrderedListVM: UserOrderedListViewModel
-    
+
     @State var rating: Int = 0
-    
+
     var offImage: Image?
     var onImage = Image(systemName: "star.fill")
-    
+
     var offColor = Color.white
     var onColor = Color.yellow
-    
-    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map({$0.rawValue})
-    
+
+    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map { $0.rawValue }
+
     func image(number: Int) -> Image {
         if number > userOrderedListVM.rating {
             return offImage ?? onImage
@@ -351,7 +342,7 @@ struct RantingView: View {
             return onImage
         }
     }
-    
+
     var body: some View {
         HStack {
             ForEach(ratingArray, id: \.self) { number in
@@ -371,6 +362,6 @@ struct RantingView: View {
 }
 
 //
-//extension String: Identifiable {
+// extension String: Identifiable {
 //    public var id: String { self }
-//}
+// }

@@ -7,11 +7,11 @@
 //
 
 extension CS.BigUInt: Hashable {
-    //MARK: Hashing
+    // MARK: Hashing
 
     /// Append this `BigUInt` to the specified hasher.
     public func hash(into hasher: inout Hasher) {
-        for word in self.words {
+        for word in words {
             hasher.combine(word)
         }
     }

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MaintainView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
@@ -16,7 +15,7 @@ struct MaintainView: View {
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var storageForMaintainImage: StorageForMaintainImage
-    
+
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
     @State var showAlert = false
@@ -25,16 +24,16 @@ struct MaintainView: View {
     @State var imagePickerSheet = false
     @State var isSelectedImage = false
     @State var showProgressView = false
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     private func reset() {
         describtion = "Please describe what stuff needs to fix."
         appointment = Date()
         isSelectedImage = false
     }
-    
+
     private func checkRoomStatus(describtion: String, appointmentDate: Date) async throws {
         do {
             try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
@@ -48,10 +47,10 @@ struct MaintainView: View {
                 showAlert.toggle()
             }
         } catch {
-            self.errorHandler.handle(error: error)
+            errorHandler.handle(error: error)
         }
     }
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -110,7 +109,7 @@ struct MaintainView: View {
                             }
                             .padding(.horizontal)
                         }
-                        
+
                         HStack {
                             Spacer()
                             Button {
@@ -184,10 +183,7 @@ extension MaintainView {
         .frame(width: uiScreenWidth - 30, alignment: .center)
         .padding(.horizontal)
     }
-    
-    
 }
-
 
 struct MaintainTitleUnit: View {
     var title: String

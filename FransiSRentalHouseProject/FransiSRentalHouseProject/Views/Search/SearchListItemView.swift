@@ -5,23 +5,22 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct SearchListItemView: View {
-    
     var roomsData: RoomDM
-    
+
     let uiScreenWith = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var address: String {
         let city = roomsData.city
         let town = roomsData.town
         let roomAddress = roomsData.address
         return city + town + roomAddress
     }
-    
+
     var body: some View {
         VStack {
             WebImage(url: URL(string: roomsData.roomsCoverImageURL))
@@ -36,7 +35,6 @@ struct SearchListItemView: View {
                         .foregroundColor(.white)
                         .font(.title3)
                         .fontWeight(.bold)
-                        
                 }
                 Spacer()
                 ZStack {

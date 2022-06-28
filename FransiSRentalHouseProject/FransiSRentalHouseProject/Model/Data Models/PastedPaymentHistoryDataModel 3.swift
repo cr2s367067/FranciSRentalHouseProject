@@ -5,9 +5,9 @@
 //  Created by Kuan on 2022/3/27.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Foundation
 
 struct PastedPaymentHistoryDataModel: Identifiable, Codable {
     @DocumentID var id: String?

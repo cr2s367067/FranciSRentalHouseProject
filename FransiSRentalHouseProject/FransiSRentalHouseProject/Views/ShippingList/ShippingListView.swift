@@ -5,23 +5,22 @@
 //  Created by Kuan on 2022/4/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ShippingListView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var selectedOrderData: OrderedListProviderSide?
-    
+
     var body: some View {
         VStack {
             TitleAndDivider(title: "Shipping List")
@@ -52,7 +51,6 @@ struct ShippingListView_Previews: PreviewProvider {
 }
 
 extension ShippingListView {
-    
     @ViewBuilder
     func containPlaceholder() -> some View {
         if firestoreForProducts.purchasedUserDataSet.isEmpty {
@@ -75,7 +73,7 @@ extension ShippingListView {
             }
         }
     }
-    
+
     func stateAdjust(shippingState: FirestoreForProducts.ShippingStatus) -> String {
         switch shippingState {
         case .orderBuilt:
@@ -93,7 +91,7 @@ extension ShippingListView {
             return "Cancel Order"
         }
     }
-    
+
     @ViewBuilder
     func listUnit(pUserData: OrderedListProviderSide, action: (() -> Void)? = nil) -> some View {
         VStack(spacing: 10) {
@@ -127,7 +125,7 @@ extension ShippingListView {
                 }
                 .accessibilityIdentifier("updateState")
                 Spacer()
-                
+
                 Button {
                     action?()
                 } label: {
@@ -136,8 +134,7 @@ extension ShippingListView {
                 }
                 .accessibilityIdentifier("showList")
             }
-            
-            
+
             Spacer()
         }
         .padding()
@@ -146,9 +143,8 @@ extension ShippingListView {
             RoundedRectangle(cornerRadius: 10)
                 .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
         }
-        
     }
-    
+
     @ViewBuilder
     func orderContain(orderData: OrderedListProviderSide) -> some View {
         VStack {
@@ -173,7 +169,7 @@ extension ShippingListView {
             }
         }
     }
-    
+
     @ViewBuilder
     func orderUserInfoUnit(pUserData: OrderedListProviderSide) -> some View {
         VStack(spacing: 5) {
@@ -185,7 +181,7 @@ extension ShippingListView {
             shippingTitleAndContain(header: "Shipping Status", body: pUserData.shippingStatus)
         }
     }
-    
+
     @ViewBuilder
     func productUnit(cartItemData: OrderListContain) -> some View {
         HStack {
@@ -217,7 +213,7 @@ extension ShippingListView {
             }
         }
     }
-    
+
     @ViewBuilder
     func shippingTitleAndContain(header: String, body: String) -> some View {
         VStack(spacing: 3) {

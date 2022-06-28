@@ -5,26 +5,25 @@
 //  Created by Kuan on 2022/3/29.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ProductCollectionDetialView: View {
-    
     @EnvironmentObject var storageProduct: StorageForProductImage
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var isEdit = false
     @State private var newAmount = ""
     @State private var newDescription = ""
-    
+
     var productData: ProductProviderDataModel
-    
+
     var imageString: String {
         var temp = ""
         if let first = storageProduct.productImageSet.first?.productImage {
@@ -32,8 +31,9 @@ struct ProductCollectionDetialView: View {
         }
         return temp
     }
-    
-    //MARK: Put some visual kit to presenting data, also provider could edit product description
+
+    // MARK: Put some visual kit to presenting data, also provider could edit product description
+
     var body: some View {
         VStack {
             VStack {
@@ -96,9 +96,7 @@ struct ProductCollectionDetialView: View {
             do {
                 guard let id = productData.id else { return }
                 try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: firebaseAuth.getUID(), productID: id)
-            } catch {
-                
-            }
+            } catch {}
         }
         .onAppear {
             newAmount = productData.productAmount
@@ -116,9 +114,7 @@ struct ProductCollectionDetialView: View {
                                 guard let id = productData.id else { return }
                                 try await firestoreForProducts.updateProductAmountAndDesciption(uidPaht: firebaseAuth.getUID(), productID: id, newProductAmount: newAmount, newProductDescription: newDescription)
                                 try await firestoreForProducts.fetchStoreProduct(uidPath: firebaseAuth.getUID())
-                            } catch {
-                                
-                            }
+                            } catch {}
                         }
                     } label: {
                         Text("Done")
@@ -138,7 +134,6 @@ struct ProductCollectionDetialView: View {
         }
     }
 }
-
 
 extension ProductCollectionDetialView {
     @ViewBuilder
@@ -166,7 +161,7 @@ extension ProductCollectionDetialView {
             ReusableUnit(title: "Product Amount", containName: productData.productAmount)
         }
     }
-    
+
     @ViewBuilder
     func editDescription(isEdit: Bool) -> some View {
         if isEdit {

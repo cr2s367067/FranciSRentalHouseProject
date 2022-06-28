@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RenterMainView: View {
-
     @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var firebaseAuth: FirebaseAuth
 //    @EnvironmentObject var appViewModel: AppViewModel
@@ -22,31 +21,26 @@ struct RenterMainView: View {
     @EnvironmentObject var paymentMg: PaymentMethodManager
     @EnvironmentObject var fireMessage: FirestoreForTextingMessage
     @EnvironmentObject var renterMainVM: RenterMainVM
-    
-    
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    
+
     @State private var dragCompleted = false
-    
+
     var gridItemLayout = [
         GridItem(.fixed(170)),
-        GridItem(.fixed(170))
+        GridItem(.fixed(170)),
     ]
 
-    
     @State private var showRooms = true
 //    @State private var showFurniture = false
-    
-    
-    
+
     var body: some View {
         NavigationView {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
-                    //MARK: - Announcement Group
+                    // MARK: - Announcement Group
+
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
                             HStack {
@@ -77,7 +71,9 @@ struct RenterMainView: View {
                             }
                         }
                     }
-                    //MARK: - New rooms Group
+
+                    // MARK: - New rooms Group
+
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
                             HStack {
@@ -97,7 +93,9 @@ struct RenterMainView: View {
                             }
                         }
                         .frame(width: uiScreenWidth - 25)
-                        //MARK: - New publish scrill view
+
+                        // MARK: - New publish scrill view
+
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
                                 elementSwitch(showRooms: showRooms)
@@ -106,11 +104,14 @@ struct RenterMainView: View {
                             .padding()
                         }
                     }
-                    
-                    //MARK: - Everybody's facorite
+
+                    // MARK: - Everybody's facorite
+
                     Group {
                         TitleAndDivider(title: "What's Everybody Favorite")
-                        //MARK: - New publish scrill view
+
+                        // MARK: - New publish scrill view
+
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: gridItemLayout, spacing: 35) {
 //                                elementSwitch(showRooms: showRooms)
@@ -119,16 +120,15 @@ struct RenterMainView: View {
                             .padding()
                         }
                     }
-                    
                 }
             }
             .gesture(
                 DragGesture(minimumDistance: 10)
-                    .onEnded({ gesture in
+                    .onEnded { gesture in
                         if gesture.startLocation.x > gesture.predictedEndLocation.x {
                             dragCompleted = true
                         }
-                    })
+                    }
             )
             .background {
                 LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
@@ -152,7 +152,6 @@ struct RenterMainView: View {
     }
 }
 
-
 struct AnnouncementView: View {
     var announcement: String
     var body: some View {
@@ -173,23 +172,21 @@ struct AnnouncementView: View {
 }
 
 extension RenterMainView {
-    
     private func checkUserInfo() throws {
         guard !firestoreToFetchUserinfo.fetchedUserData.id.isEmpty else {
             throw UserInformationError.registeError
         }
     }
-    
+
     @ViewBuilder
     func elementSwitch(showRooms: Bool) -> some View {
         if showRooms {
             showRoomsElement()
         } else {
             showProductElement()
-            
         }
     }
-    
+
     @ViewBuilder
     func showRoomsElement() -> some View {
         ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
@@ -198,12 +195,13 @@ extension RenterMainView {
             } label: {
                 RoomsGridView(roomsData: result)
 //                .frame(height: uiScreenHeight / 8)
-                .alert(isPresented: $renterMainVM.isPresent) {
-                    //MARK: Throw the "Have rented error to instead"
-                    Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                }
+                    .alert(isPresented: $renterMainVM.isPresent) {
+                        // MARK: Throw the "Have rented error to instead"
+
+                        Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+                    }
             }
-            .simultaneousGesture(TapGesture().onEnded({ _ in
+            .simultaneousGesture(TapGesture().onEnded { _ in
                 Task {
                     do {
                         guard let id = result.id else { return }
@@ -212,10 +210,10 @@ extension RenterMainView {
                         self.errorHandler.handle(error: error)
                     }
                 }
-            }))
+            })
         }
     }
-    
+
     @ViewBuilder
     func showProductElement() -> some View {
         ForEach(firestoreForProducts.publicProductDataSet) { product in
@@ -237,7 +235,7 @@ extension RenterMainView {
             }
             .accessibilityIdentifier("testProduct")
             .simultaneousGesture(
-                TapGesture().onEnded({ _ in
+                TapGesture().onEnded { _ in
                     Task {
                         do {
                             try await storageForProductImage.getProductImages(providerUidPath: product.providerUID, productUID: product.productUID)
@@ -245,10 +243,8 @@ extension RenterMainView {
                             self.errorHandler.handle(error: error)
                         }
                     }
-                })
+                }
             )
         }
     }
-    
-    
 }

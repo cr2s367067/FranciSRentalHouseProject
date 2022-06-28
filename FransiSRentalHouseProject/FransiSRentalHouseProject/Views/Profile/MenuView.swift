@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct MenuView: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var userInfoVM: UserInfoVM
-    
+
     var body: some View {
         ZStack(alignment: .leading) {
             Rectangle()
@@ -38,7 +37,7 @@ struct MenuView: View {
                     } label: {
                         SideBarButton(buttonName: "Contact Us", systemImageName: "questionmark.circle")
                     }
-                    if firestoreToFetchUserinfo.fetchedUserData.isSignByApple == false {                    
+                    if firestoreToFetchUserinfo.fetchedUserData.isSignByApple == false {
                         NavigationLink {
                             withAnimation {
                                 BioAuthSettingView()
@@ -79,7 +78,6 @@ struct MenuView: View {
 }
 
 extension MenuView {
-    
     func cleanUserInfoWhenSignOut() {
 //        userInfoVM.id = ""
 //        userInfoVM.firstName = ""
@@ -97,7 +95,7 @@ extension MenuView {
 //        userInfoVM.isFemale = false
         userInfoVM.userInfo = .empty
     }
-    
+
     @ViewBuilder
     func identifyUserType(signUpType: SignUpType, providerType: ProviderTypeStatus) -> some View {
         switch signUpType {
@@ -107,7 +105,7 @@ extension MenuView {
             providerMenuView(providerType: providerType)
         }
     }
-    
+
     @ViewBuilder
     private func normalCustormerMenuView() -> some View {
         Group {
@@ -135,7 +133,7 @@ extension MenuView {
             }
         }
     }
-    
+
     @ViewBuilder
     private func providerMenuView(providerType: ProviderTypeStatus) -> some View {
         Group {
@@ -192,20 +190,19 @@ struct SideBarButton: View {
     }
 }
 
-
 struct SideMenuBar<SidebarContent: View, Content: View>: View {
     let sidebarContent: SidebarContent
     let mainContent: Content
     let sidebarWidth: CGFloat
     @Binding var showSidebar: Bool
-    
-    init(sidebarWidth: CGFloat, showSidebar: Binding<Bool>, @ViewBuilder sidebar: ()->SidebarContent, @ViewBuilder content: ()->Content) {
+
+    init(sidebarWidth: CGFloat, showSidebar: Binding<Bool>, @ViewBuilder sidebar: () -> SidebarContent, @ViewBuilder content: () -> Content) {
         self.sidebarWidth = sidebarWidth
-        self._showSidebar = showSidebar
+        _showSidebar = showSidebar
         sidebarContent = sidebar()
         mainContent = content()
     }
-    
+
     var body: some View {
         ZStack(alignment: .leading) {
             sidebarContent
@@ -235,8 +232,6 @@ struct SideMenuBar<SidebarContent: View, Content: View>: View {
         }
     }
 }
-
-
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {

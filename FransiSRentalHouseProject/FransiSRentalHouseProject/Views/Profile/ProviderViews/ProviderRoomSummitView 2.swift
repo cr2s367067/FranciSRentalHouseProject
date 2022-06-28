@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import FirebaseFirestoreSwift
+import SwiftUI
 
 struct ProviderRoomSummitView: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var storageForRoomsImage: StorageForRoomsImage
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -22,11 +21,11 @@ struct ProviderRoomSummitView: View {
 
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     init() {
         UITextView.appearance().backgroundColor = .clear
     }
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -34,7 +33,7 @@ struct ProviderRoomSummitView: View {
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.top, .bottom])
                 VStack(spacing: 5) {
-                    ScrollView(.vertical, showsIndicators: false){
+                    ScrollView(.vertical, showsIndicators: false) {
                         TitleAndDivider(title: "Ready to Post your Room?")
                         StepsTitle(stepsName: "Step1: Upload the room pic.")
                         Button {
@@ -173,7 +172,7 @@ struct ProviderRoomSummitView: View {
                                 }
                             }
                             .modifier(textFormateForProviderSummitView())
-                            
+
                             Group {
                                 HStack {
                                     Text("Does the room has water leak problem?")
@@ -287,7 +286,7 @@ struct ProviderRoomSummitView: View {
                                                                                  waterLeakingProblem: appViewModel.waterLeakingProblem,
                                                                                  roomImageURL: storageForRoomsImage.representedRoomImageURL,
                                                                                  providerDisplayName: appViewModel.displayName, roomDescription: appViewModel.roomDescription)
-                                                            
+
                                                             resetView()
                                                             providerRoomSummitViewModel.showProgressView = false
                                                             providerRoomSummitViewModel.showSummitAlert = false
@@ -295,7 +294,7 @@ struct ProviderRoomSummitView: View {
                                                             self.errorHandler.handle(error: error)
                                                         }
                                                     }
-                                                    
+
                                                 } label: {
                                                     Text("Okay")
                                                         .foregroundColor(.white)
@@ -316,7 +315,6 @@ struct ProviderRoomSummitView: View {
                     }
                     .disabled(providerRoomSummitViewModel.showProgressView ? true : false)
                 }
-                
             }
             .navigationBarHidden(true)
             .overlay(content: {
@@ -340,7 +338,6 @@ struct ProviderRoomSummitView: View {
                 PHPickerRepresentable(images: self.$providerRoomSummitViewModel.imageSet)
             }
             .sheet(isPresented: $providerRoomSummitViewModel.showSheet) {
-                
                 providerRoomSummitViewModel.isSummitRoomPic = true
             } content: {
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$providerRoomSummitViewModel.image)
@@ -362,19 +359,16 @@ struct StepsTitle: View {
 }
 
 struct BlurView: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIVisualEffectView {
+    func makeUIView(context _: Context) -> UIVisualEffectView {
         let view = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
         return view
     }
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        
-    }
+
+    func updateUIView(_: UIVisualEffectView, context _: Context) {}
 }
 
 extension ProviderRoomSummitView {
-    
-    private func roomSummit(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, providerDisplayName: String, roomDescription: String) async throws {
-        
+    private func roomSummit(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement _: Bool, isSummitRoomImage _: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, providerDisplayName: String, roomDescription: String) async throws {
         let docID = UUID().uuidString
         _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
         try await firestoreToFetchRoomsData.summitRoomInfoAsync(docID: docID, uidPath: firebaseAuth.getUID(), roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice, someoneDeadInRoom: someoneDeadInRoom, waterLeakingProblem: waterLeakingProblem, roomImageURL: roomImageURL, providerDisplayName: providerDisplayName, providerChatDocId: firestoreForTextingMessage.senderUIDPath.chatDocId, roomDescription: roomDescription)
@@ -382,13 +376,13 @@ extension ProviderRoomSummitView {
             try await storageForRoomsImage.uploadImageSet(uidPath: firebaseAuth.getUID(), images: providerRoomSummitViewModel.imageSet, roomID: roomUID, docID: docID)
         }
     }
-    
-    private func checker(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom: String, waterLeakingProblem: String, roomImageURL: String, providerDisplayName: String) async throws {
+
+    private func checker(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String, someoneDeadInRoom _: String, waterLeakingProblem _: String, roomImageURL _: String, providerDisplayName _: String) async throws {
         try await appViewModel.providerSummitCheckerAsync(holderName: holderName, holderMobileNumber: holderMobileNumber, roomAddress: roomAddress, roomTown: roomTown, roomCity: roomCity, roomZipCode: roomZipCode, roomArea: roomArea, roomRentalPrice: roomRentalPrice, tosAgreement: tosAgreement, isSummitRoomImage: isSummitRoomImage, roomUID: roomUID)
-        
+
         providerRoomSummitViewModel.showSummitAlert = true
     }
-    
+
     private func resetView() {
         appViewModel.holderName = ""
         appViewModel.holderMobileNumber = ""
@@ -425,7 +419,7 @@ class ProviderRoomSummitViewModel: ObservableObject {
     @Published var isSelectedRoomSet = false
     @Published var showSummitAlert = false
     @Published var showProgressView = false
-    
+
     func presentImage(input: [UIImage]) -> UIImage {
         var image = UIImage()
         if let firstImage = input.first {
@@ -435,9 +429,8 @@ class ProviderRoomSummitViewModel: ObservableObject {
     }
 }
 
-
 /*
- 
+
  if firestoreToFetchUserinfo.evaluateProviderType() == "House Owner"{
      NavigationLink {
          ProviderSummittedRoomContractView()
@@ -449,7 +442,7 @@ class ProviderRoomSummitViewModel: ObservableObject {
              .clipShape(RoundedRectangle(cornerRadius: 5))
      }
  }
- 
+
  if firestoreToFetchUserinfo.evaluateProviderType() == "House Owner" {
      Group {
          InfoUnit(title: "專有部分建號：", bindingString: $appViewModel.specificBuildingNumber)
@@ -626,7 +619,7 @@ class ProviderRoomSummitViewModel: ObservableObject {
          InfoUnit(title: "租賃住宅面積幾平方公尺", bindingString: $appViewModel.provideRoomArea)
      }
      .modifier(textFormateForProviderSummitView())
-     
+
      if appViewModel.hasParkinglotYes == true && appViewModel.hasParkinglotNo == false {
          Group {
              HStack(spacing: 3) {
@@ -783,7 +776,7 @@ class ProviderRoomSummitViewModel: ObservableObject {
          }
          .modifier(textFormateForProviderSummitView())
      }
-     
+
      Group {
          HStack(spacing: 3) {
              Text("租賃附屬設備")
@@ -932,4 +925,4 @@ class ProviderRoomSummitViewModel: ObservableObject {
      }
      .modifier(textFormateForProviderSummitView())
  }
-*/
+ */

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MaintainView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
@@ -17,7 +16,7 @@ struct MaintainView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var storageForMaintainImage: StorageForMaintainImage
     @EnvironmentObject var imagePresentingManager: ImagePresentingManager
-    
+
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
     @State var showAlert = false
@@ -27,9 +26,9 @@ struct MaintainView: View {
     @State var isSelectedImage = false
     @State var showProgressView = false
     @State private var images = [TextingImageDataModel]()
-    
+
     @State private var selectLimit = 1
-    
+
     var getFirstImage: UIImage {
         var firstHolder = UIImage()
         if let image = images.first {
@@ -37,16 +36,16 @@ struct MaintainView: View {
         }
         return firstHolder
     }
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     private func reset() {
         describtion = "Please describe what stuff needs to fix."
         appointment = Date()
         isSelectedImage = false
     }
-    
+
     private func checkRoomStatus(describtion: String, appointmentDate: Date) async throws {
         do {
             try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID)
@@ -79,10 +78,10 @@ struct MaintainView: View {
                 showAlert.toggle()
             }
         } catch {
-            self.errorHandler.handle(error: error)
+            errorHandler.handle(error: error)
         }
     }
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -121,7 +120,7 @@ struct MaintainView: View {
                                 MaintainTitleUnit(title: "Upload Image")
                                 Button {
                                     imagePickerSheet.toggle()
-                                    
+
                                 } label: {
 //                                    ZStack(alignment: .center) {
 //                                        RoundedRectangle(cornerRadius: 20)
@@ -143,12 +142,15 @@ struct MaintainView: View {
                             }
                             .padding(.horizontal)
                         }
-                        
+
                         HStack {
                             Spacer()
                             Button {
                                 Task {
-                                    try await checkRoomStatus(describtion: describtion, appointmentDate: appointment)
+                                    try await checkRoomStatus(
+                                        describtion: describtion,
+                                        appointmentDate: appointment
+                                    )
                                 }
                             } label: {
                                 Text("Summit it!")
@@ -193,6 +195,7 @@ struct MaintainView: View {
             })
             .task {
                 do {
+                    guard firestoreToFetchUserinfo.fetchedUserData.isRented == true else { return }
                     try await firestoreToFetchUserinfo.getRentedContract(uidPath: firebaseAuth.getUID())
                 } catch {
                     self.errorHandler.handle(error: error)
@@ -211,7 +214,6 @@ struct MaintainView_Previews: PreviewProvider {
 }
 
 extension MaintainView {
-
     @ViewBuilder
     func imgPresenterSwitch(imgFS: ImagePresentingManager.ImgFrameStatus) -> some View {
         if imgFS == .landscape {
@@ -249,7 +251,7 @@ extension MaintainView {
             }
         }
     }
-    
+
     @ViewBuilder
     func graphicalDatePicker() -> some View {
         HStack {
@@ -262,8 +264,6 @@ extension MaintainView {
         .frame(width: uiScreenWidth - 30, alignment: .center)
         .padding(.horizontal)
     }
-    
-    
 }
 
 struct MaintainTitleUnit: View {

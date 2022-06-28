@@ -7,22 +7,29 @@
 
 import Foundation
 
-
 class SignUpVM: ObservableObject {
-    
     @Published var emailAddress = ""
     @Published var userPassword = ""
     @Published var recheckPassword = ""
     @Published var userType = ""
     @Published var isProvider = false
-    @Published var isFurnitureProvider = false
+    @Published var isProductProvider = false
     @Published var isRentalM = false
     @Published var isRenter = false
+    
+    //MARK: - Provider emp status
+    @Published var isFounder = false
+    @Published var isEmployee = false
+    
     @Published var isAgree = false
     @Published var providerType = ""
+    
+    //MARK: - Provider GUI
+    @Published var gui = ""
+    
+    //MARK: - Rental License
     @Published var rentalManagerLicenseNumber = ""
-    
-    
+
     func passwordCheckAndSignUpAsync(email: String, password: String, confirmPassword: String) async throws {
         guard !email.isEmpty else {
             throw SignUpError.emailIsEmpty
@@ -43,7 +50,7 @@ class SignUpVM: ObservableObject {
             throw SignUpError.passwordAndConfirmIsNotMatch
         }
         if isProvider == true {
-            guard isFurnitureProvider == true || isRentalM == true else {
+            guard isProductProvider == true || isRentalM == true else {
                 throw SignUpError.providerTypeError
             }
             if isRentalM == true {

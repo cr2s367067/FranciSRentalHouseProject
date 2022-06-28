@@ -5,20 +5,19 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct SearchListItemView: View {
-    
     var roomsData: RoomInfoDataModel
-    
+
     var address: String {
         let roomAddress = roomsData.roomAddress
         let town = roomsData.town
         let city = roomsData.city
         return city + town + roomAddress
     }
-    
+
     var body: some View {
         ZStack {
             VStack {

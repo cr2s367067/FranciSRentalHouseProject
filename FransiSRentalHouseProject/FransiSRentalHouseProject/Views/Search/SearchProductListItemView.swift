@@ -5,23 +5,22 @@
 //  Created by Kuan on 2022/3/29.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct SearchProductListItemView: View {
-    
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
 //    var productName: String = "productName"
 //    var productImage: String = ""
 //    var productPrice: String = "100"
 //    var productDes: String = "test description"
-    
+
     var productData: ProductDM
-    
+
     var body: some View {
         HStack {
             VStack {
@@ -52,7 +51,6 @@ struct SearchProductListItemView: View {
                         .foregroundColor(.white)
                         .font(.system(size: 20, weight: .bold))
                 }
-                
             }
             .padding()
         }
@@ -65,8 +63,8 @@ struct SearchProductListItemView: View {
     }
 }
 
-//struct SearchProductListItemView_Previews: PreviewProvider {
+// struct SearchProductListItemView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        SearchProductListItemView()
 //    }
-//}
+// }

@@ -8,18 +8,16 @@
 import SwiftUI
 
 struct RenterContractEditView: View {
-    
     @EnvironmentObject var rentEditVM: RenterContractEditViewModel
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var renterContractVM: RenterContractViewModel
-    
-    
+
     var docID: String
     var contractData: HouseContract
-    
+
     var body: some View {
         VStack {
             Form {
@@ -157,7 +155,7 @@ struct RenterContractEditView: View {
                                         if rentEditVM.contractDataModel.forAllday == false {
                                             rentEditVM.contractDataModel.forAllday = true
                                         }
-                                        if rentEditVM.contractDataModel.forMorning == true  {
+                                        if rentEditVM.contractDataModel.forMorning == true {
                                             rentEditVM.contractDataModel.forMorning = false
                                         }
                                         if rentEditVM.contractDataModel.forNight == true {
@@ -178,7 +176,7 @@ struct RenterContractEditView: View {
                                         if rentEditVM.contractDataModel.forMorning == false {
                                             rentEditVM.contractDataModel.forMorning = true
                                         }
-                                        if rentEditVM.contractDataModel.forAllday == true  {
+                                        if rentEditVM.contractDataModel.forAllday == true {
                                             rentEditVM.contractDataModel.forAllday = false
                                         }
                                         if rentEditVM.contractDataModel.forNight == true {
@@ -199,7 +197,7 @@ struct RenterContractEditView: View {
                                         if rentEditVM.contractDataModel.forNight == false {
                                             rentEditVM.contractDataModel.forNight = true
                                         }
-                                        if rentEditVM.contractDataModel.forAllday == true  {
+                                        if rentEditVM.contractDataModel.forAllday == true {
                                             rentEditVM.contractDataModel.forAllday = false
                                         }
                                         if rentEditVM.contractDataModel.forMorning == true {
@@ -222,7 +220,7 @@ struct RenterContractEditView: View {
                                 parkingLotInfo()
                             }
                         }
-                        
+
                     } header: {
                         Text("車位")
                             .foregroundColor(.white)
@@ -269,7 +267,7 @@ struct RenterContractEditView: View {
                         TextField("房屋每月", text: $rentEditVM.contractDataModel.managementFeeMonthly)
                         TextField("停車位每月", text: $rentEditVM.contractDataModel.parkingFeeMonthly)
                         TextField("其他", text: $rentEditVM.contractDataModel.additionalReqForManagementPart)
-                        
+
                     } header: {
                         Text("管理費")
                             .foregroundColor(.white)
@@ -293,7 +291,7 @@ struct RenterContractEditView: View {
                             }
                         TextField("其他", text: $rentEditVM.contractDataModel.additionalReqForWaterFeePart)
                     } header: {
-                         Text("水費")
+                        Text("水費")
                             .foregroundColor(.white)
                     }
                     Section {
@@ -439,7 +437,6 @@ struct RenterContractEditView: View {
                     Text("使用房屋之限制")
                         .foregroundColor(.white)
                 }
-                
             }
             Button {
                 Task {
@@ -449,7 +446,7 @@ struct RenterContractEditView: View {
                         try await firestoreToFetchRoomsData.updateContractData(
                             uidPath: firebaseAuth.getUID(),
                             room: docID,
-                            roomDM: .empty, //roomdm's data didn't send
+                            roomDM: .empty, // roomdm's data didn't send
                             house: rentEditVM.contractDataModel
                         )
 
@@ -483,11 +480,11 @@ struct RenterContractEditView: View {
     }
 }
 
-//struct RenterContractEditView_Previews: PreviewProvider {
+// struct RenterContractEditView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        RenterContractEditView()
 //    }
-//}
+// }
 
 extension RenterContractEditView {
     @ViewBuilder
@@ -500,7 +497,7 @@ extension RenterContractEditView {
         TextField("面積幾平方公尺", text: $rentEditVM.contractDataModel.provideRoomArea)
             .keyboardType(.numberPad)
     }
-    
+
     @ViewBuilder
     func parkingLotInfo() -> some View {
         TextField("地上(下)第幾層", text: $rentEditVM.contractDataModel.parkingUGFloor)

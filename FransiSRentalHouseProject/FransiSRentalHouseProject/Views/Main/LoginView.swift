@@ -5,36 +5,35 @@
 //  Created by Kuan on 2022/5/18.
 //
 
-import SwiftUI
 import AuthenticationServices
+import SwiftUI
 
 struct LoginView: View {
 //    SignInWithAppleButtonView
     enum LoginStatus: String {
         case saveUserName
     }
-    
+
     @EnvironmentObject var loginVM: LoginVM
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
-    
+
     let uiScreenWith = UIScreen.main.bounds.width
-    
+
 //    @State private var emailAddress = ""
 //    @State private var userPassword = ""tes
-    
+
     @FocusState private var isFocus: Bool
-    
-    
+
 //    @State private var currentNonce: String?
-    
+
     var body: some View {
         NavigationView {
             VStack {
                 Spacer()
-                
+
                 Group {
                     HStack {
                         Text("Door, What's Next")
@@ -53,7 +52,7 @@ struct LoginView: View {
                         Spacer()
                     }
                 }
-                
+
                 Group {
                     HStack {
                         Image(systemName: "person.fill")
@@ -110,7 +109,7 @@ struct LoginView: View {
                     request.nonce = firebaseAuth.sha256(nonce)
                 } onCompletion: { result in
                     switch result {
-                    case .success(let authResult):
+                    case let .success(authResult):
                         switch authResult.credential {
                         case let appleIDCredential as ASAuthorizationAppleIDCredential:
                             guard let nonce = loginVM.currentNonce else {
@@ -132,18 +131,17 @@ struct LoginView: View {
                                     print(error.localizedDescription)
                                 }
                             }
-                            //                        case let passwordCredential as ASPasswordCredential:
-                            //                            let username = passwordCredential.user
-                            //                            let password = passwordCredential.password
-                            //                            print("username: \(username)")
-                            //                            print("password: \(password)")
+                        //                        case let passwordCredential as ASPasswordCredential:
+                        //                            let username = passwordCredential.user
+                        //                            let password = passwordCredential.password
+                        //                            print("username: \(username)")
+                        //                            print("password: \(password)")
                         default:
                             break
                         }
-                    case .failure(let error):
+                    case let .failure(error):
                         print(error.localizedDescription)
                     }
-                    
                 }
                 .frame(width: uiScreenWith / 2 + 5, height: 34, alignment: .center)
                 .signInWithAppleButtonStyle(.whiteOutline)
@@ -226,7 +224,6 @@ extension LoginView {
                     .frame(width: uiScreenWith / 2 + 5, height: 34)
                     .background(Color("buttonBlue"))
                     .cornerRadius(5)
-                    
             }
         } else if fail >= 3 {
             NavigationLink {

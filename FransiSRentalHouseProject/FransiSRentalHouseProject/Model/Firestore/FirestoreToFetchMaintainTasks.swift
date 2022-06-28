@@ -5,20 +5,17 @@
 //  Created by JerryHuang on 3/1/22.
 //
 
-import Foundation
-import SwiftUI
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import FirebaseAuth
-
+import Foundation
+import SwiftUI
 
 class FirestoreToFetchMaintainTasks: ObservableObject {
-    
     let db = Firestore.firestore()
-    
+
     @Published var fetchMaintainInfo = [MaintainDM]()
     @Published var showMaintainDetail = false
-    
 }
 
 extension FirestoreToFetchMaintainTasks {
@@ -29,14 +26,14 @@ extension FirestoreToFetchMaintainTasks {
     ) async throws {
         let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks")
         _ = try await maintainRef.addDocument(data: [
-            "maintainDescription" : task.maintainDescription,
-            "appointmentDate" : task.appointmentDate,
-            "itemImageURL" : task.itemImageURL,
-            "isFixed" : task.isFixed,
-            "publishDate" : Date()
+            "maintainDescription": task.maintainDescription,
+            "appointmentDate": task.appointmentDate,
+            "itemImageURL": task.itemImageURL,
+            "isFixed": task.isFixed,
+            "publishDate": Date(),
         ])
     }
-    
+
     @MainActor
     func fetchMaintainInfoAsync(
         uidPath: String,
@@ -44,21 +41,20 @@ extension FirestoreToFetchMaintainTasks {
     ) async throws {
         let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks").order(by: "appointmentDate", descending: false)
         let document = try await maintainRef.getDocuments().documents
-        self.fetchMaintainInfo = document.compactMap { queryDocumentSnapshot in
+        fetchMaintainInfo = document.compactMap { queryDocumentSnapshot in
             let result = Result {
                 try queryDocumentSnapshot.data(as: MaintainDM.self)
             }
             switch result {
-            case .success(let data):
+            case let .success(data):
                 return data
-            case .failure(let error):
+            case let .failure(error):
                 print("some error eccure: \(error)")
             }
             return nil
         }
     }
 }
-
 
 extension FirestoreToFetchMaintainTasks {
     func updateFixedInfo(
@@ -68,10 +64,10 @@ extension FirestoreToFetchMaintainTasks {
     ) async throws {
         let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks").document(maintainDocID)
         try await maintainRef.updateData([
-            "isFixed" : true
+            "isFixed": true,
         ])
     }
-    
+
     func deleteFixedItem(
         uidPath: String,
         roomUID: String,
@@ -80,7 +76,7 @@ extension FirestoreToFetchMaintainTasks {
         let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks").document(maintainDocID)
         try await maintainRef.delete()
     }
-    
+
     func updateMaintainTaskInfo(
         provider uidPath: String,
         rented roomUID: String,
@@ -89,15 +85,15 @@ extension FirestoreToFetchMaintainTasks {
     ) async throws {
         let maintainRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("MaintainTasks").document(task.id ?? "")
         try await maintainRef.updateData([
-//            "description": newTaskDes,
+            //            "description": newTaskDes,
 //            "appointmentDate": newAppointDate,
 //            "isFixed": false,
 //            "itemImageURL" : newImageURL
-            "maintainDescription" : task.maintainDescription,
-            "appointmentDate" : task.appointmentDate,
-            "itemImageURL" : task.itemImageURL,
-            "isFixed" : task.isFixed,
-            "publishDate" : Date()
+            "maintainDescription": task.maintainDescription,
+            "appointmentDate": task.appointmentDate,
+            "itemImageURL": task.itemImageURL,
+            "isFixed": task.isFixed,
+            "publishDate": Date(),
         ])
     }
 }

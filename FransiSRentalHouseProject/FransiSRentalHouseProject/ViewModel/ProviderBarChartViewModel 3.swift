@@ -5,20 +5,20 @@
 //  Created by Kuan on 2022/4/14.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Foundation
 
 class ProviderBarChartViewModel: ObservableObject {
-    
 //    @Published var collectionDateSet = [ReceivePaymentDateModel]()
-    
+
     @Published var tempDataCollection = [Int]()
     @Published var resultDataCollection = [Double]()
-    
+
     let db = Firestore.firestore()
-    
-    //MARK: Loop raw data in each docID and store in one data set
+
+    // MARK: Loop raw data in each docID and store in one data set
+
     func convertAndStore(input: [ReceivePaymentDateModel]) {
         if tempDataCollection.isEmpty {
             _ = input.map { data in
@@ -31,9 +31,9 @@ class ProviderBarChartViewModel: ObservableObject {
             }
         }
     }
-    
-    
-    //MARK: Convert raw data to Double for presenting in bar chart
+
+    // MARK: Convert raw data to Double for presenting in bar chart
+
     func getMax(input: [Int]) -> Int {
         return input.max() ?? 1
     }

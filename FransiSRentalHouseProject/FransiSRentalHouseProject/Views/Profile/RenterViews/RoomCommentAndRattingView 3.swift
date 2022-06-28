@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RoomCommentAndRattingView: View {
-    
     enum SectionTitle: String {
         case roomAddress = "Room Address"
         case expDate = "Expired Date"
@@ -18,22 +17,21 @@ struct RoomCommentAndRattingView: View {
         case neighbor = "Neighbor"
         case comment = "Comment"
     }
-    
-    
+
     @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
+
     @Environment(\.colorScheme) var colorScheme
-    
+
     var contractInfo: RentersContractDataModel
     var firestoreUserInfo: FirestoreToFetchUserinfo
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var address: String {
         let zipCode = firestoreUserInfo.rentingRoomInfo.roomZipCode ?? ""
         let city = firestoreUserInfo.rentingRoomInfo.roomCity ?? ""
@@ -41,11 +39,11 @@ struct RoomCommentAndRattingView: View {
         let roomAddress = firestoreUserInfo.rentingRoomInfo.roomAddress ?? ""
         return zipCode + city + town + roomAddress
     }
-    
+
     var expDate: String {
         return contractInfo.rentalEndDate.formatted(Date.FormatStyle().year().month().day())
     }
-    
+
     var body: some View {
         VStack {
             VStack(spacing: 10) {
@@ -124,15 +122,13 @@ struct RoomCommentAndRattingView: View {
     }
 }
 
-//struct RoomCommentAndRattingView_Previews: PreviewProvider {
+// struct RoomCommentAndRattingView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        RoomCommentAndRattingView()
 //    }
-//}
-
+// }
 
 extension RoomCommentAndRattingView {
-        
     @ViewBuilder
     func sectionUnit(title: String, containt: String) -> some View {
         Section {
@@ -149,7 +145,7 @@ extension RoomCommentAndRattingView {
             }
         }
     }
-    
+
     @ViewBuilder
     func customSection(cusParent: () -> RoomRattingView, title: String) -> some View {
         Section {
@@ -165,23 +161,21 @@ extension RoomCommentAndRattingView {
             }
         }
     }
-
 }
 
 struct RoomRattingView: View {
-    
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
-    
+
     @Binding var comparing: Int
-    
+
     var offImage: Image?
     var onImage = Image(systemName: "star.fill")
-    
+
     var offColor = Color.white
     var onColor = Color.yellow
-    
-    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map({$0.rawValue})
-    
+
+    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map { $0.rawValue }
+
     func image(number: Int) -> Image {
         if number > comparing {
             return offImage ?? onImage
@@ -189,7 +183,7 @@ struct RoomRattingView: View {
             return onImage
         }
     }
-    
+
     var body: some View {
         HStack {
             ForEach(ratingArray, id: \.self) { number in

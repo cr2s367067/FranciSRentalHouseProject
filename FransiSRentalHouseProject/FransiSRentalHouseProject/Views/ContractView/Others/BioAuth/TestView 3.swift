@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//struct TestView: View {
+// struct TestView: View {
 //    @EnvironmentObject var firebaseAuth: FirebaseAuth
 //    @EnvironmentObject var bioAuthvm: BioAuthViewModel
 //    var body: some View {
@@ -26,10 +26,10 @@ import SwiftUI
 //            bioAuthvm.bioAuthentication(userNameBioAuth: bioAuthvm.userNameBioAuth, passBioAuth: bioAuthvm.passwordBioAuth)
 //        }
 //    }
-//}
+// }
 //
-//struct TestView_Previews: PreviewProvider {
+// struct TestView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestView()
 //    }
-//}
+// }

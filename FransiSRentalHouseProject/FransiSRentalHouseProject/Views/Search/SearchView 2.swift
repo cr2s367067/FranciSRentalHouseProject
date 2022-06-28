@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct SearchView: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
@@ -25,7 +24,7 @@ struct SearchView: View {
 
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -72,12 +71,10 @@ struct SearchView: View {
                     //: Scroll View
                     VStack {
                         identityRoomsProducts(showRooms: searchVM.showRooms, showProducts: searchVM.showProducts)
-
                     }
                 }
                 .padding()
                 .frame(width: uiScreenWidth - 5)
-                
             }
             .onTapGesture(perform: {
                 isFocused = false
@@ -97,7 +94,6 @@ struct SearchView: View {
 }
 
 extension SearchView {
-    
     @ViewBuilder
     func storeAccessUnit(storeData: StoreDataModel) -> some View {
         VStack {
@@ -135,10 +131,9 @@ extension SearchView {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
             RoundedRectangle(cornerRadius: 20)
                 .fill(.black.opacity(0.4))
-            
         }
     }
-    
+
     @ViewBuilder
     func showTagView(isRooms: Bool) -> some View {
         if searchVM.showTags {
@@ -149,7 +144,7 @@ extension SearchView {
             }
         }
     }
-    
+
     @ViewBuilder
     func roomTags() -> some View {
         VStack {
@@ -191,7 +186,7 @@ extension SearchView {
             }
         }
     }
-    
+
     @ViewBuilder
     func productTags() -> some View {
         VStack {
@@ -215,13 +210,11 @@ extension SearchView {
             }
         }
     }
-    
-    
-    
+
     @ViewBuilder
     private func roomsUnit() -> some View {
         ScrollView(.vertical, showsIndicators: false) {
-            //ForEach to catch the data from firebase
+            // ForEach to catch the data from firebase
             ForEach(searchVM.customSearchFilter(input: firestoreToFetchRoomsData.fetchRoomInfoFormPublic, searchText: searchVM.searchName)) { result in
                 NavigationLink {
                     RoomsDetailView(roomsData: result)
@@ -229,7 +222,7 @@ extension SearchView {
                     SearchListItemView(roomsData: result)
                 }
                 .simultaneousGesture(
-                    TapGesture().onEnded({ _ in
+                    TapGesture().onEnded { _ in
                         searchVM.searchName = ""
                         searchVM.showTags = false
                         searchVM.holderArray = []
@@ -241,14 +234,12 @@ extension SearchView {
                                 self.errorHandler.handle(error: error)
                             }
                         }
-
-                    })
+                    }
                 )
             }
         }
     }
-    
-    
+
     @ViewBuilder
     func roomUnitWithPlaceHolder() -> some View {
         if firestoreToFetchRoomsData.fetchRoomInfoFormPublic.isEmpty {
@@ -281,7 +272,7 @@ extension SearchView {
             }
         }
     }
-    
+
     @ViewBuilder
     func productsUnitWithPlaceHolder() -> some View {
         if firestoreForProducts.productsDataSet.isEmpty {
@@ -292,16 +283,16 @@ extension SearchView {
             productsUnit()
         }
     }
-    
+
     @ViewBuilder
-    func identityRoomsProducts(showRooms: Bool, showProducts: Bool) -> some View {
+    func identityRoomsProducts(showRooms: Bool, showProducts _: Bool) -> some View {
         if showRooms {
             roomUnitWithPlaceHolder()
         } else {
             productsUnitWithPlaceHolder()
         }
     }
-    
+
     @ViewBuilder
     func sortingTagUnit(name: String) -> some View {
         HStack {
@@ -314,13 +305,12 @@ extension SearchView {
                 .fill(.gray.opacity(0.7))
         }
     }
-    
+
     private func charCount(name: String) -> CGFloat {
         return CGFloat(Double(name.count) * 5)
     }
-    
+
     private func tagCollecte(firstTag: String? = nil, secTag: String? = nil) -> String {
         return (firstTag ?? "") + (secTag ?? "")
     }
 }
-

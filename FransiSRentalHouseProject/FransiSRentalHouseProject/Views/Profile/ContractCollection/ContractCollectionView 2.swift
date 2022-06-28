@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 3/9/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ContractCollectionView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var appViewModel: AppViewModel
@@ -18,7 +17,7 @@ struct ContractCollectionView: View {
 
 //    @State private var showDetail = false
     @State private var isFocused = false
-    
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -74,15 +73,12 @@ struct ContractCollectionView: View {
     }
 }
 
-
-
 struct ContractReusableUnit: View {
-    
     var roomsData: RoomInfoDataModel
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var address: String {
         let roomAddress = roomsData.roomAddress
         let town = roomsData.town
@@ -90,7 +86,7 @@ struct ContractReusableUnit: View {
         let zipCode = roomsData.zipCode
         return zipCode + city + town + roomAddress
     }
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -142,7 +138,6 @@ struct ContractCollectionView_Previews: PreviewProvider {
         ContractCollectionView()
     }
 }
-
 
 /*
  RenterContractView(docId: roomInfo.docID ?? "",
@@ -251,4 +246,4 @@ struct ContractCollectionView_Previews: PreviewProvider {
                     renterPhoneNumber: contractData.renterPhoneNumber ?? "",
                     renterEmailAddress: contractData.renterEmailAddress ?? "",
                     sigurtureDate: contractData.sigurtureDate ?? Date())
-*/
+ */

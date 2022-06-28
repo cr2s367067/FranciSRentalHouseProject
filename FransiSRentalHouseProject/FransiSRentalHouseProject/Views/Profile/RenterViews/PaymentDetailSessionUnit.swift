@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct PaymentDetailSessionUnit: View {
-    
     var rentalPrice: Int
     var paymentDate: Date
-    
+
     var body: some View {
         HStack {
             Text("$ \(rentalPrice)")
             Spacer()
             Text("\(paymentDate, format: Date.FormatStyle().year().month().day())")
-            
         }
         .padding()
         .foregroundColor(Color("sessionBackground"))
@@ -31,8 +29,8 @@ struct PaymentDetailSessionUnit: View {
     }
 }
 
-//struct PaymentDetailSessionUnit_Previews: PreviewProvider {
+// struct PaymentDetailSessionUnit_Previews: PreviewProvider {
 //    static var previews: some View {
 //        PaymentDetailSessionUnit()
 //    }
-//}
+// }

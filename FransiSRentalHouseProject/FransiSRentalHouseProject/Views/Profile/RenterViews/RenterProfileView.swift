@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 3/14/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct RenterProfileView: View {
-
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
@@ -18,25 +17,27 @@ struct RenterProfileView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @Environment(\.colorScheme) var colorScheme
+
+    @State private var selectLimit = 1
     
     @Binding var show: Bool
     @State private var image = UIImage()
     @State private var showSheet = false
     @State private var isLoading = false
     init(show: Binding<Bool>) {
-        self._show = show
+        _show = show
     }
-    
+
     func lastPaymentDate(input: [RentedRoomPaymentHistory]) -> Date {
-        let lastDate = input.map({$0.paymentDate?.dateValue() ?? Date()}).last
+        let lastDate = input.map { $0.paymentDate?.dateValue() ?? Date() }.last
         return (lastDate ?? Date())
     }
-    
+
     func lastPayment(input: [RentedRoomPaymentHistory]) -> String {
-        let payment = input.map({$0.rentalFee.description}).last
+        let payment = input.map { $0.rentalFee.description }.last
         return (payment ?? "")
     }
-    
+
     var body: some View {
         ZStack {
             //: Tool bar
@@ -141,8 +142,12 @@ struct RenterProfileView: View {
         .sheet(isPresented: $showSheet, onDismiss: {
             Task {
                 do {
+//                    debugPrint(image.isEmpty)
                     isLoading = true
-                    try await storageForUserProfile.uploadImageAsync(uidPath: firebaseAuth.getUID(), image: image)
+                    try await storageForUserProfile.uploadImageAsync(
+                        uidPath: firebaseAuth.getUID(),
+                        image: image
+                    )
                     try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
                     isLoading = false
                 } catch {
@@ -151,22 +156,28 @@ struct RenterProfileView: View {
             }
         }) {
             ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
+//            PHPickerRepresentable(selectLimit: $selectLimit, images: $image, video: .constant(nil))
         }
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .task {
             do {
-                //MARK: - Get Rented Contract
+                guard firestoreToFetchUserinfo.fetchedUserData.isRented == true else { return }
+
+                // MARK: - Get Rented Contract
+
                 try await firestoreToFetchUserinfo.getRentedContract(uidPath: firebaseAuth.getUID())
                 guard !firestoreToFetchUserinfo.rentedRoom.rentedRoomUID.isEmpty else { return }
 //                _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
-                //MARK: Fetch uploaded maintain tasks
-                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
-                        uidPath: firestoreToFetchUserinfo.rentedRoom.rentedProvderUID,
-                        roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID
-                    )
-                
+
+                // MARK: Fetch uploaded maintain tasks
+
+                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
+                    uidPath: firestoreToFetchUserinfo.rentedRoom.rentedProvderUID,
+                    roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID
+                )
+
 //                try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: firebaseAuth.getUID())
             } catch {
                 self.errorHandler.handle(error: error)
@@ -175,53 +186,53 @@ struct RenterProfileView: View {
     }
 }
 
-
 extension RenterProfileView {
-    
     @ViewBuilder
     private func roomStatusSession() -> some View {
         let uiScreenWidth = UIScreen.main.bounds.width
         let uiScreenHeight = UIScreen.main.bounds.height
-            VStack {
-                HStack {
-                    Text("Room Status: ")
-                        .font(.headline)
-                        .fontWeight(.heavy)
-                        .unredacted()
-                    Spacer()
-                    NavigationLink {
-                        RentalBillSettingView()
-                    } label: {
-                        Image(systemName: "chevron.forward")
-                            .unredacted()
-                    }
-                }
-                //.padding(.leading, 5)
-                HStack {
-                    Text("Expired Date")
-                        .font(.headline)
-                        .fontWeight(.heavy)
-                        .unredacted()
-                    Spacer()
-                    //MARK: Add the expired date in data model
-                    Text(firestoreToFetchUserinfo.rentedContract.rentalEndDate, format: Date.FormatStyle().year().month().day())
-                        .font(.system(size: 15, weight: .heavy))
-                }
-                .padding(.top, 5)
+        VStack {
+            HStack {
+                Text("Room Status: ")
+                    .font(.headline)
+                    .fontWeight(.heavy)
+                    .unredacted()
                 Spacer()
-                    .frame(height: 40)
+                NavigationLink {
+                    RentalBillSettingView()
+                } label: {
+                    Image(systemName: "chevron.forward")
+                        .unredacted()
+                }
             }
-            .foregroundColor(.white)
-            .padding(.horizontal)
-            .padding(.vertical)
-            .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 6, alignment: .center)
-            .background(alignment: .center) {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color("sessionBackground"))
-                    .cornerRadius(4)
+            // .padding(.leading, 5)
+            HStack {
+                Text("Expired Date")
+                    .font(.headline)
+                    .fontWeight(.heavy)
+                    .unredacted()
+                Spacer()
+
+                // MARK: Add the expired date in data model
+
+                Text(firestoreToFetchUserinfo.rentedContract.rentalEndDate, format: Date.FormatStyle().year().month().day())
+                    .font(.system(size: 15, weight: .heavy))
             }
+            .padding(.top, 5)
+            Spacer()
+                .frame(height: 40)
+        }
+        .foregroundColor(.white)
+        .padding(.horizontal)
+        .padding(.vertical)
+        .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 6, alignment: .center)
+        .background(alignment: .center) {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color("sessionBackground"))
+                .cornerRadius(4)
+        }
     }
-    
+
     @ViewBuilder
     func roomStatusSessionWithPlaceHolder() -> some View {
         if !firestoreToFetchUserinfo.rentedRoom.rentedRoomUID.isEmpty {
@@ -232,7 +243,7 @@ extension RenterProfileView {
                 .redacted(reason: .placeholder)
         }
     }
-    
+
     @ViewBuilder
     private func lastPaymentSession() -> some View {
         let uiScreenWidth = UIScreen.main.bounds.width
@@ -251,7 +262,7 @@ extension RenterProfileView {
                         .unredacted()
                 }
             }
-            //.padding(.leading, 5)
+            // .padding(.leading, 5)
             HStack {
                 Text("$\(lastPayment(input: firestoreToFetchUserinfo.paymentHistory)) ")
                     .font(.system(size: 20, weight: .heavy))
@@ -273,7 +284,7 @@ extension RenterProfileView {
                 .cornerRadius(4)
         }
     }
-    
+
     @ViewBuilder
     func lastPaymentSessionWithPlaceholder() -> some View {
         if !firestoreToFetchUserinfo.paymentHistory.isEmpty {
@@ -284,7 +295,7 @@ extension RenterProfileView {
                 .redacted(reason: .placeholder)
         }
     }
-    
+
     @ViewBuilder
     private func maintainListSession() -> some View {
         let uiScreenWidth = UIScreen.main.bounds.width
@@ -301,7 +312,7 @@ extension RenterProfileView {
                     ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
                         NavigationLink(isActive: $firestoreToFetchMaintainTasks.showMaintainDetail) {
                             MaintainDetailUnitView(
-//                                providerUidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "",
+                                //                                providerUidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "",
 //                                docID: firestoreToFetchUserinfo.rentedContract.docID,
 //                                taskHolder: task
                                 rentedRoom: firestoreToFetchUserinfo.rentedRoom,
@@ -311,9 +322,9 @@ extension RenterProfileView {
                             ProfileSessionUnit(mainTainTask: task)
                         }
                         .simultaneousGesture(
-                            TapGesture().onEnded({ _ in
+                            TapGesture().onEnded { _ in
                                 firestoreToFetchMaintainTasks.showMaintainDetail = true
-                            })
+                            }
                         )
                     }
                 }
@@ -330,7 +341,7 @@ extension RenterProfileView {
                 .cornerRadius(4)
         }
     }
-    
+
     @ViewBuilder
     func maintainSessionWithPlaceHolder() -> some View {
         if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
@@ -338,40 +349,34 @@ extension RenterProfileView {
                 .redacted(reason: .placeholder)
         } else {
             maintainListSession()
-                
         }
     }
-    
 }
 
-
 class RenterProfileViewModel: ObservableObject {
-    
     let firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
     let firestoreToFetchRoomsData = FirestoreToFetchRoomsData()
     let firebaseAuth = FirebaseAuth()
-    
+
     @Published var readyToRenew = false
     @Published var stopToShowThisMessage = false
     @Published var noticeAlert = false
     @Published var noticeMessage = ""
-    
+
     func isRenewable(from fromDate: Date, to endDate: Date) {
         let calendar = Calendar.current
         let fromDateInDateCom = calendar.dateComponents([.year, .month, .day], from: fromDate)
         let endDateInDateCom = calendar.dateComponents([.year, .month, .day], from: endDate)
         let diff = calendar.dateComponents([.year, .month, .day], from: fromDateInDateCom, to: endDateInDateCom)
         let renewNoticePeriod = DateComponents(year: 0, month: 1, day: 0)
-        
+
         if diff.year ?? 0 > renewNoticePeriod.year ?? 0 || diff.month ?? 0 > renewNoticePeriod.month ?? 0 || diff.day ?? 0 > renewNoticePeriod.day ?? 0 {
             noticeMessage = "Sorry, you have to wait until least one month."
         } else if diff.month ?? 0 <= renewNoticePeriod.month ?? 0 || diff.day ?? 0 <= renewNoticePeriod.day ?? 0 {
             noticeMessage = "Hi, just notice you, your room is expred soon."
         }
-        
-        
     }
-    
+
     func eraseExpiredRoomInfo(
         from fromDate: Date,
         to endDate: Date,
@@ -382,8 +387,8 @@ class RenterProfileViewModel: ObservableObject {
         let endDateInDateCom = calendar.dateComponents([.year, .month, .day], from: endDate)
         let diff = calendar.dateComponents([.month, .day], from: fromDateInDateCom, to: endDateInDateCom)
         let expiredDate = DateComponents(month: 0, day: 30)
-        //Push notification for user to let them know the rental is expired
-        //and delete the old version contract or renew new contract
+        // Push notification for user to let them know the rental is expired
+        // and delete the old version contract or renew new contract
         if diff == expiredDate {
             try? await firestoreToFetchRoomsData.expiredRoom(
                 uidPath: firebaseAuth.getUID(),

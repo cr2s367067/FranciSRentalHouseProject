@@ -5,26 +5,25 @@
 //  Created by JerryHuang on 3/1/22.
 //
 
-import SwiftUI
 import Firebase
-import SDWebImageSwiftUI
-import FirebaseFirestoreSwift
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseStorage
+import SDWebImageSwiftUI
+import SwiftUI
 
 class StorageForRoomsImage: ObservableObject {
-    
     let localData = LocalData()
     let db = Firestore.firestore()
-    
+
     @Published var isSummitRoomImage = false
     @Published var representedRoomImageURL = ""
     @Published var imageUUID = ""
-    
+
     let roomImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "roomImage")
-    
+
     let roomVideoStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "roomVideo")
-    
+
     func imagUUIDGenerator() -> String {
         let _imageUUID = UUID().uuidString
         imageUUID = _imageUUID
@@ -39,7 +38,7 @@ extension StorageForRoomsImage {
         let roomImageRef = roomImageStorageAddress.child("\(uidPath)/\(roomID)/\(imageUID).jpg")
         _ = try await roomImageRef.putDataAsync(roomImageData)
         let url = try await roomImageRef.downloadURL().absoluteString
-        self.representedRoomImageURL = url
+        representedRoomImageURL = url
     }
 }
 
@@ -55,15 +54,13 @@ extension StorageForRoomsImage {
             let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomID)
                 .collection("RoomImages")
             _ = try await roomOwerRef.addDocument(data: [
-                "imageURL" : url.absoluteString
+                "imageURL": url.absoluteString,
             ])
         }
     }
 }
 
-
 extension StorageForRoomsImage {
-    
     func uploadRoomVideo(movie: URL, uidPath: String, roomID: String, docID: String) async throws {
         debugPrint("comming url: \(movie)")
         let videoID = UUID().uuidString
@@ -74,8 +71,7 @@ extension StorageForRoomsImage {
         let url = try await videoRef.downloadURL()
         let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(docID).collection("RoomVideo").document("video")
         _ = try await roomOwerRef.setData([
-            "videoURL" : url.absoluteString
+            "videoURL": url.absoluteString,
         ])
     }
-    
 }

@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct ForgetPasswordView: View {
-    
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
-    
+
     @State private var email = ""
     @FocusState private var isFocus: Bool
-    
+
     var body: some View {
         VStack {
             TitleAndDivider(title: "Forgot Password?")

@@ -5,27 +5,25 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ProfileView: View {
-    
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var storageForUserProfile: StorageForUserProfile
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
-    
-    
+
     //    let firebaseStorageDM = FirebaseStorageManager()
     //    let persistenceDM = PersistenceController()
-    
+
     @State private var show = false
 //    @State private var image = UIImage()
 //    @State private var showSheet = false
     //    @State var isSummitImage = false
-    
+
     var body: some View {
         NavigationView {
             SideMenuBar(sidebarWidth: 180, showSidebar: $show) {
@@ -47,10 +45,7 @@ struct ProfileView_Previews: PreviewProvider {
     }
 }
 
-
-
-//, y: self.show ? 15 : 0   UIScreen.main.bounds.width / 2 + 200
-
+// , y: self.show ? 15 : 0   UIScreen.main.bounds.width / 2 + 200
 
 /*
  ZStack {
@@ -109,7 +104,7 @@ struct ProfileView_Previews: PreviewProvider {
  Button {
  showSheet.toggle()
  //                                            print("\(fetchFirestore.fetchMaintainInfo)")
- 
+
  } label: {
  if storageForUserProfile.isSummitImage == false {
  Image(systemName: "person.fill")
@@ -298,4 +293,4 @@ struct ProfileView_Previews: PreviewProvider {
          .blendMode(.multiply)
  }
  .edgesIgnoringSafeArea([.top, .bottom])
-*/
+ */

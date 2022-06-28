@@ -5,21 +5,20 @@
 //  Created by Kuan on 2022/4/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ShippingListView: View {
-    
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var selectedOrderData: PurchasedUserDataModel?
-    
+
     var body: some View {
         VStack {
             TitleAndDivider(title: "Shipping List")
@@ -53,7 +52,6 @@ struct ShippingListView_Previews: PreviewProvider {
 }
 
 extension ShippingListView {
-    
     func stateAdjust(shippingState: FirestoreForProducts.ShippingStatus) -> String {
         switch shippingState {
         case .orderBuilt:
@@ -69,7 +67,7 @@ extension ShippingListView {
             return "Package Arrived"
         }
     }
-    
+
     @ViewBuilder
     func listUnit(pUserData: PurchasedUserDataModel, action: (() -> Void)? = nil) -> some View {
         VStack(spacing: 10) {
@@ -95,7 +93,7 @@ extension ShippingListView {
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                 }
                 Spacer()
-                
+
                 Button {
                     action?()
                 } label: {
@@ -103,8 +101,7 @@ extension ShippingListView {
                         .modifier(ButtonModifier())
                 }
             }
-            
-            
+
             Spacer()
         }
         .padding()
@@ -113,9 +110,8 @@ extension ShippingListView {
             RoundedRectangle(cornerRadius: 10)
                 .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
         }
-        
     }
-    
+
     @ViewBuilder
     func orderContain(orderData: PurchasedUserDataModel) -> some View {
         VStack {
@@ -137,7 +133,7 @@ extension ShippingListView {
             }
         }
     }
-    
+
     @ViewBuilder
     func orderUserInfoUnit(pUserData: PurchasedUserDataModel) -> some View {
         VStack(spacing: 5) {
@@ -149,7 +145,7 @@ extension ShippingListView {
             shippingTitleAndContain(header: "Shipping Status", body: pUserData.shippingStatus)
         }
     }
-    
+
     @ViewBuilder
     func productUnit(cartItemData: PurchasedOrdedProductDataModel) -> some View {
         HStack {
@@ -180,7 +176,7 @@ extension ShippingListView {
             }
         }
     }
-    
+
     @ViewBuilder
     func shippingTitleAndContain(header: String, body: String) -> some View {
         VStack(spacing: 3) {

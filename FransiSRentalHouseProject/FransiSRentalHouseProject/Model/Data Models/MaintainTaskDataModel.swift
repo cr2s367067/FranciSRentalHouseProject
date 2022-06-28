@@ -5,9 +5,9 @@
 //  Created by JerryHuang on 3/1/22.
 //
 
+import FirebaseFirestoreSwift
 import Foundation
 import SwiftUI
-import FirebaseFirestoreSwift
 
 struct MaintainTaskHolder: Identifiable, Codable {
     @DocumentID var id: String?

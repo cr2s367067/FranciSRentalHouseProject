@@ -6,8 +6,8 @@
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
-extension CS.BigUInt {
-    public init?<T: BinaryFloatingPoint>(exactly source: T) {
+public extension CS.BigUInt {
+    init?<T: BinaryFloatingPoint>(exactly source: T) {
         guard source.isFinite else { return nil }
         guard !source.isZero else { self = 0; return }
         guard source.sign == .plus else { return nil }
@@ -19,14 +19,14 @@ extension CS.BigUInt {
         self = (CS.BigUInt(1) << value.exponent) + CS.BigUInt(significand) >> (T.significandBitCount - Int(value.exponent))
     }
 
-    public init<T: BinaryFloatingPoint>(_ source: T) {
+    init<T: BinaryFloatingPoint>(_ source: T) {
         self.init(exactly: source.rounded(.towardZero))!
     }
 }
 
-extension CS.BigInt {
-    public init?<T: BinaryFloatingPoint>(exactly source: T) {
-        switch source.sign{
+public extension CS.BigInt {
+    init?<T: BinaryFloatingPoint>(exactly source: T) {
+        switch source.sign {
         case .plus:
             guard let magnitude = CS.BigUInt(exactly: source) else { return nil }
             self = CS.BigInt(sign: .plus, magnitude: magnitude)
@@ -36,13 +36,13 @@ extension CS.BigInt {
         }
     }
 
-    public init<T: BinaryFloatingPoint>(_ source: T) {
+    init<T: BinaryFloatingPoint>(_ source: T) {
         self.init(exactly: source.rounded(.towardZero))!
     }
 }
 
-extension BinaryFloatingPoint where RawExponent: FixedWidthInteger, RawSignificand: FixedWidthInteger {
-    public init(_ value: CS.BigInt) {
+public extension BinaryFloatingPoint where RawExponent: FixedWidthInteger, RawSignificand: FixedWidthInteger {
+    init(_ value: CS.BigInt) {
         guard !value.isZero else { self = 0; return }
         let v = value.magnitude
         let bitWidth = v.bitWidth
@@ -55,19 +55,18 @@ extension BinaryFloatingPoint where RawExponent: FixedWidthInteger, RawSignifica
             if significand.trailingZeroBitCount >= Self.significandBitCount {
                 exponent += 1
             }
-        }
-        else {
+        } else {
             significand >>= 1
         }
         let bias = 1 << (Self.exponentBitCount - 1) - 1
         guard exponent <= bias else { self = Self.infinity; return }
         significand &= 1 << Self.significandBitCount - 1
-        self = Self.init(sign: value.sign == .plus ? .plus : .minus,
-                         exponentBitPattern: RawExponent(bias + exponent),
-                         significandBitPattern: RawSignificand(significand))
+        self = Self(sign: value.sign == .plus ? .plus : .minus,
+                    exponentBitPattern: RawExponent(bias + exponent),
+                    significandBitPattern: RawSignificand(significand))
     }
 
-    public init(_ value: CS.BigUInt) {
+    init(_ value: CS.BigUInt) {
         self.init(CS.BigInt(sign: .plus, magnitude: value))
     }
 }

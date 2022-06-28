@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 3/9/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ContractCollectionView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var appViewModel: AppViewModel
@@ -18,7 +17,7 @@ struct ContractCollectionView: View {
 
 //    @State private var showDetail = false
     @State private var isFocused = false
-    
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -74,19 +73,16 @@ struct ContractCollectionView: View {
     }
 }
 
-
-
 struct ContractReusableUnit: View {
-    
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreRoom: FirestoreToFetchRoomsData
     @EnvironmentObject var contractCollectionVM: ContractCollectionVM
-    
+
     var roomsData: RoomDM
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     private var docID: String {
         var temp = ""
         if let docID = roomsData.id {
@@ -94,21 +90,18 @@ struct ContractReusableUnit: View {
         }
         return temp
     }
-    
+
     func findFirstImage() -> String {
-        
-        return firestoreRoom.fetchRoomImages.map({$0.roomImageURL}).first?.description ?? ""
+        return firestoreRoom.fetchRoomImages.map { $0.roomImageURL }.first?.description ?? ""
     }
-    
+
     func address() -> String {
         let city = roomsData.city
         let town = roomsData.town
         let roomAddress = roomsData.address
         return city + town + roomAddress
     }
-    
-    
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -146,6 +139,3 @@ struct ContractCollectionView_Previews: PreviewProvider {
         ContractCollectionView()
     }
 }
-
-
-

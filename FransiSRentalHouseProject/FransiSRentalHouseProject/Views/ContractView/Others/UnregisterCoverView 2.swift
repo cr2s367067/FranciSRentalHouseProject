@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct UnregisterCoverView: View {
-    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     @Binding var isShowUserDetailView: Bool
@@ -56,8 +55,8 @@ struct UnregisterCoverView: View {
     }
 }
 
-//struct UnregisterCoverView_Previews: PreviewProvider {
+// struct UnregisterCoverView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        UnregisterCoverView(isShowUserDetailView: <#Binding<Bool>#>)
 //    }
-//}
+// }

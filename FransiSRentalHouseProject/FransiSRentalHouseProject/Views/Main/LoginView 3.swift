@@ -5,10 +5,10 @@
 ////  Created by JerryHuang on 2/23/22.
 ////
 //
-//import SwiftUI
-//import AuthenticationServices
+// import SwiftUI
+// import AuthenticationServices
 //
-//struct LoginView: View {
+// struct LoginView: View {
 //
 //    enum LoginStatus: String {
 //        case saveUserName
@@ -224,18 +224,18 @@
 //            }
 //        }
 //    }
-//}
+// }
 //
 //
 //
 //
-//struct LogginView_Previews: PreviewProvider {
+// struct LogginView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        LoginView()
 //    }
-//}
+// }
 //
-//extension LoginView {
+// extension LoginView {
 //
 //    @ViewBuilder
 //    func forceResetPassord(fail: Int) -> some View {
@@ -280,4 +280,4 @@
 //        }
 //    }
 //
-//}
+// }

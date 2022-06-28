@@ -5,16 +5,15 @@
 //  Created by Kuan on 2022/3/23.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-
-
+import Foundation
 
 struct ChatUserUIDDataModel: Codable {
     let chatDocId: String
     let userToken: String
 }
+
 extension ChatUserUIDDataModel {
     static let empty = ChatUserUIDDataModel(chatDocId: "", userToken: "")
 }
@@ -40,8 +39,6 @@ struct ContactUserDataModel: Identifiable, Codable {
     @ServerTimestamp var lastMessageTimestamp: Timestamp?
 }
 
-
-
 struct ChatCenterDataModel: Codable {
     var contact1docID: String
     var contact2docID: String
@@ -51,7 +48,7 @@ extension ChatCenterDataModel {
     static let empty = ChatCenterDataModel(contact1docID: "", contact2docID: "")
 }
 
-struct MessageContainDataModel:Identifiable, Codable {
+struct MessageContainDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var sendingImage: [String]?
     var senderProfileImage: String?

@@ -5,28 +5,28 @@
 //  Created by Kuan on 2022/3/29.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ProductCollectionDetialView: View {
-    
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var providerStoreM: ProviderStoreM
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var isEdit = false
     @State private var newAmount = ""
     @State private var newDescription = ""
-    
+
     var productData: ProductDM
-    
-    //MARK: Put some visual kit to presenting data, also provider could edit product description
+
+    // MARK: Put some visual kit to presenting data, also provider could edit product description
+
     var body: some View {
         VStack {
             VStack {
@@ -136,7 +136,8 @@ struct ProductCollectionDetialView: View {
     }
 }
 
-//MARK: Need to adjust product edit view
+// MARK: Need to adjust product edit view
+
 extension ProductCollectionDetialView {
     @ViewBuilder
     func editAmount(isEdit: Bool) -> some View {
@@ -166,7 +167,7 @@ extension ProductCollectionDetialView {
             )
         }
     }
-    
+
     @ViewBuilder
     func editDescription(isEdit: Bool) -> some View {
         if isEdit {

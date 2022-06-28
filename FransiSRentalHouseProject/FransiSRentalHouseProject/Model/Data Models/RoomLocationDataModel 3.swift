@@ -5,8 +5,8 @@
 //  Created by Kuan on 2022/3/22.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 struct RoomLocationDataModel: Identifiable {
     var id = UUID()

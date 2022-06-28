@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import ECPayPaymentGatewayKit
-import Alamofire
-import CryptoSwift
+// import ECPayPaymentGatewayKit
+// import Alamofire
+// import CryptoSwift
 
 enum PaymentProcessStatus {
     case payMonthlyRentalBill
@@ -18,15 +18,14 @@ enum PaymentProcessStatus {
 }
 
 class PaymentMethodManager: ObservableObject {
-    
 //    @Published var testToken = ""
-//    
+//
 //    @Published var serverToken: ReturnServerDM = .empty
-//    
+//
 //    @Published var getResultHolder = ""
 //
 //    let ecp = ECPayPaymentGatewayManager.sharedInstance()
-//    
+//
 //    func test() {
 //        let encodeHashKey = "pwFHCqoQZGmho4w6"
 //        let hasKey: [UInt8] = Array(encodeHashKey.utf8)
@@ -43,12 +42,12 @@ class PaymentMethodManager: ObservableObject {
 //                                                                CountryCode: "",
 //                                                                Address: "test")])
 //        let encodeData = try! encoder.encode(testData)
-////        print(String(data: encodeData, encoding: .utf8)!)
+    ////        print(String(data: encodeData, encoding: .utf8)!)
 //        let convertString = String(data: encodeData, encoding: .utf8)
 //        guard let convertURLencode = convertString?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
 //            return
 //        }
-////        let convertStringInData = Data(convertURLencode.utf8)
+    ////        let convertStringInData = Data(convertURLencode.utf8)
 //        let convertStringInArray: [UInt8] = Array(convertURLencode.utf8)
 //        guard let encryptAES = try? AES(key: hasKey, blockMode: CBC(iv: hashIV), padding: .pkcs7) else {
 //            print("fail to build aes")
@@ -67,7 +66,7 @@ class PaymentMethodManager: ObservableObject {
 //        let deConvertURL = deConveretString.removingPercentEncoding
 //        print("final result: \(String(describing: deConvertURL))")
 //    }
-//    
+//
 //    func decryptData(inputBase64: String) -> String {
 //        var holdingData = ""
 //        let encodeHashKey = "pwFHCqoQZGmho4w6"
@@ -76,7 +75,7 @@ class PaymentMethodManager: ObservableObject {
 //        let encodeHashIV = "EkRm7iFT261dpevs"
 //        let hashIV: [UInt8] = Array(encodeHashIV.utf8)
 //        print("hashIV: \(hashIV)")
-////        let jsonDecoder = JSONDecoder()
+    ////        let jsonDecoder = JSONDecoder()
 //        do {
 //            let encrypt64Data = Data(base64Encoded: inputBase64) ?? Data()
 //            let aes = try AES(key: hasKey, blockMode: CBC(iv: hashIV), padding: .pkcs7)
@@ -89,7 +88,7 @@ class PaymentMethodManager: ObservableObject {
 //        }
 //        return holdingData
 //    }
-//    
+//
 //    func encryptData(rememberCard: RememberCard, paymentUIT: PaymentUIType, orderInfo: OrderInfoDM, cardInfo: CardInfoDM, consumerInfo: ConsumerInfoDM) -> String {
 //        var base64 = ""
 //        var chosePL = [String]()
@@ -124,7 +123,7 @@ class PaymentMethodManager: ObservableObject {
 //                                                                Name: "test",
 //                                                                CountryCode: "158",
 //                                                                Address: "testAddress")])
-//        
+//
 //        /*
 //         DataDM(MerchantID: "3002607",
 //                                   RememberCard: rememberCard.rawValue,
@@ -157,7 +156,7 @@ class PaymentMethodManager: ObservableObject {
 //        }
 //        return base64
 //    }
-//    
+//
 //    func callServerToken(envPath: EnvPath, httpMethod: HTTPMethod, httpContent: HTTPContent, rememberCard: RememberCard, paymentUIT: PaymentUIType, orderInfo: OrderInfoDM, cardInfo: CardInfoDM, consumerInfo: ConsumerInfoDM) async throws {
 //        print("start to get server token")
 //        guard let url = URL(string: envPath.rawValue) else {
@@ -171,11 +170,11 @@ class PaymentMethodManager: ObservableObject {
 //        print("current version: \(currentVersion)")
 //        let encoder = JSONEncoder()
 //        encoder.outputFormatting = .prettyPrinted
-////        let header: HTTPHeaders = ["Content-Type" : httpContent.rawValue]
-////        var request = try URLRequest(url: url.asURL(), method: .post, headers: header)
+    ////        let header: HTTPHeaders = ["Content-Type" : httpContent.rawValue]
+    ////        var request = try URLRequest(url: url.asURL(), method: .post, headers: header)
 //        do {
 //            var request = URLRequest(url: url)
-////            request.httpMethod = httpMethod.rawValue
+    ////            request.httpMethod = httpMethod.rawValue
 //            request.httpMethod = "POST"
 //            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 //            print("Start to encrypt data")
@@ -184,7 +183,7 @@ class PaymentMethodManager: ObservableObject {
 //                                                          RqHeader: RqHeaderDM(Timestamp: unixTime,
 //                                                                               Revision: currentVersion),
 //                                                          Data: encodeData)
-//            let encodeDataInJson = try encoder.encode(rawBody) 
+//            let encodeDataInJson = try encoder.encode(rawBody)
 //            print("Convert json result: \(String(describing: String(data: encodeDataInJson, encoding: .utf8)))")
 //            let (data, response) = try await URLSession.shared.upload(for: request, from: encodeDataInJson)
 //            let hResponse = response as? HTTPURLResponse
@@ -199,12 +198,12 @@ class PaymentMethodManager: ObservableObject {
 //            print(error.localizedDescription)
 //        }
 //    }
-//    
+//
 //    func testapi() {
 //        ecp.testToGetTestingUserToken(merchantID: "3002607", aesKey: "pwFHCqoQZGmho4w6", aesIV: "EkRm7iFT261dpevs") { state in
 //            let callState = state.callbackStateStatus
 //            let state_ = state as! TestingTokenCallbackState
-//            
+//
 //            switch callState {
 //            case .Fail:
 //                print(state.callbackStateMessage)
@@ -225,7 +224,7 @@ class PaymentMethodManager: ObservableObject {
 //            }
 //        }
 //    }
-//    
+//
 //    func createPayment(token: String, merchantID: String, language: Language) {
 //        ecp.createPayment(token: token, merchantID: merchantID, useResultPage: 1, appStoreName: "Testing Store", language: language.rawValue) { callback in
 //            let callbackStatus = callback.callbackStateStatus
@@ -236,8 +235,8 @@ class PaymentMethodManager: ObservableObject {
 //            switch callbackStatus {
 //            case .Success:
 //                print("success")
-////                CreatePaymentCallbackState_CardInfoResponseModel(MerchantTradeNo: "", TradeNo)
-//                
+    ////                CreatePaymentCallbackState_CardInfoResponseModel(MerchantTradeNo: "", TradeNo)
+//
 //            case .Fail:
 //                print("fail")
 //            case .Cancel:
@@ -251,44 +250,40 @@ class PaymentMethodManager: ObservableObject {
 //            }
 //        }
 //    }
-//    
-//    
-//    
-//    
+//
+//
+//
+//
 //    @MainActor
 //    func getServerToken(url: URL) async throws {
-////        var request = try URLRequest(url: url)
-////        request.httpMethod = httpMethod.rawValue
-////        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    ////        var request = try URLRequest(url: url)
+    ////        request.httpMethod = httpMethod.rawValue
+    ////        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 //        let (data, response) = try await URLSession.shared.data(from: url)
 //        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
 //            throw ECpayAPIError.invalidServerResponse
 //        }
-////        guard let jsonData = data else {
-////            throw ECpayAPIError.invalidFetchingJsonData
-////        }
+    ////        guard let jsonData = data else {
+    ////            throw ECpayAPIError.invalidFetchingJsonData
+    ////        }
 //        print("Start to decode json: \(data)")
 //        print(String(decoding: data, as: UTF8.self))
 //        getResultHolder = String(decoding: data, as: UTF8.self)
-////        if let decodeResponse = try? JSONDecoder().decode(ReturnServerDM.self, from: data) {
-////            print("receive data: \(decodeResponse)")
-////            let encryptData = decodeResponse.Data
-////            let tempHolding = decryptData(inputBase64: encryptData)
-////            print(tempHolding.removingPercentEncoding ?? "")
-////        }
+    ////        if let decodeResponse = try? JSONDecoder().decode(ReturnServerDM.self, from: data) {
+    ////            print("receive data: \(decodeResponse)")
+    ////            let encryptData = decodeResponse.Data
+    ////            let tempHolding = decryptData(inputBase64: encryptData)
+    ////            print(tempHolding.removingPercentEncoding ?? "")
+    ////        }
 //    }
-    
+
     func computePaymentMonth(from currentDate: Date) -> Date {
         let cal = Calendar.current
-        let oneMonth: Double = (60*60*24)*30
+        let oneMonth: Double = (60 * 60 * 24) * 30
         let currentDateAddOneMonth = cal.dateComponents([.year, .month, .day], from: currentDate.addingTimeInterval(oneMonth))
         return cal.date(from: currentDateAddOneMonth) ?? Date()
     }
-    
-    
-    
 }
-
 
 extension Date {
     func getFormatterDate(format: String) -> String {

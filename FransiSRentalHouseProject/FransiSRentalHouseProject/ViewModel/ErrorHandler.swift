@@ -5,9 +5,9 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
+import FirebaseCrashlytics
 import Foundation
 import SwiftUI
-import FirebaseCrashlytics
 
 enum SignUpError: LocalizedError {
     case emailIsEmpty
@@ -22,8 +22,9 @@ enum SignUpError: LocalizedError {
     case licenseEnterError
     case licenseNumberLengthError
     case passwordIsNotValid
-    
-    var errorDescription: String?  {
+    case employeeError
+
+    var errorDescription: String? {
         switch self {
         case .emailIsEmpty:
             return NSLocalizedString("Email address is missing", comment: "")
@@ -49,20 +50,22 @@ enum SignUpError: LocalizedError {
             return NSLocalizedString("Please recheck license number", comment: "")
         case .passwordIsNotValid:
             return NSLocalizedString("Please recheck password.", comment: "")
+        case .employeeError:
+            return NSLocalizedString("Please select employee type.", comment: "")
         }
     }
 }
 
-//enum StarUpError: LocalizedError {
+// enum StarUpError: LocalizedError {
 //    case userInfoError
-//    
+//
 //    var errorDescription: String? {
 //        switch self {
 //        case .userInfoError:
 //            return NSLocalizedString("Hi, please filling up necessary user info first thanks.", comment: "")
 //        }
 //    }
-//}
+// }
 
 enum UserInformationError: LocalizedError {
     case idFormateError
@@ -107,7 +110,7 @@ enum UserInformationError: LocalizedError {
 
 enum RentalError: LocalizedError {
     case rentedError
-    
+
     var errorDescription: String? {
         switch self {
         case .rentedError:
@@ -132,7 +135,7 @@ enum ProviderSummitError: LocalizedError {
     case productAmountError
     case productPriceError
     case productTypeError
-    
+
     var errorDescription: String? {
         switch self {
         case .holderNameError:
@@ -171,7 +174,7 @@ enum ProviderSummitError: LocalizedError {
 
 enum ContractError: LocalizedError {
     case agreemnetError
-    
+
     var errorDescription: String? {
         switch self {
         case .agreemnetError:
@@ -182,7 +185,7 @@ enum ContractError: LocalizedError {
 
 enum StorageUploadError: LocalizedError {
     case imageURLfetchingError
-    
+
     var errorDescription: String? {
         switch self {
         case .imageURLfetchingError:
@@ -194,7 +197,7 @@ enum StorageUploadError: LocalizedError {
 enum BillError: LocalizedError {
     case shippedError
     case cancelError
-    
+
     var errorDescription: String? {
         switch self {
         case .shippedError:
@@ -207,7 +210,7 @@ enum BillError: LocalizedError {
 
 enum MaintainError: LocalizedError {
     case maintianFillingError
-    
+
     var errorDescription: String? {
         switch self {
         case .maintianFillingError:
@@ -218,7 +221,7 @@ enum MaintainError: LocalizedError {
 
 enum PurchaseError: LocalizedError {
     case blankError
-    
+
     var errorDescription: String? {
         switch self {
         case .blankError:
@@ -232,7 +235,7 @@ enum SettlementError: LocalizedError {
     case historyFetchingError
     case settlementDateError
     case closeAccountError
-    
+
     var errorDescription: String? {
         switch self {
         case .settlementResultError:
@@ -250,7 +253,7 @@ enum SettlementError: LocalizedError {
 enum BioAuthError: LocalizedError {
     case deviceError
     case evaluateError
-    
+
     var errorDescription: String? {
         switch self {
         case .deviceError:
@@ -264,7 +267,7 @@ enum BioAuthError: LocalizedError {
 enum EncryptError: LocalizedError {
     case encryptError
     case decryptError
-    
+
     var errorDescription: String? {
         switch self {
         case .encryptError:
@@ -278,7 +281,7 @@ enum EncryptError: LocalizedError {
 enum ECpayAPIError: LocalizedError {
     case invalidServerResponse
     case invalidFetchingJsonData
-    
+
     var errorDescription: String? {
         switch self {
         case .invalidServerResponse:
@@ -297,12 +300,10 @@ struct ErrorAlert: Identifiable {
 
 class ErrorHandler: ObservableObject {
     @Published var currentAlert: ErrorAlert? = nil
-    
+
     func handle(error: Error, dismissAction: (() -> Void)? = nil) {
         dismissAction?()
 //        Crashlytics.crashlytics().record(error: error)
         currentAlert = ErrorAlert(message: error.localizedDescription)
     }
 }
-
-

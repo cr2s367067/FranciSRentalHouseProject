@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct AutoPaymentSettingView: View {
-    
     @EnvironmentObject var autoPaymentSettingViewModel: AutoPaymentSettingViewModel
     @EnvironmentObject var firestoreUser: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         VStack {
             VStack {
@@ -90,7 +89,6 @@ struct AutoPaymentSettingView_Previews: PreviewProvider {
         AutoPaymentSettingView()
     }
 }
-
 
 struct AutoPayPolicyUnit: View {
     var policy: String

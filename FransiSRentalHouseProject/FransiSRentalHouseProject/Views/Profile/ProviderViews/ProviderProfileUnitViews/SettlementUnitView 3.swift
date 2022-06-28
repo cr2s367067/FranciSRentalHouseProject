@@ -12,11 +12,11 @@ struct SettlementUnitView: View {
     @EnvironmentObject var paymentMethodManager: PaymentMethodManager
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
 //    @State var date = Date()
     @Binding var date: Date
     @Binding var editMode: Bool
-    
+
     var body: some View {
         isEditMode(editMode: editMode)
     }

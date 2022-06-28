@@ -5,16 +5,15 @@
 //  Created by Kuan on 2022/3/28.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct FurnitureGridView: View {
-    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var productDM: ProductDM
-    
+
     var body: some View {
         VStack {
             Spacer()
@@ -59,8 +58,8 @@ struct FurnitureGridView: View {
     }
 }
 
-//struct FurnitureGridView_Previews: PreviewProvider {
+// struct FurnitureGridView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        FurnitureGridView(productIamge: "", productName: "", productPrice: 0)
 //    }
-//}
+// }

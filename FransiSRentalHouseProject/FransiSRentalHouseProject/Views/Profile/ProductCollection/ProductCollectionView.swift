@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct ProductCollectionView: View {
-    
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var providerStoreM: ProviderStoreM
-    
+
     var body: some View {
         VStack {
             TitleAndDivider(title: "Product Collection")

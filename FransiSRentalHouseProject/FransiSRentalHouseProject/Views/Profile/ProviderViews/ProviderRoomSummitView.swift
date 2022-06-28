@@ -5,12 +5,11 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
-import FirebaseFirestoreSwift
 import AVKit
+import FirebaseFirestoreSwift
+import SwiftUI
 
 struct ProviderRoomSummitView: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var storageForRoomsImage: StorageForRoomsImage
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -23,25 +22,26 @@ struct ProviderRoomSummitView: View {
 
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var selectlimit = 5
     @FocusState private var isFocus: Bool
-    
+
     @State private var getVideo = false
-    
+
     init() {
         UITextView.appearance().backgroundColor = .clear
     }
-    
+
     let testURL = "gs://francisrentalhouseproject.appspot.com/roomVideo/The 30-Second Video.mp4"
-    
+
     var body: some View {
         NavigationView {
             VStack(spacing: 5) {
-                ScrollView(.vertical, showsIndicators: false){
+                ScrollView(.vertical, showsIndicators: false) {
                     TitleAndDivider(title: "Ready to Post your Room?")
-                    
-                    //MARK: - Room Cover photo
+
+                    // MARK: - Room Cover photo
+
                     StepsTitle(stepsName: "Step1: Upload the room pic.")
                     Button {
                         providerRoomSummitVM.showSheet.toggle()
@@ -65,7 +65,9 @@ struct ProviderRoomSummitView: View {
                         }
                     }
                     .accessibilityIdentifier("coverImage")
-                    //MARK: - Room infos
+
+                    // MARK: - Room infos
+
                     StepsTitle(stepsName: "Step2: Please provide the necessary information")
                     VStack(spacing: 10) {
                         Group {
@@ -118,8 +120,9 @@ struct ProviderRoomSummitView: View {
                             })
                         }
                         .focused($isFocus)
-                        
-                        //MARK: - Additional Room Images
+
+                        // MARK: - Additional Room Images
+
                         VStack(alignment: .leading, spacing: 2) {
                             HStack {
                                 Text("Additional Room Images")
@@ -166,8 +169,9 @@ struct ProviderRoomSummitView: View {
                         }
                         .padding()
                         .frame(width: uiScreenWidth - 30)
-                        
-                        //MARK: - Addtional Room Intro Video
+
+                        // MARK: - Addtional Room Intro Video
+
                         VStack(alignment: .leading, spacing: 2) {
                             HStack {
                                 Text("Additional Room Intro Video")
@@ -184,7 +188,7 @@ struct ProviderRoomSummitView: View {
                                 Spacer()
                             }
                             .padding(.bottom)
-                            if providerRoomSummitVM.isSelectedRoomSet == true && !(providerRoomSummitVM.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
+                            if providerRoomSummitVM.isSelectedRoomSet == true, !(providerRoomSummitVM.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
                                 if let url = providerRoomSummitVM.roomIntroVideoURL {
                                     VStack {
                                         VideoPlayer(player: AVPlayer(url: url))
@@ -196,8 +200,9 @@ struct ProviderRoomSummitView: View {
                         }
                         .padding()
                         .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 6)
-                        
-                        //MARK: - Require Questions
+
+                        // MARK: - Require Questions
+
                         Group {
                             HStack {
                                 Text("Does someone dead in this room before?")
@@ -239,7 +244,7 @@ struct ProviderRoomSummitView: View {
                             }
                         }
                         .modifier(textFormateForProviderSummitView())
-                        
+
                         Group {
                             HStack {
                                 Text("Does the room has water leak problem?")
@@ -380,7 +385,7 @@ struct ProviderRoomSummitView: View {
                                                     self.errorHandler.handle(error: error)
                                                 }
                                             }
-                                            
+
                                         } label: {
                                             Text("Okay")
                                                 .foregroundColor(.white)
@@ -431,7 +436,9 @@ struct ProviderRoomSummitView: View {
             })
             .sheet(isPresented: $providerRoomSummitVM.showPHPicker) {
                 providerRoomSummitVM.isSelectedRoomSet = true
-                //MARK: Fix the presenting bug
+
+                // MARK: Fix the presenting bug
+
                 if !(providerRoomSummitVM.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
                     getVideo = true
                 }
@@ -461,17 +468,15 @@ struct StepsTitle: View {
 }
 
 struct BlurView: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIVisualEffectView {
+    func makeUIView(context _: Context) -> UIVisualEffectView {
         let view = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
         return view
     }
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        
-    }
+
+    func updateUIView(_: UIVisualEffectView, context _: Context) {}
 }
 
 extension ProviderRoomSummitView {
-    
 //    @ViewBuilder
 //    func someOneDeadInThisRoom(
 //        config: Bool,
@@ -490,7 +495,7 @@ extension ProviderRoomSummitView {
 //            }
 //        }
 //    }
-    
+
     private func roomSummit(
         rentalRoom config: RoomDM
     ) async throws {
@@ -507,8 +512,9 @@ extension ProviderRoomSummitView {
                 roomID: config.roomUID
             )
         }
-        
-        //MARK: Modify video ref, include room and product
+
+        // MARK: Modify video ref, include room and product
+
 //        if !(providerRoomSummitVM.roomIntroVideoURL?.pathComponents.isEmpty ?? true) {
 //            guard let videoURL = providerRoomSummitVM.roomIntroVideoURL else { return }
 //            debugPrint("uploading vieo url: \(videoURL)")
@@ -520,7 +526,7 @@ extension ProviderRoomSummitView {
 //            )
 //        }
     }
-    
+
     private func checker(
         holderName: String,
         holderMobileNumber: String,
@@ -533,9 +539,9 @@ extension ProviderRoomSummitView {
         tosAgreement: Bool,
         isSummitRoomImage: Bool,
         roomUID: String,
-        someoneDeadInRoom: Bool,
-        waterLeakingProblem: Bool,
-        roomImageURL: String
+        someoneDeadInRoom _: Bool,
+        waterLeakingProblem _: Bool,
+        roomImageURL _: String
     ) async throws {
         try await appViewModel.providerSummitCheckerAsync(
             holderName: holderName,
@@ -550,10 +556,10 @@ extension ProviderRoomSummitView {
             isSummitRoomImage: isSummitRoomImage,
             roomUID: roomUID
         )
-        
+
         providerRoomSummitVM.showSummitAlert = true
     }
-    
+
     private func resetView() {
         providerRoomSummitVM.holderName = ""
         providerRoomSummitVM.holderMobileNumber = ""
@@ -578,4 +584,3 @@ extension ProviderRoomSummitView {
         providerRoomSummitVM.roomDescription = ""
     }
 }
-

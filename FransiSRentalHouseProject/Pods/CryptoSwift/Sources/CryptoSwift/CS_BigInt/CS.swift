@@ -20,5 +20,5 @@ public typealias BigInteger = CS.BigInt
 public typealias BigUInteger = CS.BigUInt
 
 public enum CS {
-  // namespace
+    // namespace
 }

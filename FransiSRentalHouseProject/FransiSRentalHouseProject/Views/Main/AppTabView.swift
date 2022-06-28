@@ -9,7 +9,6 @@ import SwiftUI
 import WebKit
 
 struct AppTabView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -21,13 +20,13 @@ struct AppTabView: View {
     @EnvironmentObject var productVM: ProductDetailViewModel
 
     @State private var selecting = "TapHomeButton"
-    
+
     @AppStorage("userHodler") var userHodler: SignUpType = .isNormalCustomer
     @AppStorage("providerHolder") var providerHolder: ProviderTypeStatus = .roomProvider
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
- 
+
     var body: some View {
         ZStack {
             tabViews(signUpType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer, providerType: ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
@@ -45,7 +44,7 @@ struct AppTabView: View {
             }
         }
         .onAppear {
-            UITabBar.appearance().barTintColor = UIColor.init(named: "background2")
+            UITabBar.appearance().barTintColor = UIColor(named: "background2")
             firestoreToFetchRoomsData.listeningRoomInfoForPublic()
             firestoreForFurniture.listeningProduct()
             userHodler = SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer
@@ -56,9 +55,7 @@ struct AppTabView: View {
     }
 }
 
-
 extension AppTabView {
-    
     func initTask(signUpType: SignUpType) async throws {
         if signUpType == .isNormalCustomer {
             print("Is getting custormer config data")
@@ -71,7 +68,7 @@ extension AppTabView {
             try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
         }
     }
-    
+
     @ViewBuilder
     func tabBarItem() -> some View {
         VStack {
@@ -97,7 +94,7 @@ extension AppTabView {
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }
-    
+
     @ViewBuilder
     func tabViews(signUpType: SignUpType, providerType: ProviderTypeStatus) -> some View {
         TabView(selection: $appViewModel.selecting) {
@@ -127,7 +124,7 @@ extension AppTabView {
             SearchView()
                 .tag(AppViewModel.BarItemStatus.searchButton)
 //                .tag("TapSearchButton")
-            
+
             if signUpType == .isNormalCustomer {
                 MaintainView()
                     .tag(AppViewModel.BarItemStatus.fixButton)
@@ -139,7 +136,7 @@ extension AppTabView {
                         .tag(AppViewModel.BarItemStatus.fixButton)
 //                        .tag("FixButton")
                 }
-                if  providerType == .productProvider {
+                if providerType == .productProvider {
                     ShippingListView()
                         .tag(AppViewModel.BarItemStatus.fixButton)
 //                        .tag("FixButton")

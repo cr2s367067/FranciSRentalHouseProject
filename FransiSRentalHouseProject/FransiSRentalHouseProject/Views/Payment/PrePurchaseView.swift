@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct PrePurchaseView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
@@ -17,21 +16,21 @@ struct PrePurchaseView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForFurnitureOrder: FirestoreForProducts
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
-    
+
     @State var roomImage = "room3"
     @State var roomPrice = "9000"
     @State var ranking = 4
     @State var totalPrice = "9000"
     @State private var isRented = false
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var gridFurItemLayout = [
         GridItem(.fixed(170)),
-        GridItem(.fixed(170))
+        GridItem(.fixed(170)),
     ]
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -94,13 +93,11 @@ struct PrePurchaseView_Previews: PreviewProvider {
     }
 }
 
-
 struct FurnitureItemView: View {
-    
     var furnitureImage: String
     var furnitureName: String
     var furniturePrice: String
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()

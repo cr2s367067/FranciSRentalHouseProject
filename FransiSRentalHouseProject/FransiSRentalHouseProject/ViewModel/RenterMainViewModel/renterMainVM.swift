@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class RenterMainVM: ObservableObject {
     @Published var isPresent = false
 }

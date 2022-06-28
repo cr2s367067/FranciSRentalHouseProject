@@ -6,7 +6,7 @@
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
-/// The first several [prime numbers][primes]. 
+/// The first several [prime numbers][primes].
 ///
 /// [primes]: https://oeis.org/A000040
 let primes: [CS.BigUInt.Word] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
@@ -16,7 +16,7 @@ let primes: [CS.BigUInt.Word] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
 ///
 /// This is sequence [A014233](http://oeis.org/A014233) on the [Online Encyclopaedia of Integer Sequences](http://oeis.org).
 let pseudoPrimes: [CS.BigUInt] = [
-    /*  2 */ 2_047,
+    /*  2 */ 2047,
     /*  3 */ 1_373_653,
     /*  5 */ 25_326_001,
     /*  7 */ 3_215_031_751,
@@ -31,13 +31,13 @@ let pseudoPrimes: [CS.BigUInt] = [
     /* 41 */ "3317044064679887385961981",
 ]
 
-extension CS.BigUInt {
-    //MARK: Primality Testing
+public extension CS.BigUInt {
+    // MARK: Primality Testing
 
     /// Returns true iff this integer passes the [strong probable prime test][sppt] for the specified base.
     ///
     /// [sppt]: https://en.wikipedia.org/wiki/Probable_prime
-    public func isStrongProbablePrime(_ base: CS.BigUInt) -> Bool {
+    func isStrongProbablePrime(_ base: CS.BigUInt) -> Bool {
         precondition(base > (1 as CS.BigUInt))
         precondition(self > (0 as CS.BigUInt))
         let dec = self - 1
@@ -49,7 +49,7 @@ extension CS.BigUInt {
         if test == 1 || test == dec { return true }
 
         if r > 0 {
-            let shift = self.leadingZeroBitCount
+            let shift = leadingZeroBitCount
             let normalized = self << shift
             for _ in 1 ..< r {
                 test *= test
@@ -65,20 +65,20 @@ extension CS.BigUInt {
 
     /// Returns true if this integer is probably prime. Returns false if this integer is definitely not prime.
     ///
-    /// This function performs a probabilistic [Miller-Rabin Primality Test][mrpt], consisting of `rounds` iterations, 
+    /// This function performs a probabilistic [Miller-Rabin Primality Test][mrpt], consisting of `rounds` iterations,
     /// each calculating the strong probable prime test for a random base. The number of rounds is 10 by default,
     /// but you may specify your own choice.
     ///
     /// To speed things up, the function checks if `self` is divisible by the first few prime numbers before
     /// diving into (slower) Miller-Rabin testing.
     ///
-    /// Also, when `self` is less than 82 bits wide, `isPrime` does a deterministic test that is guaranteed to 
+    /// Also, when `self` is less than 82 bits wide, `isPrime` does a deterministic test that is guaranteed to
     /// return a correct result.
     ///
     /// [mrpt]: https://en.wikipedia.org/wiki/Miller–Rabin_primality_test
-    public func isPrime(rounds: Int = 10) -> Bool {
-        if count <= 1 && self[0] < 2 { return false }
-        if count == 1 && self[0] < 4 { return true }
+    func isPrime(rounds: Int = 10) -> Bool {
+        if count <= 1, self[0] < 2 { return false }
+        if count == 1, self[0] < 4 { return true }
 
         // Even numbers above 2 aren't prime.
         if self[0] & 1 == 0 { return false }
@@ -86,10 +86,10 @@ extension CS.BigUInt {
         // Quickly check for small primes.
         for i in 1 ..< primes.count {
             let p = primes[i]
-            if self.count == 1 && self[0] == p {
+            if count == 1, self[0] == p {
                 return true
             }
-            if self.quotientAndRemainder(dividingByWord: p).remainder == 0 {
+            if quotientAndRemainder(dividingByWord: p).remainder == 0 {
                 return false
             }
         }
@@ -121,16 +121,16 @@ extension CS.BigUInt {
     }
 }
 
-extension CS.BigInt {
-    //MARK: Primality Testing
+public extension CS.BigInt {
+    // MARK: Primality Testing
 
     /// Returns true iff this integer passes the [strong probable prime test][sppt] for the specified base.
     ///
     /// [sppt]: https://en.wikipedia.org/wiki/Probable_prime
-    public func isStrongProbablePrime(_ base: CS.BigInt) -> Bool {
+    func isStrongProbablePrime(_ base: CS.BigInt) -> Bool {
         precondition(base.sign == .plus)
-        if self.sign == .minus { return false }
-        return self.magnitude.isStrongProbablePrime(base.magnitude)
+        if sign == .minus { return false }
+        return magnitude.isStrongProbablePrime(base.magnitude)
     }
 
     /// Returns true if this integer is probably prime. Returns false if this integer is definitely not prime.
@@ -146,8 +146,8 @@ extension CS.BigInt {
     /// return a correct result.
     ///
     /// [mrpt]: https://en.wikipedia.org/wiki/Miller–Rabin_primality_test
-    public func isPrime(rounds: Int = 10) -> Bool {
-        if self.sign == .minus { return false }
-        return self.magnitude.isPrime(rounds: rounds)
+    func isPrime(rounds: Int = 10) -> Bool {
+        if sign == .minus { return false }
+        return magnitude.isPrime(rounds: rounds)
     }
 }

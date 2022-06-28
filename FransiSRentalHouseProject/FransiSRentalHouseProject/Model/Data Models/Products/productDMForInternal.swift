@@ -5,10 +5,9 @@
 //  Created by Kuan on 2022/6/22.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-
+import Foundation
 
 struct ProductDM: Identifiable, Codable {
     @DocumentID var id: String?
@@ -38,7 +37,7 @@ extension ProductDM {
         productType: "",
         coverImage: ""
     )
-    
+
     static func productPublish(defaultWithInput source: ProductDM, providerUID: String, productUID: String) -> ProductDM {
         return ProductDM(
             providerUID: providerUID,
@@ -74,7 +73,6 @@ struct ProductImageSet: Identifiable, Codable {
     @ServerTimestamp var uploadTime: Timestamp?
 }
 
-
 struct CustomerMarkedProduct: Codable {
     @DocumentID var id: String?
     var isMark: Bool
@@ -82,7 +80,8 @@ struct CustomerMarkedProduct: Codable {
     var productUID: String
 }
 
-//MARK: - Local product cart
+// MARK: - Local product cart
+
 struct ProductCartDM: Identifiable, Codable {
     var id = UUID()
     var product: ProductDM

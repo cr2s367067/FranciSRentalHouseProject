@@ -8,20 +8,19 @@
 import SwiftUI
 
 struct ContactView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreForContactInfo: FirestoreForContactInfo
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @Environment(\.colorScheme) var colorScheme
-    
+
     @State var contactDes = ""
     @State private var isSent = false
     @FocusState private var isFocused: Bool
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
@@ -38,7 +37,6 @@ struct ContactView: View {
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .frame(width: uiScreenWidth - 50, height: uiScreenHeight / 2 + 100)
-                        
                     }
                     .padding()
                     .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 2 + 120)
@@ -58,7 +56,10 @@ struct ContactView: View {
                                 do {
                                     if !contactDes.isEmpty {
                                         isSent = true
-                                        try await firestoreForContactInfo.summitContactInfoAsync(question: contactDes, uidPath: firebaseAuth.getUID())
+                                        try await firestoreForContactInfo.summitContactInfoAsync(
+                                            question: contactDes,
+                                            uidPath: firebaseAuth.getUID()
+                                        )
                                         reset()
                                     }
                                 } catch {
@@ -70,7 +71,6 @@ struct ContactView: View {
                                 .modifier(ButtonModifier())
                         }
                     }
-                    
                 }
             }
             .onTapGesture {
@@ -82,10 +82,8 @@ struct ContactView: View {
 }
 
 extension ContactView {
-    
     private func reset() {
         contactDes = ""
         isSent = false
     }
-    
 }

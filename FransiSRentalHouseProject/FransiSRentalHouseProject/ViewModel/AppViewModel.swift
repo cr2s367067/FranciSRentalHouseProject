@@ -5,18 +5,16 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import Foundation
-import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
-
+import Foundation
+import SwiftUI
 
 class AppViewModel: ObservableObject {
-    
     enum UserInfoStatus: String {
-        case id ,firstName ,lastName ,displayName ,mobileNumber ,zipCode ,country, address, town, city, gender, isMale, isFemale, dob
+        case id, firstName, lastName, displayName, mobileNumber, zipCode, country, address, town, city, gender, isMale, isFemale, dob
     }
-    
+
     enum BarItemStatus: String, CaseIterable, Hashable {
         case homeButton = "TapHomeButton"
         case paymentButton = "TapPaymentButton"
@@ -24,44 +22,43 @@ class AppViewModel: ObservableObject {
         case searchButton = "TapSearchButton"
         case fixButton = "FixButton"
     }
-    
-    let selectArray: [String] = BarItemStatus.allCases.map({$0.rawValue})
-    
+
+    let selectArray: [String] = BarItemStatus.allCases.map { $0.rawValue }
+
     @Published var selecting: BarItemStatus = .homeButton
-    
-    
+
     @Published var isAddNewItem = false
-    
+
 //    static let shared: AppViewModel = AppViewModel()
-    
+
 //    @EnvironmentObject var localData: LocalData
 //    let firestoreToFetchUserinfo = FirestoreToFetchUserinfo()
-    
+
     //    let fetchFirestore = FetchFirestore()
     //    let auth = Auth.auth()
-    
+
     @Published var paymentSummaryTosAgree = false
     @Published var paymentSummaryAutoPayAgree = false
-    
+
     @Published var rentalPolicyisAgree = false
-    
+
     @Published var isRedacted = true
-    
-    //MARK: - For showing cover view
+
+    // MARK: - For showing cover view
+
     @Published var isShowUserDetailView = false
-    
+
     @Published var isPresent = false
-    
-    
+
     @Published var checked = false
     @Published var showAlert = false
-    
+
 //    @Published var tagSelect = "TapHomeButton"
     @Published var tempUserType = ""
     @Published var userDetailForSignUp = false
 //    @Published var isPresent = false
-    
-    //:~ Sign up view fields
+
+    //: ~ Sign up view fields
 //    @Published var id = ""
 //    @AppStorage(UserInfoStatus.id.rawValue) var id = ""
 //    @AppStorage(UserInfoStatus.firstName.rawValue) var firstName = ""
@@ -77,9 +74,8 @@ class AppViewModel: ObservableObject {
 //    @AppStorage(UserInfoStatus.zipCode.rawValue) var zipCode = ""
 //    @AppStorage(UserInfoStatus.country.rawValue) var country = "Taiwan"
 //    @AppStorage(UserInfoStatus.gender.rawValue) var gender = ""
-    
-    
-    //:~Provider summit fields (RentalManager)
+
+    //: ~Provider summit fields (RentalManager)
 //    @Published var holderName = ""
 //    @Published var holderMobileNumber = ""
 //    @Published var roomAddress = ""
@@ -95,76 +91,70 @@ class AppViewModel: ObservableObject {
 //    @Published var hasWaterLeakingNo = false
 //    @Published var waterLeakingProblem = ""
 //    @Published var roomDescription = ""
-    
-    //:~Provider summit fields (HouseOwner)
-    @Published var specificBuildingNumber = "" //專有部分建號
-    @Published var specificBuildingRightRange = "" //專有部分權利範圍
-    @Published var specificBuildingArea = "" //專有部分面積共計
-    
-    @Published var mainBuildArea = "" //主建物面積__層__平方公尺
-    @Published var mainBuildingPurpose = "" //主建物用途
-    
-    @Published var subBuildingPurpose = "" //附屬建物用途
-    @Published var subBuildingArea = "" //附屬建物面積__平方公尺
-    
-    @Published var publicBuildingNumber = "" //共有部分建號
-    @Published var publicBuildingRightRange = "" //共有部分權利範圍
-    @Published var publicBuildingArea = "" //共有部分持分面積__平方公尺
-    
-    @Published var hasParkinglotYes = false //車位-有
-    @Published var hasParkinglotNo = false //車位-無
-    @Published var parkinglotAmount = "" //汽機車車位數量
-    
-    @Published var isSettingTheRightForThirdPersonYes = false //設定他項權利-有
-    @Published var isSettingTheRightForThirdPersonNo = false //設定他項權利-無
-    
-    @Published var SettingTheRightForThirdPersonForWhatKind = "" //權利種類
-    @Published var isBlockByBankYes = false //查封登記-有
-    @Published var isBlockByBankNo = false //查封登記-無
-    
-    @Published var provideForAll = false //租賃住宅全部
-    @Published var provideForPart = false //租賃住宅部分
-    @Published var provideFloor = "" //租賃住宅第__層
-    @Published var provideRooms = "" //租賃住宅房間__間
-    @Published var provideRoomNumber = "" //租賃住宅第__室
-    @Published var provideRoomArea = "" //租賃住宅面積__平方公尺
-    
-    @Published var isVehicle = false //汽車停車位
-    @Published var isMorto = false //機車停車位
-    @Published var isBoth = false //汽車機車皆有
-    @Published var parkingUGFloor = "" //地上(下)第__層
-    @Published var parkingStyleN = false //平面式停車位ㄩ
-    @Published var parkingStyleM = false //機械式停車位
-    @Published var parkingNumber = "" //編號第__號
-    @Published var forAllday = false //使用時間全日
-    @Published var forMorning = false //使用時間日間
-    @Published var forNight = false //使用時間夜間
-    
-    @Published var havingSubFacilityYes = false //租賃附屬設備-有
-    @Published var havingSubFacilityNo = false //租賃附屬設備-無
-    
-    //:~ paragraph 2
-    @Published var providingTimeRangeStart = "" //委託管理期間自
-    @Published var providingTimeRangeEnd = "" //委託管理期間至
-    
-    //:~ paragraph3
-    @Published var paybyCash = false //報酬約定及給付-現金繳付
-    @Published var paybyTransmission = false //報酬約定及給付-轉帳繳付
-    @Published var bankName = "" //金融機構
-    @Published var bankOwnerName = "" //戶名
-    @Published var bankAccount = "" //帳號
-    
-    //:~ paragraph12
-    @Published var contractSendbyEmail = false //履行本契約之通知-電子郵件信箱
-    @Published var contractSendbyTextingMessage = false //履行本契約之通知-手機簡訊
-    @Published var contractSendbyMessageSoftware = false //履行本契約之通知-即時通訊軟體
-    
-    
-    
-    
-    
-    
-    
+
+    //: ~Provider summit fields (HouseOwner)
+    @Published var specificBuildingNumber = "" // 專有部分建號
+    @Published var specificBuildingRightRange = "" // 專有部分權利範圍
+    @Published var specificBuildingArea = "" // 專有部分面積共計
+
+    @Published var mainBuildArea = "" // 主建物面積__層__平方公尺
+    @Published var mainBuildingPurpose = "" // 主建物用途
+
+    @Published var subBuildingPurpose = "" // 附屬建物用途
+    @Published var subBuildingArea = "" // 附屬建物面積__平方公尺
+
+    @Published var publicBuildingNumber = "" // 共有部分建號
+    @Published var publicBuildingRightRange = "" // 共有部分權利範圍
+    @Published var publicBuildingArea = "" // 共有部分持分面積__平方公尺
+
+    @Published var hasParkinglotYes = false // 車位-有
+    @Published var hasParkinglotNo = false // 車位-無
+    @Published var parkinglotAmount = "" // 汽機車車位數量
+
+    @Published var isSettingTheRightForThirdPersonYes = false // 設定他項權利-有
+    @Published var isSettingTheRightForThirdPersonNo = false // 設定他項權利-無
+
+    @Published var SettingTheRightForThirdPersonForWhatKind = "" // 權利種類
+    @Published var isBlockByBankYes = false // 查封登記-有
+    @Published var isBlockByBankNo = false // 查封登記-無
+
+    @Published var provideForAll = false // 租賃住宅全部
+    @Published var provideForPart = false // 租賃住宅部分
+    @Published var provideFloor = "" // 租賃住宅第__層
+    @Published var provideRooms = "" // 租賃住宅房間__間
+    @Published var provideRoomNumber = "" // 租賃住宅第__室
+    @Published var provideRoomArea = "" // 租賃住宅面積__平方公尺
+
+    @Published var isVehicle = false // 汽車停車位
+    @Published var isMorto = false // 機車停車位
+    @Published var isBoth = false // 汽車機車皆有
+    @Published var parkingUGFloor = "" // 地上(下)第__層
+    @Published var parkingStyleN = false // 平面式停車位ㄩ
+    @Published var parkingStyleM = false // 機械式停車位
+    @Published var parkingNumber = "" // 編號第__號
+    @Published var forAllday = false // 使用時間全日
+    @Published var forMorning = false // 使用時間日間
+    @Published var forNight = false // 使用時間夜間
+
+    @Published var havingSubFacilityYes = false // 租賃附屬設備-有
+    @Published var havingSubFacilityNo = false // 租賃附屬設備-無
+
+    //: ~ paragraph 2
+    @Published var providingTimeRangeStart = "" // 委託管理期間自
+    @Published var providingTimeRangeEnd = "" // 委託管理期間至
+
+    //: ~ paragraph3
+    @Published var paybyCash = false // 報酬約定及給付-現金繳付
+    @Published var paybyTransmission = false // 報酬約定及給付-轉帳繳付
+    @Published var bankName = "" // 金融機構
+    @Published var bankOwnerName = "" // 戶名
+    @Published var bankAccount = "" // 帳號
+
+    //: ~ paragraph12
+    @Published var contractSendbyEmail = false // 履行本契約之通知-電子郵件信箱
+    @Published var contractSendbyTextingMessage = false // 履行本契約之通知-手機簡訊
+    @Published var contractSendbyMessageSoftware = false // 履行本契約之通知-即時通訊軟體
+
     func userDetailViewReset() {
 //        id = ""
 //        firstName = ""
@@ -179,8 +169,9 @@ class AppViewModel: ObservableObject {
 //        gender = ""
 //        rentalManagerLicenseNumber = ""
     }
-    
+
     // MARK: remove after testing
+
 //    func providerSummitChecker(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String) throws {
 //        if holderName.isEmpty && holderMobileNumber.isEmpty && roomAddress.isEmpty && roomTown.isEmpty && roomCity.isEmpty && roomZipCode.isEmpty && roomArea.isEmpty && roomRentalPrice.isEmpty && tosAgreement == false && isSummitRoomImage == false {
 //            throw ProviderSummitError.blankError
@@ -218,8 +209,9 @@ class AppViewModel: ObservableObject {
 //
 //        //        localData.addRoomDataToArray(roomUID: roomUID, holderName: holderName, mobileNumber: holderMobileNumber, roomAddress: roomAddress, town: roomTown, city: roomCity, zipCode: roomZipCode, roomArea: roomArea, rentalPrice: roomRentalPrice)
 //    }
-    
+
     // MARK: remove after testing
+
 //    func userInfoFormatterChecker(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String) throws {
 //        if id.count > 10 || id.count < 10 {
 //            throw UserInformationError.idFormateError
@@ -233,7 +225,7 @@ class AppViewModel: ObservableObject {
 //            throw UserInformationError.invalidID
 //        }
 //    }
-    
+
 //    private func convertString(input: String) -> String {
 //        let tempHolder = input
 //        var replaceString = ""
@@ -350,37 +342,34 @@ class AppViewModel: ObservableObject {
 //        }
 //        return isCorrect
 //    }
-    
+
     func getSafeAreaTop() -> CGFloat {
         let keyWindow = UIApplication.shared.connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .map({$0 as? UIWindowScene})
-            .compactMap({$0})
+            .filter { $0.activationState == .foregroundActive }
+            .map { $0 as? UIWindowScene }
+            .compactMap { $0 }
             .first?.windows
-            .filter({$0.isKeyWindow}).first
+            .filter { $0.isKeyWindow }.first
         return keyWindow?.safeAreaInsets.top ?? 0
     }
-    
+
     func getSafeAreaBottom() -> CGFloat {
         let keyWindow = UIApplication.shared.connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .map({$0 as? UIWindowScene})
-            .compactMap({$0})
+            .filter { $0.activationState == .foregroundActive }
+            .map { $0 as? UIWindowScene }
+            .compactMap { $0 }
             .first?.windows
-            .filter({$0.isKeyWindow}).first
+            .filter { $0.isKeyWindow }.first
         return keyWindow?.safeAreaInsets.bottom ?? 0
     }
-    
+
 //    Color("background1")  UIColor(named: "backgroundBrown")
-    
+
     func updateNavigationBarColor() {
         UINavigationBar.appearance().barTintColor = UIColor(named: "background1")
         UINavigationBar.appearance().backgroundColor = UIColor(Color.clear)
     }
-    
 }
-
-
 
 struct customTextField: ViewModifier {
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -399,7 +388,6 @@ struct textFormateForProviderSummitView: ViewModifier {
         content
             .foregroundStyle(Color.white)
             .font(.body)
-            
     }
 }
 
@@ -410,41 +398,37 @@ extension View {
             self
         }
     }
-    
-    func userInfoTextfieldPlaceholder<Content: View> (when showText: Bool, alignment: Alignment = .leading, @ViewBuilder placeholder: () -> Content) -> some View {
+
+    func userInfoTextfieldPlaceholder<Content: View>(when _: Bool, alignment: Alignment = .leading, @ViewBuilder placeholder: () -> Content) -> some View {
         ZStack(alignment: alignment) {
             placeholder()
             self
         }
     }
-    
-    
+
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
-    
+
     func withErrorHandling() -> some View {
         modifier(HandleErrorByShowingAlertViewModifier())
     }
-    
+
     @available(iOS 14, *)
     func navigationBarTitleTextColor(_ color: Color) -> some View {
         let uiColor = UIColor(color)
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: uiColor]
-        
+
         return self
     }
 }
 
-
 struct TabBarButton: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
-    
+
     @Binding var tagSelect: AppViewModel.BarItemStatus
     var buttonImage: AppViewModel.BarItemStatus = .homeButton
-    
-    
+
     func isAddedCart(cart: [UserOrderProductsDataModel]) -> Bool {
         var isAdd = false
         if !cart.isEmpty {
@@ -454,7 +438,7 @@ struct TabBarButton: View {
         }
         return isAdd
     }
-    
+
     var body: some View {
         Button {
             tagSelect = buttonImage
@@ -470,11 +454,10 @@ struct TabBarButton: View {
     }
 }
 
-
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
-    
+
     func path(in rect: CGRect) -> Path {
         let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         return Path(path.cgPath)
@@ -482,11 +465,10 @@ struct RoundedCorner: Shape {
 }
 
 struct TitleAndDivider: View {
-    
     @State var title: String = ""
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
             HStack {
@@ -521,34 +503,30 @@ struct AppDivider: View {
     }
 }
 
-
 struct HandleErrorByShowingAlertViewModifier: ViewModifier {
     @StateObject var errorHandler = ErrorHandler()
-    
+
     func body(content: Content) -> some View {
         content
             .environmentObject(errorHandler)
             .background(
                 EmptyView()
                     .alert(item: $errorHandler.currentAlert, content: { currentAlert in
-                        Alert(title: Text("Error"), message: Text(currentAlert.message), dismissButton: .default(Text("OK")){
+                        Alert(title: Text("Error"), message: Text(currentAlert.message), dismissButton: .default(Text("OK")) {
                             currentAlert.dismissAction?()
                         })
                     })
             )
     }
-    
 }
 
-
 struct InfoUnit: View {
-    
     @State var title: String
     @Binding var bindingString: String
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
@@ -571,54 +549,54 @@ struct InfoUnit: View {
     }
 }
 
-
 extension DispatchQueue {
-    static func background(delay: Double = 0.0, background: (()->Void)? = nil, completion: (()->Void)? = nil) {
+    static func background(delay: Double = 0.0, background: (() -> Void)? = nil, completion: (() -> Void)? = nil) {
         DispatchQueue.global(qos: .background).async {
             background?()
             if let completion = completion {
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                     completion()
-                })
+                }
             }
         }
     }
-    static func userInitial(delay: Double = 0.0, main: (()->Void)? = nil, completion: (()->Void)? = nil) {
+
+    static func userInitial(delay: Double = 0.0, main: (() -> Void)? = nil, completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             main?()
             if let completion = completion {
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                     completion()
-                })
+                }
             }
         }
     }
 }
 
 extension AppViewModel {
-    func providerSummitCheckerAsync(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID: String) async throws {
-        guard !holderName.isEmpty && !holderMobileNumber.isEmpty && !roomAddress.isEmpty && !roomTown.isEmpty && !roomCity.isEmpty && !roomZipCode.isEmpty && !roomArea.isEmpty && !roomRentalPrice.isEmpty && tosAgreement == true && isSummitRoomImage == true else {
+    func providerSummitCheckerAsync(holderName: String, holderMobileNumber: String, roomAddress: String, roomTown: String, roomCity: String, roomZipCode: String, roomArea: String, roomRentalPrice: String, tosAgreement: Bool, isSummitRoomImage: Bool, roomUID _: String) async throws {
+        guard !holderName.isEmpty, !holderMobileNumber.isEmpty, !roomAddress.isEmpty, !roomTown.isEmpty, !roomCity.isEmpty, !roomZipCode.isEmpty, !roomArea.isEmpty, !roomRentalPrice.isEmpty, tosAgreement == true, isSummitRoomImage == true else {
             throw ProviderSummitError.blankError
         }
-         guard !holderName.isEmpty else {
+        guard !holderName.isEmpty else {
             throw ProviderSummitError.holderNameError
         }
-         guard holderMobileNumber.count == 10 else {
+        guard holderMobileNumber.count == 10 else {
             throw ProviderSummitError.holderMobileNumberFormateError
         }
-         guard !roomAddress.isEmpty else {
+        guard !roomAddress.isEmpty else {
             throw ProviderSummitError.roomAddressError
         }
-         guard !roomTown.isEmpty else {
+        guard !roomTown.isEmpty else {
             throw ProviderSummitError.roomTownError
         }
-         guard !roomCity.isEmpty else {
+        guard !roomCity.isEmpty else {
             throw ProviderSummitError.roomCityError
         }
-         guard !roomZipCode.isEmpty else {
+        guard !roomZipCode.isEmpty else {
             throw ProviderSummitError.roomZipCodeError
         }
-         guard !roomArea.isEmpty else {
+        guard !roomArea.isEmpty else {
             throw ProviderSummitError.roomAreaError
         }
         guard !roomRentalPrice.isEmpty else {
@@ -627,11 +605,11 @@ extension AppViewModel {
         guard tosAgreement == true else {
             throw ProviderSummitError.tosAgreementError
         }
-         guard isSummitRoomImage == true else {
+        guard isSummitRoomImage == true else {
             throw ProviderSummitError.roomImageError
         }
     }
-    
+
 //    func passwordCheckAndSignUpAsync(email: String, password: String, confirmPassword: String) async throws {
 //        guard !email.isEmpty else {
 //            throw SignUpError.emailIsEmpty
@@ -668,7 +646,7 @@ extension AppViewModel {
 //            throw SignUpError.termofServiceIsNotAgree
 //        }
 //    }
-    
+
 //    func userInfoFormatterCheckerAsync(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String, uType: SignUpType) throws {
 //        if uType == .isNormalCustomer {
 //            guard id.count == 10 else {
@@ -707,26 +685,27 @@ extension Date {
 extension View {
     @ViewBuilder func applyTextColor(_ color: Color) -> some View {
         if UITraitCollection.current.userInterfaceStyle == .light {
-            self.colorInvert().colorMultiply(color)
+            colorInvert().colorMultiply(color)
         } else {
-            self.colorMultiply(color)
+            colorMultiply(color)
         }
     }
 }
 
 extension Date: RawRepresentable {
     private static let formmater = ISO8601DateFormatter()
-    
+
     public var rawValue: String {
         Date.formmater.string(from: self)
     }
-    
+
     public init?(rawValue: String) {
         self = Date.formmater.date(from: rawValue) ?? Date()
     }
 }
 
-//MARK: - Contract Form
+// MARK: - Contract Form
+
 struct TitleView: View {
     var titleName: String
     var body: some View {

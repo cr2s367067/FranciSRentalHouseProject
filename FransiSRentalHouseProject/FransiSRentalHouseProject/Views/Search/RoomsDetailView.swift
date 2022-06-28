@@ -5,13 +5,12 @@
 //  Created by Kuan on 2022/4/5.
 //
 
-import SwiftUI
-import SDWebImageSwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import SDWebImageSwiftUI
+import SwiftUI
 
 struct RoomsDetailView: View {
-    
     @EnvironmentObject var roomsDetailViewModel: RoomsDetailViewModel
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
@@ -21,12 +20,12 @@ struct RoomsDetailView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var roomsData: RoomDM
-    
+
     var body: some View {
         VStack {
             Spacer()
@@ -116,14 +115,13 @@ struct RoomsDetailView: View {
                             NavigationLink {
                                 RenterContractView(roomsData: roomsData)
                             } label: {
-                                 Text("Check Contract")
+                                Text("Check Contract")
                                     .foregroundColor(.white)
                                     .frame(width: uiScreenWidth / 4 + 50, height: 35)
                                     .background(Color("buttonBlue"))
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                     .padding()
                             }
-                            
                         }
                         .sheet(isPresented: $roomsDetailViewModel.showUserInfoCover) {
                             VStack {
@@ -143,7 +141,6 @@ struct RoomsDetailView: View {
                         .fill(Color("background2"))
                         .cornerRadius(30, corners: [.topLeft, .topRight])
                 }
-                
             }
             .frame(height: uiScreenHeight / 2 - 60, alignment: .bottom)
             .background {
@@ -194,7 +191,6 @@ struct RoomsDetailView: View {
     }
 }
 
-
 struct RoomsInfoUnit: View {
     var title: String
     var body: some View {
@@ -209,31 +205,25 @@ class RoomsDetailViewModel: ObservableObject {
     @Published var showMap = true
     @Published var presentingImageURL = ""
     @Published var createNewChateRoom = false
-    
+
     @Published var providerUID = ""
     @Published var providerDisplayName = ""
     @Published var providerChatDodID = ""
-    
+
     @Published var zoomImageIn = false
-    
+
     @Published var showUserInfoCover = false
     @Published var showAlert = false
-    
+
 //    func userInfoChecker(id: String) throws {
 //        guard !id.isEmpty else {
 //            showUserInfoCover = true
 //            throw StarUpError.userInfoError
 //        }
 //    }
-    
-    
-    
-    
 }
 
-
 extension RoomsDetailView {
-    
     @ViewBuilder
     func isRegist(uType: SignUpType) -> some View {
         if uType == .isNormalCustomer {
@@ -258,7 +248,6 @@ extension RoomsDetailView {
                             let message = "Hi, please fill up necessary user info first thanks."
                             Text(message)
                         }
-
                 }
             } else {
                 NavigationLink {
@@ -271,20 +260,20 @@ extension RoomsDetailView {
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                         .padding()
                 }
-                .simultaneousGesture(TapGesture().onEnded({ _ in
-                        roomsDetailViewModel.createNewChateRoom = true
-                        debugPrint(roomsDetailViewModel.createNewChateRoom)
+                .simultaneousGesture(TapGesture().onEnded { _ in
+                    roomsDetailViewModel.createNewChateRoom = true
+                    debugPrint(roomsDetailViewModel.createNewChateRoom)
                     roomsDetailViewModel.providerUID = roomsData.providerUID
-                        debugPrint("providerBy: \(roomsDetailViewModel.providerUID)")
+                    debugPrint("providerBy: \(roomsDetailViewModel.providerUID)")
                     roomsDetailViewModel.providerDisplayName = firestoreToFetchUserinfo.providerInfo.companyName
-                        debugPrint("providerDN: \(roomsDetailViewModel.providerDisplayName)")
+                    debugPrint("providerDN: \(roomsDetailViewModel.providerDisplayName)")
                     roomsDetailViewModel.providerChatDodID = firestoreToFetchUserinfo.providerStoreConfig.storeChatDocID
-                        debugPrint("providerChatID: \(roomsDetailViewModel.providerChatDodID)")
-                }))
+                    debugPrint("providerChatID: \(roomsDetailViewModel.providerChatDodID)")
+                })
             }
         }
     }
-    
+
     @ViewBuilder
     func mapSwitch(showMap: Bool, address: String) -> some View {
         if showMap {
@@ -309,7 +298,7 @@ extension RoomsDetailView {
             }
         }
     }
-    
+
     @ViewBuilder
     func roomImagesPresenter() -> some View {
         ScrollView(.horizontal) {
@@ -330,7 +319,7 @@ extension RoomsDetailView {
             }
         }
     }
-    
+
     @ViewBuilder
     func roomImagesPresenterWithPlaceHolder() -> some View {
         if firestoreToFetchRoomsData.fetchRoomImages.isEmpty {
@@ -344,11 +333,11 @@ extension RoomsDetailView {
             roomImagesPresenter()
         }
     }
-    
+
     func getAddress() -> String {
         return address(input: roomsData)
     }
-    
+
     func address(input: RoomDM) -> String {
         let city = input.city
         let town = input.town
@@ -356,7 +345,6 @@ extension RoomsDetailView {
         return city + town + roomAddress
     }
 }
-
 
 struct ShowImageSets: View {
     let uiScreenWidth = UIScreen.main.bounds.width

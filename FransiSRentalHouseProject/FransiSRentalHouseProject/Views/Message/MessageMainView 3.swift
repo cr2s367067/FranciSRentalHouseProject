@@ -5,11 +5,10 @@
 //  Created by Kuan on 2022/3/24.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MessageMainView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -17,7 +16,7 @@ struct MessageMainView: View {
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var roomsDetailViewModel: RoomsDetailViewModel
-    
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -87,10 +86,9 @@ struct MessageMainView_Previews: PreviewProvider {
 }
 
 struct MessageUserSession: View {
-    
     let userName: String
     let profileImage: String
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     var body: some View {
@@ -124,9 +122,7 @@ struct MessageUserSession: View {
     }
 }
 
-
 extension MessageMainView {
-    
     func determinProviderCreated(listUser: [ContactUserDataModel], providerChatID: String, createRoom: Bool) async throws {
         print("Call this function 1")
         print("array contain: \(listUser)")
@@ -140,7 +136,7 @@ extension MessageMainView {
                 }
             }
         }
-    
+
         listUser.forEach { person in
             if person.id != providerChatID {
                 print("person ID \(person.id ?? "")")
@@ -156,43 +152,44 @@ extension MessageMainView {
             }
         }
     }
-    
+
     func initChatRoom(providerUID: String, providerName: String, providerChatDocID: String, profileImage: String) async throws {
         let chatRoomUID = UUID().uuidString
         _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
         try await firestoreForTextingMessage.createChatRoom(contact1docID: firestoreForTextingMessage.senderUIDPath.chatDocId, contact2docID: providerChatDocID, chatRoomUID: chatRoomUID)
-        
+
         if firestoreToFetchUserinfo.getUserType(input: firestoreToFetchUserinfo.fetchedUserData) == "Renter" {
             try await fromSide(chatRoomUID: chatRoomUID, providerUID: providerUID, providerName: providerName, providerChatDocID: providerChatDocID, profileImage: profileImage)
             try await toSide(chatRoomUID: chatRoomUID, providerUID: providerUID, providerName: providerName, providerChatDocID: providerChatDocID, profileImage: profileImage)
         }
     }
-    
-    
-    //MARK: Store same info in both side
+
+    // MARK: Store same info in both side
+
     private func fromSide(chatRoomUID: String, providerUID: String, providerName: String, providerChatDocID: String, profileImage: String) async throws {
-        
-        //MARK: user side
+        // MARK: user side
+
         try await firestoreForTextingMessage.storeSenderUserInfo(uidPath: firebaseAuth.getUID(), userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, displayName: firestoreToFetchUserinfo.fetchedUserData.displayName, displayProfileImage: profileImage)
-        
-        //MARK: User contacting side
+
+        // MARK: User contacting side
+
         try await firestoreForTextingMessage.storeContactUserInfo(contactPersonDocID: providerChatDocID, contactPersonUidPath: providerUID, senderUserDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactWithdisplayName: providerName, contactPersondisplayProfileImage: firestoreForTextingMessage.getProviderProfileImage(provideBy: providerUID), chatRoomUID: chatRoomUID)
     }
-    
+
     private func toSide(chatRoomUID: String, providerUID: String, providerName: String, providerChatDocID: String, profileImage: String) async throws {
-        
-        //MARK: Contact side
+        // MARK: Contact side
+
         try await firestoreForTextingMessage.storeSenderUserInfo(uidPath: providerUID, userDocID: providerChatDocID, displayName: providerName, displayProfileImage: firestoreForTextingMessage.getProviderProfileImage(provideBy: providerUID))
-        
-        //MARK: Contacter contacting side
-        try await firestoreForTextingMessage.storeContactUserInfo(contactPersonDocID:  firestoreForTextingMessage.senderUIDPath.chatDocId,
+
+        // MARK: Contacter contacting side
+
+        try await firestoreForTextingMessage.storeContactUserInfo(contactPersonDocID: firestoreForTextingMessage.senderUIDPath.chatDocId,
                                                                   contactPersonUidPath: firebaseAuth.getUID(),
                                                                   senderUserDocID: providerChatDocID,
                                                                   contactWithdisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName,
                                                                   contactPersondisplayProfileImage: profileImage, chatRoomUID: chatRoomUID)
     }
-    
-    
+
     func createNewChateRoom(newChatRoom: Bool) async throws {
         if newChatRoom == true {
             Task {
@@ -207,4 +204,3 @@ extension MessageMainView {
         }
     }
 }
-

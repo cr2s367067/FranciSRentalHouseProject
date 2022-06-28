@@ -5,26 +5,25 @@
 //  Created by Kuan on 2022/3/31.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct FocusProductsView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
+
     var productUIDSet: [String] {
-        return firestoreForProducts.markedProducts.map({$0.productUID})
+        return firestoreForProducts.markedProducts.map { $0.productUID }
     }
-    
+
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .edgesIgnoringSafeArea([.top, .bottom])
-            
+
             VStack {
                 ifEmptyArray()
             }
@@ -35,19 +34,17 @@ struct FocusProductsView: View {
                     try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
                     guard !firestoreForProducts.markedProducts.isEmpty else { return }
                     try await firestoreForProducts.getMarkedProductFromPublish(marked: productUIDSet)
-                } catch {
-                    
-                }
+                } catch {}
             }
         }
     }
 }
 
-//struct FocusProductsView_Previews: PreviewProvider {
+// struct FocusProductsView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        FocusProductsView()
 //    }
-//}
+// }
 
 extension FocusProductsView {
     @ViewBuilder
@@ -71,16 +68,14 @@ extension FocusProductsView {
     }
 }
 
-
 struct FocusProductsUnitView: View {
-    
     @Environment(\.colorScheme) var colorScheme
-        
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var markedProduct: ProductDM
-    
+
     var body: some View {
         VStack(spacing: 10) {
             HStack(alignment: .center) {

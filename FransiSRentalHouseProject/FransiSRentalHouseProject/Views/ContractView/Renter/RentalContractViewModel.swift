@@ -8,6 +8,5 @@
 import Foundation
 
 class RenterContractEditViewModel: ObservableObject {
-    
     @Published var contractDataModel: HouseContract = .empty
 }

@@ -5,18 +5,17 @@
 //  Created by Kuan on 2022/4/15.
 //
 
-import Foundation
+import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import Firebase
+import Foundation
 import UIKit
 
 class StorageForMessageImage: ObservableObject {
-    
     let db = Firestore.firestore()
-    
+
     let messageImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "messageImage")
-    
+
     func sendingImage(images: [UIImage], chatRoomUID: String, senderDocID: String, sendingTimestamp: Date = Date()) async throws {
         guard !images.isEmpty else { return }
         for image in images {
@@ -27,16 +26,14 @@ class StorageForMessageImage: ObservableObject {
             let url = try await messageImageRef.downloadURL().absoluteString
             let messageContainRef = db.collection("ChatCenter").document(chatRoomUID).collection("MessageContain")
             _ = try await messageContainRef.addDocument(data: [
-                "sendingImage" : url,
-                "senderDocID" : senderDocID,
-                "text" : "",
-                "sendingTimestamp" : sendingTimestamp
+                "sendingImage": url,
+                "senderDocID": senderDocID,
+                "text": "",
+                "sendingTimestamp": sendingTimestamp,
             ])
         }
     }
-    
 }
-
 
 /*
  func uploadImageSet(uidPath: String, images: [UIImage], roomID: String, docID: String) async throws {
@@ -54,4 +51,4 @@ class StorageForMessageImage: ObservableObject {
          ])
      }
  }
-*/
+ */

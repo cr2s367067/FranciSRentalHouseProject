@@ -26,29 +26,26 @@ import UIKit
 
 @available(iOSApplicationExtension, unavailable)
 @objc open class IQBarButtonItem: UIBarButtonItem {
-
     private static var _classInitialize: Void = classInitialize()
 
-    @objc public override init() {
+    @objc override public init() {
         _ = IQBarButtonItem._classInitialize
-          super.init()
-      }
+        super.init()
+    }
 
     @objc public required init?(coder aDecoder: NSCoder) {
         _ = IQBarButtonItem._classInitialize
-           super.init(coder: aDecoder)
-       }
+        super.init(coder: aDecoder)
+    }
 
     private class func classInitialize() {
-
-        let  appearanceProxy = self.appearance()
+        let appearanceProxy = appearance()
 
         let states: [UIControl.State]
 
         states = [.normal, .highlighted, .disabled, .selected, .application, .reserved]
 
         for state in states {
-
             appearanceProxy.setBackgroundImage(nil, for: state, barMetrics: .default)
             appearanceProxy.setBackgroundImage(nil, for: state, style: .done, barMetrics: .default)
             appearanceProxy.setBackgroundImage(nil, for: state, style: .plain, barMetrics: .default)
@@ -62,7 +59,6 @@ import UIKit
 
     @objc override open var tintColor: UIColor? {
         didSet {
-
             var textAttributes = [NSAttributedString.Key: Any]()
             textAttributes[.foregroundColor] = tintColor
 
@@ -83,7 +79,7 @@ import UIKit
 
     /**
      Additional target & action to do get callback action. Note that setting custom target & selector doesn't affect native functionality, this is just an additional target to get a callback.
-     
+
      @param target Target object.
      @param action Target Selector.
      */

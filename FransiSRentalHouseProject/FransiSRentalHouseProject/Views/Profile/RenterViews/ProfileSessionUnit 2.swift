@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ProfileSessionUnit: View {
-    
     var mainTainTask: MaintainTaskHolder
-    
+
     var body: some View {
         ZStack {
             Rectangle()

@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct TermOfServiceForRentalManager: View {
-    
     @Environment(\.colorScheme) var colorScheme
-    
+
     var body: some View {
         ZStack {
             Group {
@@ -37,7 +36,7 @@ struct TermOfServiceForRentalManager: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第一條 定義")
@@ -59,7 +58,7 @@ struct TermOfServiceForRentalManager: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第二條 使用權授權/所有權")
                             VStack(spacing: 6) {
@@ -73,7 +72,7 @@ struct TermOfServiceForRentalManager: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第三條 複製及使用條款")
@@ -89,7 +88,7 @@ struct TermOfServiceForRentalManager: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第四條 技術支援與維護")
                             VStack(spacing: 6) {
@@ -102,7 +101,7 @@ struct TermOfServiceForRentalManager: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第五條 補償及損害限制")
                             VStack(spacing: 6) {
@@ -116,7 +115,7 @@ struct TermOfServiceForRentalManager: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                      
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第六條 智慧財產權賠償")
                             VStack(spacing: 6) {
@@ -133,7 +132,7 @@ struct TermOfServiceForRentalManager: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第七條 終止")
                             VStack(spacing: 6) {
@@ -146,9 +145,8 @@ struct TermOfServiceForRentalManager: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
-                        
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第八條 隱私與個人或系統資訊的收集")
                             VStack(spacing: 6) {
@@ -164,7 +162,7 @@ struct TermOfServiceForRentalManager: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             VStack(spacing: 6) {
                                 Group {
@@ -175,7 +173,7 @@ struct TermOfServiceForRentalManager: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第十條 其他")
                             VStack(spacing: 6) {
@@ -191,7 +189,7 @@ struct TermOfServiceForRentalManager: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
 //                        HStack(alignment: .center, spacing: 5) {
 //                            Button {
 //                                isAgree.toggle()

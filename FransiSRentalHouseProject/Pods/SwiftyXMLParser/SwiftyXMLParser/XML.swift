@@ -33,8 +33,8 @@ infix operator ?= // Failable Assignment
 
 /**
  assign value if rhs is not optonal. When rhs is optional, nothing to do.
-*/
-public func ?=<T>(lhs: inout T, rhs: T?) {
+ */
+public func ?= <T>(lhs: inout T, rhs: T?) {
     if let unwrappedRhs = rhs {
         lhs = unwrappedRhs
     }
@@ -44,19 +44,18 @@ infix operator ?<< // Failable Push
 
 /**
  push value to array if rhs is not optonal. When rhs is optional, nothing to do.
-*/
+ */
 public func ?<< <T>(lhs: inout [T], rhs: T?) {
     if let unwrappedRhs = rhs {
         lhs.append(unwrappedRhs)
     }
 }
 
-
 /**
- Director class to parse and access XML document. 
- 
+ Director class to parse and access XML document.
+
  You can parse XML docuemnts with parse() method and get the accessor.
- 
+
  ### Example
  ```
     let string = "<ResultSet><Result><Hit index="1"><Name>ほげ</Name></Hit><Hit index="2"><Name>ふが</Name></Hit></Result></ResultSet>"
@@ -84,12 +83,11 @@ public func ?<< <T>(lhs: inout [T], rhs: T?) {
         println("success parse")
     }
  ```
-*/
+ */
 open class XML {
-
     /**
      Interface to parse Data
-     
+
      - parameter data:Data XML document
      - parameter manner:CharacterSet If you want to trim text (default off)
      - parameter ignoreNamespaces:Bool If set to true all accessors will ignore the first part of an element name up to a semicolon (default false)
@@ -98,10 +96,10 @@ open class XML {
     open class func parse(_ data: Data, trimming manner: CharacterSet? = nil, ignoreNamespaces: Bool = false) -> Accessor {
         return Parser(trimming: manner, ignoreNamespaces: ignoreNamespaces).parse(data)
     }
-    
+
     /**
      Interface to parse String
-     
+
      - parameter str:String XML document
      - parameter manner:CharacterSet If you want to trim text (default off)
      - parameter ignoreNamespaces:Bool If set to true all accessors will ignore the first part of an element name up to a semicolon (default false)
@@ -111,7 +109,7 @@ open class XML {
         guard let data = str.data(using: String.Encoding.utf8) else {
             throw XMLError.failToEncodeString
         }
-        
+
         return Parser(trimming: manner, ignoreNamespaces: ignoreNamespaces).parse(data)
     }
 

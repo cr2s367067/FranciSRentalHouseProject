@@ -5,25 +5,24 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct RoomsGridView: View {
-    
     let storageForRoomsImage = StorageForRoomsImage()
     let firebaseAuth = FirebaseAuth()
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var roomsData: RoomDM
-    
+
     func cityAndTown() -> String {
         let city = roomsData.city
         let town = roomsData.town
         return city + town
     }
-    
+
     var body: some View {
         VStack {
             Spacer()

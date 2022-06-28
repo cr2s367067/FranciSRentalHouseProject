@@ -5,42 +5,42 @@
 ////  Created by JerryHuang on 2/23/22.
 ////
 //
-//import SwiftUI
-//import SDWebImageSwiftUI
+// import SwiftUI
+// import SDWebImageSwiftUI
 //
-//struct RoomStatusView: View {
+// struct RoomStatusView: View {
 //    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
 //    @EnvironmentObject var localData: LocalData
 //    @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
 //    @EnvironmentObject var firebaseAuth: FirebaseAuth
 //    @EnvironmentObject var errorHandler: ErrorHandler
 //    @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
-//    
+//
 //    var roomImageURL: String {
 //        firestoreToFetchUserinfo.rentingRoomInfo.roomImageCover ?? ""
 //    }
-//    
+//
 //    var rentalPrice: String {
 //        firestoreToFetchUserinfo.rentingRoomInfo.roomPrice ?? ""
 //    }
-//    
+//
 //    var roomAddress: String {
 //        firestoreToFetchUserinfo.rentingRoomInfo.roomAddress ?? ""
 //    }
-//    
+//
 //    var roomCityAndTown: String {
 //        let city = firestoreToFetchUserinfo.rentingRoomInfo.roomCity ?? ""
 //        let town = firestoreToFetchUserinfo.rentingRoomInfo.roomTown ?? ""
 //        return city + town
 //    }
-//    
+//
 //    var roomZipCode: String {
 //        firestoreToFetchUserinfo.rentingRoomInfo.roomZipCode ?? ""
 //    }
-//    
+//
 //    let uiScreenWidth = UIScreen.main.bounds.width
 //    let uiScreenHeigth = UIScreen.main.bounds.height
-//    
+//
 //    var body: some View {
 //        ZStack {
 //            Rectangle()
@@ -84,9 +84,9 @@
 //                            Text(firestoreToFetchUserinfo.rentedContract.rentalEndDate, format: Date.FormatStyle().year().month().day())
 //                                .foregroundColor(.white)
 //                                .padding(.leading, 1)
-//                            
+//
 //                        }
-//                        
+//
 //                        HStack {
 //                            Text("Pay Rental Bill: ")
 //                                .foregroundColor(.white)
@@ -101,7 +101,7 @@
 //                                    .cornerRadius(10)
 //                            }
 //                        }
-//                        
+//
 //                        HStack(spacing: 1) {
 //                            Text("Renew: ")
 //                                .foregroundColor(.white)
@@ -147,20 +147,20 @@
 //            } catch {
 //                self.errorHandler.handle(error: error)
 //            }
-//            
+//
 //        }
 //        .navigationTitle("")
 //        .navigationBarTitleDisplayMode(.inline)
 //    }
-//}
+// }
 //
-//struct RoomStatusView_Previews: PreviewProvider {
+// struct RoomStatusView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        RoomStatusView()
 //    }
-//}
+// }
 //
-//extension RoomStatusView {
+// extension RoomStatusView {
 //    @ViewBuilder
 //    func renewButton() -> some View {
 //        if Date() == firestoreToFetchUserinfo.rentedContract.rentalEndDate {
@@ -193,9 +193,9 @@
 //            })
 //        }
 //    }
-//    
+//
 //    @ViewBuilder
 //    func rentalBillSetting() -> some View {
-//        
+//
 //    }
-//}
+// }

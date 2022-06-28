@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct CommentAndRattingView: View {
-    
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
 
@@ -23,7 +22,6 @@ struct CommentAndRattingView: View {
 }
 
 extension CommentAndRattingView {
-    
     @ViewBuilder
     func ifemptyPlaceHolder() -> some View {
         if firestoreForProducts.productCommentAndRatting.isEmpty {
@@ -38,7 +36,7 @@ extension CommentAndRattingView {
             }
         }
     }
-    
+
     @ViewBuilder
     func commentRattingUnit(commentAndRatting: ProductCommentRattingDataModel) -> some View {
         VStack(alignment: .center) {
@@ -66,18 +64,17 @@ extension CommentAndRattingView {
             Spacer()
         }
         .padding()
-        .frame(width: uiScreenWidth - 30 , height: uiScreenHeight / 4 - 50)
+        .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 4 - 50)
         .background(alignment: .center) {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(lineWidth: 3)
                 .fill(.white)
-            
         }
     }
 }
 
-//struct CommentAndRattingView_Previews: PreviewProvider {
+// struct CommentAndRattingView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        CommentAndRattingView()
 //    }
-//}
+// }

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ListDetailView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     @EnvironmentObject var errorHandler: ErrorHandler
@@ -16,11 +15,11 @@ struct ListDetailView: View {
     @EnvironmentObject var paymentMM: PaymentMethodManager
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var soldProductCollectionManager: SoldProductCollectionManager
-    
+
     @State private var productSettlementResult = 0
-    
+
     var settleData: ReceivePaymentDateModel
-    
+
     var body: some View {
         VStack {
             Form {
@@ -95,7 +94,7 @@ struct ListDetailView: View {
             UITableView.appearance().backgroundColor = .clear
             let pTypeWithDefault = ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider
             evaluateAppear(type: pTypeWithDefault)
-            
+
         })
         .onDisappear(perform: {
             UITableView.appearance().backgroundColor = .systemBackground
@@ -109,10 +108,10 @@ struct ListDetailView: View {
         }
         .task {
             do {
-                guard let id =  settleData.id else { return }
+                guard let id = settleData.id else { return }
                 let pTypeWithDefault = ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider
                 try await step2(docID: id, providerType: pTypeWithDefault)
-                
+
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -120,14 +119,13 @@ struct ListDetailView: View {
     }
 }
 
-//struct ListDetailView_Previews: PreviewProvider {
+// struct ListDetailView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ListDetailView()
 //    }
-//}
+// }
 
 extension ListDetailView {
-    
     func evaluateAppear(type: ProviderTypeStatus) {
         if type == .roomProvider {
             paymentReceiveManager.settlementResultAmount = settleData.settlementAmount
@@ -136,7 +134,7 @@ extension ListDetailView {
             productSettlementResult = settleData.settlementAmount
         }
     }
-    
+
     func computeSettleAmount(input: [ProductSoldCollectionDataModel]) -> Int {
         var subtotal = 0
         for input in input {
@@ -148,8 +146,7 @@ extension ListDetailView {
         print(subtotal)
         return subtotal
     }
-    
-    
+
     func ideProTypeForComputeAmount(type: ProviderTypeStatus) async throws {
         if type == .roomProvider {
             try await getResult()
@@ -158,18 +155,18 @@ extension ListDetailView {
             productSettlementResult = computeSettleAmount(input: soldProductCollectionManager.soldDataSet)
         }
     }
-    
+
     @ViewBuilder
     func identityProTypeSettlementAmount(providerType: ProviderTypeStatus) -> some View {
         if providerType == .roomProvider {
             Text("\(paymentReceiveManager.settlementResultAmount)")
         }
-        
+
         if providerType == .productProvider {
             Text("\(productSettlementResult)")
         }
     }
-    
+
     @ViewBuilder
     func identityProviderType(providerType: ProviderTypeStatus) -> some View {
         if providerType == .roomProvider {
@@ -177,14 +174,14 @@ extension ListDetailView {
                 listUnit(data: data)
             }
         }
-        
+
         if providerType == .productProvider {
             List(soldProductCollectionManager.fetchSettleData) { data in
                 productInfoListUnit(data: data)
             }
         }
     }
-    
+
     @ViewBuilder
     func productInfoListUnit(data: ProductSoldCollectionDataModel) -> some View {
         HStack(alignment: .center, spacing: 10) {
@@ -195,7 +192,7 @@ extension ListDetailView {
         }
         .padding()
     }
-    
+
     @ViewBuilder
     func listUnit(data: PaymentHistoryDataModel) -> some View {
         HStack {
@@ -204,23 +201,21 @@ extension ListDetailView {
         }
         .padding()
     }
-    
+
     @ViewBuilder
     func isSettlement(isSettle: Bool) -> some View {
         Image(systemName: isSettle ? "checkmark.circle.fill" : "checkmark.circle")
             .foregroundColor(.white)
             .font(.system(size: 20))
     }
-    
-    
-    
+
     func step2(docID: String, providerType: ProviderTypeStatus) async throws {
         Task {
             do {
                 if providerType == .roomProvider {
                     try await paymentReceiveManager.fetchMonthlyIncome(uidPath: firebaseAuth.getUID(), docID: docID)
                 }
-                
+
                 if providerType == .productProvider {
                     try await soldProductCollectionManager.fetchSettleData(providerUidPath: firebaseAuth.getUID(), docID: docID)
                 }
@@ -229,21 +224,20 @@ extension ListDetailView {
             }
         }
     }
-    
+
     func getResult() async throws {
         Task {
-            if !paymentReceiveManager.fetchResult.isEmpty{
+            if !paymentReceiveManager.fetchResult.isEmpty {
                 paymentReceiveManager.settlementResultAmount = await appendAndLoopInMonthlyData(input: paymentReceiveManager.fetchResult)
                 debugPrint(paymentReceiveManager.settlementResultAmount)
             }
         }
     }
-    
+
     private func appendAndLoopInMonthlyData(input: [PaymentHistoryDataModel]) async -> Int {
         paymentReceiveManager.computeMonthlySettlement(input: input)
     }
-    
-    
+
     func closeAccount(docID: String, providerType: ProviderTypeStatus) async throws {
         Task(priority: .low, operation: {
             var holdAmount = 0
@@ -259,5 +253,4 @@ extension ListDetailView {
             try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
         })
     }
-    
 }

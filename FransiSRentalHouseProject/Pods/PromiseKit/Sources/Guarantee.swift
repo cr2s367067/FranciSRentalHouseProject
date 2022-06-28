@@ -1,10 +1,10 @@
-import class Foundation.Thread
 import Dispatch
+import class Foundation.Thread
 
 /**
  A `Guarantee` is a functional abstraction around an asynchronous operation that cannot error.
  - See: `Thenable`
-*/
+ */
 public final class Guarantee<T>: Thenable {
     let box: PromiseKit.Box<T>
 
@@ -18,28 +18,28 @@ public final class Guarantee<T>: Thenable {
     }
 
     /// Returns a pending `Guarantee` that can be resolved with the provided closure’s parameter.
-    public init(resolver body: (@escaping(T) -> Void) -> Void) {
+    public init(resolver body: (@escaping (T) -> Void) -> Void) {
         box = Box()
         body(box.seal)
     }
 
     /// - See: `Thenable.pipe`
-    public func pipe(to: @escaping(Result<T>) -> Void) {
-        pipe{ to(.fulfilled($0)) }
+    public func pipe(to: @escaping (Result<T>) -> Void) {
+        pipe { to(.fulfilled($0)) }
     }
 
-    func pipe(to: @escaping(T) -> Void) {
+    func pipe(to: @escaping (T) -> Void) {
         switch box.inspect() {
         case .pending:
             box.inspect {
                 switch $0 {
-                case .pending(let handlers):
+                case let .pending(handlers):
                     handlers.append(to)
-                case .resolved(let value):
+                case let .resolved(value):
                     to(value)
                 }
             }
-        case .resolved(let value):
+        case let .resolved(value):
             to(value)
         }
     }
@@ -49,12 +49,12 @@ public final class Guarantee<T>: Thenable {
         switch box.inspect() {
         case .pending:
             return nil
-        case .resolved(let value):
+        case let .resolved(value):
             return .fulfilled(value)
         }
     }
 
-    final private class Box<T>: EmptyBox<T> {
+    private final class Box<T>: EmptyBox<T> {
         deinit {
             switch inspect() {
             case .pending:
@@ -77,7 +77,7 @@ public final class Guarantee<T>: Thenable {
 
 public extension Guarantee {
     @discardableResult
-    func done(on: DispatchQueue? = conf.Q.return, flags: DispatchWorkItemFlags? = nil, _ body: @escaping(T) -> Void) -> Guarantee<Void> {
+    func done(on: DispatchQueue? = conf.Q.return, flags: DispatchWorkItemFlags? = nil, _ body: @escaping (T) -> Void) -> Guarantee<Void> {
         let rg = Guarantee<Void>(.pending)
         pipe { (value: T) in
             on.async(flags: flags) {
@@ -87,7 +87,7 @@ public extension Guarantee {
         }
         return rg
     }
-    
+
     func get(on: DispatchQueue? = conf.Q.return, flags: DispatchWorkItemFlags? = nil, _ body: @escaping (T) -> Void) -> Guarantee<T> {
         return map(on: on, flags: flags) {
             body($0)
@@ -95,7 +95,7 @@ public extension Guarantee {
         }
     }
 
-    func map<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ body: @escaping(T) -> U) -> Guarantee<U> {
+    func map<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ body: @escaping (T) -> U) -> Guarantee<U> {
         let rg = Guarantee<U>(.pending)
         pipe { value in
             on.async(flags: flags) {
@@ -106,19 +106,19 @@ public extension Guarantee {
     }
 
     #if swift(>=4) && !swift(>=5.2)
-    func map<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ keyPath: KeyPath<T, U>) -> Guarantee<U> {
-        let rg = Guarantee<U>(.pending)
-        pipe { value in
-            on.async(flags: flags) {
-                rg.box.seal(value[keyPath: keyPath])
+        func map<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ keyPath: KeyPath<T, U>) -> Guarantee<U> {
+            let rg = Guarantee<U>(.pending)
+            pipe { value in
+                on.async(flags: flags) {
+                    rg.box.seal(value[keyPath: keyPath])
+                }
             }
+            return rg
         }
-        return rg
-    }
     #endif
 
     @discardableResult
-    func then<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ body: @escaping(T) -> Guarantee<U>) -> Guarantee<U> {
+    func then<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ body: @escaping (T) -> Guarantee<U>) -> Guarantee<U> {
         let rg = Guarantee<U>(.pending)
         pipe { value in
             on.async(flags: flags) {
@@ -131,13 +131,12 @@ public extension Guarantee {
     func asVoid() -> Guarantee<Void> {
         return map(on: nil) { _ in }
     }
-    
+
     /**
      Blocks this thread, so you know, don’t call this on a serial thread that
      any part of your chain may use. Like the main thread for example.
      */
     func wait() -> T {
-
         if Thread.isMainThread {
             conf.logHandler(.waitOnMainThread)
         }
@@ -150,7 +149,7 @@ public extension Guarantee {
             pipe { (foo: T) in result = foo; group.leave() }
             group.wait()
         }
-        
+
         return result!
     }
 }
@@ -165,23 +164,23 @@ public extension Guarantee where T: Sequence {
                 // $0 => [2,4,6]
             }
      */
-    func mapValues<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping(T.Iterator.Element) -> U) -> Guarantee<[U]> {
+    func mapValues<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping (T.Iterator.Element) -> U) -> Guarantee<[U]> {
         return map(on: on, flags: flags) { $0.map(transform) }
     }
 
     #if swift(>=4) && !swift(>=5.2)
-    /**
-     `Guarantee<[T]>` => `KeyPath<T, U>` => `Guarantee<[U]>`
+        /**
+         `Guarantee<[T]>` => `KeyPath<T, U>` => `Guarantee<[U]>`
 
-         Guarantee.value([Person(name: "Max"), Person(name: "Roman"), Person(name: "John")])
-            .mapValues(\.name)
-            .done {
-                // $0 => ["Max", "Roman", "John"]
-            }
-     */
-    func mapValues<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ keyPath: KeyPath<T.Iterator.Element, U>) -> Guarantee<[U]> {
-        return map(on: on, flags: flags) { $0.map { $0[keyPath: keyPath] } }
-    }
+             Guarantee.value([Person(name: "Max"), Person(name: "Roman"), Person(name: "John")])
+                .mapValues(\.name)
+                .done {
+                    // $0 => ["Max", "Roman", "John"]
+                }
+         */
+        func mapValues<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ keyPath: KeyPath<T.Iterator.Element, U>) -> Guarantee<[U]> {
+            return map(on: on, flags: flags) { $0.map { $0[keyPath: keyPath] } }
+        }
     #endif
 
     /**
@@ -193,7 +192,7 @@ public extension Guarantee where T: Sequence {
                 // $0 => [1,1,2,2,3,3]
             }
      */
-    func flatMapValues<U: Sequence>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping(T.Iterator.Element) -> U) -> Guarantee<[U.Iterator.Element]> {
+    func flatMapValues<U: Sequence>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping (T.Iterator.Element) -> U) -> Guarantee<[U.Iterator.Element]> {
         return map(on: on, flags: flags) { (foo: T) in
             foo.flatMap { transform($0) }
         }
@@ -208,35 +207,35 @@ public extension Guarantee where T: Sequence {
                 // $0 => [1,2,3]
             }
      */
-    func compactMapValues<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping(T.Iterator.Element) -> U?) -> Guarantee<[U]> {
+    func compactMapValues<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping (T.Iterator.Element) -> U?) -> Guarantee<[U]> {
         return map(on: on, flags: flags) { foo -> [U] in
             #if !swift(>=3.3) || (swift(>=4) && !swift(>=4.1))
-            return foo.flatMap(transform)
+                return foo.flatMap(transform)
             #else
-            return foo.compactMap(transform)
+                return foo.compactMap(transform)
             #endif
         }
     }
 
     #if swift(>=4) && !swift(>=5.2)
-    /**
-     `Guarantee<[T]>` => `KeyPath<T, U?>` => `Guarantee<[U]>`
+        /**
+         `Guarantee<[T]>` => `KeyPath<T, U?>` => `Guarantee<[U]>`
 
-         Guarantee.value([Person(name: "Max"), Person(name: "Roman", age: 26), Person(name: "John", age: 23)])
-            .compactMapValues(\.age)
-            .done {
-                // $0 => [26, 23]
+             Guarantee.value([Person(name: "Max"), Person(name: "Roman", age: 26), Person(name: "John", age: 23)])
+                .compactMapValues(\.age)
+                .done {
+                    // $0 => [26, 23]
+                }
+         */
+        func compactMapValues<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ keyPath: KeyPath<T.Iterator.Element, U?>) -> Guarantee<[U]> {
+            return map(on: on, flags: flags) { foo -> [U] in
+                #if !swift(>=4.1)
+                    return foo.flatMap { $0[keyPath: keyPath] }
+                #else
+                    return foo.compactMap { $0[keyPath: keyPath] }
+                #endif
             }
-     */
-    func compactMapValues<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ keyPath: KeyPath<T.Iterator.Element, U?>) -> Guarantee<[U]> {
-        return map(on: on, flags: flags) { foo -> [U] in
-            #if !swift(>=4.1)
-            return foo.flatMap { $0[keyPath: keyPath] }
-            #else
-            return foo.compactMap { $0[keyPath: keyPath] }
-            #endif
         }
-    }
     #endif
 
     /**
@@ -248,7 +247,7 @@ public extension Guarantee where T: Sequence {
                 // $0 => [2,4,6]
             }
      */
-    func thenMap<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping(T.Iterator.Element) -> Guarantee<U>) -> Guarantee<[U]> {
+    func thenMap<U>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping (T.Iterator.Element) -> Guarantee<U>) -> Guarantee<[U]> {
         return then(on: on, flags: flags) {
             when(fulfilled: $0.map(transform))
         }.recover {
@@ -266,7 +265,7 @@ public extension Guarantee where T: Sequence {
                 // $0 => [1,1,2,2,3,3]
             }
      */
-    func thenFlatMap<U: Thenable>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping(T.Iterator.Element) -> U) -> Guarantee<[U.T.Iterator.Element]> where U.T: Sequence {
+    func thenFlatMap<U: Thenable>(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ transform: @escaping (T.Iterator.Element) -> U) -> Guarantee<[U.T.Iterator.Element]> where U.T: Sequence {
         return then(on: on, flags: flags) {
             when(fulfilled: $0.map(transform))
         }.map(on: nil) {
@@ -286,27 +285,27 @@ public extension Guarantee where T: Sequence {
                 // $0 => [2,3]
             }
      */
-    func filterValues(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ isIncluded: @escaping(T.Iterator.Element) -> Bool) -> Guarantee<[T.Iterator.Element]> {
+    func filterValues(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ isIncluded: @escaping (T.Iterator.Element) -> Bool) -> Guarantee<[T.Iterator.Element]> {
         return map(on: on, flags: flags) {
             $0.filter(isIncluded)
         }
     }
 
     #if swift(>=4) && !swift(>=5.2)
-    /**
-     `Guarantee<[T]>` => `KeyPath<T, Bool>` => `Guarantee<[T]>`
+        /**
+         `Guarantee<[T]>` => `KeyPath<T, Bool>` => `Guarantee<[T]>`
 
-         Guarantee.value([Person(name: "Max"), Person(name: "Roman", age: 26, isStudent: false), Person(name: "John", age: 23, isStudent: true)])
-            .filterValues(\.isStudent)
-            .done {
-                // $0 => [Person(name: "John", age: 23, isStudent: true)]
+             Guarantee.value([Person(name: "Max"), Person(name: "Roman", age: 26, isStudent: false), Person(name: "John", age: 23, isStudent: true)])
+                .filterValues(\.isStudent)
+                .done {
+                    // $0 => [Person(name: "John", age: 23, isStudent: true)]
+                }
+         */
+        func filterValues(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ keyPath: KeyPath<T.Iterator.Element, Bool>) -> Guarantee<[T.Iterator.Element]> {
+            return map(on: on, flags: flags) {
+                $0.filter { $0[keyPath: keyPath] }
             }
-     */
-    func filterValues(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ keyPath: KeyPath<T.Iterator.Element, Bool>) -> Guarantee<[T.Iterator.Element]> {
-        return map(on: on, flags: flags) {
-            $0.filter { $0[keyPath: keyPath] }
         }
-    }
     #endif
 
     /**
@@ -318,7 +317,7 @@ public extension Guarantee where T: Sequence {
             // $0 => [5,4,3,2,1]
         }
      */
-    func sortedValues(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ areInIncreasingOrder: @escaping(T.Iterator.Element, T.Iterator.Element) -> Bool) -> Guarantee<[T.Iterator.Element]> {
+    func sortedValues(on: DispatchQueue? = conf.Q.map, flags: DispatchWorkItemFlags? = nil, _ areInIncreasingOrder: @escaping (T.Iterator.Element, T.Iterator.Element) -> Bool) -> Guarantee<[T.Iterator.Element]> {
         return map(on: on, flags: flags) {
             $0.sorted(by: areInIncreasingOrder)
         }
@@ -341,17 +340,16 @@ public extension Guarantee where T: Sequence, T.Iterator.Element: Comparable {
 }
 
 #if swift(>=3.1)
-public extension Guarantee where T == Void {
-    convenience init() {
-        self.init(box: SealedBox(value: Void()))
-    }
+    public extension Guarantee where T == Void {
+        convenience init() {
+            self.init(box: SealedBox(value: ()))
+        }
 
-    static var value: Guarantee<Void> {
-        return .value(Void())
+        static var value: Guarantee<Void> {
+            return .value(())
+        }
     }
-}
 #endif
-
 
 public extension DispatchQueue {
     /**
@@ -377,14 +375,13 @@ public extension DispatchQueue {
     }
 }
 
-
 #if os(Linux)
-import func CoreFoundation._CFIsMainThread
+    import func CoreFoundation._CFIsMainThread
 
-extension Thread {
-    // `isMainThread` is not implemented yet in swift-corelibs-foundation.
-    static var isMainThread: Bool {
-        return _CFIsMainThread()
+    extension Thread {
+        // `isMainThread` is not implemented yet in swift-corelibs-foundation.
+        static var isMainThread: Bool {
+            return _CFIsMainThread()
+        }
     }
-}
 #endif

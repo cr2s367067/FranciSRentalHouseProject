@@ -9,15 +9,14 @@ import Foundation
 import SwiftUI
 
 class UserInfoVM: ObservableObject {
-    
     enum UserInfoStatus: String {
-        case id ,firstName ,lastName ,displayName ,mobileNumber ,zipCode ,country, address, town, city, gender, isMale, isFemale, dob
+        case id, firstName, lastName, displayName, mobileNumber, zipCode, country, address, town, city, gender, isMale, isFemale, dob
     }
-    
+
     @Published var isEdit = false
     @Published var isShowUserDetailView = false
     @Published var userInfo: UserDM = .empty
-    
+
 //    @AppStorage(UserInfoStatus.id.rawValue) var id = ""
 //    @AppStorage(UserInfoStatus.firstName.rawValue) var firstName = ""
 //    @AppStorage(UserInfoStatus.lastName.rawValue) var lastName = ""
@@ -32,8 +31,8 @@ class UserInfoVM: ObservableObject {
 //    @AppStorage(UserInfoStatus.zipCode.rawValue) var zipCode = ""
 //    @AppStorage(UserInfoStatus.country.rawValue) var country = "Taiwan"
 //    @AppStorage(UserInfoStatus.gender.rawValue) var gender = ""
-    
-    func userInfoFormatterCheckerAsync(id: String, firstName: String, lastName: String, gender: String, mobileNumber: String, uType: SignUpType) throws {
+
+    func userInfoFormatterCheckerAsync(id: String, firstName _: String, lastName _: String, gender: String, mobileNumber: String, uType: SignUpType) throws {
         if uType == .isNormalCustomer {
             guard id.count == 10 else {
                 throw UserInformationError.idFormateError
@@ -47,7 +46,7 @@ class UserInfoVM: ObservableObject {
             guard formatterChecker(id: id) == true else {
                 throw UserInformationError.idFormateError
             }
-            guard id.count == 10 && idChecker(id: id) == true else {
+            guard id.count == 10, idChecker(id: id) == true else {
                 throw UserInformationError.invalidID
             }
         }
@@ -60,7 +59,7 @@ class UserInfoVM: ObservableObject {
             }
         }
     }
-    
+
     func formatterChecker(id: String) -> Bool {
         var isCorrect = false
         if id[id.startIndex] == "A" || id[id.startIndex] == "B" || id[id.startIndex] == "C" || id[id.startIndex] == "D" || id[id.startIndex] == "E" || id[id.startIndex] == "F" || id[id.startIndex] == "G" || id[id.startIndex] == "H" || id[id.startIndex] == "I" || id[id.startIndex] == "J" || id[id.startIndex] == "K" || id[id.startIndex] == "L" || id[id.startIndex] == "M" || id[id.startIndex] == "N" || id[id.startIndex] == "O" || id[id.startIndex] == "P" || id[id.startIndex] == "Q" || id[id.startIndex] == "R" || id[id.startIndex] == "S" || id[id.startIndex] == "T" || id[id.startIndex] == "U" || id[id.startIndex] == "V" || id[id.startIndex] == "X" || id[id.startIndex] == "Y" {
@@ -68,7 +67,7 @@ class UserInfoVM: ObservableObject {
         }
         return isCorrect
     }
-    
+
     func idChecker(id: String) -> Bool {
         lazy var idenNum = id[id.index(id.startIndex, offsetBy: 9)]
         let fixIndex = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1]
@@ -83,7 +82,7 @@ class UserInfoVM: ObservableObject {
             return false
         }
     }
-    
+
     private func convertString(input: String) -> String {
         let tempHolder = input
         var replaceString = ""
@@ -167,6 +166,7 @@ class UserInfoVM: ObservableObject {
         }
         return replaceString
     }
+
     private func sumupCompute(adjustId: String, fixArray: [Int]) -> Int {
         var sumNum = 0
         let tempArray = zip(adjustId, fixArray).map {
@@ -177,5 +177,4 @@ class UserInfoVM: ObservableObject {
         }
         return sumNum
     }
-    
 }

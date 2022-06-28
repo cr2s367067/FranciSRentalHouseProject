@@ -5,24 +5,23 @@
 //  Created by Kuan on 2022/4/15.
 //
 
-import Foundation
+import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import Firebase
 import FirebaseStorage
+import Foundation
 import UIKit
 
 class StorageForMessageImage: ObservableObject {
-    
     @Published var isUploading = false
-    
+
     let db = Firestore.firestore()
     let fireMessage = FirestoreForTextingMessage()
-    
+
     let messageImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "messageImage")
-    
+
     @MainActor
-    func sendingImageAndMessage(images: [TextingImageDataModel], chatRoomUID: String, senderDocID: String, sendingTimestamp: Date = Date(), contactWith: String, text: String, senderProfileImage: String) async throws {
+    func sendingImageAndMessage(images: [TextingImageDataModel], chatRoomUID: String, senderDocID: String, sendingTimestamp _: Date = Date(), contactWith: String, text: String, senderProfileImage: String) async throws {
         var tempUrlHolder = [String]()
         if !images.isEmpty {
             isUploading = true
@@ -39,9 +38,7 @@ class StorageForMessageImage: ObservableObject {
         try await fireMessage.sendingMessage(text: text, sendingImage: tempUrlHolder, senderProfileImage: senderProfileImage, senderDocID: senderDocID, chatRoomUID: chatRoomUID, contactWith: contactWith)
         tempUrlHolder.removeAll()
     }
-    
 }
-
 
 /*
  func uploadImageSet(uidPath: String, images: [UIImage], roomID: String, docID: String) async throws {
@@ -59,4 +56,4 @@ class StorageForMessageImage: ObservableObject {
          ])
      }
  }
-*/
+ */

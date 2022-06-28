@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct UnregisterCoverView: View {
-    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     @Binding var isShowUserDetailView: Bool
@@ -39,7 +38,7 @@ struct UnregisterCoverView: View {
                 }
             }
             .padding()
-            .frame(width: uiScreenWidth / 2 + 30 , height: uiScreenHeight / 4, alignment: .center)
+            .frame(width: uiScreenWidth / 2 + 30, height: uiScreenHeight / 4, alignment: .center)
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.white)
@@ -53,8 +52,8 @@ struct UnregisterCoverView: View {
     }
 }
 
-//struct UnregisterCoverView_Previews: PreviewProvider {
+// struct UnregisterCoverView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        UnregisterCoverView(isShowUserDetailView: <#Binding<Bool>#>)
 //    }
-//}
+// }

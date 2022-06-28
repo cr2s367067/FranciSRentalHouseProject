@@ -20,8 +20,8 @@ enum SignUpError: LocalizedError {
     case providerTypeError
     case licenseEnterError
     case licenseNumberLengthError
-    
-    var errorDescription: String?  {
+
+    var errorDescription: String? {
         switch self {
         case .emailIsEmpty:
             return NSLocalizedString("Email address is missing", comment: "")
@@ -103,7 +103,7 @@ enum ProviderSummitError: LocalizedError {
     case productAmountError
     case productPriceError
     case productTypeError
-    
+
     var errorDescription: String? {
         switch self {
         case .holderNameError:
@@ -142,7 +142,7 @@ enum ProviderSummitError: LocalizedError {
 
 enum ContractError: LocalizedError {
     case agreemnetError
-    
+
     var errorDescription: String? {
         switch self {
         case .agreemnetError:
@@ -153,7 +153,7 @@ enum ContractError: LocalizedError {
 
 enum StorageUploadError: LocalizedError {
     case imageURLfetchingError
-    
+
     var errorDescription: String? {
         switch self {
         case .imageURLfetchingError:
@@ -164,7 +164,7 @@ enum StorageUploadError: LocalizedError {
 
 enum MaintainError: LocalizedError {
     case maintianFillingError
-    
+
     var errorDescription: String? {
         switch self {
         case .maintianFillingError:
@@ -175,7 +175,7 @@ enum MaintainError: LocalizedError {
 
 enum PurchaseError: LocalizedError {
     case blankError
-    
+
     var errorDescription: String? {
         switch self {
         case .blankError:
@@ -189,7 +189,7 @@ enum SettlementError: LocalizedError {
     case historyFetchingError
     case settlementDateError
     case closeAccountError
-    
+
     var errorDescription: String? {
         switch self {
         case .settlementResultError:
@@ -207,7 +207,7 @@ enum SettlementError: LocalizedError {
 enum BioAuthError: LocalizedError {
     case deviceError
     case evaluateError
-    
+
     var errorDescription: String? {
         switch self {
         case .deviceError:
@@ -221,7 +221,7 @@ enum BioAuthError: LocalizedError {
 enum EncryptError: LocalizedError {
     case encryptError
     case decryptError
-    
+
     var errorDescription: String? {
         switch self {
         case .encryptError:
@@ -240,10 +240,8 @@ struct ErrorAlert: Identifiable {
 
 class ErrorHandler: ObservableObject {
     @Published var currentAlert: ErrorAlert? = nil
-    
+
     func handle(error: Error) {
         currentAlert = ErrorAlert(message: error.localizedDescription)
     }
 }
-
-

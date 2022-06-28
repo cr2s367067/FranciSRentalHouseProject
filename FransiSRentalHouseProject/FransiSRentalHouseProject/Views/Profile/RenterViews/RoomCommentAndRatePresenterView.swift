@@ -5,49 +5,48 @@
 //  Created by Kuan on 2022/5/2.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct RoomCommentAndRatePresenterView: View {
-    
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+
 //    var commentAndRatting: RoomCommentRatting
     var roomsData: RoomDM
     var carTitle = RoomCommentAndRattingView.SectionTitle.self
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var address: String {
         let city = roomsData.city
         let town = roomsData.town
         let roomAddress = roomsData.address
         return city + town + roomAddress
     }
-    
+
     var roomImage: String {
         return roomsData.roomsCoverImageURL
     }
-    
+
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 viewHeader()
                 ForEach(firestoreToFetchRoomsData.roomCARDataSet) { comment in
                     comAndRatePresentUnit(displayName: comment.userDisplayName,
-                                          postDate: (comment.postTimestamp?.dateValue() ?? Date()),
+                                          postDate: comment.postTimestamp?.dateValue() ?? Date(),
                                           conRate: $roomCARVM.convenienceRate,
                                           pricRate: $roomCARVM.pricingRate,
                                           neiRate: $roomCARVM.neighborRate,
                                           comments: comment.comment)
-                    .onAppear {
+                        .onAppear {
 //                        roomCARVM.trafficRate = comment.trafficRate
-                        roomCARVM.convenienceRate = comment.convenienceRate
-                        roomCARVM.neighborRate = comment.neighborRate
-                        roomCARVM.pricingRate = comment.pricingRate
-                    }
+                            roomCARVM.convenienceRate = comment.convenienceRate
+                            roomCARVM.neighborRate = comment.neighborRate
+                            roomCARVM.pricingRate = comment.pricingRate
+                        }
                 }
             }
         }
@@ -55,14 +54,13 @@ struct RoomCommentAndRatePresenterView: View {
     }
 }
 
-//struct RoomCommentAndRatePresenterView_Previews: PreviewProvider {
+// struct RoomCommentAndRatePresenterView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        RoomCommentAndRatePresenterView()
 //    }
-//}
+// }
 
 extension RoomCommentAndRatePresenterView {
-    
     func rattingCompute(input: [RoomCommentRatting]) -> Double {
         guard input.count != 0 else { return 1 }
         var result: Double = 0
@@ -70,12 +68,12 @@ extension RoomCommentAndRatePresenterView {
             let con = input.convenienceRate
             let pri = input.pricingRate
             let nei = input.neighborRate
-            let subtotal: Double = Double(con + pri + nei) / 3
+            let subtotal = Double(con + pri + nei) / 3
             result += subtotal
         }
         return result / Double(input.count)
     }
-    
+
     @ViewBuilder
     func comAndRatePresentUnit(displayName: String, postDate: Date, conRate: Binding<Int>, pricRate: Binding<Int>, neiRate: Binding<Int>, comments: String) -> some View {
         VStack(spacing: 10) {
@@ -110,7 +108,7 @@ extension RoomCommentAndRatePresenterView {
                 .fill(colorScheme == .dark ? .gray.opacity(0.5) : .black.opacity(0.4))
         }
     }
-    
+
     @ViewBuilder
     func cusComSection(comments: String, cusHeader: RoomCommentAndRattingView.SectionTitle = .con) -> some View {
         Section {
@@ -130,7 +128,7 @@ extension RoomCommentAndRatePresenterView {
         }
         .disabled(true)
     }
-    
+
     @ViewBuilder
     func cusSectionUnit(cusPar: (() -> RoomRattingView)? = nil, cusHeader: RoomCommentAndRattingView.SectionTitle = .con) -> some View {
         Section {
@@ -148,7 +146,7 @@ extension RoomCommentAndRatePresenterView {
         }
         .disabled(true)
     }
-    
+
     @ViewBuilder
     func viewHeader() -> some View {
         VStack {
@@ -161,7 +159,6 @@ extension RoomCommentAndRatePresenterView {
                         Text("\(rattingCompute(input: firestoreToFetchRoomsData.roomCARDataSet), specifier: "%.1f")")
                             .foregroundColor(.black)
                             .font(.system(size: 15, weight: .bold))
-                        
                     }
                     .padding()
                     .frame(width: 90, height: 30, alignment: .center)
@@ -186,7 +183,6 @@ extension RoomCommentAndRatePresenterView {
                     Spacer()
                 }
             }
-            
         }
         .padding()
         .frame(width: uiScreenWidth - 30, height: uiScreenHeight / 5 + 10)
@@ -201,6 +197,3 @@ extension RoomCommentAndRatePresenterView {
         }
     }
 }
-
-
-

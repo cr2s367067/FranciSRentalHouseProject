@@ -5,20 +5,19 @@
 //  Created by Kuan on 2022/4/21.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct StoreView: View {
-    
     @EnvironmentObject var storageImage: StorageForProductImage
     @EnvironmentObject var firestoreToFetchUserinf: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var roomsDetailVM: RoomsDetailViewModel
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var imageURL: String = ""
 //    var productURL: String = ""
     var storeData: StoreDataModel
@@ -29,11 +28,12 @@ struct StoreView: View {
         }
         return temp
     }
-    
+
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
-                //MARK: Input the store data
+                // MARK: Input the store data
+
                 titleSection(storeData: storeData)
                 HStack {
                     Text("Products")
@@ -42,7 +42,8 @@ struct StoreView: View {
                     Spacer()
                 }
                 ScrollView(.horizontal, showsIndicators: false) {
-                    //MARK: Foreach the data from providers
+                    // MARK: Foreach the data from providers
+
                     HStack(spacing: 20) {
                         ForEach(firestoreForProducts.storeProductsDataSet) { data in
                             productUnitCard(productData: data)
@@ -61,7 +62,7 @@ struct StoreView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                if firestoreToFetchUserinf.fetchedUserData.userType == "Renter" {                
+                if firestoreToFetchUserinf.fetchedUserData.userType == "Renter" {
                     NavigationLink {
                         MessageMainView()
                     } label: {
@@ -70,12 +71,12 @@ struct StoreView: View {
                             .font(.system(size: 18))
                     }
                     .simultaneousGesture(
-                        TapGesture().onEnded({ _ in
+                        TapGesture().onEnded { _ in
                             roomsDetailVM.createNewChateRoom = true
                             roomsDetailVM.providerUID = storeData.provideBy
                             roomsDetailVM.providerDisplayName = storeData.providerDisplayName
                             roomsDetailVM.providerChatDodID = storeData.storeChatDocID
-                        })
+                        }
                     )
                 }
             }
@@ -126,14 +127,14 @@ extension StoreView {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
             RoundedRectangle(cornerRadius: 20)
                 .fill(.black.opacity(0.4))
-            
         }
     }
-    
+
     @ViewBuilder
     func productUnitCard(productData: ProductProviderDataModel) -> some View {
         VStack(spacing: 10) {
-            //MARK: Still working......set the first string for webimage url
+            // MARK: Still working......set the first string for webimage url
+
             WebImage(url: URL(string: firstImage))
                 .resizable()
                 .modifier(ProductUnitImageModifier())
@@ -175,12 +176,12 @@ extension StoreView {
                         Image(systemName: "plus.circle")
                             .font(.system(size: 17))
                     }
-                        .modifier(StoreTextModifier())
-                        .frame(width: uiScreenWidth / 4 + 40, height: 25)
-                        .background(alignment: .center) {
-                            Capsule()
-                                .fill(.black.opacity(0.3))
-                        }
+                    .modifier(StoreTextModifier())
+                    .frame(width: uiScreenWidth / 4 + 40, height: 25)
+                    .background(alignment: .center) {
+                        Capsule()
+                            .fill(.black.opacity(0.3))
+                    }
                 }
                 Spacer()
                 Text(productData.productPrice)
@@ -197,7 +198,6 @@ extension StoreView {
     }
 }
 
-
 struct ProductUnitImageModifier: ViewModifier {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -207,6 +207,7 @@ struct ProductUnitImageModifier: ViewModifier {
             .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
+
 struct StoreProfileImageModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -219,6 +220,7 @@ struct StoreProfileImageModifier: ViewModifier {
             }
     }
 }
+
 struct StoreCreditModifier: ViewModifier {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -233,12 +235,14 @@ struct StoreCreditModifier: ViewModifier {
             }
     }
 }
+
 struct StoreTextModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .foregroundColor(.white)
     }
 }
+
 struct ViewBackgroundInitModifier: ViewModifier {
     func body(content: Content) -> some View {
         content

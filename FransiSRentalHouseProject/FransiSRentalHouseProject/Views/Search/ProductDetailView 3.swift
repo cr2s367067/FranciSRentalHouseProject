@@ -5,11 +5,10 @@
 //  Created by Kuan on 2022/3/29.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ProductDetailView: View {
-    
     @EnvironmentObject var storageImage: StorageForProductImage
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
@@ -18,9 +17,7 @@ struct ProductDetailView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     @EnvironmentObject var appViewModel: AppViewModel
-    
-    
-    
+
 //    var productData: ProductProviderDataModel
     var productName: String
     var productPrice: Int
@@ -33,16 +30,16 @@ struct ProductDetailView: View {
     var providerName: String
     var productDescription: String
     var docID: String
-    
+
     var pickerAmount: Int {
         let convertInt = Int(productAmount) ?? 0
         return convertInt
     }
-    
+
     var realTimeComputeProductPrice: Int {
         return productPrice * productDetailViewModel.orderAmount
     }
-    
+
     var body: some View {
         VStack {
             Spacer()
@@ -62,13 +59,13 @@ struct ProductDetailView: View {
                             }
                         }
                     } label: {
-                         Image(systemName: "bookmark.circle")
+                        Image(systemName: "bookmark.circle")
                             .resizable()
                             .foregroundColor(productDetailViewModel.mark ? .orange : .white)
                             .frame(width: 35, height: 35)
                             .padding(.trailing)
                     }
-                    
+
                     Spacer()
                     Group {
                         HStack {
@@ -112,7 +109,7 @@ struct ProductDetailView: View {
                     Section {
                         Menu {
                             Picker("", selection: $productDetailViewModel.orderAmount) {
-                                ForEach(1..<pickerAmount + 1, id: \.self) {
+                                ForEach(1 ..< pickerAmount + 1, id: \.self) {
                                     Text("\($0)")
                                 }
                             }
@@ -175,7 +172,7 @@ struct ProductDetailView: View {
                                                               productImage: productImage,
                                                               providerName: providerName,
                                                               orderAmount: String(productDetailViewModel.orderAmount))
-                        
+
                         purchaseViewModel.productTotalAmount = String(pickerAmount)
                         print(productDetailViewModel.productOrderCart)
                         localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
@@ -246,10 +243,10 @@ extension ProductDetailView {
                                                     providerName: providerName)
             try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
         } catch {
-            self.errorHandler.handle(error: error)
+            errorHandler.handle(error: error)
         }
     }
-    
+
     private func unmarkProduct(productUID: String) async {
         firestoreForProducts.markedProducts.forEach { mark in
             if mark.productUID == productUID {
@@ -264,7 +261,7 @@ extension ProductDetailView {
             }
         }
     }
-    
+
     private func checkMarked(productUID: String) {
         firestoreForProducts.markedProducts.forEach { mark in
             if mark.productUID == productUID {
@@ -275,20 +272,19 @@ extension ProductDetailView {
         }
     }
 }
+
 class ProductDetailViewModel: ObservableObject {
-    
     @Published var productOrderCart = [UserOrderProductsDataModel]()
     @Published var mark = false
     @Published var orderAmount = 1
-    
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    func addToCart(productName: String, productUID: String, productPrice: Int, productAmount: String, productFrom: String, providerUID: String, productImage: String, providerName: String, orderAmount: String) {
-        self.productOrderCart.append(UserOrderProductsDataModel(productImage: productImage, productName: productName, productPrice: productPrice, providerUID: providerUID, productUID: productUID, orderAmount: orderAmount, comment: "", isUploadComment: false, ratting: 0))
+
+    func addToCart(productName: String, productUID: String, productPrice: Int, productAmount _: String, productFrom _: String, providerUID: String, productImage: String, providerName _: String, orderAmount: String) {
+        productOrderCart.append(UserOrderProductsDataModel(productImage: productImage, productName: productName, productPrice: productPrice, providerUID: providerUID, productUID: productUID, orderAmount: orderAmount, comment: "", isUploadComment: false, ratting: 0))
     }
-    
+
     func computeRattingAvg(commentAndRatting: [ProductCommentRattingDataModel]) -> Double {
         var numerator = 0
         let denominator = commentAndRatting.count
@@ -304,16 +300,12 @@ class ProductDetailViewModel: ObservableObject {
         }
         return result
     }
-    
 }
 
-
-
 struct TestView: View {
-    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         VStack {
             Image("test1")

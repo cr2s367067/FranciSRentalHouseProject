@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct UserDetailInfoView: View {
-    
     //    @EnvironmentObject var fetchFirestore: FetchFirestore
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
@@ -19,26 +18,22 @@ struct UserDetailInfoView: View {
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var storeProfileVM: StoreProfileViewModel
     @EnvironmentObject var userInfoVM: UserInfoVM
-    
-    
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
-    
-    
+
     @State var showAlert = false
     @State var inforFormatterCorrect = false
     @State private var isSummit = false
     @State private var selection = "House Owner"
-    
+
     @FocusState private var isFocused: Bool
-    
-    
+
     //    private func reset() {
     //        userInfoVM.userDetailViewReset()
     //        isMale = false
     //        isFemale = false
     //    }
-    
+
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
@@ -71,18 +66,18 @@ struct UserDetailInfoView: View {
                 userInfoVM.isEdit = true
             }
             appViewModel.updateNavigationBarColor()
-//            userInfoVM.id = firestoreToFetchUserinfo.fetchedUserData.id
-//            userInfoVM.firstName = firestoreToFetchUserinfo.fetchedUserData.firstName
-//            userInfoVM.lastName = firestoreToFetchUserinfo.fetchedUserData.lastName
-//            userInfoVM.nickName = firestoreToFetchUserinfo.fetchedUserData.nickName
-//            userInfoVM.mobileNumber = firestoreToFetchUserinfo.fetchedUserData.mobileNumber
-//            userInfoVM.dob = firestoreToFetchUserinfo.fetchedUserData.dob
-//            userInfoVM.address = firestoreToFetchUserinfo.fetchedUserData.address
-//            userInfoVM.town = firestoreToFetchUserinfo.fetchedUserData.town
-//            userInfoVM.city = firestoreToFetchUserinfo.fetchedUserData.city
-//            userInfoVM.zipCode = firestoreToFetchUserinfo.fetchedUserData.zipCode
-////            userInfoVM.country = firestoreToFetchUserinfo.fetchedUserData.country
-//            userInfoVM.gender = firestoreToFetchUserinfo.fetchedUserData.gender
+            //            userInfoVM.id = firestoreToFetchUserinfo.fetchedUserData.id
+            //            userInfoVM.firstName = firestoreToFetchUserinfo.fetchedUserData.firstName
+            //            userInfoVM.lastName = firestoreToFetchUserinfo.fetchedUserData.lastName
+            //            userInfoVM.nickName = firestoreToFetchUserinfo.fetchedUserData.nickName
+            //            userInfoVM.mobileNumber = firestoreToFetchUserinfo.fetchedUserData.mobileNumber
+            //            userInfoVM.dob = firestoreToFetchUserinfo.fetchedUserData.dob
+            //            userInfoVM.address = firestoreToFetchUserinfo.fetchedUserData.address
+            //            userInfoVM.town = firestoreToFetchUserinfo.fetchedUserData.town
+            //            userInfoVM.city = firestoreToFetchUserinfo.fetchedUserData.city
+            //            userInfoVM.zipCode = firestoreToFetchUserinfo.fetchedUserData.zipCode
+            //            userInfoVM.country = firestoreToFetchUserinfo.fetchedUserData.country
+            //            userInfoVM.gender = firestoreToFetchUserinfo.fetchedUserData.gender
             userInfoVM.userInfo = firestoreToFetchUserinfo.fetchedUserData
         })
         .toolbar {
@@ -96,7 +91,7 @@ struct UserDetailInfoView: View {
                         .frame(width: 20, height: 20, alignment: .trailing)
                 }
             }
-            
+
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
                 Button("Done") {
@@ -107,13 +102,11 @@ struct UserDetailInfoView: View {
     }
 }
 
-
 struct UserDetailInfoView_Previews: PreviewProvider {
     static var previews: some View {
         UserDetailInfoView()
     }
 }
-
 
 extension UserDetailInfoView {
     @ViewBuilder
@@ -138,13 +131,13 @@ extension UserDetailInfoView {
                 .stroke(Color.white, lineWidth: 1)
         })
     }
-    
+
     @ViewBuilder
-    func userInfoPresenting(source: UserDM, uType: SignUpType) -> some View {
+    func userInfoPresenting(source: UserDM, uType _: SignUpType) -> some View {
 //        if uType == .isNormalCustomer {
-            userInfoUnit(title: "ID", presentString: source.id)
-            userInfoUnit(title: "First Name", presentString: source.firstName)
-            userInfoUnit(title: "Last Name", presentString: source.lastName)
+        userInfoUnit(title: "ID", presentString: source.id)
+        userInfoUnit(title: "First Name", presentString: source.firstName)
+        userInfoUnit(title: "Last Name", presentString: source.lastName)
 //        }
 //        if uType == .isProvider {
 //            userInfoUnit(title: "GUI", presentString: source.id)
@@ -153,7 +146,7 @@ extension UserDetailInfoView {
         userInfoUnit(title: "Nick Name", presentString: source.nickName)
         userInfoUnit(title: "Mobile Number", presentString: source.mobileNumber)
 //        if uType == .isNormalCustomer {
-            userInfoUnit(title: "Date of Birth", presentString: source.dob.formatted(Date.FormatStyle().year().month().day()))
+        userInfoUnit(title: "Date of Birth", presentString: source.dob.formatted(Date.FormatStyle().year().month().day()))
 //        }
         Group {
 //            userInfoUnit(title: "Country", presentString: source.country)
@@ -163,10 +156,9 @@ extension UserDetailInfoView {
             userInfoUnit(title: "Address", presentString: source.address)
         }
     }
-    
+
     @ViewBuilder
     func isEditMode(isEdit: Bool, uType: SignUpType) -> some View {
-        
         if isEdit == false {
             userInfoPresenting(source: firestoreToFetchUserinfo.fetchedUserData, uType: uType)
         } else {
@@ -205,7 +197,6 @@ extension UserDetailInfoView {
                                     Image(systemName: userInfoVM.isMale ? "checkmark.circle.fill" : "checkmark.circle")
                                         .foregroundColor(userInfoVM.isMale ? .green : .white)
                                         .padding(.leading, 10)
-
                                 }
                                 .frame(width: 140, height: 30)
                                 .background(Color("fieldGray").opacity(0.07))
@@ -240,30 +231,33 @@ extension UserDetailInfoView {
                     InfoUnit(title: "Mobile Number", bindingString: $userInfoVM.userInfo.mobileNumber)
                         .keyboardType(.decimalPad)
 //                    if uType == .isNormalCustomer {
-                        DatePicker("Date of Birth", selection: $userInfoVM.userInfo.dob, in: ...Date(), displayedComponents: .date)
-                            .datePickerStyle(CompactDatePickerStyle())
-                            .applyTextColor(.white)
-                            .frame(width: uiScreenWidth - 35)
-                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                    DatePicker("Date of Birth", selection: $userInfoVM.userInfo.dob, in: ...Date(), displayedComponents: .date)
+                        .datePickerStyle(CompactDatePickerStyle())
+                        .applyTextColor(.white)
+                        .frame(width: uiScreenWidth - 35)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
 //                    }
 //                    InfoUnit(title: "Country", bindingString: $userInfoVM.userInfo.country)
                     InfoUnit(title: "Zip Code", bindingString: $userInfoVM.userInfo.zipCode)
                     InfoUnit(title: "City", bindingString: $userInfoVM.userInfo.city) //: Picker
-                    InfoUnit(title: "Town", bindingString: $userInfoVM.userInfo.town)  //: Picker
+                    InfoUnit(title: "Town", bindingString: $userInfoVM.userInfo.town) //: Picker
                     InfoUnit(title: "Address", bindingString: $userInfoVM.userInfo.address)
                 }
             }
             .focused($isFocused)
         }
     }
+
+    
+    
     
     @ViewBuilder
-    func summitButton(isEdit: Bool, uType: SignUpType) -> some View {
+    func summitButton(isEdit: Bool, uType _: SignUpType) -> some View {
         if isEdit == true {
             Button {
                 Task {
 //                    if uType == .isNormalCustomer {
-                        try await forNormalUser()
+                    try await forNormalUser()
 //                    }
 //                    if uType == .isProvider {
 //                        try await forProviderUser()
@@ -282,7 +276,7 @@ extension UserDetailInfoView {
             .padding(.trailing)
         }
     }
-    
+
 //    func forProviderUser() async throws {
 //        guard userInfoVM.userInfo.id.count == 8 else {
 //            throw UserInformationError.guiFormatError
@@ -313,7 +307,7 @@ extension UserDetailInfoView {
 //            isSummit = true
 //            try await firestoreToFetchUserinfo.reloadUserData()
 //
-            //"Notice">>  Haven't update
+    // "Notice">>  Haven't update
 //            if firestoreToFetchUserinfo.fetchedUserData.providerType == "Furniture Provider" {
 //                //MARK: (BUG) Doesn't create store after provider info update
 //                try await firestoreForProducts.createStore(uidPath: firebaseAuth.getUID(),
@@ -330,38 +324,42 @@ extension UserDetailInfoView {
 //        }
 //
 //    }
-    
+
     func forNormalUser() async throws {
         if !userInfoVM.userInfo.id.isEmpty,
-            !userInfoVM.userInfo.firstName.isEmpty,
-            !userInfoVM.userInfo.lastName.isEmpty,
-            !userInfoVM.userInfo.gender.isEmpty,
-            !userInfoVM.userInfo.mobileNumber.isEmpty,
-            !userInfoVM.userInfo.address.isEmpty,
-            !userInfoVM.userInfo.town.isEmpty,
-            !userInfoVM.userInfo.city.isEmpty,
-            !userInfoVM.userInfo.zipCode.isEmpty {
+           !userInfoVM.userInfo.firstName.isEmpty,
+           !userInfoVM.userInfo.lastName.isEmpty,
+           !userInfoVM.userInfo.gender.isEmpty,
+           !userInfoVM.userInfo.mobileNumber.isEmpty,
+           !userInfoVM.userInfo.address.isEmpty,
+           !userInfoVM.userInfo.town.isEmpty,
+           !userInfoVM.userInfo.city.isEmpty,
+           !userInfoVM.userInfo.zipCode.isEmpty
+        {
             do {
-                try userInfoVM.userInfoFormatterCheckerAsync(id: userInfoVM.userInfo.id,
-                                                               firstName: userInfoVM.userInfo.firstName,
-                                                               lastName: userInfoVM.userInfo.lastName,
-                                                               gender: userInfoVM.userInfo.gender,
-                                                               mobileNumber: userInfoVM.userInfo.mobileNumber, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer)
-                
-                
-                try await firestoreToFetchUserinfo.updateUserInfomationAsync(uidPath: firebaseAuth.getUID(), userDM: userInfoVM.userInfo)
-                
-                try await firestoreForTextingMessage.createAndStoreContactUser(uidPath: firebaseAuth.getUID())
+                try userInfoVM.userInfoFormatterCheckerAsync(
+                    id: userInfoVM.userInfo.id,
+                    firstName: userInfoVM.userInfo.firstName,
+                    lastName: userInfoVM.userInfo.lastName,
+                    gender: userInfoVM.userInfo.gender,
+                    mobileNumber: userInfoVM.userInfo.mobileNumber, uType: SignUpType(rawValue: firestoreToFetchUserinfo.fetchedUserData.userType) ?? .isNormalCustomer
+                )
+                try await firestoreToFetchUserinfo.updateUserInfomationAsync(
+                    uidPath: firebaseAuth.getUID(),
+                    userDM: userInfoVM.userInfo
+                )
+                try await firestoreForTextingMessage.createAndStoreContactUser(
+                    uidPath: firebaseAuth.getUID()
+                )
                 isSummit = true
                 try await firestoreToFetchUserinfo.reloadUserData()
                 userInfoVM.isShowUserDetailView = false
                 userInfoVM.isEdit = false
             } catch {
-                self.errorHandler.handle(error: error)
+                errorHandler.handle(error: error)
             }
         } else {
             showAlert = true
         }
     }
-    
 }

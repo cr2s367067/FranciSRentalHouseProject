@@ -5,9 +5,9 @@
 //  Created by Kuan on 2022/5/1.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Foundation
 
 struct RoomCommentAndRattingDataModel: Identifiable, Codable {
     @DocumentID var id: String?

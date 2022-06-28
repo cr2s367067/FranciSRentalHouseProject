@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class RenterContractViewModel: ObservableObject {
     @Published var showEditMode = false
     @Published var showPaymentHistory = false

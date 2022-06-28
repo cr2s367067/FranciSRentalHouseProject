@@ -5,22 +5,20 @@
 //  Created by Kuan on 2022/5/12.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MaintainDetailUnitView: View {
-    
     @EnvironmentObject var storageForMaintainImage: StorageForMaintainImage
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var errorHandler: ErrorHandler
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var rentedRoom: RentedRoom
     var taskHolder: MaintainDM
-    
-    
+
     @State private var showSheet = false
     @State private var newSelectedImage = [TextingImageDataModel]()
     @State private var newDes = ""
@@ -30,7 +28,7 @@ struct MaintainDetailUnitView: View {
     @State private var isProgressing = false
     @FocusState private var isFocus: Bool
     @State private var selectLimit = 1
-    
+
     var presentingImage: UIImage {
         var firstHolder = UIImage()
         if let firstImage = newSelectedImage.first {
@@ -38,7 +36,7 @@ struct MaintainDetailUnitView: View {
         }
         return firstHolder
     }
-    
+
     var body: some View {
         VStack {
             VStack(spacing: 10) {
@@ -85,7 +83,6 @@ struct MaintainDetailUnitView: View {
 //                                        newTaskDes: newDes,
 //                                        newAppointDate: newDate,
 //                                        newImageURL: newImageURL
-                                        
                                     )
                                     try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
                                         uidPath: rentedRoom.rentedProvderUID,
@@ -149,7 +146,6 @@ struct MaintainDetailUnitView: View {
 }
 
 extension MaintainDetailUnitView {
-    
     @ViewBuilder
     func isEditImage(isEdit: Bool) -> some View {
         if isEdit {
@@ -184,7 +180,7 @@ extension MaintainDetailUnitView {
             }
         }
     }
-    
+
     @ViewBuilder
     func edittingContain(isEdit: Bool) -> some View {
         if isEdit {
@@ -224,11 +220,11 @@ extension MaintainDetailUnitView {
     }
 }
 
-//struct MaintainDetailUnitView_Previews: PreviewProvider {
+// struct MaintainDetailUnitView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        MaintainDetailUnitView()
 //    }
-//}
+// }
 
 struct SubViewBackgroundInitModifier: ViewModifier {
     @Environment(\.colorScheme) var colorScheme

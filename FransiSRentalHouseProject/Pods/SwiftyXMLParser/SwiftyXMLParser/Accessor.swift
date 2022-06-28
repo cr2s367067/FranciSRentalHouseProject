@@ -24,110 +24,103 @@
 
 import Foundation
 
-extension XML {
-    
+public extension XML {
     /**
-     Class for accessing XML Document as SequenceType.
-     
-     defined as enumeration which has three states
-     - SingleElement
-       - accesssed the specific XML Element from XML Path
-     - Sequence
-       - accessed multiple Elements from XML Path
-     - Failure
-       - wrong XML Path
-     
-     
-    */
+      Class for accessing XML Document as SequenceType.
+
+      defined as enumeration which has three states
+      - SingleElement
+        - accesssed the specific XML Element from XML Path
+      - Sequence
+        - accessed multiple Elements from XML Path
+      - Failure
+        - wrong XML Path
+
+     */
     @dynamicMemberLookup
-    public enum Accessor: CustomStringConvertible, Swift.Sequence {
+    enum Accessor: CustomStringConvertible, Swift.Sequence {
         case singleElement(Element)
         case sequence([Element])
         case failure(Error)
-        
+
         public init(_ element: Element) {
             self = .singleElement(element)
         }
-        
+
         public init(_ sequence: [Element]) {
             self = .sequence(sequence)
         }
-        
+
         public init(_ error: Error) {
             self = .failure(error)
         }
-        
-        
+
         public subscript(dynamicMember member: String) -> XML.Accessor {
             return self[member]
         }
-        
+
         /**
          If Accessor object has a correct XML path, return XML element, otherwith return error
-         
+
          example:
-         
+
          ```
          let hit = xml[1][2][3]
          ```
-         
-         
+
          The same as:
          ```
          let hit = xml[1, 2, 3]
          ```
-         
+
          or :
          ```
          let path = [1, 2, 3]
          let hit = xml[path]
          ```
-         
+
          */
         fileprivate subscript(index index: Int) -> Accessor {
             let accessor: Accessor
             switch self {
-            case .sequence(let elements) where index < elements.count:
-                accessor =  Accessor(elements[index])
-            case .singleElement(let element) where index == 0:
+            case let .sequence(elements) where index < elements.count:
+                accessor = Accessor(elements[index])
+            case let .singleElement(element) where index == 0:
                 accessor = Accessor(element)
-            case .failure(let error):
+            case let .failure(error):
                 accessor = Accessor(error)
-                break
             default:
                 let error = accessError("cannot access Index: \(index)")
                 accessor = Accessor(error)
-                break
             }
             return accessor
         }
-        
+
         /**
          If Accessor object has a correct XML path, return XML element, otherwith return error
-         
+
          example:
-         
+
          ```
          let hit = xml["ResultSet"]["Result"]["Hit"]
          ```
 
-         
          The same as:
          ```
          let hit = xml["ResultSet", "Result", "Hit"]
          ```
-         
+
          or :
          ```
          let path = ["ResultSet", "Result", "Hit"]
          let hit = xml[path]
          ```
-         
+
          */
         fileprivate subscript(key key: String) -> Accessor {
             let accessor: Accessor
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 let childElements = element.childElements.filter {
                     if $0.ignoreNamespaces {
                         return key == $0.name.components(separatedBy: ":").last ?? $0.name
@@ -143,7 +136,7 @@ extension XML {
                 } else {
                     accessor = Accessor(childElements)
                 }
-            case .failure(let error):
+            case let .failure(error):
                 accessor = Accessor(error)
             default:
                 let error = accessError("cannot access \(key), because of multiple elements")
@@ -151,10 +144,10 @@ extension XML {
             }
             return accessor
         }
-        
+
         /**
          If Accessor object has a correct XML path, return XML element, otherwith return error
-         
+
          example:
          ```
          let path = ["ResultSet", "Result", "Hit", 0]
@@ -167,12 +160,12 @@ extension XML {
          ```
 
          or :
-         
+
          ```
          let hit = xml["ResultSet"]["Result"]["Hit"][0]
          ```
          */
-        public subscript(path: Array<XMLSubscriptType>) -> Accessor {
+        public subscript(path: [XMLSubscriptType]) -> Accessor {
             var accessor = self
             for position in path {
                 switch position {
@@ -187,24 +180,23 @@ extension XML {
             }
             return accessor
         }
-        
+
         /**
          If Accessor object has a correct XML path, return XML element, otherwith return error
-         
+
          example:
          ```
          let hit = xml["ResultSet", "Result", "Hit", 0]
          ```
-         
-         
+
          The same as:
-         
+
          ```
            let path = ["ResultSet", "Result", "Hit", 0]
            let hit = xml[path]
          ```
          or :
-         
+
          ```
            let hit = xml["ResultSet"]["Result"]["Hit"][0]
          ```
@@ -224,17 +216,16 @@ extension XML {
             }
             return accessor
         }
-        
+
         public var name: String? {
             let name: String?
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 name = element.name
-            case .failure(_), .sequence(_):
+            case .failure(_), .sequence:
                 fallthrough
             default:
                 name = nil
-                break
             }
             return name
         }
@@ -243,7 +234,7 @@ extension XML {
         public var text: String? {
             get {
                 switch self {
-                case .singleElement(let element):
+                case let .singleElement(element):
                     return element.text
                 default:
                     return nil
@@ -251,40 +242,39 @@ extension XML {
             }
             set {
                 switch self {
-                case .singleElement(let element):
+                case let .singleElement(element):
                     element.text = newValue
                 default:
                     break
                 }
             }
         }
-        
+
         /// syntax sugar to access Bool Text
         public var bool: Bool? {
             return text.flatMap { $0 == "true" }
         }
-        
-        
+
         /// syntax sugar to access URL Text
         public var url: URL? {
-            return text.flatMap({URL(string: $0)})
+            return text.flatMap { URL(string: $0) }
         }
-        
+
         /// syntax sugar to access Int Text
         public var int: Int? {
-            return text.flatMap({Int($0)})
+            return text.flatMap { Int($0) }
         }
-        
+
         /// syntax sugar to access Double Text
         public var double: Double? {
-            return text.flatMap({Double($0)})
+            return text.flatMap { Double($0) }
         }
-        
+
         /// get and set XML attributes on single element
         public var attributes: [String: String] {
             get {
                 switch self {
-                case .singleElement(let element):
+                case let .singleElement(element):
                     return element.attributes
                 default:
                     return [String: String]()
@@ -292,110 +282,109 @@ extension XML {
             }
             set {
                 switch self {
-                case .singleElement(let element):
+                case let .singleElement(element):
                     element.attributes = newValue
                 default:
                     break
                 }
             }
         }
-        
+
         /// access to child Elements
         public var all: [Element]? {
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 return [element]
-            case .sequence(let elements):
+            case let .sequence(elements):
                 return elements
-            case .failure(_):
+            case .failure:
                 return nil
             }
         }
-        
+
         /// access to child Elemnet Tag Names
         public var names: [String]? {
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 return [element.name]
-            case .sequence(let elements):
+            case let .sequence(elements):
                 return elements.map { $0.name }
-            case .failure(_):
+            case .failure:
                 return nil
             }
         }
-        
+
         /// if it has wrong XML path, return Error, otherwise return nil
         public var error: Error? {
             switch self {
-            case .failure(let error):
+            case let .failure(error):
                 return error
-            case .singleElement(_), .sequence(_):
+            case .singleElement(_), .sequence:
                 return nil
             }
         }
-        
-        
+
         /// if it has wrong XML path or multiple child elements, return nil, otherwise return Element
         public var element: Element? {
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 return element
-            case .failure(_), .sequence(_):
+            case .failure(_), .sequence:
                 return nil
             }
         }
-        
+
         /// if it has wrong XML path or no child Element, return nil, otherwise return last Element
         public var last: Accessor {
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 return Accessor(element)
-            case .sequence(let elements):
+            case let .sequence(elements):
                 if let lastElement = elements.last {
                     return Accessor(lastElement)
                 } else {
                     return Accessor(accessError("cannot access last element"))
                 }
-            case .failure(let error):
+            case let .failure(error):
                 return Accessor(error)
             }
         }
-        
+
         /// if it has wrong XML path or no child Element, return nil, otherwise return first Element
         public var first: Accessor {
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 return Accessor(element)
-            case .sequence(let elements):
+            case let .sequence(elements):
                 if let firstElement = elements.first {
                     return Accessor(firstElement)
                 } else {
                     return Accessor(accessError("cannot access first element"))
                 }
-            case .failure(let error):
+            case let .failure(error):
                 return Accessor(error)
             }
         }
-        
+
         public func map<T>(_ transform: (Accessor) -> T) -> [T] {
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 return [Accessor(element)].map(transform)
-            case .sequence(let elements):
-                return elements.map({ Accessor($0) }).map(transform)
+            case let .sequence(elements):
+                return elements.map { Accessor($0) }.map(transform)
             case .failure:
                 return [Accessor]().map(transform)
             }
         }
 
-        @available(*, renamed:"flatMap")
+        @available(*, renamed: "flatMap")
         public func mapWithSqueezeNil<T>(_ transform: (Accessor) -> T?) -> [T] {
             var accessors = [Accessor]()
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 accessors = [Accessor(element)]
-            case .sequence(let elements):
-                accessors = elements.map({ Accessor($0) })
+            case let .sequence(elements):
+                accessors = elements.map { Accessor($0) }
             case .failure:
                 accessors = [Accessor]()
             }
@@ -411,7 +400,7 @@ extension XML {
 
         public func append(_ newElement: Element) {
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 element.childElements.append(newElement)
             default:
                 break
@@ -419,15 +408,15 @@ extension XML {
         }
 
         // MARK: - SequenceType
-        
+
         public func makeIterator() -> AnyIterator<Accessor> {
             let generator: [XML.Element]
             switch self {
-            case .failure(_):
+            case .failure:
                 generator = []
-            case .singleElement(let element):
+            case let .singleElement(element):
                 generator = [element]
-            case .sequence(let elements):
+            case let .sequence(elements):
                 generator = elements
             }
             var index = 0
@@ -442,22 +431,21 @@ extension XML {
                 return nextAccessor
             }
         }
-        
-        
+
         // MARK: - CustomStringConvertible
-        
+
         public var description: String {
             switch self {
-            case .singleElement(let element):
+            case let .singleElement(element):
                 return "\"" + self.recursivePrintAncient(element) + "\""
-            case .sequence(let elements):
+            case let .sequence(elements):
                 let descriptions = elements.map { self.recursivePrintAncient($0) }
                 return "[ " + descriptions.joined(separator: ",\n ") + " ]"
-            case .failure(let error):
+            case let .failure(error):
                 return "\(error)"
             }
         }
-        
+
         fileprivate func recursivePrintAncient(_ element: Element) -> String {
             var description = element.name
             if let unwrappedParent = element.parentElement {
@@ -465,51 +453,51 @@ extension XML {
             }
             return description
         }
-        
+
         fileprivate func accessError(_ description: String) -> Error {
             return XMLError.accessError(description: description)
         }
     }
 }
 
-extension XML {
+public extension XML {
     /// Converter to make xml document from Accessor.
-    public class Converter {
+    class Converter {
         let accessor: XML.Accessor
 
         public init(_ accessor: XML.Accessor) {
             self.accessor = accessor
         }
-        
+
         /**
          Convert accessor back to XML document string.
 
          - Parameter withDeclaration:Prefix with standard XML declaration (default true)
-         
+
          example:
-         
+
          ```
          let xml = try! XML.parse("<?xml version="1.0" encoding="UTF-8"?><doc><name key="value">text</name></doc>")
          let elem = xml.doc
-         
+
          print(Converter(elem).makeDocument())
          // => <?xml version="1.0" encoding="UTF-8"?><name key="value">text</name>
          ```
-         
+
          */
         public func makeDocument(withDeclaration: Bool = true) throws -> String {
-            if case .failure(let err) = accessor {
+            if case let .failure(err) = accessor {
                 throw err
             }
 
             var doc = withDeclaration ? "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" : ""
             for hit in accessor {
                 switch hit {
-                case .singleElement(let element):
+                case let .singleElement(element):
                     doc += traverse(element)
-                case .sequence(let elements):
-                    doc += elements.reduce("") { (sum, el) in sum + traverse(el) }
-                case .failure(let error):
+                case let .sequence(elements):
+                    doc += elements.reduce("") { sum, el in sum + traverse(el) }
+                case let .failure(error):
                     throw error
                 }
             }
@@ -520,11 +508,11 @@ extension XML {
         private func traverse(_ element: Element) -> String {
             let name = element.name
             let text = escapeXMLCharacters(element.text ?? "")
-            let attrs = element.attributes.map { (k, v) in "\(k)=\"\(v)\"" }.joined(separator: " ")
+            let attrs = element.attributes.map { k, v in "\(k)=\"\(v)\"" }.joined(separator: " ")
 
-            let childDocs = element.childElements.reduce("", { (result, element) in
+            let childDocs = element.childElements.reduce("") { result, element in
                 result + traverse(element)
-            })
+            }
 
             if name == "XML.Parser.AbstructedDocumentRoot" {
                 return childDocs
@@ -534,14 +522,14 @@ extension XML {
         }
 
         private func escapeXMLCharacters(_ string: String) -> String {
-                let charactersToEscape = [
-                    ["&", "&amp;"],
-                    ["<", "&lt;"],
-                    [">", "&gt;"]
-                ]
-                return charactersToEscape.reduce(string) {
-                    $0.replacingOccurrences(of: $1[0], with: $1[1], options: .literal, range: nil)
-                }
+            let charactersToEscape = [
+                ["&", "&amp;"],
+                ["<", "&lt;"],
+                [">", "&gt;"],
+            ]
+            return charactersToEscape.reduce(string) {
+                $0.replacingOccurrences(of: $1[0], with: $1[1], options: .literal, range: nil)
+            }
         }
     }
 }

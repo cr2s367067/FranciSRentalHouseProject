@@ -5,12 +5,12 @@
 //  Created by Kuan on 2022/6/23.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Foundation
 
+// MARK: - User have one order list that could contain different item
 
-//MARK: - User have one order list that could contain different item
 struct OrderedListUserSide: Identifiable, Codable {
     @DocumentID var id: String?
     @ServerTimestamp var orderDate: Timestamp?
@@ -21,7 +21,8 @@ struct OrderedListUserSide: Identifiable, Codable {
     var subTotal: Int
 }
 
-//MARK: - Present item in list
+// MARK: - Present item in list
+
 struct OrderedItem: Identifiable, Codable {
     @DocumentID var id: String?
     var shippingStatus: String
@@ -33,7 +34,8 @@ struct OrderedItem: Identifiable, Codable {
     var orderAmount: Int
 }
 
-//MARK: - Different provider could receive order from user by same orderUID
+// MARK: - Different provider could receive order from user by same orderUID
+
 struct OrderedListProviderSide: Identifiable, Codable {
     @DocumentID var id: String?
     var orderUID: String

@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct ProductCollectionView: View {
-    
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
-    
+
     var body: some View {
         ZStack {
             Rectangle()
-                .fill( LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .edgesIgnoringSafeArea([.top, .bottom])
             VStack {
                 TitleAndDivider(title: "Product Collection")
