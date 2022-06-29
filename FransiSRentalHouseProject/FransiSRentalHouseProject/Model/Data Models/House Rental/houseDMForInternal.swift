@@ -40,6 +40,7 @@ struct RoomDM: Identifiable, Codable {
     var roomDescription: String
     var someoneDeadInRoom: Bool
     var waterLeakingProblem: Bool
+    @ServerTimestamp var contractBuildDate: Timestamp?
 }
 
 extension RoomDM {

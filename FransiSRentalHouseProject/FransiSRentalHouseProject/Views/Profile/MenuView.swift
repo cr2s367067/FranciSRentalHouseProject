@@ -140,6 +140,13 @@ extension MenuView {
             if providerType == .roomProvider {
                 NavigationLink {
                     withAnimation {
+                        StoreProfileView()
+                    }
+                } label: {
+                    SideBarButton(buttonName: "My Store", systemImageName: "briefcase")
+                }
+                NavigationLink {
+                    withAnimation {
                         ContractCollectionView()
                     }
                 } label: {

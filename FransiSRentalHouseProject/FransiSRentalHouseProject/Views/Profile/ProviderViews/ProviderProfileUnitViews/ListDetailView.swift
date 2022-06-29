@@ -72,7 +72,9 @@ struct ListDetailView: View {
                                 if settleData.isSettle == false {
                                     guard let id = settleData.id else { return }
                                     try await closeAccount(docID: id, providerType: ProviderTypeStatus(rawValue: firestoreToFetchUserinfo.fetchedUserData.providerType) ?? .roomProvider)
-                                    try await providerProfileViewModel.isCreateMonthlySettleData(uidPath: firebaseAuth.getUID())
+//                                    try await providerProfileViewModel.isCreateMonthlySettleData(
+//                                        uidPath: firebaseAuth.getUID()
+//                                    )
                                 }
                             } catch {
                                 self.errorHandler.handle(error: error)
@@ -249,7 +251,10 @@ extension ListDetailView {
             }
             try await paymentReceiveManager.updateMonthlySettlement(uidPath: firebaseAuth.getUID(), docID: docID, settlementAmount: holdAmount, settlementDate: Date())
             try await paymentReceiveManager.createMonthlySettlement(uidPath: firebaseAuth.getUID(), settlementDate: paymentMM.computePaymentMonth(from: Date()))
-            try await providerProfileViewModel.updateConfig(uidPath: firebaseAuth.getUID(), settlementDate: paymentMM.computePaymentMonth(from: Date()))
+            try await providerProfileViewModel.updateConfig(
+                gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                settlementDate: paymentMM.computePaymentMonth(from: Date())
+            )
             try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
         })
     }

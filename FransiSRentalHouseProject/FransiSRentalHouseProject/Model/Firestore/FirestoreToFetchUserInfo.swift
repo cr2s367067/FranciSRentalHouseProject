@@ -49,6 +49,56 @@ class FirestoreToFetchUserinfo: ObservableObject {
 }
 
 extension FirestoreToFetchUserinfo {
+    
+    @MainActor
+    func createProviderData(
+        user uidPath: String,
+        provider data: ProviderDM
+    ) async throws {
+        let storeProviderRef = db.collection("Stores").document(data.gui).collection("ProviderData").document(uidPath)
+        _ = try await storeProviderRef.setData([
+            "gui" : data.gui,
+            "companyName" : data.companyName,
+            "chargeName" : data.chargeName,
+            "city" : data.city,
+            "town" : data.town,
+            "address" : data.address,
+            "email" : data.email,
+            "companyProfileImageURL" : data.companyProfileImageURL
+        ])
+        providerInfo = try await storeProviderRef.getDocument(as: ProviderDM.self)
+    }
+    
+    @MainActor
+    func updateProviderData(
+        user uidPath: String,
+        provider data: ProviderDM
+    ) async throws {
+        let storeProviderRef = db.collection("Stores").document(data.gui).collection("ProviderData").document(uidPath)
+        _ = try await storeProviderRef.updateData([
+            "gui" : data.gui,
+            "companyName" : data.companyName,
+            "chargeName" : data.chargeName,
+            "city" : data.city,
+            "town" : data.town,
+            "address" : data.address,
+            "email" : data.email,
+            "companyProfileImageURL" : data.companyProfileImageURL
+        ])
+        providerInfo = try await storeProviderRef.getDocument(as: ProviderDM.self)
+    }
+    
+    @MainActor
+    func getProviderData(
+        gui: String,
+        provider uidPath: String
+    ) async throws {
+        let storeProviderRef = db.collection("Stores").document(gui).collection("ProviderData").document(uidPath)
+        providerInfo = try await storeProviderRef.getDocument(as: ProviderDM.self)
+    }
+}
+
+extension FirestoreToFetchUserinfo {
     func updateDisplayName(uidPath: String, nickName: String) async throws {
         let userRef = db.collection("User").document(uidPath)
         try await userRef.updateData([
@@ -83,26 +133,35 @@ extension FirestoreToFetchUserinfo {
     ) async throws {
         let userRef = db.collection("User").document(uidPath)
         try await userRef.setData([
-            "id": userDM.id,
-            "firstName": userDM.firstName,
-            "lastName": userDM.lastName,
-            "nickName": userDM.nickName,
-            "mobileNumber": userDM.mobileNumber,
-            "zipCode": userDM.zipCode,
-            "city": userDM.city,
-            "town": userDM.town,
-            "address": userDM.address,
-            "email": userDM.email,
-            "dob": userDM.dob,
-            "gender": userDM.gender,
-            "userType": userDM.userType,
-            "providerType": userDM.providerType,
-            "isFounder": userDM.isFounder ?? false,
-            "agreeAutoPay": false,
-            "profileImageURL": "",
-            "isSignByApple": userDM.isSignByApple,
-            "isRented": false,
+            "id" : userDM.id,
+            "firstName" : userDM.firstName,
+            "lastName" : userDM.lastName,
+            "nickName" : userDM.nickName,
+            "mobileNumber" : userDM.mobileNumber,
+            "zipCode" : userDM.zipCode,
+            "city" : userDM.city,
+            "town" : userDM.town,
+            "address" : userDM.address,
+            "email" : userDM.email,
+            "dob" : userDM.dob,
+            "gender" : userDM.gender,
+            "profileImageURL" : userDM.profileImageURL,
+            "userType" : userDM.userType,
+            "providerType" : userDM.providerType,
+
+            // MARK: If is founder then create `providerDM` otherwise enter gui to join exist store
+
+            "isFounder" : userDM.isFounder ?? false,
+            "isEmployee" : userDM.isEmployee ?? false,
+
+            // MARK: if user type is provider and `isFounder` is false then fill out the value
+
+            "providerGUI" : userDM.providerGUI ?? "",
+            "isSignByApple" : userDM.isSignByApple,
+            "agreeAutoPay" : userDM.agreeAutoPay,
+            "isRented" : userDM.isRented
         ])
+        try await fetchUploadUserDataAsync()
     }
 
     func reloadUserData() async throws {

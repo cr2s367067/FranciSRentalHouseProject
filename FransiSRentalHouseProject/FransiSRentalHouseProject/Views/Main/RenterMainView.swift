@@ -140,10 +140,15 @@ struct RenterMainView: View {
             .task {
                 do {
                     try await firestoreFetchingAnnouncement.fetchAnnouncement()
-                    try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
+                    if firestoreToFetchUserinfo.fetchedUserData.isRented {                    
+                        try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
+                    }
                     guard !firestoreToFetchUserinfo.userIDisEmpty() else { return }
                     _ = try await fireMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
-                    try await firebaseAuth.checkAndUpdateToken(oldToken: fireMessage.senderUIDPath.userToken, uidPath: firebaseAuth.getUID())
+                    try await firebaseAuth.checkAndUpdateToken(
+                        oldToken: fireMessage.senderUIDPath.userToken,
+                        uidPath: firebaseAuth.getUID()
+                    )
                 } catch {
                     print("some error")
                 }

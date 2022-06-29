@@ -63,6 +63,8 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var renterMainVM = RenterMainVM()
     @StateObject var providerStoreM = ProviderStoreM()
     @StateObject var userInfoVM = UserInfoVM()
+    @StateObject var providerStoreSetupVM = ProviderStoreSetUpVM()
+    @StateObject var contractCollectionVM = ContractCollectionVM()
 
     var body: some Scene {
         WindowGroup {
@@ -112,6 +114,8 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(signUpVM)
                 .environmentObject(renterMainVM)
                 .environmentObject(userInfoVM)
+                .environmentObject(providerStoreSetupVM)
+                .environmentObject(contractCollectionVM)
                 .withErrorHandling()
         }
     }

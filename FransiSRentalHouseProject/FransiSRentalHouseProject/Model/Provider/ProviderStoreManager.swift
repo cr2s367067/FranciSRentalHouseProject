@@ -12,6 +12,9 @@ import Foundation
 class ProviderStoreM: ObservableObject {
     let db = Firestore.firestore()
 
+    //MARK: - Show Sign up store view
+    @Published var showSignUpStore = false
+    
     // MARK: - Provider store data
 
     @Published var storesData: ProviderStore = .empty
@@ -23,29 +26,33 @@ class ProviderStoreM: ObservableObject {
     // MARK: - Provider create their store
 
     func createStore(
-        uidPath: String,
+        gui: String,
         provider store: ProviderStore
     ) async throws {
-        let storeRef = db.collection("Stores").document(uidPath)
+        let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui)
         _ = try await storeRef.setData([
             "isCreateGroup": store.isCreateGroup,
             "isSetConfig": store.isSetConfig,
             "settlementDate": store.settlementDate,
             "isCreateStore": store.isCreateStore,
             "groupMemberAmount": store.groupMemberAmount,
-            "RentalManagerLicenseNumber": store.rentalManagerLicenseNumber ?? "",
+            "rentalManagerLicenseNumber": store.rentalManagerLicenseNumber ?? "",
             "companyName": store.companyName,
             "companyProfileImage": store.companyProfileImage,
             "storeChatDocID": store.storeChatDocID,
             "storeBackgroundImage": store.storeBackgroundImage,
             "storeDescription": store.storeDescription,
         ])
+        try await fetchStore(provider: gui)
     }
 
     // MARK: - Update store background image
 
-    func updateProfilePic(uidPath: String, profileImage: String) async throws {
-        let storeRef = db.collection("Stores").document(uidPath)
+    func updateProfilePic(
+        gui: String,
+        profileImage: String
+    ) async throws {
+        let storeRef = db.collection("Stores").document(gui)
         _ = try await storeRef.updateData([
             "storeBackgroundImage": profileImage,
         ])
@@ -53,10 +60,22 @@ class ProviderStoreM: ObservableObject {
 
     // MARK: - Update store description
 
-    func updateStoreInfo(uidPath: String, providerDescription: String) async throws {
-        let storeRef = db.collection("Stores").document(uidPath)
+    func updateStoreInfo(
+        gui: String,
+        store data: ProviderStore
+    ) async throws {
+        let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui)
         _ = try await storeRef.updateData([
-            "storeDescription": providerDescription,
+            "isCreateGroup" : data.isCreateGroup,
+            "isSetConfig" : data.isSetConfig,
+            "settlementDate" : data.settlementDate,
+            "groupMemberAmount" : data.groupMemberAmount,
+            "rentalManagerLicenseNumber" : data.rentalManagerLicenseNumber ?? "",
+            "companyName" : data.companyName,
+            "companyProfileImage" : data.companyProfileImage,
+            "storeChatDocID" : data.storeChatDocID,
+            "storeBackgroundImage" : data.storeBackgroundImage,
+            "storeDescription" : data.storeDescription
         ])
     }
 
@@ -71,16 +90,16 @@ class ProviderStoreM: ObservableObject {
     // MARK: - Fetch created store
 
     @MainActor
-    func fetchStore(provider uidPath: String) async throws {
-        let storeRef = db.collection("Stores").document(uidPath)
+    func fetchStore(provider gui: String) async throws {
+        let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui)
         storesData = try await storeRef.getDocument(as: ProviderStore.self)
     }
 
     // MARK: - Fetch store's products
 
     @MainActor
-    func fetchStoreProduct(provder uidPath: String) async throws {
-        let productRef = db.collection("ProductsProvider").document(uidPath).collection("Products")
+    func fetchStoreProduct(provder gui: String) async throws {
+        let productRef = db.collection("Stores").document(gui).collection("Products")
         let document = try await productRef.getDocuments().documents
         storeProductsDataSet = document.compactMap { queryDocumentSnapshot in
             let result = Result {

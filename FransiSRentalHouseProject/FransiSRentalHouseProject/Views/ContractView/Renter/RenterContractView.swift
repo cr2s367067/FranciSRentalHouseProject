@@ -106,7 +106,9 @@ extension RenterContractView {
                                         roomDM: roomsData,
                                         house: contractData
                                     )
-                                    try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
+                                    try await firestoreToFetchRoomsData.getRoomInfo(
+                                        gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? ""
+                                    )
                                 } catch {
                                     self.errorHandler.handle(error: error)
                                 }
@@ -128,6 +130,7 @@ extension RenterContractView {
                         }
                     }
                 }
+                .padding(.horizontal)
                 ScrollView(.vertical, showsIndicators: true) {
                     Group {
                         Group {

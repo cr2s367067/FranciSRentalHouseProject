@@ -36,21 +36,28 @@ class FirestoreToFetchRoomsData: ObservableObject {
 extension FirestoreToFetchRoomsData {
     func summitRoomInfoAsync(
         //        room rUid: String,
-        uidPath: String,
+        gui: String,
         roomDM config: RoomDM,
         house contract: HouseContract
     ) async throws {
-        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(config.roomUID)
+        let roomOwerRef = db.collection("RoomsForOwner").document(gui).collection("Rooms").document(config.roomUID)
         _ = try await roomOwerRef.setData([
-            "isPublish": config.isPublish,
-            "roomUID": config.roomUID,
-            "renterUID": config.renterUID,
-            "roomsCoverImageURL": config.roomsCoverImageURL,
-            "roomDescription": config.roomDescription,
-            "someoneDeadInRoom": config.someoneDeadInRoom,
-            "waterLeakingProblem": config.waterLeakingProblem,
+            "isPublish" : config.isPublish,
+            "roomUID" : config.roomUID,
+            "providerUID" : config.providerUID,
+            "renterUID" : config.renterUID,
+            "roomsCoverImageURL" : config.roomsCoverImageURL,
+            "rentalPrice" : config.rentalPrice,
+            "zipCode" : config.zipCode,
+            "city" : config.city,
+            "town" : config.town,
+            "address" : config.address,
+            "roomDescription" : config.roomDescription,
+            "someoneDeadInRoom" : config.someoneDeadInRoom,
+            "waterLeakingProblem" : config.waterLeakingProblem,
+            "contractBuildDate" : Date()
         ])
-        let roomContractRef = roomOwerRef.collection("RoomContractAndImage").document(config.roomUID)
+        let roomContractRef = roomOwerRef.collection("RoomContract").document(config.roomUID)
         _ = try await roomContractRef.setData([
             // MARK: Contract's Data Model
 
@@ -202,8 +209,8 @@ extension FirestoreToFetchRoomsData {
         ])
     }
 
-    func fetchRoomContract(provider uidPath: String, roomUID: String) async throws {
-        let roomContractRef = db.collection("RoomsForOwner").document(uidPath).collection("Rooms").document(roomUID).collection("RoomContractAndImage").document(roomUID)
+    func fetchRoomContract(provider gui: String, roomUID: String) async throws {
+        let roomContractRef = db.collection("RoomsForOwner").document(gui).collection("Rooms").document(roomUID).collection("RoomContractAndImage").document(roomUID)
         roomContract = try await roomContractRef.getDocument(as: HouseContract.self)
     }
 
@@ -258,12 +265,12 @@ extension FirestoreToFetchRoomsData {
     }
 
     func updateContractData(
-        uidPath: String,
+        gui: String,
         room _: String,
         roomDM config: RoomDM,
         house contract: HouseContract
     ) async throws {
-        let roomOwerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).document(config.roomUID)
+        let roomOwerRef = db.collection("RoomsForOwner").document(gui).collection("Rooms").document(config.roomUID)
         try await roomOwerRef.updateData([
             // MARK: Contract's Data Model
 
@@ -430,9 +437,9 @@ extension FirestoreToFetchRoomsData {
     }
 
     @MainActor
-    func getRoomInfo(uidPath: String) async throws {
-        let roomOwnerRef = db.collection("RoomsForOwner").document(uidPath).collection(uidPath).order(by: "contractBuildDate", descending: true)
-        let document = try await roomOwnerRef.getDocuments().documents
+    func getRoomInfo(gui: String) async throws {
+        let roomOwerRef = db.collection("RoomsForOwner").document(gui).collection("Rooms").order(by: "contractBuildDate", descending: true)
+        let document = try await roomOwerRef.getDocuments().documents
         fetchRoomInfoFormOwner = document.compactMap { queryDocumentSnapshot in
             let result = Result {
                 try queryDocumentSnapshot.data(as: RoomDM.self)

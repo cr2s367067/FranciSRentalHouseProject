@@ -45,7 +45,9 @@ struct ContractCollectionView: View {
         }
         .task {
             do {
-                try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
+                try await firestoreToFetchRoomsData.getRoomInfo(
+                    gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? ""
+                )
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -56,7 +58,9 @@ struct ContractCollectionView: View {
                     Task {
                         do {
                             isFocused = true
-                            try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
+                            try await firestoreToFetchRoomsData.getRoomInfo(
+                                gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? ""
+                            )
                             isFocused = false
                         } catch {
                             self.errorHandler.handle(error: error)

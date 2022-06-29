@@ -18,7 +18,8 @@ struct AppTabView: View {
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     @EnvironmentObject var productVM: ProductDetailViewModel
-
+    @EnvironmentObject var providerStoreM: ProviderStoreM
+    
     @State private var selecting = "TapHomeButton"
 
     @AppStorage("userHodler") var userHodler: SignUpType = .isNormalCustomer
@@ -57,16 +58,29 @@ struct AppTabView: View {
 
 extension AppTabView {
     func initTask(signUpType: SignUpType) async throws {
-        if signUpType == .isNormalCustomer {
+        
+        switch signUpType {
+        case .isNormalCustomer:
             print("Is getting custormer config data")
-            try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
-        }
-        if signUpType == .isProvider {
+            try await firestoreToFetchRoomsData.getRoomInfo(
+                gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? ""
+            )
+        case .isProvider:
             print("Is getting provider config data")
-            try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
-            _ = try await providerProfileViewModel.fetchConfigData(uidPath: firebaseAuth.getUID())
+            try await firestoreToFetchRoomsData.getRoomInfo(
+                gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? ""
+            )
             try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
+            try await firestoreToFetchUserinfo.getProviderData(
+                gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                provider: firebaseAuth.getUID()
+            )
+            try await providerStoreM.fetchStore(
+                provider: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? ""
+            )
+            
         }
+        
     }
 
     @ViewBuilder

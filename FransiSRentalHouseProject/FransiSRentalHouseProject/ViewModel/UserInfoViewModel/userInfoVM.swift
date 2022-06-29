@@ -33,7 +33,7 @@ class UserInfoVM: ObservableObject {
 //    @AppStorage(UserInfoStatus.gender.rawValue) var gender = ""
 
     func userInfoFormatterCheckerAsync(id: String, firstName _: String, lastName _: String, gender: String, mobileNumber: String, uType: SignUpType) throws {
-        if uType == .isNormalCustomer {
+//        if uType == .isNormalCustomer {
             guard id.count == 10 else {
                 throw UserInformationError.idFormateError
             }
@@ -49,15 +49,15 @@ class UserInfoVM: ObservableObject {
             guard id.count == 10, idChecker(id: id) == true else {
                 throw UserInformationError.invalidID
             }
-        }
-        if uType == .isProvider {
-            guard id.count == 8 else {
-                throw UserInformationError.idFormateError
-            }
-            guard mobileNumber.count == 10 else {
-                throw UserInformationError.mobileNumberFormateError
-            }
-        }
+//        }
+//        if uType == .isProvider {
+//            guard id.count == 8 else {
+//                throw UserInformationError.idFormateError
+//            }
+//            guard mobileNumber.count == 10 else {
+//                throw UserInformationError.mobileNumberFormateError
+//            }
+//        }
     }
 
     func formatterChecker(id: String) -> Bool {

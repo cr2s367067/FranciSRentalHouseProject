@@ -17,6 +17,7 @@ struct SignUpView: View {
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     @EnvironmentObject var pwdM: PwdManager
     @EnvironmentObject var signUpVM: SignUpVM
+    @EnvironmentObject var providerStoreM: ProviderStoreM
 
     @State private var tosSheetShow = false
     @State private var ppSheetShow = false
@@ -355,58 +356,10 @@ struct SignUpView: View {
                         }
                     }
                     VStack {
-                        Button {
-                            Task {
-                                do {
-                                    try siwAFormChecker(signWA: firebaseAuth.signByApple)
-                                    if firebaseAuth.signByApple == false {
-                                        try pwdM.passwordChecker(password: signUpVM.recheckPassword)
-                                        try await signUpVM.passwordCheckAndSignUpAsync(
-                                            email: signUpVM.emailAddress,
-                                            password: signUpVM.userPassword,
-                                            confirmPassword: signUpVM.recheckPassword
-                                        )
-                                        try await firebaseAuth.signUpAsync(
-                                            email: signUpVM.emailAddress,
-                                            password: signUpVM.userPassword
-                                        )
-                                    }
-                                    if signUpVM.isProvider {
-                                        print("Create provider config")
-                                        try await providerProfileViewModel.createConfig(uidPath: firebaseAuth.getUID())
-                                    }
-                                    try await firestoreToFetchUserinfo.createUserInfomationAsync(
-                                        uidPath: firebaseAuth.getUID(),
-                                        userDM: .signUpInit(
-                                            userType: signUpVM.userType,
-                                            providerType: signUpVM.providerType,
-                                            isFounder: signUpVM.isFounder,
-                                            isEmployee: signUpVM.isEmployee,
-                                            providerGUI: signUpVM.gui,
-                                            isSignByApple: firebaseAuth.signByApple,
-                                            email: signUpVM.emailAddress
-                                        )
-                                    )
-                                    if firebaseAuth.signByApple {
-                                        firebaseAuth.signIn = true
-                                        firebaseAuth.showSignUpView = false
-                                        firebaseAuth.signByApple = false
-                                    }
-                                } catch {
-                                    self.errorHandler.handle(error: error)
-                                }
-                            }
-                        } label: {
-                            Text("Sign Up")
-                                .font(.system(size: 15, weight: .regular))
-                                .foregroundColor(.white)
-                                .tracking(-0.5)
-                                .multilineTextAlignment(.center)
-                                .frame(width: 223, height: 34)
-                                .background(Color("buttonBlue"))
-                                .cornerRadius(5)
-                        }
-                        .accessibilityIdentifier("signUp")
+                        empSignUpIdentity(
+                            isFounder: signUpVM.isFounder,
+                            isEmployee: signUpVM.isEmployee
+                        )
                         Spacer()
                             .frame(height: 40)
                         HStack {
@@ -487,6 +440,123 @@ struct SignUpView: View {
 }
 
 extension SignUpView {
+    
+    @ViewBuilder
+    func empSignUpIdentity(
+        isFounder: Bool,
+        isEmployee: Bool
+    ) -> some View {
+        if isFounder {
+            NavigationLink(isActive: $providerStoreM.showSignUpStore)  {
+                ProviderStoreSetUpView(
+                    storeData: providerStoreM.storesData,
+                    providerConfig: firestoreToFetchUserinfo.providerInfo
+                )
+            } label: {
+                Text("Sign Up")
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundColor(.white)
+                    .tracking(-0.5)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 223, height: 34)
+                    .background(Color("buttonBlue"))
+                    .cornerRadius(5)
+                    .onTapGesture {
+                        Task {
+                            try await signUpProcess(isFounder: signUpVM.isFounder)
+                        }
+                    }
+            }
+            .accessibilityIdentifier("signUp")
+        }
+        
+        if isEmployee {
+            Button {
+                Task {
+                  try await signUpProcess(isFounder: signUpVM.isFounder)
+                }
+            } label: {
+                Text("Sign Up")
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundColor(.white)
+                    .tracking(-0.5)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 223, height: 34)
+                    .background(Color("buttonBlue"))
+                    .cornerRadius(5)
+            }
+            .accessibilityIdentifier("signUp")
+        }
+    }
+    
+    func signUpProcess(isFounder: Bool) async throws {
+//        Task {
+            do {
+                //MARK: - Check out sign up form
+                try siwAFormChecker(signWA: firebaseAuth.signByApple)
+                if firebaseAuth.signByApple == false {
+                    //MARK: - If user isn't sign by apple the check password format
+                    try pwdM.passwordChecker(
+                        password: signUpVM.recheckPassword
+                    )
+                    
+                    try await signUpVM.passwordCheckAndSignUpAsync(
+                        email: signUpVM.emailAddress,
+                        password: signUpVM.userPassword,
+                        confirmPassword: signUpVM.recheckPassword
+                    )
+                    //MARK: - Then, sign up
+                    try await firebaseAuth.signUpAsync(
+                        email: signUpVM.emailAddress,
+                        password: signUpVM.userPassword,
+                        isFounder: isFounder
+                    )
+                }
+                
+                //MARK: - create user data and fetch
+                try await firestoreToFetchUserinfo.createUserInfomationAsync(
+                    uidPath: firebaseAuth.getUID(),
+                    userDM: .signUpInit(
+                        userType: signUpVM.userType,
+                        providerType: signUpVM.providerType,
+                        isFounder: signUpVM.isFounder,
+                        isEmployee: signUpVM.isEmployee,
+                        providerGUI: signUpVM.gui,
+                        isSignByApple: firebaseAuth.signByApple,
+                        email: signUpVM.emailAddress
+                    )
+                )
+                
+                if signUpVM.isProvider {
+                    //MARK: - create provider data and fetch init data
+                    try await firestoreToFetchUserinfo.createProviderData(
+                        user: firebaseAuth.getUID(),
+                        provider: .createProvider(
+                            gui: signUpVM.gui
+                        )
+                    )
+                    if isFounder {
+                        //MARK: - Create store data and fetch
+                        try await providerStoreM.createStore(
+                            gui: signUpVM.gui,
+                            provider: .createStore
+                        )
+                        providerStoreM.showSignUpStore = true
+                    }
+                }
+               
+                if firebaseAuth.signByApple {
+                    firebaseAuth.signIn = true
+                    firebaseAuth.showSignUpView = false
+                    firebaseAuth.signByApple = false
+                }
+                
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+//        }
+    }
+    
     func siwAFormChecker(signWA: Bool) throws {
         if signWA {
             guard !signUpVM.emailAddress.isEmpty else {

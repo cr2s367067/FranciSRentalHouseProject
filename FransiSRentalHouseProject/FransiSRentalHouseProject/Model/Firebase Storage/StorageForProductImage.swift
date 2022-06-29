@@ -83,13 +83,13 @@ class StorageForProductImage: ObservableObject {
     }
 
     @MainActor
-    func uploadAndUpdateStoreImage(uidPath: String, images: [TextingImageDataModel], imageID: String) async throws {
+    func uploadAndUpdateStoreImage(gui: String, images: [TextingImageDataModel], imageID: String) async throws {
         if let image = images.first {
             guard let bkImageData = image.image.jpegData(compressionQuality: 0.5) else { return }
-            let backgroundImageRef = backgroundImageStorageAddress.child("\(uidPath)/\(imageID).jpg")
+            let backgroundImageRef = backgroundImageStorageAddress.child("\(gui)/\(imageID).jpg")
             _ = try await backgroundImageRef.putDataAsync(bkImageData)
             let url = try await backgroundImageRef.downloadURL().absoluteString
-            let storeRef = db.collection("Stores").document(uidPath)
+            let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui)
             try await storeRef.updateData([
                 "storeBackgroundImage": url,
             ])

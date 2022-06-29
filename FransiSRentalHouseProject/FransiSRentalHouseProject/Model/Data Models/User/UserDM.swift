@@ -118,6 +118,37 @@ struct ProviderDM: Codable {
 
 extension ProviderDM {
     static let empty = ProviderDM(gui: "", companyName: "", chargeName: "", city: "", town: "", address: "", email: "", companyProfileImageURL: "")
+    
+    static func createProvider(
+        gui: String
+    ) -> ProviderDM {
+        return ProviderDM(
+            gui: gui,
+            companyName: "",
+            chargeName: "",
+            city: "",
+            town: "",
+            address: "",
+            email: "",
+            companyProfileImageURL: ""
+        )
+    }
+    
+    static func updateProvider(
+        provider data: ProviderDM
+    ) -> ProviderDM {
+        return ProviderDM(
+            gui: data.gui,
+            companyName: data.companyName,
+            chargeName: data.chargeName,
+            city: data.city,
+            town: data.town,
+            address: data.address,
+            email: data.email,
+            companyProfileImageURL: data.companyProfileImageURL
+        )
+    }
+    
 }
 
 // MARK: - Product provider and Rental House Provider Store interface and setting configuration
@@ -137,6 +168,7 @@ struct ProviderStore: Identifiable, Codable {
     var storeChatDocID: String
     var storeBackgroundImage: String
     var storeDescription: String
+    
 }
 
 extension ProviderStore {
@@ -153,29 +185,58 @@ extension ProviderStore {
         storeBackgroundImage: "",
         storeDescription: ""
     )
+    
+    static let createStore = ProviderStore(
+        isCreateGroup: false,
+        isSetConfig: false,
+        settlementDate: Date(),
+        isCreateStore: true,
+        groupMemberAmount: 0,
+        rentalManagerLicenseNumber: "",
+        companyName: "",
+        companyProfileImage: "",
+        storeChatDocID: "",
+        storeBackgroundImage: "",
+        storeDescription: ""
+    )
 
-    static func createStore(
+    static func updateStore(
+        created data: ProviderStore,
         companyName: String,
-        companyProfileImage: String,
-        store data: ProviderStore
+        storeDes: String
     ) -> ProviderStore {
         return ProviderStore(
             isCreateGroup: data.isCreateGroup,
             isSetConfig: data.isSetConfig,
             settlementDate: data.settlementDate,
-            isCreateStore: true,
+            isCreateStore: data.isCreateGroup,
             groupMemberAmount: data.groupMemberAmount,
-            rentalManagerLicenseNumber: data.rentalManagerLicenseNumber ?? "",
             companyName: companyName,
-            companyProfileImage: companyProfileImage,
+            companyProfileImage: data.companyProfileImage,
             storeChatDocID: data.storeChatDocID,
             storeBackgroundImage: data.storeBackgroundImage,
-            storeDescription: data.storeDescription
+            storeDescription: storeDes
         )
     }
+    
 }
 
 struct EmpDataSet: Identifiable, Codable {
     @DocumentID var id: String?
     var empUID: String
+}
+
+
+//MARK: - Mothly income data model
+
+struct MonthlySettlementDM: Identifiable, Codable {
+    @DocumentID var id: String?
+    var isCreatedMonthlySettlementData: Bool
+    var month: Date
+    var closeAmount: Int
+    @ServerTimestamp var closeDate: Timestamp?
+}
+
+extension MonthlySettlementDM {
+    static let empty = MonthlySettlementDM(isCreatedMonthlySettlementData: false, month: Date(), closeAmount: 0)
 }

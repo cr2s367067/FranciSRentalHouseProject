@@ -48,9 +48,11 @@ class FirebaseAuth: ObservableObject {
 
 extension FirebaseAuth {
     @MainActor
-    func signUpAsync(email: String, password: String) async throws {
+    func signUpAsync(email: String, password: String, isFounder: Bool) async throws {
         try await auth.createUser(withEmail: email, password: password)
-        signUp = true
+        if isFounder == false {
+            signUp = true
+        }
     }
 
     @MainActor

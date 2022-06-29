@@ -501,13 +501,13 @@ extension ProviderRoomSummitView {
     ) async throws {
         _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
         try await firestoreToFetchRoomsData.summitRoomInfoAsync(
-            uidPath: firebaseAuth.getUID(),
+            gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
             roomDM: config,
             house: .roomCreate(zipCode: config.zipCode, city: config.city, town: config.town, address: config.address, rentalPrice: config.rentalPrice)
         )
         if !providerRoomSummitVM.imageSet.isEmpty {
             try await storageForRoomsImage.uploadImageSet(
-                uidPath: firebaseAuth.getUID(),
+                gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
                 images: providerRoomSummitVM.imageSet,
                 roomID: config.roomUID
             )

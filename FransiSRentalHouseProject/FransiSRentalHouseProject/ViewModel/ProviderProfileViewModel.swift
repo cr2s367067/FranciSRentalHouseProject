@@ -18,37 +18,41 @@ class ProviderProfileViewModel: ObservableObject {
 
     @Published var providerConfig: ProviderConfigDM = .empty
 
-    func createConfig(uidPath: String) async throws {
-        let providerConfigRef = db.collection("users").document(uidPath).collection("ProviderConfiguration").document(uidPath)
-        try await providerConfigRef.setData([
-            "isSetConfig": false,
-            "settlementDate": Date(),
-            "isCreated": false,
-            "isCreatedMonthlySettlementData": false,
+    //MARK: - When provider close accounting
+    func createSettlement(
+        gui: String,
+        settlement data: MonthlySettlementDM
+    ) async throws {
+        let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui).collection("MonthlySettlement")
+        _ = try await storeRef.addDocument(data: [
+            "isCreatedMonthlySettlementData" : data.isCreatedMonthlySettlementData,
+            "month" : data.month,
+            "closeAmount" : data.closeAmount,
+            "closeDate" : Date(),
         ])
     }
 
-    func updateConfig(uidPath: String, settlementDate: Date) async throws {
-        let providerConfigRef = db.collection("users").document(uidPath).collection("ProviderConfiguration").document(uidPath)
-        try await providerConfigRef.updateData([
+    func updateConfig(gui: String, settlementDate: Date) async throws {
+        let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui)
+        try await storeRef.updateData([
             "isSetConfig": true,
             "settlementDate": settlementDate,
         ])
     }
 
-    func updateCreated(uidPath: String, isCreated: Bool) async throws {
-        let providerConfigRef = db.collection("users").document(uidPath).collection("ProviderConfiguration").document(uidPath)
-        try await providerConfigRef.updateData([
-            "isCreated": isCreated,
-        ])
-    }
+//    func updateCreated(uidPath: String, isCreated: Bool) async throws {
+//        let providerConfigRef = db.collection("users").document(uidPath).collection("ProviderConfiguration").document(uidPath)
+//        try await providerConfigRef.updateData([
+//            "isCreated": isCreated,
+//        ])
+//    }
 
-    func isCreateMonthlySettleData(uidPath: String) async throws {
-        let providerConfigRef = db.collection("users").document(uidPath).collection("ProviderConfiguration").document(uidPath)
-        try await providerConfigRef.updateData([
-            "isCreatedMonthlySettlementData": true,
-        ])
-    }
+//    func isCreateMonthlySettleData(gui: String) async throws {
+//        let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui).collection("MonthlySettlement")
+//        try await storeRef.updateData([
+//            "isCreatedMonthlySettlementData": true,
+//        ])
+//    }
 
     @MainActor
     func fetchConfigData(uidPath: String) async throws -> ProviderConfigDM {

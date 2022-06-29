@@ -19,6 +19,8 @@ class StorageForUserProfile: ObservableObject {
     @Published var isSummitImage = false
 
     let profileImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "profileImage")
+    
+    let providerStoreprofileImageStorageAddress = Storage.storage(url: "gs://francisrentalhouseproject.appspot.com/").reference(withPath: "providerStoreProfileImage")
 }
 
 extension StorageForUserProfile {
@@ -34,6 +36,23 @@ extension StorageForUserProfile {
             ])
 //        }
     }
+    
+    func providerStoreImage(
+        gui: String,
+        images: [TextingImageDataModel]
+    ) async throws {
+        if let image = images.first {
+            guard let imageData = image.image.jpegData(compressionQuality: 0.5) else { return }
+            let imageRef = providerStoreprofileImageStorageAddress.child("\(gui).jpg")
+            _ = try await imageRef.putDataAsync(imageData)
+            let url = try await imageRef.downloadURL().absoluteString
+            let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui)
+            _ = try await storeRef.updateData([
+                "companyProfileImage" : url
+            ])
+        }
+    }
+    
 
 //    func deleteImagebyUIDAsync(uidPath: String) async throws {
 //        let storageRef = profileImageStorageAddress.child("\(uidPath).jpg")

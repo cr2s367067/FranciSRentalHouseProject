@@ -34,7 +34,7 @@ struct StoreProfileView: View {
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
-                storeHeaderView(isCreate: storeProfileVM.isCreated)
+                storeHeaderView(isCreate: providerStoreM.storesData.isCreateStore)
             }
             .onTapGesture {
                 isFocused = false
@@ -48,7 +48,11 @@ struct StoreProfileView: View {
             Task {
                 do {
                     showProgress = true
-                    try await storageForProductImage.uploadAndUpdateStoreImage(uidPath: firebaseAuth.getUID(), images: images, imageID: storageForProductImage.imagUUIDGenerator())
+                    try await storageForProductImage.uploadAndUpdateStoreImage(
+                        gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                        images: images,
+                        imageID: storageForProductImage.imagUUIDGenerator()
+                    )
                     _ = try await providerStoreM.fetchStore(provider: firebaseAuth.getUID())
                     showProgress = false
                 } catch {
@@ -144,12 +148,12 @@ extension StoreProfileView {
                 Button {
                     Task {
                         do {
-                            try await providerStoreM.updateStoreInfo(
-                                uidPath: firebaseAuth.getUID(),
-                                providerDescription: storeProfileVM.providerDescription
-                            )
+//                            try await providerStoreM.updateStoreInfo(
+//                                gui: firebaseAuth.getUID(),
+//                                providerDescription: storeProfileVM.providerDescription
+//                            )
                             try await providerStoreM.updateProfilePic(
-                                uidPath: firebaseAuth.getUID(),
+                                gui: firebaseAuth.getUID(),
                                 profileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL
                             )
                             _ = try await providerStoreM.fetchStore(
@@ -166,33 +170,34 @@ extension StoreProfileView {
                         .modifier(ButtonModifier())
                 }
             }
-        } else {
-            VStack {
-                Text("Let's get start")
-                    .modifier(StoreTextModifier())
-                Button {
-                    Task {
-                        do {
-                            try await providerStoreM.createStore(
-                                uidPath: firebaseAuth.getUID(),
-                                provider: .createStore(
-                                    companyName: firestoreToFetchUserinfo.providerInfo.companyName,
-                                    companyProfileImage: firestoreToFetchUserinfo.providerInfo.companyProfileImageURL,
-                                    store: storeProfileVM.store
-                                )
-                            )
-                            try await providerProfileViewModel.updateCreated(uidPath: firebaseAuth.getUID(), isCreated: true)
-                            storeProfileVM.isCreated = true
-                        } catch {
-                            self.errorHandler.handle(error: error)
-                        }
-                    }
-                } label: {
-                    Text("Create")
-                        .modifier(ButtonModifier())
-                }
-            }
         }
+//        else {
+//            VStack {
+//                Text("Let's get start")
+//                    .modifier(StoreTextModifier())
+//                Button {
+//                    Task {
+//                        do {
+//                            try await providerStoreM.createStore(
+//                                gui: firebaseAuth.getUID(),
+//                                provider: .createStore(
+//                                    companyName: firestoreToFetchUserinfo.providerInfo.companyName,
+//                                    companyProfileImage: firestoreToFetchUserinfo.providerInfo.companyProfileImageURL,
+//                                    store: storeProfileVM.store
+//                                )
+//                            )
+//                            try await providerProfileViewModel.updateCreated(uidPath: firebaseAuth.getUID(), isCreated: true)
+//                            storeProfileVM.isCreated = true
+//                        } catch {
+//                            self.errorHandler.handle(error: error)
+//                        }
+//                    }
+//                } label: {
+//                    Text("Create")
+//                        .modifier(ButtonModifier())
+//                }
+//            }
+//        }
     }
 }
 

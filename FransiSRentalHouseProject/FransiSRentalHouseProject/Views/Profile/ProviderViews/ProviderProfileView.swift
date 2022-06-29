@@ -18,15 +18,17 @@ struct ProviderProfileView: View {
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var storageForUserProfile: StorageForUserProfile
     @EnvironmentObject var soldProductCollectionM: SoldProductCollectionManager
-
+    @EnvironmentObject var providerStoreM: ProviderStoreM
+    
     @Binding var show: Bool
     
     @State private var selectLimit = 1
 
     let uiScreenWidth = UIScreen.main.bounds.width
     @State private var isLoading = false
-    @State private var image = UIImage()
+    @State private var image = [TextingImageDataModel]()
     @State private var showSheet = false
+    @State private var isEditing = false
 
     init(show: Binding<Bool>) {
         _show = show
@@ -64,7 +66,15 @@ struct ProviderProfileView: View {
                                     .clipShape(Circle())
                                     .scaledToFit()
                                 if firebaseAuth.auth.currentUser != nil {
-                                    WebImage(url: URL(string: firestoreToFetchUserinfo.fetchedUserData.profileImageURL))
+                                    WebImage(url: URL(string: providerStoreM.storesData.companyProfileImage))
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 45, height: 45)
+                                        .clipShape(Circle())
+                                        .scaledToFit()
+                                }
+                                if isEditing {
+                                    Image(uiImage: backgroundImage(images: image))
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 45, height: 45)
@@ -84,6 +94,14 @@ struct ProviderProfileView: View {
                             .font(.system(size: 24, weight: .heavy))
                             .foregroundColor(Color.white)
                         Spacer()
+                        if isEditing {
+                            Button {
+                                profileImageUploading()
+                            } label: {
+                                 Text("Upload")
+                                    .modifier(ButtonModifier())
+                            }
+                        }
                     }
                     HStack {
                         VStack {
@@ -135,26 +153,17 @@ struct ProviderProfileView: View {
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .sheet(isPresented: $showSheet, onDismiss: {
-            Task {
-                do {
-                    isLoading = true
-                    try await storageForUserProfile.uploadImageAsync(
-                        uidPath: firebaseAuth.getUID(),
-                        image: image
-                    )
-                    try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
-                    isLoading = false
-                } catch {
-                    self.errorHandler.handle(error: error)
-                }
-            }
+            print("test set: \(image)")
+          isEditing = true
         }, content: {
-            ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
-//            PHPickerRepresentable(selectLimit: $selectLimit, images: $image, video: .constant(nil))
+//            ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
+            PHPickerRepresentable(selectLimit: $selectLimit, images: $image, video: Binding.constant(nil))
         })
         .task {
             do {
-                try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
+                if providerStoreM.storesData.isSetConfig {
+                    try await paymentReceiveManager.fetchMonthlySettlement(uidPath: firebaseAuth.getUID())
+                }
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -176,6 +185,32 @@ struct ProviderProfileView: View {
 // }
 
 extension ProviderProfileView {
+    
+    func backgroundImage(images: [TextingImageDataModel]) -> UIImage {
+        var temp = UIImage()
+        for image in images {
+            temp = image.image
+        }
+        return temp
+    }
+    
+    private func profileImageUploading() {
+        Task {
+            do {
+                isLoading = true
+                try await storageForUserProfile.providerStoreImage(
+                    gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                    images: image
+                )
+                try await providerStoreM.fetchStore(provider: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "")
+                isLoading = false
+                isEditing = false
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+        }
+    }
+    
     @ViewBuilder
     func isContainDataInBarChart() -> some View {
         if providerProfileViewModel.providerConfig.isCreatedMonthlySettlementData {
@@ -187,12 +222,15 @@ extension ProviderProfileView {
 
     @ViewBuilder
     func editModeSummitButton(editMode: Bool) -> some View {
-        if editMode == true {
+        if editMode {
             Button {
                 Task {
                     do {
-                        try await providerProfileViewModel.updateConfig(uidPath: firebaseAuth.getUID(), settlementDate: providerProfileViewModel.settlementDate)
-                        _ = try await providerProfileViewModel.fetchConfigData(uidPath: firebaseAuth.getUID())
+                        try await providerProfileViewModel.updateConfig(
+                            gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                            settlementDate: providerProfileViewModel.settlementDate
+                        )
+                        try await providerStoreM.fetchStore(provider: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "")
                         providerProfileViewModel.editMode = false
                     } catch {
                         self.errorHandler.handle(error: error)

@@ -14,6 +14,7 @@ struct RenterContractEditView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var renterContractVM: RenterContractViewModel
+    @EnvironmentObject var firestoreUser: FirestoreToFetchUserinfo
 
     var docID: String
     var contractData: HouseContract
@@ -442,15 +443,21 @@ struct RenterContractEditView: View {
                 Task {
                     do {
 //                        rentEditVM.contractDataModel.isSummitContract = true
-                        try await firestoreToFetchRoomsData.updataRentalPrice(uidPath: firebaseAuth.getUID(), docID: docID, rentalPrice: rentEditVM.contractDataModel.roomRentalPrice)
-                        try await firestoreToFetchRoomsData.updateContractData(
+                        try await firestoreToFetchRoomsData.updataRentalPrice(
                             uidPath: firebaseAuth.getUID(),
+                            docID: docID,
+                            rentalPrice: rentEditVM.contractDataModel.roomRentalPrice
+                        )
+                        try await firestoreToFetchRoomsData.updateContractData(
+                            gui: firestoreUser.fetchedUserData.providerGUI ?? "",
                             room: docID,
                             roomDM: .empty, // roomdm's data didn't send
                             house: rentEditVM.contractDataModel
                         )
 
-                        try await firestoreToFetchRoomsData.getRoomInfo(uidPath: firebaseAuth.getUID())
+                        try await firestoreToFetchRoomsData.getRoomInfo(
+                            gui: firestoreUser.fetchedUserData.providerGUI ?? ""
+                        )
                         renterContractVM.showEditMode = false
                     } catch {
                         self.errorHandler.handle(error: error)

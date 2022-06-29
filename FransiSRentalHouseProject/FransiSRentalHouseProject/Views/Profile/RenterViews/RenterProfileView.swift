@@ -142,7 +142,6 @@ struct RenterProfileView: View {
         .sheet(isPresented: $showSheet, onDismiss: {
             Task {
                 do {
-//                    debugPrint(image.isEmpty)
                     isLoading = true
                     try await storageForUserProfile.uploadImageAsync(
                         uidPath: firebaseAuth.getUID(),

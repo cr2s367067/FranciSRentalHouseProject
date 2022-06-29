@@ -81,6 +81,8 @@
 		0E14BC59280D04D500CE56FE /* BioAuthSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E14BC58280D04D500CE56FE /* BioAuthSettingView.swift */; };
 		0E14BC5B280D3D6B00CE56FE /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E14BC5A280D3D6B00CE56FE /* TestView.swift */; };
 		0E19C8CB27F6CAEB00FD23D8 /* RentalContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E19C8CA27F6CAEB00FD23D8 /* RentalContractViewModel.swift */; };
+		0E1C60F9286B330A0057E599 /* ProviderStoreSetUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1C60F8286B330A0057E599 /* ProviderStoreSetUpView.swift */; };
+		0E1C60FC286C21550057E599 /* ProviderStoreSetUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1C60FB286C21550057E599 /* ProviderStoreSetUpVM.swift */; };
 		0E1EEA44280C572500976F9D /* BioAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EEA43280C572500976F9D /* BioAuthViewModel.swift */; };
 		0E257A52283DDA24004F58DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E257A4E283CD1BA004F58DA /* GoogleService-Info.plist */; };
 		0E2EDD3827EAF307008FEF58 /* TextingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */; };
@@ -266,6 +268,8 @@
 		0E14BC58280D04D500CE56FE /* BioAuthSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioAuthSettingView.swift; sourceTree = "<group>"; };
 		0E14BC5A280D3D6B00CE56FE /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		0E19C8CA27F6CAEB00FD23D8 /* RentalContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalContractViewModel.swift; sourceTree = "<group>"; };
+		0E1C60F8286B330A0057E599 /* ProviderStoreSetUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderStoreSetUpView.swift; sourceTree = "<group>"; };
+		0E1C60FB286C21550057E599 /* ProviderStoreSetUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderStoreSetUpVM.swift; sourceTree = "<group>"; };
 		0E1EEA43280C572500976F9D /* BioAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioAuthViewModel.swift; sourceTree = "<group>"; };
 		0E257A4E283CD1BA004F58DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E2EDD3727EAF307008FEF58 /* TextingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextingViewModel.swift; sourceTree = "<group>"; };
@@ -487,6 +491,7 @@
 		0249D42427C6373B0085F4A5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				0E1C60FA286C21340057E599 /* ProviderStoreSetUpViewModel */,
 				0EDB46BD286979FA00571768 /* ProviderRoomSummitViewModel */,
 				0E55AC84286732B40085A9B0 /* ContractCollectionViewModel */,
 				0EA2EE102865DFDB002B3210 /* RenterMainViewModel */,
@@ -579,6 +584,7 @@
 		0249D43827C6394C0085F4A5 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				0E1C60F7286B32E90057E599 /* SignUpSubView */,
 				0E5606782834ECEB00C987FB /* LoginView.swift */,
 				0249D43927C639720085F4A5 /* AppTabView.swift */,
 				0249D43B27C6397F0085F4A5 /* LoginView(empty).swift */,
@@ -772,6 +778,22 @@
 				0E14BC5A280D3D6B00CE56FE /* TestView.swift */,
 			);
 			path = BioAuth;
+			sourceTree = "<group>";
+		};
+		0E1C60F7286B32E90057E599 /* SignUpSubView */ = {
+			isa = PBXGroup;
+			children = (
+				0E1C60F8286B330A0057E599 /* ProviderStoreSetUpView.swift */,
+			);
+			path = SignUpSubView;
+			sourceTree = "<group>";
+		};
+		0E1C60FA286C21340057E599 /* ProviderStoreSetUpViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0E1C60FB286C21550057E599 /* ProviderStoreSetUpVM.swift */,
+			);
+			path = ProviderStoreSetUpViewModel;
 			sourceTree = "<group>";
 		};
 		0E304DC3283912CC000E2D35 /* Crashlytics */ = {
@@ -1305,6 +1327,7 @@
 				0E2EF5FA2828AB6F00BA9B2A /* CustomToggleView.swift in Sources */,
 				022A84F427C7288C0063FF05 /* ImagePicker.swift in Sources */,
 				0249D43A27C639720085F4A5 /* AppTabView.swift in Sources */,
+				0E1C60F9286B330A0057E599 /* ProviderStoreSetUpView.swift in Sources */,
 				0249D42E27C637DA0085F4A5 /* PersistenceController.swift in Sources */,
 				024172AB27DE1342002BF2F2 /* RoomDetailSheetView.swift in Sources */,
 				02D684BF27D9EFF000061B99 /* RenterContractView.swift in Sources */,
@@ -1323,6 +1346,7 @@
 				0E336CE0280EA05200EC91B6 /* SearchViewModel.swift in Sources */,
 				0EFDB2E42856337200E6E2BB /* VideoView.swift in Sources */,
 				0EA78798283B224300E82F75 /* NotificationManager.swift in Sources */,
+				0E1C60FC286C21550057E599 /* ProviderStoreSetUpVM.swift in Sources */,
 				0E8AE23828620C89005733EE /* UserDM.swift in Sources */,
 				0E31807F28112559009784B9 /* StoreView.swift in Sources */,
 				0249D44327C639BE0085F4A5 /* SheetView.swift in Sources */,

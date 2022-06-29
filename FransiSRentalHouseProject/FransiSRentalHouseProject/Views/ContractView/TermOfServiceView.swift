@@ -17,7 +17,7 @@ struct TermOfServiceView: View {
                     .fill(Color("backgroundBrown"))
                     .edgesIgnoringSafeArea([.top, .bottom])
                 RoundedRectangle(cornerRadius: 30)
-                    .fill(Color.white)
+                    .fill(Color.primary)
                     .frame(width: UIScreen.main.bounds.width - 15)
             }
             VStack {
