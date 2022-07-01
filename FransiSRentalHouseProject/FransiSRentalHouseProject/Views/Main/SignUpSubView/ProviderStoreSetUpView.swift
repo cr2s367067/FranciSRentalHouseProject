@@ -25,6 +25,11 @@ struct ProviderStoreSetUpView: View {
     @State private var showProgress = false
     @FocusState private var isFocus: Bool
     
+    
+    @State private var city = ""
+    @State private var town = ""
+    @State private var address = ""
+    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     
@@ -39,12 +44,30 @@ struct ProviderStoreSetUpView: View {
 //                )
 //                InfoUnit(title: "GUI", bindingString: $providerStoreSetupVM.storeInfo.gui)
                 editStoreHeader()
-                InfoUnit(title: "Company Name", bindingString: $providerStoreSetupVM.providerInfo.companyName)
-                InfoUnit(title: "Charge Name", bindingString: $providerStoreSetupVM.providerInfo.chargeName)
-                InfoUnit(title: "City", bindingString: $providerStoreSetupVM.providerInfo.city)
-                InfoUnit(title: "Town", bindingString: $providerStoreSetupVM.providerInfo.town)
-                InfoUnit(title: "Address", bindingString: $providerStoreSetupVM.providerInfo.address)
-                InfoUnit(title: "Company E-mail", bindingString: $providerStoreSetupVM.providerInfo.email)
+                InfoUnit(
+                    title: "Company Name",
+                    bindingString: $providerStoreSetupVM.storeInfo.companyName
+                )
+                InfoUnit(
+                    title: "Charge Name",
+                    bindingString: $providerStoreSetupVM.storeInfo.chargeName
+                )
+                InfoUnit(
+                    title: "City",
+                    bindingString: $city
+                )
+                InfoUnit(
+                    title: "Town",
+                    bindingString: $town
+                )
+                InfoUnit(
+                    title: "Address",
+                    bindingString: $address
+                )
+                InfoUnit(
+                    title: "Company E-mail",
+                    bindingString: $providerStoreSetupVM.storeInfo.companyEmail
+                )
                 doneButton()
                 Spacer()
             }
@@ -83,6 +106,11 @@ struct ProviderStoreSetUpView: View {
 
 
 extension ProviderStoreSetUpView {
+    
+    private func getAddress() -> String {
+        return city + town + address
+    }
+    
     @ViewBuilder
     func doneButton() -> some View {
         HStack {
@@ -92,10 +120,9 @@ extension ProviderStoreSetUpView {
                     do {
                         try await providerStoreM.updateStoreInfo(
                             gui: firestoreUser.providerInfo.gui,
-                            store: .updateStore(
+                            provider: .updateStore(
                                 created: .createStore,
-                                companyName: providerStoreSetupVM.providerInfo.companyName,
-                                storeDes: providerStoreSetupVM.storeInfo.storeDescription
+                                companyAddress: getAddress()
                             )
                         )
                         try await firestoreUser.updateProviderData(
@@ -136,7 +163,7 @@ extension ProviderStoreSetUpView {
                 ZStack {
                     Image(systemName: "person")
                         .modifier(StoreProfileImageModifier())
-                    WebImage(url: URL(string: providerStoreSetupVM.providerInfo.companyProfileImageURL))
+                    WebImage(url: URL(string: providerStoreSetupVM.storeInfo.companyProfileImage))
                         .resizable()
                         .frame(width: 80, height: 80)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -156,7 +183,7 @@ extension ProviderStoreSetUpView {
                 Spacer()
             }
             HStack {
-                Text(providerStoreM.storesData.storeDescription)
+                Text(providerStoreSetupVM.storeInfo.storeDescription)
                     .modifier(StoreTextModifier())
                     .font(.body)
                 Spacer()

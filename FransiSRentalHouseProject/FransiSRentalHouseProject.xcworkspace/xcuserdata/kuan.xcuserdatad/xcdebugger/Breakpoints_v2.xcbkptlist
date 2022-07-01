@@ -55,22 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A96F03FC-13AE-446B-91D5-A8847503B068"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Views/Profile/RenterViews/RenterProfileView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "AD989F16-B9EF-4D6D-97DB-1A8FBCA509EF"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -286,8 +270,8 @@
             filePath = "FransiSRentalHouseProject/Views/Main/SignUpView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "520"
-            endingLineNumber = "520"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
             landmarkName = "signUpProcess(isFounder:isEmployee:isRenter:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -731,8 +715,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Renter/RenterContractView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "idfEditMode(showEditMode:roomsData:contractData:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -747,8 +731,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Renter/RenterContractView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "idfEditMode(showEditMode:roomsData:contractData:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -779,8 +763,8 @@
             filePath = "FransiSRentalHouseProject/Views/Search/RoomsDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -795,8 +779,8 @@
             filePath = "FransiSRentalHouseProject/Views/Main/SignUpView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "528"
-            endingLineNumber = "528"
+            startingLineNumber = "538"
+            endingLineNumber = "538"
             landmarkName = "signUpProcess(isFounder:isEmployee:isRenter:)"
             landmarkType = "7">
             <Locations>
@@ -843,8 +827,8 @@
             filePath = "FransiSRentalHouseProject/Views/Main/SignUpView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
             landmarkName = "signUpProcess(isFounder:isEmployee:isRenter:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -875,8 +859,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchUserInfo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "createUserInfomationAsync(uidPath:userDM:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -891,8 +875,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchUserInfo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "createUserInfomationAsync(uidPath:userDM:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -907,8 +891,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchUserInfo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "createUserInfomationAsync(uidPath:userDM:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1686,8 +1670,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Renter/RenterContractView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -1786,6 +1770,22 @@
             endingLineNumber = "397"
             landmarkName = "rentedRoom(result:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6541E760-1EE0-4CAE-813A-9EAB3009E393"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Profile/RenterViews/RenterProfileView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

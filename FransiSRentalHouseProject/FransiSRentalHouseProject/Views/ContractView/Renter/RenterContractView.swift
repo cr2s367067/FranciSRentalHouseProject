@@ -16,6 +16,7 @@ struct RenterContractView: View {
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var storageForRoomsImage: StorageForRoomsImage
+    @EnvironmentObject var providerStoreM: ProviderStoreM
     @Environment(\.colorScheme) var colorScheme
 
     private func agreementCheckerThows() throws {
@@ -90,6 +91,11 @@ struct SpacerAtRightOfText: View {
 }
 
 extension RenterContractView {
+    
+    private func providerAddress(store: ProviderStore) {
+        
+    }
+    
     @ViewBuilder
     func viewSwitch(paymentH: Bool, contractData: HouseContract = .empty) -> some View {
         if paymentH {
@@ -185,15 +191,40 @@ extension RenterContractView {
                                 VStack(spacing: 6) {
                                     Group {
                                         VStack {
+                                            //MARK: - Provider Store Data
                                             LineWithSpacer(contain: "出租人：")
-                                            signatureContainer(containerName: "姓名(名稱)：", containHolder: contractData.providerName)
-                                            signatureContainer(containerName: "統一編號：", containHolder: contractData.providerID)
-                                            signatureContainer(containerName: "戶籍地址：", containHolder: contractData.providerResidenceAddress)
-                                            signatureContainer(containerName: "通訊地址：", containHolder: contractData.providerMailingAddress)
-                                            signatureContainer(containerName: "聯絡電話：", containHolder: contractData.providerPhoneNumber)
-                                            signatureHolder(signatureTitle: "負責人：", signString: contractData.providerPhoneChargeName)
-                                            signatureContainer(containerName: "統一編號：", containHolder: contractData.providerPhoneChargeID)
-                                            signatureContainer(containerName: "電子郵件信箱：", containHolder: contractData.providerPhoneChargeEmailAddress)
+                                            signatureContainer(
+                                                containerName: "姓名(名稱)：",
+                                                containHolder: providerStoreM.storesData.companyName
+                                            )
+                                            signatureContainer(
+                                                containerName: "統一編號：",
+                                                containHolder: providerStoreM.storesData.id ?? ""
+                                            )
+                                            signatureContainer(
+                                                containerName: "戶籍地址：",
+                                                containHolder: contractData.providerResidenceAddress
+                                            )
+                                            signatureContainer(
+                                                containerName: "通訊地址：",
+                                                containHolder: contractData.providerMailingAddress
+                                            )
+                                            signatureContainer(
+                                                containerName: "聯絡電話：",
+                                                containHolder: contractData.providerPhoneNumber
+                                            )
+                                            signatureHolder(
+                                                signatureTitle: "負責人：",
+                                                signString: contractData.providerPhoneChargeName
+                                            )
+                                            signatureContainer(
+                                                containerName: "統一編號：",
+                                                containHolder: contractData.providerPhoneChargeID
+                                            )
+                                            signatureContainer(
+                                                containerName: "電子郵件信箱：",
+                                                containHolder: contractData.providerPhoneChargeEmailAddress
+                                            )
                                         }
                                     }
                                     .font(.system(size: 14, weight: .regular))

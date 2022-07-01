@@ -31,17 +31,21 @@ class ProviderStoreM: ObservableObject {
     ) async throws {
         let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui)
         _ = try await storeRef.setData([
-            "isCreateGroup": store.isCreateGroup,
-            "isSetConfig": store.isSetConfig,
-            "settlementDate": store.settlementDate,
-            "isCreateStore": store.isCreateStore,
-            "groupMemberAmount": store.groupMemberAmount,
-            "rentalManagerLicenseNumber": store.rentalManagerLicenseNumber ?? "",
-            "companyName": store.companyName,
-            "companyProfileImage": store.companyProfileImage,
-            "storeChatDocID": store.storeChatDocID,
-            "storeBackgroundImage": store.storeBackgroundImage,
-            "storeDescription": store.storeDescription,
+            "isSetConfig" : store.isSetConfig,
+            "settlementDate" : store.settlementDate,
+            "isCreateStore" : store.isCreateStore,
+            "groupMemberAmount" : store.groupMemberAmount,
+            "storeChatDocID" : store.storeChatDocID,
+            "storeBackgroundImage" : store.storeBackgroundImage,
+            "storeDescription" : store.storeDescription,
+            "companyProfileImage" : store.companyProfileImage,
+            "companyName" : store.companyName,
+            "companyAddress" : store.companyAddress,
+            "companyGUI" : store.companyGUI,
+            "telNumber" : store.telNumber,
+            "companyEmail" : store.companyEmail,
+            "chargeName" : store.chargeName,
+            "chargeID" : store.chargeID
         ])
         try await fetchStore(provider: gui)
     }
@@ -62,20 +66,25 @@ class ProviderStoreM: ObservableObject {
 
     func updateStoreInfo(
         gui: String,
-        store data: ProviderStore
+        provider store: ProviderStore
     ) async throws {
         let storeRef = db.collection("Stores").document(gui).collection("StoreData").document(gui)
         _ = try await storeRef.updateData([
-            "isCreateGroup" : data.isCreateGroup,
-            "isSetConfig" : data.isSetConfig,
-            "settlementDate" : data.settlementDate,
-            "groupMemberAmount" : data.groupMemberAmount,
-            "rentalManagerLicenseNumber" : data.rentalManagerLicenseNumber ?? "",
-            "companyName" : data.companyName,
-            "companyProfileImage" : data.companyProfileImage,
-            "storeChatDocID" : data.storeChatDocID,
-            "storeBackgroundImage" : data.storeBackgroundImage,
-            "storeDescription" : data.storeDescription
+            "isSetConfig" : store.isSetConfig,
+            "settlementDate" : store.settlementDate,
+            "isCreateStore" : store.isCreateStore,
+            "groupMemberAmount" : store.groupMemberAmount,
+            "storeChatDocID" : store.storeChatDocID,
+            "storeBackgroundImage" : store.storeBackgroundImage,
+            "storeDescription" : store.storeDescription,
+            "companyProfileImage" : store.companyProfileImage,
+            "companyName" : store.companyName,
+            "companyAddress" : store.companyAddress,
+            "companyGUI" : store.companyGUI,
+            "telNumber" : store.telNumber,
+            "companyEmail" : store.companyEmail,
+            "chargeName" : store.chargeName,
+            "chargeID" : store.chargeID
         ])
     }
 

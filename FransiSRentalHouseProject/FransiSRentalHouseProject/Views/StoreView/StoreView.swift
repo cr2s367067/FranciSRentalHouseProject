@@ -72,7 +72,7 @@ struct StoreView: View {
                             guard let providerUID = storeData.id else { return }
                             roomsDetailVM.createNewChateRoom = true
                             roomsDetailVM.providerUID = providerUID
-                            roomsDetailVM.providerDisplayName = firestoreToFetchUserinf.providerInfo.companyName
+                            roomsDetailVM.providerDisplayName = providerStoreM.storesData.companyName
                             roomsDetailVM.providerChatDodID = storeData.storeChatDocID
                         }
                     )
@@ -244,7 +244,7 @@ struct TitleSection: View {
                 Spacer()
             }
             HStack {
-                Text(providerConfig.companyName)
+                Text(storeData.companyName)
                     .modifier(StoreTextModifier())
                     .font(.headline)
                 Spacer()

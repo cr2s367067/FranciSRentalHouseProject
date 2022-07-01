@@ -37,7 +37,7 @@ class FirestoreToFetchUserinfo: ObservableObject {
 
     // MARK: - Present provider config <Haven't create func>
 
-    @Published var providerStoreConfig: ProviderStore = .empty
+//    @Published var providerStoreConfig: ProviderStore = .empty
 
     func userIDisEmpty() -> Bool {
         return fetchedUserData.id.isEmpty
@@ -51,20 +51,15 @@ class FirestoreToFetchUserinfo: ObservableObject {
 extension FirestoreToFetchUserinfo {
     
     @MainActor
-    func createProviderData(
+    func  createProviderData(
         user uidPath: String,
         provider data: ProviderDM
     ) async throws {
         let storeProviderRef = db.collection("Stores").document(data.gui).collection("ProviderData").document(uidPath)
         _ = try await storeProviderRef.setData([
             "gui" : data.gui,
-            "companyName" : data.companyName,
-            "chargeName" : data.chargeName,
-            "city" : data.city,
-            "town" : data.town,
-            "address" : data.address,
-            "email" : data.email,
-            "companyProfileImageURL" : data.companyProfileImageURL
+            "empType" : data.empType,
+            "empUID" : uidPath
         ])
         providerInfo = try await storeProviderRef.getDocument(as: ProviderDM.self)
     }
@@ -77,13 +72,8 @@ extension FirestoreToFetchUserinfo {
         let storeProviderRef = db.collection("Stores").document(data.gui).collection("ProviderData").document(uidPath)
         _ = try await storeProviderRef.updateData([
             "gui" : data.gui,
-            "companyName" : data.companyName,
-            "chargeName" : data.chargeName,
-            "city" : data.city,
-            "town" : data.town,
-            "address" : data.address,
-            "email" : data.email,
-            "companyProfileImageURL" : data.companyProfileImageURL
+            "empType" : data.empType,
+            "empUID" : uidPath
         ])
         providerInfo = try await storeProviderRef.getDocument(as: ProviderDM.self)
     }

@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct SignUpView: View {
+    
+    enum EmpType: String {
+        case founder = "Founder"
+        case emp = "Employee"
+    }
+    
 //    @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
@@ -26,6 +32,8 @@ struct SignUpView: View {
     @State private var pwdCheckSymbol = false
     @State private var pwdCheckUppercase = false
 
+    @State private var empType = ""
+    
     @FocusState private var isFocus: Bool
 
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -256,6 +264,7 @@ struct SignUpView: View {
                                     }
                                     if signUpVM.isFounder == false {
                                         signUpVM.isFounder = true
+                                        empType = EmpType.founder.rawValue
                                     }
                                 } label: {
                                     HStack {
@@ -277,6 +286,7 @@ struct SignUpView: View {
                                     }
                                     if signUpVM.isEmployee == false {
                                         signUpVM.isEmployee = true
+                                        empType = EmpType.emp.rawValue
                                     }
                                 } label: {
                                     HStack {
@@ -542,8 +552,10 @@ extension SignUpView {
                     //MARK: - create provider data and fetch init data
                     try await firestoreToFetchUserinfo.createProviderData(
                         user: firebaseAuth.getUID(),
-                        provider: .createProvider(
-                            gui: signUpVM.gui
+                        provider: ProviderDM(
+                            gui: signUpVM.gui,
+                            empType: empType,
+                            empUID: firebaseAuth.getUID()
                         )
                     )
                     if isFounder {

@@ -107,45 +107,35 @@ extension UserDM {
 
 struct ProviderDM: Codable {
     var gui: String
-    var companyName: String
-    var chargeName: String
-    var city: String
-    var town: String
-    var address: String
-    var email: String
-    var companyProfileImageURL: String
+    var empType: String
+    var empUID: String
 }
 
 extension ProviderDM {
-    static let empty = ProviderDM(gui: "", companyName: "", chargeName: "", city: "", town: "", address: "", email: "", companyProfileImageURL: "")
+    static let empty = ProviderDM(
+        gui: "",
+        empType: "",
+        empUID: ""
+    )
     
-    static func createProvider(
-        gui: String
-    ) -> ProviderDM {
-        return ProviderDM(
-            gui: gui,
-            companyName: "",
-            chargeName: "",
-            city: "",
-            town: "",
-            address: "",
-            email: "",
-            companyProfileImageURL: ""
-        )
-    }
+//    static func createProvider(
+//        gui: String,
+//        empType: String
+//    ) -> ProviderDM {
+//        return ProviderDM(
+//            gui: data.gui,
+//            empType: data.empType,
+//            empUID: data.empUID
+//        )
+//    }
     
     static func updateProvider(
         provider data: ProviderDM
     ) -> ProviderDM {
         return ProviderDM(
             gui: data.gui,
-            companyName: data.companyName,
-            chargeName: data.chargeName,
-            city: data.city,
-            town: data.town,
-            address: data.address,
-            email: data.email,
-            companyProfileImageURL: data.companyProfileImageURL
+            empType: data.empType,
+            empUID: data.empUID
         )
     }
     
@@ -157,65 +147,85 @@ struct ProviderStore: Identifiable, Codable {
     // MARK: id is uidPath
 
     @DocumentID var id: String?
-    var isCreateGroup: Bool
+//    var isCreateGroup: Bool
     var isSetConfig: Bool
     var settlementDate: Date
     var isCreateStore: Bool
     var groupMemberAmount: Int
     var rentalManagerLicenseNumber: String?
-    var companyName: String
-    var companyProfileImage: String
     var storeChatDocID: String
     var storeBackgroundImage: String
     var storeDescription: String
+    //MARK: - Company Info
+    var companyProfileImage: String
+    var companyName: String
+    var companyAddress: String
+    var companyGUI: String
+    var telNumber: String
+    var companyEmail: String
+    //MARK: - Charge Info
+    var chargeName: String
+    var chargeID: String
     
 }
 
 extension ProviderStore {
     static let empty = ProviderStore(
-        isCreateGroup: false,
         isSetConfig: false,
         settlementDate: Date(),
         isCreateStore: false,
         groupMemberAmount: 0,
-        rentalManagerLicenseNumber: "",
-        companyName: "",
-        companyProfileImage: "",
         storeChatDocID: "",
         storeBackgroundImage: "",
-        storeDescription: ""
+        storeDescription: "",
+        companyProfileImage: "",
+        companyName: "",
+        companyAddress: "",
+        companyGUI: "",
+        telNumber: "",
+        companyEmail: "",
+        chargeName: "",
+        chargeID: ""
     )
     
     static let createStore = ProviderStore(
-        isCreateGroup: false,
         isSetConfig: false,
         settlementDate: Date(),
         isCreateStore: true,
         groupMemberAmount: 0,
-        rentalManagerLicenseNumber: "",
-        companyName: "",
-        companyProfileImage: "",
         storeChatDocID: "",
         storeBackgroundImage: "",
-        storeDescription: ""
+        storeDescription: "",
+        companyProfileImage: "",
+        companyName: "",
+        companyAddress: "",
+        companyGUI: "",
+        telNumber: "",
+        companyEmail: "",
+        chargeName: "",
+        chargeID: ""
     )
 
     static func updateStore(
         created data: ProviderStore,
-        companyName: String,
-        storeDes: String
+        companyAddress: String
     ) -> ProviderStore {
         return ProviderStore(
-            isCreateGroup: data.isCreateGroup,
             isSetConfig: data.isSetConfig,
             settlementDate: data.settlementDate,
-            isCreateStore: data.isCreateGroup,
+            isCreateStore: data.isCreateStore,
             groupMemberAmount: data.groupMemberAmount,
-            companyName: companyName,
-            companyProfileImage: data.companyProfileImage,
             storeChatDocID: data.storeChatDocID,
             storeBackgroundImage: data.storeBackgroundImage,
-            storeDescription: storeDes
+            storeDescription: data.storeDescription,
+            companyProfileImage: data.companyProfileImage,
+            companyName: data.companyName,
+            companyAddress: companyAddress,
+            companyGUI: data.companyGUI,
+            telNumber: data.telNumber,
+            companyEmail: data.companyEmail,
+            chargeName: data.chargeName,
+            chargeID: data.chargeID
         )
     }
     

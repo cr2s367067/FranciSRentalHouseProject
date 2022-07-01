@@ -19,6 +19,7 @@ struct RoomsDetailView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
+    @EnvironmentObject var providerStoreM: ProviderStoreM
     @Environment(\.colorScheme) var colorScheme
 
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -49,7 +50,7 @@ struct RoomsDetailView: View {
                     .frame(height: 15)
                 VStack(alignment: .center, spacing: 10) {
                     HStack {
-                        Text(firestoreToFetchUserinfo.providerInfo.companyName)
+                        Text(providerStoreM.storesData.companyName)
                             .foregroundColor(.white)
                             .font(.title2)
                             .fontWeight(.heavy)
@@ -285,9 +286,10 @@ extension RoomsDetailView {
                     debugPrint(roomsDetailViewModel.createNewChateRoom)
                     roomsDetailViewModel.providerUID = roomsData.providerUID
                     debugPrint("providerBy: \(roomsDetailViewModel.providerUID)")
-                    roomsDetailViewModel.providerDisplayName = firestoreToFetchUserinfo.providerInfo.companyName
+                    roomsDetailViewModel.providerDisplayName = providerStoreM.storesData.companyName
                     debugPrint("providerDN: \(roomsDetailViewModel.providerDisplayName)")
-                    roomsDetailViewModel.providerChatDodID = firestoreToFetchUserinfo.providerStoreConfig.storeChatDocID
+                    //MARK: Haven't update doc id
+                    roomsDetailViewModel.providerChatDodID = providerStoreM.storesData.storeChatDocID
                     debugPrint("providerChatID: \(roomsDetailViewModel.providerChatDodID)")
                 })
             }
