@@ -17,26 +17,26 @@ struct ContractCollectionView: View {
 
 //    @State private var showDetail = false
     @State private var isFocused = false
-
+    
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
-                .ignoresSafeArea(.all)
-            VStack {
-                TitleAndDivider(title: "Contract Collection")
-                Spacer()
-                ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { roomInfo in
-                        NavigationLink {
-                            RenterContractView(roomsData: roomInfo)
-                        } label: {
-                            ContractReusableUnit(roomsData: roomInfo)
-                                .foregroundColor(.black)
-                        }
+        VStack {
+            TitleAndDivider(title: "Contract Collection")
+            Spacer()
+            ScrollView(.vertical, showsIndicators: false) {
+                ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { roomInfo in
+                    NavigationLink {
+                        RenterContractView(roomsData: roomInfo)
+                    } label: {
+                        ContractReusableUnit(roomsData: roomInfo)
+                            .foregroundColor(.black)
                     }
                 }
             }
+        }
+        .background(alignment: .center) {
+            Rectangle()
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
+                .ignoresSafeArea(.all)
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)

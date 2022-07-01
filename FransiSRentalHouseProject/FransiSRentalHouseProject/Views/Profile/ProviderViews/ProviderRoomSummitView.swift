@@ -366,6 +366,7 @@ struct ProviderRoomSummitView: View {
                                                             isPublish: false,
                                                             roomUID: firestoreToFetchRoomsData.roomID,
                                                             providerUID: firebaseAuth.getUID(),
+                                                            providerGUI: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
                                                             renterUID: "",
                                                             roomsCoverImageURL: storageForRoomsImage.representedRoomImageURL,
                                                             rentalPrice: providerRoomSummitVM.roomRentalPrice,

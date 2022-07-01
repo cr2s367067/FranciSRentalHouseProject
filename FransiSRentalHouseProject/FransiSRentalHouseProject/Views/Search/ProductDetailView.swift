@@ -19,6 +19,7 @@ struct ProductDetailView: View {
     @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var providerStoreM: ProviderStoreM
+    @EnvironmentObject var firestoreUser: FirestoreToFetchUserinfo
     @Environment(\.colorScheme) var colorScheme
 
     var productDM: ProductDM
@@ -30,7 +31,7 @@ struct ProductDetailView: View {
 
     var realTimeComputeProductPrice: Int {
         let productPriceConvertInt = Int(productDM.productPrice) ?? 0
-        return productPriceConvertInt * productDetailViewModel.orderAmount
+        return productPriceConvertInt * productDetailViewModel.productOrder.orderAmount
     }
 
     var body: some View {
@@ -104,7 +105,7 @@ struct ProductDetailView: View {
                 HStack {
                     Section {
                         Menu {
-                            Picker("", selection: $productDetailViewModel.orderAmount) {
+                            Picker("", selection: $productDetailViewModel.productOrder.orderAmount) {
                                 ForEach(1 ..< pickerAmount + 1, id: \.self) {
                                     Text("\($0)")
                                 }
@@ -157,24 +158,26 @@ struct ProductDetailView: View {
                         .foregroundColor(.white)
                         .font(.system(size: 45, weight: .bold))
                     Spacer()
-
-                    Button {
-                        productDetailViewModel.productOrder.product = productDM
-                        self.productDetailViewModel.addToCart(cart: productDetailViewModel.productOrder)
-
-                        purchaseViewModel.productTotalAmount = String(pickerAmount)
-                        print(productDetailViewModel.productOrderCart)
-                        localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
-                        productDetailViewModel.orderAmount = 1
-                        appViewModel.isAddNewItem = true
-                    } label: {
-                        Text("Add Cart")
-                            .foregroundColor(.white)
-                            .frame(width: 108, height: 35)
-                            .background(Color("buttonBlue"))
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
+                    if firestoreUser.fetchedUserData.userType == SignUpType.isNormalCustomer.rawValue {
+                        Button {
+                            productDetailViewModel.productOrder.product = productDM
+                            self.productDetailViewModel.addToCart(cart: productDetailViewModel.productOrder)
+                            
+                            purchaseViewModel.productTotalAmount = String(pickerAmount)
+                            print(productDetailViewModel.productOrderCart)
+                            localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
+                            productDetailViewModel.orderAmount = 1
+                            appViewModel.isAddNewItem = true
+                        } label: {
+                            Text("Add Cart")
+                                .foregroundColor(.white)
+                                .frame(width: 108, height: 35)
+                                .background(Color("buttonBlue"))
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                        }
+                        .accessibilityIdentifier("appCart")
                     }
-                    .accessibilityIdentifier("appCart")
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
@@ -192,22 +195,26 @@ struct ProductDetailView: View {
                 ))
                 .edgesIgnoringSafeArea(.bottom)
         }
-        .toolbar {
-            NavigationLink {
-                VideoView(urlString: storageForProductImage.productVideo.videoURL)
-            } label: {
-                Image(systemName: "film")
-                    .foregroundColor(.white)
-                    .font(.system(size: 18))
-            }
-        }
+//        .toolbar {
+//            NavigationLink {
+//                VideoView(urlString: storageForProductImage.productVideo.videoURL)
+//            } label: {
+//                Image(systemName: "film")
+//                    .foregroundColor(.white)
+//                    .font(.system(size: 18))
+//            }
+//        }
         .task {
             do {
                 try await firestoreForProducts.fetchProductCommentAndRatting(productUID: productDM.productUID)
 //                try await firestoreForProducts.updatePublicAmountData(docID: docID, providerUidPath: providerUID, productID: productUID)
+                try await storageForProductImage.getProductImages(
+                    gui: productDM.providerGUI,
+                    productUID: productDM.productUID
+                )
                 _ = try await providerStoreM.fetchStore(provider: productDM.providerUID)
             } catch {
-                self.errorHandler.handle(error: error)
+                print(error.localizedDescription)
             }
         }
     }

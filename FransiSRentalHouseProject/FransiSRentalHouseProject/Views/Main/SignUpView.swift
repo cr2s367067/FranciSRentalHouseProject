@@ -358,7 +358,8 @@ struct SignUpView: View {
                     VStack {
                         empSignUpIdentity(
                             isFounder: signUpVM.isFounder,
-                            isEmployee: signUpVM.isEmployee
+                            isEmployee: signUpVM.isEmployee,
+                            isRenter: signUpVM.isRenter
                         )
                         Spacer()
                             .frame(height: 40)
@@ -444,7 +445,8 @@ extension SignUpView {
     @ViewBuilder
     func empSignUpIdentity(
         isFounder: Bool,
-        isEmployee: Bool
+        isEmployee: Bool,
+        isRenter: Bool
     ) -> some View {
         if isFounder {
             NavigationLink(isActive: $providerStoreM.showSignUpStore)  {
@@ -463,17 +465,25 @@ extension SignUpView {
                     .cornerRadius(5)
                     .onTapGesture {
                         Task {
-                            try await signUpProcess(isFounder: signUpVM.isFounder)
+                            try await signUpProcess(
+                                isFounder: signUpVM.isFounder,
+                                isEmployee: isEmployee,
+                                isRenter: isRenter
+                            )
                         }
                     }
             }
             .accessibilityIdentifier("signUp")
         }
         
-        if isEmployee {
+        if isEmployee || isRenter {
             Button {
                 Task {
-                  try await signUpProcess(isFounder: signUpVM.isFounder)
+                  try await signUpProcess(
+                    isFounder: signUpVM.isFounder,
+                    isEmployee: isEmployee,
+                    isRenter: isRenter
+                  )
                 }
             } label: {
                 Text("Sign Up")
@@ -489,9 +499,10 @@ extension SignUpView {
         }
     }
     
-    func signUpProcess(isFounder: Bool) async throws {
+    func signUpProcess(isFounder: Bool, isEmployee: Bool, isRenter: Bool) async throws {
 //        Task {
             do {
+                debugPrint("founder status: \(isFounder), employee status: \(isEmployee), Renter status: \(isRenter)")
                 //MARK: - Check out sign up form
                 try siwAFormChecker(signWA: firebaseAuth.signByApple)
                 if firebaseAuth.signByApple == false {

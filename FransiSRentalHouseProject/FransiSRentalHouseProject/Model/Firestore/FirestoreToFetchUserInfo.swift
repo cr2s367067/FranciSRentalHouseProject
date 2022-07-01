@@ -127,10 +127,12 @@ extension FirestoreToFetchUserinfo {
         ])
     }
 
+    @MainActor
     func createUserInfomationAsync(
         uidPath: String,
         userDM: UserDM
     ) async throws {
+        debugPrint("Uidpath: \(uidPath)")
         let userRef = db.collection("User").document(uidPath)
         try await userRef.setData([
             "id" : userDM.id,
@@ -161,7 +163,7 @@ extension FirestoreToFetchUserinfo {
             "agreeAutoPay" : userDM.agreeAutoPay,
             "isRented" : userDM.isRented
         ])
-        try await fetchUploadUserDataAsync()
+        fetchedUserData = try await userRef.getDocument(as: UserDM.self)
     }
 
     func reloadUserData() async throws {
@@ -330,6 +332,7 @@ extension FirestoreToFetchUserinfo {
 extension FirestoreToFetchUserinfo {
     // MARK: - Reload rented contract Data.
 
+    @MainActor
     func reloadUserDataTest(renterUID uidPath: String) async throws {
 //        try await fetchUploadUserDataAsync()
 //        userRentedRoomInfo()

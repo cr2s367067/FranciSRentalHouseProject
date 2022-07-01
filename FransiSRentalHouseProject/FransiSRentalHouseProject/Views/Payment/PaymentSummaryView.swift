@@ -235,8 +235,8 @@ struct SummaryItems: View {
                         }
                         Text(product.product.productName)
                         Spacer()
-                        Text("Unit: \(product.product.productAmount)")
-                        Text("$\((Int(product.product.productPrice) ?? 0) * (Int(product.product.productAmount) ?? 0))")
+                        Text("Unit: \(product.orderAmount)")
+                        Text("$\((Int(product.product.productPrice) ?? 0) * product.orderAmount )")
                     }
                 }
             }
@@ -262,14 +262,14 @@ struct ListItems: View {
                     HStack {
                         Text(roomsData.address)
                         Spacer()
-                        Text("$\(roomsData.rentalPrice)")
+                        Text("$\(rentalPriceWithDepositFee(rentalPrice: roomsData.rentalPrice))")
                     }
                 }
                 ForEach(productDetailViewModel.productOrderCart) { product in
                     HStack {
                         Text(product.product.productName)
                         Spacer()
-                        Text("$\(product.product.productPrice)")
+                        Text("$\(productWithOrderedPrice(input: product))")
                     }
                 }
             }
@@ -279,6 +279,25 @@ struct ListItems: View {
         .foregroundColor(.white)
         .font(.system(size: 16, weight: .regular))
         .padding(.horizontal)
+    }
+}
+
+extension ListItems {
+    
+    private func rentalPriceWithDepositFee(rentalPrice fee: String) -> String {
+        let feeConvertInt = Int(fee) ?? 0
+        let resultHolder = feeConvertInt * 3
+        let resultConvertString = String(resultHolder)
+        return resultConvertString
+    }
+    
+    
+    private func productWithOrderedPrice(input: ProductCartDM) -> String {
+        var temp = 0
+        let convertInt = Int(input.product.productPrice) ?? 0
+        temp = input.orderAmount * convertInt
+        let converString = String(temp)
+        return converString
     }
 }
 

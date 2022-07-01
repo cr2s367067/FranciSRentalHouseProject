@@ -23,40 +23,24 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4044E699-3045-4707-89FF-F9B3A8B667B5"
-            shouldBeEnabled = "Yes"
+            uuid = "5F89EA88-6F35-4843-887A-C1C24E0B94B7"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchRoomsData.swift"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "356"
-            endingLineNumber = "356"
-            landmarkName = "updateContractData(gui:room:roomDM:house:)"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
+            landmarkName = "fetchOrderedData(uidPath:orderID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5F89EA88-6F35-4843-887A-C1C24E0B94B7"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
-            landmarkName = "FirestoreForProducts"
-            landmarkType = "21">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "34E30D3F-83D2-459D-B212-855AB8E37135"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Views/Profile/RenterViews/RenterProfileView.swift"
@@ -88,7 +72,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "AD989F16-B9EF-4D6D-97DB-1A8FBCA509EF"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForUserProfile.swift"
@@ -136,7 +120,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "5361C510-8608-4851-8005-23CF0663A32E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForUserProfile.swift"
@@ -184,7 +168,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "561E76DE-7512-40A1-B1DB-39F7CF5E7FF3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForUserProfile.swift"
@@ -248,7 +232,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9D3ED312-57B0-4E02-9C7C-B0F270ECF177"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Views/Profile/UserDetailInfoView.swift"
@@ -295,22 +279,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "67EA8DB5-0917-4F7E-A505-32FDDABC25D8"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Views/Main/SignUpView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "532"
-            endingLineNumber = "532"
-            landmarkName = "signUpProcess(isFounder:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "DCEB0BC9-05DD-4325-A5C8-6F3C2E302B75"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -318,9 +286,9 @@
             filePath = "FransiSRentalHouseProject/Views/Main/SignUpView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "509"
-            endingLineNumber = "509"
-            landmarkName = "signUpProcess(isFounder:)"
+            startingLineNumber = "520"
+            endingLineNumber = "520"
+            landmarkName = "signUpProcess(isFounder:isEmployee:isRenter:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -430,8 +398,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "uploadAndUpdateStoreImage(gui:images:imageID:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -446,8 +414,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "uploadAndUpdateStoreImage(gui:images:imageID:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -462,8 +430,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "uploadAndUpdateStoreImage(gui:images:imageID:)"
             landmarkType = "7">
             <Locations>
@@ -525,8 +493,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "uploadAndUpdateStoreImage(gui:images:imageID:)"
             landmarkType = "7">
             <Locations>
@@ -597,7 +565,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "0404AF72-E361-40B1-91EB-FBD7A1F8A294"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForUserProfile.swift"
@@ -645,7 +613,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "53F644BB-99BF-460B-8427-231A45FB361A"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForUserProfile.swift"
@@ -693,7 +661,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F6353A33-4178-4FAD-BD45-C4AAE6D839ED"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForUserProfile.swift"
@@ -709,7 +677,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F069DC56-F1F4-4EE9-9D62-F295C1AD9577"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForUserProfile.swift"
@@ -725,7 +693,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "BF2875A7-CAA4-413F-90A6-80D44AC8AFA5"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchRoomsData.swift"
@@ -741,15 +709,1082 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "7FA0C1C7-8936-4724-B435-D6F2A1C1F54B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchRoomsData.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "summitRoomInfoAsync(gui:roomDM:house:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5969B2EF-6718-412D-8000-34AD4C4EA68B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/ContractView/Renter/RenterContractView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "idfEditMode(showEditMode:roomsData:contractData:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6132E260-95B4-4B6E-A13B-8831FE62C6D4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/ContractView/Renter/RenterContractView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "idfEditMode(showEditMode:roomsData:contractData:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D99699B2-3091-4671-876D-1F5D38884CE6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/AppTabView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0DEFE78A-1092-47FB-A557-FCD3C5DBF3D4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Search/RoomsDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D1549568-282A-4302-B676-DDF222E8919D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/SignUpView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "528"
+            endingLineNumber = "528"
+            landmarkName = "signUpProcess(isFounder:isEmployee:isRenter:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D1549568-282A-4302-B676-DDF222E8919D - 2da20ce472858f77"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.SignUpView.signUpProcess(isFounder: Swift.Bool, isEmployee: Swift.Bool, isRenter: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Main/SignUpView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "528"
+                  endingLineNumber = "528"
+                  offsetFromSymbolStart = "1428">
+               </Location>
+               <Location
+                  uuid = "D1549568-282A-4302-B676-DDF222E8919D - 7bfd3361e6271773"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for FransiSRentalHouseProject.SignUpView.signUpProcess(isFounder: Swift.Bool, isEmployee: Swift.Bool, isRenter: Swift.Bool) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Main/SignUpView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "528"
+                  endingLineNumber = "528"
+                  offsetFromSymbolStart = "196">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "61C8534B-10E2-40F9-A18D-ACD0334B193B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/SignUpView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
+            landmarkName = "signUpProcess(isFounder:isEmployee:isRenter:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8284C13C-DE14-4292-A8F9-7ACD7D65343B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Auth/FirebaseAuth.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "signUpAsync(email:password:isFounder:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B0A05479-33EC-4765-87D0-A736226E0E1C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchUserInfo.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "createUserInfomationAsync(uidPath:userDM:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F6382CFF-167A-4B77-B682-6B32B0E8E5BF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchUserInfo.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "createUserInfomationAsync(uidPath:userDM:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "63AC18B4-163D-4614-BD3B-D72903C9F16A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreToFetchUserInfo.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "createUserInfomationAsync(uidPath:userDM:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "593F9D6F-750F-48AC-B019-06B16777F820"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/AppTabView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "74F14FBD-5AD8-464B-B490-ACE7731E9985"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/AppTabView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A6A58057-DDCF-4767-977F-B29995FE55D8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/AppTabView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "initTask(signUpType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "168371FE-6307-4672-AE3C-52759B279ADB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5655866D-FEE9-48E9-843A-4DAB71606207"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/ViewModel/ProductsProviderSummitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "checker(productName:productPrice:productFrom:images:holderTosAgree:productAmount:productType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9D70F3C2-EAC6-4C05-8329-6A3B8C57ED95"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/ViewModel/ProductsProviderSummitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "checker(productName:productPrice:productFrom:images:holderTosAgree:productAmount:productType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7BAAB0FD-2FDE-4CE7-BF6B-C25804F7AF05"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/ViewModel/ProductsProviderSummitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "checker(productName:productPrice:productFrom:images:holderTosAgree:productAmount:productType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "71A7F0EA-5DB2-4EA7-884B-E3332CD6BF90"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/ViewModel/ProductsProviderSummitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "checker(productName:productPrice:productFrom:images:holderTosAgree:productAmount:productType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D0FB45C6-55CE-4E23-AF94-9FE2360F470F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "73F21F13-B00A-4F9B-AE02-ECE1B64614DB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6067282F-6BCA-490F-B33C-C769F0508058"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "6067282F-6BCA-490F-B33C-C769F0508058 - 16cf7716fb732b23"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #3 () -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;)&gt; in closure #2 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.alert&lt;&#x3c4;_0_0, &#x3c4;_0_1 where &#x3c4;_1_0: SwiftUI.View, &#x3c4;_1_1: SwiftUI.View&gt;(_: SwiftUI.LocalizedStringKey, isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, actions: () -&gt; &#x3c4;_1_0, message: () -&gt; &#x3c4;_1_1) -&gt; some&gt;&gt;.0 in closure #5 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.alert&lt;&#x3c4;_0_0, &#x3c4;_0_1 where &#x3c4;_1_0: SwiftUI.View, &#x3c4;_1_1: SwiftUI.View&gt;(_: SwiftUI.LocalizedStringKey, isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, actions: () -&gt; &#x3c4;_1_0, message: () -&gt; &#x3c4;_1_1) -&gt; some&gt;&gt;.0&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;)&gt; in closure #5 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(alignment: SwiftUI.Alignment, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0, SwiftUI.Group&lt;SwiftUI.TupleView&lt;(SwiftUI.ModifiedContent&lt;FransiSRentalHouseProject.InfoUnit, SwiftUI.AccessibilityAttachmentModifier&gt;, &lt;&lt;opaque return type of SwiftUI.View.keyboardType(__C.UIKeyboardType) -&gt; some&gt;&gt;.0, Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(alignment: SwiftUI.Alignment, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt;, &lt;&lt;opaque return type of SwiftUI.View.keyboardType(__C.UIKeyboardType) -&gt; some&gt;&gt;.0, SwiftUI.ModifiedContent&lt;FransiSRentalHouseProject.InfoUnit, SwiftUI.AccessibilityAttachmentModifier&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(alignment: SwiftUI.Alignment, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0)&gt;&gt;, FransiSRentalHouseProject.StepsTitle, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;, SwiftUI.Text, &lt;&lt;opaque return type of SwiftUI.View.onTapGesture(count: Swift.Int, perform: () -&gt; ()) -&gt; some&gt;&gt;.0)&gt;&gt;, SwiftUI.Spacer)&gt;&gt;, &lt;&lt;opaque return type of SwiftUI.View.frame(width: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, height: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(FransiSRentalHouseProject.TitleAndDivider, FransiSRentalHouseProject.StepsTitle, SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;, &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, Swift.Optional&lt;Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.cornerRadius(_: CoreGraphics.CGFloat, antialiased: Swift.Bool) -&gt; some&gt;&gt;.0&gt;&gt;, FransiSRentalHouseProject.StepsTitle, &lt;&lt;opaque return type of SwiftUI.View.focused(SwiftUI.FocusState&lt;Swift.Bool&gt;.Binding) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; SwiftUI.ScrollView&lt;SwiftUI.TupleView&lt;(FransiSRentalHouseProject.TitleAndDivider, FransiSRentalHouseProject.StepsTitle, SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;, &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, Swift.Optional&lt;Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.cornerRadius(_: CoreGraphics.CGFloat, antialiased: Swift.Bool) -&gt; some&gt;&gt;.0&gt;&gt;, FransiSRentalHouseProject.StepsTitle, &lt;&lt;opaque return type of SwiftUI.View.focused(SwiftUI.FocusState&lt;Swift.Bool&gt;.Binding) -&gt; some&gt;&gt;.0)&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.navigationBarHidden(Swift.Bool) -&gt; some&gt;&gt;.0 in FransiSRentalHouseProject.ProductsProviderSummitView.body.getter : some"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "294"
+                  endingLineNumber = "294"
+                  offsetFromSymbolStart = "1308">
+               </Location>
+               <Location
+                  uuid = "6067282F-6BCA-490F-B33C-C769F0508058 - a78268947a1c6921"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #3 () -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;)&gt; in closure #2 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.alert&lt;&#x3c4;_0_0, &#x3c4;_0_1 where &#x3c4;_1_0: SwiftUI.View, &#x3c4;_1_1: SwiftUI.View&gt;(_: SwiftUI.LocalizedStringKey, isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, actions: () -&gt; &#x3c4;_1_0, message: () -&gt; &#x3c4;_1_1) -&gt; some&gt;&gt;.0 in closure #5 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.alert&lt;&#x3c4;_0_0, &#x3c4;_0_1 where &#x3c4;_1_0: SwiftUI.View, &#x3c4;_1_1: SwiftUI.View&gt;(_: SwiftUI.LocalizedStringKey, isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, actions: () -&gt; &#x3c4;_1_0, message: () -&gt; &#x3c4;_1_1) -&gt; some&gt;&gt;.0&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;)&gt; in closure #5 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(alignment: SwiftUI.Alignment, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0, SwiftUI.Group&lt;SwiftUI.TupleView&lt;(SwiftUI.ModifiedContent&lt;FransiSRentalHouseProject.InfoUnit, SwiftUI.AccessibilityAttachmentModifier&gt;, &lt;&lt;opaque return type of SwiftUI.View.keyboardType(__C.UIKeyboardType) -&gt; some&gt;&gt;.0, Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(alignment: SwiftUI.Alignment, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt;, &lt;&lt;opaque return type of SwiftUI.View.keyboardType(__C.UIKeyboardType) -&gt; some&gt;&gt;.0, SwiftUI.ModifiedContent&lt;FransiSRentalHouseProject.InfoUnit, SwiftUI.AccessibilityAttachmentModifier&gt;, &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(alignment: SwiftUI.Alignment, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0)&gt;&gt;, FransiSRentalHouseProject.StepsTitle, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;, SwiftUI.Text, &lt;&lt;opaque return type of SwiftUI.View.onTapGesture(count: Swift.Int, perform: () -&gt; ()) -&gt; some&gt;&gt;.0)&gt;&gt;, SwiftUI.Spacer)&gt;&gt;, &lt;&lt;opaque return type of SwiftUI.View.frame(width: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, height: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(FransiSRentalHouseProject.TitleAndDivider, FransiSRentalHouseProject.StepsTitle, SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;, &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, Swift.Optional&lt;Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.cornerRadius(_: CoreGraphics.CGFloat, antialiased: Swift.Bool) -&gt; some&gt;&gt;.0&gt;&gt;, FransiSRentalHouseProject.StepsTitle, &lt;&lt;opaque return type of SwiftUI.View.focused(SwiftUI.FocusState&lt;Swift.Bool&gt;.Binding) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; SwiftUI.ScrollView&lt;SwiftUI.TupleView&lt;(FransiSRentalHouseProject.TitleAndDivider, FransiSRentalHouseProject.StepsTitle, SwiftUI.ModifiedContent&lt;SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0&gt;, SwiftUI.AccessibilityAttachmentModifier&gt;, &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, Swift.Optional&lt;Swift.Optional&lt;&lt;&lt;opaque return type of SwiftUI.View.cornerRadius(_: CoreGraphics.CGFloat, antialiased: Swift.Bool) -&gt; some&gt;&gt;.0&gt;&gt;, FransiSRentalHouseProject.StepsTitle, &lt;&lt;opaque return type of SwiftUI.View.focused(SwiftUI.FocusState&lt;Swift.Bool&gt;.Binding) -&gt; some&gt;&gt;.0)&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.navigationBarHidden(Swift.Bool) -&gt; some&gt;&gt;.0 in FransiSRentalHouseProject.ProductsProviderSummitView.body.getter : some"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "294"
+                  endingLineNumber = "294"
+                  offsetFromSymbolStart = "240">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A0A49FF2-AC52-4A0F-8892-8CAF75FF0124"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "312"
+            endingLineNumber = "312"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "65638B67-A157-411B-AC8F-26E1DB6E3180"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "939953EF-021A-42BF-A097-51E670BF26D9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "getFirstImageStringAndUpdate(gui:productUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0B284DA5-4191-47A5-B1E3-951AA550762D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "getFirstImageStringAndUpdate(gui:productUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6C423349-5891-4E0E-B729-C35BB4FD84E2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "getFirstImageStringAndUpdate(gui:productUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B034C0A5-AE7F-49BE-8CC9-2C7CD3B02FF5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "getFirstImageStringAndUpdate(gui:productUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1D548589-2D12-4189-96F6-A11271F0476B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "getFirstImageStringAndUpdate(gui:productUID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "058CBFDC-46D9-459A-9982-D110BF414572"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Model/Firebase Storage/StorageForProductImage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "getFirstImageStringAndUpdate(gui:productUID:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "058CBFDC-46D9-459A-9982-D110BF414572 - 852b849264d6d90a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.StorageForProductImage.getFirstImageStringAndUpdate(gui: Swift.String, productUID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForProductImage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "1512">
+               </Location>
+               <Location
+                  uuid = "058CBFDC-46D9-459A-9982-D110BF414572 - 34e03e49d2681164"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for FransiSRentalHouseProject.StorageForProductImage.getFirstImageStringAndUpdate(gui: Swift.String, productUID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForProductImage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "112">
+               </Location>
+               <Location
+                  uuid = "058CBFDC-46D9-459A-9982-D110BF414572 - f2df3b97424f950c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.StorageForProductImage.getFirstImageStringAndUpdate(gui: Swift.String, productUID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Model/Firebase%20Storage/StorageForProductImage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "220">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "28689D12-6621-43E4-8042-D508FF4ABECA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Main/AppTabView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0EFC6F44-432B-447D-B624-5A92A703A05D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Search/ProductDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "41B64F98-ED69-42D6-A2B1-D45287F4F669"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Profile/ProductCollection/ProductCollectionDetialView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "479A5139-0B81-4AB5-8EAA-CE1B1A9030DA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
+            landmarkName = "paymentIdentity(paymentProcessStatus:roomData:orderID:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "479A5139-0B81-4AB5-8EAA-CE1B1A9030DA - e90972f33dd531e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "309"
+                  endingLineNumber = "309"
+                  offsetFromSymbolStart = "584">
+               </Location>
+               <Location
+                  uuid = "479A5139-0B81-4AB5-8EAA-CE1B1A9030DA - fe79c2c62da9a22"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "309"
+                  endingLineNumber = "309"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "479A5139-0B81-4AB5-8EAA-CE1B1A9030DA - 45420e0395e79f1c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "309"
+                  endingLineNumber = "309"
+                  offsetFromSymbolStart = "68">
+               </Location>
+               <Location
+                  uuid = "479A5139-0B81-4AB5-8EAA-CE1B1A9030DA - 828607f30b46a527"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(8) suspend resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "309"
+                  endingLineNumber = "309"
+                  offsetFromSymbolStart = "68">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F98EF191-DA7D-43A8-A6C5-8F70EC62A45B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
+            landmarkName = "paymentIdentity(paymentProcessStatus:roomData:orderID:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F98EF191-DA7D-43A8-A6C5-8F70EC62A45B - e90972f33dd54d0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "311"
+                  endingLineNumber = "311"
+                  offsetFromSymbolStart = "660">
+               </Location>
+               <Location
+                  uuid = "F98EF191-DA7D-43A8-A6C5-8F70EC62A45B - d380a2cd3ee3c1ee"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) await resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "311"
+                  endingLineNumber = "311"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "F98EF191-DA7D-43A8-A6C5-8F70EC62A45B - f3fda1147788dcd4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "311"
+                  endingLineNumber = "311"
+                  offsetFromSymbolStart = "68">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DD371652-8D02-4567-8551-0D71226C68D1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "paymentIdentity(paymentProcessStatus:roomData:orderID:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DD371652-8D02-4567-8551-0D71226C68D1 - e90972f33dd5492"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "313"
+                  endingLineNumber = "313"
+                  offsetFromSymbolStart = "752">
+               </Location>
+               <Location
+                  uuid = "DD371652-8D02-4567-8551-0D71226C68D1 - a42c41ed9a8405a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) await resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "313"
+                  endingLineNumber = "313"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "DD371652-8D02-4567-8551-0D71226C68D1 - 6459737dba7a44aa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for FransiSRentalHouseProject.PurchaseView.paymentIdentity(paymentProcessStatus: FransiSRentalHouseProject.PaymentProcessStatus, roomData: FransiSRentalHouseProject.RoomDM, orderID: Swift.String) async throws -&gt; ()"
+                  moduleName = "FransiSRentalHouseProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kuan/Desktop/Business%20Project/DoorShop/FranciSRentalHouseProject/FransiSRentalHouseProject/FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "313"
+                  endingLineNumber = "313"
+                  offsetFromSymbolStart = "68">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5861F8E0-58C2-4B31-B0C5-516EB5DAAFB5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
+            landmarkName = "paymentIdentity(paymentProcessStatus:roomData:orderID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "35906053-380E-44E6-8060-6C3ECD886FB7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "471"
+            endingLineNumber = "471"
+            landmarkName = "buyProducts(products:user:orderID:shippingStatus:paymentStatus:paymentMethod:shippingMethod:orderAmount:address:subTotal:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E0EFB754-2F3F-468D-BDE4-499FD8510CF3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
+            landmarkName = "buyProducts(products:user:orderID:shippingStatus:paymentStatus:paymentMethod:shippingMethod:orderAmount:address:subTotal:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5FE3B656-B936-4202-8FB2-1CA1B090A9D0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "526"
+            endingLineNumber = "526"
+            landmarkName = "buyProducts(products:user:orderID:shippingStatus:paymentStatus:paymentMethod:shippingMethod:orderAmount:address:subTotal:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "704D1340-41A3-445E-8CC1-568AC7EC27F7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/ViewModel/SoldProductCollectionManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "loopInProducts(gui:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A8A5DA2-67E7-4350-9356-71E540E84469"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Profile/RenterViews/UserOrderedListView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "customSheetList(order:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "856965C5-3495-4F96-9926-71CC2434B1B1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Profile/RenterViews/UserOrderedListView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "orderedListDetailView(productsData:order:ratting:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6C00BBE6-45DA-4525-88D2-EB024A6EEA30"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Profile/RenterViews/UserOrderedListView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
+            landmarkName = "orderedListDetailView(productsData:order:ratting:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C63C46C0-E2AB-495C-840C-0C01DC4AF4C4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/ContractView/Renter/RenterContractView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0F080D10-C1B6-4AF4-B56E-E6487B69CE17"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "381"
+            endingLineNumber = "381"
+            landmarkName = "rentedRoom(result:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A0C64860-8A0A-4B1E-AFA0-46EE31A7B37F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
+            landmarkName = "rentedRoom(result:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "46FF21A2-062A-4CCD-8683-1B57185F4634"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "406"
+            endingLineNumber = "406"
+            landmarkName = "rentedRoom(result:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "19937AD9-BCBE-4ADE-987B-EA42E0B51E2C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "411"
+            endingLineNumber = "411"
+            landmarkName = "rentedRoom(result:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5D9FAE36-CDA7-4D90-B4AD-D7426E24EDE9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "414"
+            endingLineNumber = "414"
+            landmarkName = "rentedRoom(result:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D6C9118B-FA09-4D16-8075-4CA6D9A1AF72"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FransiSRentalHouseProject/Views/Payment/PurchaseView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
+            landmarkName = "rentedRoom(result:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -18,7 +18,19 @@ struct OrderedListUserSide: Identifiable, Codable {
     var paymentMethod: String
     var shippingMethod: String
     var shippingAddress: String
+    var shippingStatus: String
     var subTotal: Int
+}
+
+extension OrderedListUserSide {
+    static let empty = OrderedListUserSide(
+        orderUID: "",
+        paymentMethod: "",
+        shippingMethod: "",
+        shippingAddress: "",
+        shippingStatus: "",
+        subTotal: 0
+    )
 }
 
 // MARK: - Present item in list
@@ -27,6 +39,7 @@ struct OrderedItem: Identifiable, Codable {
     @DocumentID var id: String?
     var shippingStatus: String
     var providerUID: String
+    var providerGUI: String
     var productUID: String
     var orderProductPrice: Int
     var productImage: String

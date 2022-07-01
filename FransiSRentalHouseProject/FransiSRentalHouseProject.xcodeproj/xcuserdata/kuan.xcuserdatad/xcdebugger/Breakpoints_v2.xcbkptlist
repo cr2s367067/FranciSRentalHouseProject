@@ -14,9 +14,9 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "271"
-            endingLineNumber = "271"
-            landmarkName = "fetchOrdedDataInCartList(provider:orderUID:)"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
+            landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -77,9 +77,9 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "fetchOrdedDataInCartList(provider:orderUID:)"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
+            landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -93,8 +93,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
             landmarkName = "fetchOrdedDataInCartList(provider:orderUID:)"
             landmarkType = "7">
             <Locations>
@@ -141,9 +141,9 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
-            landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
+            landmarkName = "fetchOrderedDataUserSide(uidPath:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -204,24 +204,24 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
-            landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
-            landmarkType = "7">
+            startingLineNumber = "294"
+            endingLineNumber = "294"
+            landmarkName = "FirestoreForProducts"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "52293E33-9391-4856-A7EE-8E083C40FB50"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "260"
-            endingLineNumber = "260"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "fetchOrdedDataProviderSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -236,8 +236,8 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
             landmarkName = "fetchOrderedDataUserSide(uidPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -252,10 +252,10 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
-            landmarkName = "fetchOrderedDataUserSide(uidPath:)"
-            landmarkType = "7">
+            startingLineNumber = "273"
+            endingLineNumber = "273"
+            landmarkName = "FirestoreForProducts"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -268,9 +268,9 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
-            landmarkName = "fetchOrderedDataUserSide(uidPath:)"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
+            landmarkName = "updateAmount(gui:productUID:netAmount:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -284,9 +284,9 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
-            landmarkName = "fetchOrderedData(uidPath:docID:)"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
+            landmarkName = "fetchOrderedData(uidPath:orderID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -300,9 +300,9 @@
             filePath = "FransiSRentalHouseProject/Model/Firestore/FirestoreForProducts.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "fetchOrderedData(uidPath:docID:)"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
+            landmarkName = "fetchOrdedDataInCartList(provider:orderUID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -318,7 +318,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
             endingLineNumber = "56"
-            landmarkName = "paymentFee"
+            landmarkName = "totalCost"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -380,8 +380,8 @@
             filePath = "FransiSRentalHouseProject/Views/Profile/ProviderViews/ProviderProfileUnitViews/MonthlySettlementDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "settlementMonthlyPayment(currentDate:docID:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -396,8 +396,8 @@
             filePath = "FransiSRentalHouseProject/Views/Profile/ProviderViews/ProviderProfileUnitViews/MonthlySettlementDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "settlementMonthlyPayment(currentDate:docID:)"
             landmarkType = "7">
             <Locations>
@@ -490,40 +490,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EC7F8760-2ED8-4FE9-AFB8-F8B97C812D71"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "23EC9EF6-507D-42ED-86EE-75F011CA5DBC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -538,24 +506,8 @@
             filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "285"
-            endingLineNumber = "285"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D8FB6C83-1C0A-4714-BBFF-6DCD6D6F433B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FransiSRentalHouseProject/Views/ContractView/Provider/FurnitureProvider/ProductsProviderSummitView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>

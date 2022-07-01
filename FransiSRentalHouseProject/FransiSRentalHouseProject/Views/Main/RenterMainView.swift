@@ -40,7 +40,6 @@ struct RenterMainView: View {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     // MARK: - Announcement Group
-
                     Group {
                         VStack(alignment: .leading, spacing: 1) {
                             HStack {
@@ -139,6 +138,7 @@ struct RenterMainView: View {
             .navigationBarBackButtonHidden(true)
             .task {
                 do {
+//                    try await firestoreToFetchRoomsData.test()
                     try await firestoreFetchingAnnouncement.fetchAnnouncement()
                     if firestoreToFetchUserinfo.fetchedUserData.isRented {                    
                         try await firestoreForProducts.fetchMarkedProducts(uidPath: firebaseAuth.getUID())
@@ -223,18 +223,9 @@ extension RenterMainView {
     func showProductElement() -> some View {
         ForEach(firestoreForProducts.publicProductDataSet) { product in
             NavigationLink {
-//                ProductDetailView(
-//                    productName: product.productName,
-//                    productPrice: Int(product.productPrice) ?? 0,
-//                    productImage: product.productImage,
-//                    productUID: product.productUID,
-//                    productAmount: product.productAmount,
-//                    productFrom: product.productFrom,
-//                    providerUID: product.providerUID,
-//                    isSoldOut: product.isSoldOut,
-//                    providerName: product.providerName,
-//                    productDescription: product.productDescription, docID: product.id ?? ""
-//                )
+                ProductDetailView(
+                    productDM: product
+                )
             } label: {
                 FurnitureGridView(productDM: product)
             }
@@ -243,7 +234,10 @@ extension RenterMainView {
                 TapGesture().onEnded { _ in
                     Task {
                         do {
-                            try await storageForProductImage.getProductImages(providerUidPath: product.providerUID, productUID: product.productUID)
+                            try await storageForProductImage.getProductImages(
+                                gui: product.providerGUI,
+                                productUID: product.productUID
+                            )
                         } catch {
                             self.errorHandler.handle(error: error)
                         }

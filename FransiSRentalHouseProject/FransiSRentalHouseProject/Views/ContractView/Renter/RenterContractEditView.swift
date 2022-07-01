@@ -15,8 +15,9 @@ struct RenterContractEditView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var renterContractVM: RenterContractViewModel
     @EnvironmentObject var firestoreUser: FirestoreToFetchUserinfo
+    
 
-    var docID: String
+    var roomsData: RoomDM
     var contractData: HouseContract
 
     var body: some View {
@@ -443,20 +444,23 @@ struct RenterContractEditView: View {
                 Task {
                     do {
 //                        rentEditVM.contractDataModel.isSummitContract = true
-                        try await firestoreToFetchRoomsData.updataRentalPrice(
-                            uidPath: firebaseAuth.getUID(),
-                            docID: docID,
-                            rentalPrice: rentEditVM.contractDataModel.roomRentalPrice
-                        )
+//                        try await firestoreToFetchRoomsData.updataRentalPrice(
+//                            uidPath: firebaseAuth.getUID(),
+//                            docID: docID,
+//                            rentalPrice: rentEditVM.contractDataModel.roomRentalPrice
+//                        )
                         try await firestoreToFetchRoomsData.updateContractData(
                             gui: firestoreUser.fetchedUserData.providerGUI ?? "",
-                            room: docID,
-                            roomDM: .empty, // roomdm's data didn't send
+                            roomDM: roomsData,
                             house: rentEditVM.contractDataModel
                         )
 
                         try await firestoreToFetchRoomsData.getRoomInfo(
                             gui: firestoreUser.fetchedUserData.providerGUI ?? ""
+                        )
+                        try await firestoreToFetchRoomsData.fetchRoomContract(
+                            provider: firestoreUser.fetchedUserData.providerGUI ?? "",
+                            roomUID: roomsData.roomUID
                         )
                         renterContractVM.showEditMode = false
                     } catch {

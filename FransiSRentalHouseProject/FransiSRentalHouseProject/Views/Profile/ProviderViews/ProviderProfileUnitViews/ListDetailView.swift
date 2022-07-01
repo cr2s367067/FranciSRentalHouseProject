@@ -137,7 +137,7 @@ extension ListDetailView {
         }
     }
 
-    func computeSettleAmount(input: [ProductSoldCollectionDataModel]) -> Int {
+    func computeSettleAmount(input: [SoldProductDataModel]) -> Int {
         var subtotal = 0
         for input in input {
             let sAmount = input.soldAmount
@@ -154,7 +154,9 @@ extension ListDetailView {
             try await getResult()
         }
         if type == .productProvider {
-            productSettlementResult = computeSettleAmount(input: soldProductCollectionManager.soldDataSet)
+            productSettlementResult = computeSettleAmount(
+                input: soldProductCollectionManager.soldDataSet
+            )
         }
     }
 

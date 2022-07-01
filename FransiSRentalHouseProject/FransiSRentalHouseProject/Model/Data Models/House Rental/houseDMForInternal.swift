@@ -30,6 +30,7 @@ struct RoomDM: Identifiable, Codable {
     var isPublish: Bool
     var roomUID: String
     var providerUID: String
+    var providerGUI: String
     var renterUID: String
     var roomsCoverImageURL: String
     var rentalPrice: String
@@ -44,7 +45,28 @@ struct RoomDM: Identifiable, Codable {
 }
 
 extension RoomDM {
-    static let empty = RoomDM(isPublish: false, roomUID: "", providerUID: "", renterUID: "", roomsCoverImageURL: "", rentalPrice: "", zipCode: "", city: "", town: "", address: "", roomDescription: "", someoneDeadInRoom: false, waterLeakingProblem: false)
+    static let empty = RoomDM(isPublish: false, roomUID: "", providerUID: "", providerGUI: "", renterUID: "", roomsCoverImageURL: "", rentalPrice: "", zipCode: "", city: "", town: "", address: "", roomDescription: "", someoneDeadInRoom: false, waterLeakingProblem: false)
+//    static func fillGUI(
+//        gui: String,
+//        room data: RoomDM
+//    ) -> RoomDM {
+//        return RoomDM(
+//            isPublish: false,
+//            roomUID: data.roomUID,
+//            providerUID: data.providerUID,
+//            providerGUI: gui,
+//            renterUID: data.renterUID,
+//            roomsCoverImageURL: data.roomsCoverImageURL,
+//            rentalPrice: data.rentalPrice,
+//            zipCode: data.zipCode,
+//            city: data.city,
+//            town: data.town,
+//            address: data.address,
+//            roomDescription: data.roomDescription,
+//            someoneDeadInRoom: data.someoneDeadInRoom,
+//            waterLeakingProblem: data.waterLeakingProblem
+//        )
+//    }
 }
 
 // MARK: - Room's image set

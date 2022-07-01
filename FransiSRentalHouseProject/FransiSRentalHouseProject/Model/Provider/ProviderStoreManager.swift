@@ -99,7 +99,7 @@ class ProviderStoreM: ObservableObject {
 
     @MainActor
     func fetchStoreProduct(provder gui: String) async throws {
-        let productRef = db.collection("Stores").document(gui).collection("Products")
+        let productRef = db.collection("ProductsProvider").document(gui).collection("Products")
         let document = try await productRef.getDocuments().documents
         storeProductsDataSet = document.compactMap { queryDocumentSnapshot in
             let result = Result {

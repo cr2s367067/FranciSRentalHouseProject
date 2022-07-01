@@ -173,12 +173,21 @@ struct RoomsDetailView: View {
 //        }
         .overlay(content: {
             if roomsDetailViewModel.zoomImageIn {
-                ShowImageSets(roomImages: firestoreToFetchRoomsData.fetchRoomImages, zoomImageIn: $roomsDetailViewModel.zoomImageIn)
+//                ShowImageSets(roomImages: firestoreToFetchRoomsData.fetchRoomImages, zoomImageIn: $roomsDetailViewModel.zoomImageIn)
+                ShowImage(
+                    imageArray: imageSetConvert(
+                        images: firestoreToFetchRoomsData.fetchRoomImages
+                    ),
+                    showImageDetail: $roomsDetailViewModel.zoomImageIn
+                )
             }
         })
         .task {
             do {
-                try await firestoreToFetchRoomsData.fetchRoomImages(uidPath: roomsData.providerUID, docID: roomsData.id ?? "")
+                try await firestoreToFetchRoomsData.fetchRoomImages(
+                    gui: roomsData.providerGUI,
+                    roomUID: roomsData.roomUID
+                )
 //                try await firestoreToFetchRoomsData.fetchRoomVideo(uidPath: roomsData.providedBy, docID: roomsData.id ?? "")
             } catch {
                 self.errorHandler.handle(error: error)
@@ -224,6 +233,17 @@ class RoomsDetailViewModel: ObservableObject {
 }
 
 extension RoomsDetailView {
+    
+    private func imageSetConvert(images: [RoomImageSet]) -> [String] {
+        var holder = [String]()
+        
+        for image in images {
+            holder.append(image.roomImageURL)
+        }
+        
+        return holder
+    }
+    
     @ViewBuilder
     func isRegist(uType: SignUpType) -> some View {
         if uType == .isNormalCustomer {

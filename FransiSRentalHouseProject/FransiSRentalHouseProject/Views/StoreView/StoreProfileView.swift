@@ -95,7 +95,7 @@ extension StoreProfileView {
                     ZStack {
                         Image(systemName: "person")
                             .modifier(StoreProfileImageModifier())
-                        WebImage(url: URL(string: firestoreToFetchUserinfo.providerInfo.companyProfileImageURL))
+                        WebImage(url: URL(string: providerStoreM.storesData.companyProfileImage))
                             .resizable()
                             .frame(width: 80, height: 80)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -103,7 +103,7 @@ extension StoreProfileView {
                     Spacer()
                 }
                 HStack {
-                    Text(firestoreToFetchUserinfo.providerInfo.companyName)
+                    Text(providerStoreM.storesData.companyName)
                         .modifier(StoreTextModifier())
                         .font(.headline)
                     Spacer()

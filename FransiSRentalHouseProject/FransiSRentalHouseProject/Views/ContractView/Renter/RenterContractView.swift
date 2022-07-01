@@ -64,6 +64,16 @@ struct RenterContractView: View {
                 }
             }
         }
+        .task {
+            do {
+                try await firestoreToFetchRoomsData.fetchRoomContract(
+                    provider: roomsData.providerGUI,
+                    roomUID: roomsData.roomUID
+                )
+            } catch {
+                self.errorHandler.handle(error: error)
+            }
+        }
     }
 }
 
@@ -85,14 +95,14 @@ extension RenterContractView {
         if paymentH {
             RentedPaymentHistoryView(paymentHistory: firestoreToFetchUserinfo.paymentHistory, roomsData: roomsData)
         } else {
-            idfEditMode(showEditMode: renterContractVM.showEditMode, docID: roomsData.id ?? "", contractData: contractData)
+            idfEditMode(showEditMode: renterContractVM.showEditMode, roomsData: roomsData, contractData: contractData)
         }
     }
 
     @ViewBuilder
-    func idfEditMode(showEditMode: Bool, docID: String, contractData: HouseContract) -> some View {
+    func idfEditMode(showEditMode: Bool, roomsData: RoomDM, contractData: HouseContract) -> some View {
         if showEditMode == true {
-            RenterContractEditView(docID: docID, contractData: contractData)
+            RenterContractEditView(roomsData: roomsData, contractData: contractData)
         } else {
             VStack {
                 HStack {
@@ -102,7 +112,7 @@ extension RenterContractView {
                             Task {
                                 do {
                                     try await firestoreToFetchRoomsData.roomPublish(
-                                        uidPath: firebaseAuth.getUID(),
+                                        gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
                                         roomDM: roomsData,
                                         house: contractData
                                     )
@@ -130,7 +140,7 @@ extension RenterContractView {
                         }
                     }
                 }
-                .padding(.horizontal)
+                .padding(.horizontal )
                 ScrollView(.vertical, showsIndicators: true) {
                     Group {
                         Group {

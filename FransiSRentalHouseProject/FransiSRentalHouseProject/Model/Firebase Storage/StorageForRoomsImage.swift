@@ -54,7 +54,7 @@ extension StorageForRoomsImage {
             let roomOwerRef = db.collection("RoomsForOwner").document(gui).collection("Rooms").document(roomID)
                 .collection("RoomImages")
             _ = try await roomOwerRef.addDocument(data: [
-                "imageURL": url.absoluteString,
+                "roomImageURL": url.absoluteString,
             ])
         }
     }

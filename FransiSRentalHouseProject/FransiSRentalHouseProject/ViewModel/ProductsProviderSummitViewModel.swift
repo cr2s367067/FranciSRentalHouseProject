@@ -20,7 +20,7 @@ class ProductsProviderSummitViewModel: ObservableObject {
     @Published var productDescription = ""
     @Published var productFrom = ""
     @Published var productAmount = ""
-    @Published var productType = ""
+//    @Published var productType = ""
     @Published var isSoldOut = false
 
     @Published var holderTosAgree = false
@@ -65,12 +65,11 @@ class ProductsProviderSummitViewModel: ObservableObject {
         firestoreForFurniture.productUID = firestoreForFurniture.productIDGenerator()
         storageForProductImage.productImageUUID = storageForProductImage.imagUUIDGenerator()
         holderTosAgree = false
-        productType = ""
         images.removeAll()
     }
 
     func checker(productName: String, productPrice: String, productFrom: String, images: [TextingImageDataModel], holderTosAgree: Bool, productAmount: String, productType: String) throws {
-        guard !productName.isEmpty, !productPrice.isEmpty, !productFrom.isEmpty, !images.isEmpty, holderTosAgree == true else {
+        guard !productName.isEmpty, !productPrice.isEmpty, !productFrom.isEmpty, !images.isEmpty,  holderTosAgree == true else {
             throw ProviderSummitError.blankError
         }
         guard productAmount != "0" else {
@@ -84,3 +83,4 @@ class ProductsProviderSummitViewModel: ObservableObject {
         }
     }
 }
+

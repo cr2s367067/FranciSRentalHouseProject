@@ -12,6 +12,7 @@ import Foundation
 struct ProductDM: Identifiable, Codable {
     @DocumentID var id: String?
     var providerUID: String
+    var providerGUI: String
     var productUID: String
     var productName: String
     var productPrice: String
@@ -27,6 +28,7 @@ struct ProductDM: Identifiable, Codable {
 extension ProductDM {
     static let empty = ProductDM(
         providerUID: "",
+        providerGUI: "",
         productUID: "",
         productName: "",
         productPrice: "",
@@ -38,9 +40,14 @@ extension ProductDM {
         coverImage: ""
     )
 
-    static func productPublish(defaultWithInput source: ProductDM, providerUID: String, productUID: String) -> ProductDM {
+    static func productPublish(
+        defaultWithInput source: ProductDM,
+        providerUID: String,
+        productUID: String
+    ) -> ProductDM {
         return ProductDM(
             providerUID: providerUID,
+            providerGUI: source.providerGUI,
             productUID: productUID,
             productName: source.productName,
             productPrice: source.productPrice,
@@ -67,6 +74,17 @@ struct ProductCommentRatting: Identifiable, Codable {
     @ServerTimestamp var uploadTimestamp: Timestamp?
 }
 
+extension ProductCommentRatting {
+    static let empty = ProductCommentRatting(
+        productUID: "",
+        providerUID: "",
+        comment: "",
+        ratting: 0,
+        uploadUserID: "",
+        customerDisplayName: ""
+    )
+}
+
 struct ProductImageSet: Identifiable, Codable {
     @DocumentID var id: String?
     var productImageURL: String
@@ -91,3 +109,47 @@ struct ProductCartDM: Identifiable, Codable {
 extension ProductCartDM {
     static let empty = ProductCartDM(product: .empty, orderAmount: 1)
 }
+
+
+//MARK: - Store sold item
+
+class SoldProductDataModel: Identifiable, Codable {
+    @DocumentID var id: String?
+    @ServerTimestamp var soldDate: Timestamp?
+    var productName: String
+    var productUID: String
+    var buyerUID: String
+    var productPrice: Int
+    var soldAmount: Int
+    
+    
+    init(
+        id: String? = nil,
+        soldDate: Timestamp? = nil,
+        productName: String,
+        productUID: String,
+        buyerUID: String,
+        productPrice: Int,
+        soldAmount: Int
+    ) {
+        self.id = id
+        self.soldDate = soldDate
+        self.productName = productName
+        self.productUID = productUID
+        self.buyerUID = buyerUID
+        self.productPrice = productPrice
+        self.soldAmount = soldAmount
+    }
+}
+
+extension SoldProductDataModel {
+    static let empty = SoldProductDataModel(
+        productName: "",
+        productUID: "",
+        buyerUID: "",
+        productPrice: 0,
+        soldAmount: 0
+    )
+}
+
+

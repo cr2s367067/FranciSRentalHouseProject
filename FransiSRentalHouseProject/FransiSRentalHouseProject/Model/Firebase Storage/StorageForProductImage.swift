@@ -41,42 +41,77 @@ class StorageForProductImage: ObservableObject {
 //        self.representedProductImageURL = url.absoluteString
 //    }
 
-    func uploadProductImage(uidPath: String, image: [TextingImageDataModel], productUID: String) async throws {
+    func uploadProductImage(
+        gui: String,
+        image: [TextingImageDataModel],
+        productUID: String
+    ) async throws {
         for image in image {
             guard let proImageData = image.image.jpegData(compressionQuality: 0.5) else { return }
             let imageUID = UUID().uuidString
-            let imageRef = productImageStorageAddress.child("\(uidPath)/\(productUID)/\(imageUID).jpg")
+            let imageRef = productImageStorageAddress.child("\(gui)/\(productUID)/\(imageUID).jpg")
             _ = try await imageRef.putDataAsync(proImageData)
             let url = try await imageRef.downloadURL().absoluteString
-            let productImageRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID).collection("ProductImages")
+            let productImageRef = db.collection("ProductsProvider").document(gui).collection("Products").document(productUID).collection("ProductImages")
             _ = try await productImageRef.addDocument(data: [
-                "productDetialImage": url,
+                "productImageURL": url,
                 "uploadTime": Date(),
             ])
         }
     }
 
+    
+//    @MainActor
+//    func testFetching(
+//        gui: String,
+//        productUID: String
+//    ) async throws {
+//        let productImageRef = db.collection("ProductsProvider").document(gui).collection("Products").document(productUID).collection("ProductImages")
+//        let document = try await productImageRef.getDocuments().documents
+//        productImageSet = document.compactMap({ queryDocumentSnapshot in
+//            let result = Result {
+//                try queryDocumentSnapshot.data(as: ProductImageSet.self)
+//            }
+//            switch result {
+//            case .success(let data):
+//                return data
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//            return nil
+//        })
+//    }
+    
+    
     @MainActor
-    func getFirstImageStringAndUpdate(uidPath: String, productUID: String) async throws {
+    func getFirstImageStringAndUpdate(
+        gui: String,
+        productUID: String
+    ) async throws {
+        debugPrint("Product provider GUI: \(gui)")
+        debugPrint("productUID: \(productUID)")
         var firstUrl = ""
-        let productImageRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID).collection("ProductImages").order(by: "uploadTime", descending: false)
+        let productImageRef = db.collection("ProductsProvider").document(gui).collection("Products").document(productUID).collection("ProductImages")
         let document = try await productImageRef.getDocuments().documents
-        productImageSet = document.compactMap { queryDocumentSnapshot in
+        self.productImageSet = document.compactMap { queryDocumentSnapshot in
             let result = Result {
                 try queryDocumentSnapshot.data(as: ProductImageSet.self)
             }
             switch result {
-            case let .success(data):
+            case .success(let data):
                 return data
-            case let .failure(error):
+            case .failure(let error):
                 print(error.localizedDescription)
             }
             return nil
         }
+        debugPrint("Image set: \(productImageSet.count)")
         if let first = productImageSet.first {
+            debugPrint("temp first: \(first)")
             firstUrl = first.productImageURL
         }
-        let productRef = db.collection("ProductsProvider").document(uidPath).collection("Products").document(productUID)
+        debugPrint("first image: \(firstUrl)")
+        let productRef = db.collection("ProductsProvider").document(gui).collection("Products").document(productUID)
         _ = try await productRef.updateData([
             "coverImage": firstUrl,
         ])
@@ -97,9 +132,12 @@ class StorageForProductImage: ObservableObject {
     }
 
     @MainActor
-    func getProductImages(providerUidPath: String, productUID: String) async throws {
-        let imageRef = db.collection("ProductsProvider").document(providerUidPath).collection("Products").document(productUID).collection("ProductImages")
-        let document = try await imageRef.getDocuments().documents
+    func getProductImages(
+        gui: String,
+        productUID: String
+    ) async throws {
+        let productImageRef = db.collection("ProductsProvider").document(gui).collection("Products").document(productUID).collection("ProductImages")
+        let document = try await productImageRef.getDocuments().documents
         productImageSet = document.compactMap { queryDocumentSnapshot in
             let result = Result {
                 try queryDocumentSnapshot.data(as: ProductImageSet.self)

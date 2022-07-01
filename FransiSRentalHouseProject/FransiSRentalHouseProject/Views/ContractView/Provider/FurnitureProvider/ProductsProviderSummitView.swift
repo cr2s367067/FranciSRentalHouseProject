@@ -34,6 +34,19 @@ struct ProductsProviderSummitView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 5) {
+//                Button("test") {
+//                    Task {
+//                        do {
+//                            try await storageForProductImage.testFetching(
+//                                gui: "12312312",
+//                                productUID: "BCEFF69C-55CD-47B6-AE2D-68347EB466AE"
+//                            )
+//                            print("\(storageForProductImage.productImageSet.count)")
+//                        } catch {
+//                            self.errorHandler.handle(error: error)
+//                        }
+//                    }
+//                }
                 ScrollView(.vertical, showsIndicators: false) {
                     TitleAndDivider(title: "Ready to Post your products?")
 
@@ -74,7 +87,7 @@ struct ProductsProviderSummitView: View {
 
                                 Spacer()
                             }
-                            .frame(width: 378, height: 304)
+                            .frame(width: uiScreenWidth - 30, height: 304)
                         }
                         .padding()
                     }
@@ -119,7 +132,7 @@ struct ProductsProviderSummitView: View {
                                 Spacer()
                                 Section {
                                     Menu {
-                                        Picker("", selection: $productsProviderSummitViewModel.productType) {
+                                        Picker("", selection: $productsProviderSummitViewModel.productInfo.productType) {
                                             ForEach(searchVM.groceryTypesArray, id: \.self) {
                                                 Text($0)
                                             }
@@ -131,7 +144,7 @@ struct ProductsProviderSummitView: View {
                                                 .foregroundColor(.white)
                                                 .font(.system(size: 15))
                                         }
-                                        .frame(width: 70 + CGFloat(productsProviderSummitViewModel.productType.count * 8), height: 40)
+                                        .frame(width: 70 + CGFloat(productsProviderSummitViewModel.productInfo.productType.count * 8), height: 40)
                                         .background(alignment: .center) {
                                             RoundedRectangle(cornerRadius: 10)
                                                 .fill(colorScheme == .dark ? .gray.opacity(0.5) : .black.opacity(0.5))
@@ -235,13 +248,13 @@ struct ProductsProviderSummitView: View {
                             Button {
                                 do {
                                     try productsProviderSummitViewModel.checker(
-                                        productName: productsProviderSummitViewModel.productName,
-                                        productPrice: productsProviderSummitViewModel.productPrice,
-                                        productFrom: productsProviderSummitViewModel.productFrom,
+                                        productName: productsProviderSummitViewModel.productInfo.productName,
+                                        productPrice: productsProviderSummitViewModel.productInfo.productPrice,
+                                        productFrom: productsProviderSummitViewModel.productInfo.productFrom,
                                         images: productsProviderSummitViewModel.images,
                                         holderTosAgree: productsProviderSummitViewModel.holderTosAgree,
-                                        productAmount: productsProviderSummitViewModel.productAmount,
-                                        productType: productsProviderSummitViewModel.productType
+                                        productAmount: productsProviderSummitViewModel.productInfo.productAmount,
+                                        productType: productsProviderSummitViewModel.productInfo.productType
                                     )
                                     productsProviderSummitViewModel.showSummitAlert.toggle()
                                 } catch {
@@ -267,7 +280,7 @@ struct ProductsProviderSummitView: View {
                                                     // MARK: - Summit product and store in provider side
 
                                                     try await firestoreForProducts.summitProduct(
-                                                        uidPath: firebaseAuth.getUID(),
+                                                        gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
                                                         product: .productPublish(
                                                             defaultWithInput: productsProviderSummitViewModel.productInfo,
                                                             providerUID: firebaseAuth.getUID(),
@@ -277,19 +290,32 @@ struct ProductsProviderSummitView: View {
 
                                                     // MARK: - Store products image
 
-                                                    try await storageForProductImage.uploadProductImage(uidPath: firebaseAuth.getUID(), image: productsProviderSummitViewModel.images, productUID: firestoreForProducts.productUID)
+                                                    try await storageForProductImage.uploadProductImage(
+                                                        gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                                                        image: productsProviderSummitViewModel.images,
+                                                        productUID: firestoreForProducts.productUID
+                                                    )
 
                                                     // MARK: - Is provider has video
 
-                                                    if !(productsProviderSummitViewModel.productVideo?.pathComponents.isEmpty ?? false) {
-                                                        if let url = productsProviderSummitViewModel.productVideo {
-                                                            try await storageForProductImage.uploadProductVideo(movie: url, uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
-                                                        }
-                                                    }
+//                                                    if !(productsProviderSummitViewModel.productVideo?.pathComponents.isEmpty ?? false) {
+//                                                        if let url = productsProviderSummitViewModel.productVideo {
+//                                                            try await storageForProductImage.uploadProductVideo(movie: url, uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
+//                                                        }
+//                                                    }
 
-                                                    try await storageForProductImage.getFirstImageStringAndUpdate(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
-                                                    _ = try await firestoreForProducts.getUploadintData(uidPath: firebaseAuth.getUID(), productUID: firestoreForProducts.productUID)
-                                                    try await firestoreForProducts.productPublishOnPublic(procut: firestoreForProducts.uploadingHolder)
+                                                    try await storageForProductImage.getFirstImageStringAndUpdate(
+                                                        gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                                                        productUID: firestoreForProducts.productUID
+                                                    )
+                                                    
+                                                    _ = try await firestoreForProducts.getUploadintData(
+                                                        gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                                                        productUID: firestoreForProducts.productUID
+                                                    )
+                                                    try await firestoreForProducts.productPublishOnPublic(
+                                                        procut: firestoreForProducts.uploadingHolder
+                                                    )
                                                     productsProviderSummitViewModel.resetView()
                                                     productsProviderSummitViewModel.showProgressView = false
                                                 } catch {

@@ -49,8 +49,10 @@ struct StoreView: View {
         .modifier(ViewBackgroundInitModifier())
         .task {
             do {
-                guard let uidPath = storeData.id else { return }
-                try await providerStoreM.fetchStoreProduct(provder: uidPath)
+//                guard let uidPath = storeData.id else { return }
+                try await providerStoreM.fetchStoreProduct(
+                    provder: storeData.id ?? ""
+                )
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -235,7 +237,7 @@ struct TitleSection: View {
     var body: some View {
         VStack {
             HStack {
-                WebImage(url: URL(string: providerConfig.companyProfileImageURL))
+                WebImage(url: URL(string: storeData.companyProfileImage))
                     .resizable()
                     .frame(width: 80, height: 80)
                     .clipShape(RoundedRectangle(cornerRadius: 10))

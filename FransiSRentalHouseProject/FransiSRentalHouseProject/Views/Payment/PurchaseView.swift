@@ -386,8 +386,11 @@ extension PurchaseView {
                     depositFee: roomPrice
                 )
             )
-            try await firestoreToFetchRoomsData.summitRenter(
-                provider: result.providerUID,
+            
+            //MARK: - Update user info in contract then store in local data.
+            localData.rentingContractHolder = try await firestoreToFetchRoomsData.summitRenter(
+                retner: firebaseAuth.getUID(),
+                provider: result.providerGUI,
                 roomDM: result,
                 renter: firestoreToFetchUserinfo.fetchedUserData
             )
@@ -402,8 +405,6 @@ extension PurchaseView {
             print("first rent fee with diposit: \(convertString)")
             try await firestoreToFetchUserinfo.summitPaidInfo(
                 uidPath: firebaseAuth.getUID(),
-//                rentalPrice: convertString,
-//                note: purchaseViewModel.note.rawValue
                 rentalPayment: RentedRoomPaymentHistory(rentalFee: roomPrice)
             )
             print("payment note: \(purchaseViewModel.note.rawValue)")
@@ -413,11 +414,7 @@ extension PurchaseView {
             try await firestoreToFetchUserinfo.reloadUserDataTest(
                 renterUID: firebaseAuth.getUID()
             )
-            try await firestoreToFetchRoomsData.updateRentedRoom(
-                uidPath: result.providerUID,
-                roomUID: result.roomUID,
-                renterUID: firebaseAuth.getUID()
-            )
+            
             reset()
         } catch {
             errorHandler.handle(error: error)
@@ -472,35 +469,19 @@ extension PurchaseView {
             let userName = user.lastName + user.firstName
 
             try await firestoreForProducts.makeOrder(
-                //                uidPath: firebaseAuth.getUID(),
-//                productName: products.productName,
-//                productPrice: products.productPrice,
-//                providerUID: products.providerUID,
-//                productUID: products.productUID,
-//                orderAmount: products.orderAmount,
-//                productImage: products.productImage,
-//                comment: products.comment,
-//                ratting: products.ratting,
-//                userName: userName,
-//                userMobileNumber: mobileNumber,
-//                shippingAddress: address,
-//                shippingStatus: shippingStatus,
-//                paymentStatus: paymentStatus,
-//                shippingMethod: shippingMethod,
-//                orderID: orderID,
-//                subTotal: newSub
                 uidPath: firebaseAuth.getUID(),
-//                product: products,
                 userMake: OrderedListUserSide(
                     orderUID: orderID,
                     paymentMethod: paymentMethod,
                     shippingMethod: shippingMethod,
                     shippingAddress: address,
+                    shippingStatus: shippingStatus,
                     subTotal: newSub
                 ),
                 list: OrderedItem(
                     shippingStatus: shippingStatus,
                     providerUID: products.providerUID,
+                    providerGUI: products.providerGUI,
                     productUID: products.productUID,
                     orderProductPrice: productPriceConvertInt,
                     productImage: products.coverImage,
@@ -528,18 +509,22 @@ extension PurchaseView {
             )
 
             try await soldProductCollectionManager.postSoldInfo(
-                providerUidPath: products.providerUID,
-                proDocID: products.productUID,
-                productName: products.productName,
-                productPrice: productPriceConvertInt,
-                soldAmount: orderAmount
+                gui: products.providerGUI,
+                productUID: products.productUID,
+                sold: SoldProductDataModel(
+                    productName: products.productName,
+                    productUID: products.productUID,
+                    buyerUID: firebaseAuth.getUID(),
+                    productPrice: Int(products.productPrice) ?? 0,
+                    soldAmount: orderAmount
+                )
             )
             let netAmount = computeAmount(
                 orderAmount: orderAmountConvertString,
                 totalAmount: purchaseViewModel.productTotalAmount
             )
             try await firestoreForProducts.updateAmount(
-                providerUID: products.providerUID,
+                gui: products.providerGUI,
                 productUID: products.productUID,
                 netAmount: netAmount
             )

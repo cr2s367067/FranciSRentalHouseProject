@@ -16,11 +16,14 @@ class UserOrderedListViewModel: ObservableObject {
         case five = 5
     }
 
-    @Published var rating = 0
-    @Published var comment = ""
+    @Published var productCommentAndRattingUnit: ProductCommentRatting = .empty
+    
+//    @Published var rating = 0
+//    @Published var comment = ""
 
     func reset() {
-        rating = 0
-        comment = ""
+//        rating = 0
+//        comment = ""
+        productCommentAndRattingUnit = .empty
     }
 }

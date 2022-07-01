@@ -256,7 +256,10 @@ extension SearchView {
                 TapGesture().onEnded { _ in
                     Task {
                         do {
-                            try await storageForProductImage.getProductImages(providerUidPath: product.providerUID, productUID: product.productUID)
+                            try await storageForProductImage.getProductImages(
+                                gui: product.providerGUI,
+                                productUID: product.productUID
+                            )
                         } catch {
                             self.errorHandler.handle(error: error)
                         }

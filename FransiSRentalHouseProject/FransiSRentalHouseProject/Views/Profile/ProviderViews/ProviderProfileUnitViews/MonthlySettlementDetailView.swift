@@ -98,21 +98,34 @@ extension MonthlySettlementDetailView {
             print("provider Typd: \(type.rawValue)")
             guard soldProductCollectionManager.fetchComplete == false else { return }
             guard let id = settleData.id else { return }
-            try await soldProductCollectionManager.loopInProducts(providerUidPath: firebaseAuth.getUID())
-            try await loopSoldProduct(currentDate: Date(), docID: id, fetchedArray: soldProductCollectionManager.soldDataSet)
+            try await soldProductCollectionManager.loopInProducts(
+                gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? ""
+            )
+            try await loopSoldProduct(
+                currentDate: Date(),
+                docID: id,
+                fetchedArray: soldProductCollectionManager.soldDataSet
+            )
         }
     }
 
     // MARK: Loop in product array and summit to store data
 
-    func loopSoldProduct(currentDate: Date, docID: String, fetchedArray: [ProductSoldCollectionDataModel]) async throws {
+    func loopSoldProduct(
+        currentDate: Date,
+        docID: String,
+        fetchedArray: [SoldProductDataModel]
+    ) async throws {
         let cal = Calendar.current
         let convertDate = cal.dateComponents([.year, .month], from: currentDate)
         for soldProduct in fetchedArray {
             let convertRecDate = cal.dateComponents([.year, .month], from: soldProduct.soldDate?.dateValue() ?? Date())
             if convertDate.year == convertRecDate.year, convertDate.month == convertRecDate.month {
                 debugPrint("upload data...")
-                try await soldProductCollectionManager.summitSettleProducIncome(providerUidPath: firebaseAuth.getUID(), docID: docID, input: soldProduct)
+                try await soldProductCollectionManager.summitSettleProducIncome(
+                    gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                    product: soldProduct
+                )
             }
         }
 

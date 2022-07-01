@@ -41,15 +41,15 @@ struct ProductCollectionDetialView: View {
                             Spacer()
                         }
 
-                        ReusableUnit(title: "Product Name", containName: productData.productName)
+                        ReusableUnit(title: "Product Name", containName: productDetailViewModel.updatingProductData.productName)
                         HStack {
                             Text("Product Average Rate: ")
                             Text("\(productDetailViewModel.computeRattingAvg(commentAndRatting: firestoreForProducts.productCommentAndRatting), specifier: "%.1f")")
                             Spacer()
                         }
                         .foregroundColor(.white)
-                        ReusableUnit(title: "Product Price", containName: productData.productPrice)
-                        ReusableUnit(title: "Product From", containName: productData.productFrom)
+                        ReusableUnit(title: "Product Price", containName: productDetailViewModel.updatingProductData.productPrice)
+                        ReusableUnit(title: "Product From", containName: productDetailViewModel.updatingProductData.productFrom)
                         editAmount(isEdit: isEdit)
                         editDescription(isEdit: isEdit)
                         HStack {
@@ -96,6 +96,7 @@ struct ProductCollectionDetialView: View {
             }
         }
         .onAppear {
+            debugPrint("gui: \(productData.providerGUI), productUID: \(productData.productUID)")
             productDetailViewModel.updatingProductData = productData
         }
         .toolbar {
@@ -111,7 +112,7 @@ struct ProductCollectionDetialView: View {
                                     product: productDetailViewModel.updatingProductData
                                 )
                                 try await providerStoreM.fetchStoreProduct(
-                                    provder: firebaseAuth.getUID()
+                                    provder: productDetailViewModel.updatingProductData.providerGUI
                                 )
                             } catch {
                                 self.errorHandler.handle(error: error)
@@ -149,7 +150,7 @@ extension ProductCollectionDetialView {
                     Spacer()
                 }
                 HStack {
-                    TextField("Amount", text: $newAmount)
+                    TextField("Amount", text: $productDetailViewModel.updatingProductData.productAmount)
                         .foregroundColor(.white)
                 }
             }
@@ -163,7 +164,7 @@ extension ProductCollectionDetialView {
         } else {
             ReusableUnit(
                 title: "Product Amount",
-                containName: productData.productAmount
+                containName: productDetailViewModel.updatingProductData.productAmount
             )
         }
     }
@@ -179,7 +180,7 @@ extension ProductCollectionDetialView {
                     Spacer()
                 }
                 HStack {
-                    TextEditor(text: $newDescription)
+                    TextEditor(text: $productDetailViewModel.updatingProductData.productDescription)
                         .foregroundColor(.white)
                 }
             }

@@ -62,9 +62,11 @@ extension AppTabView {
         switch signUpType {
         case .isNormalCustomer:
             print("Is getting custormer config data")
-            try await firestoreToFetchRoomsData.getRoomInfo(
-                gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? ""
-            )
+            if firestoreToFetchUserinfo.fetchedUserData.isRented {            
+                try await firestoreToFetchRoomsData.getRoomInfo(
+                    gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? ""
+                )
+            }
         case .isProvider:
             print("Is getting provider config data")
             try await firestoreToFetchRoomsData.getRoomInfo(
