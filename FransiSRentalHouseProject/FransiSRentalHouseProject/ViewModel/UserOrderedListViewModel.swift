@@ -7,9 +7,7 @@
 
 import Foundation
 
-
 class UserOrderedListViewModel: ObservableObject {
-    
     enum RatingStars: Int, CaseIterable {
         case one = 1
         case two = 2
@@ -17,12 +15,15 @@ class UserOrderedListViewModel: ObservableObject {
         case four = 4
         case five = 5
     }
+
+    @Published var productCommentAndRattingUnit: ProductCommentRatting = .empty
     
-    @Published var rating = 0
-    @Published var comment = ""
-    
+//    @Published var rating = 0
+//    @Published var comment = ""
+
     func reset() {
-        rating = 0
-        comment = ""
+//        rating = 0
+//        comment = ""
+        productCommentAndRattingUnit = .empty
     }
 }

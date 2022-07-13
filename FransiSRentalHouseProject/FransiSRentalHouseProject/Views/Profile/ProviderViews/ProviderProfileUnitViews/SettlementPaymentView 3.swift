@@ -15,10 +15,10 @@ struct SettlementPaymentView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var appViewModel: AppViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         VStack {
             VStack {
@@ -68,7 +68,6 @@ struct SettlementPaymentView_Previews: PreviewProvider {
     }
 }
 
-
 extension SettlementPaymentView {
     @ViewBuilder
     func initView() -> some View {
@@ -78,7 +77,8 @@ extension SettlementPaymentView {
                 .padding()
         } else {
             ScrollView(.vertical, showsIndicators: true) {
-                //MARK: Store the history data in data base the
+                // MARK: Store the history data in data base the
+
                 ForEach(paymentReceiveManager.monthlySettlement) { data in
                     MonthlySettlementDetailView(settleData: data)
                 }

@@ -5,28 +5,30 @@
 //  Created by Kuan on 2022/4/21.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct StoreView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinf: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var roomsDetailVM: RoomsDetailViewModel
-    
+    @EnvironmentObject var providerStoreM: ProviderStoreM
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    var imageURL: String = ""
-//    var productURL: String = ""
-    var storeData: StoreDataModel
-    
+
+    var storeData: ProviderStore
+
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
-                //MARK: Input the store data
-                titleSection(storeData: storeData)
+                // MARK: Input the store data
+//                titleSection(storeData: storeData, provider: firestoreToFetchUserinf.providerInfo)
+                TitleSection(
+                    storeData: storeData,
+                    providerConfig: firestoreToFetchUserinf.providerInfo
+                )
                 HStack {
                     Text("Products")
                         .modifier(StoreTextModifier())
@@ -34,9 +36,10 @@ struct StoreView: View {
                     Spacer()
                 }
                 ScrollView(.horizontal, showsIndicators: false) {
-                    //MARK: Foreach the data from providers
+                    // MARK: Foreach the data from providers
+
                     HStack(spacing: 20) {
-                        ForEach(firestoreForProducts.storeProductsDataSet) { data in
+                        ForEach(providerStoreM.storeProductsDataSet) { data in
                             productUnitCard(productData: data)
                         }
                     }
@@ -46,14 +49,17 @@ struct StoreView: View {
         .modifier(ViewBackgroundInitModifier())
         .task {
             do {
-                try await firestoreForProducts.fetchStoreProduct(uidPath: storeData.provideBy)
+//                guard let uidPath = storeData.id else { return }
+                try await providerStoreM.fetchStoreProduct(
+                    provder: storeData.id ?? ""
+                )
             } catch {
                 self.errorHandler.handle(error: error)
             }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                if firestoreToFetchUserinf.fetchedUserData.userType == "Renter" {                
+                if firestoreToFetchUserinf.fetchedUserData.userType == "Renter" {
                     NavigationLink {
                         MessageMainView()
                     } label: {
@@ -62,12 +68,13 @@ struct StoreView: View {
                             .font(.system(size: 18))
                     }
                     .simultaneousGesture(
-                        TapGesture().onEnded({ _ in
+                        TapGesture().onEnded { _ in
+                            guard let providerUID = storeData.id else { return }
                             roomsDetailVM.createNewChateRoom = true
-                            roomsDetailVM.providerUID = storeData.provideBy
-                            roomsDetailVM.providerDisplayName = storeData.providerDisplayName
+                            roomsDetailVM.providerUID = providerUID
+                            roomsDetailVM.providerDisplayName = providerStoreM.storesData.companyName
                             roomsDetailVM.providerChatDodID = storeData.storeChatDocID
-                        })
+                        }
                     )
                 }
             }
@@ -76,106 +83,77 @@ struct StoreView: View {
 }
 
 extension StoreView {
+//    @ViewBuilder
+//    func titleSection(storeData: ProviderStore, provider config: ProviderDM) -> some View {
+//        VStack {
+//            HStack {
+//                WebImage(url: URL(string: config.companyProfileImageURL))
+//                    .resizable()
+//                    .frame(width: 80, height: 80)
+//                    .clipShape(RoundedRectangle(cornerRadius: 10))
+//                Spacer()
+//            }
+//            HStack {
+//                Text(config.companyName)
+//                    .modifier(StoreTextModifier())
+//                    .font(.headline)
+//                Spacer()
+//            }
+//            HStack {
+//                Text("Description")
+//                    .modifier(StoreTextModifier())
+//                    .font(.headline)
+//                Spacer()
+//            }
+//            HStack {
+//                Text(storeData.storeDescription)
+//                    .modifier(StoreTextModifier())
+//                    .font(.body)
+//                Spacer()
+//            }
+//        }
+//        .padding(.horizontal)
+//        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 5 + 60)
+//        .background(alignment: .center) {
+//            WebImage(url: URL(string: storeData.storeBackgroundImage))
+//                .resizable()
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
+//            RoundedRectangle(cornerRadius: 20)
+//                .fill(.black.opacity(0.4))
+//        }
+//    }
+
     @ViewBuilder
-    func titleSection(storeData: StoreDataModel) -> some View {
-        VStack {
-            HStack {
-                WebImage(url: URL(string: storeData.providerProfileImage))
-                    .resizable()
-                    .frame(width: 80, height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                Spacer()
-//                HStack {
-//                    Text("Rate: ")
-//                    Text("15")
-//                }
-//                .modifier(StoreCreditModifier())
-            }
-            HStack {
-                Text(storeData.providerDisplayName)
-                    .modifier(StoreTextModifier())
-                    .font(.headline)
-                Spacer()
-            }
-            HStack {
-                Text("Description")
-                    .modifier(StoreTextModifier())
-                    .font(.headline)
-                Spacer()
-            }
-            HStack {
-                Text(storeData.providerDescription)
-                    .modifier(StoreTextModifier())
-                    .font(.body)
-                Spacer()
-            }
-        }
-        .padding(.horizontal)
-        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 5 + 60)
-        .background(alignment: .center) {
-            WebImage(url: URL(string: storeData.storeBackgroundImage))
-                .resizable()
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.black.opacity(0.4))
-            
-        }
-    }
-    
-    @ViewBuilder
-    func productUnitCard(productData: ProductProviderDataModel) -> some View {
+    func productUnitCard(productData: ProductDM) -> some View {
         VStack(spacing: 10) {
-            WebImage(url: URL(string: productData.productImage))
+            WebImage(url: URL(string: productData.coverImage))
                 .resizable()
                 .modifier(ProductUnitImageModifier())
             HStack {
                 Text(productData.productName)
                     .modifier(StoreTextModifier())
                 Spacer()
-//                HStack {
-//                    Image(systemName: "star.fill")
-//                        .foregroundColor(.yellow)
-//                        .font(.system(size: 14))
-//                    Text(rating)
-//                        .modifier(StoreTextModifier())
-//                        .font(.system(size: 13))
-//                }
-//                .frame(width: uiScreenWidth / 5 - 10, height: 25)
-//                .background(alignment: .center) {
-//                    Capsule()
-//                        .fill(.black.opacity(0.3))
-//                }
             }
             Spacer()
                 .frame(height: 5)
             HStack {
                 NavigationLink {
-                    ProductDetailView(productName: productData.productName,
-                                      productPrice: Int(productData.productPrice) ?? 0,
-                                      productImage: productData.productImage,
-                                      productUID: productData.productUID,
-                                      productAmount: productData.productAmount,
-                                      productFrom: productData.productFrom,
-                                      providerUID: productData.providerUID,
-                                      isSoldOut: productData.isSoldOut,
-                                      providerName: productData.providerName,
-                                      productDescription: productData.productDescription,
-                                      docID: productData.id ?? "")
+                    ProductDetailView(productDM: productData)
                 } label: {
                     HStack {
                         Text("Check Detial")
                         Image(systemName: "plus.circle")
                             .font(.system(size: 17))
                     }
-                        .modifier(StoreTextModifier())
-                        .frame(width: uiScreenWidth / 4 + 40, height: 25)
-                        .background(alignment: .center) {
-                            Capsule()
-                                .fill(.black.opacity(0.3))
-                        }
+                    .modifier(StoreTextModifier())
+                    .frame(width: uiScreenWidth / 4 + 40, height: 25)
+                    .background(alignment: .center) {
+                        Capsule()
+                            .fill(.black.opacity(0.3))
+                    }
                 }
                 Spacer()
-                Text(productData.productPrice)
+                Text("\(productData.productPrice)")
                     .modifier(StoreTextModifier())
                     .font(.system(size: 20, weight: .bold))
             }
@@ -189,7 +167,6 @@ extension StoreView {
     }
 }
 
-
 struct ProductUnitImageModifier: ViewModifier {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -199,6 +176,7 @@ struct ProductUnitImageModifier: ViewModifier {
             .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
+
 struct StoreProfileImageModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -211,6 +189,7 @@ struct StoreProfileImageModifier: ViewModifier {
             }
     }
 }
+
 struct StoreCreditModifier: ViewModifier {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
@@ -225,14 +204,15 @@ struct StoreCreditModifier: ViewModifier {
             }
     }
 }
+
 struct StoreTextModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .foregroundColor(.white)
     }
 }
+
 struct ViewBackgroundInitModifier: ViewModifier {
-//    @State var isFocus: Bool?
     func body(content: Content) -> some View {
         content
             .padding()
@@ -243,13 +223,53 @@ struct ViewBackgroundInitModifier: ViewModifier {
                 LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea([.top, .bottom])
             }
-//            .toolbar {
-//                ToolbarItemGroup(placement: .keyboard) {
-//                    Spacer()
-//                    Button("Done") {
-//                        isFocus = false
-//                    }
-//                }
-//            }
+    }
+}
+
+struct TitleSection: View {
+    
+    let uiScreenWidth = UIScreen.main.bounds.width
+    let uiScreenHeight = UIScreen.main.bounds.height
+    
+    var storeData: ProviderStore
+    var providerConfig: ProviderDM
+    
+    var body: some View {
+        VStack {
+            HStack {
+                WebImage(url: URL(string: storeData.companyProfileImage))
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                Spacer()
+            }
+            HStack {
+                Text(storeData.companyName)
+                    .modifier(StoreTextModifier())
+                    .font(.headline)
+                Spacer()
+            }
+            HStack {
+                Text("Description")
+                    .modifier(StoreTextModifier())
+                    .font(.headline)
+                Spacer()
+            }
+            HStack {
+                Text(storeData.storeDescription)
+                    .modifier(StoreTextModifier())
+                    .font(.body)
+                Spacer()
+            }
+        }
+        .padding(.horizontal)
+        .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 5 + 60)
+        .background(alignment: .center) {
+            WebImage(url: URL(string: storeData.storeBackgroundImage))
+                .resizable()
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.black.opacity(0.4))
+        }
     }
 }

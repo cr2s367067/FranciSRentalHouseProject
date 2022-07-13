@@ -5,18 +5,17 @@
 //  Created by Kuan on 2022/3/28.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct FurnitureGridView: View {
-    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var productIamge: String
     var productName: String
     var productPrice: Int
-    
+
     var body: some View {
         VStack {
             Spacer()

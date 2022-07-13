@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct ProviderConfigDM: Codable {
     var isSetConfig: Bool
     var settlementDate: Date

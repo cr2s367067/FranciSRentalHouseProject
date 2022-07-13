@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MaintainView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
@@ -17,7 +16,7 @@ struct MaintainView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var storageForMaintainImage: StorageForMaintainImage
     @EnvironmentObject var imagePresentingManager: ImagePresentingManager
-    
+
     @State var describtion = "Please describe what stuff needs to fix."
     @State var appointment = Date()
     @State var showAlert = false
@@ -27,9 +26,9 @@ struct MaintainView: View {
     @State var isSelectedImage = false
     @State var showProgressView = false
     @State private var images = [TextingImageDataModel]()
-    
+
     @State private var selectLimit = 1
-    
+
     var getFirstImage: UIImage {
         var firstHolder = UIImage()
         if let image = images.first {
@@ -37,33 +36,52 @@ struct MaintainView: View {
         }
         return firstHolder
     }
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     private func reset() {
         describtion = "Please describe what stuff needs to fix."
         appointment = Date()
         isSelectedImage = false
     }
-    
+
     private func checkRoomStatus(describtion: String, appointmentDate: Date) async throws {
         do {
-            try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.getRoomUID())
-            try firestoreToFetchUserinfo.checkMaintainFilled(description: describtion, appointmentDate: appointmentDate)
+            try firestoreToFetchUserinfo.checkRoosStatus(roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID)
+            try firestoreToFetchUserinfo.checkMaintainFilled(
+                description: describtion,
+                appointmentDate: appointmentDate
+            )
             showProgressView = true
-            _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
+            _ = try await firestoreToFetchUserinfo.getRentedContract(uidPath: firebaseAuth.getUID())
             if describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty {
-                try await storageForMaintainImage.uploadFixItemImage(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", image: getFirstImage, roomUID: firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID ?? "")
-                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(uidPath: firestoreToFetchUserinfo.rentingRoomInfo.providerUID ?? "", taskDes: describtion, appointmentDate: appointment, docID: firestoreToFetchUserinfo.rentedContract.docID, itemImageURL: storageForMaintainImage.itemImageURL)
+                try await storageForMaintainImage.uploadFixItemImage(
+                    uidPath: firestoreToFetchUserinfo.rentedRoom.rentedProvderUID,
+                    image: getFirstImage,
+                    roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID
+                )
+                try await firestoreToFetchMaintainTasks.uploadMaintainInfoAsync(
+                    uidPath: firestoreToFetchUserinfo.rentedRoom.rentedProvderUID,
+                    roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID,
+//                    taskDes: describtion,
+//                    appointmentDate: appointment,
+//                    itemImageURL: storageForMaintainImage.itemImageURL
+                    maintain: MaintainDM(
+                        maintainDescription: describtion,
+                        appointmentDate: appointmentDate,
+                        itemImageURL: storageForMaintainImage.itemImageURL,
+                        isFixed: false
+                    )
+                )
                 showProgressView = false
                 showAlert.toggle()
             }
         } catch {
-            self.errorHandler.handle(error: error)
+            errorHandler.handle(error: error)
         }
     }
-    
+
     var body: some View {
         VStack(alignment: .center) {
             ScrollView(.vertical, showsIndicators: false) {
@@ -117,18 +135,58 @@ struct MaintainView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .alert("Notice", isPresented: $showAlert, actions: {
                                 Button {
+<<<<<<< HEAD
                                     reset()
+=======
+                                    imagePickerSheet.toggle()
+
+>>>>>>> PodsAdding
                                 } label: {
                                     Text(describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? "Okay!" : "Got it.")
                                 }
+<<<<<<< HEAD
                             }, message: {
                                 describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("It's added in our schedule, We will fix it as fast as possible.") : Text("Please fill the blank. Thanks")
                             })
+=======
+                            }
+                            .padding(.horizontal)
+                        }
+
+                        HStack {
+                            Spacer()
+                            Button {
+                                Task {
+                                    try await checkRoomStatus(
+                                        describtion: describtion,
+                                        appointmentDate: appointment
+                                    )
+                                }
+                            } label: {
+                                Text("Summit it!")
+                                    .foregroundColor(.white)
+                                    .frame(width: 108, height: 35)
+                                    .background(Color("buttonBlue"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .alert("Notice", isPresented: $showAlert, actions: {
+                                        Button {
+                                            reset()
+                                        } label: {
+                                            Text(describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? "Okay!" : "Got it.")
+                                        }
+                                    }, message: {
+                                        describtion != "Please describe what stuff needs to fix." && !describtion.isEmpty ? Text("It's added in our schedule, We will fix it as fast as possible.") : Text("Please fill the blank. Thanks")
+                                    })
+                            }
+                        }
+                        .padding()
+>>>>>>> PodsAdding
                     }
                 }
                 .padding()
                 Spacer()
             }
+<<<<<<< HEAD
         }
         .modifier(ViewBackgroundInitModifier())
         .onTapGesture(perform: {
@@ -143,6 +201,30 @@ struct MaintainView: View {
         .overlay(content: {
             if firestoreToFetchUserinfo.presentUserId().isEmpty {
                 UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+=======
+            .sheet(isPresented: $imagePickerSheet, onDismiss: {
+                isSelectedImage = true
+                imagePresentingManager.plIdentify(image: getFirstImage)
+            }, content: {
+//                ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
+                PHPickerRepresentable(selectLimit: $selectLimit, images: $images, video: Binding.constant(nil))
+            })
+            .overlay(content: {
+                if firestoreToFetchUserinfo.userIDisEmpty() {
+                    UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
+                }
+                if showProgressView == true {
+                    CustomProgressView()
+                }
+            })
+            .task {
+                do {
+                    guard firestoreToFetchUserinfo.fetchedUserData.isRented == true else { return }
+                    try await firestoreToFetchUserinfo.getRentedContract(uidPath: firebaseAuth.getUID())
+                } catch {
+                    self.errorHandler.handle(error: error)
+                }
+>>>>>>> PodsAdding
             }
             if showProgressView == true {
                 CustomProgressView()
@@ -161,7 +243,6 @@ struct MaintainView_Previews: PreviewProvider {
 }
 
 extension MaintainView {
-
     @ViewBuilder
     func imgPresenterSwitch(imgFS: ImagePresentingManager.ImgFrameStatus) -> some View {
         if imgFS == .landscape {
@@ -199,7 +280,7 @@ extension MaintainView {
             }
         }
     }
-    
+
     @ViewBuilder
     func graphicalDatePicker() -> some View {
         HStack {
@@ -212,8 +293,6 @@ extension MaintainView {
         .frame(width: uiScreenWidth - 30, alignment: .center)
         .padding(.horizontal)
     }
-    
-    
 }
 
 struct MaintainTitleUnit: View {

@@ -8,7 +8,6 @@
 import Foundation
 
 class PwdManager: ObservableObject {
-    
     func passwordChecker(password: String) throws {
         let convertInt = Int(password.count)
         print(convertInt)
@@ -36,20 +35,20 @@ class PwdManager: ObservableObject {
         }
         print(symbol)
         print(pwdCheck)
-        guard symbol == true && pwdCheck == true else {
+        guard symbol == true, pwdCheck == true else {
             throw SignUpError.passwordIsNotValid
         }
     }
-    
+
     func lengthCheck(password: String) -> Bool {
         let convertInt = Int(password.count)
         print(convertInt)
         guard convertInt >= 8 else {
-           return false
+            return false
         }
         return true
     }
-    
+
     func symbolCheck(password: String) -> Bool {
         let symbols = "@!#$^%&*"
         let symbol = password.contains { char in
@@ -64,7 +63,7 @@ class PwdManager: ObservableObject {
         }
         return symbol
     }
-    
+
     func upperCheck(password: String) -> Bool {
         let pwdCheck = password.contains { char in
             print("upperCheck: \(char)")
@@ -76,5 +75,4 @@ class PwdManager: ObservableObject {
         }
         return pwdCheck
     }
-    
 }

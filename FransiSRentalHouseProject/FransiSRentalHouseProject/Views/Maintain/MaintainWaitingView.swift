@@ -5,26 +5,24 @@
 //  Created by JerryHuang on 3/9/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MaintainWaitingView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
-    
-    
+
     var body: some View {
         NavigationView {
             ZStack {
                 Rectangle()
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .ignoresSafeArea(.all)
-                //:~Main View
+                //: ~Main View
                 VStack {
                     TitleAndDivider(title: "Maintian List")
                     Spacer()
@@ -34,7 +32,7 @@ struct MaintainWaitingView: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .overlay(content: {
-                if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                if firestoreToFetchUserinfo.userIDisEmpty() {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
             })
@@ -43,11 +41,10 @@ struct MaintainWaitingView: View {
 }
 
 extension MaintainWaitingView {
-    
     private func isRented() -> Bool {
         var temp = false
         firestoreToFetchRoomsData.fetchRoomInfoFormOwner.forEach { data in
-            if data.isRented ?? false {
+            if data.renterUID.isEmpty {
                 temp = true
             } else {
                 temp = false
@@ -55,13 +52,13 @@ extension MaintainWaitingView {
         }
         return temp
     }
-    
+
     @ViewBuilder
     func taskHolder(hasContain: Bool) -> some View {
         if hasContain {
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormOwner) { data in
-                    if data.isRented == true {
+                    if !data.renterUID.isEmpty {
                         NavigationLink {
                             MaintainWaitingDetailView(docID: data.id ?? "")
                         } label: {
@@ -82,32 +79,30 @@ extension MaintainWaitingView {
 }
 
 struct MaintainWaitingReusableUnit: View {
-    
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
-    var roomsData: RoomInfoDataModel
-    
+
+    var roomsData: RoomDM
+
     var address: String {
-        let zipCode = roomsData.zipCode
         let city = roomsData.city
         let town = roomsData.town
-        let roomAddress = roomsData.roomAddress
-        return zipCode + city + town + roomAddress
+        let roomAddress = roomsData.address
+        return city + town + roomAddress
     }
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     private func increaseByElement(amount: Int) -> CGFloat {
         let result = amount * 90
         return CGFloat(630 - result)
     }
-    
+
     var taskAmount: Int {
         firestoreToFetchMaintainTasks.fetchMaintainInfo.count
     }
-    
+
     var body: some View {
         VStack {
             Spacer()
@@ -122,10 +117,10 @@ struct MaintainWaitingReusableUnit: View {
 //                                    RoundedRectangle(cornerRadius: 10)
 //                                        .fill(Color.brown)
 //                                )
-                            WebImage(url: URL(string: roomsData.roomImage ?? ""))
-                                .resizable()
-                                .frame(width: uiScreenWidth / 3 + 20, height: uiScreenHeight / 8 + 5)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        WebImage(url: URL(string: roomsData.roomsCoverImageURL))
+                            .resizable()
+                            .frame(width: uiScreenWidth / 3 + 20, height: uiScreenHeight / 8 + 5)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
 //                        }
                         Spacer()
                             .frame(width: uiScreenWidth - 200)
@@ -139,7 +134,6 @@ struct MaintainWaitingReusableUnit: View {
                             .font(.system(size: 15))
                     }
                     .foregroundColor(.black)
-                    
                 }
 //                Spacer()
 //                    .frame(height: 5)
@@ -157,9 +151,5 @@ struct MaintainWaitingReusableUnit: View {
                     .fill(Color("fieldGray"))
             })
         }
-        
     }
 }
-
-
-

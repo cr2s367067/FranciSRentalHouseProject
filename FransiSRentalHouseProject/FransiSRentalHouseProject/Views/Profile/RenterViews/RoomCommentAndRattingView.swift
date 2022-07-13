@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RoomCommentAndRattingView: View {
-    
     enum SectionTitle: String {
         case roomAddress = "Room Address"
         case expDate = "Expired Date"
@@ -18,58 +17,66 @@ struct RoomCommentAndRattingView: View {
         case neighbor = "Neighbor"
         case comment = "Comment"
     }
-    
-    
+
     @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
+
     @Environment(\.colorScheme) var colorScheme
-    
+
     @FocusState private var isFocus: Bool
-    
-    var contractInfo: RentersContractDataModel
-    var firestoreUserInfo: FirestoreToFetchUserinfo
-    
+
+    var contractInfo: HouseContract
+//    var firestoreUserInfo: FirestoreToFetchUserinfo
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var address: String {
-        let zipCode = firestoreUserInfo.rentingRoomInfo.roomZipCode ?? ""
-        let city = firestoreUserInfo.rentingRoomInfo.roomCity ?? ""
-        let town = firestoreUserInfo.rentingRoomInfo.roomTown ?? ""
-        let roomAddress = firestoreUserInfo.rentingRoomInfo.roomAddress ?? ""
+        let zipCode = contractInfo.roomZipCode
+        let city = contractInfo.roomCity
+        let town = contractInfo.roomTown
+        let roomAddress = contractInfo.roomAddress
         return zipCode + city + town + roomAddress
     }
-    
+
     var expDate: String {
         return contractInfo.rentalEndDate.formatted(Date.FormatStyle().year().month().day())
     }
-    
+
     var body: some View {
         VStack {
             VStack(spacing: 10) {
                 sectionUnit(title: SectionTitle.roomAddress.rawValue, containt: address)
                 sectionUnit(title: SectionTitle.expDate.rawValue, containt: expDate)
-                customSection(cusParent: {
-                    RoomRattingView(comparing: $roomCARVM.convenienceRate)
-                }, title: SectionTitle.con.rawValue)
-                customSection(cusParent: {
-                    RoomRattingView(comparing: $roomCARVM.pricingRate)
-                }, title: SectionTitle.pricing.rawValue)
-                customSection(cusParent: {
-                    RoomRattingView(comparing: $roomCARVM.neighborRate)
-                }, title: SectionTitle.neighbor.rawValue)
+                customSection(
+                    cusParent: {
+                        RoomRattingView(comparing: $roomCARVM.roomCAR.convenienceRate)
+                    },
+                    title: SectionTitle.con.rawValue
+                )
+                customSection(
+                    cusParent: {
+                        RoomRattingView(comparing: $roomCARVM.roomCAR.pricingRate)
+                    },
+                    title: SectionTitle.pricing.rawValue
+                )
+                customSection(
+                    cusParent: {
+                        RoomRattingView(comparing: $roomCARVM.roomCAR.neighborRate)
+                    },
+                    title: SectionTitle.neighbor.rawValue
+                )
                 Section {
-                    TextEditor(text: $roomCARVM.commentText)
+                    TextEditor(text: $roomCARVM.roomCAR.comment)
                         .foregroundColor(.primary)
                         .frame(height: 120)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .disabled(firestoreToFetchRoomsData.roomCAR.isPost ? true : false)
                         .onTapGesture {
-                            roomCARVM.commentText = ""
+                            roomCARVM.roomCAR.comment = ""
                         }
                         .focused($isFocus)
                 } header: {
@@ -85,13 +92,22 @@ struct RoomCommentAndRattingView: View {
                     Button {
                         Task {
                             do {
-                                try await firestoreToFetchRoomsData.postRoomCommetAndRatting(roomUID: contractInfo.docID,
-                                                                                             comment: roomCARVM.commentText,
-                                                                                             neighborRate: roomCARVM.neighborRate,
-                                                                                             pricingRate: roomCARVM.pricingRate,
-                                                                                             convenienceRate: roomCARVM.convenienceRate,
-                                                                                             userDisplayName: firestoreUserInfo.fetchedUserData.displayName,
-                                                                                             uidPath: firebaseAuth.getUID())
+                                try await firestoreToFetchRoomsData.postRoomCommetAndRatting(
+                                    renter: firebaseAuth.getUID(),
+                                    room: .postCAR(
+                                        roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID,
+                                        providerUID: firestoreToFetchUserinfo.rentedRoom.rentedProvderUID,
+                                        user: firestoreToFetchUserinfo.fetchedUserData.nickName,
+                                        room: roomCARVM.roomCAR
+                                    )
+//                                    roomUID: contractInfo.docID,
+//                                    comment: roomCARVM.commentText,
+//                                    neighborRate: roomCARVM.neighborRate,
+//                                    pricingRate: roomCARVM.pricingRate,
+//                                    convenienceRate: roomCARVM.convenienceRate,
+//                                    userDisplayName: firestoreUserInfo.fetchedUserData.displayName,
+//                                    uidPath: firebaseAuth.getUID()
+                                )
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }
@@ -126,15 +142,13 @@ struct RoomCommentAndRattingView: View {
     }
 }
 
-//struct RoomCommentAndRattingView_Previews: PreviewProvider {
+// struct RoomCommentAndRattingView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        RoomCommentAndRattingView()
 //    }
-//}
-
+// }
 
 extension RoomCommentAndRattingView {
-        
     @ViewBuilder
     func sectionUnit(title: String, containt: String) -> some View {
         Section {
@@ -151,7 +165,7 @@ extension RoomCommentAndRattingView {
             }
         }
     }
-    
+
     @ViewBuilder
     func customSection(cusParent: () -> RoomRattingView, title: String) -> some View {
         Section {
@@ -167,23 +181,21 @@ extension RoomCommentAndRattingView {
             }
         }
     }
-
 }
 
 struct RoomRattingView: View {
-    
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
-    
+
     @Binding var comparing: Int
-    
+
     var offImage: Image?
     var onImage = Image(systemName: "star.fill")
-    
+
     var offColor = Color.white
     var onColor = Color.yellow
-    
-    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map({$0.rawValue})
-    
+
+    let ratingArray: [Int] = UserOrderedListViewModel.RatingStars.allCases.map { $0.rawValue }
+
     func image(number: Int) -> Image {
         if number > comparing {
             return offImage ?? onImage
@@ -191,7 +203,7 @@ struct RoomRattingView: View {
             return onImage
         }
     }
-    
+
     var body: some View {
         HStack {
             ForEach(ratingArray, id: \.self) { number in

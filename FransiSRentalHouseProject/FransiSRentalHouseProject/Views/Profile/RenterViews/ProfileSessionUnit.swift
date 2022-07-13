@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct ProfileSessionUnit: View {
-    
-    var mainTainTask: MaintainTaskHolder
-    
+    var mainTainTask: MaintainDM
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -21,7 +20,7 @@ struct ProfileSessionUnit: View {
                 .cornerRadius(5)
                 .frame(width: uiScreenWidth - 80, height: 50)
             HStack {
-                Text(mainTainTask.description)
+                Text(mainTainTask.maintainDescription)
                     .foregroundColor(Color("sessionBackground"))
                     .font(.system(size: 16, weight: .heavy))
                 Spacer()

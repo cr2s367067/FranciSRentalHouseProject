@@ -5,8 +5,8 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct RoomStatusView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
@@ -15,32 +15,32 @@ struct RoomStatusView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
-    
+
     var roomImageURL: String {
         firestoreToFetchUserinfo.rentingRoomInfo.roomImageCover ?? ""
     }
-    
+
     var rentalPrice: String {
         firestoreToFetchUserinfo.rentingRoomInfo.roomPrice ?? ""
     }
-    
+
     var roomAddress: String {
         firestoreToFetchUserinfo.rentingRoomInfo.roomAddress ?? ""
     }
-    
+
     var roomCityAndTown: String {
         let city = firestoreToFetchUserinfo.rentingRoomInfo.roomCity ?? ""
         let town = firestoreToFetchUserinfo.rentingRoomInfo.roomTown ?? ""
         return city + town
     }
-    
+
     var roomZipCode: String {
         firestoreToFetchUserinfo.rentingRoomInfo.roomZipCode ?? ""
     }
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeigth = UIScreen.main.bounds.height
-    
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -84,9 +84,8 @@ struct RoomStatusView: View {
                             Text(firestoreToFetchUserinfo.rentedContract.rentalEndDate, format: Date.FormatStyle().year().month().day())
                                 .foregroundColor(.white)
                                 .padding(.leading, 1)
-                            
                         }
-                        
+
                         HStack {
                             Text("Pay Rental Bill: ")
                                 .foregroundColor(.white)
@@ -95,19 +94,19 @@ struct RoomStatusView: View {
 //                                PurchaseView(roomsData: localData.summaryItemHolder)
                                 RentalBillSettingView()
                             } label: {
-                                 Text("Setting")
+                                Text("Setting")
                                     .frame(width: 108, height: 35)
                                     .background(Color("fieldGray"))
                                     .cornerRadius(10)
                             }
                         }
-                        
+
                         HStack(spacing: 1) {
                             Text("Renew: ")
                                 .foregroundColor(.white)
                             Spacer()
                             renewButton()
-                            .padding(.leading, 1)
+                                .padding(.leading, 1)
                         }
                         HStack(spacing: 1) {
                             Text("Contract: ")
@@ -147,7 +146,6 @@ struct RoomStatusView: View {
             } catch {
                 self.errorHandler.handle(error: error)
             }
-            
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -193,9 +191,7 @@ extension RoomStatusView {
             })
         }
     }
-    
+
     @ViewBuilder
-    func rentalBillSetting() -> some View {
-        
-    }
+    func rentalBillSetting() -> some View {}
 }

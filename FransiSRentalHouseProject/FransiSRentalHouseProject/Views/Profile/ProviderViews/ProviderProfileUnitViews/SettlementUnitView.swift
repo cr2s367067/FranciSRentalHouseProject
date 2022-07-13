@@ -10,13 +10,14 @@ import SwiftUI
 struct SettlementUnitView: View {
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var paymentMethodManager: PaymentMethodManager
+    @EnvironmentObject var providerStoreM: ProviderStoreM
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
 //    @State var date = Date()
     @Binding var date: Date
     @Binding var editMode: Bool
-    
+
     var body: some View {
         isEditMode(editMode: editMode)
     }
@@ -41,7 +42,7 @@ extension SettlementUnitView {
             }
         } else {
             HStack {
-                if providerProfileViewModel.providerConfig.isSetConfig == true {
+                if providerStoreM.storesData.isSetConfig {
                     NavigationLink {
                         SettlementPaymentView()
                     } label: {

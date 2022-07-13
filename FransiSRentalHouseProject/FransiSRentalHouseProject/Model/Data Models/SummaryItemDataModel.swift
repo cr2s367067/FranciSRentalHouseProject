@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 struct SummaryItemHolder: Identifiable, Codable {
     var id = UUID().uuidString
     var roomAddress: String
@@ -21,5 +20,3 @@ struct SummaryItemHolder: Identifiable, Codable {
     var docID: String
     var providerUID: String
 }
-
-

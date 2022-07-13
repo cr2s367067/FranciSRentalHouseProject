@@ -6,14 +6,14 @@
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
-//MARK: Full-width multiplication and division
+// MARK: Full-width multiplication and division
 
 // TODO: Return to `where Magnitude == Self` when SR-13491 is resolved
 extension FixedWidthInteger {
     private var halfShift: Self {
         return Self(Self.bitWidth / 2)
-
     }
+
     private var high: Self {
         return self &>> halfShift
     }
@@ -67,11 +67,11 @@ extension FixedWidthInteger {
             let p = q * vn0
             // q is often already correct, but sometimes the approximation overshoots by at most 2.
             // The code that follows checks for this while being careful to only perform single-digit operations.
-            if q.high == 0 && p <= r.upshifted + u.low { return q }
+            if q.high == 0, p <= r.upshifted + u.low { return q }
             let r2 = r + vn1
             if r2.high != 0 { return q - 1 }
-            if (q - 1).high == 0 && p - vn0 <= r2.upshifted + u.low { return q - 1 }
-            //assert((r + 2 * vn1).high != 0 || p - 2 * vn0 <= (r + 2 * vn1).upshifted + u.low)
+            if (q - 1).high == 0, p - vn0 <= r2.upshifted + u.low { return q - 1 }
+            // assert((r + 2 * vn1).high != 0 || p - 2 * vn0 <= (r + 2 * vn1).upshifted + u.low)
             return q - 2
         }
         /// Divide 3 half-digits by 2 half-digits to get a half-digit quotient and a full-digit remainder.
@@ -88,7 +88,7 @@ extension FixedWidthInteger {
         }
 
         // Normalize the dividend and the divisor (self) such that the divisor has no leading zeroes.
-        let z = Self(self.leadingZeroBitCount)
+        let z = Self(leadingZeroBitCount)
         let w = Self(Self.bitWidth) - z
         let vn = self << z
 
@@ -97,8 +97,8 @@ extension FixedWidthInteger {
         let (un1, un0) = un10.split
 
         // Divide `(un32,un10)` by `vn`, splitting the full 4/2 division into two 3/2 ones.
-        let (q1, un21) = quotientAndRemainder(dividing: (un32, (un1 as! Self)), by: vn)
-        let (q0, rn) = quotientAndRemainder(dividing: (un21, (un0 as! Self)), by: vn)
+        let (q1, un21) = quotientAndRemainder(dividing: (un32, un1 as! Self), by: vn)
+        let (q0, rn) = quotientAndRemainder(dividing: (un21, un0 as! Self), by: vn)
 
         // Undo normalization of the remainder and combine the two halves of the quotient.
         let mod = rn >> z
@@ -119,9 +119,8 @@ extension FixedWidthInteger {
             let (s, o) = x.0.addingReportingOverflow(x.1)
             if o { return q }
             r = s
-        }
-        else {
-            (q, r) = y.0.fastDividingFullWidth((x.0, (x.1 as! Magnitude)))
+        } else {
+            (q, r) = y.0.fastDividingFullWidth((x.0, x.1 as! Magnitude))
         }
         // Now refine q by considering x.2 and y.1.
         // Note that since y is normalized, q * y - x is between 0 and 2.
@@ -131,7 +130,7 @@ extension FixedWidthInteger {
         let (r1, ro) = r.addingReportingOverflow(y.0)
         if ro { return q - 1 }
 
-        let (pl1, so) = pl.subtractingReportingOverflow((y.1 as! Magnitude))
+        let (pl1, so) = pl.subtractingReportingOverflow(y.1 as! Magnitude)
         let ph1 = (so ? ph - 1 : ph)
 
         if ph1 < r1 || (ph1 == r1 && pl1 <= x.2) { return q - 1 }
@@ -139,8 +138,8 @@ extension FixedWidthInteger {
     }
 }
 
-extension CS.BigUInt {
-    //MARK: Division
+public extension CS.BigUInt {
+    // MARK: Division
 
     /// Divide this integer by the word `y`, leaving the quotient in its place and returning the remainder.
     ///
@@ -149,7 +148,7 @@ extension CS.BigUInt {
     internal mutating func divide(byWord y: Word) -> Word {
         precondition(y > 0)
         if y == 1 { return 0 }
-        
+
         var remainder: Word = 0
         for i in (0 ..< count).reversed() {
             let u = self[i]
@@ -163,7 +162,7 @@ extension CS.BigUInt {
     /// - Requires: y > 0
     /// - Returns: (quotient, remainder) where quotient = floor(x/y), remainder = x - quotient * y
     /// - Complexity: O(x.count)
-    internal func quotientAndRemainder(dividingByWord y: Word) -> (quotient:  CS.BigUInt, remainder: Word) {
+    internal func quotientAndRemainder(dividingByWord y: Word) -> (quotient: CS.BigUInt, remainder: Word) {
         var div = self
         let mod = div.divide(byWord: y)
         return (div, mod)
@@ -171,7 +170,7 @@ extension CS.BigUInt {
 
     /// Divide `x` by `y`, putting the quotient in `x` and the remainder in `y`.
     /// Reusing integers like this reduces the number of allocations during the calculation.
-    static func divide(_ x: inout  CS.BigUInt, by y: inout  CS.BigUInt) {
+    internal static func divide(_ x: inout CS.BigUInt, by y: inout CS.BigUInt) {
         // This is a Swift adaptation of "divmnu" from Hacker's Delight, which is in
         // turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
 
@@ -184,7 +183,7 @@ extension CS.BigUInt {
         }
         if y.count == 1 {
             // The single-word case reduces to a simpler loop.
-            y =  CS.BigUInt(x.divide(byWord: y[0]))
+            y = CS.BigUInt(x.divide(byWord: y[0]))
             return
         }
 
@@ -214,14 +213,14 @@ extension CS.BigUInt {
         let z = y.leadingZeroBitCount
         y <<= z
         x <<= z // We'll calculate the remainder in the normalized dividend.
-        var quotient =  CS.BigUInt()
+        var quotient = CS.BigUInt()
         assert(y.leadingZeroBitCount == 0)
 
         // We're ready to start the long division!
         let dc = y.count
         let d1 = y[dc - 1]
         let d0 = y[dc - 2]
-        var product:  CS.BigUInt = 0
+        var product: CS.BigUInt = 0
         for j in (dc ... x.count).reversed() {
             // Approximate dividing the top dc+1 words of `remainder` using the topmost 3/2 words.
             let r2 = x[j]
@@ -238,8 +237,7 @@ extension CS.BigUInt {
             if product <= x.extract(j - dc ..< j + 1) {
                 x.subtract(product, shiftedBy: j - dc)
                 quotient[j - dc] = q
-            }
-            else {
+            } else {
                 // This case is extremely rare -- it has a probability of 1/2^(Word.bitWidth - 1).
                 x.add(y, shiftedBy: j - dc)
                 x.subtract(product, shiftedBy: j - dc)
@@ -253,12 +251,12 @@ extension CS.BigUInt {
     }
 
     /// Divide `x` by `y`, putting the remainder in `x`.
-    mutating func formRemainder(dividingBy y:  CS.BigUInt, normalizedBy shift: Int) {
+    internal mutating func formRemainder(dividingBy y: CS.BigUInt, normalizedBy shift: Int) {
         precondition(!y.isZero)
         assert(y.leadingZeroBitCount == 0)
         if y.count == 1 {
-            let remainder = self.divide(byWord: y[0] >> shift)
-            self.load(CS.BigUInt(remainder))
+            let remainder = divide(byWord: y[0] >> shift)
+            load(CS.BigUInt(remainder))
             return
         }
         self <<= shift
@@ -266,50 +264,48 @@ extension CS.BigUInt {
             let dc = y.count
             let d1 = y[dc - 1]
             let d0 = y[dc - 2]
-            var product:  CS.BigUInt = 0
-            for j in (dc ... self.count).reversed() {
+            var product: CS.BigUInt = 0
+            for j in (dc ... count).reversed() {
                 let r2 = self[j]
                 let r1 = self[j - 1]
                 let r0 = self[j - 2]
                 let q = Word.approximateQuotient(dividing: (r2, r1, r0), by: (d1, d0))
                 product.load(y)
                 product.multiply(byWord: q)
-                if product <= self.extract(j - dc ..< j + 1) {
-                    self.subtract(product, shiftedBy: j - dc)
-                }
-                else {
-                    self.add(y, shiftedBy: j - dc)
-                    self.subtract(product, shiftedBy: j - dc)
+                if product <= extract(j - dc ..< j + 1) {
+                    subtract(product, shiftedBy: j - dc)
+                } else {
+                    add(y, shiftedBy: j - dc)
+                    subtract(product, shiftedBy: j - dc)
                 }
             }
         }
         self >>= shift
     }
 
-
     /// Divide this integer by `y` and return the resulting quotient and remainder.
     ///
     /// - Requires: `y > 0`
     /// - Returns: `(quotient, remainder)` where `quotient = floor(self/y)`, `remainder = self - quotient * y`
     /// - Complexity: O(count^2)
-    public func quotientAndRemainder(dividingBy y:  CS.BigUInt) -> (quotient:  CS.BigUInt, remainder:  CS.BigUInt) {
+    func quotientAndRemainder(dividingBy y: CS.BigUInt) -> (quotient: CS.BigUInt, remainder: CS.BigUInt) {
         var x = self
         var y = y
-         CS.BigUInt.divide(&x, by: &y)
+        CS.BigUInt.divide(&x, by: &y)
         return (x, y)
     }
 
     /// Divide `x` by `y` and return the quotient.
     ///
     /// - Note: Use `divided(by:)` if you also need the remainder.
-    public static func /(x: CS.BigUInt, y: CS.BigUInt) -> CS.BigUInt {
+    static func / (x: CS.BigUInt, y: CS.BigUInt) -> CS.BigUInt {
         return x.quotientAndRemainder(dividingBy: y).quotient
     }
 
     /// Divide `x` by `y` and return the remainder.
     ///
     /// - Note: Use `divided(by:)` if you also need the remainder.
-    public static func %(x: CS.BigUInt, y: CS.BigUInt) -> CS.BigUInt {
+    static func % (x: CS.BigUInt, y: CS.BigUInt) -> CS.BigUInt {
         var x = x
         let shift = y.leadingZeroBitCount
         x.formRemainder(dividingBy: y << shift, normalizedBy: shift)
@@ -319,57 +315,57 @@ extension CS.BigUInt {
     /// Divide `x` by `y` and store the quotient in `x`.
     ///
     /// - Note: Use `divided(by:)` if you also need the remainder.
-    public static func /=(x: inout  CS.BigUInt, y:  CS.BigUInt) {
+    static func /= (x: inout CS.BigUInt, y: CS.BigUInt) {
         var y = y
-         CS.BigUInt.divide(&x, by: &y)
+        CS.BigUInt.divide(&x, by: &y)
     }
 
     /// Divide `x` by `y` and store the remainder in `x`.
     ///
     /// - Note: Use `divided(by:)` if you also need the remainder.
-    public static func %=(x: inout CS.BigUInt, y: CS.BigUInt) {
+    static func %= (x: inout CS.BigUInt, y: CS.BigUInt) {
         let shift = y.leadingZeroBitCount
         x.formRemainder(dividingBy: y << shift, normalizedBy: shift)
     }
 }
 
-extension CS.BigInt {
+public extension CS.BigInt {
     /// Divide this integer by `y` and return the resulting quotient and remainder.
     ///
     /// - Requires: `y > 0`
     /// - Returns: `(quotient, remainder)` where `quotient = floor(self/y)`, `remainder = self - quotient * y`
     /// - Complexity: O(count^2)
-    public func quotientAndRemainder(dividingBy y: CS.BigInt) -> (quotient: CS.BigInt, remainder: CS.BigInt) {
-        var a = self.magnitude
+    func quotientAndRemainder(dividingBy y: CS.BigInt) -> (quotient: CS.BigInt, remainder: CS.BigInt) {
+        var a = magnitude
         var b = y.magnitude
-         CS.BigUInt.divide(&a, by: &b)
-        return ( CS.BigInt(sign: self.sign == y.sign ? .plus : .minus, magnitude: a),
-                CS.BigInt(sign: self.sign, magnitude: b))
+        CS.BigUInt.divide(&a, by: &b)
+        return (CS.BigInt(sign: sign == y.sign ? .plus : .minus, magnitude: a),
+                CS.BigInt(sign: sign, magnitude: b))
     }
 
     /// Divide `a` by `b` and return the quotient. Traps if `b` is zero.
-    public static func /(a: CS.BigInt, b: CS.BigInt) -> CS.BigInt {
+    static func / (a: CS.BigInt, b: CS.BigInt) -> CS.BigInt {
         return CS.BigInt(sign: a.sign == b.sign ? .plus : .minus, magnitude: a.magnitude / b.magnitude)
     }
 
     /// Divide `a` by `b` and return the remainder. The result has the same sign as `a`.
-    public static func %(a: CS.BigInt, b: CS.BigInt) -> CS.BigInt {
+    static func % (a: CS.BigInt, b: CS.BigInt) -> CS.BigInt {
         return CS.BigInt(sign: a.sign, magnitude: a.magnitude % b.magnitude)
     }
 
     /// Return the result of `a` mod `b`. The result is always a nonnegative integer that is less than the absolute value of `b`.
-    public func modulus(_ mod: CS.BigInt) -> CS.BigInt {
-        let remainder = self.magnitude % mod.magnitude
+    func modulus(_ mod: CS.BigInt) -> CS.BigInt {
+        let remainder = magnitude % mod.magnitude
         return CS.BigInt(
-            self.sign == .minus && !remainder.isZero
+            sign == .minus && !remainder.isZero
                 ? mod.magnitude - remainder
                 : remainder)
     }
 }
 
-extension CS.BigInt {
+public extension CS.BigInt {
     /// Divide `a` by `b` storing the quotient in `a`.
-    public static func /=(a: inout CS.BigInt, b: CS.BigInt) { a = a / b }
+    static func /= (a: inout CS.BigInt, b: CS.BigInt) { a = a / b }
     /// Divide `a` by `b` storing the remainder in `a`.
-    public static func %=(a: inout CS.BigInt, b: CS.BigInt) { a = a % b }
+    static func %= (a: inout CS.BigInt, b: CS.BigInt) { a = a % b }
 }

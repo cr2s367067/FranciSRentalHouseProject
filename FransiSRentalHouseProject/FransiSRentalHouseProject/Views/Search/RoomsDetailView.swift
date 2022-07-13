@@ -5,11 +5,12 @@
 //  Created by Kuan on 2022/4/5.
 //
 
-import SwiftUI
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct RoomsDetailView: View {
-    
     @EnvironmentObject var roomsDetailViewModel: RoomsDetailViewModel
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
@@ -18,13 +19,14 @@ struct RoomsDetailView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var roomCARVM: RoomCommentAndRattingViewModel
+    @EnvironmentObject var providerStoreM: ProviderStoreM
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    var roomsData: RoomInfoDataModel
-    
+
+    var roomsData: RoomDM
+
     var body: some View {
         VStack {
             Spacer()
@@ -48,7 +50,7 @@ struct RoomsDetailView: View {
                     .frame(height: 15)
                 VStack(alignment: .center, spacing: 10) {
                     HStack {
-                        Text(roomsData.providerDisplayName)
+                        Text(providerStoreM.storesData.companyName)
                             .foregroundColor(.white)
                             .font(.title2)
                             .fontWeight(.heavy)
@@ -58,7 +60,7 @@ struct RoomsDetailView: View {
                                 Image(systemName: "star.fill")
                                     .foregroundColor(.yellow)
                                 NavigationLink {
-                                    RoomCommentAndRatePresenterView(roomData: roomsData)
+                                    RoomCommentAndRatePresenterView(roomsData: roomsData)
                                 } label: {
                                     Text("\(roomCARVM.rattingCompute(input: firestoreToFetchRoomsData.roomCARDataSet), specifier: "%.1f")")
                                         .foregroundColor(.black)
@@ -114,14 +116,13 @@ struct RoomsDetailView: View {
                             NavigationLink {
                                 RenterContractView(roomsData: roomsData)
                             } label: {
-                                 Text("Check Contract")
+                                Text("Check Contract")
                                     .foregroundColor(.white)
                                     .frame(width: uiScreenWidth / 4 + 50, height: 35)
                                     .background(Color("buttonBlue"))
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                     .padding()
                             }
-                            
                         }
                         .sheet(isPresented: $roomsDetailViewModel.showUserInfoCover) {
                             VStack {
@@ -141,7 +142,6 @@ struct RoomsDetailView: View {
                         .fill(Color("background2"))
                         .cornerRadius(30, corners: [.topLeft, .topRight])
                 }
-                
             }
             .frame(height: uiScreenHeight / 2 - 60, alignment: .bottom)
             .background {
@@ -174,12 +174,25 @@ struct RoomsDetailView: View {
 //        }
         .overlay(content: {
             if roomsDetailViewModel.zoomImageIn {
-                ShowImageSets(roomImages: firestoreToFetchRoomsData.fetchRoomImages, zoomImageIn: $roomsDetailViewModel.zoomImageIn)
+//                ShowImageSets(roomImages: firestoreToFetchRoomsData.fetchRoomImages, zoomImageIn: $roomsDetailViewModel.zoomImageIn)
+                ShowImage(
+                    imageArray: imageSetConvert(
+                        images: firestoreToFetchRoomsData.fetchRoomImages
+                    ),
+                    showImageDetail: $roomsDetailViewModel.zoomImageIn
+                )
             }
         })
         .task {
             do {
+<<<<<<< HEAD
                 try await firestoreToFetchRoomsData.fetchRoomImages(uidPath: roomsData.providedBy, docID: roomsData.id ?? "")
+=======
+                try await firestoreToFetchRoomsData.fetchRoomImages(
+                    gui: roomsData.providerGUI,
+                    roomUID: roomsData.roomUID
+                )
+>>>>>>> PodsAdding
 //                try await firestoreToFetchRoomsData.fetchRoomVideo(uidPath: roomsData.providedBy, docID: roomsData.id ?? "")
             } catch {
                 self.errorHandler.handle(error: error)
@@ -207,27 +220,35 @@ class RoomsDetailViewModel: ObservableObject {
     @Published var showMap = true
     @Published var presentingImageURL = ""
     @Published var createNewChateRoom = false
-    
+
     @Published var providerUID = ""
     @Published var providerDisplayName = ""
     @Published var providerChatDodID = ""
-    
+
     @Published var zoomImageIn = false
-    
+
     @Published var showUserInfoCover = false
     @Published var showAlert = false
-    
+
 //    func userInfoChecker(id: String) throws {
 //        guard !id.isEmpty else {
 //            showUserInfoCover = true
 //            throw StarUpError.userInfoError
 //        }
 //    }
-    
 }
 
-
 extension RoomsDetailView {
+    
+    private func imageSetConvert(images: [RoomImageSet]) -> [String] {
+        var holder = [String]()
+        
+        for image in images {
+            holder.append(image.roomImageURL)
+        }
+        
+        return holder
+    }
     
     @ViewBuilder
     func isRegist(uType: SignUpType) -> some View {
@@ -253,7 +274,6 @@ extension RoomsDetailView {
                             let message = "Hi, please fill up necessary user info first thanks."
                             Text(message)
                         }
-
                 }
             } else {
                 NavigationLink {
@@ -266,20 +286,21 @@ extension RoomsDetailView {
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                         .padding()
                 }
-                .simultaneousGesture(TapGesture().onEnded({ _ in
-                        roomsDetailViewModel.createNewChateRoom = true
-                        debugPrint(roomsDetailViewModel.createNewChateRoom)
-                        roomsDetailViewModel.providerUID = roomsData.providedBy
-                        debugPrint("providerBy: \(roomsDetailViewModel.providerUID)")
-                        roomsDetailViewModel.providerDisplayName = roomsData.providerDisplayName
-                        debugPrint("providerDN: \(roomsDetailViewModel.providerDisplayName)")
-                        roomsDetailViewModel.providerChatDodID = roomsData.providerChatDocId
-                        debugPrint("providerChatID: \(roomsDetailViewModel.providerChatDodID)")
-                }))
+                .simultaneousGesture(TapGesture().onEnded { _ in
+                    roomsDetailViewModel.createNewChateRoom = true
+                    debugPrint(roomsDetailViewModel.createNewChateRoom)
+                    roomsDetailViewModel.providerUID = roomsData.providerUID
+                    debugPrint("providerBy: \(roomsDetailViewModel.providerUID)")
+                    roomsDetailViewModel.providerDisplayName = providerStoreM.storesData.companyName
+                    debugPrint("providerDN: \(roomsDetailViewModel.providerDisplayName)")
+                    //MARK: Haven't update doc id
+                    roomsDetailViewModel.providerChatDodID = providerStoreM.storesData.storeChatDocID
+                    debugPrint("providerChatID: \(roomsDetailViewModel.providerChatDodID)")
+                })
             }
         }
     }
-    
+
     @ViewBuilder
     func mapSwitch(showMap: Bool, address: String) -> some View {
         if showMap {
@@ -295,7 +316,7 @@ extension RoomsDetailView {
                     .clipped()
                     .edgesIgnoringSafeArea(.top)
             } else {
-                WebImage(url: URL(string: roomsData.roomImage ?? ""))
+                WebImage(url: URL(string: roomsData.roomsCoverImageURL))
                     .resizable()
                     .scaledToFill()
                     .frame(height: uiScreenHeight / 2 + 190, alignment: .center)
@@ -304,18 +325,18 @@ extension RoomsDetailView {
             }
         }
     }
-    
+
     @ViewBuilder
     func roomImagesPresenter() -> some View {
         ScrollView(.horizontal) {
             HStack(alignment: .center) {
                 ForEach(firestoreToFetchRoomsData.fetchRoomImages) { image in
                     Button {
-                        roomsDetailViewModel.presentingImageURL = image.imageURL
+                        roomsDetailViewModel.presentingImageURL = image.roomImageURL
                         roomsDetailViewModel.showMap = false
                         print(roomsDetailViewModel.presentingImageURL)
                     } label: {
-                        WebImage(url: URL(string: image.imageURL))
+                        WebImage(url: URL(string: image.roomImageURL))
                             .resizable()
                             .scaledToFill()
                             .frame(width: 60, height: 60, alignment: .center)
@@ -325,7 +346,7 @@ extension RoomsDetailView {
             }
         }
     }
-    
+
     @ViewBuilder
     func roomImagesPresenterWithPlaceHolder() -> some View {
         if firestoreToFetchRoomsData.fetchRoomImages.isEmpty {
@@ -339,25 +360,23 @@ extension RoomsDetailView {
             roomImagesPresenter()
         }
     }
-    
+
     func getAddress() -> String {
         return address(input: roomsData)
     }
-    
-    func address(input: RoomInfoDataModel) -> String {
-        let zipCode = input.zipCode
+
+    func address(input: RoomDM) -> String {
         let city = input.city
         let town = input.town
-        let roomAddress = input.roomAddress
-        return zipCode + city + town + roomAddress
+        let roomAddress = input.address
+        return city + town + roomAddress
     }
 }
-
 
 struct ShowImageSets: View {
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    var roomImages: [RoomImageDataModel]
+    var roomImages: [RoomImageSet]
     @Binding var zoomImageIn: Bool
     var body: some View {
         VStack(spacing: 22) {
@@ -376,7 +395,7 @@ struct ShowImageSets: View {
                 ScrollView(.horizontal, showsIndicators: true) {
                     HStack {
                         ForEach(roomImages) { image in
-                            WebImage(url: URL(string: image.imageURL))
+                            WebImage(url: URL(string: image.roomImageURL))
                                 .resizable()
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                 .frame(width: uiScreenWidth - 100, height: uiScreenHeight / 2)

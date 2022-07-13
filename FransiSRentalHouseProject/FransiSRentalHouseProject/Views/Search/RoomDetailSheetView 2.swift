@@ -5,15 +5,15 @@
 ////  Created by JerryHuang on 3/13/22.
 ////
 //
-//import SwiftUI
+// import SwiftUI
 //
-//struct RoomDetailSheetView: View {
-//    
+// struct RoomDetailSheetView: View {
+//
 //    @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
 //    @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
 //    @EnvironmentObject var appViewModel: AppViewModel
 //    @EnvironmentObject var localData: LocalData
-//    
+//
 //    var roomImage: String
 //    var roomAddress: String
 //    var roomTown: String
@@ -26,12 +26,12 @@
 //    var providedName: String
 //    var result: RoomInfoDataModel
 //    var chatDocID: String
-//    
-//    
+//
+//
 //    private func fullAddress() -> String {
 //        return roomZipCode + roomCity + roomTown + roomAddress
 //    }
-//    
+//
 //    var body: some View {
 //        NavigationView {
 //            ZStack {
@@ -119,10 +119,10 @@
 //            .navigationBarHidden(true)
 //        }
 //    }
-//}
+// }
 //
 //
-///*
+/// *
 // ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
 //     Button {
 //         if localData.tempCart.isEmpty {
@@ -161,4 +161,4 @@
 //             }
 //     }
 // }
-//*/
+// */

@@ -5,11 +5,10 @@
 //  Created by Kuan on 2022/4/21.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct StoreProfileView: View {
-    
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var storeProfileVM: StoreProfileViewModel
@@ -18,23 +17,24 @@ struct StoreProfileView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
-    
+    @EnvironmentObject var providerStoreM: ProviderStoreM
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var showPhPicker = false
     @State private var images = [TextingImageDataModel]()
     @State private var showImage = false
     @State private var showProgress = false
-    
+
     @State private var selectLimit = 1
-    
+
     @FocusState private var isFocused: Bool
-    
+
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
-                storeHeaderView(isCreate: storeProfileVM.isCreated)
+                storeHeaderView(isCreate: providerStoreM.storesData.isCreateStore)
             }
             .onTapGesture {
                 isFocused = false
@@ -42,14 +42,18 @@ struct StoreProfileView: View {
         }
         .modifier(ViewBackgroundInitModifier())
         .onAppear {
-            storeProfileVM.providerDescription = firestoreForProducts.storeLocalData.providerDescription
+            storeProfileVM.providerDescription = providerStoreM.storesData.storeDescription
         }
         .sheet(isPresented: $showPhPicker) {
             Task {
                 do {
                     showProgress = true
-                    try await storageForProductImage.uploadAndUpdateStoreImage(uidPath: firebaseAuth.getUID(), images: images, imageID: storageForProductImage.imagUUIDGenerator())
-                    _ = try await firestoreForProducts.fetchStoreInLocal(uidPath: firebaseAuth.getUID())
+                    try await storageForProductImage.uploadAndUpdateStoreImage(
+                        gui: firestoreToFetchUserinfo.fetchedUserData.providerGUI ?? "",
+                        images: images,
+                        imageID: storageForProductImage.imagUUIDGenerator()
+                    )
+                    _ = try await providerStoreM.fetchStore(provider: firebaseAuth.getUID())
                     showProgress = false
                 } catch {
                     self.errorHandler.handle(error: error)
@@ -63,7 +67,7 @@ struct StoreProfileView: View {
                 storeProfileVM.isCreated = providerProfileViewModel.providerConfig.isCreated
 //                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
                 if storeProfileVM.isCreated {
-                    _ = try await firestoreForProducts.fetchStoreInLocal(uidPath: firebaseAuth.getUID())
+                    _ = try await providerStoreM.fetchStore(provider: firebaseAuth.getUID())
                 }
             } catch {
                 self.errorHandler.handle(error: error)
@@ -71,7 +75,6 @@ struct StoreProfileView: View {
         }
     }
 }
-
 
 extension StoreProfileView {
     @ViewBuilder
@@ -92,7 +95,7 @@ extension StoreProfileView {
                     ZStack {
                         Image(systemName: "person")
                             .modifier(StoreProfileImageModifier())
-                        WebImage(url: URL(string: firestoreForProducts.storeLocalData.providerProfileImage))
+                        WebImage(url: URL(string: providerStoreM.storesData.companyProfileImage))
                             .resizable()
                             .frame(width: 80, height: 80)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -100,7 +103,7 @@ extension StoreProfileView {
                     Spacer()
                 }
                 HStack {
-                    Text(firestoreForProducts.storeLocalData.providerDisplayName)
+                    Text(providerStoreM.storesData.companyName)
                         .modifier(StoreTextModifier())
                         .font(.headline)
                     Spacer()
@@ -112,7 +115,7 @@ extension StoreProfileView {
                     Spacer()
                 }
                 HStack {
-                    Text(firestoreForProducts.storeLocalData.providerDescription)
+                    Text(providerStoreM.storesData.storeDescription)
                         .modifier(StoreTextModifier())
                         .font(.body)
                     Spacer()
@@ -121,7 +124,7 @@ extension StoreProfileView {
             .padding(.horizontal)
             .frame(width: uiScreenWidth - 20, height: uiScreenHeight / 5 + 60)
             .background(alignment: .center) {
-                WebImage(url: URL(string: firestoreForProducts.storeLocalData.storeBackgroundImage))
+                WebImage(url: URL(string: providerStoreM.storesData.storeBackgroundImage))
                     .resizable()
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                 RoundedRectangle(cornerRadius: 20)
@@ -131,10 +134,10 @@ extension StoreProfileView {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             }
-            
+
             InfoUnit(title: "Store Description", bindingString: $storeProfileVM.providerDescription)
                 .focused($isFocused)
-            
+
             HStack {
                 Spacer()
                 if storeProfileVM.isUpdate {
@@ -145,11 +148,18 @@ extension StoreProfileView {
                 Button {
                     Task {
                         do {
-                            try await firestoreForProducts.updateStoreInfo(uidPath: firebaseAuth.getUID(),
-                                                                           providerDescription: storeProfileVM.providerDescription)
-                            try await firestoreForProducts.updateProfilePic(uidPath: firebaseAuth.getUID(), profileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL)
-                            _ = try await firestoreForProducts.fetchStoreInLocal(uidPath: firebaseAuth.getUID())
-                            storeProfileVM.providerDescription = firestoreForProducts.storeLocalData.providerDescription
+//                            try await providerStoreM.updateStoreInfo(
+//                                gui: firebaseAuth.getUID(),
+//                                providerDescription: storeProfileVM.providerDescription
+//                            )
+                            try await providerStoreM.updateProfilePic(
+                                gui: firebaseAuth.getUID(),
+                                profileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL
+                            )
+                            _ = try await providerStoreM.fetchStore(
+                                provider: firebaseAuth.getUID()
+                            )
+                            storeProfileVM.providerDescription = providerStoreM.storesData.storeDescription
                             storeProfileVM.isUpdate = true
                         } catch {
                             self.errorHandler.handle(error: error)
@@ -160,30 +170,34 @@ extension StoreProfileView {
                         .modifier(ButtonModifier())
                 }
             }
-        } else {
-            VStack {
-                Text("Let's get start")
-                    .modifier(StoreTextModifier())
-                Button {
-                    Task {
-                        do {
-                            try await firestoreForProducts.createStore(uidPath: firebaseAuth.getUID(),
-                                                                       provideBy: firebaseAuth.getUID(),
-                                                                       providerDisplayName: firestoreToFetchUserinfo.fetchedUserData.displayName,
-                                                                       providerProfileImage: firestoreToFetchUserinfo.fetchedUserData.profileImageURL,
-                                                                       providerDescription: storeProfileVM.providerDescription, storeChatDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
-                            try await providerProfileViewModel.updateCreated(uidPath: firebaseAuth.getUID(), isCreated: true)
-                            storeProfileVM.isCreated = true
-                        } catch {
-                            self.errorHandler.handle(error: error)
-                        }
-                    }
-                } label: {
-                    Text("Create")
-                        .modifier(ButtonModifier())
-                }
-            }
         }
+//        else {
+//            VStack {
+//                Text("Let's get start")
+//                    .modifier(StoreTextModifier())
+//                Button {
+//                    Task {
+//                        do {
+//                            try await providerStoreM.createStore(
+//                                gui: firebaseAuth.getUID(),
+//                                provider: .createStore(
+//                                    companyName: firestoreToFetchUserinfo.providerInfo.companyName,
+//                                    companyProfileImage: firestoreToFetchUserinfo.providerInfo.companyProfileImageURL,
+//                                    store: storeProfileVM.store
+//                                )
+//                            )
+//                            try await providerProfileViewModel.updateCreated(uidPath: firebaseAuth.getUID(), isCreated: true)
+//                            storeProfileVM.isCreated = true
+//                        } catch {
+//                            self.errorHandler.handle(error: error)
+//                        }
+//                    }
+//                } label: {
+//                    Text("Create")
+//                        .modifier(ButtonModifier())
+//                }
+//            }
+//        }
     }
 }
 

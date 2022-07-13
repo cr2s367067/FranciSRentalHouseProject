@@ -5,24 +5,22 @@
 //  Created by Kuan on 2022/5/9.
 //
 
-import SwiftUI
 import MetricKit
+import SwiftUI
 
 struct CustomToggleView: View {
-    
     @EnvironmentObject var appVM: AppViewModel
-    
+
     enum ToggleLabel: String {
         case lodge = "Lodge"
         case goods = "Goods"
-        
     }
-    
+
     @Binding var isOn: Bool
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)

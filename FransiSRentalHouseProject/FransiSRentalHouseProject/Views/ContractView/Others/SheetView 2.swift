@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct SheetView: View {
-    
-
     @EnvironmentObject var localData: LocalData
-    
+
     var roomName = "room3"
     var roomPrice = "9000"
-    
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)

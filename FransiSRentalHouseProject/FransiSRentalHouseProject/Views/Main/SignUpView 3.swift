@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SignUpView: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
@@ -17,10 +16,10 @@ struct SignUpView: View {
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var paymentReceiveManager: PaymentReceiveManager
     //    let persistenceDM = PersistenceController()
-    
+
     @State private var tosSheetShow = false
     @State private var ppSheetShow = false
-    
+
     private func reset() {
         appViewModel.emailAddress = ""
         appViewModel.userPassword = ""
@@ -30,7 +29,7 @@ struct SignUpView: View {
         appViewModel.isAgree = false
         UINavigationBar.appearance().backgroundColor = UIColor(Color.clear)
     }
-    
+
     var body: some View {
         ZStack {
             Group {
@@ -47,7 +46,6 @@ struct SignUpView: View {
             }
             .edgesIgnoringSafeArea([.top, .bottom])
             VStack {
-                
                 Spacer()
                     .frame(height: 90)
                 HStack {
@@ -100,7 +98,7 @@ struct SignUpView: View {
                     }
                     VStack {
                         HStack {
-                            //Re-check the password
+                            // Re-check the password
                             SecureField("", text: $appViewModel.recheckPassword)
                                 .foregroundColor(.white)
                                 .placeholer(when: appViewModel.recheckPassword.isEmpty) {
@@ -125,8 +123,8 @@ struct SignUpView: View {
                             if appViewModel.isProvider == false {
                                 appViewModel.isProvider = true
                                 appViewModel.userType = "Provider"
-                                
-                                //debugPrint(UserDataModel(id: "", firstName: "", lastName: "", phoneNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
+
+                                // debugPrint(UserDataModel(id: "", firstName: "", lastName: "", phoneNumber: "", dob: Date(), address: "", town: "", city: "", zip: "", country: "", gender: "", userType: appViewModel.userType))
                             }
                         } label: {
                             HStack {
@@ -135,7 +133,6 @@ struct SignUpView: View {
                                 Image(systemName: appViewModel.isProvider ? "checkmark.circle.fill" : "checkmark.circle")
                                     .foregroundColor(appViewModel.isProvider ? .green : .gray)
                                     .padding(.leading, 10)
-                                
                             }
                             .frame(width: 140, height: 34)
                             .background(Color("fieldGray").opacity(0.07))
@@ -146,7 +143,6 @@ struct SignUpView: View {
                         Button {
                             if appViewModel.isProvider == true {
                                 appViewModel.isProvider = false
-                                
                             }
                             if appViewModel.isRenter == false {
                                 appViewModel.isRenter = true
@@ -167,7 +163,7 @@ struct SignUpView: View {
                         }
                     }
                     .padding(.top, 10)
-                    
+
                     if appViewModel.isProvider == true {
                         HStack {
                             Button {
@@ -185,7 +181,6 @@ struct SignUpView: View {
                                     Image(systemName: appViewModel.isFurnitureProvider ? "checkmark.circle.fill" : "checkmark.circle")
                                         .foregroundColor(appViewModel.isFurnitureProvider ? .green : .gray)
                                         .padding(.leading, 10)
-                                    
                                 }
                                 .frame(width: 180, height: 34)
                                 .background(Color("fieldGray").opacity(0.07))
@@ -196,7 +191,6 @@ struct SignUpView: View {
                             Button {
                                 if appViewModel.isFurnitureProvider == true {
                                     appViewModel.isFurnitureProvider = false
-                                    
                                 }
                                 if appViewModel.isRentalM == false {
                                     appViewModel.isRentalM = true
@@ -253,7 +247,7 @@ struct SignUpView: View {
                                                                                              emailAddress: appViewModel.emailAddress,
                                                                                              providerType: appViewModel.providerType,
                                                                                              RLNumber: appViewModel.rentalManagerLicenseNumber)
-                                
+
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }
@@ -302,7 +296,6 @@ struct SignUpView: View {
                 .padding(.top, 25)
                 Spacer()
                     .frame(height: 35)
-                
             }
         }
         .sheet(isPresented: $tosSheetShow, content: {
@@ -323,11 +316,6 @@ struct SignUpView: View {
 //        }
     }
 }
-
-
-
-
-
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {

@@ -34,7 +34,7 @@ extension XML {
         open var lineNumberEnd: Int
         open var CDATA: Data?
         open var ignoreNamespaces: Bool
-        
+
         // for println
         open weak var parentElement: Element?
 

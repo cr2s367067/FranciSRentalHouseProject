@@ -8,16 +8,17 @@
 import Foundation
 
 class RoomCommentAndRattingViewModel: ObservableObject {
-    
+    @Published var roomCAR: RoomCommentRatting = .empty
+
 //    @Published var trafficRate = 0
     @Published var convenienceRate = 0
     @Published var pricingRate = 0
     @Published var neighborRate = 0
-    
+
     @Published var commentText = "Give some comment....."
-    
-    func rattingCompute(input: [RoomCommentAndRattingDataModel]) -> Double {
-        var result: Double = 0.0
+
+    func rattingCompute(input: [RoomCommentRatting]) -> Double {
+        var result = 0.0
         if input.isEmpty {
             result = 0.0
         } else {
@@ -28,7 +29,7 @@ class RoomCommentAndRattingViewModel: ObservableObject {
                 let con = input.convenienceRate
                 let pri = input.pricingRate
                 let nei = input.neighborRate
-                let subtotal: Double = Double(con + pri + nei) / 3
+                let subtotal = Double(con + pri + nei) / 3
                 subResult += subtotal
             }
             result = subResult / Double(input.count)
@@ -36,4 +37,3 @@ class RoomCommentAndRattingViewModel: ObservableObject {
         return result
     }
 }
-

@@ -5,16 +5,14 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-
 import SwiftUI
 
 struct MaintainDetailView: View {
-    
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
-    
+
     var maintainTask = "Lorem ipsum dolor sit amet1."
-    
+
     var body: some View {
         ZStack {
             Rectangle()

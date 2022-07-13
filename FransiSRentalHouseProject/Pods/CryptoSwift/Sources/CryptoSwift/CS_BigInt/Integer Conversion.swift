@@ -6,69 +6,66 @@
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
-extension CS.BigUInt {
-    public init?<T: BinaryInteger>(exactly source: T) {
+public extension CS.BigUInt {
+    init?<T: BinaryInteger>(exactly source: T) {
         guard source >= (0 as T) else { return nil }
         if source.bitWidth <= 2 * Word.bitWidth {
             var it = source.words.makeIterator()
             self.init(low: it.next() ?? 0, high: it.next() ?? 0)
             precondition(it.next() == nil, "Length of BinaryInteger.words is greater than its bitWidth")
-        }
-        else {
+        } else {
             self.init(words: source.words)
         }
     }
 
-    public init<T: BinaryInteger>(_ source: T) {
+    init<T: BinaryInteger>(_ source: T) {
         precondition(source >= (0 as T), "BigUInt cannot represent negative values")
         self.init(exactly: source)!
     }
 
-    public init<T: BinaryInteger>(truncatingIfNeeded source: T) {
+    init<T: BinaryInteger>(truncatingIfNeeded source: T) {
         self.init(words: source.words)
     }
 
-    public init<T: BinaryInteger>(clamping source: T) {
+    init<T: BinaryInteger>(clamping source: T) {
         if source <= (0 as T) {
             self.init()
-        }
-        else {
+        } else {
             self.init(words: source.words)
         }
     }
 }
 
-extension CS.BigInt {
-    public init() {
+public extension CS.BigInt {
+    init() {
         self.init(sign: .plus, magnitude: 0)
     }
 
     /// Initializes a new signed big integer with the same value as the specified unsigned big integer.
-    public init(_ integer: CS.BigUInt) {
-        self.magnitude = integer
-        self.sign = .plus
+    init(_ integer: CS.BigUInt) {
+        magnitude = integer
+        sign = .plus
     }
 
-    public init<T>(_ source: T) where T : BinaryInteger {
+    init<T>(_ source: T) where T: BinaryInteger {
         if source >= (0 as T) {
             self.init(sign: .plus, magnitude: CS.BigUInt(source))
-        }
-        else {
+        } else {
             var words = Array(source.words)
             words.twosComplement()
             self.init(sign: .minus, magnitude: CS.BigUInt(words: words))
         }
     }
 
-    public init?<T>(exactly source: T) where T : BinaryInteger {
+    init?<T>(exactly source: T) where T: BinaryInteger {
         self.init(source)
     }
 
-    public init<T>(clamping source: T) where T : BinaryInteger {
+    init<T>(clamping source: T) where T: BinaryInteger {
         self.init(source)
     }
 
-    public init<T>(truncatingIfNeeded source: T) where T : BinaryInteger {
+    init<T>(truncatingIfNeeded source: T) where T: BinaryInteger {
         self.init(source)
     }
 }
@@ -86,4 +83,3 @@ extension CS.BigInt: ExpressibleByIntegerLiteral {
         self.init(value)
     }
 }
-

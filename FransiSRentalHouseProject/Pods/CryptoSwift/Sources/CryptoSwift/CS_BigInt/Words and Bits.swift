@@ -9,19 +9,18 @@
 extension Array where Element == UInt {
     mutating func twosComplement() {
         var increment = true
-        for i in 0 ..< self.count {
+        for i in 0 ..< count {
             if increment {
                 (self[i], increment) = (~self[i]).addingReportingOverflow(1)
-            }
-            else {
+            } else {
                 self[i] = ~self[i]
             }
         }
     }
 }
 
-extension CS.BigUInt {
-    public subscript(bitAt index: Int) -> Bool {
+public extension CS.BigUInt {
+    subscript(bitAt index: Int) -> Bool {
         get {
             precondition(index >= 0)
             let (i, j) = index.quotientAndRemainder(dividingBy: Word.bitWidth)
@@ -32,20 +31,19 @@ extension CS.BigUInt {
             let (i, j) = index.quotientAndRemainder(dividingBy: Word.bitWidth)
             if newValue {
                 self[i] |= 1 << j
-            }
-            else {
+            } else {
                 self[i] &= ~(1 << j)
             }
         }
     }
 }
 
-extension CS.BigUInt {
+public extension CS.BigUInt {
     /// The minimum number of bits required to represent this integer in binary.
     ///
     /// - Returns: floor(log2(2 * self + 1))
     /// - Complexity: O(1)
-    public var bitWidth: Int {
+    var bitWidth: Int {
         guard count > 0 else { return 0 }
         return count * Word.bitWidth - self[count - 1].leadingZeroBitCount
     }
@@ -57,7 +55,7 @@ extension CS.BigUInt {
     /// - Returns: A value in `0...(Word.bitWidth - 1)`.
     /// - SeeAlso: width
     /// - Complexity: O(1)
-    public var leadingZeroBitCount: Int {
+    var leadingZeroBitCount: Int {
         guard count > 0 else { return 0 }
         return self[count - 1].leadingZeroBitCount
     }
@@ -67,27 +65,27 @@ extension CS.BigUInt {
     /// - Note: 0 is considered to have zero trailing zero bits.
     /// - Returns: A value in `0...width`.
     /// - Complexity: O(count)
-    public var trailingZeroBitCount: Int {
+    var trailingZeroBitCount: Int {
         guard count > 0 else { return 0 }
-        let i = self.words.firstIndex { $0 != 0 }!
+        let i = words.firstIndex { $0 != 0 }!
         return i * Word.bitWidth + self[i].trailingZeroBitCount
     }
 }
 
-extension CS.BigInt {
-    public var bitWidth: Int {
+public extension CS.BigInt {
+    var bitWidth: Int {
         guard !magnitude.isZero else { return 0 }
         return magnitude.bitWidth + 1
     }
 
-    public var trailingZeroBitCount: Int {
+    var trailingZeroBitCount: Int {
         // Amazingly, this works fine for negative numbers
         return magnitude.trailingZeroBitCount
     }
 }
 
-extension CS.BigUInt {
-    public struct Words: RandomAccessCollection {
+public extension CS.BigUInt {
+    struct Words: RandomAccessCollection {
         private let value: CS.BigUInt
 
         fileprivate init(_ value: CS.BigUInt) { self.value = value }
@@ -100,14 +98,13 @@ extension CS.BigUInt {
         }
     }
 
-    public var words: Words { return Words(self) }
+    var words: Words { return Words(self) }
 
-    public init<Words: Sequence>(words: Words) where Words.Element == Word {
+    init<Words: Sequence>(words: Words) where Words.Element == Word {
         let uc = words.underestimatedCount
         if uc > 2 {
             self.init(words: Array(words))
-        }
-        else {
+        } else {
             var it = words.makeIterator()
             guard let w0 = it.next() else {
                 self.init()
@@ -127,16 +124,15 @@ extension CS.BigUInt {
                     words.append(word)
                 }
                 self.init(words: words)
-            }
-            else {
+            } else {
                 self.init(low: w0, high: w1)
             }
         }
     }
 }
 
-extension CS.BigInt {
-    public struct Words: RandomAccessCollection {
+public extension CS.BigInt {
+    struct Words: RandomAccessCollection {
         public typealias Indices = CountableRange<Int>
 
         private let value: CS.BigInt
@@ -146,10 +142,10 @@ extension CS.BigInt {
             self.value = value
             switch value.sign {
             case .plus:
-                self.decrementLimit = 0
+                decrementLimit = 0
             case .minus:
                 assert(!value.magnitude.isZero)
-                self.decrementLimit = value.magnitude.words.firstIndex(where: { $0 != 0 })!
+                decrementLimit = value.magnitude.words.firstIndex(where: { $0 != 0 })!
             }
         }
 
@@ -185,16 +181,15 @@ extension CS.BigInt {
         }
     }
 
-    public var words: Words {
+    var words: Words {
         return Words(self)
     }
 
-    public init<S: Sequence>(words: S) where S.Element == Word {
+    init<S: Sequence>(words: S) where S.Element == Word {
         var words = Array(words)
         if (words.last ?? 0) >> (Word.bitWidth - 1) == 0 {
             self.init(sign: .plus, magnitude: CS.BigUInt(words: words))
-        }
-        else {
+        } else {
             words.twosComplement()
             self.init(sign: .minus, magnitude: CS.BigUInt(words: words))
         }

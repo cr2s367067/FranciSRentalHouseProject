@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct MenuView: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
-    
+    @EnvironmentObject var userInfoVM: UserInfoVM
+
     var body: some View {
         ZStack(alignment: .leading) {
             Rectangle()
@@ -37,7 +37,7 @@ struct MenuView: View {
                     } label: {
                         SideBarButton(buttonName: "Contact Us", systemImageName: "questionmark.circle")
                     }
-                    if firestoreToFetchUserinfo.fetchedUserData.isSignByApple == false {                    
+                    if firestoreToFetchUserinfo.fetchedUserData.isSignByApple == false {
                         NavigationLink {
                             withAnimation {
                                 BioAuthSettingView()
@@ -78,27 +78,37 @@ struct MenuView: View {
 }
 
 extension MenuView {
-    
     func cleanUserInfoWhenSignOut() {
-        appViewModel.id = ""
-        appViewModel.firstName = ""
-        appViewModel.lastName = ""
-        appViewModel.displayName = ""
-        appViewModel.mobileNumber = ""
-        appViewModel.dob = Date()
-        appViewModel.address = ""
-        appViewModel.town = ""
-        appViewModel.city = ""
-        appViewModel.zipCode = ""
-        appViewModel.country = ""
-        appViewModel.gender = ""
-        appViewModel.isMale = false
-        appViewModel.isFemale = false
+//        userInfoVM.id = ""
+//        userInfoVM.firstName = ""
+//        userInfoVM.lastName = ""
+//        userInfoVM.displayName = ""
+//        userInfoVM.mobileNumber = ""
+//        userInfoVM.dob = Date()
+//        userInfoVM.address = ""
+//        userInfoVM.town = ""
+//        userInfoVM.city = ""
+//        userInfoVM.zipCode = ""
+//        userInfoVM.country = ""
+//        userInfoVM.gender = ""
+//        userInfoVM.isMale = false
+//        userInfoVM.isFemale = false
+        userInfoVM.userInfo = .empty
     }
-    
+
     @ViewBuilder
     func identifyUserType(signUpType: SignUpType, providerType: ProviderTypeStatus) -> some View {
-        if signUpType == .isNormalCustomer {
+        switch signUpType {
+        case .isNormalCustomer:
+            normalCustormerMenuView()
+        case .isProvider:
+            providerMenuView(providerType: providerType)
+        }
+    }
+
+    @ViewBuilder
+    private func normalCustormerMenuView() -> some View {
+        Group {
             NavigationLink {
                 withAnimation {
                     UserDetailInfoView()
@@ -122,8 +132,19 @@ extension MenuView {
                 SideBarButton(buttonName: "Focusing\rProducts", systemImageName: "face.dashed.fill")
             }
         }
-        if signUpType == .isProvider {
+    }
+
+    @ViewBuilder
+    private func providerMenuView(providerType: ProviderTypeStatus) -> some View {
+        Group {
             if providerType == .roomProvider {
+                NavigationLink {
+                    withAnimation {
+                        StoreProfileView()
+                    }
+                } label: {
+                    SideBarButton(buttonName: "My Store", systemImageName: "briefcase")
+                }
                 NavigationLink {
                     withAnimation {
                         ContractCollectionView()
@@ -176,20 +197,19 @@ struct SideBarButton: View {
     }
 }
 
-
 struct SideMenuBar<SidebarContent: View, Content: View>: View {
     let sidebarContent: SidebarContent
     let mainContent: Content
     let sidebarWidth: CGFloat
     @Binding var showSidebar: Bool
-    
-    init(sidebarWidth: CGFloat, showSidebar: Binding<Bool>, @ViewBuilder sidebar: ()->SidebarContent, @ViewBuilder content: ()->Content) {
+
+    init(sidebarWidth: CGFloat, showSidebar: Binding<Bool>, @ViewBuilder sidebar: () -> SidebarContent, @ViewBuilder content: () -> Content) {
         self.sidebarWidth = sidebarWidth
-        self._showSidebar = showSidebar
+        _showSidebar = showSidebar
         sidebarContent = sidebar()
         mainContent = content()
     }
-    
+
     var body: some View {
         ZStack(alignment: .leading) {
             sidebarContent
@@ -219,8 +239,6 @@ struct SideMenuBar<SidebarContent: View, Content: View>: View {
         }
     }
 }
-
-
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {

@@ -5,11 +5,10 @@
 //  Created by Kuan on 2022/4/11.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct RentalBillSettingView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
@@ -18,29 +17,29 @@ struct RentalBillSettingView: View {
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     @EnvironmentObject var paymentMethodManager: PaymentMethodManager
     @Environment(\.colorScheme) var colorScheme
-    
+
     @State private var showOverview = true
     @State private var showPaymentMethod = false
-    
+
     var rentalPrice: String {
-        firestoreToFetchUserinfo.rentingRoomInfo.roomPrice ?? ""
+        return firestoreToFetchUserinfo.rentedContract.roomRentalPrice
     }
-    
+
     var upComingPaymentDate: Date {
         paymentMethodManager.computePaymentMonth(from: Date())
     }
-    
+
     var address: String {
-        let zipCode = firestoreToFetchUserinfo.rentingRoomInfo.roomZipCode ?? ""
-        let city = firestoreToFetchUserinfo.rentingRoomInfo.roomCity ?? ""
-        let town = firestoreToFetchUserinfo.rentingRoomInfo.roomTown ?? ""
-        let roomAddress = firestoreToFetchUserinfo.rentingRoomInfo.roomAddress ?? ""
+        let zipCode = firestoreToFetchUserinfo.rentedContract.roomZipCode
+        let city = firestoreToFetchUserinfo.rentedContract.roomCity
+        let town = firestoreToFetchUserinfo.rentedContract.roomTown
+        let roomAddress = firestoreToFetchUserinfo.rentedContract.roomAddress
         return zipCode + city + town + roomAddress
     }
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         VStack {
             switchBar()
@@ -68,18 +67,25 @@ struct RentalBillSettingView: View {
         }
         .task {
             do {
-                _ = try await firestoreToFetchUserinfo.getSummittedContract(uidPath: firebaseAuth.getUID())
+                _ = try await firestoreToFetchUserinfo.getRentedContract(
+                    uidPath: firebaseAuth.getUID()
+                )
                 let currentDate = Date()
                 if currentDate == firestoreToFetchUserinfo.rentedContract.rentalEndDate {
-                    try await renterProfileViewModel.eraseExpiredRoomInfo(from: currentDate, to: firestoreToFetchUserinfo.rentedContract.rentalEndDate, docID: firestoreToFetchUserinfo.rentedContract.docID)
+                    try await renterProfileViewModel.eraseExpiredRoomInfo(
+                        from: currentDate,
+                        to: firestoreToFetchUserinfo.rentedContract.rentalEndDate,
+                        roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID
+                    )
                 }
-                
-                try await firestoreToFetchRoomsData.getPostComment(roomUID: firestoreToFetchUserinfo.rentedContract.docID, uidPath: firebaseAuth.getUID())
+                try await firestoreToFetchRoomsData.getPostComment(
+                    roomUID: firestoreToFetchUserinfo.rentedRoom.rentedRoomUID,
+                    uidPath: firebaseAuth.getUID()
+                )
             } catch {
 //                self.errorHandler.handle(error: error)
                 print(error)
             }
-            
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -87,7 +93,6 @@ struct RentalBillSettingView: View {
 }
 
 extension RentalBillSettingView {
-    
     @ViewBuilder
     func renewButton() -> some View {
         if Date() == firestoreToFetchUserinfo.rentedContract.rentalEndDate {
@@ -120,7 +125,7 @@ extension RentalBillSettingView {
             })
         }
     }
-    
+
     @ViewBuilder
     func addressUnit() -> some View {
         Section {
@@ -132,7 +137,7 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func rentalPriceUnit() -> some View {
         Section {
@@ -144,7 +149,7 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func renewUnit() -> some View {
         Section {
@@ -154,11 +159,11 @@ extension RentalBillSettingView {
                 renewButton()
             }
         } header: {
-             Text("Renew Status")
+            Text("Renew Status")
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func contractUnit() -> some View {
         Section {
@@ -173,12 +178,14 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func CommentAndRate() -> some View {
         Section {
             NavigationLink {
-                RoomCommentAndRattingView(contractInfo: firestoreToFetchUserinfo.rentedContract, firestoreUserInfo: firestoreToFetchUserinfo)
+                RoomCommentAndRattingView(
+                    contractInfo: firestoreToFetchUserinfo.rentedContract
+                )
             } label: {
                 Text("Give Comment")
                     .foregroundColor(.primary)
@@ -188,7 +195,7 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func paymentUnit() -> some View {
         Section {
@@ -202,7 +209,9 @@ extension RentalBillSettingView {
                         .foregroundColor(.primary)
                 }
                 NavigationLink {
-                    PurchaseView(roomsData: localData.summaryItemHolder)
+                    PurchaseView(
+                        roomsData: localData.roomRenting
+                    )
                 } label: {
                     Text("Unpaid")
                         .foregroundColor(.blue)
@@ -215,7 +224,7 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func roomsInfoFormView() -> some View {
         Form {
@@ -230,24 +239,21 @@ extension RentalBillSettingView {
                 .fill(.gray.opacity(0.2))
         }
     }
-    
+
     @ViewBuilder
     func autoPaymentUnit() -> some View {
         Section {
-            NavigationLink {
-                
-            } label: {
+            NavigationLink {} label: {
                 Text("Auto Payment Setting")
                     .foregroundColor(.primary)
                     .font(.system(size: 15))
-                
             }
         } header: {
             Text("Auto Payment Setting")
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func paymentMethodView() -> some View {
         Form {
@@ -263,9 +269,7 @@ extension RentalBillSettingView {
                     .foregroundColor(.primary)
             }
             Section {
-                Button {
-                    
-                } label: {
+                Button {} label: {
                     HStack {
                         Image(systemName: "creditcard")
                             .font(.system(size: 25))
@@ -283,7 +287,7 @@ extension RentalBillSettingView {
                 Text("Card Setting")
                     .foregroundColor(.primary)
             }
-            
+
             Section {
                 NavigationLink {
                     UserPaymentHistoryView()
@@ -305,7 +309,7 @@ extension RentalBillSettingView {
                 .fill(.gray.opacity(0.2))
         }
     }
-    
+
     @ViewBuilder
     func switchBar() -> some View {
         HStack(alignment: .center, spacing: 30) {
@@ -345,7 +349,7 @@ extension RentalBillSettingView {
         .padding(.horizontal)
         .padding(.vertical)
     }
-    
+
     @ViewBuilder
     func switchView(showOverView: Bool, showPaymentMethod: Bool) -> some View {
         if showOverView == true {

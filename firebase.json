@@ -26,7 +26,11 @@
       "port": 5003
     },
     "firestore": {
+<<<<<<< HEAD
       "port": 8083
+=======
+      "port": 8084
+>>>>>>> PodsAdding
     },
     "database": {
       "port": 9004
@@ -35,13 +39,18 @@
         "port": 5005
     },
     "pubsub": {
+<<<<<<< HEAD
         "port": 8089
+=======
+        "port": 8088
+>>>>>>> PodsAdding
     },
     "storage": {
       "port": 9199
     },
     "ui": {
-      "enabled": true
+      "enabled": true,
+      "port": 4001
     }
   }
 }

@@ -5,17 +5,11 @@
 //  Created by Kuan on 2022/5/21.
 //
 
-import Foundation
 import FirebaseCrashlytics
-
+import Foundation
 
 class CustomCrashlyticsKey: ObservableObject {
-
-    
     let CrashKeyAndValue = [
-        "" : ""
+        "": "",
     ]
-    
-    
 }
-

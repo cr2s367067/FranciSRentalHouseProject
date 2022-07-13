@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct SearchView: View {
-    
     @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
@@ -26,7 +25,7 @@ struct SearchView: View {
 
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         NavigationView {
             VStack(spacing: 10) {
@@ -82,7 +81,6 @@ struct SearchView: View {
 }
 
 extension SearchView {
-    
     @ViewBuilder
     func storeAccessUnit(storeData: StoreDataModel) -> some View {
         VStack {
@@ -120,10 +118,9 @@ extension SearchView {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
             RoundedRectangle(cornerRadius: 20)
                 .fill(.black.opacity(0.4))
-            
         }
     }
-    
+
     @ViewBuilder
     func showTagView(isRooms: Bool) -> some View {
         if searchVM.showTags {
@@ -134,7 +131,7 @@ extension SearchView {
             }
         }
     }
-    
+
     @ViewBuilder
     func roomTags() -> some View {
         VStack {
@@ -176,7 +173,7 @@ extension SearchView {
             }
         }
     }
-    
+
     @ViewBuilder
     func productTags() -> some View {
         VStack {
@@ -200,40 +197,36 @@ extension SearchView {
             }
         }
     }
-    
-    
-    
+
     @ViewBuilder
     private func roomsUnit() -> some View {
 //        ScrollView(.vertical, showsIndicators: false) {
-            //ForEach to catch the data from firebase
-            ForEach(searchVM.customSearchFilter(input: firestoreToFetchRoomsData.fetchRoomInfoFormPublic, searchText: searchVM.searchName)) { result in
-                NavigationLink {
-                    RoomsDetailView(roomsData: result)
-                } label: {
-                    SearchListItemView(roomsData: result)
-                }
-                .simultaneousGesture(
-                    TapGesture().onEnded({ _ in
-                        searchVM.searchName = ""
-                        searchVM.showTags = false
-                        searchVM.holderArray = []
-                        Task {
-                            do {
-                                guard let id = result.id else { return }
-                                try await firestoreToFetchRoomsData.getCommentDataSet(roomUID: id)
-                            } catch {
-                                self.errorHandler.handle(error: error)
-                            }
-                        }
-
-                    })
-                )
+        // ForEach to catch the data from firebase
+        ForEach(searchVM.customSearchFilter(input: firestoreToFetchRoomsData.fetchRoomInfoFormPublic, searchText: searchVM.searchName)) { result in
+            NavigationLink {
+                RoomsDetailView(roomsData: result)
+            } label: {
+                SearchListItemView(roomsData: result)
             }
+            .simultaneousGesture(
+                TapGesture().onEnded { _ in
+                    searchVM.searchName = ""
+                    searchVM.showTags = false
+                    searchVM.holderArray = []
+                    Task {
+                        do {
+                            guard let id = result.id else { return }
+                            try await firestoreToFetchRoomsData.getCommentDataSet(roomUID: id)
+                        } catch {
+                            self.errorHandler.handle(error: error)
+                        }
+                    }
+                }
+            )
+        }
 //        }
     }
-    
-    
+
     @ViewBuilder
     func roomUnitWithPlaceHolder() -> some View {
         if firestoreToFetchRoomsData.fetchRoomInfoFormPublic.isEmpty {
@@ -248,39 +241,38 @@ extension SearchView {
     @ViewBuilder
     private func productsUnit() -> some View {
 //        ScrollView(.vertical, showsIndicators: false) {
-            ForEach(searchVM.filterProductByTags(input: firestoreForProducts.productsDataSet, tags: searchVM.searchName, searchText: searchVM.searchName)) { product in
-                NavigationLink {
-                    ProductDetailView(productName: product.productName,
-                                      productPrice: Int(product.productPrice) ?? 0,
-                                      productImage: product.productImage,
-                                      productUID: product.productUID,
-                                      productAmount: product.productAmount,
-                                      productFrom: product.productFrom,
-                                      providerUID: product.providerUID,
-                                      isSoldOut: product.isSoldOut,
-                                      providerName: product.providerName,
-                                      productDescription: product.productDescription, docID: product.id ?? "")
-                } label: {
-                    SearchProductListItemView(productName: product.productName, productImage: product.productImage, productPrice: product.productPrice, productDes: product.productDescription)
-                }
-                .simultaneousGesture(
-                    TapGesture().onEnded({ _ in
-                        Task {
-                            do {
-                                try await storageForProductImage.getProductImages(providerUidPath: product.providerUID, productUID: product.productUID)
-                            } catch {
-                                self.errorHandler.handle(error: error)
-                            }
-                        }
-                    })
+        ForEach(searchVM.filterProductByTags(
+            input: firestoreForProducts.publicProductDataSet,
+            tags: searchVM.searchName, searchText: searchVM.searchName
+        )) { product in
+            NavigationLink {
+                ProductDetailView(productDM: product)
+            } label: {
+                SearchProductListItemView(
+                    productData: product
                 )
             }
+            .simultaneousGesture(
+                TapGesture().onEnded { _ in
+                    Task {
+                        do {
+                            try await storageForProductImage.getProductImages(
+                                gui: product.providerGUI,
+                                productUID: product.productUID
+                            )
+                        } catch {
+                            self.errorHandler.handle(error: error)
+                        }
+                    }
+                }
+            )
+        }
 //        }
     }
-    
+
     @ViewBuilder
     func productsUnitWithPlaceHolder() -> some View {
-        if firestoreForProducts.productsDataSet.isEmpty {
+        if firestoreForProducts.publicProductDataSet.isEmpty {
             productsUnit()
                 .disabled(true)
                 .redacted(reason: .placeholder)
@@ -288,16 +280,16 @@ extension SearchView {
             productsUnit()
         }
     }
-    
+
     @ViewBuilder
-    func identityRoomsProducts(showRooms: Bool, showProducts: Bool) -> some View {
+    func identityRoomsProducts(showRooms: Bool, showProducts _: Bool) -> some View {
         if showRooms {
             roomUnitWithPlaceHolder()
         } else {
             productsUnitWithPlaceHolder()
         }
     }
-    
+
     @ViewBuilder
     func sortingTagUnit(name: String) -> some View {
         HStack {
@@ -310,13 +302,12 @@ extension SearchView {
                 .fill(.gray.opacity(0.7))
         }
     }
-    
+
     private func charCount(name: String) -> CGFloat {
         return CGFloat(Double(name.count) * 5)
     }
-    
+
     private func tagCollecte(firstTag: String? = nil, secTag: String? = nil) -> String {
         return (firstTag ?? "") + (secTag ?? "")
     }
 }
-

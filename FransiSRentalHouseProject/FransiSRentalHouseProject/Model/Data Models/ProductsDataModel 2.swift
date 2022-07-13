@@ -5,12 +5,13 @@
 //  Created by JerryHuang on 3/1/22.
 //
 
-import Foundation
-import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Foundation
+import SwiftUI
 
-//MARK: For user to order products
+// MARK: For user to order products
+
 struct UserOrderProductsDataModel: Identifiable, Codable {
     @DocumentID var id = UUID().uuidString
     var productImage: String
@@ -25,8 +26,8 @@ struct UserOrderProductsDataModel: Identifiable, Codable {
     @ServerTimestamp var buyDate: Timestamp?
 }
 
+// MARK: For provider to upload their product
 
-//MARK: For provider to upload their product
 struct ProductProviderDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var productUID: String
@@ -40,11 +41,11 @@ struct ProductProviderDataModel: Identifiable, Codable {
     var productAmount: String
     var isSoldOut: Bool
     var productType: String
-    
 }
 
-//MARK: For provider to track who ordered products
-//struct ProductsOrderedDataModel: Identifiable, Codable {
+// MARK: For provider to track who ordered products
+
+// struct ProductsOrderedDataModel: Identifiable, Codable {
 //    @DocumentID var id: String?
 //    var productUID: String
 //    var productImage: String
@@ -55,19 +56,21 @@ struct ProductProviderDataModel: Identifiable, Codable {
 //    var orderShippingAddress: String
 //    var orderUID: String
 //    @ServerTimestamp var buyDate: Timestamp?
-//}
+// }
 
-//MARK: For provider to show user's comment
-//struct ProductCommentRecivingDataModel: Identifiable, Codable {
+// MARK: For provider to show user's comment
+
+// struct ProductCommentRecivingDataModel: Identifiable, Codable {
 //    @DocumentID var id: String?
 //    var buyerUID: String
 //    var buyDisplayName: String
 //    var comment: String
 //    var rating: String
 //    var productUID: String
-//}
+// }
 
-//MARK: To store the bookmark temperary
+// MARK: To store the bookmark temperary
+
 struct MarkedProductsDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var productUID: String
@@ -82,8 +85,8 @@ struct MarkedProductsDataModel: Identifiable, Codable {
     var providerName: String
 }
 
+// MARK: Store information for each store and presneting in searchview
 
-//MARK: Store information for each store and presneting in searchview
 struct StoreDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var provideBy: String
@@ -93,14 +96,14 @@ struct StoreDataModel: Identifiable, Codable {
 //    var providerCredit: Int
     var storeBackgroundImage: String
     var storeChatDocID: String
-    
 }
 
 extension StoreDataModel {
     static let empty = StoreDataModel(provideBy: "", providerDisplayName: "", providerProfileImage: "", providerDescription: "", storeBackgroundImage: "", storeChatDocID: "")
 }
 
-//MARK: Store the comment and rating in provider side
+// MARK: Store the comment and rating in provider side
+
 struct ProductCommentRattingDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var comment: String

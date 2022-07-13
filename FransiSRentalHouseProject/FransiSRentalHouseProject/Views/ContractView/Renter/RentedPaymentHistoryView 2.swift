@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RentedPaymentHistoryView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     var paymentHistory: [PaymentHistoryDataModel]
@@ -45,8 +44,8 @@ struct RentedPaymentHistoryView: View {
     }
 }
 
-//struct RentedPaymentHistoryView_Previews: PreviewProvider {
+// struct RentedPaymentHistoryView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        RentedPaymentHistoryView()
 //    }
-//}
+// }

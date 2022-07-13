@@ -5,25 +5,24 @@
 //  Created by JerryHuang on 3/9/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MaintainWaitingView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
-    
+
     var body: some View {
         NavigationView {
             ZStack {
                 Rectangle()
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .ignoresSafeArea(.all)
-                //:~Main View
+                //: ~Main View
                 VStack {
                     TitleAndDivider(title: "Maintian List")
                     Spacer()
@@ -53,12 +52,11 @@ struct MaintainWaitingView: View {
 }
 
 struct MaintainWaitingReusableUnit: View {
-    
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
+
     var roomsData: RoomInfoDataModel
-    
+
     var address: String {
         let zipCode = roomsData.zipCode
         let city = roomsData.city
@@ -66,19 +64,19 @@ struct MaintainWaitingReusableUnit: View {
         let roomAddress = roomsData.roomAddress
         return zipCode + city + town + roomAddress
     }
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     private func increaseByElement(amount: Int) -> CGFloat {
         let result = amount * 90
         return CGFloat(630 - result)
     }
-    
+
     var taskAmount: Int {
         firestoreToFetchMaintainTasks.fetchMaintainInfo.count
     }
-    
+
     var body: some View {
         VStack {
             Spacer()
@@ -154,7 +152,7 @@ struct MaintainWaitingReusableUnit: View {
                     .frame(height: 30)
                 VStack {
                     ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { task in
+                        ForEach(firestoreToFetchMaintainTasks.fetchMaintainInfo) { _ in
                         }
                     }
                 }
@@ -166,9 +164,5 @@ struct MaintainWaitingReusableUnit: View {
                     .fill(Color("fieldGray"))
             })
         }
-        
     }
 }
-
-
-

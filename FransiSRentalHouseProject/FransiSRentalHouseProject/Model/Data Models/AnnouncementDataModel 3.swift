@@ -5,9 +5,8 @@
 //  Created by Kuan on 2022/3/27.
 //
 
-import Foundation
 import FirebaseFirestoreSwift
-
+import Foundation
 
 struct AnnouncementDataModel: Identifiable, Codable {
     @DocumentID var id: String?

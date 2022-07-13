@@ -19,38 +19,37 @@ import Foundation
 /// Read the [Wikipedia](https://en.wikipedia.org/wiki/Padding_(cryptography)#ISO_10126)
 /// and [Crypto-IT](http://www.crypto-it.net/eng/theory/padding.html) articles for more info.
 struct ISO10126Padding: PaddingProtocol {
-  init() {
-  }
+    init() {}
 
-  @inlinable
-  func add(to bytes: Array<UInt8>, blockSize: Int) -> Array<UInt8> {
-    let padding = UInt8(blockSize - (bytes.count % blockSize))
-    var withPadding = bytes
-    if padding > 0 {
-      withPadding += (0..<(padding - 1)).map { _ in UInt8.random(in: 0...255) } + [padding]
-    }
-    return withPadding
-  }
-
-  @inlinable
-  func remove(from bytes: Array<UInt8>, blockSize: Int?) -> Array<UInt8> {
-    guard !bytes.isEmpty, let lastByte = bytes.last else {
-      return bytes
+    @inlinable
+    func add(to bytes: [UInt8], blockSize: Int) -> [UInt8] {
+        let padding = UInt8(blockSize - (bytes.count % blockSize))
+        var withPadding = bytes
+        if padding > 0 {
+            withPadding += (0 ..< (padding - 1)).map { _ in UInt8.random(in: 0 ... 255) } + [padding]
+        }
+        return withPadding
     }
 
-    assert(!bytes.isEmpty, "Need bytes to remove padding")
+    @inlinable
+    func remove(from bytes: [UInt8], blockSize _: Int?) -> [UInt8] {
+        guard !bytes.isEmpty, let lastByte = bytes.last else {
+            return bytes
+        }
 
-    let padding = Int(lastByte) // last byte
-    let finalLength = bytes.count - padding
+        assert(!bytes.isEmpty, "Need bytes to remove padding")
 
-    if finalLength < 0 {
-      return bytes
+        let padding = Int(lastByte) // last byte
+        let finalLength = bytes.count - padding
+
+        if finalLength < 0 {
+            return bytes
+        }
+
+        if padding >= 1 {
+            return Array(bytes[0 ..< finalLength])
+        }
+
+        return bytes
     }
-
-    if padding >= 1 {
-      return Array(bytes[0..<finalLength])
-    }
-
-    return bytes
-  }
 }

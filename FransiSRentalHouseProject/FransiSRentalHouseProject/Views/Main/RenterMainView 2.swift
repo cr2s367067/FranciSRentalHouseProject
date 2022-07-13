@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RenterMainView: View {
-
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
@@ -19,27 +18,26 @@ struct RenterMainView: View {
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     @EnvironmentObject var paymentMg: PaymentMethodManager
-    
-    //temp
+
+    // temp
 //    @EnvironmentObject var cryptoM: CryptoManagement
-    
-    
+
     @State private var dragCompleted = false
-    
+
     var gridItemLayout = [
         GridItem(.fixed(170)),
-        GridItem(.fixed(170))
+        GridItem(.fixed(170)),
     ]
-    
+
     private func notRented() -> Bool {
         return firestoreToFetchUserinfo.fetchedUserData.rentedRoomInfo?.roomUID?.isEmpty ?? false
     }
-    
+
     @State private var showRooms = true
 //    @State private var showFurniture = false
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -102,7 +100,7 @@ struct RenterMainView: View {
                             .padding()
                         }
                     }
-                    
+
                     //: Everybody's facorite
                     Group {
                         TitleAndDivider(title: "What's Everybody Favorite")
@@ -115,16 +113,15 @@ struct RenterMainView: View {
                             .padding()
                         }
                     }
-                    
                 }
             }
             .gesture(
                 DragGesture(minimumDistance: 10)
-                    .onEnded({ gesture in
+                    .onEnded { gesture in
                         if gesture.startLocation.x > gesture.predictedEndLocation.x {
                             dragCompleted = true
                         }
-                    })
+                    }
             )
             .background {
                 LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom)
@@ -144,7 +141,6 @@ struct RenterMainView: View {
         }
     }
 }
-
 
 struct AnnouncementView: View {
     var announcement: String
@@ -171,17 +167,16 @@ extension RenterMainView {
             throw UserInformationError.registeError
         }
     }
-    
+
     @ViewBuilder
     func elementSwitch(showRooms: Bool) -> some View {
         if showRooms {
             showRoomsElement()
         } else {
             showProductElement()
-            
         }
     }
-    
+
     @ViewBuilder
     func showRoomsElement() -> some View {
         ForEach(firestoreToFetchRoomsData.fetchRoomInfoFormPublic) { result in
@@ -192,13 +187,14 @@ extension RenterMainView {
                               roomTown: result.town,
                               roomCity: result.city,
                               objectPrice: Int(result.rentalPrice) ?? 0)
-                .frame(height: 160)
-                .alert(isPresented: $appViewModel.isPresent) {
-                    //MARK: Throw the "Have rented error to instead"
-                    Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
-                }
+                    .frame(height: 160)
+                    .alert(isPresented: $appViewModel.isPresent) {
+                        // MARK: Throw the "Have rented error to instead"
+
+                        Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
+                    }
             }
-            .simultaneousGesture(TapGesture().onEnded({ _ in
+            .simultaneousGesture(TapGesture().onEnded { _ in
                 Task {
                     do {
                         guard let id = result.id else { return }
@@ -207,10 +203,10 @@ extension RenterMainView {
                         self.errorHandler.handle(error: error)
                     }
                 }
-            }))
+            })
         }
     }
-    
+
     @ViewBuilder
     func showProductElement() -> some View {
         ForEach(firestoreForProducts.productsDataSet) { product in
@@ -230,10 +226,7 @@ extension RenterMainView {
             }
         }
     }
-    
-    
 }
-
 
 /*
  Button {
@@ -287,6 +280,6 @@ extension RenterMainView {
          //MARK: Throw the "Have rented error to instead"
          Alert(title: Text("Congrate!"), message: Text("The room is adding in the chart, also check out the furnitures if needing. Please see Payment session."), dismissButton: .default(Text("Sure")))
      }
-     
+
  }
-*/
+ */

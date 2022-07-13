@@ -8,30 +8,29 @@
 import SwiftUI
 
 struct PaymentSummaryView: View {
-    
     enum ShippingMethodName: String {
         case shipToStore = "Ship to Store"
         case homeDelivery = "Home Delivery"
         case rushDelivery = "Rush Delivery"
     }
-    
+
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @EnvironmentObject var paymentSummaryVM: PaymentSummaryViewModel
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var testCheck = false
     @State private var shippingMethodName: ShippingMethodName = .shipToStore
     @FocusState private var isFocus: Bool
-    
+
     var body: some View {
         VStack {
             TitleAndDivider(title: "Summary")
-            ListItems(roomsData: localData.summaryItemHolder)
+            ListItems(roomsData: localData.roomRenting)
             AppDivider()
             HStack {
                 Text("Total Price")
@@ -55,33 +54,33 @@ struct PaymentSummaryView: View {
                                 paymentSummaryVM.homeDelivery = false
                                 localData.sumPrice -= 50
                             }
-                            
-                            if  paymentSummaryVM.rushDelivery == true {
+
+                            if paymentSummaryVM.rushDelivery == true {
                                 paymentSummaryVM.rushDelivery = false
                                 localData.sumPrice -= 40
                             }
-                            
+
                             if paymentSummaryVM.shipToStore == false {
                                 paymentSummaryVM.shipToStore = true
                                 localData.sumPrice += 60
                                 firestoreForProducts.shippingMethod = .convenienceStore
                             }
-                            
+
                             print(firestoreForProducts.shippingMethod)
                         }, isCheck: paymentSummaryVM.shipToStore)
-                        .accessibilityIdentifier(ShippingMethodName.shipToStore.rawValue)
-                        
+                            .accessibilityIdentifier(ShippingMethodName.shipToStore.rawValue)
+
                         buttonWithText(buttonName: .homeDelivery, action: {
                             if paymentSummaryVM.shipToStore == true {
                                 paymentSummaryVM.shipToStore = false
                                 localData.sumPrice -= 60
                             }
-                            
+
                             if paymentSummaryVM.rushDelivery == true {
                                 paymentSummaryVM.rushDelivery = false
                                 localData.sumPrice -= 40
                             }
-                            
+
                             if paymentSummaryVM.homeDelivery == false {
                                 paymentSummaryVM.homeDelivery = true
                                 localData.sumPrice += 50
@@ -89,19 +88,19 @@ struct PaymentSummaryView: View {
                             }
                             print(firestoreForProducts.shippingMethod)
                         }, isCheck: paymentSummaryVM.homeDelivery)
-                        .accessibilityIdentifier(ShippingMethodName.homeDelivery.rawValue)
-                        
+                            .accessibilityIdentifier(ShippingMethodName.homeDelivery.rawValue)
+
                         buttonWithText(buttonName: .rushDelivery, action: {
                             if paymentSummaryVM.shipToStore == true {
                                 paymentSummaryVM.shipToStore = false
                                 localData.sumPrice -= 60
                             }
-                            
+
                             if paymentSummaryVM.homeDelivery == true {
                                 paymentSummaryVM.homeDelivery = false
                                 localData.sumPrice -= 50
                             }
-                            
+
                             if paymentSummaryVM.rushDelivery == false {
                                 paymentSummaryVM.rushDelivery = true
                                 localData.sumPrice += 40
@@ -109,15 +108,14 @@ struct PaymentSummaryView: View {
                             }
                             print(firestoreForProducts.shippingMethod)
                         }, isCheck: paymentSummaryVM.rushDelivery)
-                        .accessibilityIdentifier(ShippingMethodName.rushDelivery.rawValue)
+                            .accessibilityIdentifier(ShippingMethodName.rushDelivery.rawValue)
                     }
-                    
                 }
                 .frame(width: uiScreenWidth - 30)
                 AddressFillOut(address: $paymentSummaryVM.shippingAddress)
                     .focused($isFocus)
             }
-            
+
             VStack(alignment: .center, spacing: 30) {
                 //: Term Agreemnet
                 VStack(alignment: .leading, spacing: 10) {
@@ -149,7 +147,7 @@ struct PaymentSummaryView: View {
                 }
                 if appViewModel.paymentSummaryTosAgree == true {
                     NavigationLink {
-                        PurchaseView(roomsData: localData.summaryItemHolder)
+                        PurchaseView(roomsData: localData.roomRenting)
                     } label: {
                         Text("Confirm")
                             .foregroundColor(.white)
@@ -188,43 +186,38 @@ struct PaymentSummaryView: View {
     }
 }
 
-
-
 struct PaymentSummaryView_Previews: PreviewProvider {
     static var previews: some View {
         PaymentSummaryView()
     }
 }
 
-
-
 struct SummaryItems: View {
-    
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
-    
-    var roomsData: RoomInfoDataModel
-    
+
+    var roomsData: RoomDM
+
     var checkOutItem = "No Data"
     var checkOutPrice = "0"
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
-                if !localData.summaryItemHolder.roomUID.isEmpty {                
+                if !localData.roomRenting.roomUID.isEmpty {
                     HStack {
                         Button {
-                            localData.summaryItemHolder = .empty
+                            localData.rentingContractHolder = .empty
                             localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
-                            localData.tempCart = .empty
+                            localData.roomRenting = .empty
                             appViewModel.isRedacted = true
                         } label: {
                             Image(systemName: "xmark.circle")
                                 .resizable()
                                 .frame(width: 22, height: 22)
                         }
-                        Text(roomsData.roomAddress)
+                        Text(roomsData.address)
                         Spacer()
                         Text("$\(roomsData.rentalPrice)")
                     }
@@ -232,7 +225,7 @@ struct SummaryItems: View {
                 ForEach(productDetailViewModel.productOrderCart) { product in
                     HStack {
                         Button {
-                            productDetailViewModel.productOrderCart.removeAll(where: {$0.id == product.id})
+                            productDetailViewModel.productOrderCart.removeAll(where: { $0.id == product.id })
                             localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
                             appViewModel.isRedacted = true
                         } label: {
@@ -240,10 +233,10 @@ struct SummaryItems: View {
                                 .resizable()
                                 .frame(width: 22, height: 22)
                         }
-                        Text(product.productName)
+                        Text(product.product.productName)
                         Spacer()
                         Text("Unit: \(product.orderAmount)")
-                        Text("$\(product.productPrice * (Int(product.orderAmount) ?? 0))")
+                        Text("$\((Int(product.product.productPrice) ?? 0) * product.orderAmount )")
                     }
                 }
             }
@@ -259,24 +252,24 @@ struct ListItems: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
-    
-    var roomsData: RoomInfoDataModel
-    
+
+    var roomsData: RoomDM
+
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
-                if !localData.summaryItemHolder.roomUID.isEmpty {
+                if !localData.roomRenting.roomUID.isEmpty {
                     HStack {
-                        Text(roomsData.roomAddress)
+                        Text(roomsData.address)
                         Spacer()
-                        Text("$\(roomsData.rentalPrice)")
+                        Text("$\(rentalPriceWithDepositFee(rentalPrice: roomsData.rentalPrice))")
                     }
                 }
                 ForEach(productDetailViewModel.productOrderCart) { product in
                     HStack {
-                        Text(product.productName)
+                        Text(product.product.productName)
                         Spacer()
-                        Text("$\(product.productPrice)")
+                        Text("$\(productWithOrderedPrice(input: product))")
                     }
                 }
             }
@@ -289,11 +282,28 @@ struct ListItems: View {
     }
 }
 
+extension ListItems {
+    
+    private func rentalPriceWithDepositFee(rentalPrice fee: String) -> String {
+        let feeConvertInt = Int(fee) ?? 0
+        let resultHolder = feeConvertInt * 3
+        let resultConvertString = String(resultHolder)
+        return resultConvertString
+    }
+    
+    
+    private func productWithOrderedPrice(input: ProductCartDM) -> String {
+        var temp = 0
+        let convertInt = Int(input.product.productPrice) ?? 0
+        temp = input.orderAmount * convertInt
+        let converString = String(temp)
+        return converString
+    }
+}
 
 struct AddressFillOut: View {
-    
     @Binding var address: String
-    
+
     var body: some View {
         VStack {
             InfoUnit(title: "Shipping Address", bindingString: $address)
@@ -302,16 +312,14 @@ struct AddressFillOut: View {
     }
 }
 
-
 class PaymentSummaryViewModel: ObservableObject {
     @Published var shippingAddress = ""
     @Published var showErrorAlert = false
-    
+
     @Published var shipToStore = false
     @Published var rushDelivery = false
     @Published var homeDelivery = false
 }
-
 
 extension PaymentSummaryView {
     @ViewBuilder

@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct ProviderSummittedRoomContractView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var appViewModel: AppViewModel
-    
+
     @State var userName = "some name"
     @State var isAgree = false
-    
+
     var body: some View {
         ZStack {
             Group {
@@ -43,9 +42,9 @@ struct ProviderSummittedRoomContractView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
-                        //:~ paragraph 1
+                        //: ~ paragraph 1
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第一條   委託管理標的")
                             SubTitleView(subTitleName: "一、租賃住宅標示：")
@@ -57,53 +56,51 @@ struct ProviderSummittedRoomContractView: View {
                                     Text("\(appViewModel.mainBuildArea)層 平方公尺，__層__平方公尺，__層__平方公尺共計__平方公尺，用途\(appViewModel.mainBuildingPurpose)。")
                                     LineWithSpacer(contain: "2.附屬建物用途\(appViewModel.subBuildingPurpose)，面積\(appViewModel.subBuildingArea)平方公尺。")
                                     LineWithSpacer(contain: "(三)共有部分建號:\(appViewModel.publicBuildingNumber)，權利範圍:\(appViewModel.publicBuildingRightRange)，持分面積\(appViewModel.publicBuildingArea)平方公尺。")
-                                    LineWithSpacer(contain: "(四)車位：□有(汽車停車位\(appViewModel.parkinglotAmount)個、機車停車位__個)□無。") //車位有無
-                                    LineWithSpacer(contain: "(五)□有□無設定他項權利，若有，權利種類：\(appViewModel.SettingTheRightForThirdPersonForWhatKind)。") //有無設定他項權利
-                                    LineWithSpacer(contain: "(六)□有□無查封登記。") //有無查封登記
+                                    LineWithSpacer(contain: "(四)車位：□有(汽車停車位\(appViewModel.parkinglotAmount)個、機車停車位__個)□無。") // 車位有無
+                                    LineWithSpacer(contain: "(五)□有□無設定他項權利，若有，權利種類：\(appViewModel.SettingTheRightForThirdPersonForWhatKind)。") // 有無設定他項權利
+                                    LineWithSpacer(contain: "(六)□有□無查封登記。") // 有無查封登記
                                 }
                                 .font(.system(size: 14, weight: .regular))
                             }
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "二、委託管理範圍：")
-                            
+
                             VStack(spacing: 6) {
                                 Group {
-                                    LineWithSpacer(contain: "(一)租賃住宅□全部□部分：第\(appViewModel.provideFloor)層□房間\(appViewModel.provideRooms)間□第\(appViewModel.provideRoomNumber)室，面積\(appViewModel.provideFloor)平方公尺。") //租賃住宅全部
+                                    LineWithSpacer(contain: "(一)租賃住宅□全部□部分：第\(appViewModel.provideFloor)層□房間\(appViewModel.provideRooms)間□第\(appViewModel.provideRoomNumber)室，面積\(appViewModel.provideFloor)平方公尺。") // 租賃住宅全部
                                     if appViewModel.hasParkinglotYes == true && appViewModel.hasParkinglotNo == false {
                                         Group {
-                                            LineWithSpacer(contain: "(二)車位：(如無則免填)")//汽車停車位, 機車停車位
+                                            LineWithSpacer(contain: "(二)車位：(如無則免填)") // 汽車停車位, 機車停車位
                                             LineWithSpacer(contain: "1.汽車停車位種類及編號：")
-                                            Text("地上(下)第\(appViewModel.parkingUGFloor)層□平面式停車位□機械式停車位，編號第\(appViewModel.parkingNumber)號。") //平面式停車位, 機械式停車位
+                                            Text("地上(下)第\(appViewModel.parkingUGFloor)層□平面式停車位□機械式停車位，編號第\(appViewModel.parkingNumber)號。") // 平面式停車位, 機械式停車位
                                             LineWithSpacer(contain: "2.機車停車位：")
                                             HStack {
                                                 Text("地上(下)第層，編號第 號或其位置示意圖。")
                                                 Spacer()
-                                                
                                             }
                                             LineWithSpacer(contain: "3.使用時間：")
                                             HStack {
-                                                Text("□全日□日間□夜間□其他___。") //使用時間全日, 日間, 夜間
+                                                Text("□全日□日間□夜間□其他___。") // 使用時間全日, 日間, 夜間
                                                 Spacer()
                                             }
                                         }
                                     } else {
                                         Group {
-                                            LineWithSpacer(contain: "(二)車位：(如無則免填)")//汽車停車位, 機車停車位
+                                            LineWithSpacer(contain: "(二)車位：(如無則免填)") // 汽車停車位, 機車停車位
                                             LineWithSpacer(contain: "1.汽車停車位種類及編號：")
-                                            Text("地上(下)第＿＿層□平面式停車位□機械式停車位，編號第＿＿號。") //平面式停車位, 機械式停車位
+                                            Text("地上(下)第＿＿層□平面式停車位□機械式停車位，編號第＿＿號。") // 平面式停車位, 機械式停車位
                                             LineWithSpacer(contain: "2.機車停車位：")
                                             HStack {
                                                 Text("地上(下)第＿＿層，編號第＿＿號或其位置示意圖。")
                                                 Spacer()
-                                                
                                             }
                                             LineWithSpacer(contain: "3.使用時間：")
                                             HStack {
-                                                Text("□全日□日間□夜間□其他___。") //使用時間全日, 日間, 夜間
+                                                Text("□全日□日間□夜間□其他___。") // 使用時間全日, 日間, 夜間
                                                 Spacer()
                                             }
                                         }
@@ -117,9 +114,9 @@ struct ProviderSummittedRoomContractView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
-                        //:~ paragraph 2
+                        //: ~ paragraph 2
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第二條　委託管理期間")
                             VStack(spacing: 6) {
@@ -131,14 +128,14 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 3
+
+                        //: ~ paragraph 3
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第三條　報酬約定及給付")
                             VStack(spacing: 6) {
                                 Group {
                                     Text("委託人於租賃成立時，得向受託人收取房屋租賃費，其數額為協議成交租金之    個月（最高不得超過中央主管機關之規定）；如以押租金所生利息為租金者，其利率以雙方約定為之，未約定者依法定利率。")
-                                    Text("前項受託人之服務報酬，委託人於與承租人簽訂租賃契約時，不需支付服務報酬。前項報酬給付方式：□現金繳付□於代為收取之租金內扣付□轉帳繳付：金融機構：\(appViewModel.bankName)，戶名：\(appViewModel.bankOwnerName)，帳號：\(appViewModel.bankAccount)□其他＿＿＿。") //報酬約定及給付-現金繳付, 轉帳繳付
+                                    Text("前項受託人之服務報酬，委託人於與承租人簽訂租賃契約時，不需支付服務報酬。前項報酬給付方式：□現金繳付□於代為收取之租金內扣付□轉帳繳付：金融機構：\(appViewModel.bankName)，戶名：\(appViewModel.bankOwnerName)，帳號：\(appViewModel.bankAccount)□其他＿＿＿。") // 報酬約定及給付-現金繳付, 轉帳繳付
                                     Text("委託管理標的之租賃關係消滅，且委託人未提前終止本契約者，委託人不得向受託人收取報酬。")
                                 }
                                 .font(.system(size: 14, weight: .regular))
@@ -146,8 +143,8 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 4
+
+                        //: ~ paragraph 4
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第四條　委託管理項目")
                             VStack(spacing: 6) {
@@ -174,8 +171,8 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 5
+
+                        //: ~ paragraph 5
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第五條　違反使用限制之處理")
                             VStack(spacing: 6) {
@@ -187,8 +184,8 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 6
+
+                        //: ~ paragraph 6
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第六條　修繕之處理")
                             VStack(spacing: 6) {
@@ -201,8 +198,8 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 7
+
+                        //: ~ paragraph 7
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第七條　委託人之義務及責任")
                             VStack(spacing: 6) {
@@ -221,10 +218,9 @@ struct ProviderSummittedRoomContractView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
-                        
-                        //:~ paragraph 8
+                        //: ~ paragraph 8
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第八條　受託人之義務及責任")
                             VStack(spacing: 6) {
@@ -244,7 +240,6 @@ struct ProviderSummittedRoomContractView: View {
                                         Text("九、應於收受委託人之有關報酬或文件時，開立統一發票或掣給收據。")
                                         LineWithSpacer(contain: "十、應配合委託人申請減徵稅捐需要，提供相關證明。")
                                         Text("十一、不得委託他代管業執行租賃住宅管理業務。因可歸責於受託人之事由而違反前項各款規定，致委託人受有損害者，應負賠償責任。")
-                                        
                                     }
                                 }
                                 .font(.system(size: 14, weight: .regular))
@@ -252,8 +247,8 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 9
+
+                        //: ~ paragraph 9
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第九條　租賃住宅返還之處理")
                             VStack(spacing: 6) {
@@ -266,8 +261,8 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 10
+
+                        //: ~ paragraph 10
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第十條　委託人提前終止契約")
                             VStack(spacing: 6) {
@@ -285,8 +280,8 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 11
+
+                        //: ~ paragraph 11
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第十一條　受託人提前終止契約")
                             VStack(spacing: 6) {
@@ -300,22 +295,22 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 12
+
+                        //: ~ paragraph 12
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第十二條　履行本契約之通知")
                             VStack(spacing: 6) {
                                 Group {
                                     Text("除本契約另有約定外，委任雙方相互間之通知，以郵寄為之者，應以本契約所記載之地址為準；如因地址變更未告知他方，致通知無法到達他方時，以第一次郵遞之日期推定為到達日。")
-                                    Text("前項之通知得經委任雙方約定以□電子郵件信箱：___□手機簡訊□即時通訊軟體以文字顯示方式為之。") //履行本契約之通知-電子郵件信箱, 手機簡訊, 即時通訊軟體
+                                    Text("前項之通知得經委任雙方約定以□電子郵件信箱：___□手機簡訊□即時通訊軟體以文字顯示方式為之。") // 履行本契約之通知-電子郵件信箱, 手機簡訊, 即時通訊軟體
                                 }
                                 .font(.system(size: 14, weight: .regular))
                             }
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 13
+
+                        //: ~ paragraph 13
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第十三條　契約及其相關附件效力")
                             VStack(spacing: 6) {
@@ -327,8 +322,8 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
-                        //:~ paragraph 14
+
+                        //: ~ paragraph 14
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第十四條　未盡事宜之處置")
                             VStack(spacing: 6) {
@@ -341,7 +336,7 @@ struct ProviderSummittedRoomContractView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "立契約書人")
@@ -362,7 +357,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             VStack(spacing: 6) {
                                 Group {
@@ -382,7 +377,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             VStack(spacing: 6) {
                                 Group {
@@ -402,7 +397,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "簽約注意事項")
                             SubTitleView(subTitleName: "一、適用範圍")
@@ -417,7 +412,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "二、委任關係")
                             VStack(spacing: 6) {
@@ -430,7 +425,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "三、委託管理標的")
                             VStack(spacing: 6) {
@@ -446,7 +441,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "四、委託管理期間及契約方式")
                             VStack(spacing: 6) {
@@ -461,7 +456,7 @@ struct ProviderSummittedRoomContractView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "五、報酬約定及給付")
@@ -476,7 +471,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "六、委託管理項目")
                             VStack(spacing: 6) {
@@ -488,7 +483,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "七、違反使用限制之處理")
                             VStack(spacing: 6) {
@@ -501,7 +496,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "八、修繕之處理")
                             VStack(spacing: 6) {
@@ -514,7 +509,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "九、委託人之義務及責任")
                             VStack(spacing: 6) {
@@ -527,7 +522,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "十、受託人之義務及責任")
                             VStack(spacing: 6) {
@@ -548,7 +543,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "十一、租賃住宅返還之處理")
                             VStack(spacing: 6) {
@@ -560,7 +555,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "十二、委託人提前終止契約")
                             VStack(spacing: 6) {
@@ -578,7 +573,7 @@ struct ProviderSummittedRoomContractView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "十三、受託人提前終止契約")
@@ -592,7 +587,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "十四、消費爭議處理")
                             VStack(spacing: 6) {
@@ -609,7 +604,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "十五、契約分存")
                             VStack(spacing: 6) {
@@ -622,7 +617,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "十六、確定訂約者之身分")
                             VStack(spacing: 6) {
@@ -635,7 +630,7 @@ struct ProviderSummittedRoomContractView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             SubTitleView(subTitleName: "十七、租賃住宅管理人員簽章")
                             VStack(spacing: 6) {
@@ -648,7 +643,7 @@ struct ProviderSummittedRoomContractView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     HStack(alignment: .center, spacing: 5) {
                         Button {
                             isAgree.toggle()
@@ -662,10 +657,8 @@ struct ProviderSummittedRoomContractView: View {
                             .font(.system(size: 12))
                     }
                     .padding(.top, 10)
-                    
-                    Button {
-                        
-                    } label: {
+
+                    Button {} label: {
                         Text("Summit")
                             .foregroundColor(.white)
                             .frame(width: 108, height: 35)
@@ -683,8 +676,6 @@ struct ProviderSummittedRoomContractView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
-
-
 
 struct TitleView: View {
     var titleName: String

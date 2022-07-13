@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ProductsProviderSummitView: View {
-
     @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
@@ -18,18 +17,16 @@ struct ProductsProviderSummitView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var searchVM: SearchViewModel
-    
+
     @FocusState private var isFocused: Bool
 
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     init() {
         UITextView.appearance().backgroundColor = .clear
     }
-    
-    
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -37,7 +34,7 @@ struct ProductsProviderSummitView: View {
                     .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                     .edgesIgnoringSafeArea([.top, .bottom])
                 VStack(spacing: 5) {
-                    ScrollView(.vertical, showsIndicators: false){
+                    ScrollView(.vertical, showsIndicators: false) {
                         TitleAndDivider(title: "Ready to Post your products?")
                         StepsTitle(stepsName: "Step1: Upload the product pic.")
                         Button {
@@ -111,7 +108,7 @@ struct ProductsProviderSummitView: View {
                                                     .foregroundColor(.white)
                                                     .font(.system(size: 15))
                                             }
-                                            .frame(width: 70 + CGFloat((productsProviderSummitViewModel.productType.count * 8)), height: 40)
+                                            .frame(width: 70 + CGFloat(productsProviderSummitViewModel.productType.count * 8), height: 40)
                                             .background(alignment: .center) {
                                                 RoundedRectangle(cornerRadius: 10)
                                                     .fill(.gray.opacity(0.6))
@@ -178,8 +175,8 @@ struct ProductsProviderSummitView: View {
                                 Button {
                                     do {
                                         try productsProviderSummitViewModel.checker(productName: productsProviderSummitViewModel.productName,
-                                                                                productPrice: productsProviderSummitViewModel.productPrice,
-                                                                                productFrom: productsProviderSummitViewModel.productFrom,
+                                                                                    productPrice: productsProviderSummitViewModel.productPrice,
+                                                                                    productFrom: productsProviderSummitViewModel.productFrom,
                                                                                     images: productsProviderSummitViewModel.images,
                                                                                     holderTosAgree: productsProviderSummitViewModel.holderTosAgree,
                                                                                     productAmount: productsProviderSummitViewModel.productAmount, productType: productsProviderSummitViewModel.productType)
@@ -214,7 +211,7 @@ struct ProductsProviderSummitView: View {
                                                                                                        productDescription: productsProviderSummitViewModel.productDescription,
                                                                                                        productUID: firestoreForProducts.productUID,
                                                                                                        productName: productsProviderSummitViewModel.productName,
-                                                                                                       productFrom: productsProviderSummitViewModel.productFrom, 
+                                                                                                       productFrom: productsProviderSummitViewModel.productFrom,
                                                                                                        productAmount: productsProviderSummitViewModel.productAmount,
                                                                                                        isSoldOut: false,
                                                                                                        productType: productsProviderSummitViewModel.productType)

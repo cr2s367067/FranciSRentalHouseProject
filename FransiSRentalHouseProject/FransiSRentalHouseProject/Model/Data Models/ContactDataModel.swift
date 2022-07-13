@@ -5,10 +5,10 @@
 //  Created by JerryHuang on 3/5/22.
 //
 
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 import Foundation
 import SwiftUI
-import FirebaseFirestoreSwift
-import FirebaseFirestore
 
 struct ContactDataModel: Identifiable, Codable {
     @DocumentID var id: String?

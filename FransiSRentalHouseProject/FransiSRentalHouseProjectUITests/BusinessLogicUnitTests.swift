@@ -8,15 +8,14 @@
 import XCTest
 
 class BusinessLogicUnitTests: XCTestCase {
-
     var app: XCUIApplication!
-    
+
     override func setUpWithError() throws {
         app = XCUIApplication()
         app.launch()
         continueAfterFailure = true
     }
-    
+
 //    override func tearDownWithError() throws {
 //        app = XCUIApplication()
 //        let profileButton = app.buttons["TapProfileButton"]
@@ -32,14 +31,42 @@ class BusinessLogicUnitTests: XCTestCase {
 //        XCTAssertTrue(signOutButton.exists)
 //        signOutButton.tap()
 //    }
-
 }
 
-
 class app_business_logic_test: BusinessLogicUnitTests {
+    func test_user_signUp() {
+        let userName = "usertest@test.com"
+        let password = "123123A!"
+        let signUpNavigation = app.buttons["signUp"]
+        signUpNavigation.tap()
+        let elementsQuery = app.scrollViews.otherElements
+        //        elementsQuery.textFields["signUpUserName"].tap()
+        let userNameTextField = elementsQuery.textFields["signUpUserName"]
+        userNameTextField.tap()
+        userNameTextField.typeText(userName)
+        app.toolbars["Toolbar"].buttons["Done"].tap()
+//        elementsQuery.secureTextFields["signUpPassword"].tap()
+        let passwordTextField = elementsQuery.secureTextFields["password"]
+        passwordTextField.tap()
+        passwordTextField.typeText(password)
+        app.toolbars["Toolbar"].buttons["Done"].tap()
+//        elementsQuery.secureTextFields["confirmPassword"].tap()
+        let rePasswordTextField = elementsQuery.secureTextFields["confirmPassword"]
+        rePasswordTextField.tap()
+        rePasswordTextField.typeText(password)
+        app.toolbars["Toolbar"].buttons["Done"].tap()
+//        elementsQuery.buttons["isRenter"].tap()
+        let isRenterButton = elementsQuery.buttons["isRenter"]
+        isRenterButton.tap()
+//        elementsQuery.buttons["tosCheckBox"].tap()
+        let tosAgree = elementsQuery.buttons["tosCheckBox"]
+        tosAgree.tap()
+//        elementsQuery.buttons["signUp"].tap()
+        let signUpButton = elementsQuery.buttons["signUp"]
+        signUpButton.tap()
+    }
 
     func test_user_login(userName: String, password: String) {
-       
         let userNameTextField = app.textFields["userName"]
         userNameTextField.tap()
         userNameTextField.typeText(userName)
@@ -54,7 +81,7 @@ class app_business_logic_test: BusinessLogicUnitTests {
         let announcement = app.staticTexts["announcement"]
         XCTAssertEqual(announcement.label, "Announcement")
     }
-    
+
     func test_user_sign_out() {
         let profileButton = app.buttons["TapProfileButton"]
         XCTAssertTrue(profileButton.exists)
@@ -69,20 +96,19 @@ class app_business_logic_test: BusinessLogicUnitTests {
         XCTAssertTrue(signOutButton.exists)
         signOutButton.tap()
     }
-    
+
     private func checkButtonExitAndTap(acesID: String) {
         let button = app.buttons[acesID]
         XCTAssertTrue(button.exists)
         XCTAssert(button.waitForExistence(timeout: 1))
         button.tap()
     }
-    
+
     private func checkTextExit(acesID: String) {
         let text = app.staticTexts[acesID]
         XCTAssertTrue(text.exists)
     }
-    
-    
+
     func test_user_buying_product_process() {
         let testingUserName = "testuser@test.con"
         let testingPassword = "123123"
@@ -113,7 +139,7 @@ class app_business_logic_test: BusinessLogicUnitTests {
         naviBackButton.tap()
         checkButtonExitAndTap(acesID: "signOut")
     }
-    
+
     func test_product_provider_getting_order_list() {
         let testUserName = "testp@test.com"
         let testPassword = "112233"
@@ -126,14 +152,14 @@ class app_business_logic_test: BusinessLogicUnitTests {
         listSheet.scrolling(direction: .scrollDown)
         test_user_sign_out()
     }
-    
+
     private func textFieldAndTyping(textID: String, typeText: String) {
         let textField = app.textFields[textID]
         textField.tap()
         textField.typeText(typeText)
         textField.tap()
     }
-    
+
     func test_product_provider_summit_new_product() {
 //        let message = "Product's Information is waiting to summit, if you want to adjust something, please press cancel, else press okay to continue"
         let testUserName = "testp@test.com"
@@ -170,25 +196,24 @@ class app_business_logic_test: BusinessLogicUnitTests {
         XCTAssertFalse(processView.waitForExistence(timeout: 5))
         test_user_sign_out()
     }
-    
-    
+
     private func scrollText(acesID: String, contain: String) {
         let textField = app.scrollViews.otherElements.textFields[acesID]
         textField.tap()
         textField.typeText(contain)
 //        textField.tap()
     }
-    
+
     private func scrollButton(acesID: String) {
         let button = app.scrollViews.buttons[acesID]
         button.tap()
     }
-    
+
     private func photoSelected(phName: String) {
         let img = app.scrollViews.otherElements.images[phName]
         img.tap()
     }
-    
+
     func test_room_provider_summits_room_process() {
         let testUserName = "testr@test.com"
         let testPassword = "321321A!"
@@ -223,5 +248,4 @@ class app_business_logic_test: BusinessLogicUnitTests {
         XCTAssertFalse(process.waitForExistence(timeout: 5))
         test_user_sign_out()
     }
-    
 }

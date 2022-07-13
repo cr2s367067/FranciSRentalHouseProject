@@ -7,8 +7,7 @@
 //
 
 extension CS.BigUInt {
-
-    //MARK: String Conversion
+    // MARK: String Conversion
 
     /// Calculates the number of numerals in a given radix that fit inside a single `Word`.
     ///
@@ -48,31 +47,30 @@ extension CS.BigUInt {
             start = text.index(before: start)
             count += 1
             if count == charsPerWord {
-                guard let d = Word.init(text[start ..< end], radix: radix) else { return nil }
+                guard let d = Word(text[start ..< end], radix: radix) else { return nil }
                 words.append(d)
                 end = start
                 count = 0
             }
         }
         if start != end {
-            guard let d = Word.init(text[start ..< end], radix: radix) else { return nil }
+            guard let d = Word(text[start ..< end], radix: radix) else { return nil }
             words.append(d)
         }
 
         if power == 0 {
             self.init(words: words)
-        }
-        else {
+        } else {
             self.init()
             for d in words.reversed() {
-                self.multiply(byWord: power)
-                self.addWord(d)
+                multiply(byWord: power)
+                addWord(d)
             }
         }
     }
 }
 
-extension CS.BigInt {
+public extension CS.BigInt {
     /// Initialize a big integer from an ASCII representation in a given radix. Numerals above `9` are represented by
     /// letters from the English alphabet.
     ///
@@ -80,19 +78,17 @@ extension CS.BigInt {
     /// - Parameter `text`: A string optionally starting with "-" or "+" followed by characters corresponding to numerals in the given radix. (0-9, a-z, A-Z)
     /// - Parameter `radix`: The base of the number system to use, or 10 if unspecified.
     /// - Returns: The integer represented by `text`, or nil if `text` contains a character that does not represent a numeral in `radix`.
-    public init?<S: StringProtocol>(_ text: S, radix: Int = 10) {
+    init?<S: StringProtocol>(_ text: S, radix: Int = 10) {
         var magnitude: CS.BigUInt?
         var sign: Sign = .plus
         if text.first == "-" {
             sign = .minus
             let text = text.dropFirst()
             magnitude = CS.BigUInt(text, radix: radix)
-        }
-        else if text.first == "+" {
+        } else if text.first == "+" {
             let text = text.dropFirst()
             magnitude = CS.BigUInt(text, radix: radix)
-        }
-        else {
+        } else {
             magnitude = CS.BigUInt(text, radix: radix)
         }
         guard let m = magnitude else { return nil }
@@ -101,11 +97,11 @@ extension CS.BigInt {
     }
 }
 
-extension String {
+public extension String {
     /// Initialize a new string with the base-10 representation of an unsigned big integer.
     ///
     /// - Complexity: O(v.count^2)
-    public init(_ v: CS.BigUInt) { self.init(v, radix: 10, uppercase: false) }
+    init(_ v: CS.BigUInt) { self.init(v, radix: 10, uppercase: false) }
 
     /// Initialize a new string representing an unsigned big integer in the given radix (base).
     ///
@@ -114,7 +110,7 @@ extension String {
     ///
     /// - Requires: radix > 1 && radix <= 36
     /// - Complexity: O(count) when radix is a power of two; otherwise O(count^2).
-    public init(_ v: CS.BigUInt, radix: Int, uppercase: Bool = false) {
+    init(_ v: CS.BigUInt, radix: Int, uppercase: Bool = false) {
         precondition(radix > 1)
         let (charsPerWord, power) = CS.BigUInt.charsPerWord(forRadix: radix)
 
@@ -123,8 +119,7 @@ extension String {
         var parts: [String]
         if power == 0 {
             parts = v.words.map { String($0, radix: radix, uppercase: uppercase) }
-        }
-        else {
+        } else {
             parts = []
             var rest = v
             while !rest.isZero {
@@ -139,7 +134,7 @@ extension String {
         for part in parts.reversed() {
             let zeroes = charsPerWord - part.count
             assert(zeroes >= 0)
-            if !first && zeroes > 0 {
+            if !first, zeroes > 0 {
                 // Insert leading zeroes for mid-Words
                 self += String(repeating: "0", count: zeroes)
             }
@@ -155,7 +150,7 @@ extension String {
     ///
     /// - Requires: radix > 1 && radix <= 36
     /// - Complexity: O(count) when radix is a power of two; otherwise O(count^2).
-    public init(_ value: CS.BigInt, radix: Int = 10, uppercase: Bool = false) {
+    init(_ value: CS.BigInt, radix: Int = 10, uppercase: Bool = false) {
         self = String(value.magnitude, radix: radix, uppercase: uppercase)
         if value.sign == .minus {
             self = "-" + self
@@ -218,19 +213,17 @@ extension CS.BigInt: CustomStringConvertible {
 }
 
 extension CS.BigUInt: CustomPlaygroundDisplayConvertible {
-
     /// Return the playground quick look representation of this integer.
     public var playgroundDescription: Any {
         let text = String(self)
-        return text + " (\(self.bitWidth) bits)"
+        return text + " (\(bitWidth) bits)"
     }
 }
 
 extension CS.BigInt: CustomPlaygroundDisplayConvertible {
-
     /// Return the playground quick look representation of this integer.
     public var playgroundDescription: Any {
         let text = String(self)
-        return text + " (\(self.magnitude.bitWidth) bits)"
+        return text + " (\(magnitude.bitWidth) bits)"
     }
 }

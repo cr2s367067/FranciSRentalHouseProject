@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 3/13/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MessageView: View {
-
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -17,16 +16,12 @@ struct MessageView: View {
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var storageForMessageImage: StorageForMessageImage
-    
 
-    
     var contactMember: ContactUserDataModel
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
 
-    
     var body: some View {
         ZStack {
             Rectangle()
@@ -55,7 +50,6 @@ struct MessageView: View {
                             withAnimation(.spring()) {
                                 item.scrollTo(firestoreForTextingMessage.messagesContainer.last?.id, anchor: .bottom)
                             }
-
                         }
                     }
                 }
@@ -111,7 +105,7 @@ struct MessageView: View {
 //            do {
 //                _ = try await firestoreForTextingMessage.fetchStoredUserData(uidPath: firebaseAuth.getUID())
 //                _ = try await firestoreForTextingMessage.fetchChatUserInfo(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
-                 firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: contactMember.chatRoomUID)
+            firestoreForTextingMessage.listenChatCenterMessageContain(chatRoomUID: contactMember.chatRoomUID)
 //                try await firestoreForTextingMessage.fetchChatingMember(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId)
 //            } catch {
 //                self.errorHandler.handle(error: error)
@@ -190,8 +184,6 @@ struct TextingViewForReceiver: View {
             Spacer()
         }
         .padding(.leading)
-        
-        
     }
 }
 
@@ -203,7 +195,7 @@ struct TextingViewForSender: View {
     var body: some View {
         HStack {
             Spacer()
-            if !text.isEmpty{
+            if !text.isEmpty {
                 Text(text)
                     .foregroundColor(.white)
                     .padding(.horizontal)
@@ -231,8 +223,6 @@ struct TextingViewForSender: View {
             }
         }
         .padding(.trailing)
-        
-        
     }
 }
 
@@ -272,8 +262,8 @@ struct ShowImage: View {
     }
 }
 
-//struct ShowImage_Previews: PreviewProvider {
+// struct ShowImage_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ShowImage()
 //    }
-//}
+// }

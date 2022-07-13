@@ -5,16 +5,15 @@
 //  Created by Kuan on 2022/3/22.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 struct RoomLocateMapView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var roomsLocationDataModel: RoomsLocationDataModel
-    
+
     let address: String
-    
+
     var body: some View {
         VStack {
             Map(coordinateRegion: $roomsLocationDataModel.mapRegion, annotationItems: roomsLocationDataModel.roomLocation) { locate in
@@ -63,7 +62,4 @@ struct SheetPullBar: View {
      }
      return coor
  }
-*/
-
-
-
+ */

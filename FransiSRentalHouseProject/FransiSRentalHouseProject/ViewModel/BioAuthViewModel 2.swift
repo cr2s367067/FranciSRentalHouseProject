@@ -10,26 +10,25 @@ import LocalAuthentication
 import SwiftUI
 
 class BioAuthViewModel: ObservableObject {
-    
     enum BioAuthStatus: String {
         case faceIDEnable, emailAddressForBiologin, userPasswordForBioLogin
     }
-    
+
     let firebaseAuth = FirebaseAuth()
-    
+
     @AppStorage(BioAuthStatus.faceIDEnable.rawValue) var faceIDEnable = false
     @AppStorage(BioAuthStatus.emailAddressForBiologin.rawValue) var userNameBioAuth = ""
     @AppStorage(BioAuthStatus.userPasswordForBioLogin.rawValue) var passwordBioAuth = ""
-    
+
     @Published var isUnlocked = false
-    
+
     func bioAuthentication(userNameBioAuth: String, passBioAuth: String) {
         let context = LAContext()
-        var error: NSError? = nil
+        var error: NSError?
         let canEvaluate = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
         if canEvaluate {
             let reason = "To access your account."
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
                 if success {
                     print("Access success")
                     Task {
@@ -43,12 +42,12 @@ class BioAuthViewModel: ObservableObject {
                         }
                     }
                 } else {
-                    //Some error eccure
+                    // Some error eccure
                     print("Fail to access account")
                 }
             }
         } else {
-            //If device doesn't have bioAuthSencer
+            // If device doesn't have bioAuthSencer
             print("This device doesn't provider bio authentication")
         }
     }

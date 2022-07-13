@@ -25,18 +25,17 @@
 import UIKit
 
 /**
-Uses default keyboard distance for textField.
-*/
+ Uses default keyboard distance for textField.
+ */
 @available(iOSApplicationExtension, unavailable)
 public let kIQUseDefaultKeyboardDistance = CGFloat.greatestFiniteMagnitude
 
 /**
-UIView category for managing UITextField/UITextView
-*/
+ UIView category for managing UITextField/UITextView
+ */
 @available(iOSApplicationExtension, unavailable)
 @objc public extension UIView {
-
-    private struct AssociatedKeys {
+    private enum AssociatedKeys {
         static var keyboardDistanceFromTextField = "keyboardDistanceFromTextField"
         static var ignoreSwitchingByNextPrevious = "ignoreSwitchingByNextPrevious"
         static var enableMode = "enableMode"

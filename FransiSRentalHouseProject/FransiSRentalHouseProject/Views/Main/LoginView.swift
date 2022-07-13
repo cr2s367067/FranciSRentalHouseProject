@@ -5,36 +5,35 @@
 //  Created by Kuan on 2022/5/18.
 //
 
-import SwiftUI
 import AuthenticationServices
+import SwiftUI
 
 struct LoginView: View {
 //    SignInWithAppleButtonView
     enum LoginStatus: String {
         case saveUserName
     }
-    
+
+    @EnvironmentObject var loginVM: LoginVM
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
-    
+
     let uiScreenWith = UIScreen.main.bounds.width
-    
-    @State private var emailAddress = ""
-    @State private var userPassword = ""
-    
+
+//    @State private var emailAddress = ""
+//    @State private var userPassword = ""tes
+
     @FocusState private var isFocus: Bool
-    @State private var didTap = false
-    
-    
-    @State private var currentNonce: String?
-    
+
+//    @State private var currentNonce: String?
+
     var body: some View {
         NavigationView {
             VStack {
                 Spacer()
-                
+
                 Group {
                     HStack {
                         Text("Door, What's Next")
@@ -53,14 +52,14 @@ struct LoginView: View {
                         Spacer()
                     }
                 }
-                
+
                 Group {
                     HStack {
                         Image(systemName: "person.fill")
                             .padding(.leading)
-                        TextField("", text: $emailAddress)
+                        TextField("", text: $loginVM.emailAddress)
                             .foregroundColor(.white)
-                            .placeholer(when: emailAddress.isEmpty) {
+                            .placeholer(when: loginVM.emailAddress.isEmpty) {
                                 Text("E-mail")
                                     .foregroundColor(.white.opacity(0.8))
                             }
@@ -74,9 +73,9 @@ struct LoginView: View {
                     HStack {
                         Image(systemName: "lock.fill")
                             .padding(.leading)
-                        SecureField("", text: $userPassword)
+                        SecureField("", text: $loginVM.userPassword)
                             .foregroundColor(.white)
-                            .placeholer(when: userPassword.isEmpty) {
+                            .placeholer(when: loginVM.userPassword.isEmpty) {
                                 Text("Password")
                                     .foregroundColor(.white.opacity(0.8))
                             }
@@ -105,15 +104,15 @@ struct LoginView: View {
                     .accessibilityIdentifier("signIn")
                 SignInWithAppleButton(.continue) { request in
                     let nonce = firebaseAuth.randomNonceString()
-                    currentNonce = nonce
+                    loginVM.currentNonce = nonce
                     request.requestedScopes = [.fullName, .email]
                     request.nonce = firebaseAuth.sha256(nonce)
                 } onCompletion: { result in
                     switch result {
-                    case .success(let authResult):
+                    case let .success(authResult):
                         switch authResult.credential {
                         case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                            guard let nonce = currentNonce else {
+                            guard let nonce = loginVM.currentNonce else {
                                 fatalError("Invaild State: login callback was received, but no login request was sent.")
                             }
                             guard let appleIdToken = appleIDCredential.identityToken else {
@@ -132,18 +131,17 @@ struct LoginView: View {
                                     print(error.localizedDescription)
                                 }
                             }
-                            //                        case let passwordCredential as ASPasswordCredential:
-                            //                            let username = passwordCredential.user
-                            //                            let password = passwordCredential.password
-                            //                            print("username: \(username)")
-                            //                            print("password: \(password)")
+                        //                        case let passwordCredential as ASPasswordCredential:
+                        //                            let username = passwordCredential.user
+                        //                            let password = passwordCredential.password
+                        //                            print("username: \(username)")
+                        //                            print("password: \(password)")
                         default:
                             break
                         }
-                    case .failure(let error):
+                    case let .failure(error):
                         print(error.localizedDescription)
                     }
-                    
                 }
                 .frame(width: uiScreenWith / 2 + 5, height: 34, alignment: .center)
                 .signInWithAppleButtonStyle(.whiteOutline)
@@ -207,7 +205,7 @@ extension LoginView {
             Button {
                 Task {
                     do {
-                        try await firebaseAuth.signInAsync(email: emailAddress, password: userPassword)
+                        try await firebaseAuth.signInAsync(email: loginVM.emailAddress, password: loginVM.userPassword)
                     } catch {
                         self.errorHandler.handle(error: error) {
                             if error.localizedDescription == "The password is invalid or the user does not have a password." {
@@ -226,7 +224,6 @@ extension LoginView {
                     .frame(width: uiScreenWith / 2 + 5, height: 34)
                     .background(Color("buttonBlue"))
                     .cornerRadius(5)
-                    
             }
         } else if fail >= 3 {
             NavigationLink {

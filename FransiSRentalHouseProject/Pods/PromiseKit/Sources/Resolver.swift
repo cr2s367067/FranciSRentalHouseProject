@@ -56,42 +56,43 @@ public extension Resolver {
 }
 
 #if swift(>=3.1)
-extension Resolver where T == Void {
-    /// Fulfills the promise unless error is non-nil
-    public func resolve(_ error: Error?) {
-        if let error = error {
-            reject(error)
-        } else {
-            fulfill(())
+    public extension Resolver where T == Void {
+        /// Fulfills the promise unless error is non-nil
+        func resolve(_ error: Error?) {
+            if let error = error {
+                reject(error)
+            } else {
+                fulfill(())
+            }
         }
-    }
-#if false
-    // disabled ∵ https://github.com/mxcl/PromiseKit/issues/990
 
-    /// Fulfills the promise
-    public func fulfill() {
-        self.fulfill(())
+        #if false
+            // disabled ∵ https://github.com/mxcl/PromiseKit/issues/990
+
+            /// Fulfills the promise
+            func fulfill() {
+                fulfill(())
+            }
+        #else
+            /// Fulfills the promise
+            /// - Note: underscore is present due to: https://github.com/mxcl/PromiseKit/issues/990
+            func fulfill_() {
+                fulfill(())
+            }
+        #endif
     }
-#else
-    /// Fulfills the promise
-    /// - Note: underscore is present due to: https://github.com/mxcl/PromiseKit/issues/990
-    public func fulfill_() {
-        self.fulfill(())
-    }
-#endif
-}
 #endif
 
 #if swift(>=5.0)
-extension Resolver {
-    /// Resolves the promise with the provided result
-    public func resolve<E: Error>(_ result: Swift.Result<T, E>) {
-        switch result {
-        case .failure(let error): self.reject(error)
-        case .success(let value): self.fulfill(value)
+    public extension Resolver {
+        /// Resolves the promise with the provided result
+        func resolve<E: Error>(_ result: Swift.Result<T, E>) {
+            switch result {
+            case let .failure(error): reject(error)
+            case let .success(value): fulfill(value)
+            }
         }
     }
-}
 #endif
 
 public enum Result<T> {

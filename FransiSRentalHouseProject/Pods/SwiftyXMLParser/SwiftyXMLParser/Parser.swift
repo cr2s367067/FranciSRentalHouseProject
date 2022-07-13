@@ -48,32 +48,33 @@ extension XML {
         }
 
         init(trimming manner: CharacterSet? = nil, ignoreNamespaces: Bool = false) {
-            self.trimmingManner = manner
+            trimmingManner = manner
             self.ignoreNamespaces = ignoreNamespaces
-            self.documentRoot = Element(name: "XML.Parser.AbstructedDocumentRoot", ignoreNamespaces: ignoreNamespaces)
+            documentRoot = Element(name: "XML.Parser.AbstructedDocumentRoot", ignoreNamespaces: ignoreNamespaces)
         }
-        
-        // MARK:- private
+
+        // MARK: - private
+
         fileprivate var documentRoot: Element
         fileprivate var stack = [Element]()
         fileprivate let trimmingManner: CharacterSet?
         fileprivate let ignoreNamespaces: Bool
-        
-        func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+
+        func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI _: String?, qualifiedName _: String?, attributes attributeDict: [String: String]) {
             let node = Element(name: elementName, ignoreNamespaces: ignoreNamespaces)
             node.lineNumberStart = parser.lineNumber
             if !attributeDict.isEmpty {
                 node.attributes = attributeDict
             }
-            
+
             let parentNode = stack.last
-            
+
             node.parentElement = parentNode
             parentNode?.childElements.append(node)
             stack.append(node)
         }
-        
-        func parser(_ parser: XMLParser, foundCharacters string: String) {
+
+        func parser(_: XMLParser, foundCharacters string: String) {
             if let text = stack.last?.text {
                 stack.last?.text = text + string
             } else {
@@ -81,19 +82,19 @@ extension XML {
             }
         }
 
-        func parser(_ parser: XMLParser, foundCDATA CDATABlock: Data) {
+        func parser(_: XMLParser, foundCDATA CDATABlock: Data) {
             stack.last?.CDATA = CDATABlock
         }
-        
-        func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+
+        func parser(_ parser: XMLParser, didEndElement _: String, namespaceURI _: String?, qualifiedName _: String?) {
             stack.last?.lineNumberEnd = parser.lineNumber
-            if let trimmingManner = self.trimmingManner {
+            if let trimmingManner = trimmingManner {
                 stack.last?.text = stack.last?.text?.trimmingCharacters(in: trimmingManner)
             }
             stack.removeLast()
         }
-        
-        func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+
+        func parser(_: XMLParser, parseErrorOccurred parseError: Error) {
             error = .interruptedParseError(rawError: parseError)
         }
     }

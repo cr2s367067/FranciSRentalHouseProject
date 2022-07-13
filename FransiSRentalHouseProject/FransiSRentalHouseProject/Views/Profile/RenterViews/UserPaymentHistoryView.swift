@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct UserPaymentHistoryView: View {
-    
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         VStack {
             VStack {
@@ -51,18 +50,17 @@ struct UserPaymentHistoryView_Previews: PreviewProvider {
 }
 
 struct CusListUnit: View {
-    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    var paymentH: PaymentHistoryDataModel
-    
+
+    var paymentH: RentedRoomPaymentHistory
+
     var body: some View {
         VStack {
             HStack(spacing: 10) {
-                Text("$\(paymentH.pastPaymentFee)")
+                Text("$\(paymentH.rentalFee)")
                 Spacer()
-                Text("\(paymentH.paymentDate, format: Date.FormatStyle().year().month().day())")
+                Text("\(paymentH.paymentDate?.dateValue() ?? Date(), format: Date.FormatStyle().year().month().day())")
             }
             .foregroundColor(.white)
             .font(.body)
@@ -74,7 +72,7 @@ struct CusListUnit: View {
             }
             HStack {
                 Text("Notes:")
-                Text(paymentH.note)
+                Text(paymentH.note ?? "")
                 Spacer()
             }
             .foregroundColor(.gray)

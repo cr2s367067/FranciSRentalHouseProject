@@ -8,24 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
-    
+
     @State private var test = ""
-   
+
     var body: some View {
         Group {
             if firebaseAuth.signIn == true || firebaseAuth.signUp == true || firebaseAuth.isSkipIt == true || bioAuthViewModel.isUnlocked == true {
                 AppTabView()
-            } else  {
+            } else {
                 LoginView()
             }
         }
-        .task({
+        .task {
             if firebaseAuth.auth.currentUser != nil {
                 do {
                     try await firestoreToFetchUserinfo.fetchUploadUserDataAsync()
@@ -33,15 +32,21 @@ struct ContentView: View {
                     self.errorHandler.handle(error: error)
                 }
             }
-        })
+        }
         .onAppear {
             firebaseAuth.signIn = firebaseAuth.isSignedIn
         }
+<<<<<<< HEAD
 
         //----------------------Test---------------------------
         
 //        VideoView(urlString: "")
+=======
+>>>>>>> PodsAdding
 
+        // ----------------------Test---------------------------
+
+//        TestView()
     }
 }
 
@@ -50,7 +55,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-
-
-

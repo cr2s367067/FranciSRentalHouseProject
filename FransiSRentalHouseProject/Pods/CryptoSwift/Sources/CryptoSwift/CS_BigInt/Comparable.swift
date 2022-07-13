@@ -9,8 +9,8 @@
 import Foundation
 
 extension CS.BigUInt: Comparable {
-    //MARK: Comparison
-    
+    // MARK: Comparison
+
     /// Compare `a` to `b` and return an `NSComparisonResult` indicating their order.
     ///
     /// - Complexity: O(count)
@@ -27,26 +27,26 @@ extension CS.BigUInt: Comparable {
     /// Return true iff `a` is equal to `b`.
     ///
     /// - Complexity: O(count)
-    public static func ==(a: CS.BigUInt, b: CS.BigUInt) -> Bool {
+    public static func == (a: CS.BigUInt, b: CS.BigUInt) -> Bool {
         return CS.BigUInt.compare(a, b) == .orderedSame
     }
 
     /// Return true iff `a` is less than `b`.
     ///
     /// - Complexity: O(count)
-    public static func <(a: CS.BigUInt, b: CS.BigUInt) -> Bool {
+    public static func < (a: CS.BigUInt, b: CS.BigUInt) -> Bool {
         return CS.BigUInt.compare(a, b) == .orderedAscending
     }
 }
 
-extension CS.BigInt {
+public extension CS.BigInt {
     /// Return true iff `a` is equal to `b`.
-    public static func ==(a: CS.BigInt, b: CS.BigInt) -> Bool {
+    static func == (a: CS.BigInt, b: CS.BigInt) -> Bool {
         return a.sign == b.sign && a.magnitude == b.magnitude
     }
 
     /// Return true iff `a` is less than `b`.
-    public static func <(a: CS.BigInt, b: CS.BigInt) -> Bool {
+    static func < (a: CS.BigInt, b: CS.BigInt) -> Bool {
         switch (a.sign, b.sign) {
         case (.plus, .plus):
             return a.magnitude < b.magnitude
@@ -59,5 +59,3 @@ extension CS.BigInt {
         }
     }
 }
-
-

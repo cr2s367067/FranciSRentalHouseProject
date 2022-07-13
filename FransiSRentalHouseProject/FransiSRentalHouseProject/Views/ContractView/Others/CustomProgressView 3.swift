@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct CustomProgressView: View {
-    
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         ZStack {
             Color("background2").opacity(0.7)

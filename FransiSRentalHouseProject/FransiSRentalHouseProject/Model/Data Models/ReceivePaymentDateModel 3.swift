@@ -5,8 +5,8 @@
 //  Created by Kuan on 2022/4/13.
 //
 
-import Foundation
 import FirebaseFirestoreSwift
+import Foundation
 
 struct ReceivePaymentDateModel: Identifiable, Codable {
     @DocumentID var id: String?

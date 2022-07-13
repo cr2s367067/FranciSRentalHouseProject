@@ -5,11 +5,11 @@
 //  Created by Kuan on 2022/4/22.
 //
 
-import Foundation
-import FirebaseFirestoreSwift
 import FirebaseFirestore
+import FirebaseFirestoreSwift
+import Foundation
 
-struct PurchasedUserDataModel:Identifiable, Codable {
+struct PurchasedUserDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var userName: String
     var userMobileNumber: String
@@ -30,7 +30,6 @@ struct PurchasedOrdedProductDataModel: Identifiable, Codable {
     var orderAmount: String
     @ServerTimestamp var createTimestamp: Timestamp?
 }
-
 
 struct OrderedDataModel: Identifiable, Codable {
     @DocumentID var id: String?

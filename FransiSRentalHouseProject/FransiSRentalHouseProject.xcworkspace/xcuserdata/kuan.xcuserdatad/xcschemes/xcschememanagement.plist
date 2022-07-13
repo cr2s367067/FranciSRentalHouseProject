@@ -39,6 +39,7 @@
 			<key>orderHint</key>
 			<integer>15</integer>
 		</dict>
+<<<<<<< HEAD
 		<key>Promises (Playground) 6.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -60,6 +61,8 @@
 			<key>orderHint</key>
 			<integer>18</integer>
 		</dict>
+=======
+>>>>>>> PodsAdding
 		<key>Promises (Playground).xcscheme</key>
 		<dict>
 			<key>isShown</key>

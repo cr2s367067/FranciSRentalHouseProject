@@ -12,10 +12,10 @@ struct BioAuthSettingView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var showComfirmAlert = false
     @FocusState private var isFocus: Bool
 
@@ -25,16 +25,16 @@ struct BioAuthSettingView: View {
         bioAuthViewModel.faceIDEnable = false
         showComfirmAlert = false
     }
-    
+
     func comfirm() {
         showComfirmAlert = false
         do {
             try firebaseAuth.signOutAsync()
         } catch {
-            self.errorHandler.handle(error: error)
+            errorHandler.handle(error: error)
         }
     }
-    
+
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
@@ -84,7 +84,6 @@ struct BioAuthSettingView: View {
                             } message: {
                                 Text("When you comfirm, system will sign up and use bio authtication to sign in.")
                             }
-                            
                         }
                     } header: {
                         HStack {
@@ -97,7 +96,7 @@ struct BioAuthSettingView: View {
                     Spacer()
                 }
                 .padding()
-                .frame(width: uiScreenWidth - 30, height: uiScreenHeight - 200 )
+                .frame(width: uiScreenWidth - 30, height: uiScreenHeight - 200)
                 .background(alignment: .center) {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(colorScheme == .dark ? .gray.opacity(0.3) : .white)
@@ -120,8 +119,8 @@ struct BioAuthSettingView: View {
     }
 }
 
-//struct BioAuthSettingView_Previews: PreviewProvider {
+// struct BioAuthSettingView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        BioAuthSettingView()
 //    }
-//}
+// }

@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct PrePurchaseView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
@@ -17,28 +16,28 @@ struct PrePurchaseView: View {
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForFurnitureOrder: FirestoreForProducts
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
-    
+
     @State var roomImage = "room3"
     @State var roomPrice = "9000"
     @State var ranking = 4
     @State var totalPrice = "9000"
     @State private var isRented = false
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var gridFurItemLayout = [
         GridItem(.fixed(170)),
-        GridItem(.fixed(170))
+        GridItem(.fixed(170)),
     ]
-    
+
     var body: some View {
         NavigationView {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
-                        if !localData.tempCart.roomUID.isEmpty {
-                            SearchListItemView(roomsData: localData.tempCart)
+                        if !localData.roomRenting.roomUID.isEmpty {
+                            SearchListItemView(roomsData: localData.roomRenting)
                         } else {
                             SearchListItemView(roomsData: .empty)
                                 .redacted(reason: appViewModel.isRedacted ? .placeholder : .init())
@@ -47,7 +46,7 @@ struct PrePurchaseView: View {
                         VStack(alignment: .center) {
                             Spacer()
                             ScrollView(.vertical, showsIndicators: false) {
-                                SummaryItems(roomsData: localData.summaryItemHolder)
+                                SummaryItems(roomsData: localData.roomRenting)
                             }
                         }
                         .padding()
@@ -58,7 +57,7 @@ struct PrePurchaseView: View {
                             Image(systemName: "dollarsign.circle")
                             Text("\(localData.sumPrice)")
                                 .accessibilityIdentifier("subTotal")
-                            if firestoreToFetchUserinfo.notRented() && !localData.summaryItemHolder.roomUID.isEmpty && !localData.tempCart.roomUID.isEmpty {
+                            if firestoreToFetchUserinfo.notRented() && !localData.roomRenting.roomUID.isEmpty {
                                 Text("(Include Deposit fee 2 month)")
                                     .font(.system(size: 12, weight: .semibold))
                             }
@@ -75,7 +74,7 @@ struct PrePurchaseView: View {
             }
             .modifier(ViewBackgroundInitModifier())
             .overlay(content: {
-                if firestoreToFetchUserinfo.presentUserId().isEmpty {
+                if firestoreToFetchUserinfo.userIDisEmpty() {
                     UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
                 }
             })
@@ -94,13 +93,11 @@ struct PrePurchaseView_Previews: PreviewProvider {
     }
 }
 
-
 struct FurnitureItemView: View {
-    
     var furnitureImage: String
     var furnitureName: String
     var furniturePrice: String
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
@@ -140,7 +137,7 @@ struct FurnitureItemView: View {
 extension PrePurchaseView {
     @ViewBuilder
     private func checkCartIsNotEmptyAndShowTheView() -> some View {
-        if !localData.summaryItemHolder.roomUID.isEmpty || !productDetailViewModel.productOrderCart.isEmpty {
+        if !localData.roomRenting.roomUID.isEmpty || !productDetailViewModel.productOrderCart.isEmpty {
             withAnimation(.easeInOut) {
                 NavigationLink {
                     PaymentSummaryView()

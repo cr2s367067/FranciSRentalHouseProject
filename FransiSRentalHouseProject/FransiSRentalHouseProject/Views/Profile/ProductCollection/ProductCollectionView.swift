@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ProductCollectionView: View {
-    
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
-    
+    @EnvironmentObject var providerStoreM: ProviderStoreM
+    @EnvironmentObject var firestoreUser: FirestoreToFetchUserinfo
+
     var body: some View {
         VStack {
             TitleAndDivider(title: "Product Collection")
@@ -22,7 +23,10 @@ struct ProductCollectionView: View {
         .modifier(ViewBackgroundInitModifier())
         .task {
             do {
-                try await firestoreForProducts.fetchStoreProduct(uidPath: firebaseAuth.getUID())
+//                try await providerStoreM.fetchStoreProduct(provder: firebaseAuth.getUID())
+                try await firestoreForProducts.getProductsProviderSide(
+                    gui: firestoreUser.fetchedUserData.providerGUI ?? ""
+                )
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -33,7 +37,7 @@ struct ProductCollectionView: View {
 extension ProductCollectionView {
     @ViewBuilder
     func containHolder() -> some View {
-        if firestoreForProducts.storeProductsDataSet.isEmpty {
+        if firestoreForProducts.productProviderSide.isEmpty {
             Spacer()
             Text("Hi, you haven't provide any product.🥺")
                 .foregroundColor(.white)
@@ -41,7 +45,7 @@ extension ProductCollectionView {
                 .fontWeight(.bold)
         } else {
             ScrollView(.vertical, showsIndicators: false) {
-                ForEach(firestoreForProducts.storeProductsDataSet) { product in
+                ForEach(firestoreForProducts.productProviderSide) { product in
                     NavigationLink {
                         ProductCollectionDetialView(productData: product)
                     } label: {

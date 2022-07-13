@@ -5,24 +5,23 @@
 //  Created by Kuan on 2022/4/12.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MaintainWaitingDetailView: View {
-    
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiscreenWidth = UIScreen.main.bounds.width
     let uiscreedHeight = UIScreen.main.bounds.height
-    
+
     var docID: String
-    
+
     var amountTask: Int {
         firestoreToFetchMaintainTasks.fetchMaintainInfo.count
     }
-    
+
     var body: some View {
         VStack {
             VStack {
@@ -59,7 +58,10 @@ struct MaintainWaitingDetailView: View {
         }
         .task {
             do {
-                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), docID: docID)
+                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
+                    uidPath: firebaseAuth.getUID(),
+                    roomUID: docID
+                )
             } catch {
                 print("error")
             }
@@ -67,16 +69,13 @@ struct MaintainWaitingDetailView: View {
     }
 }
 
-
-
 struct MaintainTaskWaitingListUnit: View {
-    
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
-    var maintainTask: MaintainTaskHolder
+
+    var maintainTask: MaintainDM
     var docID: String
-    
+
     let uiscreenWidth = UIScreen.main.bounds.width
     let uiscreedHeight = UIScreen.main.bounds.height
     var body: some View {
@@ -84,15 +83,12 @@ struct MaintainTaskWaitingListUnit: View {
     }
 }
 
-
-
 extension MaintainTaskWaitingListUnit {
-    
     @ViewBuilder
     func placeHolder() -> some View {
         if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
             VStack(alignment: .center) {
-               Text("No item needs to fix🥸")
+                Text("No item needs to fix🥸")
             }
             .padding()
             .frame(width: uiscreenWidth - 50, height: uiscreedHeight / 3, alignment: .center)
@@ -110,10 +106,10 @@ extension MaintainTaskWaitingListUnit {
                 HStack {
                     VStack {
                         HStack {
-                            Text(maintainTask.description)
+                            Text(maintainTask.maintainDescription)
                             Spacer()
                         }
-                        HStack{
+                        HStack {
                             Text(maintainTask.appointmentDate, format: Date.FormatStyle().year().month().day())
                             Spacer()
                         }
@@ -121,9 +117,20 @@ extension MaintainTaskWaitingListUnit {
                     Button {
                         Task {
                             do {
-                                try await firestoreToFetchMaintainTasks.updateFixedInfo(uidPath: firebaseAuth.getUID(), docID: docID, maintainDocID: maintainTask.id ?? "")
-                                try await firestoreToFetchMaintainTasks.deleteFixedItem(uidPath: firebaseAuth.getUID(), docID: docID, maintainDocID: maintainTask.id ?? "")
-                                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: firebaseAuth.getUID(), docID: docID)
+                                try await firestoreToFetchMaintainTasks.updateFixedInfo(
+                                    uidPath: firebaseAuth.getUID(),
+                                    roomUID: docID,
+                                    maintainDocID: maintainTask.id ?? ""
+                                )
+                                try await firestoreToFetchMaintainTasks.deleteFixedItem(
+                                    uidPath: firebaseAuth.getUID(),
+                                    roomUID: docID,
+                                    maintainDocID: maintainTask.id ?? ""
+                                )
+                                try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
+                                    uidPath: firebaseAuth.getUID(),
+                                    roomUID: docID
+                                )
                             } catch {
                                 print("error")
                             }
@@ -145,5 +152,4 @@ extension MaintainTaskWaitingListUnit {
             }
         }
     }
-
 }

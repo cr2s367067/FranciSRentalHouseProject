@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct PaymentDetailView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
+
     var heightData: Double {
         let amount = Double(firestoreToFetchUserinfo.paymentHistory.count)
         if amount == 0 {
@@ -20,7 +19,7 @@ struct PaymentDetailView: View {
         }
         return amount
     }
-    
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -39,7 +38,7 @@ struct PaymentDetailView: View {
                     VStack(spacing: 10) {
                         ScrollView(.vertical, showsIndicators: false) {
                             ForEach(firestoreToFetchUserinfo.paymentHistory) { history in
-                                PaymentDetailSessionUnit(rentalPrice: history.pastPaymentFee , paymentDate: history.paymentDate )
+                                PaymentDetailSessionUnit(rentalPrice: history.pastPaymentFee, paymentDate: history.paymentDate)
                             }
                             .padding(.top)
                             Spacer()

@@ -5,21 +5,19 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import Firebase
-import ECPayPaymentGatewayKit
-import FirebaseCore
-import UserNotifications
-import FirebaseFirestore
 import FirebaseAuth
+import FirebaseCore
+import FirebaseFirestore
 import FirebaseFirestoreSwift
-import FirebaseStorage
 import FirebaseFunctions
+import FirebaseStorage
+import SwiftUI
+import UserNotifications
 
 //@available(iOS 16, *)
 @main
 struct FransiSRentalHouseProjectApp: App {
-    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject var storageForUserProfile = StorageForUserProfile()
     @StateObject var storageForRoomsImage = StorageForRoomsImage()
@@ -42,7 +40,6 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var userOrderedListViewModel = UserOrderedListUnitViewModel()
     @StateObject var renterContractEditViewModel = RenterContractEditViewModel()
     @StateObject var renterContractViewModel = RenterContractViewModel()
-    @StateObject var userDetailInfoViewModel = UserDetailInfoViewModel()
     @StateObject var roomsDetailViewModel = RoomsDetailViewModel()
     @StateObject var providerRoomSummitViewModel = ProviderRoomSummitViewModel()
     @StateObject var purchaseViewModel = PurchaseViewModel()
@@ -62,11 +59,22 @@ struct FransiSRentalHouseProjectApp: App {
     @StateObject var soldProCollectionM = SoldProductCollectionManager()
     @StateObject var pwdM = PwdManager()
     @StateObject var imgPresentM = ImagePresentingManager()
+<<<<<<< HEAD
 //    @StateObject var rentalPC = RentalPaymentChartViewModel()
+=======
+    @StateObject var loginVM = LoginVM(emailAddress: .init(), userPassword: .init())
+    @StateObject var signUpVM = SignUpVM()
+    @StateObject var renterMainVM = RenterMainVM()
+    @StateObject var providerStoreM = ProviderStoreM()
+    @StateObject var userInfoVM = UserInfoVM()
+    @StateObject var providerStoreSetupVM = ProviderStoreSetUpVM()
+    @StateObject var contractCollectionVM = ContractCollectionVM()
+>>>>>>> PodsAdding
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(providerStoreM)
                 .environmentObject(storageForUserProfile)
                 .environmentObject(storageForRoomsImage)
                 .environmentObject(firestoreToFetchUserinfo)
@@ -88,7 +96,6 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(userOrderedListViewModel)
                 .environmentObject(renterContractEditViewModel)
                 .environmentObject(renterContractViewModel)
-                .environmentObject(userDetailInfoViewModel)
                 .environmentObject(roomsDetailViewModel)
                 .environmentObject(providerRoomSummitViewModel)
                 .environmentObject(purchaseViewModel)
@@ -108,22 +115,28 @@ struct FransiSRentalHouseProjectApp: App {
                 .environmentObject(soldProCollectionM)
                 .environmentObject(pwdM)
                 .environmentObject(imgPresentM)
+<<<<<<< HEAD
 //                .environmentObject(rentalPC)
+=======
+                .environmentObject(loginVM)
+                .environmentObject(signUpVM)
+                .environmentObject(renterMainVM)
+                .environmentObject(userInfoVM)
+                .environmentObject(providerStoreSetupVM)
+                .environmentObject(contractCollectionVM)
+>>>>>>> PodsAdding
                 .withErrorHandling()
         }
     }
 }
 
-
 class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
-
     let gcmMessageIDKey = "gcm.message_id"
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-
-
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
 
+<<<<<<< HEAD
 #if EMULATORS
         print(
         """
@@ -150,42 +163,73 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         print(
         """
         *********************************
+=======
+        #if EMULATORS
+            print(
+                """
+                *********************************
+                Testing on Emulators
+                *********************************
+                """
+            )
+            Auth.auth().useEmulator(withHost: "localhost", port: 9099)
+            let settings = Firestore.firestore().settings
+            settings.host = "localhost:8084"
+            settings.isPersistenceEnabled = false
+            settings.isSSLEnabled = false
+            Firestore.firestore().settings = settings
+            Storage.storage().useEmulator(withHost: "localhost", port: 9199)
+            Functions.functions().useEmulator(withHost: "localhost", port: 5003)
+            Performance.sharedInstance().isInstrumentationEnabled = false
+            Performance.sharedInstance().isDataCollectionEnabled = false
+            Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
+>>>>>>> PodsAdding
 
-        Testing on Live Server
+        #elseif DEBUG
+            print(
+                """
+                *********************************
 
+<<<<<<< HEAD
         *********************************
         """
         )
 //        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
 #endif
+=======
+                Testing on Live Server
 
-        //MARK: It will cause the keyboard that has gap upon
-//        ECPayPaymentGatewayManager.sharedInstance().initialize(env: .Stage)
-        
+                *********************************
+                """
+            )
+        #endif
+>>>>>>> PodsAdding
+
         Messaging.messaging().delegate = self
 
         if #available(iOS 10.0, *) {
-                 // For iOS 10 display notification (sent via APNS)
-                 UNUserNotificationCenter.current().delegate = self
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
 
-                 let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-                 UNUserNotificationCenter.current().requestAuthorization(
-                   options: authOptions,
-                   completionHandler: {_, _ in })
-               } else {
-                 let settings: UIUserNotificationSettings =
-                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-                 application.registerUserNotificationSettings(settings)
-               }
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: { _, _ in }
+            )
+        } else {
+            let settings: UIUserNotificationSettings =
+                .init(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
 
-               application.registerForRemoteNotifications()
+        application.registerForRemoteNotifications()
 
         return true
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-
+    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+    {
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
@@ -195,52 +239,47 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         completionHandler(UIBackgroundFetchResult.newData)
     }
 
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-
-        let deviceToken:[String: String] = ["token": fcmToken ?? ""]
+    func messaging(_: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        let deviceToken: [String: String] = ["token": fcmToken ?? ""]
         print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
     }
 }
 
-
 @available(iOS 10, *)
 extension AppDelegate {
+    // Receive displayed notifications for iOS 10 devices.
+    func userNotificationCenter(_: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    {
+        let userInfo = notification.request.content.userInfo
 
-  // Receive displayed notifications for iOS 10 devices.
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              willPresent notification: UNNotification,
-    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    let userInfo = notification.request.content.userInfo
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
 
-    if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
+        print(userInfo)
+
+        // Change this to your preferred presentation option
+        completionHandler([[.banner, .badge, .sound]])
     }
 
-    print(userInfo)
+    func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken _: Data) {}
 
-    // Change this to your preferred presentation option
-    completionHandler([[.banner, .badge, .sound]])
-  }
+    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError _: Error) {}
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    func userNotificationCenter(_: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void)
+    {
+        let userInfo = response.notification.request.content.userInfo
 
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID from userNotificationCenter didReceive: \(messageID)")
+        }
+
+        print(userInfo)
+
+        completionHandler()
     }
-
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-
-    }
-
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler: @escaping () -> Void) {
-    let userInfo = response.notification.request.content.userInfo
-
-    if let messageID = userInfo[gcmMessageIDKey] {
-      print("Message ID from userNotificationCenter didReceive: \(messageID)")
-    }
-
-    print(userInfo)
-
-    completionHandler()
-  }
 }

@@ -5,16 +5,15 @@
 //  Created by Kuan on 2022/3/31.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct FocusProductsView: View {
-    
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
+
     private func updateMarkProduct() {
         firestoreForProducts.productsDataSet.forEach { product in
             firestoreForProducts.markedProducts.forEach { mark in
@@ -41,13 +40,13 @@ struct FocusProductsView: View {
             }
         }
     }
-    
+
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color("background1"), Color("background2")]), startPoint: .top, endPoint: .bottom))
                 .edgesIgnoringSafeArea([.top, .bottom])
-            
+
             VStack {
                 ifEmptyArray()
             }
@@ -60,11 +59,11 @@ struct FocusProductsView: View {
     }
 }
 
-//struct FocusProductsView_Previews: PreviewProvider {
+// struct FocusProductsView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        FocusProductsView()
 //    }
-//}
+// }
 
 extension FocusProductsView {
     @ViewBuilder
@@ -104,11 +103,9 @@ extension FocusProductsView {
     }
 }
 
-
 struct FocusProductsUnitView: View {
-    
     @Environment(\.colorScheme) var colorScheme
-    
+
     var productAmount: String
     var productName: String
     var productImage: String
@@ -116,10 +113,10 @@ struct FocusProductsUnitView: View {
     var productFrom: String
     var productDescription: String
     var isSoldOut: Bool
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         VStack(spacing: 10) {
             HStack(alignment: .center) {

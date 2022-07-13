@@ -5,29 +5,26 @@
 //  Created by Kuan on 2022/3/28.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct FurnitureGridView: View {
-    
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    var productIamge: String
-    var productName: String
-    var productPrice: Int
-    
+
+    var productDM: ProductDM
+
     var body: some View {
         VStack {
             Spacer()
             HStack {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text(productName)
+                        Text(productDM.productName)
                         Spacer()
                     }
                     HStack {
-                        Text("$\(productPrice)")
+                        Text("$\(productDM.productPrice)")
                             .padding(.horizontal, 3)
                             .background(alignment: .center) {
                                 RoundedRectangle(cornerRadius: 5)
@@ -50,7 +47,7 @@ struct FurnitureGridView: View {
         }
         .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
         .background(alignment: .center) {
-            WebImage(url: URL(string: productIamge))
+            WebImage(url: URL(string: productDM.coverImage))
                 .resizable()
                 .scaledToFill()
                 .frame(width: uiScreenWidth / 2 + 88, height: uiScreenHeight / 8 + 45)
@@ -61,8 +58,8 @@ struct FurnitureGridView: View {
     }
 }
 
-struct FurnitureGridView_Previews: PreviewProvider {
-    static var previews: some View {
-        FurnitureGridView(productIamge: "", productName: "", productPrice: 0)
-    }
-}
+// struct FurnitureGridView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FurnitureGridView(productIamge: "", productName: "", productPrice: 0)
+//    }
+// }

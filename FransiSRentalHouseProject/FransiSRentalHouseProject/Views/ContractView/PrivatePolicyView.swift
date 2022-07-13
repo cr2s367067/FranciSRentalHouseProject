@@ -33,7 +33,7 @@ struct PrivatePolicyView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "一、隱私權保護政策的適用範圍")
                             VStack(spacing: 6) {
@@ -46,7 +46,7 @@ struct PrivatePolicyView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "二、個人資料的蒐集、處理及利用方式")
@@ -64,7 +64,7 @@ struct PrivatePolicyView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "三、資料之保護")
                             VStack(spacing: 6) {
@@ -78,7 +78,7 @@ struct PrivatePolicyView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
                     Group {
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "四、隱私權保護政策之修正")
@@ -91,7 +91,7 @@ struct PrivatePolicyView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "五、聯繫管道")
                             VStack(spacing: 6) {
@@ -103,7 +103,7 @@ struct PrivatePolicyView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第五條 補償及損害限制")
                             VStack(spacing: 6) {
@@ -117,7 +117,7 @@ struct PrivatePolicyView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                      
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第六條 智慧財產權賠償")
                             VStack(spacing: 6) {
@@ -134,7 +134,7 @@ struct PrivatePolicyView: View {
                         }
                         .padding(.top, 5)
                         .padding(.horizontal)
-                        
+
                         VStack(alignment: .leading, spacing: 5) {
                             TitleView(titleName: "第七條 終止")
                             VStack(spacing: 6) {
@@ -147,9 +147,9 @@ struct PrivatePolicyView: View {
                         .padding(.top, 5)
                         .padding(.horizontal)
                     }
-                    
+
 //                    Group {
-                        
+
 //                        HStack(alignment: .center, spacing: 5) {
 //                            Button {
 //                                isAgree.toggle()

@@ -8,20 +8,18 @@
 import SwiftUI
 
 struct LoginView: View {
-    
     enum LoginStatus: String {
         case saveUserName
     }
-    
+
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var bioAuthViewModel: BioAuthViewModel
-    
+
     @State private var emailAddress = ""
     @State private var userPassword = ""
 //    @AppStorage(LoginStatus.saveUserName.rawValue) var saveUserName = false
-    
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -71,12 +69,11 @@ struct LoginView: View {
                             Text(">>> Skip")
                                 .foregroundColor(.white)
                                 .padding(.trailing, 25)
-                            
                         }
                     }
                     .padding(.top, -10)
                     .padding(.bottom, -15)
-                    
+
                     //: User Name Text Field
                     VStack {
                         HStack {
@@ -93,8 +90,7 @@ struct LoginView: View {
                                 .keyboardType(.emailAddress)
                         }
                         .modifier(customTextField())
-                        
-                        
+
                         //: Password Text Field
                         HStack {
                             Image(systemName: "lock.fill")
@@ -110,7 +106,7 @@ struct LoginView: View {
                         }
                         .modifier(customTextField())
                     }
-                    
+
                     HStack(spacing: 5) {
 //                        Button {
 //                            saveUserName.toggle()
@@ -165,8 +161,7 @@ struct LoginView: View {
                                 .background(Color("buttonBlue"))
                                 .cornerRadius(5)
                                 .alert(isPresented: $firebaseAuth.showAlert) {
-                                    Alert(title: Text(firebaseAuth.alertTitle), message: Text(firebaseAuth.alertMessage), dismissButton: .default(Text(firebaseAuth.alertButton))
-                                    )
+                                    Alert(title: Text(firebaseAuth.alertTitle), message: Text(firebaseAuth.alertMessage), dismissButton: .default(Text(firebaseAuth.alertButton)))
                                 }
                         }
                         HStack {
@@ -182,7 +177,6 @@ struct LoginView: View {
                         .font(.system(size: 15, weight: .regular))
                         .shadow(radius: 5)
                         .padding(.top, 80)
-                        
                     }
                     Spacer()
                 }
@@ -199,9 +193,6 @@ struct LoginView: View {
         }
     }
 }
-
-
-
 
 struct LogginView_Previews: PreviewProvider {
     static var previews: some View {

@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 enum SignUpType: String {
     case isNormalCustomer = "Renter"
     case isProvider = "Provider"

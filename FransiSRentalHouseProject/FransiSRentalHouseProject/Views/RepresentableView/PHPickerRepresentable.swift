@@ -5,14 +5,18 @@
 //  Created by Kuan on 2022/4/5.
 //
 
-import SwiftUI
 import PhotosUI
+import SwiftUI
 
 struct PHPickerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = PHPickerViewController
+<<<<<<< HEAD
     
    
     
+=======
+
+>>>>>>> PodsAdding
     @Binding var selectLimit: Int
     @Binding var images: [TextingImageDataModel]
     @Binding var video: URL?
@@ -22,30 +26,28 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
         configuration.selectionLimit = selectLimit
         configuration.filter = .any(of: [.images, .videos])
         configuration.preferredAssetRepresentationMode = .automatic
-        
+
         let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator
-        
+
         return controller
     }
-    
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
-        
-    }
-    
+
+    func updateUIViewController(_: PHPickerViewController, context _: Context) {}
+
     func makeCoordinator() -> Coordinator {
         return Coordinator(parent: self)
     }
-    
+
     final class Coordinator: NSObject, PHPickerViewControllerDelegate, UINavigationControllerDelegate {
-        
         var parent: PHPickerRepresentable
-        
+
         init(parent: PHPickerRepresentable) {
             self.parent = parent
         }
-        
+
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+<<<<<<< HEAD
             picker.dismiss(animated: true) {
                 //Thread is in main thread
                 print(Thread.isMainThread)
@@ -54,6 +56,23 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
                 let assetid = result.assetIdentifier
                 print(assetid as Any)
                 
+=======
+//            picker.dismiss(animated: true)
+//            if !results.isEmpty {
+//                parent.images = []
+//                parent.itemProviders = []
+//            }
+//            parent.itemProviders = results.map(\.itemProvider)
+//            loadItems()
+            picker.dismiss(animated: true) {
+                // Thread is in main thread
+                print(Thread.isMainThread)
+                // Make sure the contain is not empty
+                guard let result = results.first else { return }
+                let assetid = result.assetIdentifier
+                print(assetid as Any)
+
+>>>>>>> PodsAdding
                 let prov = result.itemProvider
                 let types = prov.registeredTypeIdentifiers
                 print("get type \(types)")
@@ -67,11 +86,19 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
                 }
             }
         }
+<<<<<<< HEAD
         
         private func loadMovie(result: PHPickerResult){
             let movie = UTType.movie.identifier
             let prov = result.itemProvider
             prov.loadFileRepresentation(forTypeIdentifier: movie) { url, error in
+=======
+
+        private func loadMovie(result: PHPickerResult) {
+            let movie = UTType.movie.identifier
+            let prov = result.itemProvider
+            prov.loadFileRepresentation(forTypeIdentifier: movie) { url, _ in
+>>>>>>> PodsAdding
                 if let url = url {
                     DispatchQueue.main.async {
                         print("get movie url: \(url.absoluteString)")
@@ -80,19 +107,32 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
                 }
             }
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> PodsAdding
         private func duplicateItem(url: URL) {
             let fileid = UUID().uuidString
             let fileName = "\(fileid).mp4"
             let newURL = URL(fileURLWithPath: NSTemporaryDirectory() + fileName)
             try? FileManager.default.copyItem(at: url, to: newURL)
             print("new url: \(newURL)")
+<<<<<<< HEAD
             self.parent.video = newURL
         }
         
         private func dealImage(result: PHPickerResult) {
             let prov = result.itemProvider
             prov.loadObject(ofClass: UIImage.self) { images, error in
+=======
+            parent.video = newURL
+        }
+
+        private func dealImage(result: PHPickerResult) {
+            let prov = result.itemProvider
+            prov.loadObject(ofClass: UIImage.self) { images, _ in
+>>>>>>> PodsAdding
                 DispatchQueue.main.async {
                     if let image = images as? UIImage {
                         self.parent.images.append(TextingImageDataModel(image: image))
@@ -100,8 +140,12 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
                 }
             }
         }
+<<<<<<< HEAD
         
         
+=======
+
+>>>>>>> PodsAdding
         private func loadImage() {
             for itemProvider in parent.itemProviders {
                 if itemProvider.canLoadObject(ofClass: UIImage.self) {
@@ -119,13 +163,10 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
             }
         }
     }
-   
-    
-    
 }
 
 extension Binding {
-    static func ??(lhs: Binding<Optional<Value>>, rhs: Value) -> Binding<Value> {
+    static func ?? (lhs: Binding<Value?>, rhs: Value) -> Binding<Value> {
         return Binding {
             lhs.wrappedValue ?? rhs
         } set: {

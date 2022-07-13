@@ -52,8 +52,8 @@ struct SummitAlertView: View {
     }
 }
 
-//struct SummitAlertView_Previews: PreviewProvider {
+// struct SummitAlertView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        SummitAlertView()
 //    }
-//}
+// }

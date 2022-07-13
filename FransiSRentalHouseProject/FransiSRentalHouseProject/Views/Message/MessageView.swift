@@ -5,13 +5,12 @@
 //  Created by JerryHuang on 3/13/22.
 //
 
-import SwiftUI
-import SDWebImageSwiftUI
 import Combine
+import SDWebImageSwiftUI
+import SwiftUI
 import WaterfallGrid
 
 struct MessageView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firebaseAuth: FirebaseAuth
@@ -19,18 +18,16 @@ struct MessageView: View {
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var storageForMessageImage: StorageForMessageImage
-    
-    
-    
+
     var contactMember: ContactUserDataModel
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @FocusState private var isFocused: Bool
-    
+
     @State private var selectLimit = 10
-    
+
     var body: some View {
         VStack(alignment: .center) {
             ScrollView(.vertical, showsIndicators: false) {
@@ -38,12 +35,14 @@ struct MessageView: View {
                     VStack {
                         ForEach(firestoreForTextingMessage.messagesContainer) { textMessage in
                             if textMessage.senderDocID == firestoreForTextingMessage.senderUIDPath.chatDocId {
-                                //MARK: Right side
+                                // MARK: Right side
+
                                 TextingViewForSender(message: textMessage)
                                     .id(textMessage.id)
                             } else {
-                                //MARK: Left side
-                            TextingViewForReceiver(receiveProfileImage: contactMember.contacterProfileImage, message: textMessage)
+                                // MARK: Left side
+
+                                TextingViewForReceiver(receiveProfileImage: contactMember.contacterProfileImage, message: textMessage)
                                     .id(textMessage.id)
                             }
                         }
@@ -71,7 +70,7 @@ struct MessageView: View {
                 if !textingViewModel.image.isEmpty {
                     ZStack {
                         HStack {
-                            //Photo card
+                            // Photo card
                             ScrollView(.horizontal, showsIndicators: true) {
                                 HStack {
                                     ForEach(textingViewModel.image) { image in
@@ -85,7 +84,7 @@ struct MessageView: View {
                                                 HStack {
                                                     Spacer()
                                                     Button {
-                                                        textingViewModel.image.removeAll(where: {$0.id == image.id})
+                                                        textingViewModel.image.removeAll(where: { $0.id == image.id })
                                                         debugPrint(image.image)
                                                     } label: {
                                                         ZStack {
@@ -126,7 +125,7 @@ struct MessageView: View {
                             Task {
                                 do {
                                     try await storageForMessageImage.sendingImageAndMessage(images: textingViewModel.image, chatRoomUID: contactMember.chatRoomUID, senderDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactWith: getContactPerson(sender: firestoreForTextingMessage.senderUIDPath.chatDocId), text: textingViewModel.text, senderProfileImage: "")
-                                        textingViewModel.image.removeAll()
+                                    textingViewModel.image.removeAll()
                                     guard let id = contactMember.id else { return }
                                     try await firestoreForTextingMessage.updateLastMessageTime(userDocID: firestoreForTextingMessage.senderUIDPath.chatDocId, contactPersonID: id)
                                     textingViewModel.text = ""
@@ -142,7 +141,7 @@ struct MessageView: View {
                         }
                     }
                     .padding()
-                    .frame(width: uiScreenWidth - 70 , height: 45, alignment: .center)
+                    .frame(width: uiScreenWidth - 70, height: 45, alignment: .center)
                     .background(alignment: .center) {
                         RoundedRectangle(cornerRadius: 50)
                             .stroke(Color.white, lineWidth: 2)
@@ -171,9 +170,7 @@ struct MessageView: View {
                 self.errorHandler.handle(error: error)
             }
         }
-        .sheet(isPresented: $textingViewModel.showPhpicker, onDismiss: {
-
-        }, content: {
+        .sheet(isPresented: $textingViewModel.showPhpicker, onDismiss: {}, content: {
             PHPickerRepresentable(selectLimit: $selectLimit, images: $textingViewModel.image, video: Binding.constant(nil))
         })
         .toolbar {
@@ -202,14 +199,14 @@ struct MessageView: View {
 struct TextingViewForReceiver: View {
     @EnvironmentObject var textingViewModel: TextingViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+
     let receiveProfileImage: String
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var message: MessageContainDataModel
-    
+
     var body: some View {
         HStack(spacing: 5) {
             if receiveProfileImage.isEmpty {
@@ -270,7 +267,7 @@ extension TextingViewForReceiver {
             }
         }
     }
-    
+
     @ViewBuilder
     func moreThenFour(imageArray: [String]) -> some View {
         if imageArray.count >= 5 {
@@ -300,7 +297,7 @@ extension TextingViewForReceiver {
                 }
             }
             .frame(width: uiScreenWidth / 3 + 40, height: uiScreenHeight / 5, alignment: .center)
-            
+
         } else {
             HStack {
                 WaterfallGrid(imageArray, id: \.self) { image in
@@ -320,27 +317,26 @@ extension TextingViewForReceiver {
             .frame(width: uiScreenWidth / 3 + 40, height: uiScreenHeight / 5, alignment: .center)
         }
     }
-    
-   private func adjustArray(imageArray: [String]) -> [String] {
+
+    private func adjustArray(imageArray: [String]) -> [String] {
         var origin = imageArray
-        let range = 0...3
+        let range = 0 ... 3
         origin.removeSubrange(range)
         print(origin)
         return origin
     }
 }
 
-
 struct TextingViewForSender: View {
     @EnvironmentObject var imgPresenterM: ImagePresentingManager
     @EnvironmentObject var textingViewModel: TextingViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var message: MessageContainDataModel
-    
+
     var body: some View {
         HStack {
             Spacer()
@@ -392,7 +388,7 @@ extension TextingViewForSender {
             }
         }
     }
-    
+
     @ViewBuilder
     func moreThenFour(imageArray: [String]) -> some View {
         if imageArray.count >= 5 {
@@ -422,7 +418,7 @@ extension TextingViewForSender {
                 }
             }
             .frame(width: uiScreenWidth / 3 + 40, height: uiScreenHeight / 5, alignment: .center)
-            
+
         } else {
             HStack {
                 WaterfallGrid(imageArray, id: \.self) { image in
@@ -442,17 +438,15 @@ extension TextingViewForSender {
             .frame(width: uiScreenWidth / 3 + 40, height: uiScreenHeight / 5, alignment: .center)
         }
     }
-    
-   private func adjustArray(imageArray: [String]) -> [String] {
+
+    private func adjustArray(imageArray: [String]) -> [String] {
         var origin = imageArray
-        let range = 0...3
+        let range = 0 ... 3
         origin.removeSubrange(range)
         print(origin)
         return origin
     }
 }
-
-
 
 struct ShowImage: View {
     let uiScreenWidth = UIScreen.main.bounds.width
@@ -501,9 +495,7 @@ extension ShowImage {
     }
 }
 
-
 extension MessageView {
-    
     func getContactPerson(sender: String) -> String {
         var holder = ""
         if firestoreForTextingMessage.chatManager.contact1docID == sender {
@@ -514,7 +506,7 @@ extension MessageView {
         }
         return holder
     }
-    
+
     @ViewBuilder
     func isUploadImage(isUploading: Bool) -> some View {
         if isUploading {
@@ -524,7 +516,6 @@ extension MessageView {
             }
         }
     }
-    
 }
 
 extension Notification {
@@ -535,8 +526,8 @@ extension Notification {
 
 extension Publishers {
     static var keyboardHeight: AnyPublisher<CGFloat, Never> {
-        let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification).map {$0.keyboardHeight}
-        let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification).map { _ in CGFloat(0)}
+        let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification).map { $0.keyboardHeight }
+        let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification).map { _ in CGFloat(0) }
         return MergeMany(willShow, willHide).eraseToAnyPublisher()
     }
 }
@@ -547,13 +538,13 @@ extension UIResponder {
         UIApplication.shared.sendAction(#selector(UIResponder.findFirstResponder(_:)), to: nil, from: nil, for: nil)
         return _currentFirstResponder
     }
-    
-    private static weak var _currentFirstResponder: UIResponder?
-    
-    @objc private func findFirstResponder(_ sender: Any) {
+
+    private weak static var _currentFirstResponder: UIResponder?
+
+    @objc private func findFirstResponder(_: Any) {
         UIResponder._currentFirstResponder = self
     }
-    
+
     var globalFram: CGRect? {
         guard let view = self as? UIView else { return nil }
         return view.superview?.convert(view.frame, to: nil)
@@ -562,7 +553,7 @@ extension UIResponder {
 
 struct KeyboardAdaptive: ViewModifier {
     @State private var bottomPadding: CGFloat = 0
-    
+
     func body(content: Content) -> some View {
         GeometryReader { geometry in
             content
@@ -582,5 +573,3 @@ extension View {
         ModifiedContent(content: self, modifier: KeyboardAdaptive())
     }
 }
-
-

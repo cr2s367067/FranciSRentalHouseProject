@@ -127,7 +127,6 @@ enum TaichungDistrict: String, CaseIterable {
     case Heping = "和平區"
 }
 
-
 enum TainanDistrict: String, CaseIterable {
     case Xinying = "新營區"
     case Yanshui = "鹽水區"
@@ -167,7 +166,6 @@ enum TainanDistrict: String, CaseIterable {
     case Anping = "安平區"
     case WestCentral = "中西區"
 }
-
 
 enum KaohsiungDistrict: String, CaseIterable {
     case Yancheng = "鹽埕區"
@@ -262,7 +260,6 @@ enum MiaoliDistrict: String, CaseIterable {
     case Taian = "泰安鄉"
 }
 
-
 enum ChanghuaDistrict: String, CaseIterable {
     case Changhua = "彰化市"
     case Lugang = "鹿港鎮"
@@ -352,7 +349,6 @@ enum ChiayiDistrict: String, CaseIterable {
     case Alishan = "阿里山鄉"
 }
 
-
 enum PingtungDistrict: String, CaseIterable {
     case Pingtung = "屏東市"
     case Chaozhou = "潮州鎮"
@@ -388,7 +384,6 @@ enum PingtungDistrict: String, CaseIterable {
     case Shizi = "獅子鄉"
     case Mudan = "牡丹鄉"
 }
-                              
 
 enum TaitungDistrict: String, CaseIterable {
     case Taitung = "臺東市"
@@ -408,7 +403,6 @@ enum TaitungDistrict: String, CaseIterable {
     case Daren = "達仁鄉"
     case Lanyu = "蘭嶼鄉"
 }
-             
 
 enum HualienDistrict: String, CaseIterable {
     case Hualien = "花蓮市"
@@ -425,7 +419,6 @@ enum HualienDistrict: String, CaseIterable {
     case Wanrong = "萬榮鄉"
     case Zhuoxi = "卓溪鄉"
 }
-          
 
 enum PenghuDistrict: String, CaseIterable {
     case Magong = "馬公市"
@@ -464,7 +457,6 @@ enum MatsuDistrict: String, CaseIterable {
     case Dongyin = "東引鄉"
 }
 
-
 enum KinmenDistrict: String, CaseIterable {
     case Jincheng = "金城鎮"
     case Jinhu = "金湖鎮"
@@ -473,7 +465,6 @@ enum KinmenDistrict: String, CaseIterable {
     case Lieyu = "烈嶼鄉"
     case Wuqiu = "烏坵鄉"
 }
-
 
 /*
 
@@ -561,7 +552,6 @@ enum KinmenDistrict: String, CaseIterable {
      case Xinwu = "Shulin District"
      case Guanyin = "Danshui District"
  }
-
 
  enum TaichungDistrict: String, CaseIterable {
      case Central = "Central District"
@@ -689,7 +679,6 @@ enum KinmenDistrict: String, CaseIterable {
      case Nanao = "Nanao Township"
  }
 
-
  enum HsinchuDistrict: String, CaseIterable {
      case Zhubei = "Zhubei City"
      case Zhudong = "Zhudong Township"
@@ -705,7 +694,6 @@ enum KinmenDistrict: String, CaseIterable {
      case Jianshi = "Jianshi Township"
      case Wufeng = "Wufeng Township"
  }
-
 
  enum MiaoliDistrict: String, CaseIterable {
      case Miaoli = "Miaoli City"
@@ -924,4 +912,4 @@ enum KinmenDistrict: String, CaseIterable {
      case Wuqiu = "Wuqiu Township"
  }
 
-*/
+ */

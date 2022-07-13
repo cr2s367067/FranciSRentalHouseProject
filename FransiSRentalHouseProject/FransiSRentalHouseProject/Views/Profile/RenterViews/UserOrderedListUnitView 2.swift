@@ -5,21 +5,20 @@
 //  Created by Kuan on 2022/3/30.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct UserOrderedListUnitView: View {
-    
     @EnvironmentObject var userOrderedListViewModel: UserOrderedListUnitViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
+
     var productName: String
     var productPrice: String
     var productImage: String
     var docID: String
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -48,7 +47,7 @@ struct UserOrderedListUnitView: View {
                 }
                 .foregroundColor(.white)
                 .padding(.horizontal)
-                
+
                 Button {
 //                    Task {
 //                        //MARK: Summit comment
@@ -81,18 +80,16 @@ struct UserOrderedListUnitView: View {
     }
 }
 
-
 class UserOrderedListUnitViewModel: ObservableObject {
-    
     @Published var comments = ""
     @Published var rating = 0
     @Published var isUploadComment = false
-    
+
     let productName: String = ""
     let productImage: String = ""
     let productFrom: String = ""
     let productRating: String = ""
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
 }

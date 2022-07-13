@@ -5,23 +5,21 @@
 //  Created by Kuan on 2022/3/29.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ProductCollectionReusableUnitView: View {
-    
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    
-    var productData: ProductProviderDataModel
-    
+
+    var productData: ProductDM
+
     var body: some View {
         VStack {
             HStack {
-                WebImage(url: URL(string: productData.productImage))
+                WebImage(url: URL(string: productData.coverImage))
                     .resizable()
                     .frame(width: 140, height: 120, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -47,12 +45,11 @@ struct ProductCollectionReusableUnitView: View {
     }
 }
 
-//struct ProductCollectionReusableUnitView_Previews: PreviewProvider {
+// struct ProductCollectionReusableUnitView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ProductCollectionReusableUnitView()
 //    }
-//}
-
+// }
 
 struct ReusableUnit: View {
     var title: String
@@ -66,7 +63,6 @@ struct ReusableUnit: View {
         .foregroundColor(.white)
     }
 }
-
 
 struct ReusableUnitWithCommentDescription: View {
     var title: String

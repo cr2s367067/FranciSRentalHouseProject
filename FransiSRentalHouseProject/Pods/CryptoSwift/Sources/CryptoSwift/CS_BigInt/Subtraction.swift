@@ -6,8 +6,8 @@
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
-extension CS.BigUInt {
-    //MARK: Subtraction
+public extension CS.BigUInt {
+    // MARK: Subtraction
 
     /// Subtract `word` from this integer in place, returning a flag indicating if the operation
     /// caused an arithmetic overflow. `word` is shifted `shift` words to the left before being subtracted.
@@ -19,7 +19,7 @@ extension CS.BigUInt {
         var carry: Word = word
         var i = shift
         let count = self.count
-        while carry > 0 && i < count {
+        while carry > 0, i < count {
             let (d, c) = self[i].subtractingReportingOverflow(carry)
             self[i] = d
             carry = (c ? 1 : 0)
@@ -65,7 +65,7 @@ extension CS.BigUInt {
     ///
     /// - Note: If the result indicates an overflow, then `self` becomes the twos' complement of the absolute difference.
     /// - Complexity: O(count)
-    public mutating func subtractReportingOverflow(_ b: CS.BigUInt, shiftedBy shift: Int = 0) -> Bool {
+    mutating func subtractReportingOverflow(_ b: CS.BigUInt, shiftedBy shift: Int = 0) -> Bool {
         precondition(shift >= 0)
         var carry = false
         var bi = 0
@@ -78,8 +78,7 @@ extension CS.BigUInt {
                 let (d2, c2) = d.subtractingReportingOverflow(1)
                 self[ai] = d2
                 carry = c || c2
-            }
-            else {
+            } else {
                 self[ai] = d
                 carry = c
             }
@@ -93,26 +92,26 @@ extension CS.BigUInt {
     ///
     /// - Note: If `overflow` is true, then the result value is the twos' complement of the absolute value of the difference.
     /// - Complexity: O(count)
-    public func subtractingReportingOverflow(_ other: CS.BigUInt, shiftedBy shift: Int) -> (partialValue: CS.BigUInt, overflow: Bool) {
+    func subtractingReportingOverflow(_ other: CS.BigUInt, shiftedBy shift: Int) -> (partialValue: CS.BigUInt, overflow: Bool) {
         var result = self
         let overflow = result.subtractReportingOverflow(other, shiftedBy: shift)
         return (result, overflow)
     }
-    
+
     /// Subtracts `other` from `self`, returning the result and a flag indicating arithmetic overflow.
     ///
     /// - Note: When the operation overflows, then `partialValue` is the twos' complement of the absolute value of the difference.
     /// - Complexity: O(count)
-    public func subtractingReportingOverflow(_ other: CS.BigUInt) -> (partialValue: CS.BigUInt, overflow: Bool) {
-        return self.subtractingReportingOverflow(other, shiftedBy: 0)
+    func subtractingReportingOverflow(_ other: CS.BigUInt) -> (partialValue: CS.BigUInt, overflow: Bool) {
+        return subtractingReportingOverflow(other, shiftedBy: 0)
     }
-    
+
     /// Subtract `other` from this integer in place.
     /// `other` is shifted `shift` digits to the left before being subtracted.
     ///
     /// - Requires: self >= other * 2^shift
     /// - Complexity: O(count)
-    public mutating func subtract(_ other: CS.BigUInt, shiftedBy shift: Int = 0) {
+    mutating func subtract(_ other: CS.BigUInt, shiftedBy shift: Int = 0) {
         let overflow = subtractReportingOverflow(other, shiftedBy: shift)
         precondition(!overflow)
     }
@@ -122,7 +121,7 @@ extension CS.BigUInt {
     ///
     /// - Requires: self >= b * 2^shift
     /// - Complexity: O(count)
-    public func subtracting(_ other: CS.BigUInt, shiftedBy shift: Int = 0) -> CS.BigUInt {
+    func subtracting(_ other: CS.BigUInt, shiftedBy shift: Int = 0) -> CS.BigUInt {
         var result = self
         result.subtract(other, shiftedBy: shift)
         return result
@@ -132,15 +131,15 @@ extension CS.BigUInt {
     ///
     /// - Requires: !isZero
     /// - Complexity: O(count)
-    public mutating func decrement(shiftedBy shift: Int = 0) {
-        self.subtract(1, shiftedBy: shift)
+    mutating func decrement(shiftedBy shift: Int = 0) {
+        subtract(1, shiftedBy: shift)
     }
 
     /// Subtract `b` from `a` and return the result.
     ///
     /// - Requires: a >= b
     /// - Complexity: O(a.count)
-    public static func -(a: CS.BigUInt, b: CS.BigUInt) -> CS.BigUInt {
+    static func - (a: CS.BigUInt, b: CS.BigUInt) -> CS.BigUInt {
         return a.subtracting(b)
     }
 
@@ -148,22 +147,22 @@ extension CS.BigUInt {
     ///
     /// - Requires: a >= b
     /// - Complexity: O(a.count)
-    public static func -=(a: inout CS.BigUInt, b: CS.BigUInt) {
+    static func -= (a: inout CS.BigUInt, b: CS.BigUInt) {
         a.subtract(b)
     }
 }
 
-extension CS.BigInt {
-    public mutating func negate() {
+public extension CS.BigInt {
+    mutating func negate() {
         guard !magnitude.isZero else { return }
-        self.sign = self.sign == .plus ? .minus : .plus
+        sign = sign == .plus ? .minus : .plus
     }
 
     /// Subtract `b` from `a` and return the result.
-    public static func -(a: CS.BigInt, b: CS.BigInt) -> CS.BigInt {
+    static func - (a: CS.BigInt, b: CS.BigInt) -> CS.BigInt {
         return a + -b
     }
 
     /// Subtract `b` from `a` in place.
-    public static func -=(a: inout CS.BigInt, b: CS.BigInt) { a = a - b }
+    static func -= (a: inout CS.BigInt, b: CS.BigInt) { a = a - b }
 }

@@ -5,11 +5,10 @@
 //  Created by Kuan on 2022/4/21.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct StoreProfileView: View {
-    
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var storeProfileVM: StoreProfileViewModel
@@ -18,17 +17,17 @@ struct StoreProfileView: View {
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var storageForProductImage: StorageForProductImage
     @EnvironmentObject var firestoreForTextingMessage: FirestoreForTextingMessage
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var showPhPicker = false
     @State private var images = [UIImage]()
     @State private var showImage = false
     @State private var showProgress = false
-    
+
     @FocusState private var isFocused: Bool
-    
+
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
@@ -66,7 +65,6 @@ struct StoreProfileView: View {
         }
     }
 }
-
 
 extension StoreProfileView {
     @ViewBuilder
@@ -126,10 +124,10 @@ extension StoreProfileView {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             }
-            
+
             InfoUnit(title: "Store Description", bindingString: $storeProfileVM.providerDescription)
                 .focused($isFocused)
-            
+
             HStack {
                 Spacer()
                 if storeProfileVM.isUpdate {

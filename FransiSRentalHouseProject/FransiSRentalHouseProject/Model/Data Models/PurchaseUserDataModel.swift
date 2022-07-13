@@ -5,12 +5,16 @@
 //  Created by Kuan on 2022/4/22.
 //
 
-import Foundation
-import FirebaseFirestoreSwift
 import FirebaseFirestore
+import FirebaseFirestoreSwift
+import Foundation
 
+<<<<<<< HEAD
 //MARK: - User make, cancel, update order
 struct PurchasedUserDataModel:Identifiable, Codable {
+=======
+struct PurchasedUserDataModel: Identifiable, Codable {
+>>>>>>> PodsAdding
     @DocumentID var id: String?
     var userName: String
     var userMobileNumber: String
@@ -33,8 +37,11 @@ struct PurchasedOrdedProductDataModel: Identifiable, Codable {
     @ServerTimestamp var createTimestamp: Timestamp?
 }
 
+<<<<<<< HEAD
 
 //MARK: - fetch order data user side
+=======
+>>>>>>> PodsAdding
 struct OrderedDataModel: Identifiable, Codable {
     @DocumentID var id: String?
     var orderID: String

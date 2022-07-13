@@ -5,9 +5,9 @@
 //  Created by JerryHuang on 3/1/22.
 //
 
+import FirebaseFirestoreSwift
 import Foundation
 import SwiftUI
-import FirebaseFirestoreSwift
 
 struct UserDataModel: Identifiable, Codable {
     @DocumentID var uid: String?
@@ -48,13 +48,13 @@ struct RentedRoomInfo: Codable {
 }
 
 struct DepositFeeDataModel: Codable {
-    var depositFee : String?
+    var depositFee: String?
     var paymentDate: Date?
 }
 
 struct PaymentHistoryDataModel: Identifiable, Codable {
     @DocumentID var id: String?
-    var pastPaymentFee : String
+    var pastPaymentFee: String
     var paymentDate: Date
     var note: String
 }

@@ -5,23 +5,20 @@
 //  Created by Kuan on 2022/5/12.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MaintainDetailUnitView: View {
-    
     @EnvironmentObject var storageForMaintainImage: StorageForMaintainImage
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var errorHandler: ErrorHandler
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    var providerUidPath: String
-    var docID: String
-    var taskHolder: MaintainTaskHolder
-    
-    
+
+    var rentedRoom: RentedRoom
+    var taskHolder: MaintainDM
+
     @State private var showSheet = false
     @State private var newSelectedImage = [TextingImageDataModel]()
     @State private var newDes = ""
@@ -31,7 +28,7 @@ struct MaintainDetailUnitView: View {
     @State private var isProgressing = false
     @FocusState private var isFocus: Bool
     @State private var selectLimit = 1
-    
+
     var presentingImage: UIImage {
         var firstHolder = UIImage()
         if let firstImage = newSelectedImage.first {
@@ -39,7 +36,7 @@ struct MaintainDetailUnitView: View {
         }
         return firstHolder
     }
-    
+
     var body: some View {
         VStack {
             VStack(spacing: 10) {
@@ -64,15 +61,33 @@ struct MaintainDetailUnitView: View {
                             } else {
                                 print("update data")
                                 do {
-                                    guard let id = taskHolder.id else { return }
-                                    print(id)
-                                    print(providerUidPath)
-                                    print(docID)
+//                                    guard let id = taskHolder.id else { return }
+//                                    print(id)
+//                                    print(providerUidPath)
+//                                    print(docID)
                                     isProgressing = true
-                                    try await storageForMaintainImage.uploadFixItemImage(uidPath: providerUidPath, image: presentingImage, roomUID: docID)
+                                    try await storageForMaintainImage.uploadFixItemImage(
+                                        uidPath: rentedRoom.rentedProvderUID,
+                                        image: presentingImage,
+                                        roomUID: rentedRoom.rentedRoomUID
+                                    )
                                     newImageURL = storageForMaintainImage.itemImageURL
-                                    try await firestoreToFetchMaintainTasks.updateMaintainTaskInfo(uidPath: providerUidPath, docID: docID, maintainDocID: id, newTaskDes: newDes, newAppointDate: newDate, newImageURL: newImageURL)
-                                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(uidPath: providerUidPath, docID: docID)
+                                    try await firestoreToFetchMaintainTasks.updateMaintainTaskInfo(
+                                        provider: rentedRoom.rentedProvderUID,
+                                        rented: rentedRoom.rentedRoomUID,
+                                        update: taskHolder
+//                                        maintainDocID: taskHolder.id
+//                                        uidPath: providerUidPath,
+//                                        docID: docID,
+//                                        maintainDocID: id,
+//                                        newTaskDes: newDes,
+//                                        newAppointDate: newDate,
+//                                        newImageURL: newImageURL
+                                    )
+                                    try await firestoreToFetchMaintainTasks.fetchMaintainInfoAsync(
+                                        uidPath: rentedRoom.rentedProvderUID,
+                                        roomUID: rentedRoom.rentedRoomUID
+                                    )
                                     isProgressing = false
                                 } catch {
                                     self.errorHandler.handle(error: error)
@@ -86,8 +101,11 @@ struct MaintainDetailUnitView: View {
                     Button {
                         Task {
                             do {
-                                guard let id = taskHolder.id else { return }
-                                try await firestoreToFetchMaintainTasks.deleteFixedItem(uidPath: providerUidPath, docID: docID, maintainDocID: id)
+                                try await firestoreToFetchMaintainTasks.deleteFixedItem(
+                                    uidPath: rentedRoom.rentedProvderUID,
+                                    roomUID: rentedRoom.rentedRoomUID,
+                                    maintainDocID: taskHolder.id ?? ""
+                                )
                                 firestoreToFetchMaintainTasks.showMaintainDetail = false
                             } catch {
                                 self.errorHandler.handle(error: error)
@@ -113,7 +131,7 @@ struct MaintainDetailUnitView: View {
         }
         .onAppear {
             newImageURL = taskHolder.itemImageURL
-            newDes = taskHolder.description
+            newDes = taskHolder.maintainDescription
             newDate = taskHolder.appointmentDate
         }
         .sheet(isPresented: $showSheet) {
@@ -128,7 +146,6 @@ struct MaintainDetailUnitView: View {
 }
 
 extension MaintainDetailUnitView {
-    
     @ViewBuilder
     func isEditImage(isEdit: Bool) -> some View {
         if isEdit {
@@ -163,7 +180,7 @@ extension MaintainDetailUnitView {
             }
         }
     }
-    
+
     @ViewBuilder
     func edittingContain(isEdit: Bool) -> some View {
         if isEdit {
@@ -194,7 +211,7 @@ extension MaintainDetailUnitView {
             .frame(width: uiScreenWidth - 50, alignment: .center)
             .disabled(true)
             HStack {
-                Text(taskHolder.description)
+                Text(taskHolder.maintainDescription)
                     .foregroundColor(.white)
                     .font(.body)
                 Spacer()
@@ -203,11 +220,11 @@ extension MaintainDetailUnitView {
     }
 }
 
-//struct MaintainDetailUnitView_Previews: PreviewProvider {
+// struct MaintainDetailUnitView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        MaintainDetailUnitView()
 //    }
-//}
+// }
 
 struct SubViewBackgroundInitModifier: ViewModifier {
     @Environment(\.colorScheme) var colorScheme

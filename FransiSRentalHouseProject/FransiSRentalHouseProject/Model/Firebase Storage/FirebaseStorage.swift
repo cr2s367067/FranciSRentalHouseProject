@@ -6,27 +6,26 @@
 //
 
 import Firebase
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
-
-//class FirebaseStorageInGeneral: ObservableObject {
-//    
+// class FirebaseStorageInGeneral: ObservableObject {
+//
 //    let storageUserProfile: StorageForUserProfile
 //    let storageRoomsImage: StorageForRoomsImage
-//    
+//
 //    init() {
 //        self.storageUserProfile = StorageForUserProfile()
 //        self.storageRoomsImage = StorageForRoomsImage()
 //    }
-//    
+//
 //    @Published var imageUIDHolder = ""
-//        
-//    
+//
+//
 //    func imgUIDGenerator() -> String {
 //        let imageUUID = UUID().uuidString
 //        imageUIDHolder = imageUUID
 //        return imageUIDHolder
 //    }
-//  
-//}
+//
+// }

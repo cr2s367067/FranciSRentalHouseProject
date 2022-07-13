@@ -5,11 +5,10 @@
 //  Created by JerryHuang on 2/23/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ProviderProfileView: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
@@ -19,19 +18,18 @@ struct ProviderProfileView: View {
     @EnvironmentObject var providerProfileViewModel: ProviderProfileViewModel
     @EnvironmentObject var storageForUserProfile: StorageForUserProfile
     @EnvironmentObject var soldProductCollectionM: SoldProductCollectionManager
-    
+
     @Binding var show: Bool
 
-    
     let uiScreenWidth = UIScreen.main.bounds.width
     @State private var isLoading = false
     @State private var image = UIImage()
     @State private var showSheet = false
-    
+
     init(show: Binding<Bool>) {
-        self._show = show
+        _show = show
     }
-    
+
     var body: some View {
         ZStack {
             VStack {
@@ -157,7 +155,7 @@ struct ProviderProfileView: View {
     }
 }
 
-//struct OwnerProfileDetailUnit: View {
+// struct OwnerProfileDetailUnit: View {
 //    var body: some View {
 //        HStack {
 //            Text("Rental Price")
@@ -168,10 +166,9 @@ struct ProviderProfileView: View {
 //        .frame(width: 350)
 //        .padding()
 //    }
-//}
+// }
 
 extension ProviderProfileView {
-    
     @ViewBuilder
     func isContainDataInBarChart() -> some View {
         if providerProfileViewModel.providerConfig.isCreatedMonthlySettlementData {
@@ -180,7 +177,7 @@ extension ProviderProfileView {
             PlaceHolderView()
         }
     }
-    
+
     @ViewBuilder
     func editModeSummitButton(editMode: Bool) -> some View {
         if editMode == true {
@@ -204,5 +201,3 @@ extension ProviderProfileView {
         }
     }
 }
-
-

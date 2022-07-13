@@ -5,23 +5,22 @@
 //  Created by Kuan on 2022/4/22.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ShippingListView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var errorHandler: ErrorHandler
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
-    @State private var selectedOrderData: PurchasedUserDataModel?
-    
+
+    @State private var selectedOrderData: OrderedListProviderSide?
+
     var body: some View {
         VStack {
             TitleAndDivider(title: "Shipping List")
@@ -29,7 +28,7 @@ struct ShippingListView: View {
             containPlaceholder()
         }
         .overlay(content: {
-            if firestoreToFetchUserinfo.presentUserId().isEmpty {
+            if firestoreToFetchUserinfo.userIDisEmpty() {
                 UnregisterCoverView(isShowUserDetailView: $appViewModel.isShowUserDetailView)
             }
         })
@@ -52,7 +51,6 @@ struct ShippingListView_Previews: PreviewProvider {
 }
 
 extension ShippingListView {
-    
     @ViewBuilder
     func containPlaceholder() -> some View {
         if firestoreForProducts.purchasedUserDataSet.isEmpty {
@@ -75,7 +73,7 @@ extension ShippingListView {
             }
         }
     }
-    
+
     func stateAdjust(shippingState: FirestoreForProducts.ShippingStatus) -> String {
         switch shippingState {
         case .orderBuilt:
@@ -93,19 +91,26 @@ extension ShippingListView {
             return "Cancel Order"
         }
     }
-    
+
     @ViewBuilder
-    func listUnit(pUserData: PurchasedUserDataModel, action: (() -> Void)? = nil) -> some View {
+    func listUnit(pUserData: OrderedListProviderSide, action: (() -> Void)? = nil) -> some View {
         VStack(spacing: 10) {
             orderUserInfoUnit(pUserData: pUserData)
             HStack {
                 Button {
                     Task {
                         do {
-                            _ = stateAdjust(shippingState: FirestoreForProducts.ShippingStatus(rawValue: firestoreForProducts.shippingStatus.rawValue) ?? .orderBuilt)
+                            _ = stateAdjust(
+                                shippingState: FirestoreForProducts.ShippingStatus(rawValue: firestoreForProducts.shippingStatus.rawValue) ?? .orderBuilt
+                            )
                             print(firestoreForProducts.shippingStatus.rawValue)
                             guard let id = pUserData.id else { return }
-                            try await firestoreForProducts.updateShippingStatus(update: firestoreForProducts.shippingStatus.rawValue, uidPath: firebaseAuth.getUID(), orderID: id, userUidPath: pUserData.userUidPath)
+                            try await firestoreForProducts.updateShippingStatus(
+                                update: firestoreForProducts.shippingStatus.rawValue,
+                                provider: firebaseAuth.getUID(),
+                                orderUID: id,
+                                customer: pUserData.orderPersonUID
+                            )
                             try await firestoreForProducts.fetchOrdedDataProviderSide(uidPath: firebaseAuth.getUID())
                         } catch {
                             self.errorHandler.handle(error: error)
@@ -120,7 +125,7 @@ extension ShippingListView {
                 }
                 .accessibilityIdentifier("updateState")
                 Spacer()
-                
+
                 Button {
                     action?()
                 } label: {
@@ -129,8 +134,7 @@ extension ShippingListView {
                 }
                 .accessibilityIdentifier("showList")
             }
-            
-            
+
             Spacer()
         }
         .padding()
@@ -139,11 +143,10 @@ extension ShippingListView {
             RoundedRectangle(cornerRadius: 10)
                 .fill(colorScheme == .dark ? .gray.opacity(0.3) : .black.opacity(0.5))
         }
-        
     }
-    
+
     @ViewBuilder
-    func orderContain(orderData: PurchasedUserDataModel) -> some View {
+    func orderContain(orderData: OrderedListProviderSide) -> some View {
         VStack {
             SheetPullBar()
             List {
@@ -156,28 +159,31 @@ extension ShippingListView {
         .modifier(ViewBackgroundInitModifier())
         .task {
             do {
-                guard let id = orderData.id else { return }
-                try await firestoreForProducts.fetchOrdedDataInCartList(uidPath: firebaseAuth.getUID(), docID: id)
+//                guard let id = orderData.id else { return }
+                try await firestoreForProducts.fetchOrdedDataInCartList(
+                    provider: firebaseAuth.getUID(),
+                    orderUID: orderData.orderUID
+                )
             } catch {
                 self.errorHandler.handle(error: error)
             }
         }
     }
-    
+
     @ViewBuilder
-    func orderUserInfoUnit(pUserData: PurchasedUserDataModel) -> some View {
+    func orderUserInfoUnit(pUserData: OrderedListProviderSide) -> some View {
         VStack(spacing: 5) {
-            shippingTitleAndContain(header: "Name", body: pUserData.userName)
-            shippingTitleAndContain(header: "Mobile Number", body: pUserData.userMobileNumber)
-            shippingTitleAndContain(header: "Shipping Address", body: pUserData.userAddress)
-            shippingTitleAndContain(header: "Payment Status", body: pUserData.paymentStatus)
+            shippingTitleAndContain(header: "Name", body: pUserData.orderName)
+            shippingTitleAndContain(header: "Mobile Number", body: pUserData.orderMobileNumber)
+            shippingTitleAndContain(header: "Shipping Address", body: pUserData.shippingAddress)
+//            shippingTitleAndContain(header: "Payment Status", body: pUserData.)
             shippingTitleAndContain(header: "Shipping Method", body: pUserData.shippingMethod)
             shippingTitleAndContain(header: "Shipping Status", body: pUserData.shippingStatus)
         }
     }
-    
+
     @ViewBuilder
-    func productUnit(cartItemData: PurchasedOrdedProductDataModel) -> some View {
+    func productUnit(cartItemData: OrderListContain) -> some View {
         HStack {
             WebImage(url: URL(string: cartItemData.productImageURL))
                 .resizable()
@@ -199,7 +205,7 @@ extension ShippingListView {
                         .foregroundColor(.primary)
                         .font(.body)
                         .accessibilityIdentifier("orderAmount")
-                    Text(cartItemData.orderAmount)
+                    Text("\(cartItemData.productOrderAmount)")
                         .foregroundColor(.primary)
                         .font(.body)
                     Spacer()
@@ -207,7 +213,7 @@ extension ShippingListView {
             }
         }
     }
-    
+
     @ViewBuilder
     func shippingTitleAndContain(header: String, body: String) -> some View {
         VStack(spacing: 3) {

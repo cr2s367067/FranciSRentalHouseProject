@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct RentedPaymentHistoryView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var errorHandler: ErrorHandler
-    var paymentHistory: [PaymentHistoryDataModel]
-    var roomsData: RoomInfoDataModel
+    var paymentHistory: [RentedRoomPaymentHistory]
+    var roomsData: RoomDM
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
     var body: some View {
@@ -41,8 +40,8 @@ struct RentedPaymentHistoryView: View {
 //        })
         .task {
             do {
-                guard roomsData.isRented == true else { return }
-                try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: roomsData.rentedBy ?? "")
+                guard !roomsData.renterUID.isEmpty else { return }
+                try await firestoreToFetchUserinfo.fetchPaymentHistory(uidPath: roomsData.renterUID)
             } catch {
                 self.errorHandler.handle(error: error)
             }
@@ -50,8 +49,8 @@ struct RentedPaymentHistoryView: View {
     }
 }
 
-//struct RentedPaymentHistoryView_Previews: PreviewProvider {
+// struct RentedPaymentHistoryView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        RentedPaymentHistoryView()
 //    }
-//}
+// }

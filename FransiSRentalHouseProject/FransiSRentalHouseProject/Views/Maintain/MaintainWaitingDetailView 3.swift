@@ -5,24 +5,23 @@
 //  Created by Kuan on 2022/4/12.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MaintainWaitingDetailView: View {
-    
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiscreenWidth = UIScreen.main.bounds.width
     let uiscreedHeight = UIScreen.main.bounds.height
-    
+
     var docID: String
-    
+
     var amountTask: Int {
         firestoreToFetchMaintainTasks.fetchMaintainInfo.count
     }
-    
+
     var body: some View {
         VStack {
             VStack {
@@ -67,16 +66,13 @@ struct MaintainWaitingDetailView: View {
     }
 }
 
-
-
 struct MaintainTaskWaitingListUnit: View {
-    
     @EnvironmentObject var firestoreToFetchMaintainTasks: FirestoreToFetchMaintainTasks
     @EnvironmentObject var firebaseAuth: FirebaseAuth
-    
+
     var maintainTask: MaintainTaskHolder
     var docID: String
-    
+
     let uiscreenWidth = UIScreen.main.bounds.width
     let uiscreedHeight = UIScreen.main.bounds.height
     var body: some View {
@@ -84,15 +80,12 @@ struct MaintainTaskWaitingListUnit: View {
     }
 }
 
-
-
 extension MaintainTaskWaitingListUnit {
-    
     @ViewBuilder
     func placeHolder() -> some View {
         if firestoreToFetchMaintainTasks.fetchMaintainInfo.isEmpty {
             VStack(alignment: .center) {
-               Text("No item needs to fix🥸")
+                Text("No item needs to fix🥸")
             }
             .padding()
             .frame(width: uiscreenWidth - 50, height: uiscreedHeight / 3, alignment: .center)
@@ -113,7 +106,7 @@ extension MaintainTaskWaitingListUnit {
                             Text(maintainTask.description)
                             Spacer()
                         }
-                        HStack{
+                        HStack {
                             Text(maintainTask.appointmentDate, format: Date.FormatStyle().year().month().day())
                             Spacer()
                         }
@@ -145,5 +138,4 @@ extension MaintainTaskWaitingListUnit {
             }
         }
     }
-
 }

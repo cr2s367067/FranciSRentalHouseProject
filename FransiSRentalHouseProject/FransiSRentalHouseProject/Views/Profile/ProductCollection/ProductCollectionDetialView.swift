@@ -5,34 +5,35 @@
 //  Created by Kuan on 2022/3/29.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct ProductCollectionDetialView: View {
-    
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @EnvironmentObject var errorHandler: ErrorHandler
+    @EnvironmentObject var providerStoreM: ProviderStoreM
     @Environment(\.colorScheme) var colorScheme
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     @State private var isEdit = false
     @State private var newAmount = ""
     @State private var newDescription = ""
-    
-    var productData: ProductProviderDataModel
-    
-    //MARK: Put some visual kit to presenting data, also provider could edit product description
+
+    var productData: ProductDM
+
+    // MARK: Put some visual kit to presenting data, also provider could edit product description
+
     var body: some View {
         VStack {
             VStack {
                 ScrollView(.vertical, showsIndicators: true) {
                     VStack {
                         HStack {
-                            WebImage(url: URL(string: productData.productImage))
+                            WebImage(url: URL(string: productData.coverImage))
                                 .resizable()
                                 .frame(width: 140, height: 120, alignment: .center)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -40,15 +41,15 @@ struct ProductCollectionDetialView: View {
                             Spacer()
                         }
 
-                        ReusableUnit(title: "Product Name", containName: productData.productName)
+                        ReusableUnit(title: "Product Name", containName: productDetailViewModel.updatingProductData.productName)
                         HStack {
                             Text("Product Average Rate: ")
                             Text("\(productDetailViewModel.computeRattingAvg(commentAndRatting: firestoreForProducts.productCommentAndRatting), specifier: "%.1f")")
                             Spacer()
                         }
                         .foregroundColor(.white)
-                        ReusableUnit(title: "Product Price", containName: productData.productPrice)
-                        ReusableUnit(title: "Product From", containName: productData.productFrom)
+                        ReusableUnit(title: "Product Price", containName: productDetailViewModel.updatingProductData.productPrice)
+                        ReusableUnit(title: "Product From", containName: productDetailViewModel.updatingProductData.productFrom)
                         editAmount(isEdit: isEdit)
                         editDescription(isEdit: isEdit)
                         HStack {
@@ -59,7 +60,7 @@ struct ProductCollectionDetialView: View {
                         List {
                             ForEach(firestoreForProducts.productCommentAndRatting) { comment in
                                 VStack(alignment: .leading, spacing: 5) {
-                                    Text(comment.summitUserDisplayName)
+                                    Text(comment.customerDisplayName)
                                     HStack {
                                         Text("Ratting: ")
                                         Text("\(comment.ratting)")
@@ -86,15 +87,17 @@ struct ProductCollectionDetialView: View {
         .modifier(ViewBackgroundInitModifier())
         .task {
             do {
-                guard let id = productData.id else { return }
-                try await firestoreForProducts.fetchProductCommentAndRating(providerUidPath: firebaseAuth.getUID(), productID: id)
+                let id = productData.productUID
+                try await firestoreForProducts.fetchProductCommentAndRatting(
+                    productUID: id
+                )
             } catch {
                 self.errorHandler.handle(error: error)
             }
         }
         .onAppear {
-            newAmount = productData.productAmount
-            newDescription = productData.productDescription
+            debugPrint("gui: \(productData.providerGUI), productUID: \(productData.productUID)")
+            productDetailViewModel.updatingProductData = productData
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -105,9 +108,12 @@ struct ProductCollectionDetialView: View {
                         }
                         Task {
                             do {
-                                guard let id = productData.id else { return }
-                                try await firestoreForProducts.updateProductAmountAndDesciption(uidPaht: firebaseAuth.getUID(), productID: id, newProductAmount: newAmount, newProductDescription: newDescription)
-                                try await firestoreForProducts.fetchStoreProduct(uidPath: firebaseAuth.getUID())
+                                try await firestoreForProducts.updateProductAmountAndDesciption(
+                                    product: productDetailViewModel.updatingProductData
+                                )
+                                try await providerStoreM.fetchStoreProduct(
+                                    provder: productDetailViewModel.updatingProductData.providerGUI
+                                )
                             } catch {
                                 self.errorHandler.handle(error: error)
                             }
@@ -131,6 +137,7 @@ struct ProductCollectionDetialView: View {
     }
 }
 
+// MARK: Need to adjust product edit view
 
 extension ProductCollectionDetialView {
     @ViewBuilder
@@ -143,7 +150,7 @@ extension ProductCollectionDetialView {
                     Spacer()
                 }
                 HStack {
-                    TextField("Amount", text: $newAmount)
+                    TextField("Amount", text: $productDetailViewModel.updatingProductData.productAmount)
                         .foregroundColor(.white)
                 }
             }
@@ -155,10 +162,13 @@ extension ProductCollectionDetialView {
                     .fill(.white)
             }
         } else {
-            ReusableUnit(title: "Product Amount", containName: productData.productAmount)
+            ReusableUnit(
+                title: "Product Amount",
+                containName: productDetailViewModel.updatingProductData.productAmount
+            )
         }
     }
-    
+
     @ViewBuilder
     func editDescription(isEdit: Bool) -> some View {
         if isEdit {
@@ -170,7 +180,7 @@ extension ProductCollectionDetialView {
                     Spacer()
                 }
                 HStack {
-                    TextEditor(text: $newDescription)
+                    TextEditor(text: $productDetailViewModel.updatingProductData.productDescription)
                         .foregroundColor(.white)
                 }
             }

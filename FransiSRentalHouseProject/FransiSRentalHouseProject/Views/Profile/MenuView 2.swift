@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct MenuView: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var firebaseAuth: FirebaseAuth
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
-    
+
     var body: some View {
         ZStack(alignment: .leading) {
             Rectangle()
@@ -54,7 +53,7 @@ struct MenuView: View {
                         } catch {
                             print("unknown error")
                         }
-                        
+
                     } label: {
                         Text("Sign Out")
                             .foregroundColor(.white)
@@ -72,7 +71,6 @@ struct MenuView: View {
 }
 
 extension MenuView {
-    
     func cleanUserInfoWhenSignOut() {
         appViewModel.id = ""
         appViewModel.firstName = ""
@@ -89,7 +87,7 @@ extension MenuView {
         appViewModel.isMale = false
         appViewModel.isFemale = false
     }
-    
+
     @ViewBuilder
     func identifyUserType(signUpType: SignUpType, providerType: ProviderTypeStatus) -> some View {
         if signUpType == .isNormalCustomer {
@@ -169,20 +167,19 @@ struct SideBarButton: View {
     }
 }
 
-
 struct SideMenuBar<SidebarContent: View, Content: View>: View {
     let sidebarContent: SidebarContent
     let mainContent: Content
     let sidebarWidth: CGFloat
     @Binding var showSidebar: Bool
-    
-    init(sidebarWidth: CGFloat, showSidebar: Binding<Bool>, @ViewBuilder sidebar: ()->SidebarContent, @ViewBuilder content: ()->Content) {
+
+    init(sidebarWidth: CGFloat, showSidebar: Binding<Bool>, @ViewBuilder sidebar: () -> SidebarContent, @ViewBuilder content: () -> Content) {
         self.sidebarWidth = sidebarWidth
-        self._showSidebar = showSidebar
+        _showSidebar = showSidebar
         sidebarContent = sidebar()
         mainContent = content()
     }
-    
+
     var body: some View {
         ZStack(alignment: .leading) {
             sidebarContent
@@ -212,8 +209,6 @@ struct SideMenuBar<SidebarContent: View, Content: View>: View {
         }
     }
 }
-
-
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {

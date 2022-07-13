@@ -5,11 +5,10 @@
 //  Created by Kuan on 2022/4/11.
 //
 
-import SwiftUI
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct RentalBillSettingView: View {
-    
     @EnvironmentObject var firestoreToFetchUserinfo: FirestoreToFetchUserinfo
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var firestoreToFetchRoomsData: FirestoreToFetchRoomsData
@@ -18,18 +17,18 @@ struct RentalBillSettingView: View {
     @EnvironmentObject var renterProfileViewModel: RenterProfileViewModel
     @EnvironmentObject var paymentMethodManager: PaymentMethodManager
     @Environment(\.colorScheme) var colorScheme
-    
+
     @State private var showOverview = true
     @State private var showPaymentMethod = false
-    
+
     var rentalPrice: String {
         firestoreToFetchUserinfo.rentingRoomInfo.roomPrice ?? ""
     }
-    
+
     var upComingPaymentDate: Date {
         paymentMethodManager.computePaymentMonth(from: Date())
     }
-    
+
     var address: String {
         let zipCode = firestoreToFetchUserinfo.rentingRoomInfo.roomZipCode ?? ""
         let city = firestoreToFetchUserinfo.rentingRoomInfo.roomCity ?? ""
@@ -37,10 +36,10 @@ struct RentalBillSettingView: View {
         let roomAddress = firestoreToFetchUserinfo.rentingRoomInfo.roomAddress ?? ""
         return zipCode + city + town + roomAddress
     }
-    
+
     let uiScreenWidth = UIScreen.main.bounds.width
     let uiScreenHeight = UIScreen.main.bounds.height
-    
+
     var body: some View {
         VStack {
             switchBar()
@@ -77,7 +76,6 @@ struct RentalBillSettingView: View {
             } catch {
                 self.errorHandler.handle(error: error)
             }
-            
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -85,7 +83,6 @@ struct RentalBillSettingView: View {
 }
 
 extension RentalBillSettingView {
-    
     @ViewBuilder
     func renewButton() -> some View {
         if Date() == firestoreToFetchUserinfo.rentedContract.rentalEndDate {
@@ -118,7 +115,7 @@ extension RentalBillSettingView {
             })
         }
     }
-    
+
     @ViewBuilder
     func addressUnit() -> some View {
         Section {
@@ -130,7 +127,7 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func rentalPriceUnit() -> some View {
         Section {
@@ -142,7 +139,7 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func renewUnit() -> some View {
         Section {
@@ -152,11 +149,11 @@ extension RentalBillSettingView {
                 renewButton()
             }
         } header: {
-             Text("Renew Status")
+            Text("Renew Status")
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func contractUnit() -> some View {
         Section {
@@ -171,7 +168,7 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func CommentAndRate() -> some View {
         Section {
@@ -186,7 +183,7 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func paymentUnit() -> some View {
         Section {
@@ -213,7 +210,7 @@ extension RentalBillSettingView {
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func roomsInfoFormView() -> some View {
         Form {
@@ -228,24 +225,21 @@ extension RentalBillSettingView {
                 .fill(.gray.opacity(0.2))
         }
     }
-    
+
     @ViewBuilder
     func autoPaymentUnit() -> some View {
         Section {
-            NavigationLink {
-                
-            } label: {
+            NavigationLink {} label: {
                 Text("Auto Payment Setting")
                     .foregroundColor(.primary)
                     .font(.system(size: 15))
-                
             }
         } header: {
             Text("Auto Payment Setting")
                 .foregroundColor(.primary)
         }
     }
-    
+
     @ViewBuilder
     func paymentMethodView() -> some View {
         Form {
@@ -261,9 +255,7 @@ extension RentalBillSettingView {
                     .foregroundColor(.primary)
             }
             Section {
-                Button {
-                    
-                } label: {
+                Button {} label: {
                     HStack {
                         Image(systemName: "creditcard")
                             .font(.system(size: 25))
@@ -281,7 +273,7 @@ extension RentalBillSettingView {
                 Text("Card Setting")
                     .foregroundColor(.primary)
             }
-            
+
             Section {
                 HStack {
                     Text("$9000")
@@ -300,7 +292,7 @@ extension RentalBillSettingView {
                 .fill(.gray.opacity(0.2))
         }
     }
-    
+
     @ViewBuilder
     func switchBar() -> some View {
         HStack(alignment: .center, spacing: 30) {
@@ -340,7 +332,7 @@ extension RentalBillSettingView {
         .padding(.horizontal)
         .padding(.vertical)
     }
-    
+
     @ViewBuilder
     func switchView(showOverView: Bool, showPaymentMethod: Bool) -> some View {
         if showOverView == true {

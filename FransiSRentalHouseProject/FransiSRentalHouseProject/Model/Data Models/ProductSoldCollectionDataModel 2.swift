@@ -5,9 +5,9 @@
 //  Created by Kuan on 2022/5/2.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Foundation
 
 class ProductSoldCollectionDataModel: Identifiable, Codable {
     @DocumentID var id: String?

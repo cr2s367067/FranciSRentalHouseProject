@@ -6,8 +6,8 @@
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
-extension CS.BigUInt {
-    //MARK: Exponentiation
+public extension CS.BigUInt {
+    // MARK: Exponentiation
 
     /// Returns this integer raised to the power `exponent`.
     ///
@@ -21,11 +21,11 @@ extension CS.BigUInt {
     /// - Returns: 1 if `exponent == 0`, otherwise `self` raised to `exponent`. (This implies that `0.power(0) == 1`.)
     /// - SeeAlso: `BigUInt.power(_:, modulus:)`
     /// - Complexity: O((exponent * self.count)^log2(3)) or somesuch. The result may require a large amount of memory, too.
-    public func power(_ exponent: Int) -> CS.BigUInt {
+    func power(_ exponent: Int) -> CS.BigUInt {
         if exponent == 0 { return 1 }
         if exponent == 1 { return self }
         if exponent < 0 {
-            precondition(!self.isZero)
+            precondition(!isZero)
             return self == 1 ? 1 : 0
         }
         if self <= 1 { return self }
@@ -49,7 +49,7 @@ extension CS.BigUInt {
     /// [rtlb]: https://en.wikipedia.org/wiki/Modular_exponentiation#Right-to-left_binary_method
     ///
     /// - Complexity: O(exponent.count * modulus.count^log2(3)) or somesuch
-    public func power(_ exponent: CS.BigUInt, modulus: CS.BigUInt) -> CS.BigUInt {
+    func power(_ exponent: CS.BigUInt, modulus: CS.BigUInt) -> CS.BigUInt {
         precondition(!modulus.isZero)
         if modulus == (1 as CS.BigUInt) { return 0 }
         let shift = modulus.leadingZeroBitCount
@@ -72,7 +72,7 @@ extension CS.BigUInt {
     }
 }
 
-extension CS.BigInt {
+public extension CS.BigInt {
     /// Returns this integer raised to the power `exponent`.
     ///
     /// This function calculates the result by [successively squaring the base while halving the exponent][expsqr].
@@ -85,9 +85,9 @@ extension CS.BigInt {
     /// - Returns: 1 if `exponent == 0`, otherwise `self` raised to `exponent`. (This implies that `0.power(0) == 1`.)
     /// - SeeAlso: `BigUInt.power(_:, modulus:)`
     /// - Complexity: O((exponent * self.count)^log2(3)) or somesuch. The result may require a large amount of memory, too.
-    public func power(_ exponent: Int) -> CS.BigInt {
-        return CS.BigInt(sign: self.sign == .minus && exponent & 1 != 0 ? .minus : .plus,
-                      magnitude: self.magnitude.power(exponent))
+    func power(_ exponent: Int) -> CS.BigInt {
+        return CS.BigInt(sign: sign == .minus && exponent & 1 != 0 ? .minus : .plus,
+                         magnitude: magnitude.power(exponent))
     }
 
     /// Returns the remainder of this integer raised to the power `exponent` in modulo arithmetic under `modulus`.
@@ -97,21 +97,21 @@ extension CS.BigInt {
     /// [rtlb]: https://en.wikipedia.org/wiki/Modular_exponentiation#Right-to-left_binary_method
     ///
     /// - Complexity: O(exponent.count * modulus.count^log2(3)) or somesuch
-    public func power(_ exponent: CS.BigInt, modulus: CS.BigInt) -> CS.BigInt {
+    func power(_ exponent: CS.BigInt, modulus: CS.BigInt) -> CS.BigInt {
         precondition(!modulus.isZero)
         if modulus.magnitude == 1 { return 0 }
         if exponent.isZero { return 1 }
         if exponent == 1 { return self.modulus(modulus) }
         if exponent < 0 {
-            precondition(!self.isZero)
+            precondition(!isZero)
             guard magnitude == 1 else { return 0 }
             guard sign == .minus else { return 1 }
             guard exponent.magnitude[0] & 1 != 0 else { return 1 }
             return CS.BigInt(modulus.magnitude - 1)
         }
-        let power = self.magnitude.power(exponent.magnitude,
-                                         modulus: modulus.magnitude)
-        if self.sign == .plus || exponent.magnitude[0] & 1 == 0 || power.isZero {
+        let power = magnitude.power(exponent.magnitude,
+                                    modulus: modulus.magnitude)
+        if sign == .plus || exponent.magnitude[0] & 1 == 0 || power.isZero {
             return CS.BigInt(power)
         }
         return CS.BigInt(modulus.magnitude - power)

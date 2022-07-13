@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct PaymentSummaryView: View {
-    
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
     @EnvironmentObject var paymentSummaryVM: PaymentSummaryViewModel
     @EnvironmentObject var firestoreForProducts: FirestoreForProducts
-    
+
     @State private var testCheck = false
-    
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -49,18 +48,18 @@ struct PaymentSummaryView: View {
                                     paymentSummaryVM.homeDelivery = false
                                     localData.sumPrice -= 50
                                 }
-                                
-                                if  paymentSummaryVM.rushDelivery == true {
+
+                                if paymentSummaryVM.rushDelivery == true {
                                     paymentSummaryVM.rushDelivery = false
                                     localData.sumPrice -= 40
                                 }
-                                
+
                                 if paymentSummaryVM.shipToStore == false {
                                     paymentSummaryVM.shipToStore = true
                                     localData.sumPrice += 60
                                     firestoreForProducts.shippingMethod = .convenienceStore
                                 }
-                                
+
                                 print(firestoreForProducts.shippingMethod)
                             }, isCheck: paymentSummaryVM.shipToStore)
                             buttonWithText(buttonName: "Home Delivery", action: {
@@ -68,12 +67,12 @@ struct PaymentSummaryView: View {
                                     paymentSummaryVM.shipToStore = false
                                     localData.sumPrice -= 60
                                 }
-                                
+
                                 if paymentSummaryVM.rushDelivery == true {
                                     paymentSummaryVM.rushDelivery = false
                                     localData.sumPrice -= 40
                                 }
-                                
+
                                 if paymentSummaryVM.homeDelivery == false {
                                     paymentSummaryVM.homeDelivery = true
                                     localData.sumPrice += 50
@@ -86,12 +85,12 @@ struct PaymentSummaryView: View {
                                     paymentSummaryVM.shipToStore = false
                                     localData.sumPrice -= 60
                                 }
-                                
+
                                 if paymentSummaryVM.homeDelivery == true {
                                     paymentSummaryVM.homeDelivery = false
                                     localData.sumPrice -= 50
                                 }
-                                
+
                                 if paymentSummaryVM.rushDelivery == false {
                                     paymentSummaryVM.rushDelivery = true
                                     localData.sumPrice += 40
@@ -100,12 +99,11 @@ struct PaymentSummaryView: View {
                                 print(firestoreForProducts.shippingMethod)
                             }, isCheck: paymentSummaryVM.rushDelivery)
                         }
-                        
                     }
                     .padding(.horizontal)
                     AddressFillOut(address: $paymentSummaryVM.shippingAddress)
                 }
-                
+
                 VStack(alignment: .center, spacing: 30) {
                     //: Term Agreemnet
                     VStack(alignment: .leading, spacing: 10) {
@@ -166,31 +164,26 @@ struct PaymentSummaryView: View {
     }
 }
 
-
-
 struct PaymentSummaryView_Previews: PreviewProvider {
     static var previews: some View {
         PaymentSummaryView()
     }
 }
 
-
-
 struct SummaryItems: View {
-    
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
-    
+
     var roomsData: RoomInfoDataModel
-    
+
     var checkOutItem = "No Data"
     var checkOutPrice = "0"
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
-                if !localData.summaryItemHolder.roomUID.isEmpty {                
+                if !localData.summaryItemHolder.roomUID.isEmpty {
                     HStack {
                         Button {
                             localData.summaryItemHolder = .empty
@@ -210,7 +203,7 @@ struct SummaryItems: View {
                 ForEach(productDetailViewModel.productOrderCart) { product in
                     HStack {
                         Button {
-                            productDetailViewModel.productOrderCart.removeAll(where: {$0.id == product.id})
+                            productDetailViewModel.productOrderCart.removeAll(where: { $0.id == product.id })
                             localData.sumPrice = localData.sum(productSource: productDetailViewModel.productOrderCart)
                             appViewModel.isRedacted = true
                         } label: {
@@ -237,9 +230,9 @@ struct ListItems: View {
     @EnvironmentObject var localData: LocalData
     @EnvironmentObject var appViewModel: AppViewModel
     @EnvironmentObject var productDetailViewModel: ProductDetailViewModel
-    
+
     var roomsData: RoomInfoDataModel
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             ScrollView(.vertical, showsIndicators: false) {
@@ -267,11 +260,9 @@ struct ListItems: View {
     }
 }
 
-
 struct AddressFillOut: View {
-    
     @Binding var address: String
-    
+
     var body: some View {
         VStack {
             InfoUnit(title: "Shipping Address", bindingString: $address)
@@ -283,16 +274,14 @@ struct AddressFillOut: View {
     }
 }
 
-
 class PaymentSummaryViewModel: ObservableObject {
     @Published var shippingAddress = ""
     @Published var showErrorAlert = false
-    
+
     @Published var shipToStore = false
     @Published var rushDelivery = false
     @Published var homeDelivery = false
 }
-
 
 extension PaymentSummaryView {
     @ViewBuilder
